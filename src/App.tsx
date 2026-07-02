@@ -212,7 +212,7 @@ export default function App() {
     <div className="bg-slate-50 min-h-screen text-slate-900 font-sans selection:bg-orange-600 selection:text-white">
       <Header onMenuOpen={() => setMenuOpen(true)} onProfileOpen={() => setProfileOpen(true)} />
 
-      {view === "search" && (
+      {(view === "search" || view === "stations") && (
         <SearchForm
           params={draftSearch}
           isSearching={isSearching}
@@ -327,7 +327,7 @@ export default function App() {
               {history.map((item) => (
                 <div key={item.id} className="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="font-semibold text-slate-900 truncate">{item.origin} -&gt; {item.destination}</p>
+                    <p className="font-semibold text-slate-900 truncate">{t(`station.${item.origin}`, { defaultValue: item.origin })} -&gt; {t(`station.${item.destination}`, { defaultValue: item.destination })}</p>
                     <p className="text-sm text-slate-600">{item.date} / {item.country.toUpperCase()} / {item.resultCount} {t("history.results")}</p>
                   </div>
                   <button
@@ -354,7 +354,7 @@ export default function App() {
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <p className="font-semibold text-slate-900 truncate">{trip.service}</p>
-                      <p className="text-sm text-slate-600 truncate">{trip.origin} -&gt; {trip.destination}</p>
+                      <p className="text-sm text-slate-600 truncate">{t(`station.${trip.origin}`, { defaultValue: trip.origin })} -&gt; {t(`station.${trip.destination}`, { defaultValue: trip.destination })}</p>
                       <p className="text-xs text-slate-500 mt-1">
                         {trip.departureTime}{trip.arrivalTime ? ` - ${trip.arrivalTime}` : ""}
                       </p>

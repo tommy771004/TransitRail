@@ -186,12 +186,12 @@ export function SearchForm({
                   >
                     <LocateFixed className="h-4 w-4 text-blue-700" />
                     <span className="min-w-0">
-                      <span className="block truncate text-sm font-bold text-slate-900">{item.origin}</span>
+                      <span className="block truncate text-sm font-bold text-slate-900">{t(`station.${item.origin}`, { defaultValue: item.origin })}</span>
                       <span className="block text-[10px] text-slate-500">{item.date}</span>
                     </span>
                     <span className="text-slate-500" aria-hidden="true">-&gt;</span>
                     <span className="min-w-0">
-                      <span className="block truncate text-sm font-bold text-slate-900">{item.destination}</span>
+                      <span className="block truncate text-sm font-bold text-slate-900">{t(`station.${item.destination}`, { defaultValue: item.destination })}</span>
                       <span className="block text-[10px] text-slate-500">{item.resultCount} {t("history.results")}</span>
                     </span>
                   </button>
@@ -235,6 +235,7 @@ function StationField({
   onChange: (value: string) => void;
   onBrowse: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <div className={alignRight ? "text-right" : ""}>
       <button
@@ -244,14 +245,15 @@ function StationField({
       >
         {label}
       </button>
-      <input
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        placeholder={placeholder}
-        className={`w-full bg-transparent text-xl font-black text-slate-950 outline-none placeholder:text-slate-300 ${
-          alignRight ? "text-right" : ""
-        }`}
-      />
+      <button
+        type="button"
+        onClick={onBrowse}
+        className={`w-full bg-transparent text-xl font-black outline-none truncate block ${
+          alignRight ? "text-right" : "text-left"
+        } ${!value ? "text-slate-300" : "text-slate-950"}`}
+      >
+        {value ? t(`station.${value}`, { defaultValue: value }) : placeholder}
+      </button>
     </div>
   );
 }
