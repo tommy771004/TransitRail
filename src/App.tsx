@@ -11,7 +11,7 @@ import { StationBrowser } from "./components/StationBrowser";
 import { DataWorkflowView } from "./components/DataWorkflowView";
 import { MetroResultView } from "./components/MetroResultView";
 import { LiveRailResultView } from "./components/LiveRailResultView";
-import { providerDateValue } from "./data/countries";
+import { countryConfig, providerDateValue } from "./data/countries";
 import type {
   AppAlert,
   AppView,
@@ -209,7 +209,7 @@ export default function App() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen text-slate-900 font-sans selection:bg-orange-600 selection:text-white">
+    <div className="min-h-screen bg-stone-100 font-sans text-stone-900 selection:bg-orange-200">
       <Header onMenuOpen={() => setMenuOpen(true)} onProfileOpen={() => setProfileOpen(true)} />
 
       {(view === "search" || view === "stations") && (
@@ -323,16 +323,20 @@ export default function App() {
           {history.length === 0 ? (
             <EmptyState title={t("history.empty_title")} body={t("history.empty_body")} />
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {history.map((item) => (
-                <div key={item.id} className="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-between gap-3">
+                <div key={item.id} className="flex items-center justify-between gap-3 rounded-xl border border-stone-200 bg-white p-4">
                   <div className="min-w-0">
-                    <p className="font-semibold text-slate-900 truncate">{t(`station.${item.origin}`, { defaultValue: item.origin })} -&gt; {t(`station.${item.destination}`, { defaultValue: item.destination })}</p>
-                    <p className="text-sm text-slate-600">{item.date} / {item.country.toUpperCase()} / {item.resultCount} {t("history.results")}</p>
+                    <p className="truncate text-sm font-medium text-stone-900">
+                      {t(`station.${item.origin}`, { defaultValue: item.origin })}
+                      <span className="mx-1.5 text-stone-400">&rarr;</span>
+                      {t(`station.${item.destination}`, { defaultValue: item.destination })}
+                    </p>
+                    <p className="mt-0.5 font-mono text-[11px] text-stone-400">{item.date} · {t(countryConfig[item.country].labelKey)} · {item.resultCount} {t("history.results")}</p>
                   </div>
                   <button
                     onClick={() => rerunHistorySearch(item)}
-                    className="bg-slate-900 text-white px-3 py-2 rounded-lg font-mono text-xs shrink-0"
+                    className="shrink-0 rounded-lg bg-stone-900 px-3 py-2 text-xs font-medium text-white"
                   >
                     {t("history.search_again")}
                   </button>
@@ -348,29 +352,33 @@ export default function App() {
           {savedTrips.length === 0 ? (
             <EmptyState title={t("saved.empty_title")} body={t("saved.empty_body")} />
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {savedTrips.map((trip) => (
-                <div key={trip.id} className="bg-white border border-slate-200 rounded-xl p-4">
+                <div key={trip.id} className="rounded-xl border border-stone-200 bg-white p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                      <p className="font-semibold text-slate-900 truncate">{trip.service}</p>
-                      <p className="text-sm text-slate-600 truncate">{t(`station.${trip.origin}`, { defaultValue: trip.origin })} -&gt; {t(`station.${trip.destination}`, { defaultValue: trip.destination })}</p>
-                      <p className="text-xs text-slate-500 mt-1">
+                      <p className="truncate text-sm font-semibold text-stone-900">{trip.service}</p>
+                      <p className="mt-0.5 truncate text-sm text-stone-600">
+                        {t(`station.${trip.origin}`, { defaultValue: trip.origin })}
+                        <span className="mx-1.5 text-stone-400">&rarr;</span>
+                        {t(`station.${trip.destination}`, { defaultValue: trip.destination })}
+                      </p>
+                      <p className="mt-1 font-mono text-xs text-stone-400">
                         {trip.departureTime}{trip.arrivalTime ? ` - ${trip.arrivalTime}` : ""}
                       </p>
                     </div>
                     <button
                       onClick={() => removeSavedTrip(trip.id)}
-                      className="w-9 h-9 rounded-lg border border-slate-200 text-slate-500 flex items-center justify-center shrink-0"
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-50"
                       aria-label={t("saved.remove")}
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="h-3.5 w-3.5" />
                     </button>
                   </div>
                   {trip.seatClass ? (
                     <button
                       onClick={() => openSeatPicker(trip)}
-                      className="mt-3 w-full bg-slate-900 text-white py-2 rounded-lg font-mono text-xs"
+                      className="mt-3 w-full rounded-lg bg-stone-900 py-2 text-xs font-medium text-white"
                     >
                       {t("result.select_seat")}
                     </button>
@@ -387,12 +395,12 @@ export default function App() {
           {alerts.length === 0 ? (
             <EmptyState title={t("alerts.empty_title")} body={t("alerts.empty_body")} />
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {alerts.map((alert) => (
-                <div key={alert.id} className="bg-white border border-slate-200 rounded-xl p-4">
-                  <p className="font-semibold text-slate-900">{alert.title}</p>
-                  <p className="text-sm text-slate-600 mt-1">{alert.body}</p>
-                  <p className="text-xs text-slate-400 mt-2">{new Date(alert.createdAt).toLocaleString()}</p>
+                <div key={alert.id} className="rounded-xl border border-stone-200 bg-white p-4">
+                  <p className="text-sm font-semibold text-stone-900">{alert.title}</p>
+                  <p className="mt-1 text-sm text-stone-600">{alert.body}</p>
+                  <p className="mt-2 font-mono text-[11px] text-stone-400">{new Date(alert.createdAt).toLocaleString()}</p>
                 </div>
               ))}
             </div>
@@ -404,36 +412,34 @@ export default function App() {
 
       {menuOpen && (
         <Panel title={t("menu.title")} onClose={() => setMenuOpen(false)}>
-          <button onClick={() => { setView("search"); setMenuOpen(false); }} className="w-full flex items-center gap-3 border border-slate-200 rounded-xl p-3 text-left">
-            <MapPinned className="w-5 h-5 text-orange-600" />
-            <span className="font-semibold">{t("menu.new_search")}</span>
-          </button>
-          <button onClick={() => { setView("history"); setMenuOpen(false); }} className="w-full flex items-center gap-3 border border-slate-200 rounded-xl p-3 text-left">
-            <Clock className="w-5 h-5 text-slate-600" />
-            <span className="font-semibold">{t("nav.history")}</span>
-          </button>
-          <button onClick={() => { setView("stations"); setMenuOpen(false); }} className="w-full flex items-center gap-3 border border-slate-200 rounded-xl p-3 text-left">
-            <MapPinned className="w-5 h-5 text-slate-600" />
-            <span className="font-semibold">{t("nav.stations")}</span>
-          </button>
-          <button onClick={() => { setView("workflow"); setMenuOpen(false); }} className="w-full flex items-center gap-3 border border-slate-200 rounded-xl p-3 text-left">
-            <DatabaseZap className="w-5 h-5 text-slate-600" />
-            <span className="font-semibold">{t("workflow.title")}</span>
-          </button>
-          <button onClick={() => { setView("saved"); setMenuOpen(false); }} className="w-full flex items-center gap-3 border border-slate-200 rounded-xl p-3 text-left">
-            <Bookmark className="w-5 h-5 text-slate-600" />
-            <span className="font-semibold">{t("nav.saved")}</span>
-          </button>
+          <div className="divide-y divide-stone-100 rounded-xl border border-stone-200">
+            {[
+              { icon: MapPinned, label: t("menu.new_search"), view: "search" as const },
+              { icon: Clock, label: t("nav.history"), view: "history" as const },
+              { icon: MapPinned, label: t("nav.stations"), view: "stations" as const },
+              { icon: DatabaseZap, label: t("workflow.title"), view: "workflow" as const },
+              { icon: Bookmark, label: t("nav.saved"), view: "saved" as const },
+            ].map(({ icon: Icon, label, view: target }) => (
+              <button
+                key={label}
+                onClick={() => { setView(target); setMenuOpen(false); }}
+                className="flex w-full items-center gap-3 p-3.5 text-left hover:bg-stone-50"
+              >
+                <Icon className="h-4 w-4 text-stone-500" />
+                <span className="text-sm font-medium text-stone-900">{label}</span>
+              </button>
+            ))}
+          </div>
         </Panel>
       )}
 
       {profileOpen && (
         <Panel title={t("profile.title")} onClose={() => setProfileOpen(false)}>
           <div className="flex items-center gap-3">
-            <UserCircle className="w-10 h-10 text-slate-500" />
+            <UserCircle className="h-10 w-10 text-stone-400" />
             <div>
-              <p className="font-semibold text-slate-900">{t("profile.guest")}</p>
-              <p className="text-sm text-slate-600">{t("profile.local_only")}</p>
+              <p className="text-sm font-semibold text-stone-900">{t("profile.guest")}</p>
+              <p className="text-sm text-stone-500">{t("profile.local_only")}</p>
             </div>
           </div>
           <div className="grid grid-cols-3 gap-2">
@@ -445,15 +451,18 @@ export default function App() {
       )}
 
       {selectedTrip && (
-        <div className="fixed inset-0 z-[70] bg-slate-900/60 flex items-end sm:items-center justify-center px-4">
-          <div className="bg-white rounded-t-2xl sm:rounded-2xl w-full max-w-md p-5 space-y-4">
+        <div className="fixed inset-0 z-[70] flex items-end justify-center bg-stone-900/40 px-4 sm:items-center">
+          <div className="w-full max-w-md space-y-4 rounded-t-2xl bg-white p-5 sm:rounded-2xl">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-sm text-slate-500">{selectedTrip.service}</p>
-                <h2 className="text-xl font-bold text-slate-900">{t("seat.title")}</h2>
+                <p className="text-sm text-stone-500">{selectedTrip.service}</p>
+                <h2 className="text-lg font-semibold tracking-tight text-stone-900">{t("seat.title")}</h2>
               </div>
-              <button onClick={() => setSelectedTrip(null)} className="w-9 h-9 rounded-lg border border-slate-200 flex items-center justify-center">
-                <X className="w-4 h-4" />
+              <button
+                onClick={() => setSelectedTrip(null)}
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-50"
+              >
+                <X className="h-4 w-4" />
               </button>
             </div>
             <div className="grid grid-cols-2 gap-2">
@@ -461,16 +470,16 @@ export default function App() {
                 <button
                   key={seat}
                   onClick={() => setSeatChoice(seat)}
-                  className={`border rounded-xl p-3 text-left ${
-                    seatChoice === seat ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-white text-slate-900"
+                  className={`rounded-lg border p-3 text-left text-sm font-medium ${
+                    seatChoice === seat ? "border-stone-900 bg-stone-900 text-white" : "border-stone-200 bg-white text-stone-900"
                   }`}
                 >
-                  <span className="font-semibold">{t(`seat.${seat}`)}</span>
+                  {t(`seat.${seat}`)}
                 </button>
               ))}
             </div>
-            <button onClick={confirmSeat} className="w-full bg-orange-600 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
-              <Check className="w-5 h-5" />
+            <button onClick={confirmSeat} className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-stone-900 text-sm font-semibold text-white hover:bg-stone-800">
+              <Check className="h-4 w-4" />
               {t("seat.confirm")}
             </button>
           </div>
@@ -482,10 +491,10 @@ export default function App() {
 
 function UtilityPage({ title, icon, children }: { title: string; icon: ReactNode; children: ReactNode }) {
   return (
-    <main className="pt-16 pb-24 px-4 max-w-md mx-auto">
-      <div className="flex items-center gap-2 mb-4">
+    <main className="mx-auto max-w-md px-4 pb-24 pt-20">
+      <div className="mb-4 flex items-center gap-2 text-stone-500">
         {icon}
-        <h1 className="text-xl font-bold text-slate-900">{title}</h1>
+        <h1 className="text-xl font-semibold tracking-tight text-stone-900">{title}</h1>
       </div>
       {children}
     </main>
@@ -494,21 +503,24 @@ function UtilityPage({ title, icon, children }: { title: string; icon: ReactNode
 
 function EmptyState({ title, body }: { title: string; body: string }) {
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-6 text-center">
-      <p className="font-semibold text-slate-900">{title}</p>
-      <p className="text-sm text-slate-600 mt-1">{body}</p>
+    <div className="rounded-xl border border-stone-200 bg-white p-6 text-center">
+      <p className="text-sm font-semibold text-stone-900">{title}</p>
+      <p className="mt-1 text-sm text-stone-500">{body}</p>
     </div>
   );
 }
 
 function Panel({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
   return (
-    <div className="fixed inset-0 z-[70] bg-slate-900/50 flex items-start justify-end">
-      <div className="bg-white min-h-screen w-full max-w-sm p-5 space-y-4 shadow-xl">
+    <div className="fixed inset-0 z-[70] flex items-start justify-end bg-stone-900/40">
+      <div className="min-h-screen w-full max-w-sm space-y-4 border-l border-stone-200 bg-white p-5">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-slate-900">{title}</h2>
-          <button onClick={onClose} className="w-9 h-9 rounded-lg border border-slate-200 flex items-center justify-center">
-            <X className="w-4 h-4" />
+          <h2 className="text-lg font-semibold tracking-tight text-stone-900">{title}</h2>
+          <button
+            onClick={onClose}
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-50"
+          >
+            <X className="h-4 w-4" />
           </button>
         </div>
         {children}
@@ -519,9 +531,9 @@ function Panel({ title, onClose, children }: { title: string; onClose: () => voi
 
 function ProfileStat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="border border-slate-200 rounded-xl p-3 text-center">
-      <p className="text-lg font-bold text-slate-900">{value}</p>
-      <p className="text-[10px] font-mono text-slate-500">{label}</p>
+    <div className="rounded-xl border border-stone-200 p-3 text-center">
+      <p className="font-mono text-lg font-semibold text-stone-900">{value}</p>
+      <p className="text-[10px] font-medium uppercase tracking-wider text-stone-400">{label}</p>
     </div>
   );
 }

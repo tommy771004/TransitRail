@@ -1,4 +1,4 @@
-import type { SearchResponse, TransitResult } from "../types";
+import type { JourneyLeg, SearchResponse, TransitLine, TransitResult } from "../types";
 
 const TFL_API_URL = "https://api.tfl.gov.uk";
 const TFL_MODES = "tube,dlr,overground,elizabeth-line";
@@ -49,6 +49,30 @@ interface TflJourneyResponse {
 }
 
 let stationCache: { expiresAt: number; stations: string[] } | null = null;
+let lineCache: { expiresAt: number; lines: TransitLine[] } | null = null;
+
+// TfL corporate line colours; the Unified API does not return them.
+const tflLineColors: Record<string, string> = {
+  bakerloo: "#B36305",
+  central: "#E32017",
+  circle: "#FFD300",
+  district: "#00782A",
+  "hammersmith-city": "#F3A9BB",
+  jubilee: "#A0A5A9",
+  metropolitan: "#9B0056",
+  northern: "#000000",
+  piccadilly: "#003688",
+  victoria: "#0098D4",
+  "waterloo-city": "#95CDBA",
+  elizabeth: "#6950A1",
+  dlr: "#00A4A7",
+  liberty: "#6C6D70",
+  lioness: "#FFA600",
+  mildmay: "#0077AD",
+  suffragette: "#5BBD72",
+  weaver: "#823A62",
+  windrush: "#EE2E24",
+};
 
 function tflUrl(pathname: string, params: Record<string, string> = {}) {
   const url = new URL(pathname, TFL_API_URL);
@@ -135,6 +159,64 @@ export async function getTflStations() {
   return stations;
 }
 
+interface TflLineSummary {
+  id?: string;
+  name?: string;
+  modeName?: string;
+}
+
+export async function getTflLines(): Promise<TransitLine[]> {
+  if (lineCache && lineCache.expiresAt > Date.now()) {
+    return lineCache.lines;
+  }
+
+  const lineSummaries = await fetchTflJson<TflLineSummary[]>(
+    tflUrl(`/Line/Mode/${TFL_MODES}`),
+  );
+  const summaries = (lineSummaries || []).filter((line): line is Required<TflLineSummary> =>
+    Boolean(line.id && line.name));
+
+  const lines = await Promise.all(
+    summaries.map(async (summary) => {
+      const stopPoints = await fetchTflJson<TflStopPoint[]>(
+        tflUrl(`/Line/${encodeURIComponent(summary.id)}/StopPoints`),
+      );
+      const stations = (stopPoints || [])
+        .map((stop) => stop.commonName?.trim())
+        .filter((name): name is string => Boolean(name));
+      return { id: summary.id, name: summary.name, stations };
+    }),
+  );
+
+  const linesByStation = new Map<string, string[]>();
+  for (const line of lines) {
+    for (const station of line.stations) {
+      const names = linesByStation.get(station) || [];
+      if (!names.includes(line.name)) names.push(line.name);
+      linesByStation.set(station, names);
+    }
+  }
+
+  const catalog: TransitLine[] = lines.map((line) => ({
+    id: line.id,
+    name: line.name,
+    color: tflLineColors[line.id],
+    stations: line.stations.map((station) => {
+      const transfers = (linesByStation.get(station) || []).filter((name) => name !== line.name);
+      return {
+        name: station,
+        interchanges: transfers.length > 0 ? transfers : undefined,
+      };
+    }),
+  }));
+
+  lineCache = {
+    expiresAt: Date.now() + STATION_CACHE_TTL_MS,
+    lines: catalog,
+  };
+  return catalog;
+}
+
 async function resolveTflStation(query: string) {
   const data = await fetchTflJson<TflSearchResponse>(
     tflUrl(`/StopPoint/Search/${encodeURIComponent(query)}`, { modes: TFL_MODES }),
@@ -219,6 +301,25 @@ export async function searchTflJourney(
         .filter((description): description is string => Boolean(description));
       const farePence = journey.fare?.totalCost;
 
+      const legDetails: JourneyLeg[] = transitLegs.map((leg) => {
+        const lineId = leg.routeOptions?.[0]?.lineIdentifier?.id;
+        return {
+          lineName: leg.routeOptions?.[0]?.lineIdentifier?.name || leg.mode?.name || "TfL",
+          lineCode: lineId,
+          color: lineId ? tflLineColors[lineId] : undefined,
+          mode: leg.mode?.name,
+          origin: leg.departurePoint?.commonName || "",
+          destination: leg.arrivalPoint?.commonName || "",
+          headsign: leg.instruction?.summary,
+          stopCount: leg.path?.stopPoints?.length || undefined,
+        };
+      });
+      const transferStations = legDetails
+        .slice(0, -1)
+        .map((leg) => leg.destination)
+        .filter(Boolean);
+      const firstLineId = transitLegs[0]?.routeOptions?.[0]?.lineIdentifier?.id;
+
       return {
         id: `uk-tfl-${journey.startDateTime || Date.now()}-${index}`,
         country: "united_kingdom",
@@ -237,6 +338,9 @@ export async function searchTflJourney(
         headsign: transitLegs.at(-1)?.instruction?.summary,
         realtime: true,
         warning: warnings[0],
+        lineColor: firstLineId ? tflLineColors[firstLineId] : undefined,
+        legs: legDetails.length > 1 ? legDetails : undefined,
+        transferStations: transferStations.length > 0 ? transferStations : undefined,
       };
     });
 

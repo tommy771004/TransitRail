@@ -13,6 +13,21 @@ export interface SearchParams {
   country: Country;
 }
 
+export interface JourneyLeg {
+  lineName: string;
+  lineCode?: string;
+  color?: string;
+  mode?: string;
+  origin: string;
+  destination: string;
+  departureTime?: string;
+  platform?: string;
+  headsign?: string;
+  stopCount?: number;
+  /** Live "next train" times at the boarding station of this leg. */
+  upcomingDepartures?: string[];
+}
+
 export interface TransitResult {
   id: string;
   country: Country;
@@ -35,10 +50,34 @@ export interface TransitResult {
   amenities?: string[];
   warning?: string;
   tags?: string[];
+  lineColor?: string;
+  legs?: JourneyLeg[];
+  transferStations?: string[];
 }
 
 export interface SearchResponse {
   results: TransitResult[];
+  source?: string;
+  message?: string;
+}
+
+export interface LineStation {
+  name: string;
+  /** Native-script name when the catalog name is romanized (e.g. Seoul subway). */
+  localName?: string;
+  /** Names of other lines that also serve this station. */
+  interchanges?: string[];
+}
+
+export interface TransitLine {
+  id: string;
+  name: string;
+  color?: string;
+  stations: LineStation[];
+}
+
+export interface LinesResponse {
+  lines: TransitLine[];
   source?: string;
   message?: string;
 }

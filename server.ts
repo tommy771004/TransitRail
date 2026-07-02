@@ -3,11 +3,14 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import dotenv from "dotenv";
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
-import { hongKongStations } from "./src/data/hongKongMtr";
-import { japanStations, koreaStations } from "./src/data/stations";
+import { hongKongMtrLineCatalog, hongKongStations } from "./src/data/hongKongMtr";
+import { mtrInterchanges } from "./src/data/hongKongMtr";
+import { japanRailLines, japanStations, koreaStations } from "./src/data/stations";
+import { seoulSubwayLines, seoulSubwayStationNames } from "./src/data/seoulSubway";
 import { searchHongKongMtr } from "./src/server/hongKongMtr";
-import { getTflStations, searchTflJourney } from "./src/server/tfl";
-import { getMbtaStations, searchMbtaJourney } from "./src/server/mbta";
+import { getTflLines, getTflStations, searchTflJourney } from "./src/server/tfl";
+import { getMbtaLines, getMbtaStations, searchMbtaJourney } from "./src/server/mbta";
+import type { TransitLine } from "./src/types";
 
 dotenv.config();
 
@@ -99,7 +102,9 @@ async function startServer() {
     }
 
     if (country === "korea") {
-      return res.json({ stations: koreaStations });
+      const merged = Array.from(new Set([...koreaStations, ...seoulSubwayStationNames]))
+        .sort((a, b) => a.localeCompare(b));
+      return res.json({ stations: merged });
     }
 
     if (country === "hong_kong") {
@@ -136,6 +141,72 @@ async function startServer() {
       error: "Invalid country",
       message: "Country must be japan, korea, hong_kong, united_kingdom, or united_states.",
       stations: [],
+    });
+  });
+
+  // Line catalog API: per-line station lists with interchange info.
+  // Japan/Korea/Hong Kong come from static directories; London and Boston are
+  // fetched live from the provider and cached server-side.
+  app.get("/api/transit/lines", async (req, res) => {
+    const { country } = req.query;
+
+    if (country === "japan") {
+      return res.json({ lines: japanRailLines });
+    }
+
+    if (country === "korea") {
+      return res.json({ lines: seoulSubwayLines });
+    }
+
+    if (country === "hong_kong") {
+      const lines: TransitLine[] = hongKongMtrLineCatalog.map((line) => ({
+        id: line.code,
+        name: line.name,
+        color: line.color,
+        stations: line.stations.map((station) => {
+          const others = (mtrInterchanges.get(station.name) || []).filter((code) => code !== line.code);
+          const names = others
+            .map((code) => hongKongMtrLineCatalog.find((entry) => entry.code === code)?.name)
+            .filter((name): name is string => Boolean(name));
+          return {
+            name: station.name,
+            interchanges: names.length > 0 ? names : undefined,
+          };
+        }),
+      }));
+      return res.json({ lines });
+    }
+
+    if (country === "united_kingdom") {
+      try {
+        const lines = await getTflLines();
+        return res.json({ lines, source: "https://api.tfl.gov.uk" });
+      } catch (error) {
+        return res.status(502).json({
+          error: "Provider request failed",
+          message: error instanceof Error ? error.message : "Could not reach TfL.",
+          lines: [],
+        });
+      }
+    }
+
+    if (country === "united_states") {
+      try {
+        const lines = await getMbtaLines();
+        return res.json({ lines, source: "https://api-v3.mbta.com" });
+      } catch (error) {
+        return res.status(502).json({
+          error: "Provider request failed",
+          message: error instanceof Error ? error.message : "Could not reach MBTA.",
+          lines: [],
+        });
+      }
+    }
+
+    return res.status(400).json({
+      error: "Invalid country",
+      message: "Country must be japan, korea, hong_kong, united_kingdom, or united_states.",
+      lines: [],
     });
   });
 

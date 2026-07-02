@@ -1,4 +1,4 @@
-import { CalendarDays, DatabaseZap, LocateFixed, Search, Sparkles, TrainFront } from "lucide-react";
+import { ArrowUpDown, CalendarDays, ChevronRight, DatabaseZap } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { countryConfig, countryOptions, providerDateValue } from "../data/countries";
@@ -31,11 +31,16 @@ export function SearchForm({
   const [aiResult, setAiResult] = useState<string | null>(null);
   const origin = params.origin;
   const destination = params.destination;
-  const date = params.date || providerDateValue(params.country);
   const country = params.country;
+  const config = countryConfig[country];
+  const date = config.liveOnly ? providerDateValue(country) : (params.date || providerDateValue(country));
 
   const updateParam = (key: keyof SearchParams, value: string) => {
     onChange({ ...params, [key]: value });
+  };
+
+  const swapStations = () => {
+    onChange({ ...params, origin: destination, destination: origin });
   };
 
   const handleSubmit = async () => {
@@ -48,7 +53,10 @@ export function SearchForm({
       return;
     }
     setFormError(null);
-    await onSearch(origin.trim(), destination.trim(), date, country);
+    // Recompute for live-only providers so a page left open overnight still
+    // submits the provider's current date.
+    const submitDate = config.liveOnly ? providerDateValue(country) : date;
+    await onSearch(origin.trim(), destination.trim(), submitDate, country);
   };
 
   const handleAiPlan = async () => {
@@ -63,7 +71,7 @@ export function SearchForm({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt: `請用繁體中文規劃${countryConfig[country].promptName}鐵路旅程：${origin} 到 ${destination}，日期 ${date}。請說明建議路線、轉乘提醒與查詢即時班次時需要的資料欄位。`,
+          prompt: `請用繁體中文規劃${config.promptName}鐵路旅程：${origin} 到 ${destination}，日期 ${date}。請說明建議路線、轉乘提醒與查詢即時班次時需要的資料欄位。`,
         }),
       });
       const data = await res.json();
@@ -76,81 +84,92 @@ export function SearchForm({
   };
 
   return (
-    <main className="min-h-screen bg-[#08284a] px-4 pb-28 pt-16 text-white">
-      <section className="mx-auto max-w-md space-y-5">
-        <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-black leading-tight tracking-normal">
-            {t("search.hero_title")}
-          </h1>
-          <p className="text-base text-blue-100">{t("search.hero_subtitle")}</p>
+    <main className="min-h-screen bg-stone-100 px-4 pb-28 pt-20">
+      <section className="mx-auto max-w-md">
+        <h1 className="text-2xl font-semibold tracking-tight text-stone-900">{t("search.title")}</h1>
+
+        <div className="mt-4 flex gap-2 overflow-x-auto no-scrollbar">
+          {countryOptions.map((item) => (
+            <button
+              key={item}
+              onClick={() => {
+                onChange({
+                  origin: "",
+                  destination: "",
+                  date: providerDateValue(item),
+                  country: item,
+                });
+                setFormError(null);
+              }}
+              className={`shrink-0 whitespace-nowrap rounded-full border px-3.5 py-2 text-sm font-medium ${
+                country === item
+                  ? "border-stone-900 bg-stone-900 text-white"
+                  : "border-stone-300 bg-white text-stone-600"
+              }`}
+            >
+              {t(countryConfig[item].labelKey)}
+            </button>
+          ))}
         </div>
 
-        <div className="rounded-[28px] bg-slate-100 p-4 text-slate-950 shadow-2xl shadow-blue-950/40">
-          <div className="mb-3 grid grid-cols-2 rounded-2xl bg-slate-200 p-1">
-            {countryOptions.map((item) => (
-              <button
-                key={item}
-                onClick={() => {
-                  onChange({
-                    origin: "",
-                    destination: "",
-                    date: providerDateValue(item),
-                    country: item,
-                  });
-                }}
-                className={`rounded-xl py-2 text-sm font-bold transition ${
-                  country === item ? "bg-white text-blue-800 shadow-sm" : "text-slate-500"
-                }`}
-              >
-                {t(countryConfig[item].labelKey)}
-              </button>
-            ))}
+        <div className="mt-4 rounded-xl border border-stone-200 bg-white">
+          <div className="relative p-4">
+            <div className="grid grid-cols-[14px_1fr] gap-x-3">
+              <div className="flex flex-col items-center pt-3.5">
+                <span className="h-2.5 w-2.5 rounded-full border-[2.5px] border-stone-400 bg-white" />
+                <span className="w-px flex-1 bg-stone-300" />
+                <span className="h-2.5 w-2.5 rounded-full bg-stone-900" />
+              </div>
+              <div>
+                <StationField
+                  label={t("search.origin")}
+                  value={origin}
+                  placeholder={config.originPlaceholder}
+                  onBrowse={() => onOpenStations("origin")}
+                />
+                <div className="my-1 h-px bg-stone-100" />
+                <StationField
+                  label={t("search.destination")}
+                  value={destination}
+                  placeholder={config.destinationPlaceholder}
+                  onBrowse={() => onOpenStations("destination")}
+                />
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={swapStations}
+              className="absolute right-4 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-500 hover:text-stone-900"
+              aria-label={t("search.swap")}
+            >
+              <ArrowUpDown className="h-4 w-4" />
+            </button>
           </div>
 
-          <div className="rounded-[22px] bg-white p-4 shadow-sm">
-            <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-              <StationField
-                label={t("search.origin")}
-                value={origin}
-                placeholder={countryConfig[country].originPlaceholder}
-                onChange={(value) => updateParam("origin", value)}
-                onBrowse={() => onOpenStations("origin")}
-              />
-              <div className="mt-5 flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600">
-                <TrainFront className="h-5 w-5" />
+          <div className="border-t border-stone-100 p-4">
+            {config.liveOnly ? (
+              <div className="flex items-center gap-2 text-sm text-stone-600">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
+                  <span className="h-2 w-2 rounded-full bg-emerald-600" />
+                </span>
+                <span className="font-medium">{t("search.live_today")}</span>
+                <span className="ml-auto font-mono text-xs text-stone-400">{date}</span>
               </div>
-              <StationField
-                label={t("search.destination")}
-                value={destination}
-                placeholder={countryConfig[country].destinationPlaceholder}
-                alignRight
-                onChange={(value) => updateParam("destination", value)}
-                onBrowse={() => onOpenStations("destination")}
-              />
-            </div>
-
-            <div className="mt-4 grid grid-cols-[1fr_auto] gap-2">
-              <label className="flex items-center gap-2 rounded-xl bg-slate-100 px-3 py-3 text-sm font-semibold text-slate-700">
-                <CalendarDays className="h-4 w-4" />
+            ) : (
+              <label className="flex items-center gap-2 text-sm text-stone-600">
+                <CalendarDays className="h-4 w-4 text-stone-400" />
                 <input
                   type="date"
                   value={date}
                   onChange={(event) => updateParam("date", event.target.value)}
-                  className="w-full bg-transparent text-slate-900 outline-none"
+                  className="w-full bg-transparent font-medium text-stone-900 outline-none"
                 />
               </label>
-              <button
-                type="button"
-                onClick={onOpenWorkflow}
-                className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-700"
-                aria-label={t("workflow.title")}
-              >
-                <DatabaseZap className="h-5 w-5" />
-              </button>
-            </div>
+            )}
 
             {formError && (
-              <p className="mt-3 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              <p className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
                 {formError}
               </p>
             )}
@@ -158,60 +177,72 @@ export function SearchForm({
             <button
               onClick={handleSubmit}
               disabled={isSearching}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-800 py-3 text-sm font-bold text-white shadow-lg shadow-blue-900/20 active:scale-[0.98] disabled:opacity-50"
+              className="mt-4 h-12 w-full rounded-lg bg-stone-900 text-sm font-semibold text-white hover:bg-stone-800 disabled:opacity-50"
             >
-              <Search className="h-5 w-5" />
               {isSearching ? t("search.searching") : t("search.realtime_search")}
             </button>
-          </div>
-
-          <div className="px-2 pt-5">
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-sm font-bold text-slate-700">{t("history.recent")}</h2>
-              <button onClick={() => onOpenStations("origin")} className="text-xs font-bold text-blue-700">
-                {t("stations.all_stations")}
-              </button>
-            </div>
-            {recentHistory.length === 0 ? (
-              <div className="rounded-2xl bg-white/70 p-4 text-center text-sm text-slate-500">
-                {t("history.empty_body")}
-              </div>
-            ) : (
-              <div className="space-y-2">
-                {recentHistory.slice(0, 3).map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => onRepeatSearch(item)}
-                    className="grid w-full grid-cols-[auto_1fr_auto_1fr] items-center gap-3 rounded-2xl bg-slate-200/80 px-3 py-3 text-left"
-                  >
-                    <LocateFixed className="h-4 w-4 text-blue-700" />
-                    <span className="min-w-0">
-                      <span className="block truncate text-sm font-bold text-slate-900">{t(`station.${item.origin}`, { defaultValue: item.origin })}</span>
-                      <span className="block text-[10px] text-slate-500">{item.date}</span>
-                    </span>
-                    <span className="text-slate-500" aria-hidden="true">-&gt;</span>
-                    <span className="min-w-0">
-                      <span className="block truncate text-sm font-bold text-slate-900">{t(`station.${item.destination}`, { defaultValue: item.destination })}</span>
-                      <span className="block text-[10px] text-slate-500">{item.resultCount} {t("history.results")}</span>
-                    </span>
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
         </div>
 
         <button
+          type="button"
+          onClick={onOpenWorkflow}
+          className="mt-3 flex w-full items-center justify-between rounded-xl border border-stone-200 bg-white px-4 py-3 text-left"
+        >
+          <span className="flex items-center gap-2 text-sm text-stone-600">
+            <DatabaseZap className="h-4 w-4 text-stone-400" />
+            <span>
+              {t("search.data_source")}{" "}
+              <span className="font-semibold text-stone-900">{config.provider}</span>
+            </span>
+          </span>
+          <span className={`flex items-center gap-1.5 text-xs font-medium ${
+            config.connected ? "text-emerald-700" : "text-amber-700"
+          }`}>
+            <span className={`h-1.5 w-1.5 rounded-full ${config.connected ? "bg-emerald-600" : "bg-amber-500"}`} />
+            {config.connected ? t("search.connected") : t("search.adapter_pending")}
+          </span>
+        </button>
+
+        {recentHistory.length > 0 && (
+          <section className="mt-6">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-stone-400">
+              {t("history.recent")}
+            </h2>
+            <div className="mt-2 divide-y divide-stone-100 rounded-xl border border-stone-200 bg-white">
+              {recentHistory.slice(0, 3).map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => onRepeatSearch(item)}
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left"
+                >
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-medium text-stone-900">
+                      {t(`station.${item.origin}`, { defaultValue: item.origin })}
+                      <span className="mx-1.5 text-stone-400">&rarr;</span>
+                      {t(`station.${item.destination}`, { defaultValue: item.destination })}
+                    </span>
+                    <span className="mt-0.5 block font-mono text-[11px] text-stone-400">
+                      {item.date} · {t(countryConfig[item.country].labelKey)}
+                    </span>
+                  </span>
+                  <ChevronRight className="h-4 w-4 shrink-0 text-stone-300" />
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <button
           onClick={handleAiPlan}
           disabled={isAiLoading}
-          className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/10 py-3 text-sm font-semibold text-white backdrop-blur disabled:opacity-50"
+          className="mt-6 w-full rounded-lg py-2 text-center text-sm font-medium text-stone-500 underline decoration-stone-300 underline-offset-4 hover:text-stone-900 disabled:opacity-50"
         >
-          <Sparkles className="h-5 w-5" />
           {isAiLoading ? t("search.thinking") : t("search.plan_ai")}
         </button>
 
         {aiResult && (
-          <div className="rounded-2xl border border-blue-200/30 bg-white/95 p-4 text-sm leading-relaxed text-slate-800 shadow-xl">
+          <div className="mt-3 whitespace-pre-wrap rounded-xl border border-stone-200 bg-white p-4 text-sm leading-relaxed text-stone-700">
             {aiResult}
           </div>
         )}
@@ -224,36 +255,22 @@ function StationField({
   label,
   value,
   placeholder,
-  alignRight,
-  onChange,
   onBrowse,
 }: {
   label: string;
   value: string;
   placeholder: string;
-  alignRight?: boolean;
-  onChange: (value: string) => void;
   onBrowse: () => void;
 }) {
   const { t } = useTranslation();
   return (
-    <div className={alignRight ? "text-right" : ""}>
-      <button
-        type="button"
-        onClick={onBrowse}
-        className={`mb-1 block w-full text-[11px] font-semibold text-slate-500 ${alignRight ? "text-right" : "text-left"}`}
-      >
-        {label}
-      </button>
-      <button
-        type="button"
-        onClick={onBrowse}
-        className={`w-full bg-transparent text-xl font-black outline-none truncate block ${
-          alignRight ? "text-right" : "text-left"
-        } ${!value ? "text-slate-300" : "text-slate-950"}`}
-      >
+    <button type="button" onClick={onBrowse} className="block w-full py-2 pr-12 text-left">
+      <span className="block text-[11px] font-medium uppercase tracking-wider text-stone-400">{label}</span>
+      <span className={`mt-0.5 block truncate text-lg font-semibold tracking-tight ${
+        value ? "text-stone-900" : "text-stone-300"
+      }`}>
         {value ? t(`station.${value}`, { defaultValue: value }) : placeholder}
-      </button>
-    </div>
+      </span>
+    </button>
   );
 }

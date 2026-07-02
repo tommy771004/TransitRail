@@ -9,6 +9,19 @@ export interface MtrLine {
   stations: MtrStation[];
 }
 
+export const mtrLineColors: Record<string, string> = {
+  AEL: "#00888E",
+  TCL: "#F3982D",
+  TML: "#9C2E00",
+  TKL: "#7E3C93",
+  EAL: "#5EB7E8",
+  SIL: "#CBD300",
+  TWL: "#E2231A",
+  ISL: "#0075C2",
+  KTL: "#00A040",
+  DRL: "#EB6EA5",
+};
+
 function stations(entries: Array<[string, string]>): MtrStation[] {
   return entries.map(([code, name]) => ({ code, name }));
 }
@@ -270,6 +283,48 @@ export const hongKongStations = Array.from(
   new Set(hongKongMtrLines.flatMap((line) => line.stations.map((station) => station.name))),
 ).sort((a, b) => a.localeCompare(b));
 
+/**
+ * One entry per line code, with branch variants merged in service order.
+ * `hongKongMtrLines` keeps one entry per branch for routing; this catalog is
+ * for display (station lists and interchange lookups).
+ */
+export interface MtrLineCatalogEntry {
+  code: string;
+  name: string;
+  color?: string;
+  stations: MtrStation[];
+}
+
+export const hongKongMtrLineCatalog: MtrLineCatalogEntry[] = (() => {
+  const byCode = new Map<string, MtrLineCatalogEntry>();
+  for (const line of hongKongMtrLines) {
+    let entry = byCode.get(line.code);
+    if (!entry) {
+      entry = { code: line.code, name: line.name, color: mtrLineColors[line.code], stations: [] };
+      byCode.set(line.code, entry);
+    }
+    for (const station of line.stations) {
+      if (!entry.stations.some((existing) => existing.code === station.code)) {
+        entry.stations.push(station);
+      }
+    }
+  }
+  return Array.from(byCode.values());
+})();
+
+/** Station name -> line codes serving it. Stations on 2+ lines are interchanges. */
+export const mtrInterchanges: Map<string, string[]> = (() => {
+  const map = new Map<string, string[]>();
+  for (const line of hongKongMtrLineCatalog) {
+    for (const station of line.stations) {
+      const codes = map.get(station.name) || [];
+      if (!codes.includes(line.code)) codes.push(line.code);
+      map.set(station.name, codes);
+    }
+  }
+  return map;
+})();
+
 export interface MtrJourney {
   line: MtrLine;
   origin: MtrStation;
@@ -302,6 +357,40 @@ export function findMtrJourney(originName: string, destinationName: string): Mtr
       Math.abs(b.destinationIndex - b.originIndex),
   );
   return candidates[0] || null;
+}
+
+export interface MtrTransferPlan {
+  interchange: string;
+  firstLeg: MtrJourney;
+  secondLeg: MtrJourney;
+}
+
+/**
+ * Finds the best single-transfer plan between two stations that no single
+ * line connects. Both legs stay on one line each; the interchange must be a
+ * station shared by both legs' lines. Returns null when no such plan exists.
+ */
+export function findMtrTransferPlan(
+  originName: string,
+  destinationName: string,
+): MtrTransferPlan | null {
+  const plans: MtrTransferPlan[] = [];
+  for (const [station, codes] of mtrInterchanges) {
+    if (codes.length < 2 || station === originName || station === destinationName) continue;
+    const firstLeg = findMtrJourney(originName, station);
+    if (!firstLeg) continue;
+    const secondLeg = findMtrJourney(station, destinationName);
+    if (!secondLeg || secondLeg.line.code === firstLeg.line.code) continue;
+    plans.push({ interchange: station, firstLeg, secondLeg });
+  }
+
+  plans.sort((a, b) => {
+    const stopsOf = (plan: MtrTransferPlan) =>
+      Math.abs(plan.firstLeg.destinationIndex - plan.firstLeg.originIndex) +
+      Math.abs(plan.secondLeg.destinationIndex - plan.secondLeg.originIndex);
+    return stopsOf(a) - stopsOf(b);
+  });
+  return plans[0] || null;
 }
 
 export function mtrTerminalReachesDestination(

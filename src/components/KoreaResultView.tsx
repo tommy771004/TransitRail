@@ -1,4 +1,4 @@
-import { AlertTriangle, ArrowRight, Bookmark, Calendar, Check, Edit2, Utensils, Wifi, Zap } from "lucide-react";
+import { AlertTriangle, Bookmark, Check, Edit2, Utensils, Wifi, Zap } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { KoreaFilter, TransitResult } from "../types";
 
@@ -52,133 +52,131 @@ export function KoreaResultView({
   ];
 
   return (
-    <main className="pb-24 min-h-screen">
-      <div className="mt-12 bg-slate-900 text-white px-4 py-6 shadow-md">
-        <div className="flex items-center justify-between gap-3 mb-4">
-          <div className="flex flex-col min-w-0">
-            <span className="text-slate-400 font-mono text-xs mb-1">{t("result.origin_label")}</span>
-            <span className="text-lg font-bold truncate">{origin}</span>
-          </div>
-          <div className="px-2 shrink-0">
-            <ArrowRight className="w-5 h-5 text-orange-500" />
-          </div>
-          <div className="flex flex-col text-right min-w-0">
-            <span className="text-slate-400 font-mono text-xs mb-1">{t("result.destination_label")}</span>
-            <span className="text-lg font-bold truncate">{destination}</span>
-          </div>
-        </div>
-        <div className="flex items-center justify-between gap-3 bg-slate-800 rounded-lg p-3">
-          <div className="flex items-center gap-3 min-w-0">
-            <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
-            <span className="text-sm text-slate-300 truncate">{date} • 1 {t("result.adult")}</span>
+    <main className="min-h-screen bg-stone-100 pb-28 pt-14">
+      <section className="border-b border-stone-200 bg-white px-4 py-4">
+        <div className="mx-auto flex max-w-md items-center justify-between gap-3">
+          <div className="min-w-0">
+            <div className="flex min-w-0 items-center gap-2 text-base font-semibold tracking-tight text-stone-900">
+              <span className="truncate">{origin}</span>
+              <span className="shrink-0 text-stone-400">&rarr;</span>
+              <span className="truncate">{destination}</span>
+            </div>
+            <p className="mt-1 font-mono text-xs text-stone-500">{date} · 1 {t("result.adult")}</p>
           </div>
           <button
             onClick={onModify}
-            className="flex items-center gap-1 px-2 py-1 rounded-lg bg-white/10 text-white font-mono text-xs shrink-0"
+            className="flex shrink-0 items-center gap-1.5 rounded-lg border border-stone-200 px-3 py-2 text-xs font-medium text-stone-700 hover:bg-stone-50"
           >
-            <Edit2 className="w-3 h-3" />
+            <Edit2 className="h-3.5 w-3.5" />
             {t("result.modify")}
           </button>
         </div>
+      </section>
+
+      <div className="sticky top-14 z-40 border-b border-stone-200 bg-white">
+        <div className="mx-auto flex max-w-md gap-2 overflow-x-auto px-4 py-3 no-scrollbar">
+          {filters.map((item) => (
+            <button
+              key={item.key}
+              onClick={() => onFilterChange(item.key)}
+              className={`shrink-0 whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-medium ${
+                filter === item.key
+                  ? "border-stone-900 bg-stone-900 text-white"
+                  : "border-stone-300 bg-white text-stone-600"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="flex gap-2 px-4 py-4 overflow-x-auto no-scrollbar bg-slate-50 sticky top-12 z-40">
-        {filters.map((item) => (
-          <button
-            key={item.key}
-            onClick={() => onFilterChange(item.key)}
-            className={`whitespace-nowrap px-4 py-2 rounded-full font-mono text-xs border ${
-              filter === item.key
-                ? "bg-slate-900 text-white border-slate-900"
-                : "border-slate-300 text-slate-600 bg-white"
-            }`}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
-
-      <div className="px-4 space-y-4 mt-2">
+      <div className="mx-auto max-w-md space-y-3 px-4 pt-4">
         {error && (
-          <div className="bg-red-50 text-red-800 p-4 rounded-xl border border-red-200">
-            <p className="font-semibold mb-1">{t("result.unable_to_fetch")}</p>
-            <p className="text-sm">{error}</p>
+          <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-red-800">
+            <p className="text-sm font-semibold">{t("result.unable_to_fetch")}</p>
+            <p className="mt-1 text-sm">{error}</p>
           </div>
         )}
 
         {!error && results.length === 0 && (
-          <div className="bg-white rounded-xl border border-slate-200 p-5 text-center">
-            <p className="font-semibold text-slate-900">{t("result.no_results")}</p>
-            <p className="text-sm text-slate-600 mt-1">{t("result.no_results_hint")}</p>
+          <div className="rounded-xl border border-stone-200 bg-white p-5 text-center">
+            <p className="text-sm font-semibold text-stone-900">{t("result.no_results")}</p>
+            <p className="mt-1 text-sm text-stone-500">{t("result.no_results_hint")}</p>
           </div>
         )}
 
         {!error && results.map((trip) => {
           const isSaved = savedIds.has(trip.id);
           return (
-            <article key={trip.id} className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
-              <div className="flex justify-between items-start gap-3 mb-4">
-                <div className="flex items-center gap-2 min-w-0">
-                  <span className="bg-orange-50 text-orange-600 font-mono text-[10px] px-2 py-0.5 rounded border border-orange-200 truncate">
+            <article key={trip.id} className="rounded-xl border border-stone-200 bg-white p-4">
+              <div className="mb-3 flex items-start justify-between gap-3">
+                <div className="flex min-w-0 items-center gap-2">
+                  <span
+                    className="truncate rounded border-l-2 bg-stone-100 px-2 py-0.5 text-[11px] font-semibold text-stone-800"
+                    style={{ borderLeftColor: trip.lineColor || "#a8a29e" }}
+                  >
                     {trip.service}
                   </span>
-                  <span className="text-slate-600 text-sm truncate">{trip.trainType || trip.operator}</span>
+                  <span className="truncate text-xs text-stone-500">{trip.trainType || trip.operator}</span>
                 </div>
-                <div className="text-right shrink-0">
-                  <span className="text-base font-bold text-slate-900">
+                <div className="shrink-0 text-right">
+                  <span className="text-sm font-semibold text-stone-900">
                     {formatPrice(trip) || t("result.fare_unavailable")}
                   </span>
-                  <p className="text-[10px] text-slate-500 font-mono uppercase">
+                  <p className="text-[10px] font-medium uppercase tracking-wider text-stone-400">
                     {trip.seatClass === "first" ? t("result.first_class") : t("result.economy_class")}
                   </p>
                 </div>
               </div>
-              <div className="flex justify-between items-center relative py-2">
-                <div className="flex flex-col min-w-0">
-                  <span className="text-[32px] font-bold leading-tight text-slate-900 tracking-tight">{trip.departureTime}</span>
-                  <span className="text-sm text-slate-600 truncate">{trip.origin}</span>
+              <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 py-1">
+                <div className="min-w-0">
+                  <p className="font-mono text-2xl font-semibold leading-none tracking-tight text-stone-900">{trip.departureTime}</p>
+                  <p className="mt-1 truncate text-xs text-stone-500">{trip.origin}</p>
                 </div>
-                <div className="flex-1 px-4 flex flex-col items-center min-w-16">
-                  <span className="text-[11px] font-mono text-slate-500 mb-1">{formatDuration(trip.durationMinutes)}</span>
-                  <div className="w-full h-[1px] bg-slate-300 relative">
-                    <div className="absolute -top-1 left-0 w-2 h-2 rounded-full bg-slate-900" />
-                    {!trip.direct && <div className="absolute top-[-3px] left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-slate-300" />}
-                    <div className="absolute -top-1 right-0 w-2 h-2 rounded-full border-2 border-slate-900 bg-white" />
+                <div className="flex min-w-16 flex-col items-center">
+                  <span className="font-mono text-[11px] text-stone-500">{formatDuration(trip.durationMinutes)}</span>
+                  <div className="mt-1 flex w-full items-center gap-0.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-stone-900" />
+                    <span className="h-px flex-1 bg-stone-300" />
+                    {!trip.direct && <span className="h-1.5 w-1.5 rounded-full border border-stone-400 bg-white" />}
+                    {!trip.direct && <span className="h-px flex-1 bg-stone-300" />}
+                    <span className="h-1.5 w-1.5 rounded-full border-2 border-stone-900 bg-white" />
                   </div>
-                  <span className="text-[10px] font-mono text-orange-600 mt-1">
+                  <span className="mt-1 font-mono text-[10px] text-stone-500">
                     {trip.direct ? t("result.non_stop") : `${trip.stops.length} ${t("result.stops")}`}
                   </span>
                 </div>
-                <div className="flex flex-col text-right min-w-0">
-                  <span className="text-[32px] font-bold leading-tight text-slate-900 tracking-tight">{trip.arrivalTime}</span>
-                  <span className="text-sm text-slate-600 truncate">{trip.destination}</span>
+                <div className="min-w-0 text-right">
+                  <p className="font-mono text-2xl font-semibold leading-none tracking-tight text-stone-900">{trip.arrivalTime}</p>
+                  <p className="mt-1 truncate text-xs text-stone-500">{trip.destination}</p>
                 </div>
               </div>
-              <div className="mt-4 pt-4 border-t border-slate-200 flex justify-between items-center gap-3">
-                <div className="flex items-center gap-2 min-w-0">
-                  {(trip.amenities || []).includes("wifi") && <Wifi className="w-4 h-4 text-slate-400 shrink-0" />}
-                  {(trip.amenities || []).includes("power") && <Zap className="w-4 h-4 text-slate-400 shrink-0" />}
-                  {(trip.amenities || []).includes("food") && <Utensils className="w-4 h-4 text-slate-400 shrink-0" />}
+              <div className="mt-3 flex items-center justify-between gap-3 border-t border-stone-100 pt-3">
+                <div className="flex min-w-0 items-center gap-2">
+                  {(trip.amenities || []).includes("wifi") && <Wifi className="h-4 w-4 shrink-0 text-stone-400" />}
+                  {(trip.amenities || []).includes("power") && <Zap className="h-4 w-4 shrink-0 text-stone-400" />}
+                  {(trip.amenities || []).includes("food") && <Utensils className="h-4 w-4 shrink-0 text-stone-400" />}
                   {trip.warning && (
-                    <p className="text-[11px] text-red-600 font-medium italic flex items-center gap-1 truncate">
-                      <AlertTriangle className="w-3 h-3 shrink-0" />
+                    <p className="flex items-center gap-1 truncate text-[11px] font-medium text-amber-800">
+                      <AlertTriangle className="h-3 w-3 shrink-0" />
                       {trip.warning}
                     </p>
                   )}
                 </div>
-                <div className="flex items-center gap-2 shrink-0">
+                <div className="flex shrink-0 items-center gap-2">
                   <button
                     onClick={() => onSave(trip)}
-                    className={`w-9 h-9 rounded-lg border flex items-center justify-center ${
-                      isSaved ? "bg-slate-900 text-white border-slate-900" : "bg-white text-slate-700 border-slate-200"
+                    className={`flex h-8 w-8 items-center justify-center rounded-lg border ${
+                      isSaved ? "border-stone-900 bg-stone-900 text-white" : "border-stone-200 bg-white text-stone-600"
                     }`}
                     aria-label={isSaved ? t("result.saved") : t("result.save_trip")}
                   >
-                    {isSaved ? <Check className="w-4 h-4" /> : <Bookmark className="w-4 h-4" />}
+                    {isSaved ? <Check className="h-3.5 w-3.5" /> : <Bookmark className="h-3.5 w-3.5" />}
                   </button>
                   <button
                     onClick={() => onSelectSeat(trip)}
-                    className="bg-slate-900 text-white px-4 py-2 rounded-lg font-mono text-xs active:opacity-90"
+                    className="flex h-8 items-center rounded-lg bg-stone-900 px-3 text-xs font-medium text-white"
                   >
                     {t("result.select_seat")}
                   </button>

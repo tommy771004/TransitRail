@@ -25,14 +25,18 @@ const resources = {
         hong_kong: "Hong Kong",
         united_kingdom: "United Kingdom",
         united_states: "United States",
-        hero_title: "Global Rail",
-        hero_subtitle: "Official rail data across Asia, London, and Boston.",
+        title: "Train search",
         origin: "Origin",
         destination: "Destination",
         date: "Date",
-        realtime_search: "Real-time Search",
+        swap: "Swap origin and destination",
+        live_today: "Live data · today",
+        data_source: "Data source",
+        connected: "Connected",
+        adapter_pending: "Awaiting adapter",
+        realtime_search: "Search departures",
         searching: "Searching...",
-        plan_ai: "Plan with AI (High Thinking)",
+        plan_ai: "Plan itinerary with AI",
         thinking: "Thinking...",
         ai_plan_title: "AI Transit Plan",
         ai_failed: "Unable to create a transit plan.",
@@ -47,7 +51,16 @@ const resources = {
         search_placeholder: "Search station name",
         loading: "Loading stations...",
         unavailable: "The station catalog is unavailable.",
-        none: "No matching stations."
+        none: "No matching stations.",
+        tab_lines: "By line",
+        tab_all: "All stations",
+        station_count: "{{count}} stations",
+        interchange: "Interchange",
+        lines_loading: "Loading lines...",
+        lines_unavailable: "The line catalog is unavailable.",
+        note_japan: "Major stops only. The full station list arrives with the ODPT adapter.",
+        note_korea: "Seoul Metro lines 1-9. KTX and other stations are in the all-stations list.",
+        note_united_states: "Subway and light rail lines. Commuter rail stations are in the all-stations list."
       },
       workflow: {
         title: "Data workflow",
@@ -90,7 +103,10 @@ const resources = {
         stops: "stops",
         save_trip: "Save trip",
         saved: "Saved",
-        fare_unavailable: "Fare unavailable"
+        fare_unavailable: "Fare unavailable",
+        transfer: "Transfer",
+        transfer_at: "Transfer at {{station}}",
+        next_at_interchange: "Next from {{station}}"
       },
       metro: {
         live_mtr: "Official MTR live data",
@@ -100,7 +116,8 @@ const resources = {
         platform: "Platform",
         no_departures: "No matching live departures",
         no_departures_hint: "Try another pair of stations on the same supported MTR line.",
-        save_departure: "Save"
+        save_departure: "Save",
+        transfer_hint: "Second-leg times are the current next trains at the interchange, not guaranteed connections."
       },
       london: {
         official_data: "Official TfL journey data",
@@ -164,6 +181,7 @@ const resources = {
         "Ueno": "Ueno",
         "Akihabara": "Akihabara",
         "Shin-Yokohama": "Shin-Yokohama",
+        "Shin-Kobe": "Shin-Kobe",
         "Yokohama": "Yokohama",
         "Omiya": "Omiya",
         "Nagoya": "Nagoya",
@@ -263,14 +281,18 @@ const resources = {
         hong_kong: "香港",
         united_kingdom: "英國",
         united_states: "美國",
-        hero_title: "全球鐵路",
-        hero_subtitle: "亞洲、倫敦與波士頓的官方鐵路資料。",
+        title: "班次查詢",
         origin: "出發地",
         destination: "目的地",
         date: "日期",
-        realtime_search: "即時搜尋",
+        swap: "交換起訖站",
+        live_today: "即時資料 · 僅限今日",
+        data_source: "資料來源",
+        connected: "已連接",
+        adapter_pending: "尚未串接",
+        realtime_search: "查詢班次",
         searching: "搜尋中...",
-        plan_ai: "AI 智慧規劃 (高階推理)",
+        plan_ai: "AI 行程規劃",
         thinking: "思考中...",
         ai_plan_title: "AI 交通規劃",
         ai_failed: "目前無法建立交通規劃。",
@@ -285,7 +307,16 @@ const resources = {
         search_placeholder: "搜尋車站名稱",
         loading: "正在載入車站...",
         unavailable: "目前無法讀取車站目錄。",
-        none: "找不到符合的車站。"
+        none: "找不到符合的車站。",
+        tab_lines: "依路線",
+        tab_all: "全部車站",
+        station_count: "{{count}} 站",
+        interchange: "轉乘站",
+        lines_loading: "正在載入路線...",
+        lines_unavailable: "目前無法讀取路線目錄。",
+        note_japan: "僅列出主要停靠站，完整站點將隨 ODPT adapter 提供。",
+        note_korea: "首爾地鐵 1-9 號線；KTX 與其他車站請見全部車站。",
+        note_united_states: "地鐵與輕軌路線；通勤鐵路車站請見全部車站。"
       },
       workflow: {
         title: "資料流程",
@@ -328,7 +359,10 @@ const resources = {
         stops: "站",
         save_trip: "儲存行程",
         saved: "已儲存",
-        fare_unavailable: "未提供票價"
+        fare_unavailable: "未提供票價",
+        transfer: "轉乘",
+        transfer_at: "於{{station}}轉乘",
+        next_at_interchange: "{{station}} 目前下一班"
       },
       metro: {
         live_mtr: "MTR 官方即時資料",
@@ -338,7 +372,8 @@ const resources = {
         platform: "月台",
         no_departures: "目前沒有符合的即時班次",
         no_departures_hint: "請改選同一條支援路線上的其他起訖站。",
-        save_departure: "儲存"
+        save_departure: "儲存",
+        transfer_hint: "第二段顯示的是轉乘站目前的下一班列車，實際銜接視抵達時間而定。"
       },
       london: {
         official_data: "TfL 官方旅程資料",
@@ -412,6 +447,7 @@ const resources = {
         "Namba": "難波",
         "Tennoji": "天王寺",
         "Kobe": "神戶",
+        "Shin-Kobe": "新神戶",
         "Sannomiya": "三宮",
         "Himeji": "姬路",
         "Okayama": "岡山",

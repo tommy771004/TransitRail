@@ -1,9 +1,12 @@
 import {
   findMtrJourney,
+  findMtrTransferPlan,
   hongKongMtrLines,
+  mtrLineColors,
   mtrTerminalReachesDestination,
 } from "../data/hongKongMtr";
-import type { SearchResponse, TransitResult } from "../types";
+import type { MtrJourney } from "../data/hongKongMtr";
+import type { JourneyLeg, SearchResponse, TransitResult } from "../types";
 
 const MTR_NEXT_TRAIN_URL = "https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php";
 
@@ -36,6 +39,53 @@ function dateInHongKong() {
   return `${value.year}-${value.month}-${value.day}`;
 }
 
+async function fetchNextTrainPayload(lineCode: string, stationCode: string): Promise<MtrPayload> {
+  const query = new URLSearchParams({ line: lineCode, sta: stationCode, lang: "EN" });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8_000);
+  try {
+    const response = await fetch(`${MTR_NEXT_TRAIN_URL}?${query}`, {
+      signal: controller.signal,
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) {
+      throw new Error(`MTR returned HTTP ${response.status}.`);
+    }
+    return await response.json() as MtrPayload;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+function stationNameForCode(code?: string) {
+  if (!code) return undefined;
+  return hongKongMtrLines
+    .flatMap((line) => line.stations)
+    .find((station) => station.code === code)?.name;
+}
+
+function validTrains(payload: MtrPayload, journey: MtrJourney): MtrTrain[] {
+  const stationData = payload.data?.[`${journey.line.code}-${journey.origin.code}`];
+  return (stationData?.[journey.direction] || []).filter(
+    (train) =>
+      train.valid !== "N" &&
+      mtrTerminalReachesDestination(journey, train.dest),
+  );
+}
+
+function intermediateStops(journey: MtrJourney): string[] {
+  return journey.line.stations
+    .slice(
+      Math.min(journey.originIndex, journey.destinationIndex) + 1,
+      Math.max(journey.originIndex, journey.destinationIndex),
+    )
+    .map((station) => station.name);
+}
+
+function trainTime(train: MtrTrain) {
+  return train.time?.slice(11, 16) || "--:--";
+}
+
 export async function searchHongKongMtr(
   origin: string,
   destination: string,
@@ -54,89 +104,55 @@ export async function searchHongKongMtr(
   }
 
   const journey = findMtrJourney(origin, destination);
-  if (!journey) {
-    return {
-      status: 400,
-      body: {
-        error: "Direct line required",
-        message: "Choose two stations on the same supported MTR line. Transfer routing is not available from this live feed.",
-        results: [],
-        source: MTR_NEXT_TRAIN_URL,
-      },
-    };
+  if (journey) {
+    return searchDirect(origin, destination, journey);
   }
 
-  const query = new URLSearchParams({
-    line: journey.line.code,
-    sta: journey.origin.code,
-    lang: "EN",
-  });
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 8_000);
+  const transferPlan = findMtrTransferPlan(origin, destination);
+  if (transferPlan) {
+    return searchWithTransfer(origin, destination, transferPlan.firstLeg, transferPlan.secondLeg, transferPlan.interchange);
+  }
 
+  return {
+    status: 400,
+    body: {
+      error: "Route not supported",
+      message: "No supported MTR route (direct or one transfer) connects these stations in the live feed.",
+      results: [],
+      source: MTR_NEXT_TRAIN_URL,
+    },
+  };
+}
+
+async function searchDirect(
+  origin: string,
+  destination: string,
+  journey: MtrJourney,
+): Promise<{ status: number; body: SearchResponse & { error?: string } }> {
   try {
-    const response = await fetch(`${MTR_NEXT_TRAIN_URL}?${query}`, {
-      signal: controller.signal,
-      headers: { Accept: "application/json" },
-    });
-    if (!response.ok) {
-      return {
-        status: 502,
-        body: {
-          error: "Provider request failed",
-          message: `MTR returned HTTP ${response.status}.`,
-          results: [],
-          source: MTR_NEXT_TRAIN_URL,
-        },
-      };
-    }
-
-    const payload = await response.json() as MtrPayload;
+    const payload = await fetchNextTrainPayload(journey.line.code, journey.origin.code);
     if (payload.status !== 1) {
-      return {
-        status: 503,
-        body: {
-          error: "MTR service alert",
-          message: payload.message || "MTR live departures are temporarily unavailable.",
-          results: [],
-          source: MTR_NEXT_TRAIN_URL,
-        },
-      };
+      return mtrServiceAlert(payload);
     }
 
-    const stationData = payload.data?.[`${journey.line.code}-${journey.origin.code}`];
-    const trains = (stationData?.[journey.direction] || []).filter(
-      (train) =>
-        train.valid !== "N" &&
-        mtrTerminalReachesDestination(journey, train.dest),
-    );
-
-    const results: TransitResult[] = trains.map((train, index) => {
-      const terminal = hongKongMtrLines
-        .flatMap((line) => line.stations)
-        .find((station) => station.code === train.dest);
-      return {
-        id: `hk-${journey.line.code}-${journey.origin.code}-${train.time || index}-${train.seq || index}`,
-        country: "hong_kong",
-        operator: "MTR",
-        service: journey.line.name,
-        trainType: "Next train",
-        departureTime: train.time?.slice(11, 16) || "--:--",
-        origin,
-        destination,
-        direct: true,
-        stops: journey.line.stations
-          .slice(
-            Math.min(journey.originIndex, journey.destinationIndex) + 1,
-            Math.max(journey.originIndex, journey.destinationIndex),
-          )
-          .map((station) => station.name),
-        platform: train.plat,
-        headsign: terminal?.name || train.dest,
-        realtime: true,
-        warning: payload.isdelay === "Y" ? "MTR reports a delay on this line." : undefined,
-      };
-    });
+    const trains = validTrains(payload, journey);
+    const results: TransitResult[] = trains.map((train, index) => ({
+      id: `hk-${journey.line.code}-${journey.origin.code}-${train.time || index}-${train.seq || index}`,
+      country: "hong_kong",
+      operator: "MTR",
+      service: journey.line.name,
+      trainType: "Next train",
+      departureTime: trainTime(train),
+      origin,
+      destination,
+      direct: true,
+      stops: intermediateStops(journey),
+      platform: train.plat,
+      headsign: stationNameForCode(train.dest) || train.dest,
+      realtime: true,
+      lineColor: mtrLineColors[journey.line.code],
+      warning: payload.isdelay === "Y" ? "MTR reports a delay on this line." : undefined,
+    }));
 
     return {
       status: 200,
@@ -147,18 +163,114 @@ export async function searchHongKongMtr(
       },
     };
   } catch (error) {
+    return mtrRequestFailed(error);
+  }
+}
+
+async function searchWithTransfer(
+  origin: string,
+  destination: string,
+  firstLeg: MtrJourney,
+  secondLeg: MtrJourney,
+  interchange: string,
+): Promise<{ status: number; body: SearchResponse & { error?: string } }> {
+  try {
+    const [firstPayload, secondPayload] = await Promise.all([
+      fetchNextTrainPayload(firstLeg.line.code, firstLeg.origin.code),
+      fetchNextTrainPayload(secondLeg.line.code, secondLeg.origin.code),
+    ]);
+    if (firstPayload.status !== 1) return mtrServiceAlert(firstPayload);
+    if (secondPayload.status !== 1) return mtrServiceAlert(secondPayload);
+
+    const firstTrains = validTrains(firstPayload, firstLeg).slice(0, 3);
+    const secondTrains = validTrains(secondPayload, secondLeg);
+    const secondTimes = secondTrains.map(trainTime);
+    const delayWarning = firstPayload.isdelay === "Y" || secondPayload.isdelay === "Y"
+      ? "MTR reports a delay on part of this route."
+      : undefined;
+
+    const secondLegInfo: JourneyLeg = {
+      lineName: secondLeg.line.name,
+      lineCode: secondLeg.line.code,
+      color: mtrLineColors[secondLeg.line.code],
+      origin: interchange,
+      destination,
+      platform: secondTrains[0]?.plat,
+      headsign: stationNameForCode(secondTrains[0]?.dest) || secondTrains[0]?.dest,
+      stopCount: intermediateStops(secondLeg).length + 1,
+      upcomingDepartures: secondTimes.slice(0, 3),
+    };
+
+    const results: TransitResult[] = firstTrains.map((train, index) => ({
+      id: `hk-x-${firstLeg.line.code}-${firstLeg.origin.code}-${train.time || index}-${train.seq || index}`,
+      country: "hong_kong",
+      operator: "MTR",
+      service: `${firstLeg.line.name} + ${secondLeg.line.name}`,
+      trainType: "Next train",
+      departureTime: trainTime(train),
+      origin,
+      destination,
+      direct: false,
+      stops: [...intermediateStops(firstLeg), interchange, ...intermediateStops(secondLeg)],
+      platform: train.plat,
+      headsign: stationNameForCode(train.dest) || train.dest,
+      realtime: true,
+      lineColor: mtrLineColors[firstLeg.line.code],
+      transferStations: [interchange],
+      legs: [
+        {
+          lineName: firstLeg.line.name,
+          lineCode: firstLeg.line.code,
+          color: mtrLineColors[firstLeg.line.code],
+          origin,
+          destination: interchange,
+          departureTime: trainTime(train),
+          platform: train.plat,
+          headsign: stationNameForCode(train.dest) || train.dest,
+          stopCount: intermediateStops(firstLeg).length + 1,
+        },
+        secondLegInfo,
+      ],
+      warning: delayWarning,
+    }));
+
     return {
-      status: 502,
+      status: 200,
       body: {
-        error: "Provider request failed",
-        message: error instanceof Error && error.name === "AbortError"
-          ? "MTR request timed out."
-          : "Could not reach the MTR live data service.",
-        results: [],
+        results,
+        message: results.length === 0
+          ? "No live departures currently reach the transfer station."
+          : "Second-leg times are the current next trains at the interchange, not guaranteed connections.",
         source: MTR_NEXT_TRAIN_URL,
       },
     };
-  } finally {
-    clearTimeout(timeout);
+  } catch (error) {
+    return mtrRequestFailed(error);
   }
+}
+
+function mtrServiceAlert(payload: MtrPayload): { status: number; body: SearchResponse & { error?: string } } {
+  return {
+    status: 503,
+    body: {
+      error: "MTR service alert",
+      message: payload.message || "MTR live departures are temporarily unavailable.",
+      results: [],
+      source: MTR_NEXT_TRAIN_URL,
+    },
+  };
+}
+
+function mtrRequestFailed(error: unknown): { status: number; body: SearchResponse & { error?: string } } {
+  return {
+    status: 502,
+    body: {
+      error: "Provider request failed",
+      message: error instanceof Error && error.name === "AbortError"
+        ? "MTR request timed out."
+        : "Could not reach the MTR live data service.",
+      results: [],
+      source: MTR_NEXT_TRAIN_URL,
+    },
+  };
 }

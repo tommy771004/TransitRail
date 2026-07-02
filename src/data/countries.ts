@@ -16,6 +16,8 @@ export const countryConfig: Record<Country, {
   featuredStations: string[];
   promptName: string;
   connected: boolean;
+  /** Provider only serves live "today" data; the date field is locked. */
+  liveOnly: boolean;
   timeZone: string;
 }> = {
   japan: {
@@ -26,6 +28,7 @@ export const countryConfig: Record<Country, {
     featuredStations: ["Tokyo", "Shinagawa", "Kyoto", "Shin-Osaka", "Nagoya"],
     promptName: "日本",
     connected: false,
+    liveOnly: false,
     timeZone: "Asia/Tokyo",
   },
   korea: {
@@ -36,6 +39,7 @@ export const countryConfig: Record<Country, {
     featuredStations: ["Seoul (SNC)", "Yongsan", "Daejeon", "Dongdaegu", "Busan (BSN)"],
     promptName: "韓國",
     connected: false,
+    liveOnly: false,
     timeZone: "Asia/Seoul",
   },
   hong_kong: {
@@ -46,6 +50,7 @@ export const countryConfig: Record<Country, {
     featuredStations: ["Central", "Admiralty", "Tsim Sha Tsui", "Mong Kok", "Causeway Bay"],
     promptName: "香港",
     connected: true,
+    liveOnly: true,
     timeZone: "Asia/Hong_Kong",
   },
   united_kingdom: {
@@ -62,6 +67,7 @@ export const countryConfig: Record<Country, {
     ],
     promptName: "英國倫敦",
     connected: true,
+    liveOnly: true,
     timeZone: "Europe/London",
   },
   united_states: {
@@ -78,6 +84,7 @@ export const countryConfig: Record<Country, {
     ],
     promptName: "美國波士頓",
     connected: true,
+    liveOnly: true,
     timeZone: "America/New_York",
   },
 };

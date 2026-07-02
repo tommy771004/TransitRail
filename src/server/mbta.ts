@@ -1,4 +1,4 @@
-import type { SearchResponse, TransitResult } from "../types";
+import type { SearchResponse, TransitLine, TransitResult } from "../types";
 
 const MBTA_API_URL = "https://api-v3.mbta.com";
 const RAIL_ROUTE_TYPES = "0,1,2";
@@ -16,6 +16,7 @@ interface MbtaResource {
   type?: string;
   attributes?: {
     arrival_time?: string | null;
+    color?: string;
     departure_time?: string | null;
     direction_id?: number;
     headsign?: string;
@@ -49,6 +50,7 @@ interface MbtaStation {
 }
 
 let stationCache: { expiresAt: number; stations: MbtaStation[] } | null = null;
+let lineCache: { expiresAt: number; lines: TransitLine[] } | null = null;
 
 function mbtaUrl(pathname: string, params: Record<string, string> = {}) {
   const url = new URL(pathname, MBTA_API_URL);
@@ -159,6 +161,66 @@ async function resolveMbtaStation(query: string) {
 export async function getMbtaStations() {
   const stations = await loadMbtaStations();
   return stations.map((station) => station.name);
+}
+
+// Subway and light rail only (route types 0 and 1): about eight routes, so the
+// per-route stop requests stay well under the keyless MBTA rate limit.
+// Commuter-rail stations remain available through the flat station catalog.
+export async function getMbtaLines(): Promise<TransitLine[]> {
+  if (lineCache && lineCache.expiresAt > Date.now()) {
+    return lineCache.lines;
+  }
+
+  const routesResponse = await fetchMbtaJson(
+    mbtaUrl("/routes", { "filter[type]": "0,1", sort: "sort_order" }),
+  );
+  const routes = (routesResponse.data || []).filter((route): route is MbtaResource & { id: string } =>
+    Boolean(route.id));
+
+  const lines = await Promise.all(
+    routes.map(async (route) => {
+      const stopsResponse = await fetchMbtaJson(
+        mbtaUrl("/stops", { "filter[route]": route.id, "page[limit]": "200" }),
+      );
+      const stations = (stopsResponse.data || [])
+        .map((stop) => stop.attributes?.name?.trim())
+        .filter((name): name is string => Boolean(name));
+      return {
+        id: route.id,
+        name: route.attributes?.long_name || route.attributes?.short_name || route.id,
+        color: route.attributes?.color ? `#${route.attributes.color}` : undefined,
+        stations,
+      };
+    }),
+  );
+
+  const linesByStation = new Map<string, string[]>();
+  for (const line of lines) {
+    for (const station of line.stations) {
+      const names = linesByStation.get(station) || [];
+      if (!names.includes(line.name)) names.push(line.name);
+      linesByStation.set(station, names);
+    }
+  }
+
+  const catalog: TransitLine[] = lines.map((line) => ({
+    id: line.id,
+    name: line.name,
+    color: line.color,
+    stations: line.stations.map((station) => {
+      const transfers = (linesByStation.get(station) || []).filter((name) => name !== line.name);
+      return {
+        name: station,
+        interchanges: transfers.length > 0 ? transfers : undefined,
+      };
+    }),
+  }));
+
+  lineCache = {
+    expiresAt: Date.now() + STATION_CACHE_TTL_MS,
+    lines: catalog,
+  };
+  return catalog;
 }
 
 function relationshipId(resource: MbtaResource, relationship: "route" | "stop" | "trip") {
