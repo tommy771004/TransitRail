@@ -1,169 +1,265 @@
-import { useState, useEffect } from "react";
-import { Calendar, Search, Sparkles } from "lucide-react";
+import { CalendarDays, DatabaseZap, LocateFixed, Search, Sparkles, TrainFront } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { countryConfig, countryOptions } from "../data/countries";
+import type { Country, SearchHistoryItem, SearchParams } from "../types";
 
 interface SearchFormProps {
-  onSearch: (origin: string, destination: string, date: string, country: "japan" | "korea", bypassApi?: boolean) => void;
+  params: SearchParams;
+  isSearching: boolean;
+  recentHistory: SearchHistoryItem[];
+  onChange: (params: SearchParams) => void;
+  onSearch: (origin: string, destination: string, date: string, country: Country) => Promise<void>;
+  onOpenStations: (target: "origin" | "destination") => void;
+  onOpenWorkflow: () => void;
+  onRepeatSearch: (item: SearchHistoryItem) => void;
 }
 
-export function SearchForm({ onSearch }: SearchFormProps) {
+function todayValue() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+export function SearchForm({
+  params,
+  isSearching,
+  recentHistory,
+  onChange,
+  onSearch,
+  onOpenStations,
+  onOpenWorkflow,
+  onRepeatSearch,
+}: SearchFormProps) {
   const { t } = useTranslation();
-  const [origin, setOrigin] = useState("Tokyo");
-  const [destination, setDestination] = useState("Shin-Osaka");
-  const [country, setCountry] = useState<"japan" | "korea">("japan");
-  const [date, setDate] = useState("2024-10-24");
+  const [formError, setFormError] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [aiResult, setAiResult] = useState<string | null>(null);
-  const [stations, setStations] = useState<string[]>([]);
+  const origin = params.origin;
+  const destination = params.destination;
+  const date = params.date || todayValue();
+  const country = params.country;
 
-  useEffect(() => {
-    const fetchStations = async () => {
-      try {
-        const res = await fetch(`/api/transit/stations?country=${country}`);
-        const data = await res.json();
-        if (res.ok) {
-          setStations(data.stations || []);
-        }
-      } catch (error) {
-        console.error("Failed to fetch stations", error);
-      }
-    };
-    fetchStations();
-  }, [country]);
+  const updateParam = (key: keyof SearchParams, value: string) => {
+    onChange({ ...params, [key]: value });
+  };
+
+  const handleSubmit = async () => {
+    if (!origin.trim() || !destination.trim()) {
+      setFormError(t("search.validation_required"));
+      return;
+    }
+    if (origin.trim() === destination.trim()) {
+      setFormError(t("search.validation_same_station"));
+      return;
+    }
+    setFormError(null);
+    await onSearch(origin.trim(), destination.trim(), date, country);
+  };
 
   const handleAiPlan = async () => {
+    if (!origin.trim() || !destination.trim()) {
+      setFormError(t("search.validation_required"));
+      return;
+    }
     setIsAiLoading(true);
     setAiResult(null);
     try {
       const res = await fetch("/api/ai-plan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: `Plan a transit route from ${origin} to ${destination} in ${country === 'japan' ? 'Japan' : 'South Korea'} for date ${date}. Give me the fastest and most efficient way using public transit. Please answer in the current language context (English or Traditional Chinese depending on origin/destination format).` })
+        body: JSON.stringify({
+          prompt: `請用繁體中文規劃${countryConfig[country].promptName}鐵路旅程：${origin} 到 ${destination}，日期 ${date}。請說明建議路線、轉乘提醒與查詢即時班次時需要的資料欄位。`,
+        }),
       });
       const data = await res.json();
-      if (res.ok) {
-        setAiResult(data.result);
-      } else {
-        setAiResult(data.error || "Failed to generate AI plan");
-      }
-    } catch (e) {
-      setAiResult("Network error.");
+      setAiResult(res.ok ? data.result : data.error || t("search.ai_failed"));
+    } catch {
+      setAiResult(t("alerts.network_error_body"));
     } finally {
       setIsAiLoading(false);
     }
   };
 
   return (
-    <main className="pt-16 pb-24 px-4 max-w-md mx-auto space-y-6">
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-        <div className="flex border-b border-slate-200">
-          <button
-            className={`flex-1 py-3 text-sm font-semibold transition-colors ${
-              country === "japan" ? "bg-slate-900 text-white" : "bg-slate-50 text-slate-500 hover:bg-slate-100"
-            }`}
-            onClick={() => {
-              setCountry("japan");
-              setOrigin("Tokyo");
-              setDestination("Shin-Osaka");
-            }}
-          >
-            {t('search.japan')}
-          </button>
-          <button
-            className={`flex-1 py-3 text-sm font-semibold transition-colors ${
-              country === "korea" ? "bg-slate-900 text-white" : "bg-slate-50 text-slate-500 hover:bg-slate-100"
-            }`}
-            onClick={() => {
-              setCountry("korea");
-              setOrigin("Seoul (SNC)");
-              setDestination("Busan (BSN)");
-            }}
-          >
-            {t('search.korea')}
-          </button>
+    <main className="min-h-screen bg-[#08284a] px-4 pb-28 pt-16 text-white">
+      <section className="mx-auto max-w-md space-y-5">
+        <div className="space-y-2 text-center">
+          <h1 className="text-3xl font-black leading-tight tracking-normal">
+            {t("search.hero_title")}
+          </h1>
+          <p className="text-base text-blue-100">{t("search.hero_subtitle")}</p>
         </div>
 
-        <div className="p-4 space-y-4">
-          <div className="space-y-3">
-            <div className="relative">
-              <label className="text-[10px] uppercase font-mono text-slate-500 font-bold mb-1 block">{t('search.origin')}</label>
-              <input
-                type="text"
+        <div className="rounded-[28px] bg-slate-100 p-4 text-slate-950 shadow-2xl shadow-blue-950/40">
+          <div className="mb-3 grid grid-cols-3 rounded-2xl bg-slate-200 p-1">
+            {countryOptions.map((item) => (
+              <button
+                key={item}
+                onClick={() => {
+                  onChange({
+                    origin: "",
+                    destination: "",
+                    date,
+                    country: item,
+                  });
+                }}
+                className={`rounded-xl py-2 text-sm font-bold transition ${
+                  country === item ? "bg-white text-blue-800 shadow-sm" : "text-slate-500"
+                }`}
+              >
+                {t(countryConfig[item].labelKey)}
+              </button>
+            ))}
+          </div>
+
+          <div className="rounded-[22px] bg-white p-4 shadow-sm">
+            <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+              <StationField
+                label={t("search.origin")}
                 value={origin}
-                onChange={(e) => setOrigin(e.target.value)}
-                list="stations-list"
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-lg font-semibold text-slate-900 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                placeholder={countryConfig[country].originPlaceholder}
+                onChange={(value) => updateParam("origin", value)}
+                onBrowse={() => onOpenStations("origin")}
               />
-            </div>
-            
-            <div className="relative">
-              <label className="text-[10px] uppercase font-mono text-slate-500 font-bold mb-1 block">{t('search.destination')}</label>
-              <input
-                type="text"
+              <div className="mt-5 flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600">
+                <TrainFront className="h-5 w-5" />
+              </div>
+              <StationField
+                label={t("search.destination")}
                 value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-                list="stations-list"
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-lg font-semibold text-slate-900 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                placeholder={countryConfig[country].destinationPlaceholder}
+                alignRight
+                onChange={(value) => updateParam("destination", value)}
+                onBrowse={() => onOpenStations("destination")}
               />
             </div>
 
-            <datalist id="stations-list">
-              {stations.map((station) => (
-                <option key={station} value={station} />
-              ))}
-            </datalist>
-          </div>
-
-          <div className="relative">
-            <label className="text-[10px] uppercase font-mono text-slate-500 font-bold mb-1 block">{t('search.date')}</label>
-            <div className="relative">
-              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-10 pr-3 py-2.5 text-slate-900 font-medium focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
-              />
+            <div className="mt-4 grid grid-cols-[1fr_auto] gap-2">
+              <label className="flex items-center gap-2 rounded-xl bg-slate-100 px-3 py-3 text-sm font-semibold text-slate-700">
+                <CalendarDays className="h-4 w-4" />
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(event) => updateParam("date", event.target.value)}
+                  className="w-full bg-transparent text-slate-900 outline-none"
+                />
+              </label>
+              <button
+                type="button"
+                onClick={onOpenWorkflow}
+                className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-700"
+                aria-label={t("workflow.title")}
+              >
+                <DatabaseZap className="h-5 w-5" />
+              </button>
             </div>
+
+            {formError && (
+              <p className="mt-3 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                {formError}
+              </p>
+            )}
+
+            <button
+              onClick={handleSubmit}
+              disabled={isSearching}
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-800 py-3 text-sm font-bold text-white shadow-lg shadow-blue-900/20 active:scale-[0.98] disabled:opacity-50"
+            >
+              <Search className="h-5 w-5" />
+              {isSearching ? t("search.searching") : t("search.realtime_search")}
+            </button>
           </div>
 
-          <div className="flex flex-col gap-2">
-            <button
-              onClick={() => onSearch(origin, destination, date, country, false)}
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
-            >
-              <Search className="w-5 h-5" />
-              {t('search.realtime_search')}
-            </button>
-            <button
-              onClick={() => onSearch(origin, destination, date, country, true)}
-              className="w-full bg-orange-50 hover:bg-orange-100 text-orange-700 font-semibold py-3 rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all border border-orange-200"
-            >
-              {t('search.preview_ui')}
-            </button>
-            <button
-              onClick={handleAiPlan}
-              disabled={isAiLoading}
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all disabled:opacity-50"
-            >
-              <Sparkles className="w-5 h-5" />
-              {isAiLoading ? t('search.thinking') : t('search.plan_ai')}
-            </button>
+          <div className="px-2 pt-5">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-sm font-bold text-slate-700">{t("history.recent")}</h2>
+              <button onClick={() => onOpenStations("origin")} className="text-xs font-bold text-blue-700">
+                {t("stations.all_stations")}
+              </button>
+            </div>
+            {recentHistory.length === 0 ? (
+              <div className="rounded-2xl bg-white/70 p-4 text-center text-sm text-slate-500">
+                {t("history.empty_body")}
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {recentHistory.slice(0, 3).map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => onRepeatSearch(item)}
+                    className="grid w-full grid-cols-[auto_1fr_auto_1fr] items-center gap-3 rounded-2xl bg-slate-200/80 px-3 py-3 text-left"
+                  >
+                    <LocateFixed className="h-4 w-4 text-blue-700" />
+                    <span className="min-w-0">
+                      <span className="block truncate text-sm font-bold text-slate-900">{item.origin}</span>
+                      <span className="block text-[10px] text-slate-500">{item.date}</span>
+                    </span>
+                    <span className="text-slate-500" aria-hidden="true">-&gt;</span>
+                    <span className="min-w-0">
+                      <span className="block truncate text-sm font-bold text-slate-900">{item.destination}</span>
+                      <span className="block text-[10px] text-slate-500">{item.resultCount} {t("history.results")}</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
-      </div>
 
-      {aiResult && (
-        <div className="bg-purple-50 rounded-2xl p-5 border border-purple-200">
-          <div className="flex items-center gap-2 mb-3">
-            <Sparkles className="w-5 h-5 text-purple-600" />
-            <h3 className="font-bold text-purple-900">{t('search.ai_plan_title')}</h3>
-          </div>
-          <div className="text-purple-900 text-sm whitespace-pre-wrap leading-relaxed">
+        <button
+          onClick={handleAiPlan}
+          disabled={isAiLoading}
+          className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/10 py-3 text-sm font-semibold text-white backdrop-blur disabled:opacity-50"
+        >
+          <Sparkles className="h-5 w-5" />
+          {isAiLoading ? t("search.thinking") : t("search.plan_ai")}
+        </button>
+
+        {aiResult && (
+          <div className="rounded-2xl border border-blue-200/30 bg-white/95 p-4 text-sm leading-relaxed text-slate-800 shadow-xl">
             {aiResult}
           </div>
-        </div>
-      )}
+        )}
+      </section>
     </main>
+  );
+}
+
+function StationField({
+  label,
+  value,
+  placeholder,
+  alignRight,
+  onChange,
+  onBrowse,
+}: {
+  label: string;
+  value: string;
+  placeholder: string;
+  alignRight?: boolean;
+  onChange: (value: string) => void;
+  onBrowse: () => void;
+}) {
+  return (
+    <div className={alignRight ? "text-right" : ""}>
+      <button
+        type="button"
+        onClick={onBrowse}
+        className={`mb-1 block w-full text-[11px] font-semibold text-slate-500 ${alignRight ? "text-right" : "text-left"}`}
+      >
+        {label}
+      </button>
+      <input
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        className={`w-full bg-transparent text-xl font-black text-slate-950 outline-none placeholder:text-slate-300 ${
+          alignRight ? "text-right" : ""
+        }`}
+      />
+    </div>
   );
 }

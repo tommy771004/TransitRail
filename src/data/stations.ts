@@ -1,6 +1,6 @@
 export const japanStations = [
   // 主要新幹線與大城市車站 (Major Shinkansen & City Stations)
-  "Tokyo", "Shinagawa", "Shinjuku", "Shibuya", "Ikebukuro", "Ueno", "Akihabara", 
+  "Tokyo", "Shinagawa", "Shinjuku", "Shibuya", "Ikebukuro", "Ueno", "Akihabara",
   "Shin-Yokohama", "Yokohama", "Omiya",
   "Nagoya", "Kyoto", "Shin-Osaka", "Osaka", "Umeda", "Namba", "Tennoji",
   "Kobe", "Sannomiya", "Himeji",

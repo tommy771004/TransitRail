@@ -3,7 +3,9 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import dotenv from "dotenv";
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
+import { hongKongStations } from "./src/data/hongKongMtr";
 import { japanStations, koreaStations } from "./src/data/stations";
+import { searchHongKongMtr } from "./src/server/hongKongMtr";
 
 dotenv.config();
 
@@ -12,12 +14,21 @@ const ai = process.env.GEMINI_API_KEY ? new GoogleGenAI({ apiKey: process.env.GE
 async function startServer() {
   const app = express();
   const PORT = 3000;
-  
+
   app.use(express.json());
 
-  // Search API that acts as a proxy/stub for the real APIs
+  // Search API. It never fabricates schedules; providers must be wired before
+  // result cards can be rendered.
   app.get("/api/transit/search", async (req, res) => {
-    const { origin, destination, country } = req.query;
+    const { origin, destination, country, date } = req.query;
+
+    if (typeof origin !== "string" || typeof destination !== "string" || typeof date !== "string") {
+      return res.status(400).json({
+        error: "Invalid request",
+        message: "Origin, destination, and date are required.",
+        results: [],
+      });
+    }
 
     if (country === "japan") {
       const apiKey = process.env.ODPT_API_KEY;
@@ -25,10 +36,16 @@ async function startServer() {
         return res.status(501).json({
           error: "API Key Missing",
           message: "Please configure the ODPT_API_KEY environment variable to fetch real Japan transit data.",
+          results: [],
           source: "https://developer.odpt.org/",
         });
       }
-      return res.json({ results: [] });
+      return res.status(502).json({
+        error: "Provider Adapter Missing",
+        message: "ODPT credentials are configured, but a route-search adapter has not been connected yet. No schedule data was fabricated.",
+        results: [],
+        source: "https://developer.odpt.org/",
+      });
     }
 
     if (country === "korea") {
@@ -37,28 +54,51 @@ async function startServer() {
         return res.status(501).json({
           error: "API Key Missing",
           message: "Please configure the ODSAY_API_KEY environment variable to fetch real Korea transit data.",
+          results: [],
           source: "https://lab.odsay.com/",
         });
       }
-      return res.json({ results: [] });
+      return res.status(502).json({
+        error: "Provider Adapter Missing",
+        message: "ODsay credentials are configured, but a route-search adapter has not been connected yet. No schedule data was fabricated.",
+        results: [],
+        source: "https://lab.odsay.com/",
+      });
     }
 
-    return res.status(400).json({ error: "Invalid country" });
+    if (country === "hong_kong") {
+      const result = await searchHongKongMtr(origin, destination, date);
+      return res.status(result.status).json(result.body);
+    }
+
+    return res.status(400).json({
+      error: "Invalid country",
+      message: "Country must be japan, korea, or hong_kong.",
+      results: [],
+    });
   });
 
   // Stations API
   app.get("/api/transit/stations", (req, res) => {
     const { country } = req.query;
-    
+
     if (country === "japan") {
       return res.json({ stations: japanStations });
     }
-    
+
     if (country === "korea") {
       return res.json({ stations: koreaStations });
     }
-    
-    return res.status(400).json({ error: "Invalid country" });
+
+    if (country === "hong_kong") {
+      return res.json({ stations: hongKongStations });
+    }
+
+    return res.status(400).json({
+      error: "Invalid country",
+      message: "Country must be japan, korea, or hong_kong.",
+      stations: [],
+    });
   });
 
   // AI Planning Endpoint with High Thinking Level
@@ -68,7 +108,7 @@ async function startServer() {
         return res.status(501).json({ error: "Gemini API key not configured." });
       }
       const { prompt } = req.body;
-      
+
       const response = await ai.models.generateContent({
         model: "gemini-3.1-pro-preview",
         contents: prompt,
@@ -78,7 +118,7 @@ async function startServer() {
           }
         }
       });
-      
+
       res.json({ result: response.text });
     } catch (error) {
       console.error(error);
