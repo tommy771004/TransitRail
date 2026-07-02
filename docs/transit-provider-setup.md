@@ -11,17 +11,17 @@
 | 香港 | MTR Next Train | 不需要 | 已完成 | 支援路線的即時下一班列車、月台、終點與延誤狀態 |
 | 新加坡 | LTA DataMall | AccountKey | 規劃中 | 列車服務警示、車站擁擠度、設施維護；不是逐站下一班時刻 |
 | 馬來西亞 | data.gov.my | 多數公開下載不需金鑰 | 資料評估 | Rapid Rail／KTMB 統計與下載檔；目前不應當成即時班次 |
-| 英國 | Transport for London | app_key | 建議下一階段 | 倫敦 Underground、Elizabeth line、DLR 的路線、旅程、到站與狀態 |
+| 英國 | Transport for London | app_key，可匿名低流量試用 | 已完成 | 倫敦 Underground、Elizabeth line、DLR 與 Overground 的即時旅程 |
 | 德國 | Deutsche Bahn API Marketplace | Client ID／API key | 建議下一階段 | 車站時刻表、計畫班次與即時異動 |
 | 瑞士 | Open Data Platform Mobility | Bearer token | 建議下一階段 | 全國 SIRI 即時／計畫時刻、GTFS 與 OJP |
-| 美國 Boston | MBTA V3 | API key，可免 key 試用 | 建議下一階段 | 地鐵、通勤鐵路、班次、預測與警示 |
+| 美國 Boston | MBTA V3 | API key，可免 key 試用 | 已完成（直達） | 地鐵、輕軌與通勤鐵路的即時直達預測 |
 | 美國 San Francisco Bay | 511 Open Data | API token | GTFS 候選 | 區域 GTFS、GTFS-RT、SIRI、NeTEx 與歷史 feed |
 
 所有密鑰只能放在伺服器端 `.env`。不要放入 Vite 的 `VITE_*` 變數、React 原始碼或提交到 Git。
 
 ## 香港：MTR Next Train
 
-香港是目前第三個已完成的市場，不需註冊或申請金鑰。
+香港的即時 adapter 已完成，不需註冊或申請金鑰。
 
 1. 閱讀 [DATA.GOV.HK 即時港鐵資料集](https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data)。
 2. 閱讀 [MTR Next Train API v1.7 規格](https://opendata.mtr.com.hk/doc/Next_Train_API_Spec_v1.7.pdf)。
@@ -154,6 +154,11 @@
    - `StopPoint`：車站、月台與到站資訊。
 9. TfL 官方目前說明匿名存取約為每分鐘 50 次，訂閱一般產品後為每分鐘 500 次；部署前應再次確認 [Products](https://api-portal.tfl.gov.uk/products)。
 
+程式位置：
+
+- `src/server/tfl.ts`
+- `src/components/LiveRailResultView.tsx`
+
 ## 德國：Deutsche Bahn
 
 官方入口：[DB API Marketplace](https://developers.deutschebahn.com/db-api-marketplace/apis)
@@ -224,6 +229,12 @@
    - `predictions`：即時抵達／發車預測。
    - `alerts`：中斷與服務變更。
 7. 以 relationship IDs 合併 route、trip、stop，不要用顯示名稱當永久主鍵。
+8. 目前 adapter 會平行查詢起訖站的 Predictions，依相同 `trip_id` 與遞增 `stop_sequence` 配對直達班次；尚未將多段 trip 組成轉乘路徑。
+
+程式位置：
+
+- `src/server/mbta.ts`
+- `src/components/LiveRailResultView.tsx`
 
 ## 美國：San Francisco Bay 511
 
@@ -253,3 +264,14 @@ Playwright 適合測試網站或在獲得允許時自動下載公開檔案，不
 - 伺服器成本與錯誤率高於官方 API／GTFS。
 
 只有在營運商明確允許自動化下載、沒有正式 API／feed，且經過授權與 robots／Terms 檢查後，才應加入 Playwright downloader。下載後仍需保存來源 URL、抓取時間、檔案雜湊與解析錯誤，不應悄悄回退到假資料。
+
+## Python 可以放在哪裡
+
+Python 適合做後端資料管線，但不應以爬網頁取代已有的官方 API：
+
+- 定時下載並解析 GTFS static ZIP。
+- 解碼 GTFS-Realtime Protocol Buffers，將 Trip Updates 與 static feed 的 `trip_id` 合併。
+- 解析大型 SIRI XML／JSON feed、驗證資料時間戳並寫入快取或資料庫。
+- 執行 feed 品質檢查、欄位正規化與歷史資料彙整。
+
+目前本專案的 HTTP 後端是 Node.js／TypeScript。像 TfL、MBTA 這類 JSON API，直接在 `src/server/` 加 provider adapter 最省事；只有要處理大量 GTFS／SIRI 批次資料時，再增加獨立 Python worker。前端一律只呼叫本專案的 `/api/transit/*`，不要直接連供應商，也不要暴露 API key。

@@ -10,6 +10,8 @@ import { KoreaResultView } from "./components/KoreaResultView";
 import { StationBrowser } from "./components/StationBrowser";
 import { DataWorkflowView } from "./components/DataWorkflowView";
 import { MetroResultView } from "./components/MetroResultView";
+import { LiveRailResultView } from "./components/LiveRailResultView";
+import { providerDateValue } from "./data/countries";
 import type {
   AppAlert,
   AppView,
@@ -23,18 +25,10 @@ import type {
   TransitResult,
 } from "./types";
 
-function localDateValue() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
 const emptySearch: SearchParams = {
   origin: "",
   destination: "",
-  date: localDateValue(),
+  date: providerDateValue("japan"),
   country: "japan",
 };
 
@@ -236,7 +230,13 @@ export default function App() {
           country={draftSearch.country}
           target={stationPickTarget}
           onBack={() => setView("search")}
-          onCountryChange={(country) => setDraftSearch((current) => ({ ...current, country, origin: "", destination: "" }))}
+          onCountryChange={(country) => setDraftSearch((current) => ({
+            ...current,
+            country,
+            origin: "",
+            destination: "",
+            date: providerDateValue(country),
+          }))}
           onSelectStation={selectStation}
         />
       )}
@@ -279,6 +279,34 @@ export default function App() {
 
       {view === "results" && searchParams.country === "hong_kong" && (
         <MetroResultView
+          origin={searchParams.origin}
+          destination={searchParams.destination}
+          date={searchParams.date}
+          error={error}
+          results={visibleResults}
+          savedIds={savedIds}
+          onModify={() => setView("search")}
+          onSave={toggleSaveTrip}
+        />
+      )}
+
+      {view === "results" && searchParams.country === "united_kingdom" && (
+        <LiveRailResultView
+          market="london"
+          origin={searchParams.origin}
+          destination={searchParams.destination}
+          date={searchParams.date}
+          error={error}
+          results={visibleResults}
+          savedIds={savedIds}
+          onModify={() => setView("search")}
+          onSave={toggleSaveTrip}
+        />
+      )}
+
+      {view === "results" && searchParams.country === "united_states" && (
+        <LiveRailResultView
+          market="boston"
           origin={searchParams.origin}
           destination={searchParams.destination}
           date={searchParams.date}
@@ -339,7 +367,7 @@ export default function App() {
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
-                  {trip.country !== "hong_kong" ? (
+                  {trip.seatClass ? (
                     <button
                       onClick={() => openSeatPicker(trip)}
                       className="mt-3 w-full bg-slate-900 text-white py-2 rounded-lg font-mono text-xs"

@@ -78,7 +78,7 @@ export function StationBrowser({
           <div className="h-10 w-10" />
         </div>
 
-        <div className="grid grid-cols-3 rounded-2xl bg-slate-100 p-1">
+        <div className="grid grid-cols-2 rounded-2xl bg-slate-100 p-1">
           {countryOptions.map((item) => (
             <button
               key={item}

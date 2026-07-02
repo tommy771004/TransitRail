@@ -22,8 +22,10 @@ const resources = {
         japan: "Japan",
         korea: "Korea",
         hong_kong: "Hong Kong",
-        hero_title: "Asia Rail",
-        hero_subtitle: "Japan, Korea, and live Hong Kong MTR departures.",
+        united_kingdom: "United Kingdom",
+        united_states: "United States",
+        hero_title: "Global Rail",
+        hero_subtitle: "Official rail data across Asia, London, and Boston.",
         origin: "Origin",
         destination: "Destination",
         date: "Date",
@@ -54,14 +56,14 @@ const resources = {
         origin_empty: "Origin not selected",
         destination_empty: "Destination not selected",
         date_empty: "Date not selected",
-        step_stations: "Load the bundled major-station catalog",
+        step_stations: "Load the station catalog",
         step_search: "Request live schedules from {{provider}}",
         step_local: "Store activity on this device",
         local_body: "Search history, saved trips, seat choices, and alerts use localStorage.",
         adapter_pending: "Provider adapter required",
         adapter_body: "The endpoint rejects fabricated schedules and returns an explicit error until the live route adapter is connected.",
         live_ready: "Live provider connected",
-        live_ready_body: "Hong Kong queries use the official MTR Next Train feed without an API key."
+        live_ready_body: "Queries use the official {{provider}} data source."
       },
       result: {
         today: "Today",
@@ -98,6 +100,20 @@ const resources = {
         no_departures: "No matching live departures",
         no_departures_hint: "Try another pair of stations on the same supported MTR line.",
         save_departure: "Save"
+      },
+      london: {
+        official_data: "Official TfL journey data",
+        current: "Current",
+        transfers: "Transfer journey",
+        minutes: "min",
+        no_journeys: "No matching London journeys",
+        no_journeys_hint: "Try another TfL station pair for travel today."
+      },
+      boston: {
+        official_data: "Official MBTA realtime predictions",
+        current: "Realtime",
+        no_journeys: "No direct Boston predictions",
+        no_journeys_hint: "Try two stations served by the same MBTA rail trip today."
       },
       history: {
         recent: "Recent searches",
@@ -160,8 +176,10 @@ const resources = {
         japan: "日本",
         korea: "韓國",
         hong_kong: "香港",
-        hero_title: "亞洲鐵路",
-        hero_subtitle: "日本、韓國與香港 MTR 官方即時班次。",
+        united_kingdom: "英國",
+        united_states: "美國",
+        hero_title: "全球鐵路",
+        hero_subtitle: "亞洲、倫敦與波士頓的官方鐵路資料。",
         origin: "出發地",
         destination: "目的地",
         date: "日期",
@@ -192,14 +210,14 @@ const resources = {
         origin_empty: "尚未選擇出發站",
         destination_empty: "尚未選擇抵達站",
         date_empty: "尚未選擇日期",
-        step_stations: "讀取內建主要車站目錄",
+        step_stations: "讀取車站目錄",
         step_search: "向 {{provider}} 請求即時班次",
         step_local: "儲存在這台裝置",
         local_body: "搜尋紀錄、儲存行程、座位選擇與通知使用 localStorage。",
         adapter_pending: "尚需串接供應商 Adapter",
         adapter_body: "即時路線 Adapter 接通前，API 會明確回傳錯誤，不會填入假班次。",
         live_ready: "已連接即時資料",
-        live_ready_body: "香港查詢直接使用 MTR 官方 Next Train feed，不需申請 API 金鑰。"
+        live_ready_body: "查詢直接使用 {{provider}} 官方資料來源。"
       },
       result: {
         today: "今天",
@@ -236,6 +254,20 @@ const resources = {
         no_departures: "目前沒有符合的即時班次",
         no_departures_hint: "請改選同一條支援路線上的其他起訖站。",
         save_departure: "儲存"
+      },
+      london: {
+        official_data: "TfL 官方旅程資料",
+        current: "目前",
+        transfers: "轉乘旅程",
+        minutes: "分鐘",
+        no_journeys: "目前沒有符合的倫敦旅程",
+        no_journeys_hint: "請改選其他 TfL 車站並查詢今天的行程。"
+      },
+      boston: {
+        official_data: "MBTA 官方即時預測",
+        current: "即時",
+        no_journeys: "目前沒有波士頓直達預測",
+        no_journeys_hint: "請選擇今天由同一班 MBTA 軌道旅程停靠的兩站。"
       },
       history: {
         recent: "近期搜尋",

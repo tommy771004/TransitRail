@@ -1,7 +1,7 @@
 import { CalendarDays, DatabaseZap, LocateFixed, Search, Sparkles, TrainFront } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { countryConfig, countryOptions } from "../data/countries";
+import { countryConfig, countryOptions, providerDateValue } from "../data/countries";
 import type { Country, SearchHistoryItem, SearchParams } from "../types";
 
 interface SearchFormProps {
@@ -13,14 +13,6 @@ interface SearchFormProps {
   onOpenStations: (target: "origin" | "destination") => void;
   onOpenWorkflow: () => void;
   onRepeatSearch: (item: SearchHistoryItem) => void;
-}
-
-function todayValue() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
 }
 
 export function SearchForm({
@@ -39,7 +31,7 @@ export function SearchForm({
   const [aiResult, setAiResult] = useState<string | null>(null);
   const origin = params.origin;
   const destination = params.destination;
-  const date = params.date || todayValue();
+  const date = params.date || providerDateValue(params.country);
   const country = params.country;
 
   const updateParam = (key: keyof SearchParams, value: string) => {
@@ -94,7 +86,7 @@ export function SearchForm({
         </div>
 
         <div className="rounded-[28px] bg-slate-100 p-4 text-slate-950 shadow-2xl shadow-blue-950/40">
-          <div className="mb-3 grid grid-cols-3 rounded-2xl bg-slate-200 p-1">
+          <div className="mb-3 grid grid-cols-2 rounded-2xl bg-slate-200 p-1">
             {countryOptions.map((item) => (
               <button
                 key={item}
@@ -102,7 +94,7 @@ export function SearchForm({
                   onChange({
                     origin: "",
                     destination: "",
-                    date,
+                    date: providerDateValue(item),
                     country: item,
                   });
                 }}

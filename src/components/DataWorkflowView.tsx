@@ -76,7 +76,7 @@ export function DataWorkflowView({ params, onBack }: DataWorkflowViewProps) {
             })}
           </div>
 
-          {params.country !== "hong_kong" ? (
+          {!countryConfig[params.country].connected ? (
             <div className="mt-4 flex gap-3 rounded-2xl border border-amber-300/30 bg-amber-300/10 p-4">
               <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-300" />
               <div>
@@ -89,7 +89,9 @@ export function DataWorkflowView({ params, onBack }: DataWorkflowViewProps) {
               <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-emerald-300" />
               <div>
                 <h2 className="text-sm font-bold text-emerald-100">{t("workflow.live_ready")}</h2>
-                <p className="mt-1 text-xs leading-relaxed text-emerald-50/75">{t("workflow.live_ready_body")}</p>
+                <p className="mt-1 text-xs leading-relaxed text-emerald-50/75">
+                  {t("workflow.live_ready_body", { provider })}
+                </p>
               </div>
             </div>
           )}

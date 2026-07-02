@@ -6,6 +6,8 @@ import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { hongKongStations } from "./src/data/hongKongMtr";
 import { japanStations, koreaStations } from "./src/data/stations";
 import { searchHongKongMtr } from "./src/server/hongKongMtr";
+import { getTflStations, searchTflJourney } from "./src/server/tfl";
+import { getMbtaStations, searchMbtaJourney } from "./src/server/mbta";
 
 dotenv.config();
 
@@ -71,15 +73,25 @@ async function startServer() {
       return res.status(result.status).json(result.body);
     }
 
+    if (country === "united_kingdom") {
+      const result = await searchTflJourney(origin, destination, date);
+      return res.status(result.status).json(result.body);
+    }
+
+    if (country === "united_states") {
+      const result = await searchMbtaJourney(origin, destination, date);
+      return res.status(result.status).json(result.body);
+    }
+
     return res.status(400).json({
       error: "Invalid country",
-      message: "Country must be japan, korea, or hong_kong.",
+      message: "Country must be japan, korea, hong_kong, united_kingdom, or united_states.",
       results: [],
     });
   });
 
   // Stations API
-  app.get("/api/transit/stations", (req, res) => {
+  app.get("/api/transit/stations", async (req, res) => {
     const { country } = req.query;
 
     if (country === "japan") {
@@ -94,9 +106,35 @@ async function startServer() {
       return res.json({ stations: hongKongStations });
     }
 
+    if (country === "united_kingdom") {
+      try {
+        const stations = await getTflStations();
+        return res.json({ stations, source: "https://api.tfl.gov.uk" });
+      } catch (error) {
+        return res.status(502).json({
+          error: "Provider request failed",
+          message: error instanceof Error ? error.message : "Could not reach TfL.",
+          stations: [],
+        });
+      }
+    }
+
+    if (country === "united_states") {
+      try {
+        const stations = await getMbtaStations();
+        return res.json({ stations, source: "https://api-v3.mbta.com" });
+      } catch (error) {
+        return res.status(502).json({
+          error: "Provider request failed",
+          message: error instanceof Error ? error.message : "Could not reach MBTA.",
+          stations: [],
+        });
+      }
+    }
+
     return res.status(400).json({
       error: "Invalid country",
-      message: "Country must be japan, korea, or hong_kong.",
+      message: "Country must be japan, korea, hong_kong, united_kingdom, or united_states.",
       stations: [],
     });
   });
