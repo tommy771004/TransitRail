@@ -1,4 +1,4 @@
-# 亞洲軌道資料來源與申請流程
+# 國際軌道資料來源與申請流程
 
 更新日期：2026-07-02
 
@@ -9,9 +9,13 @@
 | 日本 | ODPT | API key | 等待 route adapter | 鐵路、車站、時刻與部分動態資料，依營運商授權而異 |
 | 韓國 | ODsay | API key | 等待 route adapter | 地鐵路線搜尋、KTX／列車資訊；部分即時資訊需再接韓國公共資料 API |
 | 香港 | MTR Next Train | 不需要 | 已完成 | 支援路線的即時下一班列車、月台、終點與延誤狀態 |
-| 台灣 | TDX | Client ID／Client Secret | 規劃中 | 捷運、台鐵、高鐵與其他公共運輸 OData |
 | 新加坡 | LTA DataMall | AccountKey | 規劃中 | 列車服務警示、車站擁擠度、設施維護；不是逐站下一班時刻 |
 | 馬來西亞 | data.gov.my | 多數公開下載不需金鑰 | 資料評估 | Rapid Rail／KTMB 統計與下載檔；目前不應當成即時班次 |
+| 英國 | Transport for London | app_key | 建議下一階段 | 倫敦 Underground、Elizabeth line、DLR 的路線、旅程、到站與狀態 |
+| 德國 | Deutsche Bahn API Marketplace | Client ID／API key | 建議下一階段 | 車站時刻表、計畫班次與即時異動 |
+| 瑞士 | Open Data Platform Mobility | Bearer token | 建議下一階段 | 全國 SIRI 即時／計畫時刻、GTFS 與 OJP |
+| 美國 Boston | MBTA V3 | API key，可免 key 試用 | 建議下一階段 | 地鐵、通勤鐵路、班次、預測與警示 |
+| 美國 San Francisco Bay | 511 Open Data | API token | GTFS 候選 | 區域 GTFS、GTFS-RT、SIRI、NeTEx 與歷史 feed |
 
 所有密鑰只能放在伺服器端 `.env`。不要放入 Vite 的 `VITE_*` 變數、React 原始碼或提交到 Git。
 
@@ -88,35 +92,6 @@
 
 目前專案尚未加入站名地理編碼與 ODsay route adapter，因此會明確回傳未完成狀態。
 
-## 台灣：TDX
-
-官方入口：[TDX 運輸資料流通服務](https://tdx.transportdata.tw/)
-
-申請：
-
-1. 註冊 TDX 會員並完成 Email／身分資料驗證。
-2. 登入後進入 `會員中心` → `資料服務` → `API 金鑰`。
-3. 建立 API 金鑰；官方目前允許會員依需求建立最多三把。
-4. 取得 `Client ID` 與 `Client Secret`。
-5. 依用量選擇方案。官方目前說明訪客僅能以瀏覽器存取基礎服務且每日每 IP 最多 20 次；基礎會員額度與付費點數應以上線當日方案頁為準。
-6. 寫入：
-
-   ```dotenv
-   TDX_CLIENT_ID="your-client-id"
-   TDX_CLIENT_SECRET="your-client-secret"
-   ```
-
-7. 伺服器以 `application/x-www-form-urlencoded` POST 到 OAuth token endpoint：
-
-   ```text
-   https://tdx.transportdata.tw/auth/realms/TDXConnect/protocol/openid-connect/token
-   ```
-
-   Body 包含 `grant_type=client_credentials`、`client_id`、`client_secret`。
-8. 取得 `access_token` 後，以 `Authorization: Bearer ...` 呼叫所選捷運／台鐵／高鐵 OData endpoint。
-9. 在 [服務使用流程](https://tdx.transportdata.tw/about/service) 檢查該資料屬於基礎、進階、加值、歷史或機敏服務。機敏資料需額外提出用途並經人工審核。
-10. 快取 token 到過期前，不要每個前端請求都重新交換 token。
-
 ## 新加坡：LTA DataMall
 
 官方入口：[LTA DataMall](https://datamall.lta.gov.sg/content/datamall/en.html)
@@ -156,6 +131,117 @@
    - 以服務日期與 stop sequence 找出同一 trip 上的起訖站。
    - 明確標示為「時刻表資料」，不能標示為即時。
 7. 若發布 GTFS Realtime，再將 Trip Updates 與 static feed 的 `trip_id` 合併；不能只靠 Vehicle Positions 猜抵達時間。
+
+## 英國：Transport for London
+
+官方入口：[TfL API Portal](https://api-portal.tfl.gov.uk/)
+
+1. TfL Unified API 可匿名試用，但匿名流量目前限制較低；正式應用建議建立帳號。
+2. 開啟 [Sign up](https://api-portal.tfl.gov.uk/signup)，填寫 Email、密碼與姓名並接受 Open Data 條款。
+3. 點擊確認信啟用帳號後登入。
+4. 進入 `Products`，訂閱 `500 Requests per min` 方案。
+5. 在 `Profile` 取得 subscription key。
+6. 寫入：
+
+   ```dotenv
+   TFL_APP_KEY="your-app-key"
+   ```
+
+7. 呼叫 Unified API 時將 `app_key` 放在 query parameter；舊文件中的 `app_id` 已不再需要。
+8. 本專案最適合使用：
+   - `Journey`：起訖站旅程規劃。
+   - `Line`：路線與營運狀態。
+   - `StopPoint`：車站、月台與到站資訊。
+9. TfL 官方目前說明匿名存取約為每分鐘 50 次，訂閱一般產品後為每分鐘 500 次；部署前應再次確認 [Products](https://api-portal.tfl.gov.uk/products)。
+
+## 德國：Deutsche Bahn
+
+官方入口：[DB API Marketplace](https://developers.deutschebahn.com/db-api-marketplace/apis)
+
+1. 選擇註冊，建立或登入 DB 客戶帳號。
+2. 驗證 Email 確認碼，授權姓名與 Email 給 API Marketplace。
+3. 在 Marketplace 建立新的 Application。建立時顯示的 Client Secret 只會出現一次，必須立即安全保存。
+4. 在 API Catalog 選擇 `Timetables`，訂閱 Free plan。
+5. 在應用資訊取得 Client ID 與 API key，寫入：
+
+   ```dotenv
+   DB_CLIENT_ID="your-client-id"
+   DB_API_KEY="your-client-secret"
+   ```
+
+6. 呼叫時加入 headers：
+
+   ```text
+   DB-Client-Id: ...
+   DB-Api-Key: ...
+   ```
+
+7. Timetables API 可用 `/station/{pattern}` 尋找 EVA station number，以 `/plan/{evaNo}/{date}/{hour}` 取得計畫時刻，再用 `/fchg/{evaNo}` 或 `/rchg/{evaNo}` 合併即時異動。
+8. Free plan 目前標示每分鐘 60 次；資料採 CC BY 4.0，顯示時需保留適當 attribution。詳見 [Timetables 產品頁](https://developers.deutschebahn.com/db-api-marketplace/apis/product/timetables)。
+
+## 瑞士：Open Data Platform Mobility
+
+官方入口：[API Manager](https://api-manager.opentransportdata.swiss/)
+
+1. 以 Email、姓名與至少 12 字元且包含數字和特殊符號的密碼註冊。
+2. 登入 API Manager，選擇所需 API 並按 `Read more`。
+3. 選擇 `Access with this plan`。
+4. 建立 Application 名稱與描述，或選擇既有 Application。
+5. 到 `My apps` 複製 TOKEN；每個 API 原則上只能自行建立一個 token。
+6. 寫入：
+
+   ```dotenv
+   SWISS_TRANSPORT_TOKEN="your-token"
+   ```
+
+7. 請求加入：
+
+   ```text
+   Authorization: Bearer ...
+   User-Agent: TransitRail/contact-email
+   ```
+
+8. 下載型資料應允許 redirect 並啟用壓縮。全國即時資料可使用 SIRI Estimated Timetable，計畫資料可使用 SIRI Planned Timetable；也可選 GTFS／GTFS-RT 或 OJP。
+9. SIRI feed 體積很大，應在後端定時下載並快取，不能每次前端搜尋都重新抓整包。詳細方式見 [官方 API key 指南](https://opentransportdata.swiss/de/cookbook/development-miscellaneous-cookbook/howto-access-apis/)。
+
+## 美國：Boston MBTA
+
+官方入口：[MBTA V3 API Portal](https://api-v3.mbta.com/)
+
+1. API 可在沒有 key 時進行低流量測試。
+2. 建立 Developer Account，為每個應用申請獨立 API key。
+3. 官方說明核發可能需要約一天。
+4. 寫入：
+
+   ```dotenv
+   MBTA_API_KEY="your-api-key"
+   ```
+
+5. 呼叫 `https://api-v3.mbta.com` 時使用 `x-api-key` header，或依官方文件使用 `api_key` query parameter。
+6. 建議組合：
+   - `stops`、`routes`：建立站點與路線目錄。
+   - `schedules`：計畫班次。
+   - `predictions`：即時抵達／發車預測。
+   - `alerts`：中斷與服務變更。
+7. 以 relationship IDs 合併 route、trip、stop，不要用顯示名稱當永久主鍵。
+
+## 美國：San Francisco Bay 511
+
+官方入口：[511 Open Transit Data](https://511.org/open-data/transit)
+
+1. 選擇 `Request a Token`，接受 Data Agreement 並填寫開發者與用途資訊。
+2. 取得 API token 後寫入：
+
+   ```dotenv
+   SF_511_API_KEY="your-token"
+   ```
+
+3. 下載 `GTFS Operators` 取得 agency/operator ID。
+4. 以 `datafeeds` endpoint 下載單一營運商或 `RG` 全區 GTFS static。
+5. 即時資料可使用 GTFS-RT Trip Updates、Vehicle Positions、Service Alerts，或 JSON/XML 格式的 SIRI Stop Monitoring。
+6. Static feed 提供 stops、routes、trips、stop_times；Trip Updates 必須依 `trip_id` 與 static feed 合併。
+7. 官方預設限制目前為每個 token 每小時 60 次。需要提高額度時依官方說明申請，信件中不要附上 API key。
+8. 顯示資料時需標示 511.org 為來源。
 
 ## 為什麼不以 Playwright 抓班次
 

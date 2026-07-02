@@ -25,7 +25,7 @@ export interface TransitResult {
   origin: string;
   destination: string;
   price?: number;
-  currency?: "JPY" | "KRW" | "HKD" | "TWD" | "SGD" | "MYR";
+  currency?: "JPY" | "KRW" | "HKD" | "GBP" | "EUR" | "CHF" | "USD" | "SGD" | "MYR";
   seatClass?: "reserved" | "economy" | "first";
   direct: boolean;
   stops: string[];
