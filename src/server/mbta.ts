@@ -20,6 +20,8 @@ interface MbtaResource {
     departure_time?: string | null;
     direction_id?: number;
     headsign?: string;
+    latitude?: number;
+    longitude?: number;
     location_type?: number;
     long_name?: string;
     municipality?: string;
@@ -297,6 +299,7 @@ export async function searchMbtaJourney(
     const included = [...(originResponse.included || []), ...(destinationResponse.included || [])];
     const routes = resourceMap(included, "route");
     const trips = resourceMap(included, "trip");
+    const stops = resourceMap(included, "stop");
     const seenTrips = new Set<string>();
     const results: TransitResult[] = [];
 
@@ -325,6 +328,9 @@ export async function searchMbtaJourney(
 
       const route = routes.get(relationshipId(originPrediction, "route") || "");
       const trip = trips.get(tripId);
+      const originStop = stops.get(relationshipId(originPrediction, "stop") || "");
+      const destStop = stops.get(relationshipId(destinationPrediction, "stop") || "");
+
       const routeName = route?.attributes?.short_name
         || route?.attributes?.long_name
         || "MBTA Rail";
@@ -342,7 +348,11 @@ export async function searchMbtaJourney(
         departureTime,
         arrivalTime,
         origin: resolvedOrigin.name,
+        originLat: originStop?.attributes?.latitude,
+        originLng: originStop?.attributes?.longitude,
         destination: resolvedDestination.name,
+        destLat: destStop?.attributes?.latitude,
+        destLng: destStop?.attributes?.longitude,
         direct: true,
         stops: [],
         headsign,

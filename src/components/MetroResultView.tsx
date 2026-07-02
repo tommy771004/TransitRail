@@ -1,6 +1,7 @@
 import { AlertTriangle, Bookmark, Check, Edit2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { TransitResult } from "../types";
+import { TripDetails } from "./TripDetails";
 
 interface MetroResultViewProps {
   origin: string;
@@ -108,50 +109,7 @@ export function MetroResultView({
                     </div>
                   </div>
 
-                  {trip.legs && trip.legs.length > 1 && (
-                    <div className="border-t border-stone-100 px-4 py-3">
-                      <ol className="space-y-0">
-                        {trip.legs.map((leg, index) => (
-                          <li key={`${trip.id}-leg-${index}`} className="relative flex gap-3">
-                            <span className="flex w-2 shrink-0 flex-col items-center">
-                              <span
-                                className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${index === 0 ? "" : "border-2 bg-white"}`}
-                                style={index === 0
-                                  ? { backgroundColor: leg.color || "#a8a29e" }
-                                  : { borderColor: leg.color || "#a8a29e" }}
-                              />
-                              {index < trip.legs!.length - 1 && (
-                                <span className="w-px flex-1 bg-stone-300" />
-                              )}
-                            </span>
-                            <div className={`min-w-0 flex-1 ${index < trip.legs!.length - 1 ? "pb-3" : ""}`}>
-                              <p className="text-sm font-medium text-stone-900">
-                                <span className="font-semibold">{leg.lineName}</span>
-                                {leg.headsign ? (
-                                  <span className="text-stone-500"> · {t("metro.towards", { destination: leg.headsign })}</span>
-                                ) : null}
-                              </p>
-                              <p className="mt-0.5 font-mono text-xs text-stone-500">
-                                {leg.departureTime ? `${leg.departureTime} · ` : ""}
-                                {leg.platform ? `${t("metro.platform")} ${leg.platform} · ` : ""}
-                                {leg.stopCount ? `${leg.stopCount} ${t("result.stops")}` : ""}
-                              </p>
-                              {index > 0 && (
-                                <p className="mt-1 text-xs font-medium text-orange-700">
-                                  {t("result.transfer_at", { station: leg.origin })}
-                                  {leg.upcomingDepartures && leg.upcomingDepartures.length > 0 ? (
-                                    <span className="ml-1 font-mono font-normal text-stone-600">
-                                      {leg.upcomingDepartures.join(" / ")}
-                                    </span>
-                                  ) : null}
-                                </p>
-                              )}
-                            </div>
-                          </li>
-                        ))}
-                      </ol>
-                    </div>
-                  )}
+                  <TripDetails trip={trip} />
 
                   {trip.warning ? (
                     <p className="mx-4 mb-3 flex items-center gap-1.5 rounded-lg bg-amber-50 px-3 py-2 text-xs font-medium text-amber-800">

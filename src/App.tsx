@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { Bell, Bookmark, Check, Clock, DatabaseZap, MapPinned, Trash2, UserCircle, X } from "lucide-react";
+import { Bell, Bookmark, Check, Clock, DatabaseZap, MapPinned, Trash2, UserCircle, X, Activity, Sun, Moon, CalendarDays } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Header } from "./components/Header";
 import { BottomNav } from "./components/BottomNav";
@@ -11,6 +11,10 @@ import { StationBrowser } from "./components/StationBrowser";
 import { DataWorkflowView } from "./components/DataWorkflowView";
 import { MetroResultView } from "./components/MetroResultView";
 import { LiveRailResultView } from "./components/LiveRailResultView";
+import { DiagnosticOverlay } from "./components/DiagnosticOverlay";
+import { ResultSkeleton } from "./components/ResultSkeleton";
+import { generateICS } from "./utils/ics";
+import { get, set } from "idb-keyval";
 import { countryConfig, providerDateValue } from "./data/countries";
 import type {
   AppAlert,
@@ -86,10 +90,23 @@ export default function App() {
   const [stationPickTarget, setStationPickTarget] = useState<"origin" | "destination">("origin");
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">(
+    () => (localStorage.getItem("transitrail.theme") as "light" | "dark") || "light"
+  );
+  const [apiDiagnostic, setApiDiagnostic] = useState<any>(null);
+  const [diagnosticOpen, setDiagnosticOpen] = useState(false);
 
   useEffect(() => saveJson("transitrail.history", history), [history]);
   useEffect(() => saveJson("transitrail.saved", savedTrips), [savedTrips]);
   useEffect(() => saveJson("transitrail.alerts", alerts), [alerts]);
+  useEffect(() => {
+    localStorage.setItem("transitrail.theme", theme);
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
 
   const savedIds = useMemo(() => new Set(savedTrips.map((trip) => trip.id)), [savedTrips]);
   const unreadAlerts = alerts.filter((alert) => !alert.read).length;
@@ -116,19 +133,49 @@ export default function App() {
     setSearchParams(params);
     setDraftSearch(params);
     setIsSearching(true);
+    setView("results");
     setError(undefined);
     setResults([]);
 
+    const query = new URLSearchParams(params).toString();
+    const url = `/api/transit/search?${query}`;
+
     try {
-      const query = new URLSearchParams(params).toString();
-      const res = await fetch(`/api/transit/search?${query}`);
-      const data = (await res.json()) as SearchResponse;
+      const startTime = performance.now();
+      const res = await fetch(url);
+      const duration = Math.round(performance.now() - startTime);
+      
+      const headers: Record<string, string> = {};
+      res.headers.forEach((value, key) => {
+        headers[key] = value;
+      });
+
+      const responseText = await res.text();
+      
+      setApiDiagnostic({
+        url,
+        status: res.status,
+        statusText: res.statusText,
+        headers,
+        rawResponse: responseText,
+        duration,
+      });
+
+      let data: Partial<SearchResponse> = {};
+      try {
+        data = JSON.parse(responseText);
+      } catch (e) {
+        // Ignored
+      }
+      
       const resultList = Array.isArray(data.results) ? data.results : [];
 
       if (!res.ok) {
         setError(data.message || "Failed to fetch real-time data.");
+        pushAlert(t("alerts.search_failed"), data.message || t("alerts.search_failed_body"));
       } else {
         setResults(resultList);
+        await set(`transit_search_${query}`, resultList).catch(console.error);
       }
 
       setHistory((current) => [
@@ -145,16 +192,23 @@ export default function App() {
           item.country !== country
         )),
       ].slice(0, 12));
-
-      if (!res.ok) {
-        pushAlert(t("alerts.search_failed"), data.message || t("alerts.search_failed_body"));
-      }
-      setView("results");
     } catch {
+      // Offline or network error, attempt fallback to IndexedDB
+      try {
+        const cachedData = await get(`transit_search_${query}`);
+        if (cachedData && Array.isArray(cachedData) && cachedData.length > 0) {
+          setResults(cachedData);
+          pushAlert("Offline Mode", "Showing cached results from a previous search.");
+          setIsSearching(false);
+          return; // Early return to avoid setting error state
+        }
+      } catch (e) {
+        console.error("Failed to read from cache", e);
+      }
+
       const message = t("alerts.network_error_body");
       setError(message);
       pushAlert(t("alerts.network_error"), message);
-      setView("results");
     } finally {
       setIsSearching(false);
     }
@@ -245,7 +299,13 @@ export default function App() {
         <DataWorkflowView params={draftSearch} onBack={() => setView("search")} />
       )}
 
-      {view === "results" && searchParams.country === "japan" && (
+      {view === "results" && isSearching && (
+        <div className="pt-20 pb-28 min-h-screen bg-stone-100 max-w-md mx-auto">
+          <ResultSkeleton />
+        </div>
+      )}
+
+      {view === "results" && !isSearching && searchParams.country === "japan" && (
         <JapanResultView
           origin={searchParams.origin}
           destination={searchParams.destination}
@@ -261,7 +321,7 @@ export default function App() {
         />
       )}
 
-      {view === "results" && searchParams.country === "korea" && (
+      {view === "results" && !isSearching && searchParams.country === "korea" && (
         <KoreaResultView
           origin={searchParams.origin}
           destination={searchParams.destination}
@@ -277,7 +337,7 @@ export default function App() {
         />
       )}
 
-      {view === "results" && searchParams.country === "hong_kong" && (
+      {view === "results" && !isSearching && searchParams.country === "hong_kong" && (
         <MetroResultView
           origin={searchParams.origin}
           destination={searchParams.destination}
@@ -290,7 +350,7 @@ export default function App() {
         />
       )}
 
-      {view === "results" && searchParams.country === "united_kingdom" && (
+      {view === "results" && !isSearching && searchParams.country === "united_kingdom" && (
         <LiveRailResultView
           market="london"
           origin={searchParams.origin}
@@ -304,7 +364,7 @@ export default function App() {
         />
       )}
 
-      {view === "results" && searchParams.country === "united_states" && (
+      {view === "results" && !isSearching && searchParams.country === "united_states" && (
         <LiveRailResultView
           market="boston"
           origin={searchParams.origin}
@@ -367,13 +427,22 @@ export default function App() {
                         {trip.departureTime}{trip.arrivalTime ? ` - ${trip.arrivalTime}` : ""}
                       </p>
                     </div>
-                    <button
-                      onClick={() => removeSavedTrip(trip.id)}
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-50"
-                      aria-label={t("saved.remove")}
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </button>
+                    <div className="flex flex-col gap-2">
+                      <button
+                        onClick={() => removeSavedTrip(trip.id)}
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-50"
+                        aria-label={t("saved.remove")}
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </button>
+                      <button
+                        onClick={() => generateICS(trip)}
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-50"
+                        aria-label="Add to Calendar"
+                      >
+                        <CalendarDays className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
                   </div>
                   {trip.seatClass ? (
                     <button
@@ -447,6 +516,18 @@ export default function App() {
             <ProfileStat label={t("nav.saved")} value={savedTrips.length} />
             <ProfileStat label={t("nav.alerts")} value={alerts.length} />
           </div>
+          <div className="mt-4 pt-4 border-t border-stone-100 flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-stone-900">Dark Mode</p>
+              <p className="text-xs text-stone-500">Toggle dark appearance</p>
+            </div>
+            <button
+              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+              className="flex items-center justify-center p-2 rounded-full border border-stone-200 bg-stone-50 text-stone-600 hover:bg-stone-100"
+            >
+              {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+            </button>
+          </div>
         </Panel>
       )}
 
@@ -484,6 +565,21 @@ export default function App() {
             </button>
           </div>
         </div>
+      )}
+
+      {apiDiagnostic && (
+        <button
+          onClick={() => setDiagnosticOpen(true)}
+          className="fixed bottom-20 right-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-stone-900 text-white shadow-lg shadow-stone-900/20 hover:bg-stone-800"
+          aria-label="API Diagnostics"
+          title="View API Diagnostics"
+        >
+          <Activity className="h-5 w-5" />
+        </button>
+      )}
+
+      {diagnosticOpen && (
+        <DiagnosticOverlay diagnostic={apiDiagnostic} onClose={() => setDiagnosticOpen(false)} />
       )}
     </div>
   );

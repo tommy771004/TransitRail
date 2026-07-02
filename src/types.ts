@@ -19,8 +19,14 @@ export interface JourneyLeg {
   color?: string;
   mode?: string;
   origin: string;
+  originLat?: number;
+  originLng?: number;
   destination: string;
+  destLat?: number;
+  destLng?: number;
   departureTime?: string;
+  arrivalTime?: string;
+  durationMinutes?: number;
   platform?: string;
   headsign?: string;
   stopCount?: number;
@@ -38,7 +44,11 @@ export interface TransitResult {
   departureTime: string;
   arrivalTime?: string;
   origin: string;
+  originLat?: number;
+  originLng?: number;
   destination: string;
+  destLat?: number;
+  destLng?: number;
   price?: number;
   currency?: "JPY" | "KRW" | "HKD" | "GBP" | "EUR" | "CHF" | "USD" | "SGD" | "MYR";
   seatClass?: "reserved" | "economy" | "first";

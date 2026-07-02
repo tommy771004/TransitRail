@@ -23,9 +23,12 @@ interface TflSearchResponse {
 }
 
 interface TflLeg {
+  duration?: number;
+  departureTime?: string;
+  arrivalTime?: string;
   mode?: { name?: string };
-  departurePoint?: { commonName?: string };
-  arrivalPoint?: { commonName?: string };
+  departurePoint?: { commonName?: string; lat?: number; lon?: number };
+  arrivalPoint?: { commonName?: string; lat?: number; lon?: number };
   instruction?: { summary?: string; detailed?: string };
   routeOptions?: Array<{
     lineIdentifier?: { id?: string; name?: string };
@@ -309,7 +312,14 @@ export async function searchTflJourney(
           color: lineId ? tflLineColors[lineId] : undefined,
           mode: leg.mode?.name,
           origin: leg.departurePoint?.commonName || "",
+          originLat: leg.departurePoint?.lat,
+          originLng: leg.departurePoint?.lon,
           destination: leg.arrivalPoint?.commonName || "",
+          destLat: leg.arrivalPoint?.lat,
+          destLng: leg.arrivalPoint?.lon,
+          departureTime: timeInLondon(leg.departureTime),
+          arrivalTime: timeInLondon(leg.arrivalTime),
+          durationMinutes: leg.duration,
           headsign: leg.instruction?.summary,
           stopCount: leg.path?.stopPoints?.length || undefined,
         };
@@ -330,7 +340,11 @@ export async function searchTflJourney(
         departureTime: timeInLondon(journey.startDateTime),
         arrivalTime: timeInLondon(journey.arrivalDateTime),
         origin: resolvedOrigin.name,
+        originLat: legDetails[0]?.originLat,
+        originLng: legDetails[0]?.originLng,
         destination: resolvedDestination.name,
+        destLat: legDetails.at(-1)?.destLat,
+        destLng: legDetails.at(-1)?.destLng,
         price: typeof farePence === "number" ? farePence / 100 : undefined,
         currency: typeof farePence === "number" ? "GBP" : undefined,
         direct: transitLegs.length <= 1,

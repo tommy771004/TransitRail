@@ -1,6 +1,7 @@
 import { AlertTriangle, Bookmark, Check, Edit2, Utensils, Wifi, Zap } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { KoreaFilter, TransitResult } from "../types";
+import { TripDetails } from "./TripDetails";
 
 interface KoreaResultViewProps {
   origin: string;
@@ -152,6 +153,7 @@ export function KoreaResultView({
                   <p className="mt-1 truncate text-xs text-stone-500">{trip.destination}</p>
                 </div>
               </div>
+              <TripDetails trip={trip} />
               <div className="mt-3 flex items-center justify-between gap-3 border-t border-stone-100 pt-3">
                 <div className="flex min-w-0 items-center gap-2">
                   {(trip.amenities || []).includes("wifi") && <Wifi className="h-4 w-4 shrink-0 text-stone-400" />}

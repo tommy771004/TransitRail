@@ -1,6 +1,7 @@
 import { AlertTriangle, Bookmark, Check, Edit2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { TransitResult } from "../types";
+import { TripDetails } from "./TripDetails";
 
 interface LiveRailResultViewProps {
   market: "london" | "boston";
@@ -126,29 +127,7 @@ export function LiveRailResultView({
                 </div>
               </div>
 
-              {trip.legs && trip.legs.length > 1 && (
-                <div className="border-t border-stone-100 px-4 py-3">
-                  <ol className="flex flex-wrap items-center gap-y-1">
-                    {trip.legs.map((leg, index) => (
-                      <li key={`${trip.id}-leg-${index}`} className="flex items-center text-xs">
-                        {index > 0 && <span className="mx-2 text-stone-300">&rarr;</span>}
-                        <span className="flex items-center gap-1.5 font-medium text-stone-700">
-                          <span
-                            className="h-2 w-2 rounded-full"
-                            style={{ backgroundColor: leg.color || "#a8a29e" }}
-                          />
-                          {leg.lineName}
-                          {typeof leg.stopCount === "number" ? (
-                            <span className="font-mono text-[11px] font-normal text-stone-400">
-                              {leg.stopCount} {t("result.stops")}
-                            </span>
-                          ) : null}
-                        </span>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              )}
+              <TripDetails trip={trip} />
 
               {trip.warning ? (
                 <p className="mx-4 mb-3 flex items-start gap-1.5 rounded-lg bg-amber-50 px-3 py-2 text-xs font-medium text-amber-800">

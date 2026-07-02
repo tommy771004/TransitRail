@@ -1,6 +1,7 @@
 import { Bookmark, Check, ChevronRight, Edit2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { SortMode, TransitResult } from "../types";
+import { TripDetails } from "./TripDetails";
 
 interface JapanResultViewProps {
   origin: string;
@@ -141,6 +142,7 @@ export function JapanResultView({
                   </div>
                 </div>
               </div>
+              <TripDetails trip={trip} />
               <div className="flex items-center justify-between gap-2 border-t border-stone-100 px-4 py-2.5">
                 <span className="truncate font-mono text-xs text-stone-500">
                   {trip.direct ? t("result.direct") : `${trip.stops.length} ${t("result.stops")}`} · {t("result.reserved_seat")}
