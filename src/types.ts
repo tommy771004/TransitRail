@@ -40,6 +40,7 @@ export interface JourneyLeg {
 export interface TransitResult {
   id: string;
   country: Country;
+  date?: string;
   operator: string;
   service: string;
   trainType?: string;

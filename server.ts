@@ -42,7 +42,7 @@ app.use(express.json());
       });
     }
 
-    let scraped = findScrapedResults(country as any, origin, destination);
+    let scraped = findScrapedResults(country as any, origin, destination, date);
     if (scraped && scraped.length > 0) {
       if (typeof time === "string" && time.match(/^\d{2}:\d{2}$/)) {
         scraped = scraped.filter(r => r.departureTime >= time);

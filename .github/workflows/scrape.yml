@@ -7,9 +7,12 @@ on:
   workflow_dispatch:
     inputs:
       date:
-        description: "Scrape date (YYYY-MM-DD, default: today)"
+        description: "Start date (YYYY-MM-DD, default: today in Asia/Taipei); scrapes 7 days forward"
         required: false
         type: string
+
+permissions:
+  contents: write
 
 jobs:
   scrape:
@@ -35,7 +38,7 @@ jobs:
         run: npx playwright install chromium
 
       - name: Run scrapers
-        run: npm run scrape ${{ github.event.inputs.date }}
+        run: npm run scrape -- ${{ github.event.inputs.date }}
 
       - name: Commit updated data
         uses: stefanzweifel/git-auto-commit-action@v5

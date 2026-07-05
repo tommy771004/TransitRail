@@ -62,15 +62,69 @@ function parseTime(t: string): number {
 }
 
 function formatTime(minutes: number): string {
-  const h = Math.floor(minutes / 60);
-  const m = Math.round(minutes % 60);
+  const normalized = ((minutes % 1440) + 1440) % 1440;
+  const h = Math.floor(normalized / 60);
+  const m = Math.round(normalized % 60);
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+}
+
+function shiftTime(time: string | undefined, minutes: number): string | undefined {
+  if (!time) return time;
+  const parsed = parseTime(time);
+  if (!Number.isFinite(parsed)) return time;
+  return formatTime(parsed + minutes);
+}
+
+function normalizeTransferLegTimes(result: TransitResult): TransitResult {
+  if (result.direct || !result.legs || result.legs.length === 0) {
+    return result;
+  }
+
+  const firstLegDeparture = result.legs[0].departureTime;
+  if (!result.departureTime || !firstLegDeparture) {
+    return result;
+  }
+
+  const topDeparture = parseTime(result.departureTime);
+  const legDeparture = parseTime(firstLegDeparture);
+  if (!Number.isFinite(topDeparture) || !Number.isFinite(legDeparture)) {
+    return result;
+  }
+
+  const offset = topDeparture - legDeparture + (topDeparture < legDeparture ? 1440 : 0);
+  if (offset === 0) {
+    return result;
+  }
+
+  return {
+    ...result,
+    legs: result.legs.map((leg) => ({
+      ...leg,
+      departureTime: shiftTime(leg.departureTime, offset),
+      arrivalTime: shiftTime(leg.arrivalTime, offset),
+      upcomingDepartures: leg.upcomingDepartures?.map((time) => shiftTime(time, offset) || time),
+    })),
+  };
+}
+
+function normalizeResults(results: TransitResult[]): TransitResult[] {
+  return results.map(normalizeTransferLegTimes);
+}
+
+function resultsForDate(route: ScrapedRouteData, date?: string): TransitResult[] {
+  if (!date) return route.results;
+
+  return route.results.filter((result) => {
+    const resultDate = result.date || route.date;
+    return resultDate === date;
+  });
 }
 
 export function findScrapedResults(
   country: Country,
   origin: string,
   destination: string,
+  date?: string,
 ): TransitResult[] | null {
   if (!loaded) loadScrapedData();
 
@@ -82,31 +136,31 @@ export function findScrapedResults(
 
   // Step 1: exact match on file-level origin/destination
   const exact = countryData.find(
-    (r) => key(r.origin) === oKey && key(r.destination) === dKey,
+    (r) => key(r.origin) === oKey && key(r.destination) === dKey && resultsForDate(r, date).length > 0,
   );
-  if (exact) return exact.results;
+  if (exact) return normalizeResults(resultsForDate(exact, date));
 
   // Step 1b: match on file origin + result-level destination (e.g. mixed-destination file)
   const resultMatch = countryData.find(
-    (r) => key(r.origin) === oKey && r.results.some((res) => key(res.destination) === dKey),
+    (r) => key(r.origin) === oKey && resultsForDate(r, date).some((res) => key(res.destination) === dKey),
   );
   if (resultMatch) {
-    return resultMatch.results.filter((r) => key(r.destination) === dKey);
+    return normalizeResults(resultsForDate(resultMatch, date).filter((r) => key(r.destination) === dKey));
   }
 
   // Step 2: reverse match
   const reverse = countryData.find(
-    (r) => key(r.origin) === dKey && key(r.destination) === oKey,
+    (r) => key(r.origin) === dKey && key(r.destination) === oKey && resultsForDate(r, date).length > 0,
   );
   if (reverse) {
-    return reverse.results.map((r, _i, arr) => {
+    return normalizeResults(resultsForDate(reverse, date).map((r) => {
       const result = { ...r };
       result.origin = r.destination;
       result.destination = r.origin;
       result.id = `rev-${r.id}`;
       result.stops = [...r.stops].reverse();
       return result;
-    });
+    }));
   }
 
   // Step 3: transfer chaining — find origin→X + X→destination
@@ -114,12 +168,12 @@ export function findScrapedResults(
   const transferCandidates = new Map<string, { outbound: ScrapedRouteData; inbound: ScrapedRouteData }>();
 
   for (const routeOut of countryData) {
-    if (key(routeOut.origin) !== oKey || !routeOut.results.length) continue;
+    if (key(routeOut.origin) !== oKey || !resultsForDate(routeOut, date).length) continue;
     const transferStation = routeOut.destination;
     if (key(transferStation) === oKey || key(transferStation) === dKey) continue;
 
     for (const routeIn of countryData) {
-      if (key(routeIn.destination) !== dKey || !routeIn.results.length) continue;
+      if (key(routeIn.destination) !== dKey || !resultsForDate(routeIn, date).length) continue;
       if (key(routeIn.origin) !== key(transferStation)) continue;
 
       transferCandidates.set(key(transferStation), { outbound: routeOut, inbound: routeIn });
@@ -128,11 +182,13 @@ export function findScrapedResults(
 
   // Build chained results for each transfer candidate
   let chainId = 0;
-  for (const [tsKey, { outbound, inbound }] of transferCandidates) {
+  for (const { outbound, inbound } of transferCandidates.values()) {
     const transferName = outbound.destination;
+    const outboundResults = resultsForDate(outbound, date);
+    const inboundResults = resultsForDate(inbound, date);
 
-    for (const first of outbound.results) {
-      for (const second of inbound.results) {
+    for (const first of outboundResults) {
+      for (const second of inboundResults) {
         if (!first.departureTime || !second.arrivalTime) continue;
 
         const dep = parseTime(first.departureTime);
@@ -174,6 +230,7 @@ export function findScrapedResults(
         chainResults.push({
           id: `chain-${country}-${chainId++}`,
           country,
+          date: first.date || second.date || date,
           operator: `${first.operator} → ${second.operator}`,
           service: `${first.service} → ${second.service}`,
           departureTime: first.departureTime,

@@ -25,3 +25,59 @@ export const koreaRoutes: ScrapedRoute[] = [
   { origin: "Daejeon", destination: "Busan (BSN)" },
   { origin: "Yongsan", destination: "Mokpo" },
 ];
+
+export const singaporeRoutes: ScrapedRoute[] = [
+  { origin: "Changi Airport", destination: "Jurong East" },
+  { origin: "HarbourFront", destination: "Punggol" },
+  { origin: "Jurong East", destination: "Raffles Place" },
+  { origin: "Woodlands", destination: "Orchard" },
+];
+
+export const thailandRoutes: ScrapedRoute[] = [
+  { origin: "Mo Chit", destination: "Hua Lamphong" },
+  { origin: "Siam", destination: "Mo Chit" },
+  { origin: "Siam", destination: "Saphan Taksin" },
+  { origin: "Sukhumvit", destination: "Hua Lamphong" },
+];
+
+export const hongKongRoutes: ScrapedRoute[] = [
+  { origin: "Admiralty", destination: "Tsim Sha Tsui" },
+  { origin: "Central", destination: "Tsuen Wan" },
+  { origin: "Hong Kong Station", destination: "Airport" },
+  { origin: "Tung Chung", destination: "Sunny Bay" },
+];
+
+export const unitedKingdomRoutes: ScrapedRoute[] = [
+  { origin: "Heathrow Terminals 2&3", destination: "Oxford Circus Underground Station" },
+  { origin: "King's Cross St. Pancras Underground Station", destination: "Oxford Circus Underground Station" },
+  { origin: "Leicester Square", destination: "Camden Town" },
+  { origin: "Paddington Station", destination: "Liverpool Street Station" },
+];
+
+export const unitedStatesRoutes: ScrapedRoute[] = [
+  { origin: "Harvard", destination: "Logan International Airport" },
+  { origin: "Park Street", destination: "Andrew" },
+  { origin: "Park Street", destination: "Boston College" },
+  { origin: "South Station", destination: "Harvard" },
+];
+
+export const germanyRoutes: ScrapedRoute[] = [
+  { origin: "Berlin Hbf", destination: "Hamburg Hbf" },
+  { origin: "Berlin Hbf", destination: "Munich Hbf" },
+  { origin: "Frankfurt Hbf", destination: "Cologne Hbf" },
+  { origin: "Munich Hbf", destination: "Frankfurt Hbf" },
+];
+
+export const franceRoutes: ScrapedRoute[] = [
+  { origin: "Paris Gare de l'Est", destination: "Strasbourg" },
+  { origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu" },
+  { origin: "Paris Gare de Lyon", destination: "Marseille Saint-Charles" },
+  { origin: "Paris Gare du Nord", destination: "Lille Europe" },
+];
+
+export const chinaRoutes: ScrapedRoute[] = [
+  { origin: "Beijing South", destination: "Nanjing South" },
+  { origin: "Beijing South", destination: "Shanghai Hongqiao" },
+  { origin: "Guangzhou South", destination: "Shenzhen North" },
+  { origin: "Shanghai Hongqiao", destination: "Hangzhou East" },
+];

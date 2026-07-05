@@ -23,22 +23,22 @@ export class KoreaScraper extends BaseScraper {
     const destKo = koreaStationToKorean[route.destination] || route.destination;
     const [y, m, d] = date.split("-");
 
-    // Letskorail requires a session cookie first
-    await page.goto("https://www.letskorail.com", {
-      waitUntil: "domcontentloaded",
-      timeout: 30000,
-    });
-    await page.waitForTimeout(2000);
-
-    // Navigate to ticket search page
-    await page.goto("https://www.letskorail.com/ebizbf/EbizBfTicketSearch.do", {
-      waitUntil: "domcontentloaded",
-      timeout: 30000,
-    });
-    await page.waitForTimeout(1000);
-
-    // Fill the search form
     try {
+      // Letskorail requires a session cookie first
+      await page.goto("https://www.letskorail.com", {
+        waitUntil: "domcontentloaded",
+        timeout: 30000,
+      });
+      await page.waitForTimeout(2000);
+
+      // Navigate to ticket search page
+      await page.goto("https://www.letskorail.com/ebizbf/EbizBfTicketSearch.do", {
+        waitUntil: "domcontentloaded",
+        timeout: 30000,
+      });
+      await page.waitForTimeout(1000);
+
+      // Fill the search form
       const originInput = await page.$("#start");
       const destInput = await page.$("#end");
 
@@ -72,8 +72,50 @@ export class KoreaScraper extends BaseScraper {
       }
 
       await page.waitForTimeout(5000);
+
+      // Parse results table
+      const html = await page.content();
+      const rows = this.parseTable(html);
+
+      if (rows.length === 0) {
+        console.warn(`  No results parsed from Korail for ${route.origin} → ${route.destination}, using fallback`);
+        return {
+          origin: route.origin,
+          destination: route.destination,
+          date,
+          scrapedAt: new Date().toISOString(),
+          source: "https://www.letskorail.com (fallback)",
+          results: this.fallbackScrape(route, date),
+        };
+      }
+
+      const results = rows.map((row, i) => ({
+        id: `kr-${route.origin}-${route.destination}-${i}`,
+        country: "korea" as const,
+        operator: "Korail",
+        service: row.trainName,
+        departureTime: row.departure,
+        arrivalTime: row.arrival,
+        durationMinutes: this.parseDuration(row.duration),
+        price: this.parsePrice(row.price),
+        currency: "KRW" as const,
+        origin: route.origin,
+        destination: route.destination,
+        direct: true,
+        seatClass: row.seatClass,
+        stops: [route.origin, route.destination],
+      }));
+
+      return {
+        origin: route.origin,
+        destination: route.destination,
+        date,
+        scrapedAt: new Date().toISOString(),
+        source: "https://www.letskorail.com",
+        results,
+      };
     } catch (error) {
-      console.warn(`  Korail form fill failed, using fallback data:`, error);
+      console.warn(`  Korail scrape failed, using fallback data:`, error);
       const fallbackResults = this.fallbackScrape(route, date);
       return {
         origin: route.origin,
@@ -84,48 +126,6 @@ export class KoreaScraper extends BaseScraper {
         results: fallbackResults,
       };
     }
-
-    // Parse results table
-    const html = await page.content();
-    const rows = this.parseTable(html);
-
-    if (rows.length === 0) {
-      console.warn(`  No results parsed from Korail for ${route.origin} → ${route.destination}, using fallback`);
-      return {
-        origin: route.origin,
-        destination: route.destination,
-        date,
-        scrapedAt: new Date().toISOString(),
-        source: "https://www.letskorail.com (fallback)",
-        results: this.fallbackScrape(route, date),
-      };
-    }
-
-    const results = rows.map((row, i) => ({
-      id: `kr-${route.origin}-${route.destination}-${i}`,
-      country: "korea" as const,
-      operator: "Korail",
-      service: row.trainName,
-      departureTime: row.departure,
-      arrivalTime: row.arrival,
-      durationMinutes: this.parseDuration(row.duration),
-      price: this.parsePrice(row.price),
-      currency: "KRW" as const,
-      origin: route.origin,
-      destination: route.destination,
-      direct: true,
-      seatClass: row.seatClass,
-      stops: [route.origin, route.destination],
-    }));
-
-    return {
-      origin: route.origin,
-      destination: route.destination,
-      date,
-      scrapedAt: new Date().toISOString(),
-      source: "https://www.letskorail.com",
-      results,
-    };
   }
 
   private parseTable(html: string): KorailRow[] {
