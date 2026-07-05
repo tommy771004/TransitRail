@@ -4,6 +4,9 @@ import { koreaRoutes } from "./routes";
 import type { ScrapedRoute, ScrapedRouteData } from "./types";
 import type { Page } from "playwright";
 
+const KORAIL_MAIN_URL = "https://www.korail.com/global/eng/main";
+const KORAIL_LEGACY_URL = "https://www.letskorail.com/ebizbf/EbizBfTicketSearch.do";
+
 interface KorailRow {
   trainName: string;
   departure: string;
@@ -24,69 +27,30 @@ export class KoreaScraper extends BaseScraper {
     const [y, m, d] = date.split("-");
 
     try {
-      // Letskorail requires a session cookie first
-      await page.goto("https://www.letskorail.com", {
+      await page.goto(KORAIL_MAIN_URL, {
         waitUntil: "domcontentloaded",
         timeout: 30000,
       });
       await page.waitForTimeout(2000);
 
-      // Navigate to ticket search page
-      await page.goto("https://www.letskorail.com/ebizbf/EbizBfTicketSearch.do", {
-        waitUntil: "domcontentloaded",
-        timeout: 30000,
-      });
-      await page.waitForTimeout(1000);
-
-      // Fill the search form
-      const originInput = await page.$("#start");
-      const destInput = await page.$("#end");
-
-      if (originInput && destInput) {
-        await originInput.fill(originKo);
-        await destInput.fill(destKo);
+      if (await page.locator('input[name="txtGoStart"]').count()) {
+        await this.submitGlobalSearch(page, route, date);
       } else {
-        throw new Error("Korail search form not found (selectors may have changed)");
-      }
-
-      // Set date
-      const dateInput = await page.$('input[name="selGoYear"]');
-      if (dateInput) {
-        await dateInput.fill(y);
-      }
-      const monthInput = await page.$('input[name="selGoMonth"]');
-      if (monthInput) {
-        await monthInput.fill(m);
-      }
-      const dayInput = await page.$('input[name="selGoDay"]');
-      if (dayInput) {
-        await dayInput.fill(d);
-      }
-
-      // Submit
-      const submitBtn = await page.$('input[type="submit"], button[type="submit"], a.imgBtn');
-      if (submitBtn) {
-        await submitBtn.click();
-      } else {
-        throw new Error("Korail submit button not found");
+        await this.submitLegacySearch(page, originKo, destKo, y, m, d);
       }
 
       await page.waitForTimeout(5000);
+      const bodyText = await page.locator("body").innerText().catch(() => "");
+      if (bodyText.includes("abnormal activity") || bodyText.includes("CODE : -8003")) {
+        return this.fallbackRoute(route, date, "Korail blocked automated search as macro activity");
+      }
 
       // Parse results table
       const html = await page.content();
       const rows = this.parseTable(html);
 
       if (rows.length === 0) {
-        console.warn(`  No results parsed from Korail for ${route.origin} → ${route.destination}, using fallback`);
-        return {
-          origin: route.origin,
-          destination: route.destination,
-          date,
-          scrapedAt: new Date().toISOString(),
-          source: "https://www.letskorail.com (fallback)",
-          results: this.fallbackScrape(route, date),
-        };
+        return this.fallbackRoute(route, date, "Korail returned no parseable timetable rows");
       }
 
       const results = rows.map((row, i) => ({
@@ -115,17 +79,132 @@ export class KoreaScraper extends BaseScraper {
         results,
       };
     } catch (error) {
-      console.warn(`  Korail scrape failed, using fallback data:`, error);
-      const fallbackResults = this.fallbackScrape(route, date);
-      return {
-        origin: route.origin,
-        destination: route.destination,
-        date,
-        scrapedAt: new Date().toISOString(),
-        source: "https://www.letskorail.com (fallback)",
-        results: fallbackResults,
-      };
+      return this.fallbackRoute(route, date, this.errorMessage(error));
     }
+  }
+
+  private async submitGlobalSearch(page: Page, route: ScrapedRoute, date: string): Promise<void> {
+    const origin = this.stationForGlobalSite(route.origin);
+    const destination = this.stationForGlobalSite(route.destination);
+    const displayDate = this.formatGlobalDate(date);
+
+    await page.evaluate(`
+      (() => {
+        const setReadonlyInput = (selector, value) => {
+          const input = document.querySelector(selector);
+          if (!input) return;
+          input.readOnly = false;
+          input.value = value;
+          input.dispatchEvent(new Event("input", { bubbles: true }));
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+        };
+
+        setReadonlyInput('input[name="txtGoStart"]', ${JSON.stringify(origin)});
+        setReadonlyInput('input[name="txtGoEnd"]', ${JSON.stringify(destination)});
+        setReadonlyInput('input[name="startDate"]', ${JSON.stringify(displayDate)});
+      })();
+    `);
+
+    await this.dismissGlobalModals(page);
+
+    const searchButton = page.locator("button.btn_lookup").first();
+    if (!(await searchButton.count())) {
+      throw new Error("Korail global search button not found");
+    }
+
+    await Promise.all([
+      page.waitForLoadState("networkidle", { timeout: 15000 }).catch(() => undefined),
+      searchButton.click({ timeout: 5000 }),
+    ]);
+  }
+
+  private async dismissGlobalModals(page: Page): Promise<void> {
+    const closeButtons = page.locator(".ReactModalPortal .btn_pop-close");
+    for (let i = 0; i < 3; i += 1) {
+      if (!(await closeButtons.count())) return;
+      await closeButtons.first().click({ timeout: 3000 }).catch(() => undefined);
+      await page.locator(".ReactModalPortal").first().waitFor({ state: "hidden", timeout: 3000 }).catch(() => undefined);
+    }
+  }
+
+  private async submitLegacySearch(
+    page: Page,
+    originKo: string,
+    destKo: string,
+    y: string,
+    m: string,
+    d: string,
+  ): Promise<void> {
+    await page.goto(KORAIL_LEGACY_URL, {
+      waitUntil: "domcontentloaded",
+      timeout: 30000,
+    });
+    await page.waitForTimeout(1000);
+
+    const originInput = await page.$("#start");
+    const destInput = await page.$("#end");
+
+    if (!originInput || !destInput) {
+      throw new Error("Korail search form not found");
+    }
+
+    await originInput.fill(originKo);
+    await destInput.fill(destKo);
+
+    const dateInput = await page.$('input[name="selGoYear"]');
+    if (dateInput) await dateInput.fill(y);
+    const monthInput = await page.$('input[name="selGoMonth"]');
+    if (monthInput) await monthInput.fill(m);
+    const dayInput = await page.$('input[name="selGoDay"]');
+    if (dayInput) await dayInput.fill(d);
+
+    const submitBtn = await page.$('input[type="submit"], button[type="submit"], a.imgBtn');
+    if (!submitBtn) {
+      throw new Error("Korail submit button not found");
+    }
+
+    await submitBtn.click();
+  }
+
+  private stationForGlobalSite(station: string): string {
+    return station.replace(/\s*\([A-Z0-9]+\)\s*/g, "").trim();
+  }
+
+  private formatGlobalDate(date: string): string {
+    const value = new Date(`${date}T08:00:00+09:00`);
+    const day = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Seoul",
+      day: "2-digit",
+    }).format(value);
+    const month = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Seoul",
+      month: "short",
+    }).format(value);
+    const year = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Seoul",
+      year: "numeric",
+    }).format(value);
+    const weekday = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Seoul",
+      weekday: "short",
+    }).format(value);
+    return `${day}/${month}/${year}(${weekday}) 08:00`;
+  }
+
+  private fallbackRoute(route: ScrapedRoute, date: string, reason: string): ScrapedRouteData {
+    console.warn(`  Korail live scrape unavailable for ${route.origin} → ${route.destination}: ${reason}. Using fallback data.`);
+    return {
+      origin: route.origin,
+      destination: route.destination,
+      date,
+      scrapedAt: new Date().toISOString(),
+      source: "https://www.korail.com (fallback)",
+      results: this.fallbackScrape(route, date),
+    };
+  }
+
+  private errorMessage(error: unknown): string {
+    return error instanceof Error ? error.message : String(error);
   }
 
   private parseTable(html: string): KorailRow[] {
