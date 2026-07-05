@@ -1,6 +1,6 @@
-export type Country = "japan" | "korea" | "hong_kong" | "united_kingdom" | "united_states" | "taiwan" | "singapore" | "thailand" | "germany" | "france" | "china";
+export type Country = "japan" | "korea" | "hong_kong" | "united_kingdom" | "united_states" | "singapore" | "thailand" | "germany" | "france" | "china";
 
-export type AppView = "search" | "results" | "stations" | "history" | "saved" | "alerts" | "workflow";
+export type AppView = "search" | "results" | "stations" | "history" | "saved" | "alerts" | "workflow" | "legend";
 
 export type SortMode = "fastest" | "earliest" | "cheapest";
 
@@ -11,6 +11,7 @@ export interface SearchParams {
   destination: string;
   date: string;
   country: Country;
+  preferredTransitTypes?: string[];
 }
 
 export interface JourneyLeg {

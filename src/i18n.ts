@@ -22,7 +22,6 @@ const resources = {
       search: {
         japan: "Japan",
         korea: "Korea",
-        taiwan: "Taiwan",
         singapore: "Singapore",
         thailand: "Thailand",
         hong_kong: "Hong Kong",
@@ -47,7 +46,11 @@ const resources = {
         ai_plan_title: "AI Transit Plan",
         ai_failed: "Unable to create a transit plan.",
         validation_required: "Enter both origin and destination.",
-        validation_same_station: "Origin and destination must be different."
+        validation_same_station: "Origin and destination must be different.",
+        preferred_transit_types: "Preferred transit types",
+        transit_shinkansen: "High Speed / Bullet Train",
+        transit_local: "Local Train / Subway",
+        transit_bus: "Express Bus / Coach"
       },
       stations: {
         title: "Station catalog",
@@ -284,7 +287,6 @@ const resources = {
       search: {
         japan: "日本",
         korea: "韓國",
-        taiwan: "台灣",
         singapore: "新加坡",
         thailand: "泰國",
         hong_kong: "香港",
@@ -294,8 +296,8 @@ const resources = {
         france: "法國",
         china: "中國",
         title: "班次查詢",
-        origin: "出發地",
-        destination: "目的地",
+        origin: "起點站",
+        destination: "終點站",
         date: "日期",
         swap: "交換起訖站",
         live_today: "即時資料 · 僅限今日",
@@ -309,7 +311,11 @@ const resources = {
         ai_plan_title: "AI 交通規劃",
         ai_failed: "目前無法建立交通規劃。",
         validation_required: "請輸入出發地和目的地。",
-        validation_same_station: "出發地和目的地不能相同。"
+        validation_same_station: "出發地和目的地不能相同。",
+        preferred_transit_types: "偏好交通工具",
+        transit_shinkansen: "高鐵 / 新幹線 / 特急",
+        transit_local: "地鐵 / 捷運 / 普通車",
+        transit_bus: "客運 / 巴士"
       },
       stations: {
         title: "主要車站目錄",

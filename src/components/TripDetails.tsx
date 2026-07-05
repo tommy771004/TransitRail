@@ -1,132 +1,153 @@
-import { useEffect, useRef, useState } from "react";
-import * as d3 from "d3";
-import type { TransitResult } from "../types";
+import { useState } from "react";
+import type { TransitResult, JourneyLeg } from "../types";
 import { useTranslation } from "react-i18next";
-import { ChevronDown, ChevronUp, Map } from "lucide-react";
+import { ChevronDown, ChevronUp, Clock, MapPin, ArrowRightLeft, Users, Armchair, Info } from "lucide-react";
+import { motion } from "motion/react";
 
 interface TripDetailsProps {
   trip: TransitResult;
+  onOpenLegend?: (highlight?: string) => void;
 }
 
-export function TripDetails({ trip }: TripDetailsProps) {
+const localeForCurrency = (currency?: string) => {
+  switch (currency) {
+    case "JPY": return "ja-JP";
+    case "KRW": return "ko-KR";
+    case "HKD": return "zh-HK";
+    case "TWD": return "zh-TW";
+    case "CNY": return "zh-CN";
+    case "EUR": return "de-DE";
+    case "GBP": return "en-GB";
+    case "USD": return "en-US";
+    default: return "zh-TW";
+  }
+};
+
+const fractionDigitsForCurrency = (currency?: string) =>
+  currency === "JPY" || currency === "KRW" || currency === "TWD" || currency === "CNY" ? 0 : 2;
+
+const formatCustomPrice = (price: number, currency?: string) => {
+  if (!currency) return price.toString();
+  return new Intl.NumberFormat(localeForCurrency(currency), {
+    style: "currency",
+    currency: currency,
+    maximumFractionDigits: fractionDigitsForCurrency(currency),
+  }).format(price);
+};
+
+function getMinutesDiff(time1?: string, time2?: string): number | null {
+  if (!time1 || !time2) return null;
+  const [h1, m1] = time1.split(":").map(Number);
+  const [h2, m2] = time2.split(":").map(Number);
+  if (isNaN(h1) || isNaN(m1) || isNaN(h2) || isNaN(m2)) return null;
+  const diff = (h2 * 60 + m2) - (h1 * 60 + m1);
+  return diff >= 0 ? diff : null;
+}
+
+function getTransitIcon(mode?: string, lineName?: string): string {
+  const m = (mode || "").toLowerCase();
+  const l = (lineName || "").toLowerCase();
+  if (m.includes("bus") || m.includes("coach") || l.includes("bus") || l.includes("客運") || l.includes("巴士")) return "🚌";
+  if (m.includes("subway") || m.includes("metro") || m.includes("underground") || l.includes("subway") || l.includes("metro") || l.includes("捷運") || l.includes("地鐵") || l.includes("地鐵")) return "🚇";
+  if (m.includes("high_speed") || m.includes("shinkansen") || l.includes("shinkansen") || l.includes("express") || l.includes("bullet") || l.includes("新幹線") || l.includes("高鐵") || l.includes("特急")) return "🚄";
+  if (m.includes("tram") || l.includes("tram") || l.includes("路面電車")) return "🚋";
+  return "🚃";
+}
+
+function getLegColor(leg: JourneyLeg, defaultColor?: string) {
+  if (leg.color) return leg.color;
+  const m = (leg.mode || "").toLowerCase();
+  const l = (leg.lineName || "").toLowerCase();
+  if (m.includes("bus") || m.includes("coach") || l.includes("bus") || l.includes("客運") || l.includes("巴士")) return "#f59e0b"; // amber
+  if (m.includes("subway") || m.includes("metro") || m.includes("underground") || l.includes("subway") || l.includes("metro") || l.includes("捷運") || l.includes("地鐵")) return "#3b82f6"; // blue
+  if (m.includes("high_speed") || m.includes("shinkansen") || l.includes("shinkansen") || l.includes("express") || l.includes("bullet") || l.includes("新幹線") || l.includes("高鐵") || l.includes("特急")) return "#ef4444"; // red
+  return defaultColor || "#10b981"; // emerald default
+}
+
+export function TripDetails({ trip, onOpenLegend }: TripDetailsProps) {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(false);
-  const mapRef = useRef<HTMLDivElement>(null);
+  const [fareTab, setFareTab] = useState<"passenger" | "seat">("passenger");
 
-  useEffect(() => {
-    if (!expanded || !mapRef.current) return;
-
-    const hasCoords = trip.originLat != null && trip.originLng != null && trip.destLat != null && trip.destLng != null;
-
-    const container = d3.select(mapRef.current);
-    container.selectAll("*").remove();
-
-    const width = mapRef.current.clientWidth;
-    const height = 200;
-
-    const svg = container
-      .append("svg")
-      .attr("width", "100%")
-      .attr("height", height)
-      .attr("viewBox", `0 0 ${width} ${height}`)
-      .attr("preserveAspectRatio", "xMidYMid meet");
-
-    if (!hasCoords) {
-      svg
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y", height / 2)
-        .attr("text-anchor", "middle")
-        .attr("class", "text-sm fill-slate-400 font-medium")
-        .text(t("result.map_unavailable", { defaultValue: "Map data unavailable" }));
-      return;
+  const displayLegs: JourneyLeg[] = trip.legs && trip.legs.length > 0 ? trip.legs : [
+    {
+      lineName: trip.service || trip.trainType || "Transit",
+      origin: trip.origin,
+      destination: trip.destination,
+      departureTime: trip.departureTime,
+      arrivalTime: trip.arrivalTime,
+      durationMinutes: trip.durationMinutes,
+      mode: trip.trainType,
     }
+  ];
 
-    let points: { lat: number; lng: number; name: string }[] = [];
+  // Normalize the timeline items
+  const timelineItems: any[] = [];
 
-    if (trip.legs && trip.legs.length > 0) {
-      trip.legs.forEach(leg => {
-        if (leg.originLat && leg.originLng) {
-          points.push({ lat: leg.originLat, lng: leg.originLng, name: leg.origin });
-        }
-        if (leg.destLat && leg.destLng) {
-          points.push({ lat: leg.destLat, lng: leg.destLng, name: leg.destination });
-        }
-      });
-    } else {
-      points = [
-        { lat: trip.originLat!, lng: trip.originLng!, name: trip.origin },
-        { lat: trip.destLat!, lng: trip.destLng!, name: trip.destination }
-      ];
-    }
-
-    points = points.filter((p, index, self) =>
-      index === self.findIndex((t) => t.lat === p.lat && t.lng === p.lng)
-    );
-
-    if (points.length < 2) return;
-
-    const projection = d3.geoMercator()
-      .fitSize([width - 60, height - 60], {
-        type: "FeatureCollection",
-        features: points.map(p => ({
-          type: "Feature",
-          geometry: { type: "Point", coordinates: [p.lng, p.lat] },
-          properties: {}
-        }))
-      })
-      .center(
-        points.length === 2 ?
-        [(points[0].lng + points[1].lng) / 2, (points[0].lat + points[1].lat) / 2] :
-        [d3.mean(points, d => d.lng) || 0, d3.mean(points, d => d.lat) || 0]
-      );
-
-    const path = d3.geoPath().projection(projection);
-
-    const g = svg.append("g").attr("transform", `translate(30, 30)`);
-
-    for (let i = 0; i < points.length - 1; i++) {
-      const p1 = projection([points[i].lng, points[i].lat]);
-      const p2 = projection([points[i + 1].lng, points[i + 1].lat]);
-      if (!p1 || !p2) continue;
-
-      const lineColor = trip.lineColor || "#10b981";
-
-      g.append("line")
-        .attr("x1", p1[0])
-        .attr("y1", p1[1])
-        .attr("x2", p2[0])
-        .attr("y2", p2[1])
-        .attr("stroke", lineColor)
-        .attr("stroke-width", 3)
-        .attr("stroke-linecap", "round")
-        .attr("stroke-dasharray", "4,4")
-        .attr("opacity", 0.7);
-    }
-
-    points.forEach((p, i) => {
-      const coords = projection([p.lng, p.lat]);
-      if (!coords) return;
-
-      const isEndpoint = i === 0 || i === points.length - 1;
-
-      g.append("circle")
-        .attr("cx", coords[0])
-        .attr("cy", coords[1])
-        .attr("r", isEndpoint ? 6 : 4)
-        .attr("fill", "white")
-        .attr("stroke", isEndpoint ? "#0f172a" : "#64748b")
-        .attr("stroke-width", 2);
-
-      g.append("text")
-        .attr("x", coords[0])
-        .attr("y", coords[1] - 12)
-        .attr("text-anchor", "middle")
-        .attr("class", "text-[10px] font-bold fill-slate-700 select-none")
-        .text(p.name);
+  if (displayLegs.length > 0) {
+    // Start Station
+    timelineItems.push({
+      id: "start",
+      type: "station",
+      name: displayLegs[0].origin,
+      time: displayLegs[0].departureTime,
+      platform: displayLegs[0].platform,
+      isStart: true,
+      legIndex: 0,
     });
 
-  }, [expanded, trip]);
+    for (let i = 0; i < displayLegs.length; i++) {
+      const leg = displayLegs[i];
+      
+      // Add Transit Leg
+      timelineItems.push({
+        id: `transit-${i}`,
+        type: "transit",
+        leg,
+        legIndex: i,
+      });
+
+      const nextLeg = displayLegs[i + 1];
+      if (nextLeg) {
+        // It's a transfer point
+        const transferMinutes = getMinutesDiff(leg.arrivalTime, nextLeg.departureTime);
+        timelineItems.push({
+          id: `transfer-${i}`,
+          type: "transfer",
+          stationName: leg.destination,
+          arrivalTime: leg.arrivalTime,
+          departureTime: nextLeg.departureTime,
+          arrivalPlatform: leg.platform,
+          departurePlatform: nextLeg.platform,
+          durationMinutes: transferMinutes,
+          legIndex: i,
+        });
+      } else {
+        // Final Station
+        timelineItems.push({
+          id: "end",
+          type: "station",
+          name: leg.destination,
+          time: leg.arrivalTime || trip.arrivalTime,
+          platform: leg.platform,
+          isEnd: true,
+          legIndex: i,
+        });
+      }
+    }
+  }
+
+  const hasPrice = trip.price !== undefined && trip.price !== null;
+
+  // Passenger fare options calculations
+  const adultPrice = trip.price || 0;
+  const childPrice = Math.round(adultPrice * 0.5);
+  const seniorPrice = Math.round(adultPrice * 0.5);
+
+  // Seat fare options calculations
+  const nonReservedPrice = Math.round(adultPrice * 0.95);
+  const reservedPrice = adultPrice;
+  const firstClassPrice = Math.round(adultPrice * 1.55);
 
   return (
     <div className="border-t border-slate-100 dark:border-slate-800">
@@ -142,108 +163,368 @@ export function TripDetails({ trip }: TripDetailsProps) {
         ) : (
           <>
             <ChevronDown className="h-3.5 w-3.5" />
-            {t("result.show_details", { defaultValue: "Trip details & map" })}
+            {t("result.show_details", { defaultValue: "Trip details & timeline" })}
           </>
         )}
       </button>
 
       {expanded && (
-        <div className="bg-slate-50 px-4 sm:px-5 py-4 rounded-b-2xl border-t border-slate-100 dark:bg-slate-900/50 dark:border-slate-800">
-          <div className="mb-4 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
-            <div className="border-b border-slate-100 bg-slate-50 px-3 py-2 flex items-center gap-1.5 dark:border-slate-800 dark:bg-slate-900">
-              <Map className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
-              <span className="text-[11px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400">Route Map</span>
-            </div>
-            <div ref={mapRef} className="w-full h-[200px] flex items-center justify-center bg-slate-50 dark:bg-slate-900" />
-          </div>
+        <div className="bg-slate-50/50 px-4 sm:px-6 py-5 rounded-b-3xl border-t border-slate-100 dark:bg-slate-950/30 dark:border-slate-800/80">
+          
+          {/* Fare Comparison Section */}
+          {hasPrice && (
+            <div className="mb-6 rounded-3xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-base select-none">🎫</span>
+                  <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                    {t("result.fare_comparison", { defaultValue: "票價明細比較" })}
+                  </h4>
+                </div>
+                
+                {/* Switcher tabs */}
+                <div className="flex rounded-lg bg-slate-100 p-0.5 dark:bg-slate-800">
+                  <button
+                    type="button"
+                    onClick={() => setFareTab("passenger")}
+                    className={`flex items-center gap-1 rounded-md px-2.5 py-1 text-[10px] font-bold transition-all ${
+                      fareTab === "passenger"
+                        ? "bg-white text-slate-900 shadow-xs dark:bg-slate-700 dark:text-white"
+                        : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                    }`}
+                  >
+                    <Users className="h-3 w-3" />
+                    {t("result.by_passenger", { defaultValue: "乘客票種" })}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFareTab("seat")}
+                    className={`flex items-center gap-1 rounded-md px-2.5 py-1 text-[10px] font-bold transition-all ${
+                      fareTab === "seat"
+                        ? "bg-white text-slate-900 shadow-xs dark:bg-slate-700 dark:text-white"
+                        : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                    }`}
+                  >
+                    <Armchair className="h-3 w-3" />
+                    {t("result.by_seat", { defaultValue: "座位等級" })}
+                  </button>
+                </div>
+              </div>
 
-          <div className="relative">
-            <div className="absolute left-[7px] top-2 bottom-2 w-px bg-slate-300 dark:bg-slate-600" />
-
-            <ul className="space-y-4">
-              {trip.legs ? trip.legs.map((leg, idx) => (
-                <li key={idx} className="relative pl-6">
-                  <div
-                    className="absolute left-0 top-1 h-3.5 w-3.5 rounded-full border-2 border-white shadow-sm dark:border-slate-900"
-                    style={{ backgroundColor: leg.color || trip.lineColor || "#94a3b8" }}
-                  />
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="text-sm font-bold text-slate-900 dark:text-white">{leg.origin}</p>
-                      <div className="mt-0.5 flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-                        <span
-                          className="w-1.5 h-1.5 rounded-full"
-                          style={{ backgroundColor: leg.color || trip.lineColor || "#94a3b8" }}
-                        />
-                        {leg.lineName}
-                        {leg.headsign && <span className="text-slate-400">toward {leg.headsign}</span>}
-                      </div>
-                      {leg.stopCount != null && (
-                        <p className="mt-1 font-mono text-[11px] text-slate-400">
-                          {leg.stopCount} stops
-                        </p>
-                      )}
-                      {leg.durationMinutes != null && (
-                        <p className="mt-1 font-mono text-[11px] text-slate-500 dark:text-slate-400">
-                          {leg.durationMinutes} min
-                        </p>
-                      )}
-                      {leg.upcomingDepartures && leg.upcomingDepartures.length > 0 && (
-                        <p className="mt-1 font-mono text-[11px] text-emerald-700 dark:text-emerald-400">
-                          Next: {leg.upcomingDepartures.join(" / ")}
-                        </p>
-                      )}
+              {/* Passenger tickets display */}
+              {fareTab === "passenger" ? (
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
+                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500">
+                      {t("result.ticket_adult", { defaultValue: "成人票" })}
                     </div>
-                    {leg.departureTime && (
-                      <span className="font-mono text-sm font-bold text-slate-900 dark:text-white">{leg.departureTime}</span>
-                    )}
+                    <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
+                      {formatCustomPrice(adultPrice, trip.currency)}
+                    </div>
+                    <div className="mt-0.5 text-[9px] text-emerald-600 dark:text-emerald-400 font-bold">
+                      {t("result.standard_rate", { defaultValue: "標準票價" })}
+                    </div>
                   </div>
 
-                  {idx === trip.legs!.length - 1 && (
-                    <div className="relative pl-6 mt-4 -ml-6">
-                      <div className="absolute left-0 top-1 h-3.5 w-3.5 rounded-full border-2 border-slate-900 bg-white shadow-sm dark:border-slate-100 dark:bg-slate-900" />
-                      <div className="flex justify-between items-start">
-                        <p className="text-sm font-bold text-slate-900 dark:text-white">{leg.destination}</p>
-                        {trip.arrivalTime && (
-                          <span className="font-mono text-sm font-bold text-slate-900 dark:text-white">{trip.arrivalTime}</span>
+                  <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
+                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500">
+                      {t("result.ticket_child", { defaultValue: "兒童票" })}
+                    </div>
+                    <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
+                      {formatCustomPrice(childPrice, trip.currency)}
+                    </div>
+                    <div className="mt-0.5 text-[9px] text-blue-600 dark:text-blue-400 font-bold">
+                      50% OFF
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
+                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500">
+                      {t("result.ticket_senior", { defaultValue: "敬老/長者" })}
+                    </div>
+                    <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
+                      {formatCustomPrice(seniorPrice, trip.currency)}
+                    </div>
+                    <div className="mt-0.5 text-[9px] text-blue-600 dark:text-blue-400 font-bold">
+                      50% OFF
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* Seat class tickets display */
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
+                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 truncate">
+                      {t("result.seat_non_reserved", { defaultValue: "自由席/一般" })}
+                    </div>
+                    <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
+                      {formatCustomPrice(nonReservedPrice, trip.currency)}
+                    </div>
+                    <div className="mt-0.5 text-[9px] text-slate-500 dark:text-slate-400 font-bold">
+                      ~95% Rate
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40 ring-1 ring-emerald-500/30 dark:ring-emerald-500/20">
+                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 truncate">
+                      {t("result.seat_reserved", { defaultValue: "對號/指定席" })}
+                    </div>
+                    <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
+                      {formatCustomPrice(reservedPrice, trip.currency)}
+                    </div>
+                    <div className="mt-0.5 text-[9px] text-emerald-600 dark:text-emerald-400 font-bold">
+                      Base Rate
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
+                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 truncate">
+                      {t("result.seat_premium", { defaultValue: "商務/綠色車廂" })}
+                    </div>
+                    <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
+                      {formatCustomPrice(firstClassPrice, trip.currency)}
+                    </div>
+                    <div className="mt-0.5 text-[9px] text-amber-600 dark:text-amber-500 font-bold">
+                      +55% Fee
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Sub-text information banner */}
+              <div className="mt-3 flex items-center gap-1.5 rounded-2xl bg-blue-50/50 p-2 text-[10px] text-blue-800/80 dark:bg-blue-950/20 dark:text-blue-400/80">
+                <Info className="h-3 w-3 shrink-0" />
+                <span>
+                  {t("result.fare_disclaimer", { defaultValue: "實際票價可能隨日期、班次、加購保險或特定優惠方案而異，請以官方購票系統為準。" })}
+                </span>
+              </div>
+            </div>
+          )}
+
+          <div className="flex flex-col space-y-0 relative">
+            {timelineItems.map((item, idx) => {
+              const currentLeg = displayLegs[item.legIndex];
+              const legColor = currentLeg ? getLegColor(currentLeg, trip.lineColor) : (trip.lineColor || "#10b981");
+
+              // Determine the color of the vertical line that runs DOWN from this item
+              let lineStyle = "solid";
+              let lineColor = legColor;
+              const nextItem = timelineItems[idx + 1];
+              if (nextItem) {
+                if (nextItem.type === "transfer" || item.type === "transfer") {
+                  lineStyle = "dashed";
+                  lineColor = "#94a3b8"; // grey for waiting / transferring
+                } else if (nextItem.type === "transit") {
+                  const nextLeg = displayLegs[nextItem.legIndex];
+                  lineColor = getLegColor(nextLeg, trip.lineColor);
+                }
+              }
+
+              if (item.type === "station") {
+                return (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: idx * 0.05, ease: "easeOut" }}
+                    className="flex gap-x-4 min-h-[48px] relative"
+                  >
+                    {/* Time Column */}
+                    <div className="w-12 shrink-0 text-right font-mono text-xs font-bold text-slate-500 dark:text-slate-400 pt-0.5">
+                      {item.time || "--:--"}
+                    </div>
+
+                    {/* Timeline Node Column */}
+                    <div className="relative w-6 shrink-0 flex flex-col items-center">
+                      {/* Connection line down */}
+                      {!item.isEnd && (
+                        <div
+                          className="absolute top-4.5 bottom-0 w-[3px]"
+                          style={{
+                            backgroundColor: lineColor,
+                            borderLeft: lineStyle === "dashed" ? "3px dashed #cbd5e1" : "none",
+                            background: lineStyle === "dashed" ? "transparent" : lineColor,
+                          }}
+                        />
+                      )}
+                      
+                      {/* Node circle */}
+                      <div
+                        className={`z-10 h-4.5 w-4.5 rounded-full border-2 bg-white dark:bg-slate-900 shadow-sm flex items-center justify-center`}
+                        style={{ borderColor: legColor }}
+                      >
+                        <div
+                          className="h-2 w-2 rounded-full"
+                          style={{ backgroundColor: legColor }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Content Column */}
+                    <div className="flex-1 pb-4">
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span className="text-sm font-black text-slate-800 dark:text-slate-100">
+                          {t(`station.${item.name}`, { defaultValue: item.name })}
+                        </span>
+                        {item.isStart && (
+                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-blue-50 text-blue-600 border border-blue-100 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-900/30">
+                            {t("search.origin", { defaultValue: "Origin" })}
+                          </span>
+                        )}
+                        {item.isEnd && (
+                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900/30">
+                            {t("search.destination", { defaultValue: "Destination" })}
+                          </span>
+                        )}
+                      </div>
+                      {item.platform && (
+                        <div className="mt-1 font-mono text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                          Platform {item.platform}
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              }
+
+              if (item.type === "transit") {
+                const leg = item.leg;
+                return (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: idx * 0.05, ease: "easeOut" }}
+                    className="flex gap-x-4 relative"
+                  >
+                    {/* Time Column (blank but reserves space) */}
+                    <div className="w-12 shrink-0" />
+
+                    {/* Timeline Line Column */}
+                    <div className="relative w-6 shrink-0 flex flex-col items-center">
+                      <div
+                        className="absolute top-0 bottom-0 w-[3px]"
+                        style={{ backgroundColor: legColor }}
+                      />
+                    </div>
+
+                    {/* Content Column */}
+                    <div className="flex-1 pb-4 pr-1">
+                      <div className="rounded-3xl border border-slate-100 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40 backdrop-blur-sm">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-start gap-2.5">
+                            <span className="text-2xl mt-0.5 shrink-0 select-none">
+                              {getTransitIcon(leg.mode, leg.lineName)}
+                            </span>
+                            <div className="min-w-0">
+                              <h5 className="text-xs font-black text-slate-800 dark:text-slate-200 uppercase tracking-wide">
+                                {leg.lineName}
+                              </h5>
+                              {leg.headsign && (
+                                <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold mt-0.5">
+                                  {t("result.toward", { defaultValue: "toward" })} {leg.headsign}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="text-right shrink-0">
+                            {leg.durationMinutes != null && (
+                              <span className="inline-flex items-center gap-1 font-mono text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                                <Clock className="h-3 w-3 text-slate-400" />
+                                {leg.durationMinutes} min
+                              </span>
+                            )}
+                            {leg.stopCount != null && (
+                              <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold mt-0.5">
+                                {leg.stopCount} {t("result.stops", { defaultValue: "stops" })}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+
+                        {leg.upcomingDepartures && leg.upcomingDepartures.length > 0 && (
+                          <div className="mt-3 pt-2.5 border-t border-slate-100/60 dark:border-slate-800/60">
+                            <span className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                              {t("result.next_departures", { defaultValue: "Upcoming departures" })}:
+                            </span>
+                            <div className="flex gap-1.5 mt-1 overflow-x-auto scrollbar-none pb-0.5">
+                              {leg.upcomingDepartures.map((time: string) => (
+                                <span
+                                  key={time}
+                                  className="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 shrink-0"
+                                >
+                                  {time}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
                         )}
                       </div>
                     </div>
-                  )}
-                </li>
-              )) : (
-                <>
-                  <li className="relative pl-6">
-                    <div
-                      className="absolute left-0 top-1 h-3.5 w-3.5 rounded-full border-2 border-white shadow-sm dark:border-slate-900"
-                      style={{ backgroundColor: trip.lineColor || "#94a3b8" }}
-                    />
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="text-sm font-bold text-slate-900 dark:text-white">{trip.origin}</p>
-                        <div className="mt-0.5 flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-                          <span
-                            className="w-1.5 h-1.5 rounded-full"
-                            style={{ backgroundColor: trip.lineColor || "#94a3b8" }}
-                          />
-                          {trip.service}
+                  </motion.div>
+                );
+              }
+
+              if (item.type === "transfer") {
+                return (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: idx * 0.05, ease: "easeOut" }}
+                    className="flex gap-x-4 relative"
+                  >
+                    {/* Time Column (Arrival and Departure) */}
+                    <div className="w-12 shrink-0 flex flex-col justify-between py-1 text-right font-mono text-[10px] font-bold text-slate-400 dark:text-slate-500">
+                      <div>{item.arrivalTime}</div>
+                      <div className="text-slate-300 dark:text-slate-700">|</div>
+                      <div>{item.departureTime}</div>
+                    </div>
+
+                    {/* Timeline Node Column */}
+                    <div className="relative w-6 shrink-0 flex flex-col items-center py-1">
+                      <div
+                        className="absolute top-0 bottom-0 w-[3px]"
+                        style={{ borderLeft: "3px dashed #cbd5e1" }}
+                      />
+                      <div className="z-10 h-3 w-3 rounded-full bg-slate-300 dark:bg-slate-700 border-2 border-white dark:border-slate-900" />
+                      <div className="flex-1" />
+                      <div className="z-10 h-3 w-3 rounded-full bg-slate-300 dark:bg-slate-700 border-2 border-white dark:border-slate-900" />
+                    </div>
+
+                    {/* Content Column */}
+                    <div className="flex-1 py-1.5 pb-4">
+                      <div className="rounded-3xl border border-dashed border-slate-200 bg-slate-100/40 p-3 dark:border-slate-800 dark:bg-slate-900/20">
+                        <div className="flex items-center gap-1.5 text-xs font-black text-slate-700 dark:text-slate-300">
+                          <ArrowRightLeft className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+                          <span>
+                            {t("result.transfer_at", { defaultValue: "Transfer at" })}{" "}
+                            {t(`station.${item.stationName}`, { defaultValue: item.stationName })}
+                          </span>
+                        </div>
+                        
+                        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                          {item.durationMinutes != null && (
+                            <span className="inline-flex items-center gap-1">
+                              <Clock className="h-3 w-3 text-slate-400" />
+                              {item.durationMinutes} min connection
+                            </span>
+                          )}
+                          {item.arrivalPlatform && item.departurePlatform && (
+                            <span className="text-slate-400">
+                              Plat {item.arrivalPlatform} → {item.departurePlatform}
+                            </span>
+                          )}
                         </div>
                       </div>
-                      <span className="font-mono text-sm font-bold text-slate-900 dark:text-white">{trip.departureTime}</span>
                     </div>
-                  </li>
-                  <li className="relative pl-6">
-                    <div className="absolute left-0 top-1 h-3.5 w-3.5 rounded-full border-2 border-slate-900 bg-white shadow-sm dark:border-slate-100 dark:bg-slate-900" />
-                    <div className="flex justify-between items-start">
-                      <p className="text-sm font-bold text-slate-900 dark:text-white">{trip.destination}</p>
-                      {trip.arrivalTime && (
-                        <span className="font-mono text-sm font-bold text-slate-900 dark:text-white">{trip.arrivalTime}</span>
-                      )}
-                    </div>
-                  </li>
-                </>
-              )}
-            </ul>
+                  </motion.div>
+                );
+              }
+
+              return null;
+            })}
           </div>
         </div>
       )}

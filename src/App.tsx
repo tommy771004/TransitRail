@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { Bell, BellOff, Share2, Bookmark, Check, Clock, DatabaseZap, MapPinned, Trash2, UserCircle, X, Activity, Sun, Moon, CalendarDays, Coins } from "lucide-react";
+import { Bell, BellOff, Share2, Bookmark, Check, Clock, DatabaseZap, MapPinned, Trash2, UserCircle, X, Activity, Sun, Moon, Monitor, CalendarDays, Coins, Compass } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
 import { Header } from "./components/Header";
@@ -14,9 +14,10 @@ import { MetroResultView } from "./components/MetroResultView";
 import { LiveRailResultView } from "./components/LiveRailResultView";
 import { DiagnosticOverlay } from "./components/DiagnosticOverlay";
 import { ResultSkeleton } from "./components/ResultSkeleton";
+import { TransitLegend } from "./components/TransitLegend";
 import { generateICS } from "./utils/ics";
 import { get, set } from "idb-keyval";
-import { countryConfig, providerDateValue } from "./data/countries";
+import { countryConfig, providerDateValue, countryThemes } from "./data/countries";
 import type {
   AppAlert,
   AppView,
@@ -36,6 +37,7 @@ const emptySearch: SearchParams = {
   destination: "",
   date: providerDateValue("japan"),
   country: "japan",
+  preferredTransitTypes: [],
 };
 
 function loadJson<T>(key: string, fallback: T): T {
@@ -49,6 +51,68 @@ function loadJson<T>(key: string, fallback: T): T {
 
 function saveJson<T>(key: string, value: T) {
   window.localStorage.setItem(key, JSON.stringify(value));
+}
+
+function filterByTransitTypes(results: TransitResult[], preferred: string[] | undefined) {
+  if (!preferred || preferred.length === 0) {
+    return results;
+  }
+
+  return results.filter((trip) => {
+    const serviceLower = (trip.service || "").toLowerCase();
+    const operatorLower = (trip.operator || "").toLowerCase();
+    const tagsLower = (trip.tags || []).map((t) => t.toLowerCase());
+
+    const legNames = (trip.legs || []).map((l) => (l.lineName || "").toLowerCase());
+    const legModes = (trip.legs || []).map((l) => (l.mode || "").toLowerCase());
+
+    // 1. Shinkansen / Bullet Train / KTX / THSR / High Speed / Express Rail
+    const isHighSpeed =
+      serviceLower.match(/(nozomi|hikari|kodama|hayabusa|yamabiko|komachi|kagayaki|hakutaka|asama|toki|tsubasa|mizuho|sakura|tsubame)/) ||
+      serviceLower.includes("ktx") ||
+      serviceLower.includes("srt") ||
+      serviceLower.includes("itx") ||
+      serviceLower.includes("express") ||
+      operatorLower.includes("thsr") ||
+      serviceLower.includes("thsr") ||
+      serviceLower.includes("hsr") ||
+      serviceLower.includes("ice") ||
+      serviceLower.includes("tgv") ||
+      serviceLower.includes("bullet") ||
+      serviceLower.includes("shinkansen") ||
+      tagsLower.includes("high_speed") ||
+      tagsLower.includes("express") ||
+      legNames.some((n) => n.includes("shinkansen") || n.includes("express") || n.includes("bullet"));
+
+    // 2. Bus / Express Bus / Highway Bus
+    const isBus =
+      serviceLower.includes("bus") ||
+      serviceLower.includes("coach") ||
+      serviceLower.includes("highway") ||
+      operatorLower.includes("bus") ||
+      operatorLower.includes("coach") ||
+      tagsLower.includes("bus") ||
+      tagsLower.includes("coach") ||
+      legNames.some((n) => n.includes("bus") || n.includes("coach")) ||
+      legModes.some((m) => m.includes("bus") || m.includes("coach"));
+
+    // 3. Local Train / Subway / Metro / MRT / Tube
+    // Standard default or if not high-speed and not bus, it's typically local/subway/commuter rail
+    const isLocal =
+      (!isHighSpeed && !isBus) ||
+      serviceLower.match(/(local|rapid|subway|metro|mrt|tube|underground|piccadilly|victoria|bakerloo|central|jubilee|northern|district|circle|hammersmith|metropolitan|elizabeth|overground|dlr|tram)/) ||
+      operatorLower.match(/(mtr|tfl|mbta|bts|mrt|tra)/) ||
+      tagsLower.includes("local") ||
+      tagsLower.includes("subway") ||
+      tagsLower.includes("metro") ||
+      tagsLower.includes("mrt");
+
+    if (preferred.includes("shinkansen") && isHighSpeed) return true;
+    if (preferred.includes("local") && isLocal) return true;
+    if (preferred.includes("bus") && isBus) return true;
+
+    return false;
+  });
 }
 
 function sortResults(results: TransitResult[], sortMode: SortMode, koreaFilter: KoreaFilter) {
@@ -77,7 +141,10 @@ function sortResults(results: TransitResult[], sortMode: SortMode, koreaFilter: 
 export default function App() {
   const { t } = useTranslation();
   const [view, setView] = useState<AppView>("search");
+  const [previousView, setPreviousView] = useState<AppView>("search");
   const [draftSearch, setDraftSearch] = useState<SearchParams>(emptySearch);
+  const activeCountry = draftSearch.country || "japan";
+  const activeTheme = countryThemes[activeCountry] || countryThemes.japan;
   const [searchParams, setSearchParams] = useState<SearchParams>(emptySearch);
   const [results, setResults] = useState<TransitResult[]>([]);
   const [error, setError] = useState<string | undefined>();
@@ -93,14 +160,22 @@ export default function App() {
   const [stationPickTarget, setStationPickTarget] = useState<"origin" | "destination">("origin");
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">(
-    () => (localStorage.getItem("transitrail.theme") as "light" | "dark") || "light"
+  const [theme, setTheme] = useState<"light" | "dark" | "auto">(
+    () => (localStorage.getItem("transitrail.theme") as "light" | "dark" | "auto") || "auto"
   );
   const [apiDiagnostic, setApiDiagnostic] = useState<any>(null);
   const [diagnosticOpen, setDiagnosticOpen] = useState(false);
   const [homeCurrency, setHomeCurrency] = useState<string>(() => localStorage.getItem("transitrail.homeCurrency") || "USD");
   const [exchangeRates, setExchangeRates] = useState<Record<string, number>>({});
   const [loadingRates, setLoadingRates] = useState<boolean>(false);
+  const [legendHighlight, setLegendHighlight] = useState<string | null>(null);
+  const [timezone, setTimezone] = useState<string>(() => {
+    return localStorage.getItem("transitrail.timezone") || Intl.DateTimeFormat().resolvedOptions().timeZone;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("transitrail.timezone", timezone);
+  }, [timezone]);
 
   useEffect(() => saveJson("transitrail.history", history), [history]);
   useEffect(() => saveJson("transitrail.favorites", favorites), [favorites]);
@@ -132,18 +207,53 @@ export default function App() {
 
   useEffect(() => {
     localStorage.setItem("transitrail.theme", theme);
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
+
+    const applyTheme = () => {
+      let isDark = false;
+      if (theme === "dark") {
+        isDark = true;
+      } else if (theme === "light") {
+        isDark = false;
+      } else {
+        isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      }
+
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    };
+
+    applyTheme();
+
+    if (theme === "auto") {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      const handleChange = () => {
+        applyTheme();
+      };
+      if (mediaQuery.addEventListener) {
+        mediaQuery.addEventListener("change", handleChange);
+        return () => mediaQuery.removeEventListener("change", handleChange);
+      } else {
+        // @ts-ignore
+        mediaQuery.addListener(handleChange);
+        return () => {
+          // @ts-ignore
+          mediaQuery.removeListener(handleChange);
+        };
+      }
     }
   }, [theme]);
 
   const savedIds = useMemo(() => new Set(savedTrips.map((trip) => trip.id)), [savedTrips]);
   const unreadAlerts = alerts.filter((alert) => !alert.read).length;
   const visibleResults = useMemo(
-    () => sortResults(results, sortMode, searchParams.country === "korea" ? koreaFilter : "all"),
-    [results, sortMode, koreaFilter, searchParams.country],
+    () => {
+      const sorted = sortResults(results, sortMode, searchParams.country === "korea" ? koreaFilter : "all");
+      return filterByTransitTypes(sorted, searchParams.preferredTransitTypes);
+    },
+    [results, sortMode, koreaFilter, searchParams.country, searchParams.preferredTransitTypes],
   );
 
   const formatConvertedPrice = (price?: number, currency?: string) => {
@@ -202,7 +312,12 @@ export default function App() {
     setError(undefined);
     setResults([]);
 
-    const query = new URLSearchParams(params).toString();
+    const nowInTz = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }));
+    nowInTz.setHours(nowInTz.getHours() - 1);
+    const queryTime = `${String(nowInTz.getHours()).padStart(2, '0')}:${String(nowInTz.getMinutes()).padStart(2, '0')}`;
+
+    const queryParams = { ...params, time: queryTime };
+    const query = new URLSearchParams(queryParams).toString();
     const url = `/api/transit/search?${query}`;
 
     try {
@@ -279,6 +394,7 @@ export default function App() {
   };
 
   const handleNavigate = (nextView: AppView) => {
+    setPreviousView(view);
     if (nextView === "stations") {
       setStationPickTarget("origin");
     }
@@ -496,8 +612,13 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-emerald-200 dark:bg-[#0b1220] dark:text-slate-100 dark:selection:bg-emerald-800/40">
-      <Header onMenuOpen={() => setMenuOpen(true)} onProfileOpen={() => setProfileOpen(true)} />
+    <div className={`min-h-screen bg-slate-50/40 bg-gradient-to-tr ${activeTheme.primaryBgLight} font-sans text-slate-900 selection:bg-emerald-200 transition-all duration-500 dark:bg-[#0b1220] ${activeTheme.primaryBgDark} dark:text-slate-100 dark:selection:bg-emerald-800/40`}>
+      <Header 
+        onMenuOpen={() => setMenuOpen(true)} 
+        onProfileOpen={() => setProfileOpen(true)} 
+        timezone={timezone}
+        onChangeTimezone={setTimezone}
+      />
 
       {(view === "search" || view === "stations") && (
         <SearchForm
@@ -537,12 +658,12 @@ export default function App() {
       )}
 
       {view === "results" && isSearching && (
-        <div className="pt-20 pb-28 min-h-screen bg-slate-50 max-w-md mx-auto dark:bg-[#0b1220]">
+        <div className="pt-20 pb-28 min-h-screen bg-transparent max-w-md mx-auto">
           <ResultSkeleton />
         </div>
       )}
 
-      {view === "results" && !isSearching && ["japan", "taiwan", "germany", "france", "china"].includes(searchParams.country) && (
+      {view === "results" && !isSearching && ["japan", "germany", "france", "china"].includes(searchParams.country) && (
         <JapanResultView
           origin={searchParams.origin}
           destination={searchParams.destination}
@@ -555,6 +676,7 @@ export default function App() {
           onModify={() => setView("search")}
           onSave={toggleSaveTrip}
           onSelectSeat={openSeatPicker}
+          onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
         />
       )}
 
@@ -571,6 +693,7 @@ export default function App() {
           onModify={() => setView("search")}
           onSave={toggleSaveTrip}
           onSelectSeat={openSeatPicker}
+          onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
         />
       )}
 
@@ -584,6 +707,7 @@ export default function App() {
           savedIds={savedIds}
           onModify={() => setView("search")}
           onSave={toggleSaveTrip}
+          onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
         />
       )}
 
@@ -598,6 +722,7 @@ export default function App() {
           savedIds={savedIds}
           onModify={() => setView("search")}
           onSave={toggleSaveTrip}
+          onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
         />
       )}
 
@@ -612,6 +737,14 @@ export default function App() {
           savedIds={savedIds}
           onModify={() => setView("search")}
           onSave={toggleSaveTrip}
+          onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
+        />
+      )}
+
+      {view === "legend" && (
+        <TransitLegend 
+          onBack={() => setView(previousView)} 
+          highlightLine={legendHighlight}
         />
       )}
 
@@ -622,7 +755,7 @@ export default function App() {
           ) : (
             <div className="space-y-2">
               {history.map((item) => (
-                <div key={item.id} className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+                <div key={item.id} className="flex items-center justify-between gap-3 rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
                   <div className="min-w-0">
                     <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
                       {t(`station.${item.origin}`, { defaultValue: item.origin })}
@@ -650,7 +783,7 @@ export default function App() {
             <EmptyState title={t("saved.empty_title")} body={t("saved.empty_body")} />
           ) : (
             <div className="space-y-4">
-              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+              <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <Coins className="h-4 w-4 text-amber-500 shrink-0" />
@@ -687,7 +820,7 @@ export default function App() {
 
               <div className="space-y-2.5">
                 {savedTrips.map((trip) => (
-                  <div key={trip.id} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                  <div key={trip.id} className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 mb-1">
@@ -777,7 +910,7 @@ export default function App() {
           ) : (
             <div className="space-y-2">
               {alerts.map((alert) => (
-                <div key={alert.id} className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+                <div key={alert.id} className="rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
                   <p className="text-sm font-bold text-slate-900 dark:text-white">{alert.title}</p>
                   <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{alert.body}</p>
                   <p className="mt-2 font-mono text-[11px] text-slate-400">{new Date(alert.createdAt).toLocaleString()}</p>
@@ -788,7 +921,7 @@ export default function App() {
         </UtilityPage>
       )}
 
-      <BottomNav activeView={view} unreadAlerts={unreadAlerts} onNavigate={handleNavigate} />
+      <BottomNav activeView={view} unreadAlerts={unreadAlerts} onNavigate={handleNavigate} country={activeCountry} />
 
       {menuOpen && (
         <Panel title={t("menu.title")} onClose={() => setMenuOpen(false)}>
@@ -799,10 +932,15 @@ export default function App() {
               { icon: MapPinned, label: t("nav.stations"), view: "stations" as const },
               { icon: DatabaseZap, label: t("workflow.title"), view: "workflow" as const },
               { icon: Bookmark, label: t("nav.saved"), view: "saved" as const },
+              { icon: Compass, label: t("legend.menu_title", { defaultValue: "Transit Legend / 乘車指南" }), view: "legend" as const },
             ].map(({ icon: Icon, label, view: target }) => (
               <button
                 key={label}
-                onClick={() => { setView(target); setMenuOpen(false); }}
+                onClick={() => {
+                  setPreviousView(view);
+                  setView(target);
+                  setMenuOpen(false);
+                }}
                 className="flex w-full items-center gap-3 p-4 text-left hover:bg-slate-50 dark:hover:bg-slate-800"
               >
                 <Icon className="h-4 w-4 text-slate-500 dark:text-slate-400" />
@@ -828,17 +966,39 @@ export default function App() {
             <ProfileStat label={t("nav.alerts")} value={alerts.length} />
             <ProfileStat label="Favorites" value={favorites.length} />
           </div>
-          <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-            <div>
-              <p className="text-sm font-bold text-slate-900 dark:text-white">Dark Mode</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Toggle dark appearance</p>
+          <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-bold text-slate-900 dark:text-white">Theme / 顯示主題</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Choose your appearance style</p>
+              </div>
             </div>
-            <button
-              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-              className="flex items-center justify-center p-2 rounded-full border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
-            >
-              {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-            </button>
+            <div className="relative flex rounded-2xl bg-slate-100 p-1 dark:bg-slate-800/80">
+              <div className="grid w-full grid-cols-3 gap-1 relative z-10">
+                {[
+                  { id: "light" as const, label: "Light", icon: Sun },
+                  { id: "dark" as const, label: "Dark", icon: Moon },
+                  { id: "auto" as const, label: "Auto", icon: Monitor },
+                ].map((item) => {
+                  const Icon = item.icon;
+                  const isSelected = theme === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => setTheme(item.id)}
+                      className={`relative flex items-center justify-center gap-1.5 rounded-xl py-2 text-xs font-bold transition-all duration-300 ${
+                        isSelected
+                          ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
+                          : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                      }`}
+                    >
+                      <Icon className="h-3.5 w-3.5 shrink-0" />
+                      <span>{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </Panel>
       )}
@@ -879,16 +1039,7 @@ export default function App() {
         </div>
       )}
 
-      {apiDiagnostic && (
-        <button
-          onClick={() => setDiagnosticOpen(true)}
-          className="fixed bottom-20 right-4 z-40 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-lg shadow-emerald-600/20 hover:bg-emerald-500 dark:shadow-emerald-600/10"
-          aria-label="API Diagnostics"
-          title="View API Diagnostics"
-        >
-          <Activity className="h-5 w-5" />
-        </button>
-      )}
+
 
       {diagnosticOpen && (
         <DiagnosticOverlay diagnostic={apiDiagnostic} onClose={() => setDiagnosticOpen(false)} />
@@ -913,7 +1064,7 @@ function UtilityPage({ title, icon, children }: { title: string; icon: ReactNode
 
 function EmptyState({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center dark:border-slate-700 dark:bg-slate-900">
+    <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center dark:border-slate-700 dark:bg-slate-900">
       <p className="text-sm font-bold text-slate-900 dark:text-white">{title}</p>
       <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{body}</p>
     </div>
@@ -941,7 +1092,7 @@ function Panel({ title, onClose, children }: { title: string; onClose: () => voi
 
 function ProfileStat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-slate-200 p-3 text-center dark:border-slate-700">
+    <div className="rounded-3xl border border-slate-200 p-3 text-center dark:border-slate-700">
       <p className="font-mono text-lg font-bold text-slate-900 dark:text-white">{value}</p>
       <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">{label}</p>
     </div>

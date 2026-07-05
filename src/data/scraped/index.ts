@@ -14,7 +14,7 @@ interface ScrapedRouteData {
 const DATA_DIR = join(process.cwd(), "src/data/scraped");
 
 const ALL_COUNTRIES: Country[] = [
-  "japan", "korea", "taiwan", "singapore", "thailand",
+  "japan", "korea", "singapore", "thailand",
   "hong_kong", "united_kingdom", "united_states",
   "germany", "france", "china",
 ];

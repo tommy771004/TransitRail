@@ -26,7 +26,7 @@ async function startServer() {
   // Search API. It never fabricates schedules; providers must be wired before
   // result cards can be rendered.
   app.get("/api/transit/search", async (req, res) => {
-    const { origin, destination, country, date } = req.query;
+    const { origin, destination, country, date, time } = req.query;
 
     if (typeof origin !== "string" || typeof destination !== "string" || typeof date !== "string") {
       return res.status(400).json({
@@ -36,8 +36,11 @@ async function startServer() {
       });
     }
 
-    const scraped = findScrapedResults(country as any, origin, destination);
+    let scraped = findScrapedResults(country as any, origin, destination);
     if (scraped && scraped.length > 0) {
+      if (typeof time === "string" && time.match(/^\d{2}:\d{2}$/)) {
+        scraped = scraped.filter(r => r.departureTime >= time);
+      }
       return res.json({ results: scraped, source: "scraped" });
     }
     return res.status(404).json({

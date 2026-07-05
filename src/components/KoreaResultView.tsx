@@ -1,5 +1,6 @@
-import { AlertTriangle, Bookmark, Check, Edit2, Utensils, Wifi, Zap } from "lucide-react";
+import { AlertTriangle, Bookmark, Check, Edit2, Utensils, Wifi, Zap, Compass } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { motion } from "motion/react";
 import type { KoreaFilter, TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
 
@@ -15,6 +16,7 @@ interface KoreaResultViewProps {
   onModify: () => void;
   onSave: (trip: TransitResult) => void;
   onSelectSeat: (trip: TransitResult) => void;
+  onOpenLegend?: (highlight?: string) => void;
 }
 
 const formatPrice = (trip: TransitResult) =>
@@ -43,6 +45,7 @@ export function KoreaResultView({
   onModify,
   onSave,
   onSelectSeat,
+  onOpenLegend,
 }: KoreaResultViewProps) {
   const { t } = useTranslation();
   const filters: Array<{ key: KoreaFilter; label: string }> = [
@@ -53,7 +56,7 @@ export function KoreaResultView({
   ];
 
   return (
-    <main className="min-h-screen bg-slate-50 pb-28 pt-14 dark:bg-[#0b1220]">
+    <main className="min-h-screen bg-transparent pb-28 pt-14">
       <section className="border-b border-slate-200/80 bg-white/95 backdrop-blur-sm px-4 py-4 dark:border-slate-700/50 dark:bg-slate-900/95">
         <div className="mx-auto flex max-w-md items-center justify-between gap-3">
           <div className="min-w-0">
@@ -64,13 +67,25 @@ export function KoreaResultView({
             </div>
             <p className="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">{date} · 1 {t("result.adult")}</p>
           </div>
-          <button
-            onClick={onModify}
-            className="flex shrink-0 items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-          >
-            <Edit2 className="h-3.5 w-3.5" />
-            {t("result.modify")}
-          </button>
+          <div className="flex shrink-0 items-center gap-1.5">
+            {onOpenLegend && (
+              <button
+                onClick={() => onOpenLegend?.()}
+                className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
+                title="View Transit Legend"
+                aria-label="Transit Legend"
+              >
+                <Compass className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+              </button>
+            )}
+            <button
+              onClick={onModify}
+              className="flex shrink-0 items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+            >
+              <Edit2 className="h-3.5 w-3.5" />
+              {t("result.modify")}
+            </button>
+          </div>
         </div>
       </section>
 
@@ -94,23 +109,29 @@ export function KoreaResultView({
 
       <div className="mx-auto max-w-md space-y-3 px-4 pt-4">
         {error && (
-          <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-400">
+          <div className="rounded-3xl border border-red-200 bg-red-50 p-4 text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-400">
             <p className="text-sm font-bold">{t("result.unable_to_fetch")}</p>
             <p className="mt-1 text-sm">{error}</p>
           </div>
         )}
 
         {!error && results.length === 0 && (
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center dark:border-slate-700 dark:bg-slate-900">
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 text-center dark:border-slate-700 dark:bg-slate-900">
             <p className="text-sm font-bold text-slate-900 dark:text-white">{t("result.no_results")}</p>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{t("result.no_results_hint")}</p>
           </div>
         )}
 
-        {!error && results.map((trip) => {
+        {!error && results.map((trip, index) => {
           const isSaved = savedIds.has(trip.id);
           return (
-            <article key={trip.id} className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+            <motion.article
+              key={trip.id}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: "easeOut", delay: index * 0.05 }}
+              className="rounded-3xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900"
+            >
               <div className="mb-3 flex items-start justify-between gap-3">
                 <div className="flex min-w-0 items-center gap-2">
                   <span
@@ -153,7 +174,7 @@ export function KoreaResultView({
                   <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">{trip.destination}</p>
                 </div>
               </div>
-              <TripDetails trip={trip} />
+              <TripDetails trip={trip} onOpenLegend={onOpenLegend} />
               <div className="mt-3 flex items-center justify-between gap-3 border-t border-slate-100 pt-3 dark:border-slate-800">
                 <div className="flex min-w-0 items-center gap-2">
                   {(trip.amenities || []).includes("wifi") && <Wifi className="h-4 w-4 shrink-0 text-slate-400" />}
@@ -184,7 +205,7 @@ export function KoreaResultView({
                   </button>
                 </div>
               </div>
-            </article>
+            </motion.article>
           );
         })}
       </div>

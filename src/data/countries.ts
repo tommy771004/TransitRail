@@ -3,7 +3,6 @@ import type { Country } from "../types";
 export const countryOptions: Country[] = [
   "japan",
   "korea",
-  "taiwan",
   "singapore",
   "thailand",
   "hong_kong",
@@ -47,17 +46,6 @@ export const countryConfig: Record<Country, {
     connected: true,
     liveOnly: false,
     timeZone: "Asia/Seoul",
-  },
-  taiwan: {
-    labelKey: "search.taiwan",
-    provider: "Scraped (TRA/THSR)",
-    originPlaceholder: "Taipei",
-    destinationPlaceholder: "Zuoying",
-    featuredStations: ["Taipei", "Taichung", "Zuoying", "Kaohsiung", "Hualien"],
-    promptName: "台灣",
-    connected: true,
-    liveOnly: false,
-    timeZone: "Asia/Taipei",
   },
   singapore: {
     labelKey: "search.singapore",
@@ -171,3 +159,115 @@ export function providerDateValue(country: Country) {
   const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
   return `${values.year}-${values.month}-${values.day}`;
 }
+
+export const countryThemes: Record<Country, {
+  primaryBgLight: string;
+  primaryBgDark: string;
+  buttonBg: string;
+  buttonShadow: string;
+  textActive: string;
+  borderActive: string;
+  badgeBg: string;
+  indicatorBg: string;
+}> = {
+  japan: {
+    primaryBgLight: "from-rose-500/5",
+    primaryBgDark: "dark:from-rose-950/20",
+    buttonBg: "bg-rose-600 hover:bg-rose-500 dark:bg-rose-600 dark:hover:bg-rose-500",
+    buttonShadow: "shadow-[0_4px_14px_rgba(225,29,72,0.3)] dark:shadow-[0_4px_14px_rgba(225,29,72,0.15)]",
+    textActive: "text-rose-600 dark:text-rose-400",
+    borderActive: "border-rose-500",
+    badgeBg: "border-rose-500 bg-rose-50 text-rose-600 dark:border-rose-500/30 dark:bg-rose-950/30 dark:text-rose-400",
+    indicatorBg: "bg-rose-500",
+  },
+  korea: {
+    primaryBgLight: "from-indigo-500/5",
+    primaryBgDark: "dark:from-indigo-950/20",
+    buttonBg: "bg-indigo-600 hover:bg-indigo-500 dark:bg-indigo-600 dark:hover:bg-indigo-500",
+    buttonShadow: "shadow-[0_4px_14px_rgba(79,70,229,0.3)] dark:shadow-[0_4px_14px_rgba(79,70,229,0.15)]",
+    textActive: "text-indigo-600 dark:text-indigo-400",
+    borderActive: "border-indigo-500",
+    badgeBg: "border-indigo-500 bg-indigo-50 text-indigo-600 dark:border-indigo-500/30 dark:bg-indigo-950/30 dark:text-indigo-400",
+    indicatorBg: "bg-indigo-500",
+  },
+  singapore: {
+    primaryBgLight: "from-fuchsia-500/5",
+    primaryBgDark: "dark:from-fuchsia-950/20",
+    buttonBg: "bg-fuchsia-600 hover:bg-fuchsia-500 dark:bg-fuchsia-600 dark:hover:bg-fuchsia-500",
+    buttonShadow: "shadow-[0_4px_14px_rgba(192,38,211,0.3)] dark:shadow-[0_4px_14px_rgba(192,38,211,0.15)]",
+    textActive: "text-fuchsia-600 dark:text-fuchsia-400",
+    borderActive: "border-fuchsia-500",
+    badgeBg: "border-fuchsia-500 bg-fuchsia-50 text-fuchsia-600 dark:border-fuchsia-500/30 dark:bg-fuchsia-950/30 dark:text-fuchsia-400",
+    indicatorBg: "bg-fuchsia-500",
+  },
+  thailand: {
+    primaryBgLight: "from-amber-500/5",
+    primaryBgDark: "dark:from-amber-950/20",
+    buttonBg: "bg-amber-600 hover:bg-amber-500 dark:bg-amber-600 dark:hover:bg-amber-500",
+    buttonShadow: "shadow-[0_4px_14px_rgba(217,119,6,0.3)] dark:shadow-[0_4px_14px_rgba(217,119,6,0.15)]",
+    textActive: "text-amber-600 dark:text-amber-400",
+    borderActive: "border-amber-500",
+    badgeBg: "border-amber-500 bg-amber-50 text-amber-600 dark:border-amber-500/30 dark:bg-amber-950/30 dark:text-amber-400",
+    indicatorBg: "bg-amber-500",
+  },
+  hong_kong: {
+    primaryBgLight: "from-cyan-500/5",
+    primaryBgDark: "dark:from-cyan-950/20",
+    buttonBg: "bg-cyan-600 hover:bg-cyan-500 dark:bg-cyan-600 dark:hover:bg-cyan-500",
+    buttonShadow: "shadow-[0_4px_14px_rgba(8,145,178,0.3)] dark:shadow-[0_4px_14px_rgba(8,145,178,0.15)]",
+    textActive: "text-cyan-600 dark:text-cyan-400",
+    borderActive: "border-cyan-500",
+    badgeBg: "border-cyan-500 bg-cyan-50 text-cyan-600 dark:border-cyan-500/30 dark:bg-cyan-950/30 dark:text-cyan-400",
+    indicatorBg: "bg-cyan-500",
+  },
+  united_kingdom: {
+    primaryBgLight: "from-blue-500/5",
+    primaryBgDark: "dark:from-blue-950/20",
+    buttonBg: "bg-blue-600 hover:bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-500",
+    buttonShadow: "shadow-[0_4px_14px_rgba(37,99,235,0.3)] dark:shadow-[0_4px_14px_rgba(37,99,235,0.15)]",
+    textActive: "text-blue-600 dark:text-blue-400",
+    borderActive: "border-blue-500",
+    badgeBg: "border-blue-500 bg-blue-50 text-blue-600 dark:border-blue-500/30 dark:bg-blue-950/30 dark:text-blue-400",
+    indicatorBg: "bg-blue-500",
+  },
+  united_states: {
+    primaryBgLight: "from-slate-500/5",
+    primaryBgDark: "dark:from-slate-900/20",
+    buttonBg: "bg-slate-700 hover:bg-slate-600 dark:bg-slate-600 dark:hover:bg-slate-500",
+    buttonShadow: "shadow-[0_4px_14px_rgba(51,65,85,0.3)] dark:shadow-[0_4px_14px_rgba(51,65,85,0.15)]",
+    textActive: "text-slate-700 dark:text-slate-300",
+    borderActive: "border-slate-500",
+    badgeBg: "border-slate-500 bg-slate-100 text-slate-700 dark:border-slate-750 dark:bg-slate-800 dark:text-slate-300",
+    indicatorBg: "bg-slate-500",
+  },
+  germany: {
+    primaryBgLight: "from-red-500/5",
+    primaryBgDark: "dark:from-red-950/20",
+    buttonBg: "bg-red-600 hover:bg-red-500 dark:bg-red-600 dark:hover:bg-red-500",
+    buttonShadow: "shadow-[0_4px_14px_rgba(220,38,38,0.3)] dark:shadow-[0_4px_14px_rgba(220,38,38,0.15)]",
+    textActive: "text-red-600 dark:text-red-400",
+    borderActive: "border-red-500",
+    badgeBg: "border-red-500 bg-red-50 text-red-600 dark:border-red-500/30 dark:bg-red-950/30 dark:text-red-400",
+    indicatorBg: "bg-red-500",
+  },
+  france: {
+    primaryBgLight: "from-violet-500/5",
+    primaryBgDark: "dark:from-violet-950/20",
+    buttonBg: "bg-violet-600 hover:bg-violet-500 dark:bg-violet-600 dark:hover:bg-violet-500",
+    buttonShadow: "shadow-[0_4px_14px_rgba(124,58,237,0.3)] dark:shadow-[0_4px_14px_rgba(124,58,237,0.15)]",
+    textActive: "text-violet-600 dark:text-violet-400",
+    borderActive: "border-violet-500",
+    badgeBg: "border-violet-500 bg-violet-50 text-violet-600 dark:border-violet-500/30 dark:bg-violet-950/30 dark:text-violet-400",
+    indicatorBg: "bg-violet-500",
+  },
+  china: {
+    primaryBgLight: "from-orange-500/5",
+    primaryBgDark: "dark:from-orange-950/20",
+    buttonBg: "bg-orange-600 hover:bg-orange-500 dark:bg-orange-600 dark:hover:bg-orange-500",
+    buttonShadow: "shadow-[0_4px_14px_rgba(234,88,12,0.3)] dark:shadow-[0_4px_14px_rgba(234,88,12,0.15)]",
+    textActive: "text-orange-600 dark:text-orange-400",
+    borderActive: "border-orange-500",
+    badgeBg: "border-orange-500 bg-orange-50 text-orange-600 dark:border-orange-500/30 dark:bg-orange-950/30 dark:text-orange-400",
+    indicatorBg: "bg-orange-500",
+  },
+};

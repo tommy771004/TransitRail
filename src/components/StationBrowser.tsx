@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { countryConfig, countryOptions } from "../data/countries";
 import type { Country, TransitLine } from "../types";
+import { triggerHaptic } from "../utils/haptics";
 
 interface StationBrowserProps {
   country: Country;
@@ -28,6 +29,10 @@ export function StationBrowser({
   onSelectStation,
 }: StationBrowserProps) {
   const { t } = useTranslation();
+  const handleSelectStation = (station: string) => {
+    triggerHaptic("medium");
+    onSelectStation(station);
+  };
   const [tab, setTab] = useState<BrowserTab>("lines");
   const [stations, setStations] = useState<string[]>([]);
   const [lines, setLines] = useState<TransitLine[]>([]);
@@ -115,7 +120,10 @@ export function StationBrowser({
         <div className="shrink-0 border-b border-slate-200 p-4 dark:border-slate-700">
           <div className="mb-3 flex items-center gap-3">
             <button
-              onClick={onBack}
+              onClick={() => {
+                triggerHaptic("light");
+                onBack();
+              }}
               className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
               aria-label={t("workflow.back")}
             >
@@ -136,6 +144,7 @@ export function StationBrowser({
               <button
                 key={item}
                 onClick={() => {
+                  triggerHaptic("light");
                   onCountryChange(item);
                   setQuery("");
                   setTab("lines");
@@ -160,7 +169,13 @@ export function StationBrowser({
               className="w-full bg-transparent text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400 dark:text-white dark:placeholder:text-slate-500"
             />
             {query && (
-              <button onClick={() => setQuery("")} className="p-0.5">
+              <button
+                onClick={() => {
+                  triggerHaptic("light");
+                  setQuery("");
+                }}
+                className="p-0.5"
+              >
                 <X className="h-4 w-4 text-slate-400 hover:text-slate-600" />
               </button>
             )}
@@ -171,7 +186,10 @@ export function StationBrowser({
               {(["lines", "all"] as const).map((item) => (
                 <button
                   key={item}
-                  onClick={() => setTab(item)}
+                  onClick={() => {
+                    triggerHaptic("light");
+                    setTab(item);
+                  }}
                   className={`rounded-[10px] py-1.5 text-xs font-bold ${
                     tab === item ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white" : "text-slate-500 dark:text-slate-400"
                   }`}
@@ -189,7 +207,7 @@ export function StationBrowser({
               isLoading={isLoading}
               loadFailed={loadFailed}
               stations={filteredStations}
-              onSelectStation={onSelectStation}
+              onSelectStation={handleSelectStation}
             />
           ) : tab === "all" ? (
             <>
@@ -198,7 +216,7 @@ export function StationBrowser({
                   {featured.map((station) => (
                     <button
                       key={station}
-                      onClick={() => onSelectStation(station)}
+                      onClick={() => handleSelectStation(station)}
                       className="shrink-0 whitespace-nowrap rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
                     >
                       {t(`station.${station}`, { defaultValue: station })}
@@ -210,7 +228,7 @@ export function StationBrowser({
                 isLoading={isLoading}
                 loadFailed={loadFailed}
                 stations={filteredStations}
-                onSelectStation={onSelectStation}
+                onSelectStation={handleSelectStation}
               />
             </>
           ) : (
@@ -229,9 +247,12 @@ export function StationBrowser({
                   {lines.map((line) => {
                     const expanded = expandedLine === line.id;
                     return (
-                      <div key={line.id} className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700">
+                      <div key={line.id} className="overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-700">
                         <button
-                          onClick={() => setExpandedLine(expanded ? null : line.id)}
+                          onClick={() => {
+                            triggerHaptic("light");
+                            setExpandedLine(expanded ? null : line.id);
+                          }}
                           className="flex w-full items-center gap-3 bg-white px-4 py-3.5 text-left dark:bg-slate-900"
                           aria-expanded={expanded}
                         >
@@ -255,7 +276,7 @@ export function StationBrowser({
                             {line.stations.map((station, index) => (
                               <li key={`${station.name}-${index}`}>
                                 <button
-                                  onClick={() => onSelectStation(station.name)}
+                                  onClick={() => handleSelectStation(station.name)}
                                   className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-slate-100 dark:hover:bg-slate-800"
                                 >
                                   <span className="flex w-1.5 shrink-0 flex-col items-center self-stretch">
