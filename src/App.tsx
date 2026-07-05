@@ -364,11 +364,14 @@ export default function App() {
     setError(undefined);
     setResults([]);
 
-    const nowInTz = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }));
-    nowInTz.setHours(nowInTz.getHours() - 1);
-    const queryTime = `${String(nowInTz.getHours()).padStart(2, '0')}:${String(nowInTz.getMinutes()).padStart(2, '0')}`;
-
-    const queryParams = { ...params, time: queryTime };
+    const todayStr = providerDateValue(country);
+    const queryParams: any = { ...params };
+    if (date === todayStr) {
+      const nowInTz = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }));
+      nowInTz.setHours(nowInTz.getHours() - 1);
+      const queryTime = `${String(nowInTz.getHours()).padStart(2, '0')}:${String(nowInTz.getMinutes()).padStart(2, '0')}`;
+      queryParams.time = queryTime;
+    }
     const query = new URLSearchParams(queryParams).toString();
     const url = `/api/transit/search?${query}`;
 

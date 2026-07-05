@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
 import type { TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
+import { triggerHaptic } from "../utils/haptics";
+import { WeatherWidget } from "./WeatherWidget";
 
 interface MetroResultViewProps {
   origin: string;
@@ -55,7 +57,10 @@ export function MetroResultView({
             {onOpenLegend && (
               <button
                 type="button"
-                onClick={() => onOpenLegend?.()}
+                onClick={() => {
+                  triggerHaptic("light");
+                  onOpenLegend?.();
+                }}
                 className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
                 title="View Transit Legend"
                 aria-label="Transit Legend"
@@ -65,7 +70,10 @@ export function MetroResultView({
             )}
             <button
               type="button"
-              onClick={onModify}
+              onClick={() => {
+                triggerHaptic("light");
+                onModify();
+              }}
               className="flex shrink-0 items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
             >
               <Edit2 className="h-3.5 w-3.5" />
@@ -76,6 +84,10 @@ export function MetroResultView({
       </section>
 
       <section className="mx-auto max-w-md space-y-3 px-4 py-4">
+        {!error && results.length > 0 && (
+          <WeatherWidget destination={destination} date={date} />
+        )}
+
         {error ? (
           <div className="rounded-3xl border border-red-200 bg-red-50 p-4 text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-400">
             <p className="text-sm font-bold">{t("result.unable_to_fetch")}</p>
@@ -98,6 +110,7 @@ export function MetroResultView({
               return (
                 <motion.article
                   key={trip.id}
+                  layout
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.35, ease: "easeOut", delay: index * 0.05 }}
@@ -134,7 +147,7 @@ export function MetroResultView({
                       </div>
                       <div className="rounded-xl bg-slate-100 px-4 py-2 text-center dark:bg-slate-800">
                         <p className="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">{t("metro.platform")}</p>
-                        <p className="font-mono text-lg font-bold text-slate-900 dark:text-white">{trip.platform || "-"}</p>
+                        <p className="font-mono text-lg font-bold text-slate-900 dark:text-white">{trip.platform || trip.legs?.[0]?.platform || "-"}</p>
                       </div>
                     </div>
                   </div>
@@ -156,7 +169,10 @@ export function MetroResultView({
                     </p>
                     <button
                       type="button"
-                      onClick={() => onSave(trip)}
+                      onClick={() => {
+                        triggerHaptic(isSaved ? "light" : "success");
+                        onSave(trip);
+                      }}
                       className={`flex h-8 items-center gap-1.5 rounded-xl border px-3 text-xs font-bold ${
                         isSaved
                           ? "border-emerald-200 bg-emerald-50 text-emerald-600 dark:border-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400"

@@ -57,64 +57,114 @@ app.use(express.json());
     });
   });
 
-  // Stations API
-  app.get("/api/transit/stations", async (req, res) => {
-    const { country, q } = req.query;
+  async function getStationsForCountry(country: string, q?: string) {
     let stations: string[] = [];
     let source: string | undefined;
 
-    try {
-      const { newCountryStationLists } = await import("./src/data/scraped/stations");
+    const { newCountryStationLists } = await import("./src/data/scraped/stations");
 
-      if (country === "japan") {
-        stations = japanStations;
-      } else if (country === "korea") {
-        stations = Array.from(new Set([...koreaStations, ...seoulSubwayStationNames]))
-          .sort((a, b) => a.localeCompare(b));
-      } else if (country === "hong_kong") {
-        stations = hongKongStations;
-      } else if (country === "united_kingdom") {
-        stations = await getTflStations();
-        source = "https://api.tfl.gov.uk";
-      } else if (country === "united_states") {
-        stations = await getMbtaStations();
-        source = "https://api-v3.mbta.com";
-      } else if (newCountryStationLists[country as string]) {
-        // Union the curated intercity list with every station on the country's
-        // metro/HSR lines so the directory matches the Lines tab.
-        const lineSets: Record<string, TransitLine[]> = {
-          singapore: singaporeMrtLines,
-          thailand: thailandTransitLines,
-          china: chinaRailLines,
-          germany: germanyRailLines,
-          france: franceRailLines,
-        };
-        const fromLines = (lineSets[country as string] || []).flatMap((line) =>
-          line.stations.map((station) => station.name),
-        );
-        stations = Array.from(
-          new Set([...newCountryStationLists[country as string], ...fromLines]),
-        ).sort((a, b) => a.localeCompare(b));
-      } else {
+    if (country === "japan") {
+      stations = japanStations;
+    } else if (country === "korea") {
+      stations = Array.from(new Set([...koreaStations, ...seoulSubwayStationNames]))
+        .sort((a, b) => a.localeCompare(b));
+    } else if (country === "hong_kong") {
+      stations = hongKongStations;
+    } else if (country === "united_kingdom") {
+      stations = await getTflStations();
+      source = "https://api.tfl.gov.uk";
+    } else if (country === "united_states") {
+      stations = await getMbtaStations();
+      source = "https://api-v3.mbta.com";
+    } else if (newCountryStationLists[country as string]) {
+      const lineSets: Record<string, TransitLine[]> = {
+        singapore: singaporeMrtLines,
+        thailand: thailandTransitLines,
+        china: chinaRailLines,
+        germany: germanyRailLines,
+        france: franceRailLines,
+      };
+      const fromLines = (lineSets[country as string] || []).flatMap((line) =>
+        line.stations.map((station) => station.name),
+      );
+      stations = Array.from(
+        new Set([...newCountryStationLists[country as string], ...fromLines]),
+      ).sort((a, b) => a.localeCompare(b));
+    } else {
+      throw new Error("Invalid country");
+    }
+
+    if (typeof q === "string" && q.trim().length > 0) {
+      const queryVal = q.trim().toLowerCase();
+      stations = stations.filter((station) => station.toLowerCase().includes(queryVal));
+    }
+
+    return { stations, source };
+  }
+
+  // Stations API
+  app.get("/api/transit/stations", async (req, res) => {
+    const { country, q } = req.query;
+    try {
+      const { stations, source } = await getStationsForCountry(country as string, q as string);
+      return res.json({ stations, source });
+    } catch (error) {
+      if (error instanceof Error && error.message === "Invalid country") {
         return res.status(400).json({
           error: "Invalid country",
           message: "Country must be one of japan, korea, taiwan, singapore, thailand, hong_kong, united_kingdom, united_states, germany, france, china.",
           stations: [],
         });
       }
-
-      if (typeof q === "string" && q.trim().length > 0) {
-        const queryVal = q.trim().toLowerCase();
-        stations = stations.filter((station) => station.toLowerCase().includes(queryVal));
-      }
-
-      return res.json({ stations, source });
-    } catch (error) {
       return res.status(502).json({
         error: "Provider request failed",
         message: error instanceof Error ? error.message : "Could not fetch stations.",
         stations: [],
       });
+    }
+  });
+
+  app.get("/api/transit/nearest-station", async (req, res) => {
+    const { country, lat, lng } = req.query;
+    if (!country || !lat || !lng) {
+      return res.status(400).json({ error: "Missing required parameters: country, lat, lng" });
+    }
+    
+    try {
+      const { stations } = await getStationsForCountry(country as string);
+      if (stations.length === 0) {
+         return res.status(404).json({ error: "No stations found for country" });
+      }
+
+      if (!process.env.GEMINI_API_KEY) {
+        return res.status(501).json({ error: "Gemini API key not configured." });
+      }
+
+      const prompt = `Given the user's location (latitude: ${lat}, longitude: ${lng}) in ${country}, which of the following train stations is physically closest to them?
+
+List of stations:
+${stations.join(", ")}
+
+Respond ONLY with the exact name of the closest station from the list above. Do not include any other text or explanation.`;
+
+      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+      const response = await ai.models.generateContent({
+        model: "gemini-3.1-pro-preview",
+        contents: prompt,
+        config: {
+          thinkingConfig: {
+            thinkingLevel: ThinkingLevel.HIGH,
+          }
+        }
+      });
+      
+      let nearest = response.text?.trim() || "";
+      nearest = nearest.replace(/^["']|["']$/g, '');
+      
+      return res.json({ station: nearest });
+    } catch (e) {
+      console.error(e);
+      return res.status(500).json({ error: "Failed to determine nearest station" });
     }
   });
 

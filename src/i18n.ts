@@ -6,7 +6,7 @@ const resources = {
   en: {
     translation: {
       header: {
-        title: "TransNation",
+        title: "Rail National",
         open_menu: "Open menu",
         switch_language: "Switch language",
         open_profile: "Open profile"
@@ -338,7 +338,7 @@ const resources = {
   'zh-TW': {
     translation: {
       header: {
-        title: "TransNation",
+        title: "Rail Nation",
         open_menu: "開啟選單",
         switch_language: "切換語言",
         open_profile: "開啟個人資料"

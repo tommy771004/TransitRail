@@ -11,7 +11,21 @@ interface ScrapedRouteData {
   results: TransitResult[];
 }
 
+import { fileURLToPath } from "url";
+
 const DATA_DIR = join(process.cwd(), "src/data/scraped");
+try {
+  if (__dirname) {
+    const isDist = __dirname.endsWith("dist") || __dirname.endsWith("api");
+    if (isDist) {
+      Object.assign(process.env, { DATA_DIR: join(__dirname, "../src/data/scraped") });
+    } else {
+      Object.assign(process.env, { DATA_DIR: join(__dirname, ".") });
+    }
+  }
+} catch (e) {}
+
+const ACTUAL_DATA_DIR = process.env.DATA_DIR || DATA_DIR;
 
 const ALL_COUNTRIES: Country[] = [
   "japan", "korea", "singapore", "thailand",
@@ -23,7 +37,7 @@ let cache: Record<string, ScrapedRouteData[]> = {};
 let loaded = false;
 
 function loadDir(country: string): ScrapedRouteData[] {
-  const dirPath = join(DATA_DIR, country);
+  const dirPath = join(ACTUAL_DATA_DIR, country);
   const data: ScrapedRouteData[] = [];
 
   if (!existsSync(dirPath)) {
@@ -114,10 +128,13 @@ function normalizeResults(results: TransitResult[]): TransitResult[] {
 function resultsForDate(route: ScrapedRouteData, date?: string): TransitResult[] {
   if (!date) return route.results;
 
-  return route.results.filter((result) => {
-    const resultDate = result.date || route.date;
-    return resultDate === date;
-  });
+  // The scraped data acts as a static daily snapshot.
+  // Instead of filtering by exact date and returning nothing for future dates,
+  // we return the schedule and map the requested date into each result.
+  return route.results.map((result) => ({
+    ...result,
+    date: date,
+  }));
 }
 
 export function findScrapedResults(

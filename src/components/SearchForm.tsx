@@ -196,6 +196,7 @@ export function SearchForm({
                 });
                 setFormError(null);
               }}
+              aria-label={t(countryConfig[item].labelKey)}
               className={`shrink-0 whitespace-nowrap rounded-xl px-4 py-2 text-xs font-bold transition-all duration-200 ${
                 country === item
                   ? `${countryThemes[item].buttonBg} text-white ${countryThemes[item].buttonShadow} scale-[1.02]`
@@ -223,6 +224,7 @@ export function SearchForm({
                   triggerHaptic("light");
                   onOpenStations("origin");
                 }}
+                aria-label={origin ? `${t("search.origin")}: ${stationLabel(t, origin, country)}` : t("search.select_origin", { defaultValue: "Select Departure Station" })}
                 className="flex flex-1 flex-col items-center group focus:outline-none py-2 rounded-2xl hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors"
               >
                 <div className={`mb-1.5 flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider transition-colors duration-300 ${theme.textActive} opacity-70`}>
@@ -254,6 +256,7 @@ export function SearchForm({
                   triggerHaptic("light");
                   onOpenStations("destination");
                 }}
+                aria-label={destination ? `${t("search.destination")}: ${stationLabel(t, destination, country)}` : t("search.select_dest", { defaultValue: "Select Destination Station" })}
                 className="flex flex-1 flex-col items-center group focus:outline-none py-2 rounded-2xl hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors"
               >
                 <div className={`mb-1.5 flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider transition-colors duration-300 ${theme.textActive} opacity-70`}>
@@ -312,6 +315,8 @@ export function SearchForm({
                           triggerHaptic("light");
                           updateParam("date", dateValue);
                         }}
+                        aria-label={`${label}, ${monthStr} ${dayStr}`}
+                        aria-pressed={isSelected}
                         className={`flex min-w-[72px] shrink-0 snap-start flex-col items-center justify-center rounded-[20px] p-3 text-center border transition-all ${
                           isSelected
                             ? theme.dateSelected
@@ -345,7 +350,8 @@ export function SearchForm({
               <button
                 onClick={handleSubmit}
                 disabled={isSearching}
-                className={`h-12 flex-1 rounded-2xl ${theme.buttonBg} text-sm font-bold text-white ${theme.buttonShadow} hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-300 disabled:opacity-60 disabled:hover:translate-y-0 disabled:active:scale-100 disabled:cursor-not-allowed`}
+                aria-label={isSearching ? t("search.searching") : t("search.realtime_search")}
+                className={`h-12 flex-1 rounded-2xl ${theme.buttonBg} text-sm font-bold text-white ${theme.buttonShadow} hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-300 disabled:hover:translate-y-0 disabled:active:scale-100 disabled:cursor-wait ${isSearching ? "animate-pulse" : ""}`}
               >
                 {isSearching ? t("search.searching") : t("search.realtime_search")}
               </button>
@@ -353,6 +359,7 @@ export function SearchForm({
                 <button
                   type="button"
                   onClick={handleToggleFavorite}
+                  aria-label={isFavorited ? "Remove route from Favorites" : "Save route to Favorites"}
                   className="h-12 w-12 flex shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-400 hover:text-amber-500 hover:border-amber-200 hover:bg-amber-50 active:scale-95 transition-all dark:border-slate-800 dark:bg-slate-800 dark:hover:text-amber-400 dark:hover:border-amber-700 dark:hover:bg-amber-900/20"
                   title={isFavorited ? "Remove from Favorites" : "Save to Favorites"}
                 >
@@ -375,6 +382,7 @@ export function SearchForm({
                         triggerHaptic("light");
                         onChange({ ...params, origin: route.origin, destination: route.destination });
                       }}
+                      aria-label={`${stationLabel(t, route.origin, country)} to ${stationLabel(t, route.destination, country)}`}
                       className="flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-600 hover:border-slate-300 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:bg-slate-800/60 transition-all duration-200"
                     >
                       {stationLabel(t, route.origin, country)}
@@ -408,7 +416,11 @@ export function SearchForm({
                 >
                   <button
                     type="button"
-                    onClick={() => onRepeatFavoriteSearch(fav)}
+                    onClick={() => {
+                      triggerHaptic("medium");
+                      onRepeatFavoriteSearch(fav);
+                    }}
+                    aria-label={`Search favorite route ${stationLabel(t, fav.origin, fav.country)} to ${stationLabel(t, fav.destination, fav.country)}`}
                     className="flex-1 min-w-0 text-left px-5 py-3.5"
                   >
                     <span className="block truncate text-sm font-bold text-slate-900 dark:text-white">
@@ -422,7 +434,11 @@ export function SearchForm({
                   </button>
                   <button
                     type="button"
-                    onClick={() => onRemoveFavorite(fav.id)}
+                    onClick={() => {
+                      triggerHaptic("light");
+                      onRemoveFavorite(fav.id);
+                    }}
+                    aria-label={`Remove favorite route ${stationLabel(t, fav.origin, fav.country)} to ${stationLabel(t, fav.destination, fav.country)}`}
                     className="flex h-12 w-12 items-center justify-center text-amber-400 hover:text-slate-300 transition-colors shrink-0"
                     title="Remove from Favorites"
                   >
@@ -443,7 +459,11 @@ export function SearchForm({
               {recentHistory.slice(0, 3).map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => onRepeatSearch(item)}
+                  onClick={() => {
+                    triggerHaptic("medium");
+                    onRepeatSearch(item);
+                  }}
+                  aria-label={`Search recent route ${stationLabel(t, item.origin, item.country)} to ${stationLabel(t, item.destination, item.country)}`}
                   className="flex w-full items-center gap-3 px-5 py-3.5 text-left"
                 >
                   <span className="min-w-0 flex-1">

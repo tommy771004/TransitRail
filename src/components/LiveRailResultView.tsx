@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
 import type { TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
+import { triggerHaptic } from "../utils/haptics";
+import { WeatherWidget } from "./WeatherWidget";
 
 interface LiveRailResultViewProps {
   market: "london" | "boston";
@@ -67,7 +69,10 @@ export function LiveRailResultView({
             {onOpenLegend && (
               <button
                 type="button"
-                onClick={() => onOpenLegend?.()}
+                onClick={() => {
+                  triggerHaptic("light");
+                  onOpenLegend?.();
+                }}
                 className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
                 title="View Transit Legend"
                 aria-label="Transit Legend"
@@ -77,7 +82,10 @@ export function LiveRailResultView({
             )}
             <button
               type="button"
-              onClick={onModify}
+              onClick={() => {
+                triggerHaptic("light");
+                onModify();
+              }}
               className="flex shrink-0 items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
             >
               <Edit2 className="h-3.5 w-3.5" />
@@ -88,6 +96,10 @@ export function LiveRailResultView({
       </section>
 
       <section className="mx-auto max-w-md space-y-3 px-4 py-4">
+        {!error && results.length > 0 && (
+          <WeatherWidget destination={destination} date={date} />
+        )}
+
         {error ? (
           <div className="rounded-3xl border border-red-200 bg-red-50 p-4 text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-400">
             <p className="text-sm font-bold">{t("result.unable_to_fetch")}</p>
@@ -104,6 +116,7 @@ export function LiveRailResultView({
           return (
             <motion.article
               key={trip.id}
+              layout
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, ease: "easeOut", delay: index * 0.05 }}
@@ -136,7 +149,14 @@ export function LiveRailResultView({
                 <div className="mt-3 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
                   <div className="min-w-0">
                     <p className="font-mono text-2xl font-black leading-none tracking-tight text-slate-900 dark:text-white">{trip.departureTime}</p>
-                    <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">{trip.origin}</p>
+                    <p className="mt-1 flex items-center gap-1.5 truncate text-xs text-slate-500 dark:text-slate-400">
+                      <span className="truncate">{trip.origin}</span>
+                      {(trip.platform || trip.legs?.[0]?.platform) && (
+                        <span className="shrink-0 inline-flex items-center rounded-sm bg-slate-100 px-1 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                          Plat {trip.platform || trip.legs?.[0]?.platform}
+                        </span>
+                      )}
+                    </p>
                   </div>
                   <div className="flex min-w-16 flex-col items-center">
                     <p className="font-mono text-[11px] text-slate-500 dark:text-slate-400">
@@ -179,7 +199,10 @@ export function LiveRailResultView({
                 </div>
                 <button
                   type="button"
-                  onClick={() => onSave(trip)}
+                  onClick={() => {
+                    triggerHaptic(isSaved ? "light" : "success");
+                    onSave(trip);
+                  }}
                   className={`flex h-8 shrink-0 items-center gap-1.5 rounded-xl border px-3 text-xs font-bold ${
                     isSaved
                       ? "border-emerald-200 bg-emerald-50 text-emerald-600 dark:border-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400"
