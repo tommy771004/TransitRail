@@ -133,13 +133,14 @@ function normalizeResults(results: TransitResult[]): TransitResult[] {
 function resultsForDate(route: ScrapedRouteData, date?: string): TransitResult[] {
   if (!date) return route.results;
 
-  // The scraped data acts as a static daily snapshot.
-  // Instead of filtering by exact date and returning nothing for future dates,
-  // we return the schedule and map the requested date into each result.
-  return route.results.map((result) => ({
-    ...result,
-    date: date,
-  }));
+  // Filter to only results whose stored date matches the requested date.
+  const target = date.trim();
+  const filtered = route.results.filter((result) => {
+    const resultDate = (result.date || "").trim();
+    return resultDate === target;
+  });
+
+  return filtered;
 }
 
 export function findScrapedResults(
