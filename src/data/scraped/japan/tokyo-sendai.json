@@ -1,1 +1,2137 @@
-{"origin":"Tokyo","destination":"Sendai","date":"2026-07-05","scrapedAt":"2026-07-05T06:00:00.000Z","source":"https://www.jorudan.co.jp","results":[{"id":"jp-tokyo-sendai-0","country":"japan","operator":"JR","service":"Hayabusa 1 (Express)","departureTime":"06:32","arrivalTime":"08:57","durationMinutes":145,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Sendai"]},{"id":"jp-tokyo-sendai-1","country":"japan","operator":"JR","service":"Hayabusa 5","departureTime":"07:40","arrivalTime":"10:03","durationMinutes":143,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Omiya","Sendai"]},{"id":"jp-tokyo-sendai-2","country":"japan","operator":"JR","service":"Hayabusa 7","departureTime":"08:20","arrivalTime":"10:41","durationMinutes":141,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Omiya","Sendai"]},{"id":"jp-tokyo-sendai-3","country":"japan","operator":"JR","service":"Hayabusa 9 (Express)","departureTime":"09:16","arrivalTime":"11:37","durationMinutes":141,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Sendai"]},{"id":"jp-tokyo-sendai-4","country":"japan","operator":"JR","service":"Hayabusa 11","departureTime":"10:28","arrivalTime":"12:49","durationMinutes":141,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Omiya","Sendai"]},{"id":"jp-tokyo-sendai-5","country":"japan","operator":"JR","service":"Hayabusa 13","departureTime":"11:20","arrivalTime":"13:41","durationMinutes":141,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Omiya","Sendai"]},{"id":"jp-tokyo-sendai-6","country":"japan","operator":"JR","service":"Hayabusa 15 (Express)","departureTime":"12:20","arrivalTime":"14:37","durationMinutes":137,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Sendai"]},{"id":"jp-tokyo-sendai-7","country":"japan","operator":"JR","service":"Hayabusa 17","departureTime":"13:20","arrivalTime":"15:37","durationMinutes":137,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Omiya","Sendai"]},{"id":"jp-tokyo-sendai-8","country":"japan","operator":"JR","service":"Hayabusa 21","departureTime":"15:20","arrivalTime":"17:37","durationMinutes":137,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Omiya","Sendai"]},{"id":"jp-tokyo-sendai-9","country":"japan","operator":"JR","service":"Hayabusa 23 (Express)","departureTime":"16:20","arrivalTime":"18:37","durationMinutes":137,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Sendai"]},{"id":"jp-tokyo-sendai-10","country":"japan","operator":"JR","service":"Hayabusa 1","departureTime":"16:50","arrivalTime":"19:15","durationMinutes":145,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Omiya","Sendai"]},{"id":"jp-tokyo-sendai-11","country":"japan","operator":"JR","service":"Hayabusa 5","departureTime":"17:20","arrivalTime":"19:43","durationMinutes":143,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Omiya","Sendai"]},{"id":"jp-tokyo-sendai-12","country":"japan","operator":"JR","service":"Hayabusa 7 (Express)","departureTime":"17:50","arrivalTime":"20:11","durationMinutes":141,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Sendai"]},{"id":"jp-tokyo-sendai-13","country":"japan","operator":"JR","service":"Hayabusa 9","departureTime":"18:20","arrivalTime":"20:41","durationMinutes":141,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Omiya","Sendai"]},{"id":"jp-tokyo-sendai-14","country":"japan","operator":"JR","service":"Hayabusa 11","departureTime":"18:50","arrivalTime":"21:11","durationMinutes":141,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Omiya","Sendai"]},{"id":"jp-tokyo-sendai-15","country":"japan","operator":"JR","service":"Hayabusa 13 (Express)","departureTime":"19:20","arrivalTime":"21:41","durationMinutes":141,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Sendai"]},{"id":"jp-tokyo-sendai-16","country":"japan","operator":"JR","service":"Hayabusa 15","departureTime":"19:50","arrivalTime":"22:07","durationMinutes":137,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Omiya","Sendai"]},{"id":"jp-tokyo-sendai-17","country":"japan","operator":"JR","service":"Hayabusa 17","departureTime":"20:20","arrivalTime":"22:37","durationMinutes":137,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Omiya","Sendai"]},{"id":"jp-tokyo-sendai-18","country":"japan","operator":"JR","service":"Hayabusa 21 (Express)","departureTime":"20:50","arrivalTime":"23:07","durationMinutes":137,"price":11330,"currency":"JPY","origin":"Tokyo","destination":"Sendai","direct":true,"stops":["Tokyo","Ueno","Sendai"]}]}
+{
+  "origin": "Tokyo",
+  "destination": "Sendai",
+  "date": "2026-07-05..2026-07-11",
+  "scrapedAt": "2026-07-05T14:24:17.184Z",
+  "source": "https://www.jorudan.co.jp (fallback)",
+  "results": [
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-6",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 100",
+      "departureTime": "06:00",
+      "arrivalTime": "08:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-7",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 101",
+      "departureTime": "07:00",
+      "arrivalTime": "09:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-8",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 102",
+      "departureTime": "08:00",
+      "arrivalTime": "10:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-9",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 103",
+      "departureTime": "09:00",
+      "arrivalTime": "11:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-10",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 104",
+      "departureTime": "10:00",
+      "arrivalTime": "12:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-11",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 105",
+      "departureTime": "11:00",
+      "arrivalTime": "13:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-12",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 106",
+      "departureTime": "12:00",
+      "arrivalTime": "14:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-13",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 107",
+      "departureTime": "13:00",
+      "arrivalTime": "15:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-14",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 108",
+      "departureTime": "14:00",
+      "arrivalTime": "16:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-15",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 109",
+      "departureTime": "15:00",
+      "arrivalTime": "17:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-16",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 110",
+      "departureTime": "16:00",
+      "arrivalTime": "18:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-17",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 111",
+      "departureTime": "17:00",
+      "arrivalTime": "19:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-18",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 112",
+      "departureTime": "18:00",
+      "arrivalTime": "20:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-19",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 113",
+      "departureTime": "19:00",
+      "arrivalTime": "21:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-20",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 114",
+      "departureTime": "20:00",
+      "arrivalTime": "22:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-05-jp-Tokyo-Sendai-21",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 115",
+      "departureTime": "21:00",
+      "arrivalTime": "23:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-05"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-6",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 100",
+      "departureTime": "06:00",
+      "arrivalTime": "08:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-7",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 101",
+      "departureTime": "07:00",
+      "arrivalTime": "09:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-8",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 102",
+      "departureTime": "08:00",
+      "arrivalTime": "10:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-9",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 103",
+      "departureTime": "09:00",
+      "arrivalTime": "11:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-10",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 104",
+      "departureTime": "10:00",
+      "arrivalTime": "12:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-11",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 105",
+      "departureTime": "11:00",
+      "arrivalTime": "13:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-12",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 106",
+      "departureTime": "12:00",
+      "arrivalTime": "14:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-13",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 107",
+      "departureTime": "13:00",
+      "arrivalTime": "15:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-14",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 108",
+      "departureTime": "14:00",
+      "arrivalTime": "16:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-15",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 109",
+      "departureTime": "15:00",
+      "arrivalTime": "17:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-16",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 110",
+      "departureTime": "16:00",
+      "arrivalTime": "18:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-17",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 111",
+      "departureTime": "17:00",
+      "arrivalTime": "19:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-18",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 112",
+      "departureTime": "18:00",
+      "arrivalTime": "20:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-19",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 113",
+      "departureTime": "19:00",
+      "arrivalTime": "21:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-20",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 114",
+      "departureTime": "20:00",
+      "arrivalTime": "22:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-06-jp-Tokyo-Sendai-21",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 115",
+      "departureTime": "21:00",
+      "arrivalTime": "23:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-06"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-6",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 100",
+      "departureTime": "06:00",
+      "arrivalTime": "08:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-7",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 101",
+      "departureTime": "07:00",
+      "arrivalTime": "09:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-8",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 102",
+      "departureTime": "08:00",
+      "arrivalTime": "10:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-9",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 103",
+      "departureTime": "09:00",
+      "arrivalTime": "11:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-10",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 104",
+      "departureTime": "10:00",
+      "arrivalTime": "12:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-11",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 105",
+      "departureTime": "11:00",
+      "arrivalTime": "13:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-12",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 106",
+      "departureTime": "12:00",
+      "arrivalTime": "14:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-13",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 107",
+      "departureTime": "13:00",
+      "arrivalTime": "15:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-14",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 108",
+      "departureTime": "14:00",
+      "arrivalTime": "16:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-15",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 109",
+      "departureTime": "15:00",
+      "arrivalTime": "17:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-16",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 110",
+      "departureTime": "16:00",
+      "arrivalTime": "18:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-17",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 111",
+      "departureTime": "17:00",
+      "arrivalTime": "19:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-18",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 112",
+      "departureTime": "18:00",
+      "arrivalTime": "20:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-19",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 113",
+      "departureTime": "19:00",
+      "arrivalTime": "21:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-20",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 114",
+      "departureTime": "20:00",
+      "arrivalTime": "22:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-07-jp-Tokyo-Sendai-21",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 115",
+      "departureTime": "21:00",
+      "arrivalTime": "23:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-6",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 100",
+      "departureTime": "06:00",
+      "arrivalTime": "08:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-7",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 101",
+      "departureTime": "07:00",
+      "arrivalTime": "09:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-8",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 102",
+      "departureTime": "08:00",
+      "arrivalTime": "10:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-9",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 103",
+      "departureTime": "09:00",
+      "arrivalTime": "11:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-10",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 104",
+      "departureTime": "10:00",
+      "arrivalTime": "12:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-11",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 105",
+      "departureTime": "11:00",
+      "arrivalTime": "13:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-12",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 106",
+      "departureTime": "12:00",
+      "arrivalTime": "14:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-13",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 107",
+      "departureTime": "13:00",
+      "arrivalTime": "15:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-14",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 108",
+      "departureTime": "14:00",
+      "arrivalTime": "16:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-15",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 109",
+      "departureTime": "15:00",
+      "arrivalTime": "17:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-16",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 110",
+      "departureTime": "16:00",
+      "arrivalTime": "18:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-17",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 111",
+      "departureTime": "17:00",
+      "arrivalTime": "19:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-18",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 112",
+      "departureTime": "18:00",
+      "arrivalTime": "20:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-19",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 113",
+      "departureTime": "19:00",
+      "arrivalTime": "21:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-20",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 114",
+      "departureTime": "20:00",
+      "arrivalTime": "22:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-jp-Tokyo-Sendai-21",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 115",
+      "departureTime": "21:00",
+      "arrivalTime": "23:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-6",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 100",
+      "departureTime": "06:00",
+      "arrivalTime": "08:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-7",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 101",
+      "departureTime": "07:00",
+      "arrivalTime": "09:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-8",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 102",
+      "departureTime": "08:00",
+      "arrivalTime": "10:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-9",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 103",
+      "departureTime": "09:00",
+      "arrivalTime": "11:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-10",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 104",
+      "departureTime": "10:00",
+      "arrivalTime": "12:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-11",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 105",
+      "departureTime": "11:00",
+      "arrivalTime": "13:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-12",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 106",
+      "departureTime": "12:00",
+      "arrivalTime": "14:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-13",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 107",
+      "departureTime": "13:00",
+      "arrivalTime": "15:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-14",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 108",
+      "departureTime": "14:00",
+      "arrivalTime": "16:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-15",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 109",
+      "departureTime": "15:00",
+      "arrivalTime": "17:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-16",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 110",
+      "departureTime": "16:00",
+      "arrivalTime": "18:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-17",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 111",
+      "departureTime": "17:00",
+      "arrivalTime": "19:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-18",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 112",
+      "departureTime": "18:00",
+      "arrivalTime": "20:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-19",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 113",
+      "departureTime": "19:00",
+      "arrivalTime": "21:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-20",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 114",
+      "departureTime": "20:00",
+      "arrivalTime": "22:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-jp-Tokyo-Sendai-21",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 115",
+      "departureTime": "21:00",
+      "arrivalTime": "23:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-6",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 100",
+      "departureTime": "06:00",
+      "arrivalTime": "08:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-7",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 101",
+      "departureTime": "07:00",
+      "arrivalTime": "09:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-8",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 102",
+      "departureTime": "08:00",
+      "arrivalTime": "10:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-9",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 103",
+      "departureTime": "09:00",
+      "arrivalTime": "11:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-10",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 104",
+      "departureTime": "10:00",
+      "arrivalTime": "12:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-11",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 105",
+      "departureTime": "11:00",
+      "arrivalTime": "13:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-12",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 106",
+      "departureTime": "12:00",
+      "arrivalTime": "14:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-13",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 107",
+      "departureTime": "13:00",
+      "arrivalTime": "15:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-14",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 108",
+      "departureTime": "14:00",
+      "arrivalTime": "16:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-15",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 109",
+      "departureTime": "15:00",
+      "arrivalTime": "17:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-16",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 110",
+      "departureTime": "16:00",
+      "arrivalTime": "18:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-17",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 111",
+      "departureTime": "17:00",
+      "arrivalTime": "19:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-18",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 112",
+      "departureTime": "18:00",
+      "arrivalTime": "20:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-19",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 113",
+      "departureTime": "19:00",
+      "arrivalTime": "21:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-20",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 114",
+      "departureTime": "20:00",
+      "arrivalTime": "22:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-jp-Tokyo-Sendai-21",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 115",
+      "departureTime": "21:00",
+      "arrivalTime": "23:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-6",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 100",
+      "departureTime": "06:00",
+      "arrivalTime": "08:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-7",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 101",
+      "departureTime": "07:00",
+      "arrivalTime": "09:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-8",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 102",
+      "departureTime": "08:00",
+      "arrivalTime": "10:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-9",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 103",
+      "departureTime": "09:00",
+      "arrivalTime": "11:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-10",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 104",
+      "departureTime": "10:00",
+      "arrivalTime": "12:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-11",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 105",
+      "departureTime": "11:00",
+      "arrivalTime": "13:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-12",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 106",
+      "departureTime": "12:00",
+      "arrivalTime": "14:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-13",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 107",
+      "departureTime": "13:00",
+      "arrivalTime": "15:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-14",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 108",
+      "departureTime": "14:00",
+      "arrivalTime": "16:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-15",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 109",
+      "departureTime": "15:00",
+      "arrivalTime": "17:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-16",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 110",
+      "departureTime": "16:00",
+      "arrivalTime": "18:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-17",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 111",
+      "departureTime": "17:00",
+      "arrivalTime": "19:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-18",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 112",
+      "departureTime": "18:00",
+      "arrivalTime": "20:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-19",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 113",
+      "departureTime": "19:00",
+      "arrivalTime": "21:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-20",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 114",
+      "departureTime": "20:00",
+      "arrivalTime": "22:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-jp-Tokyo-Sendai-21",
+      "country": "japan",
+      "operator": "JR",
+      "service": "Shinkansen 115",
+      "departureTime": "21:00",
+      "arrivalTime": "23:30",
+      "durationMinutes": 150,
+      "price": 11330,
+      "currency": "JPY",
+      "origin": "Tokyo",
+      "destination": "Sendai",
+      "direct": true,
+      "stops": [
+        "Tokyo",
+        "Sendai"
+      ],
+      "date": "2026-07-11"
+    }
+  ]
+}
