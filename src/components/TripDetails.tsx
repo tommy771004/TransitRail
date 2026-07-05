@@ -7,6 +7,7 @@ import { motion } from "motion/react";
 interface TripDetailsProps {
   trip: TransitResult;
   onOpenLegend?: (highlight?: string) => void;
+  formatPrice?: (trip: TransitResult) => string | null;
 }
 
 const localeForCurrency = (currency?: string) => {
@@ -18,13 +19,34 @@ const localeForCurrency = (currency?: string) => {
     case "CNY": return "zh-CN";
     case "EUR": return "de-DE";
     case "GBP": return "en-GB";
-    case "USD": return "en-US";
-    default: return "zh-TW";
+    case "AUD": return "en-AU";
+    case "CAD": return "en-CA";
+    case "NZD": return "en-NZ";
+    case "PHP": return "en-PH";
+    case "IDR": return "id-ID";
+    case "VND": return "vi-VN";
+    case "SEK": return "sv-SE";
+    case "NOK": return "nb-NO";
+    case "DKK": return "da-DK";
+    case "PLN": return "pl-PL";
+    case "TRY": return "tr-TR";
+    case "ZAR": return "en-ZA";
+    case "BRL": return "pt-BR";
+    case "MXN": return "es-MX";
+    case "RUB": return "ru-RU";
+    case "INR": return "en-IN";
+    case "SAR": return "ar-SA";
+    case "AED": return "ar-AE";
+    case "ILS": return "he-IL";
+    case "CZK": return "cs-CZ";
+    case "HUF": return "hu-HU";
+    case "RON": return "ro-RO";
+    default: return "en-US";
   }
 };
 
 const fractionDigitsForCurrency = (currency?: string) =>
-  currency === "JPY" || currency === "KRW" || currency === "TWD" || currency === "CNY" ? 0 : 2;
+  currency === "JPY" || currency === "KRW" || currency === "TWD" || currency === "CNY" || currency === "VND" || currency === "IDR" ? 0 : 2;
 
 const formatCustomPrice = (price: number, currency?: string) => {
   if (!currency) return price.toString();
@@ -64,7 +86,7 @@ function getLegColor(leg: JourneyLeg, defaultColor?: string) {
   return defaultColor || "#10b981"; // emerald default
 }
 
-export function TripDetails({ trip, onOpenLegend }: TripDetailsProps) {
+export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProps) {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(false);
   const [fareTab, setFareTab] = useState<"passenger" | "seat">("passenger");
@@ -149,6 +171,15 @@ export function TripDetails({ trip, onOpenLegend }: TripDetailsProps) {
   const reservedPrice = adultPrice;
   const firstClassPrice = Math.round(adultPrice * 1.55);
 
+  // Use formatPrice (which includes currency conversion) if available
+  const displayFare = (price: number) => {
+    if (formatPrice) {
+      const tripWithPrice = { ...trip, price };
+      return formatPrice(tripWithPrice) || formatCustomPrice(price, trip.currency);
+    }
+    return formatCustomPrice(price, trip.currency);
+  };
+
   return (
     <div className="border-t border-slate-100 dark:border-slate-800">
       <button
@@ -219,7 +250,7 @@ export function TripDetails({ trip, onOpenLegend }: TripDetailsProps) {
                       {t("result.ticket_adult", { defaultValue: "成人票" })}
                     </div>
                     <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
-                      {formatCustomPrice(adultPrice, trip.currency)}
+                      {displayFare(adultPrice)}
                     </div>
                     <div className="mt-0.5 text-[9px] text-emerald-600 dark:text-emerald-400 font-bold">
                       {t("result.standard_rate", { defaultValue: "標準票價" })}
@@ -231,7 +262,7 @@ export function TripDetails({ trip, onOpenLegend }: TripDetailsProps) {
                       {t("result.ticket_child", { defaultValue: "兒童票" })}
                     </div>
                     <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
-                      {formatCustomPrice(childPrice, trip.currency)}
+                      {displayFare(childPrice)}
                     </div>
                     <div className="mt-0.5 text-[9px] text-blue-600 dark:text-blue-400 font-bold">
                       50% OFF
@@ -243,7 +274,7 @@ export function TripDetails({ trip, onOpenLegend }: TripDetailsProps) {
                       {t("result.ticket_senior", { defaultValue: "敬老/長者" })}
                     </div>
                     <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
-                      {formatCustomPrice(seniorPrice, trip.currency)}
+                      {displayFare(seniorPrice)}
                     </div>
                     <div className="mt-0.5 text-[9px] text-blue-600 dark:text-blue-400 font-bold">
                       50% OFF
@@ -258,7 +289,7 @@ export function TripDetails({ trip, onOpenLegend }: TripDetailsProps) {
                       {t("result.seat_non_reserved", { defaultValue: "自由席/一般" })}
                     </div>
                     <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
-                      {formatCustomPrice(nonReservedPrice, trip.currency)}
+                      {displayFare(nonReservedPrice)}
                     </div>
                     <div className="mt-0.5 text-[9px] text-slate-500 dark:text-slate-400 font-bold">
                       ~95% Rate
@@ -270,7 +301,7 @@ export function TripDetails({ trip, onOpenLegend }: TripDetailsProps) {
                       {t("result.seat_reserved", { defaultValue: "對號/指定席" })}
                     </div>
                     <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
-                      {formatCustomPrice(reservedPrice, trip.currency)}
+                      {displayFare(reservedPrice)}
                     </div>
                     <div className="mt-0.5 text-[9px] text-emerald-600 dark:text-emerald-400 font-bold">
                       Base Rate
@@ -282,7 +313,7 @@ export function TripDetails({ trip, onOpenLegend }: TripDetailsProps) {
                       {t("result.seat_premium", { defaultValue: "商務/綠色車廂" })}
                     </div>
                     <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
-                      {formatCustomPrice(firstClassPrice, trip.currency)}
+                      {displayFare(firstClassPrice)}
                     </div>
                     <div className="mt-0.5 text-[9px] text-amber-600 dark:text-amber-500 font-bold">
                       +55% Fee

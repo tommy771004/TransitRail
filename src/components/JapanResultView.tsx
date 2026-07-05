@@ -17,23 +17,49 @@ interface JapanResultViewProps {
   onSave: (trip: TransitResult) => void;
   onSelectSeat: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
+  formatPrice?: (trip: TransitResult) => string | null;
 }
 
 const localeForCurrency = (currency?: string) => {
   switch (currency) {
     case "JPY": return "ja-JP";
+    case "KRW": return "ko-KR";
+    case "HKD": return "zh-HK";
     case "TWD": return "zh-TW";
     case "CNY": return "zh-CN";
     case "EUR": return "de-DE";
+    case "GBP": return "en-GB";
     case "THB": return "th-TH";
+    case "AUD": return "en-AU";
+    case "CAD": return "en-CA";
+    case "NZD": return "en-NZ";
+    case "PHP": return "en-PH";
+    case "IDR": return "id-ID";
+    case "VND": return "vi-VN";
+    case "SEK": return "sv-SE";
+    case "NOK": return "nb-NO";
+    case "DKK": return "da-DK";
+    case "PLN": return "pl-PL";
+    case "TRY": return "tr-TR";
+    case "ZAR": return "en-ZA";
+    case "BRL": return "pt-BR";
+    case "MXN": return "es-MX";
+    case "RUB": return "ru-RU";
+    case "INR": return "en-IN";
+    case "SAR": return "ar-SA";
+    case "AED": return "ar-AE";
+    case "ILS": return "he-IL";
+    case "CZK": return "cs-CZ";
+    case "HUF": return "hu-HU";
+    case "RON": return "ro-RO";
     default: return "en-US";
   }
 };
 
 const fractionDigitsForCurrency = (currency?: string) =>
-  currency === "JPY" || currency === "KRW" || currency === "TWD" || currency === "CNY" ? 0 : 2;
+  currency === "JPY" || currency === "KRW" || currency === "TWD" || currency === "CNY" || currency === "VND" || currency === "IDR" ? 0 : 2;
 
-const formatPrice = (trip: TransitResult) =>
+const formatLocalPrice = (trip: TransitResult) =>
   trip.price === undefined || !trip.currency ? null : new Intl.NumberFormat(localeForCurrency(trip.currency), {
     style: "currency",
     currency: trip.currency,
@@ -60,6 +86,7 @@ export function JapanResultView({
   onSave,
   onSelectSeat,
   onOpenLegend,
+  formatPrice,
 }: JapanResultViewProps) {
   const { t } = useTranslation();
 
@@ -158,7 +185,7 @@ export function JapanResultView({
                     <span className="shrink-0 font-mono text-xs text-slate-500">{formatDuration(trip.durationMinutes)}</span>
                   </div>
                   <span className="shrink-0 text-sm font-bold text-slate-900 dark:text-white">
-                    {formatPrice(trip) || t("result.fare_unavailable")}
+                    {formatPrice ? formatPrice(trip) : formatLocalPrice(trip) || t("result.fare_unavailable")}
                   </span>
                 </div>
                 <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
@@ -177,7 +204,7 @@ export function JapanResultView({
                   </div>
                 </div>
               </div>
-              <TripDetails trip={trip} onOpenLegend={onOpenLegend} />
+              <TripDetails trip={trip} onOpenLegend={onOpenLegend} formatPrice={formatPrice} />
               <div className="flex items-center justify-between gap-2 border-t border-slate-100 px-4 py-3 sm:px-5 dark:border-slate-800">
                 <span className="truncate font-mono text-xs text-slate-500 dark:text-slate-400">
                   {trip.direct ? t("result.direct") : `${trip.stops.length} ${t("result.stops")}`} · {t("result.reserved_seat")}

@@ -10,6 +10,7 @@ import { seoulSubwayLines, seoulSubwayStationNames } from "./src/data/seoulSubwa
 import { getTflLines, getTflStations } from "./src/server/tfl";
 import { getMbtaLines, getMbtaStations } from "./src/server/mbta";
 import { findScrapedResults, loadScrapedData } from "./src/data/scraped";
+import { getCbcRates } from "./src/server/cbc";
 import type { TransitLine } from "./src/types";
 
 dotenv.config();
@@ -99,21 +100,40 @@ async function startServer() {
   });
 
   // Currency Exchange Rates API
+  // Tries Taiwan Central Bank (CBC) as primary source, falls back to open.er-api.com,
+  // then hardcoded rates.
   app.get("/api/exchange-rates", async (req, res) => {
-    const base = (req.query.base as string) || "USD";
+    const base = (req.query.base as string) || "TWD";
     const fallbackRates: Record<string, Record<string, number>> = {
-      USD: { USD: 1, JPY: 160.8, KRW: 1385.0, HKD: 7.8, GBP: 0.78, EUR: 0.92, CHF: 0.90, SGD: 1.35, MYR: 4.71, TWD: 32.5, THB: 36.2, CNY: 7.24 },
-      EUR: { USD: 1.09, JPY: 174.8, KRW: 1505.0, HKD: 8.48, GBP: 0.85, EUR: 1, CHF: 0.98, SGD: 1.47, MYR: 5.12, TWD: 35.3, THB: 39.4, CNY: 7.88 },
-      GBP: { USD: 1.28, JPY: 206.1, KRW: 1775.0, HKD: 10.0, GBP: 1, EUR: 1.18, CHF: 1.15, SGD: 1.73, MYR: 6.04, TWD: 41.6, THB: 46.5, CNY: 9.26 },
-      JPY: { USD: 0.0062, JPY: 1, KRW: 8.61, HKD: 0.048, GBP: 0.0048, EUR: 0.0057, CHF: 0.0056, SGD: 0.0084, MYR: 0.029, TWD: 0.20, THB: 0.22, CNY: 0.045 },
-      KRW: { USD: 0.00072, JPY: 0.12, KRW: 1, HKD: 0.0056, GBP: 0.00056, EUR: 0.00066, CHF: 0.00065, SGD: 0.00097, MYR: 0.0034, TWD: 0.023, THB: 0.026, CNY: 0.0052 },
-      HKD: { USD: 0.13, JPY: 20.6, KRW: 177.5, HKD: 1, GBP: 0.10, EUR: 0.12, CHF: 0.12, SGD: 0.17, MYR: 0.60, TWD: 4.17, THB: 4.65, CNY: 0.93 },
-      SGD: { USD: 0.74, JPY: 119.0, KRW: 1025.0, HKD: 5.78, GBP: 0.58, EUR: 0.68, CHF: 0.67, SGD: 1, MYR: 3.49, TWD: 24.1, THB: 26.8, CNY: 5.36 },
-      TWD: { USD: 0.031, JPY: 4.95, KRW: 42.6, HKD: 0.24, GBP: 0.024, EUR: 0.028, CHF: 0.028, SGD: 0.041, MYR: 0.14, TWD: 1, THB: 1.11, CNY: 0.22 },
-      THB: { USD: 0.028, JPY: 4.45, KRW: 38.3, HKD: 0.22, GBP: 0.022, EUR: 0.025, CHF: 0.025, SGD: 0.037, MYR: 0.13, TWD: 0.90, THB: 1, CNY: 0.20 },
-      CNY: { USD: 0.14, JPY: 22.2, KRW: 191.5, HKD: 1.08, GBP: 0.11, EUR: 0.13, CHF: 0.13, SGD: 0.19, MYR: 0.65, TWD: 4.49, THB: 5.0, CNY: 1 }
+      TWD: { TWD:1, USD:0.031, JPY:4.95, KRW:42.6, HKD:0.24, GBP:0.024, EUR:0.028, CHF:0.028, SGD:0.041, MYR:0.14, THB:1.11, CNY:0.22, AUD:0.047, CAD:0.042, NZD:0.051, PHP:1.74, IDR:485, VND:770, SEK:0.32, NOK:0.33, DKK:0.21, PLN:0.12, TRY:0.96, ZAR:0.56, BRL:0.15, MXN:0.53, RUB:2.83, INR:2.57, SAR:0.12, AED:0.11, ILS:0.11, CZK:0.71, HUF:11.2, RON:0.14 },
+      USD: { USD:1, TWD:32.5, JPY:160.8, KRW:1385, HKD:7.8, GBP:0.78, EUR:0.92, CHF:0.90, SGD:1.35, MYR:4.71, THB:36.2, CNY:7.24, AUD:1.54, CAD:1.37, NZD:1.64, PHP:56.5, IDR:15750, VND:25000, SEK:10.4, NOK:10.7, DKK:6.85, PLN:3.95, TRY:31.2, ZAR:18.1, BRL:4.95, MXN:17.2, RUB:92.0, INR:83.5, SAR:3.75, AED:3.67, ILS:3.65, CZK:23.1, HUF:365, RON:4.58 },
+      EUR: { EUR:1, USD:1.09, TWD:35.3, JPY:174.8, KRW:1505, HKD:8.48, GBP:0.85, CHF:0.98, SGD:1.47, MYR:5.12, THB:39.4, CNY:7.88, AUD:1.67, CAD:1.49, NZD:1.78, PHP:61.4, IDR:17120, VND:27170, SEK:11.3, NOK:11.6, DKK:7.44, PLN:4.29, TRY:33.9, ZAR:19.7, BRL:5.38, MXN:18.7, RUB:100, INR:90.7, SAR:4.08, AED:3.99, ILS:3.97, CZK:25.1, HUF:397, RON:4.98 },
+      GBP: { GBP:1, USD:1.28, TWD:41.6, JPY:206.1, KRW:1775, HKD:10.0, EUR:1.18, CHF:1.15, SGD:1.73, MYR:6.04, THB:46.5, CNY:9.26, AUD:1.97, CAD:1.76, NZD:2.10, PHP:72.4, IDR:20160, VND:32000, SEK:13.3, NOK:13.7, DKK:8.77, PLN:5.06, TRY:40.0, ZAR:23.2, BRL:6.34, MXN:22.0, RUB:118, INR:107, SAR:4.81, AED:4.70, ILS:4.68, CZK:29.6, HUF:468, RON:5.87 },
     };
 
+    // Try CBC first (TWD-based rates), then cross-convert if needed
+    try {
+      const cbcResult = await getCbcRates();
+      if (cbcResult && cbcResult.rates) {
+        const twdRates = cbcResult.rates;
+        if (base === "TWD") {
+          return res.json({ base: "TWD", rates: twdRates, source: "cbc" });
+        }
+        const baseToTwd = twdRates[base];
+        if (baseToTwd && baseToTwd > 0) {
+          const converted: Record<string, number> = {};
+          for (const [currency, rate] of Object.entries(twdRates)) {
+            converted[currency] = rate / baseToTwd;
+          }
+          converted[base] = 1;
+          return res.json({ base, rates: converted, source: "cbc" });
+        }
+      }
+    } catch (e) {
+      console.warn("CBC rates unavailable, falling back:", e);
+    }
+
+    // Fallback: open.er-api.com
     try {
       const response = await fetch(`https://open.er-api.com/v6/latest/${base}`);
       if (!response.ok) {
@@ -121,12 +141,12 @@ async function startServer() {
       }
       const data = await response.json();
       if (data && data.rates) {
-        return res.json({ base, rates: data.rates });
+        return res.json({ base, rates: data.rates, source: "er-api" });
       }
       throw new Error("Invalid exchange rates data format");
     } catch (error) {
       console.warn("Using fallback exchange rates:", error);
-      const rates = fallbackRates[base] || fallbackRates["USD"];
+      const rates = fallbackRates[base] || fallbackRates["TWD"];
       return res.json({ base, rates, isFallback: true });
     }
   });

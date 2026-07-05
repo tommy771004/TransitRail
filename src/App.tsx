@@ -22,6 +22,7 @@ import type {
   AppAlert,
   AppView,
   Country,
+  CurrencyDisplayMode,
   FavoriteRoute,
   KoreaFilter,
   SavedTrip,
@@ -31,6 +32,8 @@ import type {
   SortMode,
   TransitResult,
 } from "./types";
+
+import { allCurrencies } from "./data/countries";
 
 const emptySearch: SearchParams = {
   origin: "",
@@ -165,7 +168,10 @@ export default function App() {
   );
   const [apiDiagnostic, setApiDiagnostic] = useState<any>(null);
   const [diagnosticOpen, setDiagnosticOpen] = useState(false);
-  const [homeCurrency, setHomeCurrency] = useState<string>(() => localStorage.getItem("transitrail.homeCurrency") || "USD");
+  const [priceDisplayMode, setPriceDisplayMode] = useState<CurrencyDisplayMode>(
+    () => (localStorage.getItem("transitrail.priceDisplayMode") as CurrencyDisplayMode) || "both"
+  );
+  const [homeCurrency, setHomeCurrency] = useState<string>(() => localStorage.getItem("transitrail.homeCurrency") || "TWD");
   const [exchangeRates, setExchangeRates] = useState<Record<string, number>>({});
   const [loadingRates, setLoadingRates] = useState<boolean>(false);
   const [legendHighlight, setLegendHighlight] = useState<string | null>(null);
@@ -184,6 +190,9 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("transitrail.homeCurrency", homeCurrency);
   }, [homeCurrency]);
+  useEffect(() => {
+    localStorage.setItem("transitrail.priceDisplayMode", priceDisplayMode);
+  }, [priceDisplayMode]);
 
   useEffect(() => {
     const fetchRates = async () => {
@@ -256,39 +265,80 @@ export default function App() {
     [results, sortMode, koreaFilter, searchParams.country, searchParams.preferredTransitTypes],
   );
 
+  const localeForCurrency = (c: string) => {
+    switch (c) {
+      case "JPY": return "ja-JP";
+      case "KRW": return "ko-KR";
+      case "HKD": return "zh-HK";
+      case "TWD": return "zh-TW";
+      case "CNY": return "zh-CN";
+      case "GBP": return "en-GB";
+      case "EUR": return "de-DE";
+      case "THB": return "th-TH";
+      case "AUD": return "en-AU";
+      case "CAD": return "en-CA";
+      case "NZD": return "en-NZ";
+      case "PHP": return "en-PH";
+      case "IDR": return "id-ID";
+      case "VND": return "vi-VN";
+      case "SEK": return "sv-SE";
+      case "NOK": return "nb-NO";
+      case "DKK": return "da-DK";
+      case "PLN": return "pl-PL";
+      case "TRY": return "tr-TR";
+      case "ZAR": return "en-ZA";
+      case "BRL": return "pt-BR";
+      case "MXN": return "es-MX";
+      case "RUB": return "ru-RU";
+      case "INR": return "en-IN";
+      case "SAR": return "ar-SA";
+      case "AED": return "ar-AE";
+      case "ILS": return "he-IL";
+      case "CZK": return "cs-CZ";
+      case "HUF": return "hu-HU";
+      case "RON": return "ro-RO";
+      default: return "en-US";
+    }
+  };
+
+  const fractionDigits = (c: string) =>
+    c === "JPY" || c === "KRW" || c === "TWD" || c === "CNY" || c === "VND" || c === "IDR" ? 0 : 2;
+
+  const formatPriceForTrip = (price?: number, currency?: string) => {
+    if (price === undefined || !currency) return null;
+    return new Intl.NumberFormat(localeForCurrency(currency), {
+      style: "currency",
+      currency,
+      maximumFractionDigits: fractionDigits(currency),
+    }).format(price);
+  };
+
   const formatConvertedPrice = (price?: number, currency?: string) => {
     if (price === undefined || !currency) return null;
 
-    const formattedNative = new Intl.NumberFormat(
-      currency === "JPY" ? "ja-JP" : currency === "KRW" ? "ko-KR" : currency === "HKD" ? "zh-HK" : currency === "GBP" ? "en-GB" : "en-US",
-      {
-        style: "currency",
-        currency: currency,
-        maximumFractionDigits: currency === "JPY" || currency === "KRW" ? 0 : 2,
-      }
-    ).format(price);
+    const nativeFormatted = formatPriceForTrip(price, currency);
 
-    if (currency === homeCurrency) {
-      return formattedNative;
+    if (currency === homeCurrency || priceDisplayMode === "original") {
+      return nativeFormatted;
     }
 
     const rate = exchangeRates[currency];
     if (!rate) {
-      return formattedNative;
+      return nativeFormatted;
     }
 
     const convertedAmount = price / rate;
-    const formattedConverted = new Intl.NumberFormat(
-      homeCurrency === "JPY" ? "ja-JP" : homeCurrency === "KRW" ? "ko-KR" : homeCurrency === "HKD" ? "zh-HK" : homeCurrency === "GBP" ? "en-GB" : "en-US",
-      {
-        style: "currency",
-        currency: homeCurrency,
-        maximumFractionDigits: homeCurrency === "JPY" || homeCurrency === "KRW" ? 0 : 2,
-      }
-    ).format(convertedAmount);
+    const convertedFormatted = formatPriceForTrip(convertedAmount, homeCurrency);
 
-    return `${formattedNative} (~${formattedConverted})`;
+    if (priceDisplayMode === "converted") {
+      return convertedFormatted;
+    }
+
+    return `${nativeFormatted} (~${convertedFormatted})`;
   };
+
+  const formatTripPrice = (trip: TransitResult) =>
+    formatConvertedPrice(trip.price, trip.currency);
 
   const pushAlert = (title: string, body: string) => {
     setAlerts((current) => [
@@ -528,7 +578,7 @@ export default function App() {
       `• Date: ${tripDate}\n` +
       `• Departure: ${trip.departureTime}\n` +
       `• Arrival: ${trip.arrivalTime || "N/A"}\n` +
-      (trip.price ? `• Price: ${trip.price} ${trip.currency || ""}\n` : "") +
+      (trip.price ? `• Price: ${formatTripPrice(trip) || formatConvertedPrice(trip.price, trip.currency) || `${trip.price} ${trip.currency || ""}`}\n` : "") +
       `Have a safe trip!`;
 
     if (navigator.share) {
@@ -677,6 +727,7 @@ export default function App() {
           onSave={toggleSaveTrip}
           onSelectSeat={openSeatPicker}
           onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
+          formatPrice={formatTripPrice}
         />
       )}
 
@@ -694,6 +745,7 @@ export default function App() {
           onSave={toggleSaveTrip}
           onSelectSeat={openSeatPicker}
           onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
+          formatPrice={formatTripPrice}
         />
       )}
 
@@ -708,6 +760,7 @@ export default function App() {
           onModify={() => setView("search")}
           onSave={toggleSaveTrip}
           onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
+          formatPrice={formatTripPrice}
         />
       )}
 
@@ -723,6 +776,7 @@ export default function App() {
           onModify={() => setView("search")}
           onSave={toggleSaveTrip}
           onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
+          formatPrice={formatTripPrice}
         />
       )}
 
@@ -738,6 +792,7 @@ export default function App() {
           onModify={() => setView("search")}
           onSave={toggleSaveTrip}
           onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
+          formatPrice={formatTripPrice}
         />
       )}
 
@@ -788,9 +843,9 @@ export default function App() {
                   <div className="flex items-center gap-2">
                     <Coins className="h-4 w-4 text-amber-500 shrink-0" />
                     <div>
-                      <span className="text-sm font-bold text-slate-900 block leading-tight dark:text-white">Currency Converter</span>
+                      <span className="text-sm font-bold text-slate-900 block leading-tight dark:text-white">Currency Converter / 匯率轉換</span>
                       <span className="text-[10px] text-slate-400 font-bold font-mono leading-none">
-                        {loadingRates ? "Updating live rates..." : `Rates relative to ${homeCurrency}`}
+                        {loadingRates ? "Updating live rates..." : `Rates relative to ${homeCurrency} (via Taiwan Central Bank)`}
                       </span>
                     </div>
                   </div>
@@ -801,19 +856,28 @@ export default function App() {
                       onChange={(e) => setHomeCurrency(e.target.value)}
                       className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-800 outline-none focus:border-slate-400 cursor-pointer dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                     >
-                      <option value="USD">USD ($)</option>
-                      <option value="EUR">EUR (€)</option>
-                      <option value="GBP">GBP (£)</option>
-                      <option value="JPY">JPY (¥)</option>
-                      <option value="KRW">KRW (₩)</option>
-                      <option value="HKD">HKD (HK$)</option>
-                      <option value="CHF">CHF (CHF)</option>
-                      <option value="SGD">SGD (S$)</option>
-                      <option value="MYR">MYR (RM)</option>
-                      <option value="TWD">TWD (NT$)</option>
-                      <option value="THB">THB (฿)</option>
-                      <option value="CNY">CNY (¥)</option>
+                      {allCurrencies.map((c) => (
+                        <option key={c} value={c}>{c}</option>
+                      ))}
                     </select>
+                  </div>
+                </div>
+                <div className="mt-2 flex items-center gap-2">
+                  <span className="text-[10px] text-slate-400 font-medium">Display:</span>
+                  <div className="flex rounded-lg bg-slate-100 p-0.5 dark:bg-slate-800">
+                    {(["original", "converted", "both"] as CurrencyDisplayMode[]).map((m) => (
+                      <button
+                        key={m}
+                        onClick={() => setPriceDisplayMode(m)}
+                        className={`rounded-md px-2 py-0.5 text-[10px] font-bold transition-all ${
+                          priceDisplayMode === m
+                            ? "bg-white text-slate-900 shadow-xs dark:bg-slate-700 dark:text-white"
+                            : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                        }`}
+                      >
+                        {m === "original" ? "Original" : m === "converted" ? "Converted" : "Both"}
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -842,7 +906,7 @@ export default function App() {
                           <div className="mt-2 text-xs font-bold text-slate-700 flex items-center gap-1 dark:text-slate-300">
                             <span className="text-slate-400 font-normal">Fare:</span>
                             <span className="bg-slate-50 border border-slate-200/60 rounded-lg px-2 py-0.5 font-mono dark:bg-slate-800 dark:border-slate-700">
-                              {formatConvertedPrice(trip.price, trip.currency)}
+                              {formatTripPrice(trip) || formatConvertedPrice(trip.price, trip.currency)}
                             </span>
                           </div>
                         )}
@@ -921,7 +985,7 @@ export default function App() {
         </UtilityPage>
       )}
 
-      <BottomNav activeView={view} unreadAlerts={unreadAlerts} onNavigate={handleNavigate} country={activeCountry} />
+      <BottomNav activeView={view} unreadAlerts={unreadAlerts} onNavigate={handleNavigate} onOpenSettings={() => setProfileOpen(true)} country={activeCountry} />
 
       {menuOpen && (
         <Panel title={t("menu.title")} onClose={() => setMenuOpen(false)}>
@@ -966,37 +1030,94 @@ export default function App() {
             <ProfileStat label={t("nav.alerts")} value={alerts.length} />
             <ProfileStat label="Favorites" value={favorites.length} />
           </div>
-          <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-bold text-slate-900 dark:text-white">Theme / 顯示主題</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Choose your appearance style</p>
+          <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-4">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white">Home Currency / 本地幣別</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Exchange rates relative to this currency</p>
+                </div>
+              </div>
+              <select
+                value={homeCurrency}
+                onChange={(e) => setHomeCurrency(e.target.value)}
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-bold text-slate-800 outline-none focus:border-slate-400 cursor-pointer dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+              >
+                {allCurrencies.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+              <p className="mt-1.5 text-[10px] text-slate-400 font-mono">
+                {loadingRates ? "Loading rates..." : `Rates via Taiwan Central Bank`}
+              </p>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white">Price Display / 票價顯示</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Show original or converted prices</p>
+                </div>
+              </div>
+              <div className="relative flex rounded-2xl bg-slate-100 p-1 dark:bg-slate-800/80">
+                <div className="grid w-full grid-cols-3 gap-1 relative z-10">
+                  {[
+                    { id: "original" as CurrencyDisplayMode, label: "Original", desc: "原幣" },
+                    { id: "converted" as CurrencyDisplayMode, label: "Converted", desc: "轉換" },
+                    { id: "both" as CurrencyDisplayMode, label: "Both", desc: "都顯示" },
+                  ].map((item) => {
+                    const isSelected = priceDisplayMode === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => setPriceDisplayMode(item.id)}
+                        className={`relative flex flex-col items-center justify-center rounded-xl py-2 text-xs font-bold transition-all duration-300 ${
+                          isSelected
+                            ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
+                            : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                        }`}
+                      >
+                        <span>{item.label}</span>
+                        <span className="text-[9px] text-slate-400 dark:text-slate-500">{item.desc}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-            <div className="relative flex rounded-2xl bg-slate-100 p-1 dark:bg-slate-800/80">
-              <div className="grid w-full grid-cols-3 gap-1 relative z-10">
-                {[
-                  { id: "light" as const, label: "Light", icon: Sun },
-                  { id: "dark" as const, label: "Dark", icon: Moon },
-                  { id: "auto" as const, label: "Auto", icon: Monitor },
-                ].map((item) => {
-                  const Icon = item.icon;
-                  const isSelected = theme === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => setTheme(item.id)}
-                      className={`relative flex items-center justify-center gap-1.5 rounded-xl py-2 text-xs font-bold transition-all duration-300 ${
-                        isSelected
-                          ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
-                          : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                      }`}
-                    >
-                      <Icon className="h-3.5 w-3.5 shrink-0" />
-                      <span>{item.label}</span>
-                    </button>
-                  );
-                })}
+
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white">Theme / 顯示主題</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Choose your appearance style</p>
+                </div>
+              </div>
+              <div className="relative flex rounded-2xl bg-slate-100 p-1 dark:bg-slate-800/80">
+                <div className="grid w-full grid-cols-3 gap-1 relative z-10">
+                  {[
+                    { id: "light" as const, label: "Light", icon: Sun },
+                    { id: "dark" as const, label: "Dark", icon: Moon },
+                    { id: "auto" as const, label: "Auto", icon: Monitor },
+                  ].map((item) => {
+                    const Icon = item.icon;
+                    const isSelected = theme === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => setTheme(item.id)}
+                        className={`relative flex items-center justify-center gap-1.5 rounded-xl py-2 text-xs font-bold transition-all duration-300 ${
+                          isSelected
+                            ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
+                            : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                        }`}
+                      >
+                        <Icon className="h-3.5 w-3.5 shrink-0" />
+                        <span>{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { Bell, Bookmark, Clock3, MapPinned, Search } from "lucide-react";
+import { Bell, Bookmark, Clock3, Search, Settings } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { AppView, Country } from "../types";
 import { countryThemes } from "../data/countries";
@@ -8,12 +8,13 @@ interface BottomNavProps {
   activeView: AppView;
   unreadAlerts: number;
   onNavigate: (view: AppView) => void;
+  onOpenSettings: () => void;
   country?: Country;
 }
 
 const searchViews = new Set<AppView>(["search", "results", "workflow"]);
 
-export function BottomNav({ activeView, unreadAlerts, onNavigate, country = "japan" }: BottomNavProps) {
+export function BottomNav({ activeView, unreadAlerts, onNavigate, onOpenSettings, country = "japan" }: BottomNavProps) {
   const { t } = useTranslation();
   const theme = countryThemes[country] || countryThemes.japan;
   const items = [
@@ -22,7 +23,7 @@ export function BottomNav({ activeView, unreadAlerts, onNavigate, country = "jap
     { view: "history" as const, label: t("nav.history"), icon: Clock3 },
     { view: "saved" as const, label: t("nav.saved"), icon: Bookmark },
     { view: "alerts" as const, label: t("nav.alerts"), icon: Bell },
-    { view: "stations" as const, label: t("nav.stations"), icon: MapPinned },
+    { view: "settings" as const, label: t("nav.settings"), icon: Settings },
   ];
 
   return (
@@ -32,14 +33,18 @@ export function BottomNav({ activeView, unreadAlerts, onNavigate, country = "jap
     >
       <div className="grid h-15 grid-cols-5 px-1.5 py-1">
         {items.map(({ view, label, icon: Icon }) => {
-          const active = view === "search" ? searchViews.has(activeView) : activeView === view;
+          const active = view === "search" ? searchViews.has(activeView) : view !== "settings" && activeView === view;
           return (
             <button
               key={view}
               type="button"
               onClick={() => {
                 triggerHaptic("light");
-                onNavigate(view);
+                if (view === "settings") {
+                  onOpenSettings();
+                } else {
+                  onNavigate(view);
+                }
               }}
               className={`relative flex min-w-0 flex-col items-center justify-center gap-0.5 text-[9px] font-bold transition-all duration-300 hover:scale-105 active:scale-95 ${
                 active ? theme.textActive : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-400"

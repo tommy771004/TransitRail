@@ -2,6 +2,8 @@ export type Country = "japan" | "korea" | "hong_kong" | "united_kingdom" | "unit
 
 export type AppView = "search" | "results" | "stations" | "history" | "saved" | "alerts" | "workflow" | "legend";
 
+export type CurrencyDisplayMode = "original" | "converted" | "both";
+
 export type SortMode = "fastest" | "earliest" | "cheapest";
 
 export type KoreaFilter = "all" | "cheapest" | "direct" | "first_class";
@@ -51,7 +53,7 @@ export interface TransitResult {
   destLat?: number;
   destLng?: number;
   price?: number;
-  currency?: "JPY" | "KRW" | "HKD" | "GBP" | "EUR" | "CHF" | "USD" | "SGD" | "MYR" | "TWD" | "THB" | "CNY";
+  currency?: string;
   seatClass?: "reserved" | "economy" | "first";
   direct: boolean;
   stops: string[];

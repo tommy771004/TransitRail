@@ -15,6 +15,7 @@ interface LiveRailResultViewProps {
   onModify: () => void;
   onSave: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
+  formatPrice?: (trip: TransitResult) => string | null;
 }
 
 function formatFare(trip: TransitResult) {
@@ -37,6 +38,7 @@ export function LiveRailResultView({
   onModify,
   onSave,
   onOpenLegend,
+  formatPrice,
 }: LiveRailResultViewProps) {
   const { t } = useTranslation();
   const isBoston = market === "boston";
@@ -155,7 +157,7 @@ export function LiveRailResultView({
                 </div>
               </div>
 
-              <TripDetails trip={trip} onOpenLegend={onOpenLegend} />
+              <TripDetails trip={trip} onOpenLegend={onOpenLegend} formatPrice={formatPrice} />
 
               {trip.warning ? (
                 <p className="mx-4 sm:mx-5 mb-3 flex items-start gap-1.5 rounded-xl bg-amber-50 px-3 py-2 text-xs font-medium text-amber-800 dark:bg-amber-900/20 dark:text-amber-400">
@@ -173,7 +175,7 @@ export function LiveRailResultView({
                       {trip.stops.length} {t("result.stops")}
                     </p>
                   )}
-                  {fare ? <p className="mt-0.5 text-sm font-bold text-slate-900 dark:text-white">{fare}</p> : null}
+                  {fare ? <p className="mt-0.5 text-sm font-bold text-slate-900 dark:text-white">{(formatPrice ? formatPrice(trip) : null) || fare}</p> : null}
                 </div>
                 <button
                   type="button"

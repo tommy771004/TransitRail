@@ -14,6 +14,7 @@ interface MetroResultViewProps {
   onModify: () => void;
   onSave: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
+  formatPrice?: (trip: TransitResult) => string | null;
 }
 
 export function MetroResultView({
@@ -26,6 +27,7 @@ export function MetroResultView({
   onModify,
   onSave,
   onOpenLegend,
+  formatPrice,
 }: MetroResultViewProps) {
   const { t } = useTranslation();
   const hasTransferResults = results.some((trip) => !trip.direct);
@@ -137,7 +139,7 @@ export function MetroResultView({
                     </div>
                   </div>
 
-                  <TripDetails trip={trip} onOpenLegend={onOpenLegend} />
+                  <TripDetails trip={trip} onOpenLegend={onOpenLegend} formatPrice={formatPrice} />
 
                   {trip.warning ? (
                     <p className="mx-4 sm:mx-5 mb-3 flex items-center gap-1.5 rounded-xl bg-amber-50 px-3 py-2 text-xs font-medium text-amber-800 dark:bg-amber-900/20 dark:text-amber-400">

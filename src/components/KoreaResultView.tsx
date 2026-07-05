@@ -17,9 +17,10 @@ interface KoreaResultViewProps {
   onSave: (trip: TransitResult) => void;
   onSelectSeat: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
+  formatPrice?: (trip: TransitResult) => string | null;
 }
 
-const formatPrice = (trip: TransitResult) =>
+const formatLocalPrice = (trip: TransitResult) =>
   trip.price === undefined || !trip.currency ? null : new Intl.NumberFormat("ko-KR", {
     style: "currency",
     currency: trip.currency,
@@ -46,6 +47,7 @@ export function KoreaResultView({
   onSave,
   onSelectSeat,
   onOpenLegend,
+  formatPrice,
 }: KoreaResultViewProps) {
   const { t } = useTranslation();
   const filters: Array<{ key: KoreaFilter; label: string }> = [
@@ -144,7 +146,7 @@ export function KoreaResultView({
                 </div>
                 <div className="shrink-0 text-right">
                   <span className="text-sm font-bold text-slate-900 dark:text-white">
-                    {formatPrice(trip) || t("result.fare_unavailable")}
+                    {formatPrice ? formatPrice(trip) : formatLocalPrice(trip) || t("result.fare_unavailable")}
                   </span>
                   <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">
                     {trip.seatClass === "first" ? t("result.first_class") : t("result.economy_class")}
@@ -174,7 +176,7 @@ export function KoreaResultView({
                   <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">{trip.destination}</p>
                 </div>
               </div>
-              <TripDetails trip={trip} onOpenLegend={onOpenLegend} />
+              <TripDetails trip={trip} onOpenLegend={onOpenLegend} formatPrice={formatPrice} />
               <div className="mt-3 flex items-center justify-between gap-3 border-t border-slate-100 pt-3 dark:border-slate-800">
                 <div className="flex min-w-0 items-center gap-2">
                   {(trip.amenities || []).includes("wifi") && <Wifi className="h-4 w-4 shrink-0 text-slate-400" />}

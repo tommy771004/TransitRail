@@ -14,7 +14,7 @@ const resources = {
       nav: {
         primary: "Primary navigation",
         search: "Search",
-        stations: "Stations",
+        settings: "Settings",
         history: "History",
         saved: "Saved",
         alerts: "Alerts"
@@ -279,7 +279,7 @@ const resources = {
       nav: {
         primary: "主要導覽",
         search: "搜尋",
-        stations: "車站",
+        settings: "設定",
         history: "紀錄",
         saved: "儲存",
         alerts: "通知"

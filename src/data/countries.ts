@@ -149,6 +149,28 @@ export const countryConfig: Record<Country, {
   },
 };
 
+export const countryCurrency: Record<Country, string> = {
+  japan: "JPY",
+  korea: "KRW",
+  hong_kong: "HKD",
+  united_kingdom: "GBP",
+  united_states: "USD",
+  singapore: "SGD",
+  thailand: "THB",
+  germany: "EUR",
+  france: "EUR",
+  china: "CNY",
+};
+
+export const allCurrencies = [
+  "TWD", "USD", "EUR", "GBP", "JPY", "KRW", "HKD",
+  "CHF", "SGD", "MYR", "THB", "CNY",
+  "AUD", "CAD", "NZD", "PHP", "IDR", "VND",
+  "SEK", "NOK", "DKK", "PLN", "TRY", "ZAR",
+  "BRL", "MXN", "RUB", "INR", "SAR", "AED",
+  "ILS", "CZK", "HUF", "RON",
+] as const;
+
 export function providerDateValue(country: Country) {
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: countryConfig[country].timeZone,
