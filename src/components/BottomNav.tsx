@@ -18,10 +18,11 @@ export function BottomNav({ activeView, unreadAlerts, onNavigate, country = "jap
   const theme = countryThemes[country] || countryThemes.japan;
   const items = [
     { view: "search" as const, label: t("nav.search"), icon: Search },
-    { view: "stations" as const, label: t("nav.stations"), icon: MapPinned },
+    
     { view: "history" as const, label: t("nav.history"), icon: Clock3 },
     { view: "saved" as const, label: t("nav.saved"), icon: Bookmark },
     { view: "alerts" as const, label: t("nav.alerts"), icon: Bell },
+    { view: "stations" as const, label: t("nav.stations"), icon: MapPinned },
   ];
 
   return (
