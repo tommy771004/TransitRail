@@ -95,53 +95,74 @@ async function startServer() {
 
   // Stations API
   app.get("/api/transit/stations", async (req, res) => {
-    const { country } = req.query;
+    const { country, q } = req.query;
+    let stations: string[] = [];
+    let source: string | undefined;
 
-    if (country === "japan") {
-      return res.json({ stations: japanStations });
-    }
-
-    if (country === "korea") {
-      const merged = Array.from(new Set([...koreaStations, ...seoulSubwayStationNames]))
-        .sort((a, b) => a.localeCompare(b));
-      return res.json({ stations: merged });
-    }
-
-    if (country === "hong_kong") {
-      return res.json({ stations: hongKongStations });
-    }
-
-    if (country === "united_kingdom") {
-      try {
-        const stations = await getTflStations();
-        return res.json({ stations, source: "https://api.tfl.gov.uk" });
-      } catch (error) {
-        return res.status(502).json({
-          error: "Provider request failed",
-          message: error instanceof Error ? error.message : "Could not reach TfL.",
+    try {
+      if (country === "japan") {
+        stations = japanStations;
+      } else if (country === "korea") {
+        stations = Array.from(new Set([...koreaStations, ...seoulSubwayStationNames]))
+          .sort((a, b) => a.localeCompare(b));
+      } else if (country === "hong_kong") {
+        stations = hongKongStations;
+      } else if (country === "united_kingdom") {
+        stations = await getTflStations();
+        source = "https://api.tfl.gov.uk";
+      } else if (country === "united_states") {
+        stations = await getMbtaStations();
+        source = "https://api-v3.mbta.com";
+      } else {
+        return res.status(400).json({
+          error: "Invalid country",
+          message: "Country must be japan, korea, hong_kong, united_kingdom, or united_states.",
           stations: [],
         });
       }
-    }
 
-    if (country === "united_states") {
-      try {
-        const stations = await getMbtaStations();
-        return res.json({ stations, source: "https://api-v3.mbta.com" });
-      } catch (error) {
-        return res.status(502).json({
-          error: "Provider request failed",
-          message: error instanceof Error ? error.message : "Could not reach MBTA.",
-          stations: [],
-        });
+      if (typeof q === "string" && q.trim().length > 0) {
+        const queryVal = q.trim().toLowerCase();
+        stations = stations.filter((station) => station.toLowerCase().includes(queryVal));
       }
-    }
 
-    return res.status(400).json({
-      error: "Invalid country",
-      message: "Country must be japan, korea, hong_kong, united_kingdom, or united_states.",
-      stations: [],
-    });
+      return res.json({ stations, source });
+    } catch (error) {
+      return res.status(502).json({
+        error: "Provider request failed",
+        message: error instanceof Error ? error.message : "Could not fetch stations.",
+        stations: [],
+      });
+    }
+  });
+
+  // Currency Exchange Rates API
+  app.get("/api/exchange-rates", async (req, res) => {
+    const base = (req.query.base as string) || "USD";
+    const fallbackRates: Record<string, Record<string, number>> = {
+      USD: { USD: 1, JPY: 160.8, KRW: 1385.0, HKD: 7.8, GBP: 0.78, EUR: 0.92, CHF: 0.90, SGD: 1.35, MYR: 4.71 },
+      EUR: { USD: 1.09, JPY: 174.8, KRW: 1505.0, HKD: 8.48, GBP: 0.85, EUR: 1, CHF: 0.98, SGD: 1.47, MYR: 5.12 },
+      GBP: { USD: 1.28, JPY: 206.1, KRW: 1775.0, HKD: 10.0, GBP: 1, EUR: 1.18, CHF: 1.15, SGD: 1.73, MYR: 6.04 },
+      JPY: { USD: 0.0062, JPY: 1, KRW: 8.61, HKD: 0.048, GBP: 0.0048, EUR: 0.0057, CHF: 0.0056, SGD: 0.0084, MYR: 0.029 },
+      KRW: { USD: 0.00072, JPY: 0.12, KRW: 1, HKD: 0.0056, GBP: 0.00056, EUR: 0.00066, CHF: 0.00065, SGD: 0.00097, MYR: 0.0034 },
+      HKD: { USD: 0.13, JPY: 20.6, KRW: 177.5, HKD: 1, GBP: 0.10, EUR: 0.12, CHF: 0.12, SGD: 0.17, MYR: 0.60 }
+    };
+
+    try {
+      const response = await fetch(`https://open.er-api.com/v6/latest/${base}`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch exchange rates: ${response.statusText}`);
+      }
+      const data = await response.json();
+      if (data && data.rates) {
+        return res.json({ base, rates: data.rates });
+      }
+      throw new Error("Invalid exchange rates data format");
+    } catch (error) {
+      console.warn("Using fallback exchange rates:", error);
+      const rates = fallbackRates[base] || fallbackRates["USD"];
+      return res.json({ base, rates, isFallback: true });
+    }
   });
 
   // Line catalog API: per-line station lists with interchange info.

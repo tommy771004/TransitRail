@@ -94,12 +94,23 @@ export interface LinesResponse {
 
 export interface SavedTrip extends TransitResult {
   savedAt: string;
+  date?: string;
+  reminderEnabled?: boolean;
+  reminderFired?: boolean;
 }
 
 export interface SearchHistoryItem extends SearchParams {
   id: string;
   searchedAt: string;
   resultCount: number;
+}
+
+export interface FavoriteRoute {
+  id: string;
+  origin: string;
+  destination: string;
+  country: Country;
+  createdAt: string;
 }
 
 export interface AppAlert {
