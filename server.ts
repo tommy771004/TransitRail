@@ -7,9 +7,9 @@ import { hongKongMtrLineCatalog, hongKongStations } from "./src/data/hongKongMtr
 import { mtrInterchanges } from "./src/data/hongKongMtr";
 import { japanRailLines, japanStations, koreaStations } from "./src/data/stations";
 import { seoulSubwayLines, seoulSubwayStationNames } from "./src/data/seoulSubway";
-import { searchHongKongMtr } from "./src/server/hongKongMtr";
-import { getTflLines, getTflStations, searchTflJourney } from "./src/server/tfl";
-import { getMbtaLines, getMbtaStations, searchMbtaJourney } from "./src/server/mbta";
+import { getTflLines, getTflStations } from "./src/server/tfl";
+import { getMbtaLines, getMbtaStations } from "./src/server/mbta";
+import { findScrapedResults, loadScrapedData } from "./src/data/scraped";
 import type { TransitLine } from "./src/types";
 
 dotenv.config();
@@ -20,6 +20,7 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  loadScrapedData();
   app.use(express.json());
 
   // Search API. It never fabricates schedules; providers must be wired before
@@ -35,61 +36,15 @@ async function startServer() {
       });
     }
 
-    if (country === "japan") {
-      const apiKey = process.env.ODPT_API_KEY;
-      if (!apiKey) {
-        return res.status(501).json({
-          error: "API Key Missing",
-          message: "Please configure the ODPT_API_KEY environment variable to fetch real Japan transit data.",
-          results: [],
-          source: "https://developer.odpt.org/",
-        });
-      }
-      return res.status(502).json({
-        error: "Provider Adapter Missing",
-        message: "ODPT credentials are configured, but a route-search adapter has not been connected yet. No schedule data was fabricated.",
-        results: [],
-        source: "https://developer.odpt.org/",
-      });
+    const scraped = findScrapedResults(country as any, origin, destination);
+    if (scraped && scraped.length > 0) {
+      return res.json({ results: scraped, source: "scraped" });
     }
-
-    if (country === "korea") {
-      const apiKey = process.env.ODSAY_API_KEY;
-      if (!apiKey) {
-        return res.status(501).json({
-          error: "API Key Missing",
-          message: "Please configure the ODSAY_API_KEY environment variable to fetch real Korea transit data.",
-          results: [],
-          source: "https://lab.odsay.com/",
-        });
-      }
-      return res.status(502).json({
-        error: "Provider Adapter Missing",
-        message: "ODsay credentials are configured, but a route-search adapter has not been connected yet. No schedule data was fabricated.",
-        results: [],
-        source: "https://lab.odsay.com/",
-      });
-    }
-
-    if (country === "hong_kong") {
-      const result = await searchHongKongMtr(origin, destination, date);
-      return res.status(result.status).json(result.body);
-    }
-
-    if (country === "united_kingdom") {
-      const result = await searchTflJourney(origin, destination, date);
-      return res.status(result.status).json(result.body);
-    }
-
-    if (country === "united_states") {
-      const result = await searchMbtaJourney(origin, destination, date);
-      return res.status(result.status).json(result.body);
-    }
-
-    return res.status(400).json({
-      error: "Invalid country",
-      message: "Country must be japan, korea, hong_kong, united_kingdom, or united_states.",
+    return res.status(404).json({
+      error: "No data available",
+      message: `No scraped timetable data found for ${origin} → ${destination}. The daily scraper may not have covered this route yet.`,
       results: [],
+      source: "scraped",
     });
   });
 
@@ -100,6 +55,8 @@ async function startServer() {
     let source: string | undefined;
 
     try {
+      const { newCountryStationLists } = await import("./src/data/scraped/stations");
+
       if (country === "japan") {
         stations = japanStations;
       } else if (country === "korea") {
@@ -113,10 +70,12 @@ async function startServer() {
       } else if (country === "united_states") {
         stations = await getMbtaStations();
         source = "https://api-v3.mbta.com";
+      } else if (newCountryStationLists[country as string]) {
+        stations = newCountryStationLists[country as string];
       } else {
         return res.status(400).json({
           error: "Invalid country",
-          message: "Country must be japan, korea, hong_kong, united_kingdom, or united_states.",
+          message: "Country must be one of japan, korea, taiwan, singapore, thailand, hong_kong, united_kingdom, united_states, germany, france, china.",
           stations: [],
         });
       }
@@ -140,12 +99,16 @@ async function startServer() {
   app.get("/api/exchange-rates", async (req, res) => {
     const base = (req.query.base as string) || "USD";
     const fallbackRates: Record<string, Record<string, number>> = {
-      USD: { USD: 1, JPY: 160.8, KRW: 1385.0, HKD: 7.8, GBP: 0.78, EUR: 0.92, CHF: 0.90, SGD: 1.35, MYR: 4.71 },
-      EUR: { USD: 1.09, JPY: 174.8, KRW: 1505.0, HKD: 8.48, GBP: 0.85, EUR: 1, CHF: 0.98, SGD: 1.47, MYR: 5.12 },
-      GBP: { USD: 1.28, JPY: 206.1, KRW: 1775.0, HKD: 10.0, GBP: 1, EUR: 1.18, CHF: 1.15, SGD: 1.73, MYR: 6.04 },
-      JPY: { USD: 0.0062, JPY: 1, KRW: 8.61, HKD: 0.048, GBP: 0.0048, EUR: 0.0057, CHF: 0.0056, SGD: 0.0084, MYR: 0.029 },
-      KRW: { USD: 0.00072, JPY: 0.12, KRW: 1, HKD: 0.0056, GBP: 0.00056, EUR: 0.00066, CHF: 0.00065, SGD: 0.00097, MYR: 0.0034 },
-      HKD: { USD: 0.13, JPY: 20.6, KRW: 177.5, HKD: 1, GBP: 0.10, EUR: 0.12, CHF: 0.12, SGD: 0.17, MYR: 0.60 }
+      USD: { USD: 1, JPY: 160.8, KRW: 1385.0, HKD: 7.8, GBP: 0.78, EUR: 0.92, CHF: 0.90, SGD: 1.35, MYR: 4.71, TWD: 32.5, THB: 36.2, CNY: 7.24 },
+      EUR: { USD: 1.09, JPY: 174.8, KRW: 1505.0, HKD: 8.48, GBP: 0.85, EUR: 1, CHF: 0.98, SGD: 1.47, MYR: 5.12, TWD: 35.3, THB: 39.4, CNY: 7.88 },
+      GBP: { USD: 1.28, JPY: 206.1, KRW: 1775.0, HKD: 10.0, GBP: 1, EUR: 1.18, CHF: 1.15, SGD: 1.73, MYR: 6.04, TWD: 41.6, THB: 46.5, CNY: 9.26 },
+      JPY: { USD: 0.0062, JPY: 1, KRW: 8.61, HKD: 0.048, GBP: 0.0048, EUR: 0.0057, CHF: 0.0056, SGD: 0.0084, MYR: 0.029, TWD: 0.20, THB: 0.22, CNY: 0.045 },
+      KRW: { USD: 0.00072, JPY: 0.12, KRW: 1, HKD: 0.0056, GBP: 0.00056, EUR: 0.00066, CHF: 0.00065, SGD: 0.00097, MYR: 0.0034, TWD: 0.023, THB: 0.026, CNY: 0.0052 },
+      HKD: { USD: 0.13, JPY: 20.6, KRW: 177.5, HKD: 1, GBP: 0.10, EUR: 0.12, CHF: 0.12, SGD: 0.17, MYR: 0.60, TWD: 4.17, THB: 4.65, CNY: 0.93 },
+      SGD: { USD: 0.74, JPY: 119.0, KRW: 1025.0, HKD: 5.78, GBP: 0.58, EUR: 0.68, CHF: 0.67, SGD: 1, MYR: 3.49, TWD: 24.1, THB: 26.8, CNY: 5.36 },
+      TWD: { USD: 0.031, JPY: 4.95, KRW: 42.6, HKD: 0.24, GBP: 0.024, EUR: 0.028, CHF: 0.028, SGD: 0.041, MYR: 0.14, TWD: 1, THB: 1.11, CNY: 0.22 },
+      THB: { USD: 0.028, JPY: 4.45, KRW: 38.3, HKD: 0.22, GBP: 0.022, EUR: 0.025, CHF: 0.025, SGD: 0.037, MYR: 0.13, TWD: 0.90, THB: 1, CNY: 0.20 },
+      CNY: { USD: 0.14, JPY: 22.2, KRW: 191.5, HKD: 1.08, GBP: 0.11, EUR: 0.13, CHF: 0.13, SGD: 0.19, MYR: 0.65, TWD: 4.49, THB: 5.0, CNY: 1 }
     };
 
     try {
@@ -226,7 +189,7 @@ async function startServer() {
 
     return res.status(400).json({
       error: "Invalid country",
-      message: "Country must be japan, korea, hong_kong, united_kingdom, or united_states.",
+      message: "Country must be one of japan, korea, taiwan, singapore, thailand, hong_kong, united_kingdom, united_states, germany, france, china.",
       lines: [],
     });
   });

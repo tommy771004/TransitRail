@@ -1,4 +1,4 @@
-export type Country = "japan" | "korea" | "hong_kong" | "united_kingdom" | "united_states";
+export type Country = "japan" | "korea" | "hong_kong" | "united_kingdom" | "united_states" | "taiwan" | "singapore" | "thailand" | "germany" | "france" | "china";
 
 export type AppView = "search" | "results" | "stations" | "history" | "saved" | "alerts" | "workflow";
 
@@ -50,7 +50,7 @@ export interface TransitResult {
   destLat?: number;
   destLng?: number;
   price?: number;
-  currency?: "JPY" | "KRW" | "HKD" | "GBP" | "EUR" | "CHF" | "USD" | "SGD" | "MYR";
+  currency?: "JPY" | "KRW" | "HKD" | "GBP" | "EUR" | "CHF" | "USD" | "SGD" | "MYR" | "TWD" | "THB" | "CNY";
   seatClass?: "reserved" | "economy" | "first";
   direct: boolean;
   stops: string[];

@@ -149,7 +149,6 @@ export default function App() {
   const formatConvertedPrice = (price?: number, currency?: string) => {
     if (price === undefined || !currency) return null;
 
-    // Default formatting of native price
     const formattedNative = new Intl.NumberFormat(
       currency === "JPY" ? "ja-JP" : currency === "KRW" ? "ko-KR" : currency === "HKD" ? "zh-HK" : currency === "GBP" ? "en-GB" : "en-US",
       {
@@ -210,14 +209,14 @@ export default function App() {
       const startTime = performance.now();
       const res = await fetch(url);
       const duration = Math.round(performance.now() - startTime);
-      
+
       const headers: Record<string, string> = {};
       res.headers.forEach((value, key) => {
         headers[key] = value;
       });
 
       const responseText = await res.text();
-      
+
       setApiDiagnostic({
         url,
         status: res.status,
@@ -233,7 +232,7 @@ export default function App() {
       } catch (e) {
         // Ignored
       }
-      
+
       const resultList = Array.isArray(data.results) ? data.results : [];
 
       if (!res.ok) {
@@ -259,14 +258,13 @@ export default function App() {
         )),
       ].slice(0, 12));
     } catch {
-      // Offline or network error, attempt fallback to IndexedDB
       try {
         const cachedData = await get(`transit_search_${query}`);
         if (cachedData && Array.isArray(cachedData) && cachedData.length > 0) {
           setResults(cachedData);
           pushAlert("Offline Mode", "Showing cached results from a previous search.");
           setIsSearching(false);
-          return; // Early return to avoid setting error state
+          return;
         }
       } catch (e) {
         console.error("Failed to read from cache", e);
@@ -313,8 +311,8 @@ export default function App() {
   };
 
   const getTripDepartureDate = (trip: SavedTrip): Date | null => {
-    const dateStr = trip.date; // "YYYY-MM-DD"
-    const timeStr = trip.departureTime; // "HH:MM"
+    const dateStr = trip.date;
+    const timeStr = trip.departureTime;
     if (!dateStr || !timeStr) return null;
 
     const dateParts = dateStr.split("-").map((num) => parseInt(num, 10));
@@ -355,7 +353,6 @@ export default function App() {
           const departureDate = getTripDepartureDate(trip);
           if (departureDate) {
             const timeDiff = departureDate.getTime() - Date.now();
-            // Trigger if departing within 15 minutes (and still in the future/present)
             if (timeDiff > 0 && timeDiff <= 15 * 60 * 1000) {
               changed = true;
               triggerReminder(trip);
@@ -369,7 +366,7 @@ export default function App() {
       if (changed) {
         setSavedTrips(updatedTrips);
       }
-    }, 15000); // Check every 15 seconds
+    }, 15000);
 
     return () => clearInterval(interval);
   }, [savedTrips]);
@@ -499,7 +496,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-100 font-sans text-stone-900 selection:bg-orange-200">
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-emerald-200 dark:bg-[#0b1220] dark:text-slate-100 dark:selection:bg-emerald-800/40">
       <Header onMenuOpen={() => setMenuOpen(true)} onProfileOpen={() => setProfileOpen(true)} />
 
       {(view === "search" || view === "stations") && (
@@ -540,12 +537,12 @@ export default function App() {
       )}
 
       {view === "results" && isSearching && (
-        <div className="pt-20 pb-28 min-h-screen bg-stone-100 max-w-md mx-auto">
+        <div className="pt-20 pb-28 min-h-screen bg-slate-50 max-w-md mx-auto dark:bg-[#0b1220]">
           <ResultSkeleton />
         </div>
       )}
 
-      {view === "results" && !isSearching && searchParams.country === "japan" && (
+      {view === "results" && !isSearching && ["japan", "taiwan", "germany", "france", "china"].includes(searchParams.country) && (
         <JapanResultView
           origin={searchParams.origin}
           destination={searchParams.destination}
@@ -577,7 +574,7 @@ export default function App() {
         />
       )}
 
-      {view === "results" && !isSearching && searchParams.country === "hong_kong" && (
+      {view === "results" && !isSearching && ["hong_kong", "singapore", "thailand"].includes(searchParams.country) && (
         <MetroResultView
           origin={searchParams.origin}
           destination={searchParams.destination}
@@ -625,18 +622,18 @@ export default function App() {
           ) : (
             <div className="space-y-2">
               {history.map((item) => (
-                <div key={item.id} className="flex items-center justify-between gap-3 rounded-xl border border-stone-200 bg-white p-4">
+                <div key={item.id} className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-stone-900">
+                    <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
                       {t(`station.${item.origin}`, { defaultValue: item.origin })}
-                      <span className="mx-1.5 text-stone-400">&rarr;</span>
+                      <span className="mx-1.5 text-slate-400">&rarr;</span>
                       {t(`station.${item.destination}`, { defaultValue: item.destination })}
                     </p>
-                    <p className="mt-0.5 font-mono text-[11px] text-stone-400">{item.date} · {t(countryConfig[item.country].labelKey)} · {item.resultCount} {t("history.results")}</p>
+                    <p className="mt-0.5 font-mono text-[11px] text-slate-400">{item.date} · {t(countryConfig[item.country].labelKey)} · {item.resultCount} {t("history.results")}</p>
                   </div>
                   <button
                     onClick={() => rerunHistorySearch(item)}
-                    className="shrink-0 rounded-lg bg-stone-900 px-3 py-2 text-xs font-medium text-white"
+                    className="shrink-0 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-[0_2px_8px_rgba(16,185,129,0.25)] hover:bg-emerald-500 transition-all"
                   >
                     {t("history.search_again")}
                   </button>
@@ -653,24 +650,23 @@ export default function App() {
             <EmptyState title={t("saved.empty_title")} body={t("saved.empty_body")} />
           ) : (
             <div className="space-y-4">
-              {/* Preferred Home Currency Converter Selector */}
-              <div className="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <Coins className="h-4 w-4 text-amber-500 shrink-0" />
                     <div>
-                      <span className="text-sm font-semibold text-stone-900 block leading-tight">Currency Converter</span>
-                      <span className="text-[10px] text-stone-400 font-medium font-mono leading-none">
+                      <span className="text-sm font-bold text-slate-900 block leading-tight dark:text-white">Currency Converter</span>
+                      <span className="text-[10px] text-slate-400 font-bold font-mono leading-none">
                         {loadingRates ? "Updating live rates..." : `Rates relative to ${homeCurrency}`}
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0">
-                    <span className="text-xs text-stone-500 font-medium">Home:</span>
+                    <span className="text-xs text-slate-500 font-medium">Home:</span>
                     <select
                       value={homeCurrency}
                       onChange={(e) => setHomeCurrency(e.target.value)}
-                      className="rounded-lg border border-stone-200 bg-stone-50 px-2.5 py-1.5 text-xs font-semibold text-stone-800 outline-none focus:border-stone-400 cursor-pointer"
+                      className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-800 outline-none focus:border-slate-400 cursor-pointer dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                     >
                       <option value="USD">USD ($)</option>
                       <option value="EUR">EUR (€)</option>
@@ -681,6 +677,9 @@ export default function App() {
                       <option value="CHF">CHF (CHF)</option>
                       <option value="SGD">SGD (S$)</option>
                       <option value="MYR">MYR (RM)</option>
+                      <option value="TWD">TWD (NT$)</option>
+                      <option value="THB">THB (฿)</option>
+                      <option value="CNY">CNY (¥)</option>
                     </select>
                   </div>
                 </div>
@@ -688,79 +687,77 @@ export default function App() {
 
               <div className="space-y-2.5">
                 {savedTrips.map((trip) => (
-                  <div key={trip.id} className="rounded-xl border border-stone-200 bg-white p-4 shadow-sm">
+                  <div key={trip.id} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="truncate rounded border-l-2 bg-stone-100 px-2 py-0.5 text-[10px] font-semibold text-stone-800" style={{ borderLeftColor: trip.lineColor || "#a8a29e" }}>
+                          <span className="truncate rounded-lg bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-300" style={{ borderLeft: `3px solid ${trip.lineColor || "#94a3b8"}` }}>
                             {trip.service}
                           </span>
                         </div>
-                        <p className="truncate text-sm font-semibold text-stone-900">
+                        <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
                           {t(`station.${trip.origin}`, { defaultValue: trip.origin })}
-                          <span className="mx-1.5 text-stone-400">&rarr;</span>
+                          <span className="mx-1.5 text-slate-400">&rarr;</span>
                           {t(`station.${trip.destination}`, { defaultValue: trip.destination })}
                         </p>
-                        <p className="mt-1 font-mono text-xs text-stone-500 flex items-center gap-1">
-                          <Clock className="h-3 w-3 text-stone-400 shrink-0" />
+                        <p className="mt-1 font-mono text-xs text-slate-500 flex items-center gap-1">
+                          <Clock className="h-3 w-3 text-slate-400 shrink-0" />
                           <span>{trip.departureTime}{trip.arrivalTime ? ` - ${trip.arrivalTime}` : ""}</span>
                         </p>
 
-                        {/* Price Display with Conversion */}
                         {trip.price !== undefined && trip.currency && (
-                          <div className="mt-2 text-xs font-semibold text-stone-700 flex items-center gap-1">
-                            <span className="text-stone-400 font-normal">Fare:</span>
-                            <span className="bg-stone-50 border border-stone-200/60 rounded px-1.5 py-0.5 font-mono">
+                          <div className="mt-2 text-xs font-bold text-slate-700 flex items-center gap-1 dark:text-slate-300">
+                            <span className="text-slate-400 font-normal">Fare:</span>
+                            <span className="bg-slate-50 border border-slate-200/60 rounded-lg px-2 py-0.5 font-mono dark:bg-slate-800 dark:border-slate-700">
                               {formatConvertedPrice(trip.price, trip.currency)}
                             </span>
                           </div>
                         )}
                       </div>
 
-                      {/* Action buttons columns */}
                       <div className="flex flex-col gap-1.5 shrink-0">
                         <button
                           onClick={() => toggleTripReminder(trip)}
-                          className={`flex h-8 w-8 items-center justify-center rounded-lg border ${
+                          className={`flex h-8 w-8 items-center justify-center rounded-xl border ${
                             trip.reminderEnabled
-                              ? "border-amber-200 bg-amber-50 text-amber-600 hover:bg-amber-100"
-                              : "border-stone-200 text-stone-500 hover:bg-stone-50"
+                              ? "border-amber-200 bg-amber-50 text-amber-600 hover:bg-amber-100 dark:border-amber-700 dark:bg-amber-900/20 dark:text-amber-400"
+                              : "border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
                           }`}
                           title={trip.reminderEnabled ? "Disable departure alert" : "Enable 15m departure alert"}
                           aria-label="Toggle reminder"
                         >
-                          {trip.reminderEnabled ? <Bell className="h-3.5 w-3.5 text-amber-500" /> : <BellOff className="h-3.5 w-3.5 text-stone-400" />}
+                          {trip.reminderEnabled ? <Bell className="h-3.5 w-3.5 text-amber-500" /> : <BellOff className="h-3.5 w-3.5" />}
                         </button>
                         <button
                           onClick={() => shareTrip(trip)}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-50"
+                          className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
                           title="Share formatted details via Web Share API"
                           aria-label="Share trip"
                         >
-                          <Share2 className="h-3.5 w-3.5 text-stone-400" />
+                          <Share2 className="h-3.5 w-3.5" />
                         </button>
                         <button
                           onClick={() => generateICS(trip)}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-50"
+                          className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
                           title="Download Calendar Event (.ics)"
                           aria-label="Download calendar event"
                         >
-                          <CalendarDays className="h-3.5 w-3.5 text-stone-400" />
+                          <CalendarDays className="h-3.5 w-3.5" />
                         </button>
                         <button
                           onClick={() => removeSavedTrip(trip.id)}
-                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-50 hover:text-red-600 hover:border-red-200"
+                          className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-red-600 hover:border-red-200 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-red-400 dark:hover:border-red-800"
                           title="Remove saved trip"
                           aria-label={t("saved.remove")}
                         >
-                          <Trash2 className="h-3.5 w-3.5 text-stone-400 hover:text-red-500" />
+                          <Trash2 className="h-3.5 w-3.5" />
                         </button>
                       </div>
                     </div>
                     {trip.seatClass ? (
                       <button
                         onClick={() => openSeatPicker(trip)}
-                        className="mt-3 w-full rounded-lg bg-stone-900 py-2 text-xs font-medium text-white hover:bg-stone-800 transition-colors"
+                        className="mt-3 w-full rounded-xl bg-emerald-600 py-3 text-xs font-bold text-white shadow-[0_2px_8px_rgba(16,185,129,0.25)] hover:bg-emerald-500 transition-all"
                       >
                         {t("result.select_seat")}
                       </button>
@@ -780,10 +777,10 @@ export default function App() {
           ) : (
             <div className="space-y-2">
               {alerts.map((alert) => (
-                <div key={alert.id} className="rounded-xl border border-stone-200 bg-white p-4">
-                  <p className="text-sm font-semibold text-stone-900">{alert.title}</p>
-                  <p className="mt-1 text-sm text-stone-600">{alert.body}</p>
-                  <p className="mt-2 font-mono text-[11px] text-stone-400">{new Date(alert.createdAt).toLocaleString()}</p>
+                <div key={alert.id} className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+                  <p className="text-sm font-bold text-slate-900 dark:text-white">{alert.title}</p>
+                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{alert.body}</p>
+                  <p className="mt-2 font-mono text-[11px] text-slate-400">{new Date(alert.createdAt).toLocaleString()}</p>
                 </div>
               ))}
             </div>
@@ -795,7 +792,7 @@ export default function App() {
 
       {menuOpen && (
         <Panel title={t("menu.title")} onClose={() => setMenuOpen(false)}>
-          <div className="divide-y divide-stone-100 rounded-xl border border-stone-200">
+          <div className="divide-y divide-slate-100 rounded-2xl border border-slate-200 dark:divide-slate-800 dark:border-slate-700">
             {[
               { icon: MapPinned, label: t("menu.new_search"), view: "search" as const },
               { icon: Clock, label: t("nav.history"), view: "history" as const },
@@ -806,10 +803,10 @@ export default function App() {
               <button
                 key={label}
                 onClick={() => { setView(target); setMenuOpen(false); }}
-                className="flex w-full items-center gap-3 p-3.5 text-left hover:bg-stone-50"
+                className="flex w-full items-center gap-3 p-4 text-left hover:bg-slate-50 dark:hover:bg-slate-800"
               >
-                <Icon className="h-4 w-4 text-stone-500" />
-                <span className="text-sm font-medium text-stone-900">{label}</span>
+                <Icon className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+                <span className="text-sm font-bold text-slate-900 dark:text-white">{label}</span>
               </button>
             ))}
           </div>
@@ -819,10 +816,10 @@ export default function App() {
       {profileOpen && (
         <Panel title={t("profile.title")} onClose={() => setProfileOpen(false)}>
           <div className="flex items-center gap-3">
-            <UserCircle className="h-10 w-10 text-stone-400" />
+            <UserCircle className="h-10 w-10 text-slate-400" />
             <div>
-              <p className="text-sm font-semibold text-stone-900">{t("profile.guest")}</p>
-              <p className="text-sm text-stone-500">{t("profile.local_only")}</p>
+              <p className="text-sm font-bold text-slate-900 dark:text-white">{t("profile.guest")}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">{t("profile.local_only")}</p>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -831,14 +828,14 @@ export default function App() {
             <ProfileStat label={t("nav.alerts")} value={alerts.length} />
             <ProfileStat label="Favorites" value={favorites.length} />
           </div>
-          <div className="mt-4 pt-4 border-t border-stone-100 flex items-center justify-between">
+          <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-stone-900">Dark Mode</p>
-              <p className="text-xs text-stone-500">Toggle dark appearance</p>
+              <p className="text-sm font-bold text-slate-900 dark:text-white">Dark Mode</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Toggle dark appearance</p>
             </div>
             <button
               onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-              className="flex items-center justify-center p-2 rounded-full border border-stone-200 bg-stone-50 text-stone-600 hover:bg-stone-100"
+              className="flex items-center justify-center p-2 rounded-full border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
             >
               {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
             </button>
@@ -847,16 +844,16 @@ export default function App() {
       )}
 
       {selectedTrip && (
-        <div className="fixed inset-0 z-[70] flex items-end justify-center bg-stone-900/40 px-4 sm:items-center">
-          <div className="w-full max-w-md space-y-4 rounded-t-2xl bg-white p-5 sm:rounded-2xl">
+        <div className="fixed inset-0 z-[70] flex items-end justify-center bg-slate-900/60 backdrop-blur-sm px-4 sm:items-center">
+          <div className="w-full max-w-md space-y-4 rounded-t-3xl bg-white p-6 sm:rounded-3xl dark:bg-slate-900">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-sm text-stone-500">{selectedTrip.service}</p>
-                <h2 className="text-lg font-semibold tracking-tight text-stone-900">{t("seat.title")}</h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400">{selectedTrip.service}</p>
+                <h2 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">{t("seat.title")}</h2>
               </div>
               <button
                 onClick={() => setSelectedTrip(null)}
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-50"
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -866,15 +863,15 @@ export default function App() {
                 <button
                   key={seat}
                   onClick={() => setSeatChoice(seat)}
-                  className={`rounded-lg border p-3 text-left text-sm font-medium ${
-                    seatChoice === seat ? "border-stone-900 bg-stone-900 text-white" : "border-stone-200 bg-white text-stone-900"
+                  className={`rounded-xl border p-3 text-left text-sm font-bold ${
+                    seatChoice === seat ? "border-emerald-600 bg-emerald-600 text-white shadow-[0_2px_8px_rgba(16,185,129,0.25)]" : "border-slate-200 bg-white text-slate-900 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
                   }`}
                 >
                   {t(`seat.${seat}`)}
                 </button>
               ))}
             </div>
-            <button onClick={confirmSeat} className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-stone-900 text-sm font-semibold text-white hover:bg-stone-800">
+            <button onClick={confirmSeat} className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-bold text-white shadow-[0_4px_14px_rgba(16,185,129,0.3)] hover:bg-emerald-500 transition-all">
               <Check className="h-4 w-4" />
               {t("seat.confirm")}
             </button>
@@ -885,7 +882,7 @@ export default function App() {
       {apiDiagnostic && (
         <button
           onClick={() => setDiagnosticOpen(true)}
-          className="fixed bottom-20 right-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-stone-900 text-white shadow-lg shadow-stone-900/20 hover:bg-stone-800"
+          className="fixed bottom-20 right-4 z-40 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-lg shadow-emerald-600/20 hover:bg-emerald-500 dark:shadow-emerald-600/10"
           aria-label="API Diagnostics"
           title="View API Diagnostics"
         >
@@ -903,9 +900,11 @@ export default function App() {
 function UtilityPage({ title, icon, children }: { title: string; icon: ReactNode; children: ReactNode }) {
   return (
     <main className="mx-auto max-w-md px-4 pb-24 pt-20">
-      <div className="mb-4 flex items-center gap-2 text-stone-500">
-        {icon}
-        <h1 className="text-xl font-semibold tracking-tight text-stone-900">{title}</h1>
+      <div className="mb-5 flex items-center gap-2 text-slate-500 dark:text-slate-400">
+        <div className="p-1.5 rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
+          {icon}
+        </div>
+        <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">{title}</h1>
       </div>
       {children}
     </main>
@@ -914,22 +913,22 @@ function UtilityPage({ title, icon, children }: { title: string; icon: ReactNode
 
 function EmptyState({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-xl border border-stone-200 bg-white p-6 text-center">
-      <p className="text-sm font-semibold text-stone-900">{title}</p>
-      <p className="mt-1 text-sm text-stone-500">{body}</p>
+    <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center dark:border-slate-700 dark:bg-slate-900">
+      <p className="text-sm font-bold text-slate-900 dark:text-white">{title}</p>
+      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{body}</p>
     </div>
   );
 }
 
 function Panel({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
   return (
-    <div className="fixed inset-0 z-[70] flex items-start justify-end bg-stone-900/40">
-      <div className="min-h-screen w-full max-w-sm space-y-4 border-l border-stone-200 bg-white p-5">
+    <div className="fixed inset-0 z-[70] flex items-start justify-end bg-slate-900/60 backdrop-blur-sm">
+      <div className="min-h-screen w-full max-w-sm space-y-5 border-l border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold tracking-tight text-stone-900">{title}</h2>
+          <h2 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">{title}</h2>
           <button
             onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-stone-200 text-stone-500 hover:bg-stone-50"
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
           >
             <X className="h-4 w-4" />
           </button>
@@ -942,9 +941,9 @@ function Panel({ title, onClose, children }: { title: string; onClose: () => voi
 
 function ProfileStat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-xl border border-stone-200 p-3 text-center">
-      <p className="font-mono text-lg font-semibold text-stone-900">{value}</p>
-      <p className="text-[10px] font-medium uppercase tracking-wider text-stone-400">{label}</p>
+    <div className="rounded-2xl border border-slate-200 p-3 text-center dark:border-slate-700">
+      <p className="font-mono text-lg font-bold text-slate-900 dark:text-white">{value}</p>
+      <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">{label}</p>
     </div>
   );
 }

@@ -7,24 +7,34 @@
 
 @layer base {
   .dark {
-    --color-stone-50: oklch(21.6% 0.006 56.043);
-    --color-stone-100: oklch(26.8% 0.007 34.298);
-    --color-stone-200: oklch(37.4% 0.01 67.558);
-    --color-stone-300: oklch(44.4% 0.011 73.639);
-    --color-stone-400: oklch(55.3% 0.013 58.071);
-    --color-stone-500: oklch(70.9% 0.01 56.259);
-    --color-stone-600: oklch(86.9% 0.005 56.366);
-    --color-stone-700: oklch(92.3% 0.003 48.717);
-    --color-stone-800: oklch(97% 0.001 106.424);
-    --color-stone-900: oklch(98.5% 0.001 106.423);
-    --color-stone-950: #ffffff;
-    --color-white: oklch(14.7% 0.004 49.25);
-    --color-black: oklch(98.5% 0.001 106.423);
+    --color-slate-50: #0f172a;
+    --color-slate-100: #1e293b;
+    --color-slate-200: #334155;
+    --color-slate-300: #475569;
+    --color-slate-400: #64748b;
+    --color-slate-500: #94a3b8;
+    --color-slate-600: #cbd5e1;
+    --color-slate-700: #e2e8f0;
+    --color-slate-800: #f1f5f9;
+    --color-slate-900: #f8fafc;
+    --color-slate-950: #ffffff;
+    --color-white: #0b1220;
+    --color-black: #f8fafc;
+  }
+}
+
+@layer base {
+  html.dark {
+    background-color: #0b1220;
+    color-scheme: dark;
+  }
+  html {
+    background-color: var(--color-slate-50);
+    color-scheme: light;
   }
 }
 
 @layer utilities {
-
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -35,10 +45,24 @@
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
   }
+  .soft-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  .soft-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #94a3b84d;
+    border-radius: 99px;
+  }
+  .soft-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b899;
+  }
+  .soft-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
 }
 
 body {
   min-height: 100dvh;
-  background-color: var(--color-stone-100);
-  color: var(--color-stone-900);
+  background-color: var(--color-slate-50);
+  color: var(--color-slate-900);
 }
