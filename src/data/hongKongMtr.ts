@@ -35,7 +35,7 @@ export const hongKongMtrLines: MtrLine[] = [
       ["KOW", "Kowloon"],
       ["TSY", "Tsing Yi"],
       ["AIR", "Airport"],
-      ["AWE", "AsiaWorld Expo"],
+      ["AWE", "AsiaWorld-Expo"],
     ]),
   },
   {

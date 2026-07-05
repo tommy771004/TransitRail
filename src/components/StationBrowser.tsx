@@ -1,9 +1,10 @@
 import { ArrowLeft, ChevronDown, Search, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { countryConfig, countryOptions } from "../data/countries";
+import { countryConfig, countryOptions, countryFlags } from "../data/countries";
 import type { Country, TransitLine } from "../types";
 import { triggerHaptic } from "../utils/haptics";
+import { stationLabel } from "../utils/stationLabel";
 
 interface StationBrowserProps {
   country: Country;
@@ -105,7 +106,7 @@ export function StationBrowser({
     const value = query.trim().toLowerCase();
     if (!value) return stations;
     return stations.filter((station) => {
-      const translated = t(`station.${station}`, { defaultValue: station }).toLowerCase();
+      const translated = stationLabel(t, station, country).toLowerCase();
       return station.toLowerCase().includes(value) || translated.includes(value);
     });
   }, [query, stations, t]);
@@ -155,7 +156,7 @@ export function StationBrowser({
                     : "border border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
                 }`}
               >
-                {t(countryConfig[item].labelKey)}
+                {countryFlags[item] || ""} {t(countryConfig[item].labelKey)}
               </button>
             ))}
           </div>
@@ -207,6 +208,7 @@ export function StationBrowser({
               isLoading={isLoading}
               loadFailed={loadFailed}
               stations={filteredStations}
+              country={country}
               onSelectStation={handleSelectStation}
             />
           ) : tab === "all" ? (
@@ -219,7 +221,7 @@ export function StationBrowser({
                       onClick={() => handleSelectStation(station)}
                       className="shrink-0 whitespace-nowrap rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
                     >
-                      {t(`station.${station}`, { defaultValue: station })}
+                      {stationLabel(t, station, country)}
                     </button>
                   ))}
                 </div>
@@ -228,6 +230,7 @@ export function StationBrowser({
                 isLoading={isLoading}
                 loadFailed={loadFailed}
                 stations={filteredStations}
+                country={country}
                 onSelectStation={handleSelectStation}
               />
             </>
@@ -289,7 +292,7 @@ export function StationBrowser({
                                   </span>
                                   <span className="min-w-0 flex-1 py-0.5">
                                     <span className="block truncate text-sm font-bold text-slate-900 dark:text-white">
-                                      {t(`station.${station.name}`, { defaultValue: station.name })}
+                                      {stationLabel(t, station.name, country)}
                                       {station.localName ? (
                                         <span className="ml-2 text-xs font-normal text-slate-400">{station.localName}</span>
                                       ) : null}
@@ -330,11 +333,13 @@ function StationList({
   isLoading,
   loadFailed,
   stations,
+  country,
   onSelectStation,
 }: {
   isLoading: boolean;
   loadFailed: boolean;
   stations: string[];
+  country: Country;
   onSelectStation: (station: string) => void;
 }) {
   const { t } = useTranslation();
@@ -356,7 +361,7 @@ function StationList({
             className="w-full py-3.5 text-left hover:bg-slate-50 dark:hover:bg-slate-800"
           >
             <span className="block truncate text-sm font-bold text-slate-900 dark:text-white">
-              {t(`station.${station}`, { defaultValue: station })}
+              {stationLabel(t, station, country)}
             </span>
           </button>
         </li>

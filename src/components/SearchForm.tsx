@@ -1,15 +1,24 @@
-import { ArrowLeftRight, CalendarDays, DatabaseZap, Star, Search, MapPin, History } from "lucide-react";
+import { ArrowLeftRight, CalendarDays, DatabaseZap, Star, Search, MapPin, History, ChevronDown, Loader2 } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { countryConfig, countryOptions, providerDateValue, countryThemes } from "../data/countries";
+import { countryConfig, countryOptions, providerDateValue, countryThemes, countryFlags } from "../data/countries";
 import type { Country, SearchHistoryItem, SearchParams, FavoriteRoute } from "../types";
 import { triggerHaptic } from "../utils/haptics";
+import { stationLabel } from "../utils/stationLabel";
 
-const getDayLabel = (date: Date, offset: number) => {
-  if (offset === 0) return "今天";
-  if (offset === 1) return "明天";
-  if (offset === 2) return "後天";
-  const days = ["週日", "週一", "週二", "週三", "週四", "週五", "週六"];
+const getDayLabel = (date: Date, offset: number, t: any) => {
+  if (offset === 0) return t("search.today", { defaultValue: "今天" });
+  if (offset === 1) return t("search.tomorrow", { defaultValue: "明天" });
+  if (offset === 2) return t("search.day_after_tomorrow", { defaultValue: "後天" });
+  const days = [
+    t("days.sun", { defaultValue: "週日" }),
+    t("days.mon", { defaultValue: "週一" }),
+    t("days.tue", { defaultValue: "週二" }),
+    t("days.wed", { defaultValue: "週三" }),
+    t("days.thu", { defaultValue: "週四" }),
+    t("days.fri", { defaultValue: "週五" }),
+    t("days.sat", { defaultValue: "週六" }),
+  ];
   return days[date.getDay()];
 };
 
@@ -57,10 +66,54 @@ export function SearchForm({
   onOpenWorkflow,
   onRepeatSearch,
 }: SearchFormProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [formError, setFormError] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [aiResult, setAiResult] = useState<string | null>(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const hotRoutes = useMemo(() => [
+    { country: "japan", origin: "Tokyo", destination: "Shin-Osaka", label: t("hot_routes.tokyo_osaka", { defaultValue: "東京 ➔ 新大阪" }) },
+    { country: "korea", origin: "Seoul (SNC)", destination: "Busan (BSN)", label: t("hot_routes.seoul_busan", { defaultValue: "首爾 ➔ 釜山" }) },
+    { country: "hong_kong", origin: "Central", destination: "Tsuen Wan", label: t("hot_routes.central_tsuenwan", { defaultValue: "中環 ➔ 荃灣" }) },
+    { country: "singapore", origin: "Jurong East", destination: "Raffles Place", label: t("hot_routes.jurong_raffles", { defaultValue: "裕廊東 ➔ 萊佛士坊" }) },
+    { country: "china", origin: "Beijing South", destination: "Shanghai Hongqiao", label: t("hot_routes.beijing_shanghai", { defaultValue: "北京南 ➔ 上海虹橋" }) },
+    { country: "thailand", origin: "Siam", destination: "Sukhumvit", label: t("hot_routes.siam_sukhumvit", { defaultValue: "暹羅 ➔ 蘇坤蔚" }) },
+    { country: "united_kingdom", origin: "King's Cross St. Pancras Underground Station", destination: "Oxford Circus Underground Station", label: t("hot_routes.kings_oxford", { defaultValue: "國王十字 ➔ 牛津圓環" }) },
+    { country: "united_states", origin: "South Station", destination: "Back Bay", label: t("hot_routes.south_backbay", { defaultValue: "南站 ➔ 後灣" }) },
+    { country: "germany", origin: "Berlin Hbf", destination: "Munich Hbf", label: t("hot_routes.berlin_munich", { defaultValue: "柏林 ➔ 慕尼黑" }) },
+    { country: "france", origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu", label: t("hot_routes.paris_lyon", { defaultValue: "巴黎 ➔ 里昂" }) }
+  ], [t]);
+
+  const row1 = useMemo(() => hotRoutes.slice(0, 5), [hotRoutes]);
+  const row2 = useMemo(() => hotRoutes.slice(5, 10), [hotRoutes]);
+
+  const faqs = useMemo(() => [
+    {
+      q: t("faqs.q0", { defaultValue: "這個網站是免費的嗎？" }),
+      a: t("faqs.a0", { defaultValue: "是的，TransitRail 是一個完全免費的全球大眾運輸查詢平台，旨在提供旅客無廣告、乾淨流暢的即時車次與路線規劃服務。" })
+    },
+    {
+      q: t("faqs.q1", { defaultValue: "可以查詢到當日列車即時狀態嗎？" }),
+      a: t("faqs.a1", { defaultValue: "可以。我們針對各國鐵道提供即時的班次查詢，且對於特定地區（如新加坡、倫敦、波士頓等）更支援即時到站狀態，讓您掌握最新行車資訊。" })
+    },
+    {
+      q: t("faqs.q2", { defaultValue: "時刻表與班次資料是從哪裡來的？" }),
+      a: t("faqs.a2", { defaultValue: "時刻表與班次資料直接介接自各國主流大眾運輸系統與第三方官方資料庫（如 Jorudan、Korail、LTA、MTR、TfL、MBTA、DB、SNCF 與 12306 等），確保查詢結果的高參考價值。" })
+    },
+    {
+      q: t("faqs.q3", { defaultValue: "為什麼有些國家的日期只能選今天？" }),
+      a: t("faqs.a3", { defaultValue: "由於部分大眾運輸系統（如新加坡 MRT）採用即時動態 API，僅提供當日即時班次與到站預估，因此該地區的旅行日期將會自動鎖定為今日。" })
+    },
+    {
+      q: t("faqs.q4", { defaultValue: "可以離線使用或儲存常用路線嗎？" }),
+      a: t("faqs.a4", { defaultValue: "支援！您可以將常用的路線加入「最愛路線」（點擊搜尋按鈕旁的星號），這些路線將安全地儲存在您的瀏覽器中，方便下次一鍵快速搜尋。" })
+    },
+    {
+      q: t("faqs.q5", { defaultValue: "如何使用 AI 行程規劃功能？" }),
+      a: t("faqs.a5", { defaultValue: "點擊下方的「AI 行程規劃」按鈕，系統將引導您至專屬的智慧行程小幫手，為您量身打造跨城市、跨地區的精緻軌道旅行計畫！" })
+    }
+  ], [t]);
   const origin = params.origin;
   const destination = params.destination;
   const country = params.country;
@@ -149,13 +202,19 @@ export function SearchForm({
                   : "text-slate-600 hover:bg-slate-200/50 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
               }`}
             >
-              {t(countryConfig[item].labelKey)}
+              {countryFlags[item] || ""} {t(countryConfig[item].labelKey)}
             </button>
           ))}
         </div>
 
         {/* Main Search Card */}
-        <div className="rounded-[28px] border border-slate-100 bg-white/80 backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.03)] dark:border-slate-800/80 dark:bg-slate-900/80">
+        <div className="relative overflow-hidden rounded-[28px] border border-slate-100 bg-white/80 backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.03)] dark:border-slate-800/80 dark:bg-slate-900/80">
+          {/* Top glowing progress bar during network latency */}
+          {isSearching && (
+            <div className="absolute top-0 left-0 right-0 h-1 overflow-hidden bg-slate-100 dark:bg-slate-800 z-20">
+              <div className="absolute top-0 bottom-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-loading-bar" />
+            </div>
+          )}
           <div className="relative p-6">
             <div className="flex items-center justify-between gap-1">
               <button
@@ -171,7 +230,7 @@ export function SearchForm({
                   {t("search.origin")}
                 </div>
                 <div className={`text-2xl font-black tracking-tight ${origin ? "text-slate-900 dark:text-white" : "text-slate-300 dark:text-slate-700"} transition-all duration-300 group-hover:scale-[1.02]`}>
-                  {origin ? t(`station.${origin}`, { defaultValue: origin }) : t("search.select_origin", { defaultValue: "Select" })}
+                  {origin ? stationLabel(t, origin, country) : t("search.select_origin", { defaultValue: "Select" })}
                 </div>
                 <div className="mt-1 font-mono text-[10px] text-slate-400 dark:text-slate-500">
                   {origin || "DEP"}
@@ -202,7 +261,7 @@ export function SearchForm({
                   {t("search.destination")}
                 </div>
                 <div className={`text-2xl font-black tracking-tight ${destination ? "text-slate-900 dark:text-white" : "text-slate-300 dark:text-slate-700"} transition-all duration-300 group-hover:scale-[1.02]`}>
-                  {destination ? t(`station.${destination}`, { defaultValue: destination }) : t("search.select_dest", { defaultValue: "Select" })}
+                  {destination ? stationLabel(t, destination, country) : t("search.select_dest", { defaultValue: "Select" })}
                 </div>
                 <div className="mt-1 font-mono text-[10px] text-slate-400 dark:text-slate-500">
                   {destination || "ARR"}
@@ -237,9 +296,13 @@ export function SearchForm({
                   {generateDates(new Date(), 14).map((d, idx) => {
                     const dateValue = formatDateValue(d);
                     const isSelected = date === dateValue;
-                    const monthStr = `${String(d.getMonth() + 1).padStart(2, "0")}月`;
-                    const dayStr = `${String(d.getDate()).padStart(2, "0")}日`;
-                    const label = getDayLabel(d, idx);
+                    const monthStr = i18n.language === "zh-TW" 
+                      ? `${String(d.getMonth() + 1).padStart(2, "0")}月`
+                      : d.toLocaleString("en-US", { month: "short" });
+                    const dayStr = i18n.language === "zh-TW"
+                      ? `${String(d.getDate()).padStart(2, "0")}日`
+                      : String(d.getDate()).padStart(2, "0");
+                    const label = getDayLabel(d, idx, t);
                     
                     return (
                       <button
@@ -249,13 +312,13 @@ export function SearchForm({
                           triggerHaptic("light");
                           updateParam("date", dateValue);
                         }}
-                        className={`flex min-w-[72px] shrink-0 snap-start flex-col items-center justify-center rounded-[20px] p-3 text-center transition-all ${
+                        className={`flex min-w-[72px] shrink-0 snap-start flex-col items-center justify-center rounded-[20px] p-3 text-center border transition-all ${
                           isSelected
-                            ? "bg-[#2563eb] text-white shadow-md"
-                            : "bg-transparent text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/40 border border-slate-200 dark:border-slate-800"
+                            ? theme.dateSelected
+                            : "bg-transparent text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/40 border-slate-200 dark:border-slate-800"
                         }`}
                       >
-                        <span className={`mb-1.5 text-[10px] font-bold ${isSelected ? "text-blue-100" : "text-slate-400 dark:text-slate-400"}`}>{label}</span>
+                        <span className={`mb-1.5 text-[10px] font-bold ${isSelected ? theme.dateLabelSelected : "text-slate-400 dark:text-slate-400"}`}>{label}</span>
                         <span className="text-[15px] font-black leading-tight tracking-tight">{monthStr}</span>
                         <span className="text-[15px] font-black leading-tight tracking-tight">{dayStr}</span>
                       </button>
@@ -269,6 +332,13 @@ export function SearchForm({
               <p className="mt-4 rounded-xl border border-red-100 bg-red-50/75 px-4 py-2.5 text-xs font-semibold text-red-700 dark:border-red-950/40 dark:bg-red-950/20 dark:text-red-400">
                 {formError}
               </p>
+            )}
+
+            {isSearching && (
+              <div className="mt-4 flex items-center justify-center gap-2.5 rounded-2xl border border-blue-100 bg-blue-50/50 dark:border-blue-950/20 dark:bg-blue-950/10 px-4 py-3.5 text-xs font-semibold text-blue-700 dark:text-blue-400 animate-pulse">
+                <Loader2 className="h-4 w-4 animate-spin text-blue-500 dark:text-blue-400 shrink-0" />
+                <span>{t("search.fetching_live_data")}</span>
+              </div>
             )}
 
             <div className="mt-5 flex gap-2">
@@ -307,9 +377,9 @@ export function SearchForm({
                       }}
                       className="flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-600 hover:border-slate-300 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:bg-slate-800/60 transition-all duration-200"
                     >
-                      {t(`station.${route.origin}`, { defaultValue: route.origin })}
+                      {stationLabel(t, route.origin, country)}
                       <span className="text-slate-300 dark:text-slate-600">&rarr;</span>
-                      {t(`station.${route.destination}`, { defaultValue: route.destination })}
+                      {stationLabel(t, route.destination, country)}
                     </button>
                   ))}
                 </div>
@@ -342,12 +412,12 @@ export function SearchForm({
                     className="flex-1 min-w-0 text-left px-5 py-3.5"
                   >
                     <span className="block truncate text-sm font-bold text-slate-900 dark:text-white">
-                      {t(`station.${fav.origin}`, { defaultValue: fav.origin })}
+                      {stationLabel(t, fav.origin, fav.country)}
                       <span className="mx-1.5 text-slate-400">&rarr;</span>
-                      {t(`station.${fav.destination}`, { defaultValue: fav.destination })}
+                      {stationLabel(t, fav.destination, fav.country)}
                     </span>
                     <span className={`mt-0.5 block font-mono text-[11px] font-bold ${countryThemes[fav.country]?.textActive || "text-slate-400"}`}>
-                      {t(countryConfig[fav.country].labelKey)}
+                      {countryFlags[fav.country] || ""} {t(countryConfig[fav.country].labelKey)}
                     </span>
                   </button>
                   <button
@@ -378,12 +448,12 @@ export function SearchForm({
                 >
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-sm font-bold text-slate-900 dark:text-white">
-                      {t(`station.${item.origin}`, { defaultValue: item.origin })}
+                      {stationLabel(t, item.origin, item.country)}
                       <span className="mx-1.5 text-slate-400">&rarr;</span>
-                      {t(`station.${item.destination}`, { defaultValue: item.destination })}
+                      {stationLabel(t, item.destination, item.country)}
                     </span>
                     <span className="mt-0.5 block font-mono text-[11px] text-slate-400">
-                      {item.date} · <span className={`font-bold ${countryThemes[item.country]?.textActive || ""}`}>{t(countryConfig[item.country].labelKey)}</span>
+                      {item.date} · <span className={`font-bold ${countryThemes[item.country]?.textActive || ""}`}>{countryFlags[item.country] || ""} {t(countryConfig[item.country].labelKey)}</span>
                     </span>
                   </span>
                   <Search className="h-4 w-4 shrink-0 text-slate-300 dark:text-slate-600" />
@@ -433,8 +503,143 @@ export function SearchForm({
             className="flex flex-1 items-center justify-center gap-2 rounded-3xl py-3 px-3 text-center text-[13px] font-bold bg-gradient-to-r from-blue-500/10 to-cyan-500/10 hover:from-blue-500/20 hover:to-cyan-500/20 border border-blue-200/50 text-blue-700 dark:border-blue-500/30 dark:text-blue-400 shadow-sm transition-all"
           >
             <MapPin className="h-5 w-5 shrink-0" />
-            <span className="truncate">台/鐵/捷運 查詢</span>
+            <span className="truncate">{t("search.taiwan_rail_link", { defaultValue: "台/鐵/捷運 查詢" })}</span>
           </a>
+        </div>
+
+        {/* About Section */}
+        <div className="mt-12 pt-6 border-t border-slate-200/60 dark:border-slate-800/60">
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">
+            {t("search.about_title", { defaultValue: "關於全球鐵道查詢" })}
+          </h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            {t("search.about_body", { defaultValue: "TransitRail 是一個免費的跨國鐵道與大眾運輸時刻表查詢工具。本專案整合了全球 10 個國家與地區的主流鐵路與地鐵系統，包括日本（Jorudan）、韓國（Korail）、新加坡（LTA）、泰國（BTS/MRT）、香港（MTR）、英國（TfL 倫敦地鐵）、美國（波士頓 MBTA）、德國（DB）、法國（SNCF）以及中國（12306 鐵路）。無需註冊即可即時查詢站點班次、行車日期、營運商與智慧轉乘資訊，提供極致流暢的跨國自主旅行體驗。" })}
+          </p>
+          <p className="mt-3 text-[11px] font-medium text-slate-400 dark:text-slate-500">
+            {t("search.data_source_detail", { defaultValue: "班次、票價與即時狀態資料來源：各國大眾運輸系統與第三方 API（如 Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF 等）。" })}
+          </p>
+        </div>
+
+        {/* Popular Routes Section */}
+        <div className="mt-10 overflow-hidden">
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white mb-4">
+            {t("search.popular_routes", { defaultValue: "熱門路線" })}
+          </h2>
+          
+          <div className="space-y-4">
+            {/* Row 1: Scroll Right (上面往右) */}
+            <div className="relative flex w-full overflow-hidden py-1.5 select-none">
+              {/* Blur mask overlay at edges */}
+              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
+              
+              <div className="flex shrink-0 animate-marquee-right hover:[animation-play-state:paused] whitespace-nowrap">
+                {row1.concat(row1).map((route, idx) => {
+                  const routeTheme = countryThemes[route.country as Country] || theme;
+                  return (
+                    <button
+                      key={`r1-${idx}`}
+                      type="button"
+                      onClick={() => {
+                        triggerHaptic("medium");
+                        onChange({
+                          origin: route.origin,
+                          destination: route.destination,
+                          date: providerDateValue(route.country as Country),
+                          country: route.country as Country,
+                        });
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }}
+                      className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-900/60 pl-2 pr-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 mr-3 shrink-0"
+                    >
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-black tracking-wide ${routeTheme.badgeBg}`}>
+                        {countryFlags[route.country] || ""} {t(countryConfig[route.country as Country].labelKey)}
+                      </span>
+                      <span>{route.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Row 2: Scroll Left (下面往左) */}
+            <div className="relative flex w-full overflow-hidden py-1.5 select-none">
+              {/* Blur mask overlay at edges */}
+              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
+              
+              <div className="flex shrink-0 animate-marquee-left hover:[animation-play-state:paused] whitespace-nowrap">
+                {row2.concat(row2).map((route, idx) => {
+                  const routeTheme = countryThemes[route.country as Country] || theme;
+                  return (
+                    <button
+                      key={`r2-${idx}`}
+                      type="button"
+                      onClick={() => {
+                        triggerHaptic("medium");
+                        onChange({
+                          origin: route.origin,
+                          destination: route.destination,
+                          date: providerDateValue(route.country as Country),
+                          country: route.country as Country,
+                        });
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }}
+                      className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-900/60 pl-2 pr-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 mr-3 shrink-0"
+                    >
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-black tracking-wide ${routeTheme.badgeBg}`}>
+                        {countryFlags[route.country] || ""} {t(countryConfig[route.country as Country].labelKey)}
+                      </span>
+                      <span>{route.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="mt-10 mb-12">
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white mb-4">
+            {t("search.faq_title", { defaultValue: "常見問題 FAQ" })}
+          </h2>
+          <div className="space-y-3">
+            {faqs.map((faq, idx) => {
+              const isOpen = openFaq === idx;
+              return (
+                <div
+                  key={idx}
+                  className="overflow-hidden rounded-2xl border border-slate-200 bg-white/90 dark:border-slate-800 dark:bg-slate-900/90 transition-all duration-300"
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      triggerHaptic("light");
+                      setOpenFaq(isOpen ? null : idx);
+                    }}
+                    className="flex w-full items-center justify-between px-5 py-4 text-left font-bold text-slate-800 dark:text-slate-200 text-sm hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors"
+                  >
+                    <span>{faq.q}</span>
+                    <ChevronDown
+                      className={`h-4.5 w-4.5 shrink-0 text-slate-400 dark:text-slate-500 transition-transform duration-300 ${
+                        isOpen ? "rotate-180 text-blue-500 dark:text-blue-400" : ""
+                      }`}
+                    />
+                  </button>
+                  <div
+                    className={`transition-all duration-350 ease-in-out ${
+                      isOpen ? "max-h-48 border-t border-slate-100 dark:border-slate-800/60" : "max-h-0"
+                    }`}
+                  >
+                    <div className="p-5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                      {faq.a}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
     </main>

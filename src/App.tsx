@@ -16,8 +16,10 @@ import { DiagnosticOverlay } from "./components/DiagnosticOverlay";
 import { ResultSkeleton } from "./components/ResultSkeleton";
 import { TransitLegend } from "./components/TransitLegend";
 import { generateICS } from "./utils/ics";
+import { stationLabel } from "./utils/stationLabel";
+import { triggerHaptic } from "./utils/haptics";
 import { get, set } from "idb-keyval";
-import { countryConfig, providerDateValue, countryThemes } from "./data/countries";
+import { countryConfig, providerDateValue, countryThemes, countryFlags } from "./data/countries";
 import type {
   AppAlert,
   AppView,
@@ -142,7 +144,7 @@ function sortResults(results: TransitResult[], sortMode: SortMode, koreaFilter: 
 }
 
 export default function App() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [view, setView] = useState<AppView>("search");
   const [previousView, setPreviousView] = useState<AppView>("search");
   const [draftSearch, setDraftSearch] = useState<SearchParams>(emptySearch);
@@ -667,7 +669,7 @@ export default function App() {
         onMenuOpen={() => setMenuOpen(true)} 
         onProfileOpen={() => setProfileOpen(true)} 
         timezone={timezone}
-        onChangeTimezone={setTimezone}
+        homeCurrency={homeCurrency}
       />
 
       {(view === "search" || view === "stations") && (
@@ -804,7 +806,22 @@ export default function App() {
       )}
 
       {view === "history" && (
-        <UtilityPage title={t("nav.history")} icon={<Clock className="w-5 h-5" />}>
+        <UtilityPage
+          title={t("nav.history")}
+          icon={<Clock className="w-5 h-5" />}
+          action={history.length > 0 ? (
+            <button
+              onClick={() => {
+                triggerHaptic("medium");
+                setHistory([]);
+              }}
+              className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40 rounded-xl transition-all"
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+              <span>{t("history.clear_all")}</span>
+            </button>
+          ) : undefined}
+        >
           {history.length === 0 ? (
             <EmptyState title={t("history.empty_title")} body={t("history.empty_body")} />
           ) : (
@@ -813,11 +830,11 @@ export default function App() {
                 <div key={item.id} className="flex items-center justify-between gap-3 rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
                   <div className="min-w-0">
                     <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
-                      {t(`station.${item.origin}`, { defaultValue: item.origin })}
+                      {stationLabel(t, item.origin, item.country)}
                       <span className="mx-1.5 text-slate-400">&rarr;</span>
-                      {t(`station.${item.destination}`, { defaultValue: item.destination })}
+                      {stationLabel(t, item.destination, item.country)}
                     </p>
-                    <p className="mt-0.5 font-mono text-[11px] text-slate-400">{item.date} · {t(countryConfig[item.country].labelKey)} · {item.resultCount} {t("history.results")}</p>
+                    <p className="mt-0.5 font-mono text-[11px] text-slate-400">{item.date} · {countryFlags[item.country] || ""} {t(countryConfig[item.country].labelKey)} · {item.resultCount} {t("history.results")}</p>
                   </div>
                   <button
                     onClick={() => rerunHistorySearch(item)}
@@ -833,7 +850,22 @@ export default function App() {
       )}
 
       {view === "saved" && (
-        <UtilityPage title={t("nav.saved")} icon={<Bookmark className="w-5 h-5" />}>
+        <UtilityPage
+          title={t("nav.saved")}
+          icon={<Bookmark className="w-5 h-5" />}
+          action={savedTrips.length > 0 ? (
+            <button
+              onClick={() => {
+                triggerHaptic("medium");
+                setSavedTrips([]);
+              }}
+              className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40 rounded-xl transition-all"
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+              <span>{t("saved.clear_all")}</span>
+            </button>
+          ) : undefined}
+        >
           {savedTrips.length === 0 ? (
             <EmptyState title={t("saved.empty_title")} body={t("saved.empty_body")} />
           ) : (
@@ -843,14 +875,20 @@ export default function App() {
                   <div className="flex items-center gap-2">
                     <Coins className="h-4 w-4 text-amber-500 shrink-0" />
                     <div>
-                      <span className="text-sm font-bold text-slate-900 block leading-tight dark:text-white">Currency Converter / 匯率轉換</span>
+                      <span className="text-sm font-bold text-slate-900 block leading-tight dark:text-white">
+                        {t("profile.currency_converter", { defaultValue: "Currency Converter / 匯率轉換" })}
+                      </span>
                       <span className="text-[10px] text-slate-400 font-bold font-mono leading-none">
-                        {loadingRates ? "Updating live rates..." : `Rates relative to ${homeCurrency} (via Taiwan Central Bank)`}
+                        {loadingRates 
+                          ? t("profile.loading_rates", { defaultValue: "Updating live rates..." }) 
+                          : t("profile.rates_relative_to", { currency: homeCurrency, defaultValue: `Rates relative to ${homeCurrency} (via Taiwan Central Bank)` })}
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0">
-                    <span className="text-xs text-slate-500 font-medium">Home:</span>
+                    <span className="text-xs text-slate-500 font-medium">
+                      {t("profile.home_currency", { defaultValue: "Home:" })}
+                    </span>
                     <select
                       value={homeCurrency}
                       onChange={(e) => setHomeCurrency(e.target.value)}
@@ -863,16 +901,18 @@ export default function App() {
                   </div>
                 </div>
                 <div className="mt-2 flex items-center gap-2">
-                  <span className="text-[10px] text-slate-400 font-medium">Display:</span>
-                  <div className="flex rounded-lg bg-slate-100 p-0.5 dark:bg-slate-800">
+                  <span className="text-[10px] text-slate-400 font-medium">
+                    {t("profile.price_display", { defaultValue: "Display" })}:
+                  </span>
+                  <div className="flex rounded-lg bg-slate-100 p-0.5">
                     {(["original", "converted", "both"] as CurrencyDisplayMode[]).map((m) => (
                       <button
                         key={m}
                         onClick={() => setPriceDisplayMode(m)}
                         className={`rounded-md px-2 py-0.5 text-[10px] font-bold transition-all ${
                           priceDisplayMode === m
-                            ? "bg-white text-slate-900 shadow-xs dark:bg-slate-700 dark:text-white"
-                            : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                            ? "bg-white text-slate-900 shadow-xs dark:bg-slate-200 dark:text-slate-900"
+                            : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-900"
                         }`}
                       >
                         {m === "original" ? "Original" : m === "converted" ? "Converted" : "Both"}
@@ -893,9 +933,9 @@ export default function App() {
                           </span>
                         </div>
                         <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
-                          {t(`station.${trip.origin}`, { defaultValue: trip.origin })}
+                          {stationLabel(t, trip.origin, trip.country)}
                           <span className="mx-1.5 text-slate-400">&rarr;</span>
-                          {t(`station.${trip.destination}`, { defaultValue: trip.destination })}
+                          {stationLabel(t, trip.destination, trip.country)}
                         </p>
                         <p className="mt-1 font-mono text-xs text-slate-500 flex items-center gap-1">
                           <Clock className="h-3 w-3 text-slate-400 shrink-0" />
@@ -993,8 +1033,6 @@ export default function App() {
             {[
               { icon: MapPinned, label: t("menu.new_search"), view: "search" as const },
               { icon: Clock, label: t("nav.history"), view: "history" as const },
-              { icon: MapPinned, label: t("nav.stations"), view: "stations" as const },
-              { icon: DatabaseZap, label: t("workflow.title"), view: "workflow" as const },
               { icon: Bookmark, label: t("nav.saved"), view: "saved" as const },
               { icon: Compass, label: t("legend.menu_title", { defaultValue: "Transit Legend / 乘車指南" }), view: "legend" as const },
             ].map(({ icon: Icon, label, view: target }) => (
@@ -1017,25 +1055,47 @@ export default function App() {
 
       {profileOpen && (
         <Panel title={t("profile.title")} onClose={() => setProfileOpen(false)}>
-          <div className="flex items-center gap-3">
-            <UserCircle className="h-10 w-10 text-slate-400" />
-            <div>
-              <p className="text-sm font-bold text-slate-900 dark:text-white">{t("profile.guest")}</p>
-              <p className="text-sm text-slate-500 dark:text-slate-400">{t("profile.local_only")}</p>
-            </div>
-          </div>
           <div className="grid grid-cols-2 gap-2">
             <ProfileStat label={t("nav.history")} value={history.length} />
             <ProfileStat label={t("nav.saved")} value={savedTrips.length} />
             <ProfileStat label={t("nav.alerts")} value={alerts.length} />
-            <ProfileStat label="Favorites" value={favorites.length} />
+            <ProfileStat label={t("profile.favorites", { defaultValue: "Favorites" })} value={favorites.length} />
           </div>
           <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-4">
             <div>
               <div className="flex items-center justify-between mb-2">
                 <div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">Home Currency / 本地幣別</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">Exchange rates relative to this currency</p>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white">{t("profile.timezone")}</p>
+                </div>
+              </div>
+              <select
+                value={timezone}
+                onChange={(e) => setTimezone(e.target.value)}
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-bold text-slate-800 outline-none focus:border-slate-400 cursor-pointer dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+              >
+                {[
+                  { id: "Asia/Taipei", name_en: "Taiwan (Taipei)", name_zh: "台灣 (Taipei)", flag: "🇹🇼" },
+                  { id: "Asia/Tokyo", name_en: "Japan (Tokyo)", name_zh: "日本 (Tokyo)", flag: "🇯🇵" },
+                  { id: "Asia/Seoul", name_en: "Korea (Seoul)", name_zh: "韓國 (Seoul)", flag: "🇰🇷" },
+                  { id: "Asia/Singapore", name_en: "Singapore", name_zh: "新加坡 (Singapore)", flag: "🇸🇬" },
+                  { id: "Asia/Bangkok", name_en: "Thailand (Bangkok)", name_zh: "泰國 (Bangkok)", flag: "🇹🇭" },
+                  { id: "Asia/Hong_Kong", name_en: "Hong Kong", name_zh: "香港 (Hong Kong)", flag: "🇭🇰" },
+                  { id: "Europe/London", name_en: "United Kingdom (London)", name_zh: "英國 (London)", flag: "🇬🇧" },
+                  { id: "Europe/Berlin", name_en: "Germany (Berlin)", name_zh: "德國 (Berlin)", flag: "🇩🇪" },
+                  { id: "Europe/Paris", name_en: "France (Paris)", name_zh: "法國 (Paris)", flag: "🇫🇷" },
+                  { id: "America/New_York", name_en: "United States East (New York)", name_zh: "美國東岸 (New York)", flag: "🇺🇸" },
+                  { id: "America/Los_Angeles", name_en: "United States West (Los Angeles)", name_zh: "美國西岸 (Los Angeles)", flag: "🇺🇸" },
+                  { id: "Asia/Shanghai", name_en: "China (Shanghai)", name_zh: "中國 (Shanghai)", flag: "🇨🇳" },
+                ].map((r) => (
+                  <option key={r.id} value={r.id}>{r.flag} {i18n.language === "zh-TW" ? r.name_zh : r.name_en}</option>
+                ))}
+              </select>
+            </div>
+            
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white">{t("profile.local_currency")}</p>
                 </div>
               </div>
               <select
@@ -1048,23 +1108,22 @@ export default function App() {
                 ))}
               </select>
               <p className="mt-1.5 text-[10px] text-slate-400 font-mono">
-                {loadingRates ? "Loading rates..." : `Rates via Taiwan Central Bank`}
+                {loadingRates ? t("profile.loading_rates") : t("profile.rates_source")}
               </p>
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-2">
                 <div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">Price Display / 票價顯示</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">Show original or converted prices</p>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white">{t("profile.price_display")}</p>
                 </div>
               </div>
-              <div className="relative flex rounded-2xl bg-slate-100 p-1 dark:bg-slate-800/80">
+              <div className="relative flex rounded-2xl bg-slate-100 p-1 dark:bg-slate-800">
                 <div className="grid w-full grid-cols-3 gap-1 relative z-10">
                   {[
-                    { id: "original" as CurrencyDisplayMode, label: "Original", desc: "原幣" },
-                    { id: "converted" as CurrencyDisplayMode, label: "Converted", desc: "轉換" },
-                    { id: "both" as CurrencyDisplayMode, label: "Both", desc: "都顯示" },
+                    { id: "original" as CurrencyDisplayMode, label: "Original", desc: t("profile.display_original_sub") },
+                    { id: "converted" as CurrencyDisplayMode, label: "Converted", desc: t("profile.display_converted_sub") },
+                    { id: "both" as CurrencyDisplayMode, label: "Both", desc: t("profile.display_both_sub") },
                   ].map((item) => {
                     const isSelected = priceDisplayMode === item.id;
                     return (
@@ -1074,11 +1133,11 @@ export default function App() {
                         className={`relative flex flex-col items-center justify-center rounded-xl py-2 text-xs font-bold transition-all duration-300 ${
                           isSelected
                             ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
-                            : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                            : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
                         }`}
                       >
                         <span>{item.label}</span>
-                        <span className="text-[9px] text-slate-400 dark:text-slate-500">{item.desc}</span>
+                        <span className="text-[9px] text-slate-400 dark:text-slate-400">{item.desc}</span>
                       </button>
                     );
                   })}
@@ -1089,16 +1148,15 @@ export default function App() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">Theme / 顯示主題</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">Choose your appearance style</p>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white">{t("profile.theme")}</p>
                 </div>
               </div>
-              <div className="relative flex rounded-2xl bg-slate-100 p-1 dark:bg-slate-800/80">
+              <div className="relative flex rounded-2xl bg-slate-100 p-1 dark:bg-slate-800">
                 <div className="grid w-full grid-cols-3 gap-1 relative z-10">
                   {[
-                    { id: "light" as const, label: "Light", icon: Sun },
-                    { id: "dark" as const, label: "Dark", icon: Moon },
-                    { id: "auto" as const, label: "Auto", icon: Monitor },
+                    { id: "light" as const, label: t("profile.theme_light"), icon: Sun },
+                    { id: "dark" as const, label: t("profile.theme_dark"), icon: Moon },
+                    { id: "auto" as const, label: t("profile.theme_auto"), icon: Monitor },
                   ].map((item) => {
                     const Icon = item.icon;
                     const isSelected = theme === item.id;
@@ -1109,7 +1167,7 @@ export default function App() {
                         className={`relative flex items-center justify-center gap-1.5 rounded-xl py-2 text-xs font-bold transition-all duration-300 ${
                           isSelected
                             ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
-                            : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                            : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
                         }`}
                       >
                         <Icon className="h-3.5 w-3.5 shrink-0" />
@@ -1169,14 +1227,17 @@ export default function App() {
   );
 }
 
-function UtilityPage({ title, icon, children }: { title: string; icon: ReactNode; children: ReactNode }) {
+function UtilityPage({ title, icon, action, children }: { title: string; icon: ReactNode; action?: ReactNode; children: ReactNode }) {
   return (
     <main className="mx-auto max-w-md px-4 pb-24 pt-20">
-      <div className="mb-5 flex items-center gap-2 text-slate-500 dark:text-slate-400">
-        <div className="p-1.5 rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
-          {icon}
+      <div className="mb-5 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+          <div className="p-1.5 rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 font-bold">
+            {icon}
+          </div>
+          <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">{title}</h1>
         </div>
-        <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">{title}</h1>
+        {action}
       </div>
       {children}
     </main>
@@ -1194,8 +1255,8 @@ function EmptyState({ title, body }: { title: string; body: string }) {
 
 function Panel({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
   return (
-    <div className="fixed inset-0 z-[70] flex items-start justify-end bg-slate-900/60 backdrop-blur-sm">
-      <div className="min-h-screen w-full max-w-sm space-y-5 border-l border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900">
+    <div className="fixed inset-0 z-[70] flex justify-end bg-slate-900/60 backdrop-blur-sm">
+      <div className="h-[100dvh] w-full max-w-sm overflow-y-auto overscroll-contain space-y-5 border-l border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">{title}</h2>
           <button

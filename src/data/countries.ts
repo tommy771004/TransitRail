@@ -1,8 +1,23 @@
 import type { Country } from "../types";
 
+export const countryFlags: Record<string, string> = {
+  japan: "🇯🇵",
+  korea: "🇰🇷",
+  singapore: "🇸🇬",
+  thailand: "🇹🇭",
+  hong_kong: "🇭🇰",
+  united_kingdom: "🇬🇧",
+  united_states: "🇺🇸",
+  germany: "🇩🇪",
+  france: "🇫🇷",
+  china: "🇨🇳",
+  taiwan: "🇹🇼",
+};
+
 export const countryOptions: Country[] = [
   "japan",
   "korea",
+  "china",
   "singapore",
   "thailand",
   "hong_kong",
@@ -10,7 +25,6 @@ export const countryOptions: Country[] = [
   "united_states",
   "germany",
   "france",
-  "china",
 ];
 
 export const countryConfig: Record<Country, {
@@ -191,6 +205,8 @@ export const countryThemes: Record<Country, {
   borderActive: string;
   badgeBg: string;
   indicatorBg: string;
+  dateSelected: string;
+  dateLabelSelected: string;
 }> = {
   japan: {
     primaryBgLight: "from-rose-500/5",
@@ -201,6 +217,8 @@ export const countryThemes: Record<Country, {
     borderActive: "border-rose-500",
     badgeBg: "border-rose-500 bg-rose-50 text-rose-600 dark:border-rose-500/30 dark:bg-rose-950/30 dark:text-rose-400",
     indicatorBg: "bg-rose-500",
+    dateSelected: "bg-rose-50 dark:bg-rose-950/30 border-rose-500 dark:border-rose-500/50 text-rose-600 dark:text-rose-400 shadow-sm",
+    dateLabelSelected: "text-rose-500/80 dark:text-rose-400/80",
   },
   korea: {
     primaryBgLight: "from-indigo-500/5",
@@ -211,6 +229,8 @@ export const countryThemes: Record<Country, {
     borderActive: "border-indigo-500",
     badgeBg: "border-indigo-500 bg-indigo-50 text-indigo-600 dark:border-indigo-500/30 dark:bg-indigo-950/30 dark:text-indigo-400",
     indicatorBg: "bg-indigo-500",
+    dateSelected: "bg-indigo-50 dark:bg-indigo-950/30 border-indigo-500 dark:border-indigo-500/50 text-indigo-600 dark:text-indigo-400 shadow-sm",
+    dateLabelSelected: "text-indigo-500/80 dark:text-indigo-400/80",
   },
   singapore: {
     primaryBgLight: "from-fuchsia-500/5",
@@ -221,6 +241,8 @@ export const countryThemes: Record<Country, {
     borderActive: "border-fuchsia-500",
     badgeBg: "border-fuchsia-500 bg-fuchsia-50 text-fuchsia-600 dark:border-fuchsia-500/30 dark:bg-fuchsia-950/30 dark:text-fuchsia-400",
     indicatorBg: "bg-fuchsia-500",
+    dateSelected: "bg-fuchsia-50 dark:bg-fuchsia-950/30 border-fuchsia-500 dark:border-fuchsia-500/50 text-fuchsia-600 dark:text-fuchsia-400 shadow-sm",
+    dateLabelSelected: "text-fuchsia-500/80 dark:text-fuchsia-400/80",
   },
   thailand: {
     primaryBgLight: "from-amber-500/5",
@@ -231,6 +253,8 @@ export const countryThemes: Record<Country, {
     borderActive: "border-amber-500",
     badgeBg: "border-amber-500 bg-amber-50 text-amber-600 dark:border-amber-500/30 dark:bg-amber-950/30 dark:text-amber-400",
     indicatorBg: "bg-amber-500",
+    dateSelected: "bg-amber-50 dark:bg-amber-950/30 border-amber-500 dark:border-amber-500/50 text-amber-600 dark:text-amber-400 shadow-sm",
+    dateLabelSelected: "text-amber-500/80 dark:text-amber-400/80",
   },
   hong_kong: {
     primaryBgLight: "from-cyan-500/5",
@@ -241,6 +265,8 @@ export const countryThemes: Record<Country, {
     borderActive: "border-cyan-500",
     badgeBg: "border-cyan-500 bg-cyan-50 text-cyan-600 dark:border-cyan-500/30 dark:bg-cyan-950/30 dark:text-cyan-400",
     indicatorBg: "bg-cyan-500",
+    dateSelected: "bg-cyan-50 dark:bg-cyan-950/30 border-cyan-500 dark:border-cyan-500/50 text-cyan-600 dark:text-cyan-400 shadow-sm",
+    dateLabelSelected: "text-cyan-500/80 dark:text-cyan-400/80",
   },
   united_kingdom: {
     primaryBgLight: "from-blue-500/5",
@@ -251,6 +277,8 @@ export const countryThemes: Record<Country, {
     borderActive: "border-blue-500",
     badgeBg: "border-blue-500 bg-blue-50 text-blue-600 dark:border-blue-500/30 dark:bg-blue-950/30 dark:text-blue-400",
     indicatorBg: "bg-blue-500",
+    dateSelected: "bg-blue-50 dark:bg-blue-950/30 border-blue-500 dark:border-blue-500/50 text-blue-600 dark:text-blue-400 shadow-sm",
+    dateLabelSelected: "text-blue-500/80 dark:text-blue-400/80",
   },
   united_states: {
     primaryBgLight: "from-slate-500/5",
@@ -261,6 +289,8 @@ export const countryThemes: Record<Country, {
     borderActive: "border-slate-500",
     badgeBg: "border-slate-500 bg-slate-100 text-slate-700 dark:border-slate-750 dark:bg-slate-800 dark:text-slate-300",
     indicatorBg: "bg-slate-500",
+    dateSelected: "bg-slate-100 dark:bg-slate-800 border-slate-400 dark:border-slate-600 text-slate-800 dark:text-slate-200 shadow-sm",
+    dateLabelSelected: "text-slate-500 dark:text-slate-400",
   },
   germany: {
     primaryBgLight: "from-red-500/5",
@@ -271,6 +301,8 @@ export const countryThemes: Record<Country, {
     borderActive: "border-red-500",
     badgeBg: "border-red-500 bg-red-50 text-red-600 dark:border-red-500/30 dark:bg-red-950/30 dark:text-red-400",
     indicatorBg: "bg-red-500",
+    dateSelected: "bg-red-50 dark:bg-red-950/30 border-red-500 dark:border-red-500/50 text-red-600 dark:text-red-400 shadow-sm",
+    dateLabelSelected: "text-red-500/80 dark:text-red-400/80",
   },
   france: {
     primaryBgLight: "from-violet-500/5",
@@ -281,6 +313,8 @@ export const countryThemes: Record<Country, {
     borderActive: "border-violet-500",
     badgeBg: "border-violet-500 bg-violet-50 text-violet-600 dark:border-violet-500/30 dark:bg-violet-950/30 dark:text-violet-400",
     indicatorBg: "bg-violet-500",
+    dateSelected: "bg-violet-50 dark:bg-violet-950/30 border-violet-500 dark:border-violet-500/50 text-violet-600 dark:text-violet-400 shadow-sm",
+    dateLabelSelected: "text-violet-500/80 dark:text-violet-400/80",
   },
   china: {
     primaryBgLight: "from-orange-500/5",
@@ -291,5 +325,7 @@ export const countryThemes: Record<Country, {
     borderActive: "border-orange-500",
     badgeBg: "border-orange-500 bg-orange-50 text-orange-600 dark:border-orange-500/30 dark:bg-orange-950/30 dark:text-orange-400",
     indicatorBg: "bg-orange-500",
+    dateSelected: "bg-orange-50 dark:bg-orange-950/30 border-orange-500 dark:border-orange-500/50 text-orange-600 dark:text-orange-400 shadow-sm",
+    dateLabelSelected: "text-orange-500/80 dark:text-orange-400/80",
   },
 };

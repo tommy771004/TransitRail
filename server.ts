@@ -7,6 +7,13 @@ import { hongKongMtrLineCatalog, hongKongStations } from "./src/data/hongKongMtr
 import { mtrInterchanges } from "./src/data/hongKongMtr";
 import { japanRailLines, japanStations, koreaStations } from "./src/data/stations";
 import { seoulSubwayLines, seoulSubwayStationNames } from "./src/data/seoulSubway";
+import {
+  singaporeMrtLines,
+  thailandTransitLines,
+  chinaRailLines,
+  germanyRailLines,
+  franceRailLines,
+} from "./src/data/metroLines";
 import { getTflLines, getTflStations } from "./src/server/tfl";
 import { getMbtaLines, getMbtaStations } from "./src/server/mbta";
 import { findScrapedResults, loadScrapedData } from "./src/data/scraped";
@@ -17,12 +24,10 @@ dotenv.config();
 
 const ai = process.env.GEMINI_API_KEY ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY }) : null;
 
-async function startServer() {
-  const app = express();
-  const PORT = 3000;
+const app = express();
 
-  loadScrapedData();
-  app.use(express.json());
+loadScrapedData();
+app.use(express.json());
 
   // Search API. It never fabricates schedules; providers must be wired before
   // result cards can be rendered.
@@ -75,7 +80,21 @@ async function startServer() {
         stations = await getMbtaStations();
         source = "https://api-v3.mbta.com";
       } else if (newCountryStationLists[country as string]) {
-        stations = newCountryStationLists[country as string];
+        // Union the curated intercity list with every station on the country's
+        // metro/HSR lines so the directory matches the Lines tab.
+        const lineSets: Record<string, TransitLine[]> = {
+          singapore: singaporeMrtLines,
+          thailand: thailandTransitLines,
+          china: chinaRailLines,
+          germany: germanyRailLines,
+          france: franceRailLines,
+        };
+        const fromLines = (lineSets[country as string] || []).flatMap((line) =>
+          line.stations.map((station) => station.name),
+        );
+        stations = Array.from(
+          new Set([...newCountryStationLists[country as string], ...fromLines]),
+        ).sort((a, b) => a.localeCompare(b));
       } else {
         return res.status(400).json({
           error: "Invalid country",
@@ -210,6 +229,17 @@ async function startServer() {
       }
     }
 
+    const staticLines: Record<string, TransitLine[]> = {
+      singapore: singaporeMrtLines,
+      thailand: thailandTransitLines,
+      china: chinaRailLines,
+      germany: germanyRailLines,
+      france: franceRailLines,
+    };
+    if (typeof country === "string" && staticLines[country]) {
+      return res.json({ lines: staticLines[country] });
+    }
+
     return res.status(400).json({
       error: "Invalid country",
       message: "Country must be one of japan, korea, taiwan, singapore, thailand, hong_kong, united_kingdom, united_states, germany, france, china.",
@@ -242,6 +272,7 @@ async function startServer() {
     }
   });
 
+async function startServer() {
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
@@ -249,7 +280,7 @@ async function startServer() {
       appType: "spa",
     });
     app.use(vite.middlewares);
-  } else {
+  } else if (!process.env.VERCEL) {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
     // Express 4 uses *
@@ -258,9 +289,16 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
+  if (!process.env.VERCEL) {
+    const PORT = 3000;
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  }
 }
 
-startServer();
+if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
+  startServer();
+}
+
+export { app };

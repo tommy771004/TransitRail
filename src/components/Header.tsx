@@ -1,33 +1,70 @@
 import { Menu, UserCircle, Globe } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { allCurrencies } from "../data/countries";
 
 interface HeaderProps {
   onMenuOpen: () => void;
   onProfileOpen: () => void;
   timezone: string;
-  onChangeTimezone: (tz: string) => void;
+  homeCurrency: string;
 }
 
 const REGIONS = [
-  { id: "Asia/Taipei", name: "台灣 (Taipei)" },
-  { id: "Asia/Tokyo", name: "日本 (Tokyo)" },
-  { id: "Asia/Seoul", name: "韓國 (Seoul)" },
-  { id: "Asia/Singapore", name: "新加坡 (Singapore)" },
-  { id: "Asia/Bangkok", name: "泰國 (Bangkok)" },
-  { id: "Asia/Hong_Kong", name: "香港 (Hong Kong)" },
-  { id: "Europe/London", name: "英國 (London)" },
-  { id: "Europe/Berlin", name: "德國 (Berlin)" },
-  { id: "Europe/Paris", name: "法國 (Paris)" },
-  { id: "America/New_York", name: "美國東岸 (New York)" },
-  { id: "America/Los_Angeles", name: "美國西岸 (Los Angeles)" },
-  { id: "Asia/Shanghai", name: "中國 (Shanghai)" },
+  { id: "Asia/Taipei", name: "🇹🇼 台灣 (Taipei)" },
+  { id: "Asia/Tokyo", name: "🇯🇵 日本 (Tokyo)" },
+  { id: "Asia/Seoul", name: "🇰🇷 韓國 (Seoul)" },
+  { id: "Asia/Singapore", name: "🇸🇬 新加坡 (Singapore)" },
+  { id: "Asia/Bangkok", name: "🇹🇭 泰國 (Bangkok)" },
+  { id: "Asia/Hong_Kong", name: "🇭🇰 香港 (Hong Kong)" },
+  { id: "Europe/London", name: "🇬🇧 英國 (London)" },
+  { id: "Europe/Berlin", name: "🇩🇪 德國 (Berlin)" },
+  { id: "Europe/Paris", name: "🇫🇷 法國 (Paris)" },
+  { id: "America/New_York", name: "🇺🇸 美國東岸 (New York)" },
+  { id: "America/Los_Angeles", name: "🇺🇸 美國西岸 (Los Angeles)" },
+  { id: "Asia/Shanghai", name: "🇨🇳 中國 (Shanghai)" },
 ];
 
-export function Header({ onMenuOpen, onProfileOpen, timezone, onChangeTimezone }: HeaderProps) {
+const timezoneFlags: Record<string, string> = {
+  "Asia/Taipei": "🇹🇼",
+  "Asia/Tokyo": "🇯🇵",
+  "Asia/Seoul": "🇰🇷",
+  "Asia/Singapore": "🇸🇬",
+  "Asia/Bangkok": "🇹🇭",
+  "Asia/Hong_Kong": "🇭🇰",
+  "Europe/London": "🇬🇧",
+  "Europe/Berlin": "🇩🇪",
+  "Europe/Paris": "🇫🇷",
+  "America/New_York": "🇺🇸",
+  "America/Los_Angeles": "🇺🇸",
+  "Asia/Shanghai": "🇨🇳",
+};
+
+export function Header({ onMenuOpen, onProfileOpen, timezone, homeCurrency }: HeaderProps) {
   const { t, i18n } = useTranslation();
 
   const toggleLanguage = () => {
     i18n.changeLanguage(i18n.language === 'en' ? 'zh-TW' : 'en');
+  };
+
+  const getTimezoneCity = (tz: string, lang: string) => {
+    const cityMap: Record<string, { en: string; 'zh-TW': string }> = {
+      'Asia/Taipei': { en: 'Taipei', 'zh-TW': '台北' },
+      'Asia/Tokyo': { en: 'Tokyo', 'zh-TW': '東京' },
+      'Asia/Seoul': { en: 'Seoul', 'zh-TW': '首爾' },
+      'Asia/Singapore': { en: 'Singapore', 'zh-TW': '新加坡' },
+      'Asia/Bangkok': { en: 'Bangkok', 'zh-TW': '曼谷' },
+      'Asia/Hong_Kong': { en: 'Hong Kong', 'zh-TW': '香港' },
+      'Europe/London': { en: 'London', 'zh-TW': '倫敦' },
+      'Europe/Berlin': { en: 'Berlin', 'zh-TW': '柏林' },
+      'Europe/Paris': { en: 'Paris', 'zh-TW': '巴黎' },
+      'America/New_York': { en: 'New York', 'zh-TW': '紐約' },
+      'America/Los_Angeles': { en: 'Los Angeles', 'zh-TW': '洛杉磯' },
+      'Asia/Shanghai': { en: 'Shanghai', 'zh-TW': '上海' },
+    };
+    const mapping = cityMap[tz];
+    const flag = timezoneFlags[tz] || "";
+    if (mapping) return `${flag} ${mapping[lang as keyof typeof mapping] || mapping.en}`;
+    return `${flag} ${tz.split('/').pop()?.replace('_', ' ') || ''}`;
   };
 
   return (
@@ -47,21 +84,15 @@ export function Header({ onMenuOpen, onProfileOpen, timezone, onChangeTimezone }
       </div>
 
       <div className="flex items-center gap-1">
-        <div className="relative flex items-center mr-1 group">
-          <Globe className="h-3.5 w-3.5 text-slate-400 absolute left-2 pointer-events-none" />
-          <select 
-            value={timezone}
-            onChange={(e) => onChangeTimezone(e.target.value)}
-            className="h-8 appearance-none bg-transparent pl-7 pr-6 rounded-xl text-xs font-medium text-slate-600 hover:bg-slate-100 focus:outline-none dark:text-slate-300 dark:hover:bg-slate-800 cursor-pointer"
-          >
-            <option value={timezone} disabled hidden>{timezone.split('/').pop()?.replace('_', ' ')}</option>
-            {REGIONS.map(r => (
-              <option key={r.id} value={r.id} className="text-slate-900 dark:text-white dark:bg-slate-900">{r.name}</option>
-            ))}
-          </select>
-          <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center text-slate-400">
-            <svg className="h-3 w-3 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
-          </div>
+        <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+          <Globe className="h-3.5 w-3.5 text-slate-400" />
+          <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
+            {getTimezoneCity(timezone, i18n.language)}
+          </span>
+          <span className="text-[10px] text-slate-300 dark:text-slate-600">|</span>
+          <span className="font-mono text-[11px] font-bold text-slate-600 dark:text-slate-300">
+            {homeCurrency}
+          </span>
         </div>
 
         <button

@@ -28,10 +28,10 @@ export function BottomNav({ activeView, unreadAlerts, onNavigate, onOpenSettings
 
   return (
     <nav
-      className="fixed bottom-5 left-4 right-4 mx-auto max-w-[350px] z-[60] rounded-[24px] border border-slate-200/40 bg-white/75 backdrop-blur-md shadow-[0_12px_32px_rgba(0,0,0,0.08)] dark:border-slate-800/40 dark:bg-[#0b1220]/80 dark:backdrop-blur-md"
+      className="fixed bottom-1.5 left-2 right-2 mx-auto max-w-[290px] z-[60] rounded-[20px] border border-slate-200/40 bg-white/75 backdrop-blur-md shadow-[0_12px_32px_rgba(0,0,0,0.08)] dark:border-slate-800/40 dark:bg-[#0b1220]/80 dark:backdrop-blur-md"
       aria-label={t("nav.primary")}
     >
-      <div className="grid h-15 grid-cols-5 px-1.5 py-1">
+      <div className="grid h-13 grid-cols-5 px-1 py-0.5">
         {items.map(({ view, label, icon: Icon }) => {
           const active = view === "search" ? searchViews.has(activeView) : view !== "settings" && activeView === view;
           return (

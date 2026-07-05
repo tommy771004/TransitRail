@@ -10,7 +10,11 @@ export const japanStations = [
   "Kumamoto", "Kagoshima-Chuo",
   "Sendai", "Morioka", "Shin-Aomori",
   "Shin-Hakodate-Hokuto", "Sapporo",
-  "Kanazawa", "Toyama", "Nagano", "Niigata"
+  "Kanazawa", "Toyama", "Nagano", "Niigata",
+  "Fukui", "Tsuruga",
+  "Fukushima", "Yonezawa", "Yamagata", "Shinjo",
+  "Kakunodate", "Akita",
+  "Takeo-Onsen", "Ureshino-Onsen", "Shin-Omura", "Isahaya", "Nagasaki"
 ];
 
 // Major stops only, not the full station list of each line. Used as a static
@@ -35,6 +39,12 @@ const japanLineDefs: Array<{ id: string; name: string; color: string; stations: 
     stations: ["Hakata", "Kumamoto", "Kagoshima-Chuo"],
   },
   {
+    id: "nishi-kyushu-shinkansen",
+    name: "Nishi-Kyūshū Shinkansen",
+    color: "#E50012",
+    stations: ["Takeo-Onsen", "Ureshino-Onsen", "Shin-Omura", "Isahaya", "Nagasaki"],
+  },
+  {
     id: "tohoku-shinkansen",
     name: "Tōhoku Shinkansen",
     color: "#008803",
@@ -50,13 +60,25 @@ const japanLineDefs: Array<{ id: string; name: string; color: string; stations: 
     id: "hokuriku-shinkansen",
     name: "Hokuriku Shinkansen",
     color: "#8A6BBE",
-    stations: ["Tokyo", "Ueno", "Omiya", "Nagano", "Toyama", "Kanazawa"],
+    stations: ["Tokyo", "Ueno", "Omiya", "Nagano", "Toyama", "Kanazawa", "Fukui", "Tsuruga"],
   },
   {
     id: "joetsu-shinkansen",
     name: "Jōetsu Shinkansen",
     color: "#00B2E5",
     stations: ["Tokyo", "Ueno", "Omiya", "Niigata"],
+  },
+  {
+    id: "yamagata-shinkansen",
+    name: "Yamagata Shinkansen",
+    color: "#F08300",
+    stations: ["Tokyo", "Ueno", "Omiya", "Fukushima", "Yonezawa", "Yamagata", "Shinjo"],
+  },
+  {
+    id: "akita-shinkansen",
+    name: "Akita Shinkansen",
+    color: "#E4007F",
+    stations: ["Tokyo", "Sendai", "Morioka", "Kakunodate", "Akita"],
   },
 ];
 
@@ -90,5 +112,5 @@ export const koreaStations = [
   "Iksan", "Jeonju", "Gwangju-Songjeong", "Mokpo", "Yeosu-EXPO",
   "Gangneung", "Donghae", "Pyeongchang",
   // 首爾主要地鐵站 (Major Seoul Subway Stations)
-  "Gangnam", "Hongik University", "Myeongdong", "Itaewon", "Dongdaemun", "Jamsil"
+  "Gangnam", "Hongik Univ.", "Myeongdong", "Itaewon", "Dongdaemun", "Jamsil"
 ];

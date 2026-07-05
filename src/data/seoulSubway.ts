@@ -9,7 +9,8 @@ interface SeoulSubwayRecord {
   FR_CODE: string;
 }
 
-// Official Seoul Metro line colours (lines 1-9).
+// Official Seoul Metro line colours (lines 1-9); branch spurs share the
+// parent line's colour.
 const seoulLineColors: Record<string, string> = {
   "01호선": "#0052A4",
   "02호선": "#00A84D",
@@ -20,9 +21,20 @@ const seoulLineColors: Record<string, string> = {
   "07호선": "#747F00",
   "08호선": "#E6186C",
   "09호선": "#BDB092",
+  "02호선지선-성수": "#00A84D",
+  "02호선지선-신정": "#00A84D",
+  "05호선지선-마천": "#996CAC",
+};
+
+// English display label per branch spur (LINE_NUM has no clean numeric form).
+const branchLabels: Record<string, string> = {
+  "02호선지선-성수": "Line 2 (Seongsu Branch)",
+  "02호선지선-신정": "Line 2 (Sinjeong Branch)",
+  "05호선지선-마천": "Line 5 (Macheon Branch)",
 };
 
 function lineLabel(lineNum: string) {
+  if (branchLabels[lineNum]) return branchLabels[lineNum];
   const digits = lineNum.replace(/\D/g, "").replace(/^0/, "");
   return digits ? `Line ${digits}` : lineNum;
 }

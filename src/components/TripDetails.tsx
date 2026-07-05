@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { TransitResult, JourneyLeg } from "../types";
 import { useTranslation } from "react-i18next";
+import { stationLabel } from "../utils/stationLabel";
 import { ChevronDown, ChevronUp, Clock, MapPin, ArrowRightLeft, Users, Armchair, Info } from "lucide-react";
 import { motion } from "motion/react";
 
@@ -395,7 +396,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                     <div className="flex-1 pb-4">
                       <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                         <span className="text-sm font-black text-slate-800 dark:text-slate-100">
-                          {t(`station.${item.name}`, { defaultValue: item.name })}
+                          {stationLabel(t, item.name, trip.country)}
                         </span>
                         {item.isStart && (
                           <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-blue-50 text-blue-600 border border-blue-100 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-900/30">
@@ -531,7 +532,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                           <ArrowRightLeft className="h-3.5 w-3.5 text-slate-400 shrink-0" />
                           <span>
                             {t("result.transfer_at", { defaultValue: "Transfer at" })}{" "}
-                            {t(`station.${item.stationName}`, { defaultValue: item.stationName })}
+                            {stationLabel(t, item.stationName, trip.country)}
                           </span>
                         </div>
                         
