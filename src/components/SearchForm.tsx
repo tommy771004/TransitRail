@@ -78,9 +78,9 @@ export function SearchForm({
     { country: "hong_kong", origin: "Central", destination: "Tsuen Wan", label: t("hot_routes.central_tsuenwan", { defaultValue: "中環 ➔ 荃灣" }) },
     { country: "singapore", origin: "Jurong East", destination: "Raffles Place", label: t("hot_routes.jurong_raffles", { defaultValue: "裕廊東 ➔ 萊佛士坊" }) },
     { country: "china", origin: "Beijing South", destination: "Shanghai Hongqiao", label: t("hot_routes.beijing_shanghai", { defaultValue: "北京南 ➔ 上海虹橋" }) },
-    { country: "thailand", origin: "Siam", destination: "Sukhumvit", label: t("hot_routes.siam_sukhumvit", { defaultValue: "暹羅 ➔ 蘇坤蔚" }) },
+    { country: "thailand", origin: "Siam", destination: "Mo Chit", label: t("hot_routes.siam_mochit", { defaultValue: "暹羅 ➔ 蒙奇" }) },
     { country: "united_kingdom", origin: "King's Cross St. Pancras Underground Station", destination: "Oxford Circus Underground Station", label: t("hot_routes.kings_oxford", { defaultValue: "國王十字 ➔ 牛津圓環" }) },
-    { country: "united_states", origin: "South Station", destination: "Back Bay", label: t("hot_routes.south_backbay", { defaultValue: "南站 ➔ 後灣" }) },
+    { country: "united_states", origin: "South Station", destination: "Harvard", label: t("hot_routes.south_harvard", { defaultValue: "南站 ➔ 哈佛" }) },
     { country: "germany", origin: "Berlin Hbf", destination: "Munich Hbf", label: t("hot_routes.berlin_munich", { defaultValue: "柏林 ➔ 慕尼黑" }) },
     { country: "france", origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu", label: t("hot_routes.paris_lyon", { defaultValue: "巴黎 ➔ 里昂" }) }
   ], [t]);

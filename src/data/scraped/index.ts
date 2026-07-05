@@ -1,5 +1,6 @@
 import { readFileSync, readdirSync, existsSync } from "fs";
-import { join } from "path";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 import type { TransitResult, Country, JourneyLeg } from "../../types";
 
 interface ScrapedRouteData {
@@ -11,21 +12,25 @@ interface ScrapedRouteData {
   results: TransitResult[];
 }
 
-import { fileURLToPath } from "url";
-
-const DATA_DIR = join(process.cwd(), "src/data/scraped");
-try {
-  if (__dirname) {
-    const isDist = __dirname.endsWith("dist") || __dirname.endsWith("api");
-    if (isDist) {
-      Object.assign(process.env, { DATA_DIR: join(__dirname, "../src/data/scraped") });
-    } else {
-      Object.assign(process.env, { DATA_DIR: join(__dirname, ".") });
-    }
+// Resolve the data directory relative to this file, regardless of CJS or ESM.
+function resolveDataDir(): string {
+  // ESM: use import.meta.url
+  if (typeof import.meta !== "undefined" && import.meta.url) {
+    return dirname(fileURLToPath(import.meta.url));
   }
-} catch (e) {}
+  // CJS production bundle: __dirname is the dist/ directory
+  try {
+    // @ts-ignore – __dirname exists in CJS
+    const d = __dirname as string;
+    const isDist = d.endsWith("dist") || d.endsWith("api");
+    return isDist ? join(d, "../src/data/scraped") : d;
+  } catch {
+    // Last-resort fallback: cwd-relative (works when running from project root)
+    return join(process.cwd(), "src/data/scraped");
+  }
+}
 
-const ACTUAL_DATA_DIR = process.env.DATA_DIR || DATA_DIR;
+const ACTUAL_DATA_DIR = resolveDataDir();
 
 const ALL_COUNTRIES: Country[] = [
   "japan", "korea", "singapore", "thailand",
