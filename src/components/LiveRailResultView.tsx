@@ -5,6 +5,7 @@ import type { TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
 import { triggerHaptic } from "../utils/haptics";
 import { WeatherWidget } from "./WeatherWidget";
+import { stationLabel } from "../utils/stationLabel";
 
 interface LiveRailResultViewProps {
   market: "london" | "boston";
@@ -150,10 +151,10 @@ export function LiveRailResultView({
                   <div className="min-w-0">
                     <p className="font-mono text-2xl font-black leading-none tracking-tight text-slate-900 dark:text-white">{trip.departureTime}</p>
                     <p className="mt-1 flex items-center gap-1.5 truncate text-xs text-slate-500 dark:text-slate-400">
-                      <span className="truncate">{trip.origin}</span>
+                      <span className="truncate">{stationLabel(t, trip.origin, trip.country)}</span>
                       {(trip.platform || trip.legs?.[0]?.platform) && (
                         <span className="shrink-0 inline-flex items-center rounded-sm bg-slate-100 px-1 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                          Plat {trip.platform || trip.legs?.[0]?.platform}
+                          {t("result.plat_label", { defaultValue: "Plat" })} {trip.platform || trip.legs?.[0]?.platform}
                         </span>
                       )}
                     </p>
@@ -172,7 +173,7 @@ export function LiveRailResultView({
                   </div>
                   <div className="min-w-0 text-right">
                     <p className="font-mono text-2xl font-black leading-none tracking-tight text-slate-900 dark:text-white">{trip.arrivalTime || "--:--"}</p>
-                    <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">{trip.destination}</p>
+                    <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">{stationLabel(t, trip.destination, trip.country)}</p>
                   </div>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { Bell, BellOff, Share2, Bookmark, Check, Clock, DatabaseZap, MapPinned, Trash2, UserCircle, X, Activity, Sun, Moon, Monitor, CalendarDays, Coins, Compass } from "lucide-react";
+import { Bell, BellOff, Share2, Bookmark, Check, Clock, DatabaseZap, MapPinned, Trash2, UserCircle, X, Activity, Sun, Moon, Monitor, CalendarDays, Coins, Compass, Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
 import { Header } from "./components/Header";
@@ -19,7 +19,7 @@ import { generateICS } from "./utils/ics";
 import { stationLabel } from "./utils/stationLabel";
 import { triggerHaptic } from "./utils/haptics";
 import { get, set } from "idb-keyval";
-import { countryConfig, providerDateValue, countryThemes, countryFlags } from "./data/countries";
+import { countryConfig, providerDateValue, countryThemes, countryFlags, countryOptions } from "./data/countries";
 import type {
   AppAlert,
   AppView,
@@ -145,12 +145,23 @@ function sortResults(results: TransitResult[], sortMode: SortMode, koreaFilter: 
 
 export default function App() {
   const { t, i18n } = useTranslation();
+  const initialPreferredCountry = (localStorage.getItem("transitrail.preferredCountry") as Country) || "japan";
+  const [preferredCountry, setPreferredCountry] = useState<Country>(initialPreferredCountry);
+
+  const initialSearch: SearchParams = {
+    origin: "",
+    destination: "",
+    date: providerDateValue(initialPreferredCountry),
+    country: initialPreferredCountry,
+    preferredTransitTypes: [],
+  };
+
   const [view, setView] = useState<AppView>("search");
   const [previousView, setPreviousView] = useState<AppView>("search");
-  const [draftSearch, setDraftSearch] = useState<SearchParams>(emptySearch);
-  const activeCountry = draftSearch.country || "japan";
+  const [draftSearch, setDraftSearch] = useState<SearchParams>(initialSearch);
+  const activeCountry = draftSearch.country || initialPreferredCountry;
   const activeTheme = countryThemes[activeCountry] || countryThemes.japan;
-  const [searchParams, setSearchParams] = useState<SearchParams>(emptySearch);
+  const [searchParams, setSearchParams] = useState<SearchParams>(initialSearch);
   const [results, setResults] = useState<TransitResult[]>([]);
   const [error, setError] = useState<string | undefined>();
   const [isSearching, setIsSearching] = useState(false);
@@ -159,6 +170,7 @@ export default function App() {
   const [history, setHistory] = useState<SearchHistoryItem[]>(() => loadJson("transitrail.history", []));
   const [favorites, setFavorites] = useState<FavoriteRoute[]>(() => loadJson("transitrail.favorites", []));
   const [savedTrips, setSavedTrips] = useState<SavedTrip[]>(() => loadJson("transitrail.saved", []));
+  const [savedTripsSearch, setSavedTripsSearch] = useState("");
   const [alerts, setAlerts] = useState<AppAlert[]>(() => loadJson("transitrail.alerts", []));
   const [selectedTrip, setSelectedTrip] = useState<TransitResult | null>(null);
   const [seatChoice, setSeatChoice] = useState("standard");
@@ -185,6 +197,15 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("transitrail.timezone", timezone);
   }, [timezone]);
+
+  useEffect(() => {
+    localStorage.setItem("transitrail.preferredCountry", preferredCountry);
+    setDraftSearch((prev) => ({
+      ...prev,
+      country: preferredCountry,
+      date: prev.country === preferredCountry ? prev.date : providerDateValue(preferredCountry)
+    }));
+  }, [preferredCountry]);
 
   useEffect(() => saveJson("transitrail.history", history), [history]);
   useEffect(() => saveJson("transitrail.favorites", favorites), [favorites]);
@@ -678,6 +699,420 @@ export default function App() {
     setView("search");
   };
 
+  const renderView = () => {
+    switch (view) {
+      case "search":
+        return (
+          <SearchForm
+            params={draftSearch}
+            isSearching={isSearching}
+            recentHistory={history}
+            favorites={favorites}
+            onToggleFavorite={toggleFavoriteRoute}
+            onRemoveFavorite={removeFavoriteById}
+            onRepeatFavoriteSearch={rerunFavoriteSearch}
+            onChange={setDraftSearch}
+            onSearch={handleSearch}
+            onOpenStations={openStations}
+            onOpenWorkflow={() => setView("workflow")}
+            onRepeatSearch={rerunHistorySearch}
+          />
+        );
+      case "stations":
+        return (
+          <StationBrowser
+            country={draftSearch.country}
+            target={stationPickTarget}
+            onBack={() => setView("search")}
+            onSelectStation={selectStation}
+            scrollToLineId={stationPickTarget === "destination" ? originLineId : undefined}
+          />
+        );
+      case "workflow":
+        return (
+          <DataWorkflowView params={draftSearch} onBack={() => setView("search")} />
+        );
+      case "results":
+        if (isSearching) {
+          return (
+            <div className="pt-20 pb-28 min-h-screen bg-transparent max-w-md mx-auto">
+              <ResultSkeleton />
+            </div>
+          );
+        }
+        if (["japan", "germany", "france", "china"].includes(searchParams.country)) {
+          return (
+            <JapanResultView
+              origin={searchParams.origin}
+              destination={searchParams.destination}
+              date={searchParams.date}
+              error={error}
+              results={visibleResults}
+              sortMode={sortMode}
+              savedIds={savedIds}
+              onSortChange={setSortMode}
+              onModify={() => setView("search")}
+              onSave={toggleSaveTrip}
+              onSelectSeat={openSeatPicker}
+              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
+              formatPrice={formatTripPrice}
+            />
+          );
+        }
+        if (searchParams.country === "korea") {
+          return (
+            <KoreaResultView
+              origin={searchParams.origin}
+              destination={searchParams.destination}
+              date={searchParams.date}
+              error={error}
+              results={visibleResults}
+              filter={koreaFilter}
+              savedIds={savedIds}
+              onFilterChange={setKoreaFilter}
+              onModify={() => setView("search")}
+              onSave={toggleSaveTrip}
+              onSelectSeat={openSeatPicker}
+              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
+              formatPrice={formatTripPrice}
+            />
+          );
+        }
+        if (["hong_kong", "singapore", "thailand"].includes(searchParams.country)) {
+          return (
+            <MetroResultView
+              origin={searchParams.origin}
+              destination={searchParams.destination}
+              date={searchParams.date}
+              error={error}
+              results={visibleResults}
+              savedIds={savedIds}
+              onModify={() => setView("search")}
+              onSave={toggleSaveTrip}
+              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
+              formatPrice={formatTripPrice}
+            />
+          );
+        }
+        if (searchParams.country === "united_kingdom") {
+          return (
+            <LiveRailResultView
+              market="london"
+              origin={searchParams.origin}
+              destination={searchParams.destination}
+              date={searchParams.date}
+              error={error}
+              results={visibleResults}
+              savedIds={savedIds}
+              onModify={() => setView("search")}
+              onSave={toggleSaveTrip}
+              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
+              formatPrice={formatTripPrice}
+            />
+          );
+        }
+        if (searchParams.country === "united_states") {
+          return (
+            <LiveRailResultView
+              market="boston"
+              origin={searchParams.origin}
+              destination={searchParams.destination}
+              date={searchParams.date}
+              error={error}
+              results={visibleResults}
+              savedIds={savedIds}
+              onModify={() => setView("search")}
+              onSave={toggleSaveTrip}
+              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
+              formatPrice={formatTripPrice}
+            />
+          );
+        }
+        return null;
+      case "legend":
+        return (
+          <TransitLegend 
+            onBack={() => setView(previousView)} 
+            highlightLine={legendHighlight}
+          />
+        );
+      case "history":
+        return (
+          <UtilityPage
+            title={t("nav.history")}
+            icon={<Clock className="w-5 h-5" />}
+            action={history.length > 0 ? (
+              <button
+                onClick={() => {
+                  triggerHaptic("medium");
+                  setHistory([]);
+                }}
+                className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40 rounded-xl transition-all"
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+                <span>{t("history.clear_all")}</span>
+              </button>
+            ) : undefined}
+          >
+            {history.length === 0 ? (
+              <EmptyState title={t("history.empty_title")} body={t("history.empty_body")} />
+            ) : (
+              <div className="space-y-2">
+                {history.map((item) => (
+                  <div key={item.id} className="flex items-center justify-between gap-3 rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
+                        {stationLabel(t, item.origin, item.country)}
+                        <span className="mx-1.5 text-slate-400">&rarr;</span>
+                        {stationLabel(t, item.destination, item.country)}
+                      </p>
+                      <p className="mt-0.5 font-mono text-[11px] text-slate-400">{item.date} · {countryFlags[item.country] || ""} {t(countryConfig[item.country].labelKey)} · {item.resultCount} {t("history.results")}</p>
+                    </div>
+                    <button
+                      onClick={() => rerunHistorySearch(item)}
+                      className="shrink-0 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-[0_2px_8px_rgba(16,185,129,0.25)] hover:bg-emerald-500 transition-all"
+                    >
+                      {t("history.search_again")}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </UtilityPage>
+        );
+      case "saved":
+        return (
+          <UtilityPage
+            title={t("nav.saved")}
+            icon={<Bookmark className="w-5 h-5" />}
+            action={savedTrips.length > 0 ? (
+              <button
+                onClick={() => {
+                  triggerHaptic("medium");
+                  setSavedTrips([]);
+                }}
+                className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40 rounded-xl transition-all"
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+                <span>{t("saved.clear_all")}</span>
+              </button>
+            ) : undefined}
+          >
+            {savedTrips.length === 0 ? (
+              <EmptyState title={t("saved.empty_title")} body={t("saved.empty_body")} />
+            ) : (
+              <div className="space-y-4">
+                <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <Coins className="h-4 w-4 text-amber-500 shrink-0" />
+                      <div>
+                        <span className="text-sm font-bold text-slate-900 block leading-tight dark:text-white">
+                          {t("profile.currency_converter", { defaultValue: "Currency Converter / 匯率轉換" })}
+                        </span>
+                        <span className="text-[10px] text-slate-400 font-bold font-mono leading-none">
+                          {loadingRates 
+                            ? t("profile.loading_rates", { defaultValue: "Updating live rates..." }) 
+                            : t("profile.rates_relative_to", { currency: homeCurrency, defaultValue: `Rates relative to ${homeCurrency} (via Taiwan Central Bank)` })}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <span className="text-xs text-slate-500 font-medium">
+                        {t("profile.home_currency", { defaultValue: "Home:" })}
+                      </span>
+                      <select
+                        value={homeCurrency}
+                        onChange={(e) => setHomeCurrency(e.target.value)}
+                        className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-800 outline-none focus:border-slate-400 cursor-pointer dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                      >
+                        {allCurrencies.map((c) => (
+                          <option key={c} value={c}>{c}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="mt-2 flex items-center gap-2">
+                    <span className="text-[10px] text-slate-400 font-medium">
+                      {t("profile.price_display", { defaultValue: "Display" })}:
+                    </span>
+                    <div className="flex rounded-lg bg-slate-100 p-0.5">
+                      {(["original", "converted", "both"] as CurrencyDisplayMode[]).map((m) => (
+                        <button
+                          key={m}
+                          onClick={() => setPriceDisplayMode(m)}
+                          className={`rounded-md px-2 py-0.5 text-[10px] font-bold transition-all ${
+                            priceDisplayMode === m
+                              ? "bg-white text-slate-900 shadow-xs dark:bg-slate-200 dark:text-slate-900"
+                              : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-900"
+                          }`}
+                        >
+                          {m === "original" ? "Original" : m === "converted" ? "Converted" : "Both"}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder={t("saved.search_placeholder", { defaultValue: "Search by service or destination..." })}
+                    value={savedTripsSearch}
+                    onChange={(e) => setSavedTripsSearch(e.target.value)}
+                    className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm outline-none focus:border-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-slate-500 shadow-sm transition-all"
+                  />
+                  {savedTripsSearch && (
+                    <button
+                      onClick={() => setSavedTripsSearch("")}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+
+                <div className="space-y-6">
+                  {Object.entries(
+                    savedTrips
+                      .filter(trip => {
+                        if (!savedTripsSearch) return true;
+                        const s = savedTripsSearch.toLowerCase();
+                        return (
+                          (trip.service && trip.service.toLowerCase().includes(s)) ||
+                          (trip.destination && trip.destination.toLowerCase().includes(s)) ||
+                          (trip.origin && trip.origin.toLowerCase().includes(s))
+                        );
+                      })
+                      .reduce((acc, trip) => {
+                      const d = trip.date || "Unknown Date";
+                      if (!acc[d]) acc[d] = [];
+                      acc[d].push(trip);
+                      return acc;
+                    }, {} as Record<string, SavedTrip[]>)
+                  )
+                  .sort(([dateA], [dateB]) => {
+                    if (dateA === "Unknown Date") return 1;
+                    if (dateB === "Unknown Date") return -1;
+                    return dateA.localeCompare(dateB);
+                  })
+                  .map(([date, trips]) => (
+                    <div key={date} className="space-y-3">
+                      <div className="flex items-center gap-2 px-1">
+                        <CalendarDays className="h-4 w-4 text-emerald-600 dark:text-emerald-500" />
+                        <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">{date}</h4>
+                      </div>
+                      <div className="space-y-2.5">
+                        {(trips as SavedTrip[]).map((trip) => (
+                    <div key={trip.id} className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="truncate rounded-lg bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-300" style={{ borderLeft: `3px solid ${trip.lineColor || "#94a3b8"}` }}>
+                              {trip.service}
+                            </span>
+                          </div>
+                          <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
+                            {stationLabel(t, trip.origin, trip.country)}
+                            <span className="mx-1.5 text-slate-400">&rarr;</span>
+                            {stationLabel(t, trip.destination, trip.country)}
+                          </p>
+                          <p className="mt-1 font-mono text-xs text-slate-500 flex items-center gap-1">
+                            <Clock className="h-3 w-3 text-slate-400 shrink-0" />
+                            <span>{trip.departureTime}{trip.arrivalTime ? ` - ${trip.arrivalTime}` : ""}</span>
+                          </p>
+
+                          {trip.price !== undefined && trip.currency && (
+                            <div className="mt-2 text-xs font-bold text-slate-700 flex items-center gap-1 dark:text-slate-300">
+                              <span className="text-slate-400 font-normal">Fare:</span>
+                              <span className="bg-slate-50 border border-slate-200/60 rounded-lg px-2 py-0.5 font-mono dark:bg-slate-800 dark:border-slate-700">
+                                {formatTripPrice(trip) || formatConvertedPrice(trip.price, trip.currency)}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex flex-col gap-1.5 shrink-0">
+                          <button
+                            onClick={() => toggleTripReminder(trip)}
+                            className={`flex h-8 w-8 items-center justify-center rounded-xl border ${
+                              trip.reminderEnabled
+                                ? "border-amber-200 bg-amber-50 text-amber-600 hover:bg-amber-100 dark:border-amber-700 dark:bg-amber-900/20 dark:text-amber-400"
+                                : "border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
+                            }`}
+                            title={trip.reminderEnabled ? "Disable departure alert" : "Enable 15m departure alert"}
+                            aria-label="Toggle reminder"
+                          >
+                            {trip.reminderEnabled ? <Bell className="h-3.5 w-3.5 text-amber-500" /> : <BellOff className="h-3.5 w-3.5" />}
+                          </button>
+                          <button
+                            onClick={() => shareTrip(trip)}
+                            className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
+                            title="Share formatted details via Web Share API"
+                            aria-label="Share trip"
+                          >
+                            <Share2 className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            onClick={() => generateICS(trip)}
+                            className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
+                            title="Download Calendar Event (.ics)"
+                            aria-label="Download calendar event"
+                          >
+                            <CalendarDays className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            onClick={() => removeSavedTrip(trip.id)}
+                            className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-red-600 hover:border-red-200 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-red-400 dark:hover:border-red-800"
+                            title="Remove saved trip"
+                            aria-label={t("saved.remove")}
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                      {trip.seatClass ? (
+                        <button
+                          onClick={() => openSeatPicker(trip)}
+                          className="mt-3 w-full rounded-xl bg-emerald-600 py-3 text-xs font-bold text-white shadow-[0_2px_8px_rgba(16,185,129,0.25)] hover:bg-emerald-500 transition-all"
+                        >
+                          {t("result.select_seat")}
+                        </button>
+                      ) : null}
+                    </div>
+                  ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </UtilityPage>
+        );
+      case "alerts":
+        return (
+          <UtilityPage title={t("nav.alerts")} icon={<Bell className="w-5 h-5" />}>
+            {alerts.length === 0 ? (
+              <EmptyState title={t("alerts.empty_title")} body={t("alerts.empty_body")} />
+            ) : (
+              <div className="space-y-2">
+                {alerts.map((alert) => (
+                  <div key={alert.id} className="rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">{alert.title}</p>
+                    <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{alert.body}</p>
+                    <p className="mt-2 font-mono text-[11px] text-slate-400">{new Date(alert.createdAt).toLocaleString()}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </UtilityPage>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className={`min-h-screen relative overflow-x-hidden bg-slate-50/40 bg-gradient-to-tr ${activeTheme.primaryBgLight} font-sans text-slate-900 selection:bg-emerald-200 transition-all duration-500 dark:bg-[#060a13] ${activeTheme.primaryBgDark} dark:text-slate-100 dark:selection:bg-emerald-800/40`}>
       {/* Premium Cinematic Background Glows */}
@@ -692,352 +1127,18 @@ export default function App() {
         homeCurrency={homeCurrency}
       />
 
-      {(view === "search" || view === "stations") && (
-        <SearchForm
-          params={draftSearch}
-          isSearching={isSearching}
-          recentHistory={history}
-          favorites={favorites}
-          onToggleFavorite={toggleFavoriteRoute}
-          onRemoveFavorite={removeFavoriteById}
-          onRepeatFavoriteSearch={rerunFavoriteSearch}
-          onChange={setDraftSearch}
-          onSearch={handleSearch}
-          onOpenStations={openStations}
-          onOpenWorkflow={() => setView("workflow")}
-          onRepeatSearch={rerunHistorySearch}
-        />
-      )}
-
-      {view === "stations" && (
-        <StationBrowser
-          country={draftSearch.country}
-          target={stationPickTarget}
-          onBack={() => setView("search")}
-          onSelectStation={selectStation}
-          scrollToLineId={stationPickTarget === "destination" ? originLineId : undefined}
-        />
-      )}
-
-      {view === "workflow" && (
-        <DataWorkflowView params={draftSearch} onBack={() => setView("search")} />
-      )}
-
-      {view === "results" && isSearching && (
-        <div className="pt-20 pb-28 min-h-screen bg-transparent max-w-md mx-auto">
-          <ResultSkeleton />
-        </div>
-      )}
-
-      {view === "results" && !isSearching && ["japan", "germany", "france", "china"].includes(searchParams.country) && (
-        <JapanResultView
-          origin={searchParams.origin}
-          destination={searchParams.destination}
-          date={searchParams.date}
-          error={error}
-          results={visibleResults}
-          sortMode={sortMode}
-          savedIds={savedIds}
-          onSortChange={setSortMode}
-          onModify={() => setView("search")}
-          onSave={toggleSaveTrip}
-          onSelectSeat={openSeatPicker}
-          onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
-          formatPrice={formatTripPrice}
-        />
-      )}
-
-      {view === "results" && !isSearching && searchParams.country === "korea" && (
-        <KoreaResultView
-          origin={searchParams.origin}
-          destination={searchParams.destination}
-          date={searchParams.date}
-          error={error}
-          results={visibleResults}
-          filter={koreaFilter}
-          savedIds={savedIds}
-          onFilterChange={setKoreaFilter}
-          onModify={() => setView("search")}
-          onSave={toggleSaveTrip}
-          onSelectSeat={openSeatPicker}
-          onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
-          formatPrice={formatTripPrice}
-        />
-      )}
-
-      {view === "results" && !isSearching && ["hong_kong", "singapore", "thailand"].includes(searchParams.country) && (
-        <MetroResultView
-          origin={searchParams.origin}
-          destination={searchParams.destination}
-          date={searchParams.date}
-          error={error}
-          results={visibleResults}
-          savedIds={savedIds}
-          onModify={() => setView("search")}
-          onSave={toggleSaveTrip}
-          onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
-          formatPrice={formatTripPrice}
-        />
-      )}
-
-      {view === "results" && !isSearching && searchParams.country === "united_kingdom" && (
-        <LiveRailResultView
-          market="london"
-          origin={searchParams.origin}
-          destination={searchParams.destination}
-          date={searchParams.date}
-          error={error}
-          results={visibleResults}
-          savedIds={savedIds}
-          onModify={() => setView("search")}
-          onSave={toggleSaveTrip}
-          onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
-          formatPrice={formatTripPrice}
-        />
-      )}
-
-      {view === "results" && !isSearching && searchParams.country === "united_states" && (
-        <LiveRailResultView
-          market="boston"
-          origin={searchParams.origin}
-          destination={searchParams.destination}
-          date={searchParams.date}
-          error={error}
-          results={visibleResults}
-          savedIds={savedIds}
-          onModify={() => setView("search")}
-          onSave={toggleSaveTrip}
-          onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
-          formatPrice={formatTripPrice}
-        />
-      )}
-
-      {view === "legend" && (
-        <TransitLegend 
-          onBack={() => setView(previousView)} 
-          highlightLine={legendHighlight}
-        />
-      )}
-
-      {view === "history" && (
-        <UtilityPage
-          title={t("nav.history")}
-          icon={<Clock className="w-5 h-5" />}
-          action={history.length > 0 ? (
-            <button
-              onClick={() => {
-                triggerHaptic("medium");
-                setHistory([]);
-              }}
-              className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40 rounded-xl transition-all"
-            >
-              <Trash2 className="h-3.5 w-3.5" />
-              <span>{t("history.clear_all")}</span>
-            </button>
-          ) : undefined}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={view === "results" ? `results-${isSearching}-${searchParams.country}` : view}
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -15 }}
+          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full flex-1 flex flex-col"
         >
-          {history.length === 0 ? (
-            <EmptyState title={t("history.empty_title")} body={t("history.empty_body")} />
-          ) : (
-            <div className="space-y-2">
-              {history.map((item) => (
-                <div key={item.id} className="flex items-center justify-between gap-3 rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
-                      {stationLabel(t, item.origin, item.country)}
-                      <span className="mx-1.5 text-slate-400">&rarr;</span>
-                      {stationLabel(t, item.destination, item.country)}
-                    </p>
-                    <p className="mt-0.5 font-mono text-[11px] text-slate-400">{item.date} · {countryFlags[item.country] || ""} {t(countryConfig[item.country].labelKey)} · {item.resultCount} {t("history.results")}</p>
-                  </div>
-                  <button
-                    onClick={() => rerunHistorySearch(item)}
-                    className="shrink-0 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-[0_2px_8px_rgba(16,185,129,0.25)] hover:bg-emerald-500 transition-all"
-                  >
-                    {t("history.search_again")}
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </UtilityPage>
-      )}
-
-      {view === "saved" && (
-        <UtilityPage
-          title={t("nav.saved")}
-          icon={<Bookmark className="w-5 h-5" />}
-          action={savedTrips.length > 0 ? (
-            <button
-              onClick={() => {
-                triggerHaptic("medium");
-                setSavedTrips([]);
-              }}
-              className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40 rounded-xl transition-all"
-            >
-              <Trash2 className="h-3.5 w-3.5" />
-              <span>{t("saved.clear_all")}</span>
-            </button>
-          ) : undefined}
-        >
-          {savedTrips.length === 0 ? (
-            <EmptyState title={t("saved.empty_title")} body={t("saved.empty_body")} />
-          ) : (
-            <div className="space-y-4">
-              <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
-                    <Coins className="h-4 w-4 text-amber-500 shrink-0" />
-                    <div>
-                      <span className="text-sm font-bold text-slate-900 block leading-tight dark:text-white">
-                        {t("profile.currency_converter", { defaultValue: "Currency Converter / 匯率轉換" })}
-                      </span>
-                      <span className="text-[10px] text-slate-400 font-bold font-mono leading-none">
-                        {loadingRates 
-                          ? t("profile.loading_rates", { defaultValue: "Updating live rates..." }) 
-                          : t("profile.rates_relative_to", { currency: homeCurrency, defaultValue: `Rates relative to ${homeCurrency} (via Taiwan Central Bank)` })}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1.5 shrink-0">
-                    <span className="text-xs text-slate-500 font-medium">
-                      {t("profile.home_currency", { defaultValue: "Home:" })}
-                    </span>
-                    <select
-                      value={homeCurrency}
-                      onChange={(e) => setHomeCurrency(e.target.value)}
-                      className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-800 outline-none focus:border-slate-400 cursor-pointer dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
-                    >
-                      {allCurrencies.map((c) => (
-                        <option key={c} value={c}>{c}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-                <div className="mt-2 flex items-center gap-2">
-                  <span className="text-[10px] text-slate-400 font-medium">
-                    {t("profile.price_display", { defaultValue: "Display" })}:
-                  </span>
-                  <div className="flex rounded-lg bg-slate-100 p-0.5">
-                    {(["original", "converted", "both"] as CurrencyDisplayMode[]).map((m) => (
-                      <button
-                        key={m}
-                        onClick={() => setPriceDisplayMode(m)}
-                        className={`rounded-md px-2 py-0.5 text-[10px] font-bold transition-all ${
-                          priceDisplayMode === m
-                            ? "bg-white text-slate-900 shadow-xs dark:bg-slate-200 dark:text-slate-900"
-                            : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-900"
-                        }`}
-                      >
-                        {m === "original" ? "Original" : m === "converted" ? "Converted" : "Both"}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2.5">
-                {savedTrips.map((trip) => (
-                  <div key={trip.id} className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="truncate rounded-lg bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-300" style={{ borderLeft: `3px solid ${trip.lineColor || "#94a3b8"}` }}>
-                            {trip.service}
-                          </span>
-                        </div>
-                        <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
-                          {stationLabel(t, trip.origin, trip.country)}
-                          <span className="mx-1.5 text-slate-400">&rarr;</span>
-                          {stationLabel(t, trip.destination, trip.country)}
-                        </p>
-                        <p className="mt-1 font-mono text-xs text-slate-500 flex items-center gap-1">
-                          <Clock className="h-3 w-3 text-slate-400 shrink-0" />
-                          <span>{trip.departureTime}{trip.arrivalTime ? ` - ${trip.arrivalTime}` : ""}</span>
-                        </p>
-
-                        {trip.price !== undefined && trip.currency && (
-                          <div className="mt-2 text-xs font-bold text-slate-700 flex items-center gap-1 dark:text-slate-300">
-                            <span className="text-slate-400 font-normal">Fare:</span>
-                            <span className="bg-slate-50 border border-slate-200/60 rounded-lg px-2 py-0.5 font-mono dark:bg-slate-800 dark:border-slate-700">
-                              {formatTripPrice(trip) || formatConvertedPrice(trip.price, trip.currency)}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="flex flex-col gap-1.5 shrink-0">
-                        <button
-                          onClick={() => toggleTripReminder(trip)}
-                          className={`flex h-8 w-8 items-center justify-center rounded-xl border ${
-                            trip.reminderEnabled
-                              ? "border-amber-200 bg-amber-50 text-amber-600 hover:bg-amber-100 dark:border-amber-700 dark:bg-amber-900/20 dark:text-amber-400"
-                              : "border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
-                          }`}
-                          title={trip.reminderEnabled ? "Disable departure alert" : "Enable 15m departure alert"}
-                          aria-label="Toggle reminder"
-                        >
-                          {trip.reminderEnabled ? <Bell className="h-3.5 w-3.5 text-amber-500" /> : <BellOff className="h-3.5 w-3.5" />}
-                        </button>
-                        <button
-                          onClick={() => shareTrip(trip)}
-                          className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
-                          title="Share formatted details via Web Share API"
-                          aria-label="Share trip"
-                        >
-                          <Share2 className="h-3.5 w-3.5" />
-                        </button>
-                        <button
-                          onClick={() => generateICS(trip)}
-                          className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
-                          title="Download Calendar Event (.ics)"
-                          aria-label="Download calendar event"
-                        >
-                          <CalendarDays className="h-3.5 w-3.5" />
-                        </button>
-                        <button
-                          onClick={() => removeSavedTrip(trip.id)}
-                          className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-red-600 hover:border-red-200 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-red-400 dark:hover:border-red-800"
-                          title="Remove saved trip"
-                          aria-label={t("saved.remove")}
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </button>
-                      </div>
-                    </div>
-                    {trip.seatClass ? (
-                      <button
-                        onClick={() => openSeatPicker(trip)}
-                        className="mt-3 w-full rounded-xl bg-emerald-600 py-3 text-xs font-bold text-white shadow-[0_2px_8px_rgba(16,185,129,0.25)] hover:bg-emerald-500 transition-all"
-                      >
-                        {t("result.select_seat")}
-                      </button>
-                    ) : null}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </UtilityPage>
-      )}
-
-      {view === "alerts" && (
-        <UtilityPage title={t("nav.alerts")} icon={<Bell className="w-5 h-5" />}>
-          {alerts.length === 0 ? (
-            <EmptyState title={t("alerts.empty_title")} body={t("alerts.empty_body")} />
-          ) : (
-            <div className="space-y-2">
-              {alerts.map((alert) => (
-                <div key={alert.id} className="rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">{alert.title}</p>
-                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{alert.body}</p>
-                  <p className="mt-2 font-mono text-[11px] text-slate-400">{new Date(alert.createdAt).toLocaleString()}</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </UtilityPage>
-      )}
+          {renderView()}
+        </motion.div>
+      </AnimatePresence>
 
       <BottomNav activeView={view} unreadAlerts={unreadAlerts} onNavigate={handleNavigate} onOpenSettings={() => setProfileOpen(true)} country={activeCountry} />
 
@@ -1076,6 +1177,23 @@ export default function App() {
             <ProfileStat label={t("profile.favorites", { defaultValue: "Favorites" })} value={favorites.length} />
           </div>
           <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-4">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white">{t("profile.preferred_region", { defaultValue: "Preferred Region" })}</p>
+                </div>
+              </div>
+              <select
+                value={preferredCountry}
+                onChange={(e) => setPreferredCountry(e.target.value as Country)}
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-bold text-slate-800 outline-none focus:border-slate-400 cursor-pointer dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+              >
+                {countryOptions.map((c) => (
+                  <option key={c} value={c}>{countryFlags[c]} {t(`search.${c}`)}</option>
+                ))}
+              </select>
+            </div>
+
             <div>
               <div className="flex items-center justify-between mb-2">
                 <div>

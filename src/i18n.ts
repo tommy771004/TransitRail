@@ -8,7 +8,7 @@ const resources = {
   en: {
     translation: {
       header: {
-        title: "Rail National",
+        title: "Rail Nation",
         open_menu: "Open menu",
         switch_language: "Switch language",
         open_profile: "Open profile"
@@ -134,7 +134,26 @@ const resources = {
         fare_unavailable: "Fare unavailable",
         transfer: "Transfer",
         transfer_at: "Transfer at {{station}}",
-        next_at_interchange: "Next from {{station}}"
+        next_at_interchange: "Next from {{station}}",
+        hide_details: "Hide details",
+        show_details: "Trip details & timeline",
+        fare_comparison: "Fare Details Comparison",
+        by_passenger: "By Passenger Type",
+        by_seat: "By Seat Class",
+        ticket_adult: "Adult Ticket",
+        standard_rate: "Standard Fare",
+        ticket_child: "Child Ticket",
+        ticket_senior: "Senior Ticket",
+        seat_non_reserved: "Non-Reserved / Regular",
+        seat_reserved: "Reserved / Designated",
+        seat_premium: "Business / Green Car",
+        fare_disclaimer: "Actual fares may vary depending on date, class, optional insurance, or promotional schemes. Please refer to official booking systems.",
+        toward: "toward",
+        next_departures: "Upcoming departures",
+        platform_label: "Platform",
+        plat_label: "Plat",
+        min_connection: "min connection",
+        min_label: "min"
       },
       metro: {
         live_mtr: "Official MTR live data",
@@ -193,6 +212,7 @@ const resources = {
         title: "Profile",
         guest: "Guest traveler",
         local_only: "History and saved trips stay on this device.",
+        preferred_region: "Preferred Region",
         timezone: "Timezone",
         local_currency: "Local Currency",
         price_display: "Price Display",
@@ -347,7 +367,7 @@ const resources = {
   'zh-TW': {
     translation: {
       header: {
-        title: "Rail Nation",
+        title: "國際地鐵查詢",
         open_menu: "開啟選單",
         switch_language: "切換語言",
         open_profile: "開啟個人資料"
@@ -473,7 +493,26 @@ const resources = {
         fare_unavailable: "未提供票價",
         transfer: "轉乘",
         transfer_at: "於{{station}}轉乘",
-        next_at_interchange: "{{station}} 目前下一班"
+        next_at_interchange: "{{station}} 目前下一班",
+        hide_details: "隱藏詳細資訊",
+        show_details: "行程詳細資訊與時間軸",
+        fare_comparison: "票價明細比較",
+        by_passenger: "乘客票種",
+        by_seat: "座位等級",
+        ticket_adult: "成人票",
+        standard_rate: "標準票價",
+        ticket_child: "兒童票",
+        ticket_senior: "敬老/長者",
+        seat_non_reserved: "自由席/一般",
+        seat_reserved: "對號/指定席",
+        seat_premium: "商務/綠色車廂",
+        fare_disclaimer: "實際票價可能隨日期、班次、加購保險或特定優惠方案而異，請以官方購票系統為準。",
+        toward: "往",
+        next_departures: "後續班次",
+        platform_label: "月台",
+        plat_label: "月台",
+        min_connection: "分鐘轉乘時間",
+        min_label: "分鐘"
       },
       metro: {
         live_mtr: "MTR 官方即時資料",
@@ -532,6 +571,7 @@ const resources = {
         title: "個人資料",
         guest: "訪客旅人",
         local_only: "搜尋紀錄與儲存行程會保留在這台裝置。",
+        preferred_region: "偏好地區",
         timezone: "時區",
         local_currency: "本地幣別",
         price_display: "票價顯示",
