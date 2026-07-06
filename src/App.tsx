@@ -163,6 +163,7 @@ export default function App() {
   const [selectedTrip, setSelectedTrip] = useState<TransitResult | null>(null);
   const [seatChoice, setSeatChoice] = useState("standard");
   const [stationPickTarget, setStationPickTarget] = useState<"origin" | "destination">("origin");
+  const [originLineId, setOriginLineId] = useState<string | undefined>();
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark" | "auto">(
@@ -661,13 +662,29 @@ export default function App() {
     setView("stations");
   };
 
-  const selectStation = (station: string) => {
-    setDraftSearch((current) => ({ ...current, [stationPickTarget]: station }));
+  const selectStation = (station: string, autoFillDest?: string, lineId?: string) => {
+    setDraftSearch((current) => {
+      const next = { ...current, [stationPickTarget]: station };
+      if (stationPickTarget === "origin" && autoFillDest) {
+        next.destination = autoFillDest;
+      }
+      return next;
+    });
+
+    if (stationPickTarget === "origin" && lineId) {
+      setOriginLineId(lineId);
+    }
+
     setView("search");
   };
 
   return (
-    <div className={`min-h-screen bg-slate-50/40 bg-gradient-to-tr ${activeTheme.primaryBgLight} font-sans text-slate-900 selection:bg-emerald-200 transition-all duration-500 dark:bg-[#0b1220] ${activeTheme.primaryBgDark} dark:text-slate-100 dark:selection:bg-emerald-800/40`}>
+    <div className={`min-h-screen relative overflow-x-hidden bg-slate-50/40 bg-gradient-to-tr ${activeTheme.primaryBgLight} font-sans text-slate-900 selection:bg-emerald-200 transition-all duration-500 dark:bg-[#060a13] ${activeTheme.primaryBgDark} dark:text-slate-100 dark:selection:bg-emerald-800/40`}>
+      {/* Premium Cinematic Background Glows */}
+      <div className="absolute top-[-10%] left-[-20%] w-[80%] h-[60%] rounded-full bg-indigo-500/10 dark:bg-indigo-600/5 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[30%] right-[-10%] w-[60%] h-[50%] rounded-full bg-emerald-500/10 dark:bg-emerald-600/5 blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[10%] left-[10%] w-[50%] h-[40%] rounded-full bg-cyan-500/10 dark:bg-cyan-600/5 blur-[110px] pointer-events-none" />
+
       <Header 
         onMenuOpen={() => setMenuOpen(true)} 
         onProfileOpen={() => setProfileOpen(true)} 
@@ -698,6 +715,7 @@ export default function App() {
           target={stationPickTarget}
           onBack={() => setView("search")}
           onSelectStation={selectStation}
+          scrollToLineId={stationPickTarget === "destination" ? originLineId : undefined}
         />
       )}
 

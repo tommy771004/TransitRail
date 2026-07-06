@@ -31,6 +31,19 @@ const ROUTE_INFO: Record<string, RouteInfo> = {
   "Shin-Osaka-Tokyo": { line: "Nozomi", durationMinutes: 150, price: 14560 },
   "Nagoya-Shin-Osaka": { line: "Nozomi", durationMinutes: 60, price: 6730 },
   "Sendai-Tokyo": { line: "Hayabusa", durationMinutes: 150, price: 11330 },
+  // Local Tokyo commuter lines (Yamanote Line, Chūō Line, etc.)
+  "Tokyo-Ikebukuro": { line: "Yamanote Line", durationMinutes: 24, price: 210 },
+  "Ikebukuro-Tokyo": { line: "Yamanote Line", durationMinutes: 24, price: 210 },
+  "Tokyo-Shinjuku": { line: "Chūō Line (Rapid)", durationMinutes: 14, price: 210 },
+  "Shinjuku-Tokyo": { line: "Chūō Line (Rapid)", durationMinutes: 14, price: 210 },
+  "Tokyo-Shibuya": { line: "Yamanote Line", durationMinutes: 25, price: 210 },
+  "Shibuya-Tokyo": { line: "Yamanote Line", durationMinutes: 25, price: 210 },
+  "Tokyo-Shinagawa": { line: "Yamanote Line", durationMinutes: 11, price: 180 },
+  "Shinagawa-Tokyo": { line: "Yamanote Line", durationMinutes: 11, price: 180 },
+  "Tokyo-Ueno": { line: "Yamanote Line", durationMinutes: 8, price: 170 },
+  "Ueno-Tokyo": { line: "Yamanote Line", durationMinutes: 8, price: 170 },
+  "Tokyo-Akihabara": { line: "Yamanote Line", durationMinutes: 4, price: 150 },
+  "Akihabara-Tokyo": { line: "Yamanote Line", durationMinutes: 4, price: 150 },
 };
 
 const SERVICE_START = 6 * 60; // 06:00
@@ -44,14 +57,16 @@ export class JapanScraper extends BaseScraper {
   readonly name = "JR Timetable";
   readonly country = "japan";
   readonly routes = japanRoutes;
+  protected readonly usesBrowser = false;
 
   async scrape(route: ScrapedRoute, date: string): Promise<ScrapedRouteData> {
+    const isLocal = ROUTE_INFO[`${route.origin}-${route.destination}`]?.line?.includes("Line") || false;
     return {
       origin: route.origin,
       destination: route.destination,
       date,
       scrapedAt: new Date().toISOString(),
-      source: "Curated JR Shinkansen timetable",
+      source: isLocal ? "Curated Tokyo Commuter timetable" : "Curated JR Shinkansen timetable",
       results: this.buildTimetable(route),
     };
   }
@@ -62,12 +77,15 @@ export class JapanScraper extends BaseScraper {
 
     const results = [];
     let i = 0;
-    for (let m = SERVICE_START; m <= SERVICE_END; m += HEADWAY) {
+    const isLocal = info.line.includes("Line") || info.line.includes("Rapid");
+    const currentHeadway = isLocal ? 10 : HEADWAY; // 10 minute headway for local commuter trains
+
+    for (let m = SERVICE_START; m <= SERVICE_END; m += currentHeadway) {
       results.push({
         id: `jp-${route.origin}-${route.destination}-${i}`,
         country: "japan" as const,
         operator: "JR",
-        service: `${info.line} ${pad(100 + i)}`,
+        service: isLocal ? info.line : `${info.line} ${pad(100 + i)}`,
         departureTime: fmt(m),
         arrivalTime: fmt(m + info.durationMinutes),
         durationMinutes: info.durationMinutes,

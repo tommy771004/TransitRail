@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import translations from './data/translations.json';
 import { additionalStationZhTW } from './data/stationTranslations';
+import { seoulSubwayTranslationsZhTW } from './data/seoulSubwayTranslations';
 
 const resources = {
   en: {
@@ -81,7 +82,13 @@ const resources = {
         lines_unavailable: "The line catalog is unavailable.",
         note_japan: "Major stops only. The full station list arrives with the ODPT adapter.",
         note_korea: "Seoul Metro lines 1-9. KTX and other stations are in the all-stations list.",
-        note_united_states: "Subway and light rail lines. Commuter rail stations are in the all-stations list."
+        note_united_states: "Subway and light rail lines. Commuter rail stations are in the all-stations list.",
+        featured: "Popular Stations",
+        locating: "Locating...",
+        use_current_location: "Use Current Location",
+        geolocation_unsupported: "Geolocation is not supported by your browser.",
+        location_error: "Could not determine nearest station.",
+        location_permission_denied: "Location access denied or failed."
       },
       workflow: {
         title: "Data workflow",
@@ -249,6 +256,7 @@ const resources = {
         first: "First class",
         confirm: "Save preference"
       },
+      line: {},
       station: {
         "Tokyo": "Tokyo",
         "Shinagawa": "Shinagawa",
@@ -413,7 +421,13 @@ const resources = {
         lines_unavailable: "目前無法讀取路線目錄。",
         note_japan: "僅列出主要停靠站，完整站點將隨 ODPT adapter 提供。",
         note_korea: "首爾地鐵 1-9 號線；KTX 與其他車站請見全部車站。",
-        note_united_states: "地鐵與輕軌路線；通勤鐵路車站請見全部車站。"
+        note_united_states: "地鐵與輕軌路線；通勤鐵路車站請見全部車站。",
+        featured: "熱門車站",
+        locating: "正在取得定位...",
+        use_current_location: "使用目前位置",
+        geolocation_unsupported: "您的瀏覽器不支援取得地理位置。",
+        location_error: "無法確定最近的車站。",
+        location_permission_denied: "拒絕提供位置存取權限，或定位失敗。"
       },
       workflow: {
         title: "資料流程",
@@ -580,6 +594,81 @@ const resources = {
         aisle: "走道",
         first: "頭等艙",
         confirm: "儲存偏好"
+      },
+      line: {
+        // Japan
+        "Tōkaidō Shinkansen": "東海道新幹線",
+        "San'yō Shinkansen": "山陽新幹線",
+        "Kyūshū Shinkansen": "九州新幹線",
+        "Nishi-Kyūshū Shinkansen": "西九州新幹線",
+        "Tōhoku Shinkansen": "東北新幹線",
+        "Hokkaidō Shinkansen": "北海道新幹線",
+        "Hokuriku Shinkansen": "北陸新幹線",
+        "Jōetsu Shinkansen": "上越新幹線",
+        "Yamagata Shinkansen": "山形新幹線",
+        "Akita Shinkansen": "秋田新幹線",
+        "Yamanote Line": "山手線",
+        "Chūō Line (Rapid)": "中央線快速",
+        "Sōbu Line (Local)": "總武緩行線",
+        "Keihin-Tōhoku Line": "京濱東北線",
+        "Tōkaidō Line": "東海道線",
+        "Yokosuka Line": "橫須賀線",
+        // Korea
+        "Line 1": "1 號線",
+        "Line 2": "2 號線",
+        "Line 3": "3 號線",
+        "Line 4": "4 號線",
+        "Line 5": "5 號線",
+        "Line 6": "6 號線",
+        "Line 7": "7 號線",
+        "Line 8": "8 號線",
+        "Line 9": "9 號線",
+        "Line 2 (Seongsu Branch)": "2 號線 (聖水支線)",
+        "Line 2 (Sinjeong Branch)": "2 號線 (新亭支線)",
+        "Line 5 (Macheon Branch)": "5 號線 (馬川支線)",
+        // Singapore
+        "North South Line": "南北線",
+        "East West Line": "東西線",
+        "North East Line": "東北線",
+        "Circle Line": "環線",
+        "Downtown Line": "濱海市區線",
+        "Thomson–East Coast Line": "湯申-東海岸線",
+        // Bangkok
+        "BTS Sukhumvit Line": "BTS 蘇坤蔚線",
+        "BTS Silom Line": "BTS 席隆線",
+        "MRT Blue Line": "MRT 藍線",
+        "MRT Purple Line": "MRT 紫線",
+        "Airport Rail Link": "機場鐵路聯絡線",
+        // China
+        "Beijing–Shanghai HSR": "京滬高鐵",
+        "Beijing–Guangzhou HSR": "京廣高鐵",
+        "Shanghai–Kunming HSR": "滬昆高鐵",
+        "Zhengzhou–Xi'an HSR": "鄭西高鐵",
+        "Guangzhou–Shenzhen–Hong Kong HSR": "廣深港高鐵",
+        "Chengdu–Chongqing HSR": "成渝高鐵",
+        // Germany
+        "ICE Berlin–München": "ICE 柏林-慕尼黑",
+        "ICE Hamburg–München": "ICE 漢堡-慕尼黑",
+        "ICE Berlin–Rhein/Ruhr": "ICE 柏林-萊茵/魯爾",
+        "ICE Köln–Freiburg": "ICE 科隆-弗萊堡",
+        "ICE Bremen–Dresden": "ICE 不來梅-德勒斯登",
+        "ICE Berlin–Hamburg": "ICE 柏林-漢堡",
+        // France
+        "LGV Sud-Est / Méditerranée": "LGV 東南線 / 地中海線",
+        "LGV Nord": "LGV 北線",
+        "LGV Est": "LGV 東線",
+        "LGV Atlantique": "LGV 大西洋線",
+        // Hong Kong
+        "East Rail Line": "東鐵綫",
+        "Tsuen Wan Line": "荃灣綫",
+        "Island Line": "港島綫",
+        "Kwun Tong Line": "觀塘綫",
+        "Tseung Kwan O Line": "將軍澳綫",
+        "Tung Chung Line": "東涌綫",
+        "Airport Express": "機場快綫",
+        "Disneyland Resort Line": "迪士尼綫",
+        "South Island Line": "南港島綫",
+        "Tuen Ma Line": "屯馬綫"
       },
       station: {
         "Tokyo": "東京",
@@ -1023,6 +1112,7 @@ const resources = {
 // (e.g. MBTA "Central" vs MTR "Central" 中環) and must not clobber them.
 const stationDict = resources['zh-TW'].translation.station as Record<string, string>;
 Object.assign(stationDict, additionalStationZhTW);
+Object.assign(stationDict, seoulSubwayTranslationsZhTW);
 Object.entries(translations).forEach(([key, value]) => {
   if (!(key in stationDict)) stationDict[key] = value;
 });

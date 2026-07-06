@@ -12,6 +12,19 @@ export const japanRoutes: ScrapedRoute[] = [
   { origin: "Shin-Osaka", destination: "Tokyo" },
   { origin: "Nagoya", destination: "Shin-Osaka" },
   { origin: "Sendai", destination: "Tokyo" },
+  // Local Tokyo commuter lines (Yamanote Line, Chūō Line, etc.)
+  { origin: "Tokyo", destination: "Ikebukuro" },
+  { origin: "Ikebukuro", destination: "Tokyo" },
+  { origin: "Tokyo", destination: "Shinjuku" },
+  { origin: "Shinjuku", destination: "Tokyo" },
+  { origin: "Tokyo", destination: "Shibuya" },
+  { origin: "Shibuya", destination: "Tokyo" },
+  { origin: "Tokyo", destination: "Shinagawa" },
+  { origin: "Shinagawa", destination: "Tokyo" },
+  { origin: "Tokyo", destination: "Ueno" },
+  { origin: "Ueno", destination: "Tokyo" },
+  { origin: "Tokyo", destination: "Akihabara" },
+  { origin: "Akihabara", destination: "Tokyo" },
 ];
 
 export const koreaRoutes: ScrapedRoute[] = [

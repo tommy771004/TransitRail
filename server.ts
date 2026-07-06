@@ -49,6 +49,19 @@ app.use(express.json());
       }
       return res.json({ results: scraped, source: "scraped" });
     }
+
+    if (country === "korea") {
+      const { generateSeoulSubwayTimetable } = await import("./src/utils/seoulSubwayPathfinder");
+      const subwayResults = generateSeoulSubwayTimetable(origin, destination, date);
+      if (subwayResults && subwayResults.length > 0) {
+        let filtered = subwayResults;
+        if (typeof time === "string" && time.match(/^\d{2}:\d{2}$/)) {
+          filtered = subwayResults.filter(r => r.departureTime >= time);
+        }
+        return res.json({ results: filtered, source: "Seoul Metro Pathfinder" });
+      }
+    }
+
     return res.status(404).json({
       error: "No data available",
       message: `No scraped timetable data found for ${origin} → ${destination}. The daily scraper may not have covered this route yet.`,
