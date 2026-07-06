@@ -29,6 +29,10 @@ export function canonicalDay(results: TransitResult[]): TransitResult[] {
 }
 
 export class SnapshotScraper extends BaseScraper {
+  // Reads curated JSON (and ProviderBackedScraper calls a JSON API via fetch);
+  // neither drives a browser, so no Chromium launch.
+  protected readonly usesBrowser = false;
+
   constructor(
     readonly name: string,
     readonly country: string,

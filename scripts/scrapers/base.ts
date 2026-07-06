@@ -24,16 +24,22 @@ export abstract class BaseScraper implements ScraperAdapter {
 
   abstract scrape(route: ScrapedRoute, date: string, page: any): Promise<ScrapedRouteData>;
 
+  /** Live browser scrapers (Japan) set this true. Snapshot / provider-backed
+   *  scrapers read a curated file or call a JSON API, so they skip Chromium. */
+  protected readonly usesBrowser: boolean = true;
+
   async runAll(date: string, options: RunAllOptions = {}): Promise<ScrapedRouteData[]> {
-    const browser = await chromium.launch({ headless: true });
-    const context = await browser.newContext({
-      userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    });
+    const browser = this.usesBrowser ? await chromium.launch({ headless: true }) : null;
+    const context = browser
+      ? await browser.newContext({
+          userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        })
+      : null;
 
     const results: ScrapedRouteData[] = [];
     for (const route of this.routes) {
       console.log(`  ${this.country}: scraping ${route.origin} → ${route.destination}...`);
-      const page = await context.newPage();
+      const page = context ? await context.newPage() : undefined;
       try {
         const data = this.withResultDates(await this.scrape(route, date, page));
         results.push(data);
@@ -41,11 +47,11 @@ export abstract class BaseScraper implements ScraperAdapter {
       } catch (error) {
         console.error(`  ✗ ${route.origin} → ${route.destination} FAILED:`, error instanceof Error ? error.message : error);
       } finally {
-        await page.close().catch(() => {});
+        if (page) await page.close().catch(() => {});
       }
     }
 
-    await browser.close();
+    if (browser) await browser.close();
     return results;
   }
 

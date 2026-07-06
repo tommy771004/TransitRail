@@ -84,6 +84,25 @@ interface Seed {
     transferMin: number;
     leg2Min: number;
   };
+  /**
+   * Direct routes only. Cycle successive departures through these service/fare
+   * variants (e.g. KTX economy / KTX first / ITX) so the timetable isn't uniform.
+   * When set, each variant's service/price/durationMin/seatClass override the
+   * seed defaults for that departure.
+   */
+  variants?: Array<{ service: string; price: number; durationMin: number; seatClass?: "reserved" | "economy" | "first" }>;
+}
+
+// Korail: KTX standard fare (일반실) is the base; cycle economy / first (특실,
+// ~+40%) / a slower, cheaper ITX-Saemaeul across departures.
+function korailVariants(durationMin: number, price: number): Seed["variants"] {
+  const round100 = (n: number) => Math.round(n / 100) * 100;
+  return [
+    { service: "KTX", durationMin, price, seatClass: "economy" },
+    { service: "KTX", durationMin, price, seatClass: "economy" },
+    { service: "KTX", durationMin, price: round100(price * 1.4), seatClass: "first" },
+    { service: "ITX-Saemaeul", durationMin: Math.round(durationMin * 1.45), price: round100(price * 0.66), seatClass: "economy" },
+  ];
 }
 
 const SEEDS: Seed[] = [
@@ -121,6 +140,17 @@ const SEEDS: Seed[] = [
   { country: "france", origin: "Paris Gare du Nord", destination: "Lille Europe", code: "fr-pgn-lle", operator: "SNCF", service: "TGV inOui", currency: "EUR", price: 45, durationMin: 62, kind: "hsr" },
   // Germany ICE (DB) — EUR, intercity
   { country: "germany", origin: "Berlin Hbf", destination: "Munich Hbf", code: "de-ber-mun", operator: "DB", service: "ICE", currency: "EUR", price: 69.9, durationMin: 235, kind: "hsr" },
+  // Korea KTX (Korail) — KRW, intercity. Live Korail scraping is permanently
+  // bot-blocked, so these are curated. Prices are KTX standard (일반실) fares.
+  { country: "korea", origin: "Seoul (SNC)", destination: "Busan (BSN)", code: "kr-sel-bsn", operator: "Korail", service: "KTX", currency: "KRW", price: 59800, durationMin: 165, kind: "hsr", variants: korailVariants(165, 59800) },
+  { country: "korea", origin: "Seoul (SNC)", destination: "Mokpo", code: "kr-sel-mok", operator: "Korail", service: "KTX", currency: "KRW", price: 53300, durationMin: 135, kind: "hsr", variants: korailVariants(135, 53300) },
+  { country: "korea", origin: "Seoul (SNC)", destination: "Gangneung", code: "kr-sel-gng", operator: "Korail", service: "KTX", currency: "KRW", price: 27600, durationMin: 115, kind: "hsr", variants: korailVariants(115, 27600) },
+  { country: "korea", origin: "Seoul (SNC)", destination: "Yeosu-EXPO", code: "kr-sel-yeo", operator: "Korail", service: "KTX", currency: "KRW", price: 49600, durationMin: 195, kind: "hsr", variants: korailVariants(195, 49600) },
+  { country: "korea", origin: "Seoul (SNC)", destination: "Daejeon", code: "kr-sel-dae", operator: "Korail", service: "KTX", currency: "KRW", price: 24000, durationMin: 60, kind: "hsr", variants: korailVariants(60, 24000) },
+  { country: "korea", origin: "Seoul (SNC)", destination: "Gwangju-Songjeong", code: "kr-sel-gwa", operator: "Korail", service: "KTX", currency: "KRW", price: 46200, durationMin: 100, kind: "hsr", variants: korailVariants(100, 46200) },
+  { country: "korea", origin: "Busan (BSN)", destination: "Seoul (SNC)", code: "kr-bsn-sel", operator: "Korail", service: "KTX", currency: "KRW", price: 59800, durationMin: 165, kind: "hsr", variants: korailVariants(165, 59800) },
+  { country: "korea", origin: "Daejeon", destination: "Busan (BSN)", code: "kr-dae-bsn", operator: "Korail", service: "KTX", currency: "KRW", price: 37000, durationMin: 105, kind: "hsr", variants: korailVariants(105, 37000) },
+  { country: "korea", origin: "Yongsan", destination: "Mokpo", code: "kr-yon-mok", operator: "Korail", service: "KTX", currency: "KRW", price: 53300, durationMin: 135, kind: "hsr", variants: korailVariants(135, 53300) },
 ];
 
 // --- topology: real line data for deterministic interchange resolution -------
@@ -231,21 +261,23 @@ function generate(seed: Seed, res: Resolution): TransitResult[] {
   const startMin = seed.kind === "metro" ? 5 * 60 + 30 : 6 * 60;
   const endMin = seed.kind === "metro" ? 23 * 60 + 30 : 22 * 60;
   const tr = res.transfer;
-  const total = tr ? tr.leg1.min + tr.transferMin + tr.leg2.min : seed.durationMin;
 
   const out: TransitResult[] = [];
   for (const date of DATES) {
     let i = 0;
     for (let m = startMin; m <= endMin; m += step) {
+      // Variants (KTX economy/first/ITX etc.) apply to direct routes only.
+      const variant = !tr && seed.variants ? seed.variants[i % seed.variants.length] : null;
+      const dur = tr ? tr.leg1.min + tr.transferMin + tr.leg2.min : (variant ? variant.durationMin : seed.durationMin);
       const result: TransitResult = {
         id: `${date}-${seed.code}-${i}`,
         country: seed.country,
         operator: seed.operator,
-        service: seed.service,
+        service: variant ? variant.service : seed.service,
         departureTime: fmt(m),
-        arrivalTime: fmt(m + total),
-        durationMinutes: total,
-        price: seed.price,
+        arrivalTime: fmt(m + dur),
+        durationMinutes: dur,
+        price: variant ? variant.price : seed.price,
         currency: seed.currency,
         origin: seed.origin,
         destination: seed.destination,
@@ -253,6 +285,7 @@ function generate(seed: Seed, res: Resolution): TransitResult[] {
         stops: res.stops,
         date,
       };
+      if (variant?.seatClass) result.seatClass = variant.seatClass;
       if (tr) {
         const leg1Arr = m + tr.leg1.min;
         const leg2Dep = leg1Arr + tr.transferMin;
