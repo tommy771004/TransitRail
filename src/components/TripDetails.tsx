@@ -206,11 +206,11 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
           {/* Fare Comparison Section */}
           {hasPrice && (
             <div className="mb-6 rounded-3xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-              <div className="flex items-center justify-between gap-3 mb-4">
-                <div className="flex items-center gap-1.5 shrink-0">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+                <div className="flex items-center gap-1.5">
                   <span className="text-base select-none">🎫</span>
                   <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                    {t("result.fare_comparison", { defaultValue: "Fare Details Comparison" })}
+                    {t("result.fare_comparison", { defaultValue: "票價明細比較" })}
                   </h4>
                 </div>
                 
@@ -226,7 +226,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                     }`}
                   >
                     <Users className="h-3 w-3" />
-                    {t("result.by_passenger", { defaultValue: "By Passenger Type" })}
+                    {t("result.by_passenger", { defaultValue: "乘客票種" })}
                   </button>
                   <button
                     type="button"
@@ -238,7 +238,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                     }`}
                   >
                     <Armchair className="h-3 w-3" />
-                    {t("result.by_seat", { defaultValue: "By Seat Class" })}
+                    {t("result.by_seat", { defaultValue: "座位等級" })}
                   </button>
                 </div>
               </div>
@@ -248,19 +248,19 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                 <div className="grid grid-cols-3 gap-2">
                   <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
                     <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500">
-                      {t("result.ticket_adult", { defaultValue: "Adult Ticket" })}
+                      {t("result.ticket_adult", { defaultValue: "成人票" })}
                     </div>
                     <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
                       {displayFare(adultPrice)}
                     </div>
                     <div className="mt-0.5 text-[9px] text-emerald-600 dark:text-emerald-400 font-bold">
-                      {t("result.standard_rate", { defaultValue: "Standard Fare" })}
+                      {t("result.standard_rate", { defaultValue: "標準票價" })}
                     </div>
                   </div>
 
                   <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
                     <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500">
-                      {t("result.ticket_child", { defaultValue: "Child Ticket" })}
+                      {t("result.ticket_child", { defaultValue: "兒童票" })}
                     </div>
                     <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
                       {displayFare(childPrice)}
@@ -272,7 +272,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
 
                   <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
                     <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500">
-                      {t("result.ticket_senior", { defaultValue: "Senior Ticket" })}
+                      {t("result.ticket_senior", { defaultValue: "敬老/長者" })}
                     </div>
                     <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
                       {displayFare(seniorPrice)}
@@ -287,7 +287,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                 <div className="grid grid-cols-3 gap-2">
                   <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
                     <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 truncate">
-                      {t("result.seat_non_reserved", { defaultValue: "Non-Reserved / Regular" })}
+                      {t("result.seat_non_reserved", { defaultValue: "自由席/一般" })}
                     </div>
                     <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
                       {displayFare(nonReservedPrice)}
@@ -299,7 +299,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
 
                   <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40 ring-1 ring-emerald-500/30 dark:ring-emerald-500/20">
                     <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 truncate">
-                      {t("result.seat_reserved", { defaultValue: "Reserved / Designated" })}
+                      {t("result.seat_reserved", { defaultValue: "對號/指定席" })}
                     </div>
                     <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
                       {displayFare(reservedPrice)}
@@ -311,7 +311,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
 
                   <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
                     <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 truncate">
-                      {t("result.seat_premium", { defaultValue: "Business / Green Car" })}
+                      {t("result.seat_premium", { defaultValue: "商務/綠色車廂" })}
                     </div>
                     <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
                       {displayFare(firstClassPrice)}
@@ -327,7 +327,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
               <div className="mt-3 flex items-center gap-1.5 rounded-2xl bg-blue-50/50 p-2 text-[10px] text-blue-800/80 dark:bg-blue-950/20 dark:text-blue-400/80">
                 <Info className="h-3 w-3 shrink-0" />
                 <span>
-                  {t("result.fare_disclaimer", { defaultValue: "Actual fares may vary depending on date, class, optional insurance, or promotional schemes. Please refer to official booking systems." })}
+                  {t("result.fare_disclaimer", { defaultValue: "實際票價可能隨日期、班次、加購保險或特定優惠方案而異，請以官方購票系統為準。" })}
                 </span>
               </div>
             </div>
@@ -411,7 +411,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                       </div>
                       {item.platform && (
                         <div className="mt-1 font-mono text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                          {t("result.platform_label", { defaultValue: "Platform" })} {item.platform}
+                          Platform {item.platform}
                         </div>
                       )}
                     </div>
@@ -454,7 +454,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                               </h5>
                               {leg.headsign && (
                                 <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold mt-0.5">
-                                  {t("result.toward", { defaultValue: "toward" })} {stationLabel(t, leg.headsign, trip.country)}
+                                  {t("result.toward", { defaultValue: "toward" })} {leg.headsign}
                                 </p>
                               )}
                             </div>
@@ -464,7 +464,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                             {leg.durationMinutes != null && (
                               <span className="inline-flex items-center gap-1 font-mono text-[11px] font-bold text-slate-700 dark:text-slate-300">
                                 <Clock className="h-3 w-3 text-slate-400" />
-                                {leg.durationMinutes} {t("result.min_label", { defaultValue: "min" })}
+                                {leg.durationMinutes} min
                               </span>
                             )}
                             {leg.stopCount != null && (
@@ -531,10 +531,8 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                         <div className="flex items-center gap-1.5 text-xs font-black text-slate-700 dark:text-slate-300">
                           <ArrowRightLeft className="h-3.5 w-3.5 text-slate-400 shrink-0" />
                           <span>
-                            {t("result.transfer_at", { 
-                              station: stationLabel(t, item.stationName, trip.country),
-                              defaultValue: `Transfer at ${stationLabel(t, item.stationName, trip.country)}`
-                            })}
+                            {t("result.transfer_at", { defaultValue: "Transfer at" })}{" "}
+                            {stationLabel(t, item.stationName, trip.country)}
                           </span>
                         </div>
                         
@@ -542,12 +540,12 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                           {item.durationMinutes != null && (
                             <span className="inline-flex items-center gap-1">
                               <Clock className="h-3 w-3 text-slate-400" />
-                              {item.durationMinutes} {t("result.min_connection", { defaultValue: "min connection" })}
+                              {item.durationMinutes} min connection
                             </span>
                           )}
                           {item.arrivalPlatform && item.departurePlatform && (
                             <span className="text-slate-400">
-                              {t("result.plat_label", { defaultValue: "Plat" })} {item.arrivalPlatform} → {item.departurePlatform}
+                              Plat {item.arrivalPlatform} → {item.departurePlatform}
                             </span>
                           )}
                         </div>

@@ -1,21 +1,20 @@
-import { ArrowLeft, ChevronDown, Search, X, MapPin, Loader2, Navigation } from "lucide-react";
+import { ArrowLeft, ChevronDown, Search, X, MapPin, Loader2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import i18n from "../i18n";
-import { motion, AnimatePresence } from "motion/react";
-import { countryConfig, countryFlags, countryThemes } from "../data/countries";
+import { countryConfig, countryOptions, countryFlags } from "../data/countries";
 import type { Country, TransitLine } from "../types";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel } from "../utils/stationLabel";
-import { fuzzyMatch } from "../utils/fuzzy";
 
 interface StationBrowserProps {
   country: Country;
   target: "origin" | "destination";
   onBack: () => void;
-  onSelectStation: (station: string, autoFillDest?: string, lineId?: string) => void;
-  scrollToLineId?: string;
+  onCountryChange: (country: Country) => void;
+  onSelectStation: (station: string) => void;
 }
+
+type BrowserTab = "lines" | "all";
 
 const lineNoteKeys: Partial<Record<Country, string>> = {
   japan: "stations.note_japan",
@@ -27,13 +26,15 @@ export function StationBrowser({
   country,
   target,
   onBack,
+  onCountryChange,
   onSelectStation,
-  scrollToLineId,
 }: StationBrowserProps) {
   const { t } = useTranslation();
-  const theme = countryThemes[country] || countryThemes.japan;
-
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const handleSelectStation = (station: string) => {
+    triggerHaptic("medium");
+    onSelectStation(station);
+  };
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [stations, setStations] = useState<string[]>([]);
   const [lines, setLines] = useState<TransitLine[]>([]);
   const [query, setQuery] = useState("");
@@ -43,27 +44,6 @@ export function StationBrowser({
   const [linesFailed, setLinesFailed] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
-
-  const handleSelectStation = (station: string) => {
-    triggerHaptic("medium");
-    
-    let autoFillDest: string | undefined;
-    let selectedLineId: string | undefined;
-    
-    if (target === "origin") {
-      for (const line of lines) {
-        if (line.stations.some(s => s.name === station)) {
-          const first = line.stations[0].name;
-          const last = line.stations[line.stations.length - 1].name;
-          autoFillDest = (last === station) ? first : last;
-          selectedLineId = line.id;
-          break;
-        }
-      }
-    }
-    
-    onSelectStation(station, autoFillDest, selectedLineId);
-  };
 
   const handleUseLocation = () => {
     triggerHaptic("medium");
@@ -105,7 +85,6 @@ export function StationBrowser({
 
   useEffect(() => {
     let active = true;
-    setSelectedCategory("");
     const fetchStations = async () => {
       setIsLoading(true);
       setLoadFailed(false);
@@ -134,11 +113,7 @@ export function StationBrowser({
         const res = await fetch(`/api/transit/lines?country=${country}`);
         const data = await res.json();
         if (active && res.ok) {
-          const fetchedLines = data.lines || [];
-          setLines(fetchedLines);
-          if (fetchedLines.length > 0) {
-            setSelectedCategory(scrollToLineId || fetchedLines[0].id);
-          }
+          setLines(data.lines || []);
         } else if (active) {
           setLines([]);
           setLinesFailed(true);
@@ -165,136 +140,72 @@ export function StationBrowser({
     return map;
   }, [lines]);
 
-  const searching = query.trim().length > 0;
-
-  // Scroll the active category button into view when lines are loaded or target category changes
-  useEffect(() => {
-    if (selectedCategory && !searching && lines.length > 0) {
-      const timer = setTimeout(() => {
-        const el = document.getElementById(`line-btn-${selectedCategory}`);
-        if (el && el.scrollIntoView) {
-          el.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        }
-      }, 400); // Wait for modal animation
-      return () => clearTimeout(timer);
-    }
-  }, [selectedCategory, searching, lines.length]);
-
-  const localNameMap = useMemo(() => {
-    const map = new Map<string, string>();
-    for (const line of lines) {
-      for (const st of line.stations) {
-        if (st.localName) {
-          map.set(st.name, st.localName);
-        }
-      }
-    }
-    return map;
-  }, [lines]);
-
   const filteredStations = useMemo(() => {
     const value = query.trim().toLowerCase();
     if (!value) return stations;
-    
-    const tZh = i18n.getFixedT("zh-TW", "translation");
-    
     return stations.filter((station) => {
-      const primary = station.toLowerCase();
       const translated = stationLabel(t, station, country).toLowerCase();
-      const zhLabel = stationLabel(tZh, station, country).toLowerCase();
-      const localName = localNameMap.get(station)?.toLowerCase() || "";
-
-      return fuzzyMatch(value, primary) || 
-             fuzzyMatch(value, translated) || 
-             fuzzyMatch(value, zhLabel) || 
-             (localName && fuzzyMatch(value, localName));
+      return station.toLowerCase().includes(value) || translated.includes(value);
     });
-  }, [query, stations, t, country, localNameMap]);
+  }, [query, stations, t]);
 
+  const searching = query.trim().length > 0;
   const featured = countryConfig[country].featuredStations;
   const noteKey = lineNoteKeys[country];
 
-  // Animation variants
-  const backdropVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.3 } },
-  };
-
-  const sheetVariants = {
-    hidden: { y: "100%", opacity: 0.95 },
-    visible: { 
-      y: 0, 
-      opacity: 1, 
-      transition: { type: "spring", damping: 26, stiffness: 220, mass: 0.9 } 
-    },
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.03,
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 12 },
-    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 25 } }
-  };
-
   return (
-    <motion.div 
-      initial="hidden"
-      animate="visible"
-      exit="hidden"
-      variants={backdropVariants}
-      className="fixed inset-0 z-[80] flex items-end justify-center bg-slate-900/60 dark:bg-slate-950/75 backdrop-blur-sm sm:items-center sm:p-4"
-    >
-      <motion.section 
-        variants={sheetVariants}
-        className="relative flex h-[88vh] w-full flex-col overflow-hidden rounded-t-[32px] bg-white/95 dark:bg-[#060a13]/95 backdrop-blur-xl sm:h-[80vh] sm:max-w-md sm:rounded-[28px] border border-slate-200/50 dark:border-slate-800/60 shadow-[0_24px_64px_rgba(0,0,0,0.12)] dark:shadow-[0_24px_64px_rgba(0,0,0,0.4)]"
-      >
-        {/* Sleek Top Accent Lightbeam */}
-        <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-emerald-500/60 to-transparent`} />
-
-        {/* Swipe bar indicator */}
-        <div className="w-12 h-1.5 bg-slate-300/60 dark:bg-slate-700/50 mx-auto my-3 rounded-full shrink-0" />
-
-        <div className="shrink-0 border-b border-slate-100 dark:border-slate-800/50 px-5 pb-4">
-          <div className="mb-4 flex items-center gap-3">
+    <div className="fixed inset-0 z-[80] flex items-end justify-center bg-slate-900/60 backdrop-blur-sm sm:items-center sm:p-4">
+      <section className="flex h-[88vh] w-full flex-col overflow-hidden rounded-t-3xl bg-white sm:h-[80vh] sm:max-w-md sm:rounded-3xl dark:bg-slate-900">
+        <div className="shrink-0 border-b border-slate-200 p-4 dark:border-slate-700">
+          <div className="mb-3 flex items-center gap-3">
             <button
               onClick={() => {
                 triggerHaptic("light");
                 onBack();
               }}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-850 text-slate-700 dark:text-slate-300 hover:scale-105 active:scale-95 transition-all shadow-xs border border-slate-200/40 dark:border-slate-800/50"
+              className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
               aria-label={t("workflow.back")}
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
-            <div className="min-w-0 flex-1">
-              <h1 className="text-base font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
+            <div className="min-w-0">
+              <h1 className="text-base font-bold tracking-tight text-slate-900 dark:text-white">
                 {target === "origin" ? t("stations.pick_origin") : t("stations.pick_destination")}
               </h1>
-              <p className="truncate text-xs text-slate-400 dark:text-slate-500 font-medium mt-0.5 flex items-center gap-1">
-                <span className="text-sm leading-none">{countryFlags[country] || ""}</span>
-                <span className="font-semibold text-slate-600 dark:text-slate-400">{t(countryConfig[country].labelKey)}</span>
-                <span className="text-slate-300 dark:text-slate-700">•</span>
-                <span>{countryConfig[country].provider}</span>
+              <p className="truncate text-xs text-slate-500 dark:text-slate-400">
+                {countryConfig[country].provider}
               </p>
             </div>
           </div>
 
-          {/* Interactive Search Bar */}
-          <div className="relative flex items-center gap-2 rounded-2xl border border-slate-200/80 bg-slate-50/80 px-4 py-3 dark:border-slate-800/60 dark:bg-slate-900/60 focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500/50 dark:focus-within:ring-emerald-500/10 focus-within:bg-white dark:focus-within:bg-slate-950/80 transition-all duration-300 shadow-xs">
-            <Search className="h-4.5 w-4.5 text-slate-400 dark:text-slate-500 shrink-0 transition-colors group-focus-within:text-emerald-500" />
+          <div className="flex gap-2 overflow-x-auto no-scrollbar">
+            {countryOptions.map((item) => (
+              <button
+                key={item}
+                onClick={() => {
+                  triggerHaptic("light");
+                  onCountryChange(item);
+                  setQuery("");
+                  setSelectedCategory("all");
+                }}
+                className={`shrink-0 whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-bold transition-all ${
+                  country === item
+                    ? "bg-emerald-600 text-white shadow-[0_2px_6px_rgba(16,185,129,0.25)]"
+                    : "border border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+                }`}
+              >
+                {countryFlags[item] || ""} {t(countryConfig[item].labelKey)}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-3 flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 dark:border-slate-700 dark:bg-slate-800">
+            <Search className="h-4 w-4 text-slate-400 shrink-0" />
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder={t("stations.search_placeholder")}
-              className="w-full bg-transparent text-sm font-semibold text-slate-800 outline-none placeholder:text-slate-400 dark:text-slate-200 dark:placeholder:text-slate-600"
+              className="w-full bg-transparent text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400 dark:text-white dark:placeholder:text-slate-500"
             />
             {query && (
               <button
@@ -302,43 +213,40 @@ export function StationBrowser({
                   triggerHaptic("light");
                   setQuery("");
                 }}
-                className="p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                className="p-0.5"
               >
-                <X className="h-3.5 w-3.5" />
+                <X className="h-4 w-4 text-slate-400 hover:text-slate-600" />
               </button>
             )}
           </div>
 
-          {/* Location Geolocation Button */}
           {target === "origin" && (
             <div className="mt-3">
               <button
                 onClick={handleUseLocation}
                 disabled={isLocating}
-                className="relative overflow-hidden flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-indigo-500/10 py-3 text-sm font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 dark:border-emerald-500/30 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 shadow-sm group"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-50 py-2.5 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-100 disabled:opacity-50 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"
               >
-                {/* Premium Shine Effect */}
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shine" />
-                
                 {isLocating ? (
-                  <Loader2 className="h-4 w-4 animate-spin text-emerald-500" />
+                  <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
-                  <Navigation className="h-4 w-4 text-emerald-500 group-hover:rotate-12 transition-transform duration-300" />
+                  <MapPin className="h-4 w-4" />
                 )}
                 {isLocating ? t("stations.locating", "Locating...") : t("stations.use_current_location", "Use Current Location")}
               </button>
               {locationError && (
-                <p className="mt-2 text-center text-xs font-semibold text-red-500 dark:text-red-400">
+                <p className="mt-2 text-center text-xs text-red-600 dark:text-red-400">
                   {locationError}
                 </p>
               )}
             </div>
           )}
+
         </div>
 
         {noteKey && !searching && (
-          <div className="px-5 pb-1 pt-3">
-            <p className="rounded-2xl bg-amber-500/5 border border-amber-500/10 px-4 py-3 text-xs leading-relaxed text-amber-700 dark:text-amber-400/90">
+          <div className="px-4 pb-2">
+            <p className="rounded-xl bg-slate-50 px-4 py-2.5 text-xs leading-relaxed text-slate-500 dark:bg-slate-800 dark:text-slate-400">
               {t(noteKey)}
             </p>
           </div>
@@ -346,7 +254,7 @@ export function StationBrowser({
 
         <div className="flex flex-1 overflow-hidden">
           {searching ? (
-            <div className="w-full overflow-y-auto px-5 pb-12 pt-2">
+            <div className="w-full overflow-y-auto px-4 pb-12">
               <StationList
                 isLoading={isLoading}
                 loadFailed={loadFailed}
@@ -358,26 +266,45 @@ export function StationBrowser({
           ) : (
             <>
               {/* Left Column: Categories / Lines */}
-              <div className="w-[115px] sm:w-[135px] shrink-0 overflow-y-auto border-r border-slate-100 dark:border-slate-800/60 bg-slate-50/30 dark:bg-[#040810]/20 pb-12 pt-2">
+              <div className="w-[110px] sm:w-[130px] shrink-0 overflow-y-auto border-r border-slate-100 bg-white dark:border-slate-800 dark:bg-slate-900 pb-12 pt-2">
                 <ul className="space-y-1">
+                  <li>
+                    <button
+                      onClick={() => {
+                        triggerHaptic("light");
+                        setSelectedCategory("all");
+                      }}
+                      className={`group relative flex w-full flex-col justify-center px-4 py-3 text-left transition-colors ${
+                        selectedCategory === "all"
+                          ? "bg-blue-600 dark:bg-blue-600 rounded-full mx-2 w-[calc(100%-16px)]"
+                          : "hover:bg-slate-50 dark:hover:bg-slate-800"
+                      }`}
+                    >
+                      <span className={`block truncate text-sm font-bold ${selectedCategory === "all" ? "text-white" : "text-slate-700 dark:text-slate-300"}`}>
+                        {t("stations.tab_all")}
+                      </span>
+                      <span className={`mt-0.5 inline-flex w-fit items-center justify-center rounded-full px-1.5 py-0.5 text-[10px] font-bold leading-none ${selectedCategory === "all" ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 group-hover:bg-slate-200 dark:group-hover:bg-slate-700"}`}>
+                        {stations.length}
+                      </span>
+                    </button>
+                  </li>
                   {!linesLoading && !linesFailed && lines.map((line) => (
                     <li key={line.id}>
                       <button
-                        id={`line-btn-${line.id}`}
                         onClick={() => {
                           triggerHaptic("light");
                           setSelectedCategory(line.id);
                         }}
-                        className={`group relative flex w-full flex-col justify-center px-4 py-3.5 text-left transition-all ${
+                        className={`group relative flex w-full flex-col justify-center px-4 py-3 text-left transition-colors ${
                           selectedCategory === line.id
-                            ? `${theme.badgeBg} border-l-4 ${theme.borderActive} font-black rounded-r-xl`
-                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-100/50 dark:hover:bg-slate-800/40 hover:text-slate-900 dark:hover:text-slate-200"
+                            ? "bg-blue-600 dark:bg-blue-600 rounded-full mx-2 w-[calc(100%-16px)]"
+                            : "hover:bg-slate-50 dark:hover:bg-slate-800"
                         }`}
                       >
-                        <span className="block truncate text-xs font-bold leading-tight">
-                          {t(`line.${line.name}`, { defaultValue: line.name })}
+                        <span className={`block truncate text-sm font-bold ${selectedCategory === line.id ? "text-white" : "text-slate-700 dark:text-slate-300"}`}>
+                          {line.name}
                         </span>
-                        <span className="mt-1.5 inline-flex w-fit items-center justify-center rounded-full px-2 py-0.5 text-[9px] font-bold font-mono leading-none" style={{ backgroundColor: `${line.color}15`, color: line.color }}>
+                        <span className={`mt-0.5 inline-flex w-fit items-center justify-center rounded-full px-1.5 py-0.5 text-[10px] font-bold leading-none ${selectedCategory === line.id ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 group-hover:bg-slate-200 dark:group-hover:bg-slate-700"}`}>
                           {line.stations.length}
                         </span>
                       </button>
@@ -387,116 +314,81 @@ export function StationBrowser({
               </div>
 
               {/* Right Column: Stations */}
-              <div className="flex-1 overflow-y-auto px-4 pb-12 pt-2">
-                {linesLoading ? (
-                  <div className="py-12 flex flex-col items-center justify-center gap-3">
-                    <Loader2 className="h-6 w-6 animate-spin text-slate-400" />
-                    <p className="text-xs font-semibold text-slate-400 dark:text-slate-500">{t("stations.loading")}</p>
-                  </div>
-                ) : linesFailed || !selectedCategory ? (
-                  <div className="py-12 text-center">
-                    <p className="text-xs font-bold text-red-500 dark:text-red-400">{t("stations.unavailable")}</p>
-                  </div>
-                ) : (
+              <div className="flex-1 overflow-y-auto px-4 pb-12">
+                {selectedCategory === "all" ? (
                   <>
                     {featured.length > 0 && (
-                      <div className="mb-4">
-                        <div className="flex items-center gap-1.5 px-1 mb-2 text-[10px] font-bold tracking-wider text-slate-400 dark:text-slate-500 uppercase">
-                          <MapPin className="h-3 w-3 text-emerald-500" />
-                          <span>{t("stations.featured", "Popular Stations")}</span>
-                        </div>
-                        <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-                          {featured.map((station) => (
-                            <button
-                              key={station}
-                              onClick={() => handleSelectStation(station)}
-                              className="shrink-0 whitespace-nowrap rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-850 dark:hover:bg-slate-800 border border-slate-200/50 dark:border-slate-800/60 px-3 py-2 text-xs font-bold text-slate-700 dark:text-slate-300 hover:scale-105 active:scale-95 transition-all shadow-xs"
-                            >
-                              {stationLabel(t, station, country)}
-                            </button>
-                          ))}
-                        </div>
+                      <div className="mt-3 flex gap-2 overflow-x-auto no-scrollbar pb-1">
+                        {featured.map((station) => (
+                          <button
+                            key={station}
+                            onClick={() => handleSelectStation(station)}
+                            className="shrink-0 whitespace-nowrap rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                          >
+                            {stationLabel(t, station, country)}
+                          </button>
+                        ))}
                       </div>
                     )}
-                    <motion.ul 
-                      variants={containerVariants}
-                      initial="hidden"
-                      animate="visible"
-                      className="space-y-1"
-                    >
-                      {lines.find((l) => l.id === selectedCategory)?.stations.map((station, index, arr) => {
-                        const line = lines.find((l) => l.id === selectedCategory);
-                        const primaryLabel = stationLabel(t, station.name, country);
-                        
-                        let secondaryLabel: string | null = null;
-                        if (i18n.language === "zh-TW") {
-                          if (primaryLabel !== station.name) {
-                            secondaryLabel = station.name;
-                          }
-                        } else {
-                          const tZh = i18n.getFixedT("zh-TW", "translation");
-                          const zhLabel = stationLabel(tZh, station.name, country);
-                          if (zhLabel !== station.name) {
-                            secondaryLabel = zhLabel;
-                          }
-                        }
-
-                        return (
-                          <motion.li 
-                            key={`${station.name}-${index}`}
-                            variants={itemVariants}
-                          >
-                            <button
-                              onClick={() => handleSelectStation(station.name)}
-                              className="w-full flex items-center gap-3 px-3 py-3 rounded-2xl hover:bg-slate-100/40 dark:hover:bg-slate-800/40 text-left transition-all group"
-                            >
-                              <span className="flex w-2 shrink-0 flex-col items-center self-stretch">
-                                <span className={`w-[2px] flex-1 ${index === 0 ? "bg-transparent" : "bg-slate-200 dark:bg-slate-800"}`} />
-                                <span
-                                  className="h-2.5 w-2.5 rounded-full border-2 bg-white dark:bg-[#060a13] transition-transform duration-300 group-hover:scale-125"
-                                  style={{ borderColor: line?.color || "#10b981", boxShadow: `0 0 8px ${line?.color || "#10b981"}50` }}
-                                />
-                                <span className={`w-[2px] flex-1 ${index === arr.length - 1 ? "bg-transparent" : "bg-slate-200 dark:bg-slate-800"}`} />
-                              </span>
-                              <div className="flex-1 min-w-0 flex flex-col group-hover:translate-x-1 transition-transform">
-                                <span className="block truncate text-sm font-bold text-slate-800 dark:text-slate-100">
-                                  {primaryLabel}
-                                  {station.localName ? (
-                                    <span className="ml-2 text-xs font-semibold text-slate-400 dark:text-slate-500">{station.localName}</span>
-                                  ) : null}
-                                </span>
-                                {secondaryLabel && (
-                                  <span className="block truncate text-xs text-slate-400 dark:text-slate-500 font-semibold mt-0.5">
-                                    {secondaryLabel}
-                                  </span>
-                                )}
-                                {station.interchanges && station.interchanges.length > 0 && (
-                                  <span className="mt-1.5 flex flex-wrap items-center gap-1.5">
-                                    {station.interchanges.map((other) => (
-                                      <span key={other} className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-850 border border-slate-200/40 dark:border-slate-800/60 px-1.5 py-0.5 rounded-md">
-                                        <span
-                                          className="h-1.5 w-1.5 rounded-full shrink-0"
-                                          style={{ backgroundColor: lineColorByName.get(other) || "#94a3b8" }}
-                                        />
-                                        {t(`line.${other}`, { defaultValue: other })}
-                                      </span>
-                                    ))}
-                                  </span>
-                                )}
-                              </div>
-                            </button>
-                          </motion.li>
-                        );
-                      })}
-                    </motion.ul>
+                    <StationList
+                      isLoading={isLoading}
+                      loadFailed={loadFailed}
+                      stations={stations}
+                      country={country}
+                      onSelectStation={handleSelectStation}
+                    />
                   </>
+                ) : (
+                  <ul className="mt-1 divide-y divide-slate-100 dark:divide-slate-800">
+                    {lines.find((l) => l.id === selectedCategory)?.stations.map((station, index) => {
+                      const line = lines.find((l) => l.id === selectedCategory);
+                      return (
+                        <li key={`${station.name}-${index}`}>
+                          <button
+                            onClick={() => handleSelectStation(station.name)}
+                            className="flex w-full items-center gap-3 py-3 text-left hover:bg-slate-50 dark:hover:bg-slate-800"
+                          >
+                            <span className="flex w-1.5 shrink-0 flex-col items-center self-stretch">
+                              <span className={`w-px flex-1 ${index === 0 ? "bg-transparent" : "bg-slate-300 dark:bg-slate-600"}`} />
+                              <span
+                                className="h-2 w-2 rounded-full border-2 bg-white dark:bg-slate-900"
+                                style={{ borderColor: line?.color || "#94a3b8" }}
+                              />
+                              <span className={`w-px flex-1 ${index === (line?.stations.length || 0) - 1 ? "bg-transparent" : "bg-slate-300 dark:bg-slate-600"}`} />
+                            </span>
+                            <span className="min-w-0 flex-1 py-0.5">
+                              <span className="block truncate text-sm font-bold text-slate-900 dark:text-white">
+                                {stationLabel(t, station.name, country)}
+                                {station.localName ? (
+                                  <span className="ml-2 text-xs font-normal text-slate-400">{station.localName}</span>
+                                ) : null}
+                              </span>
+                              {station.interchanges && station.interchanges.length > 0 && (
+                                <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                                  {station.interchanges.map((other) => (
+                                    <span key={other} className="flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-400">
+                                      <span
+                                        className="h-1.5 w-1.5 rounded-full"
+                                        style={{ backgroundColor: lineColorByName.get(other) || "#94a3b8" }}
+                                      />
+                                      {other}
+                                    </span>
+                                  ))}
+                                </span>
+                              )}
+                            </span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 )}
               </div>
             </>
           )}
         </div>
-      </motion.section>
-    </motion.div>
+      </section>
+    </div>
   );
 }
 
@@ -515,87 +407,28 @@ function StationList({
 }) {
   const { t } = useTranslation();
   if (isLoading) {
-    return (
-      <div className="py-12 flex flex-col items-center justify-center gap-3">
-        <Loader2 className="h-6 w-6 animate-spin text-slate-400" />
-        <p className="text-xs font-semibold text-slate-400 dark:text-slate-500">{t("stations.loading")}</p>
-      </div>
-    );
+    return <p className="py-8 text-center text-sm text-slate-500 dark:text-slate-400">{t("stations.loading")}</p>;
   }
   if (loadFailed) {
-    return (
-      <div className="py-12 text-center">
-        <p className="text-xs font-bold text-red-500 dark:text-red-400">{t("stations.unavailable")}</p>
-      </div>
-    );
+    return <p className="py-8 text-center text-sm text-red-700 dark:text-red-400">{t("stations.unavailable")}</p>;
   }
   if (stations.length === 0) {
-    return (
-      <div className="py-12 text-center">
-        <p className="text-xs font-bold text-slate-400 dark:text-slate-500">{t("stations.none")}</p>
-      </div>
-    );
+    return <p className="py-8 text-center text-sm text-slate-500 dark:text-slate-400">{t("stations.none")}</p>;
   }
-
-  const listVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.02 } }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 25 } }
-  };
-
   return (
-    <motion.ul 
-      variants={listVariants}
-      initial="hidden"
-      animate="visible"
-      className="space-y-1"
-    >
-      {stations.map((station) => {
-        const primaryLabel = stationLabel(t, station, country);
-        
-        let secondaryLabel: string | null = null;
-        if (i18n.language === "zh-TW") {
-          if (primaryLabel !== station) {
-            secondaryLabel = station;
-          }
-        } else {
-          const tZh = i18n.getFixedT("zh-TW", "translation");
-          const zhLabel = stationLabel(tZh, station, country);
-          if (zhLabel !== station) {
-            secondaryLabel = zhLabel;
-          }
-        }
-
-        return (
-          <motion.li 
-            key={station}
-            variants={itemVariants}
+    <ul className="mt-1 divide-y divide-slate-100 dark:divide-slate-800">
+      {stations.map((station) => (
+        <li key={station}>
+          <button
+            onClick={() => onSelectStation(station)}
+            className="w-full py-3.5 text-left hover:bg-slate-50 dark:hover:bg-slate-800"
           >
-            <button
-              onClick={() => onSelectStation(station)}
-              className="w-full flex items-center justify-between px-3.5 py-3 rounded-2xl hover:bg-slate-100/40 dark:hover:bg-slate-800/40 text-left transition-all group"
-            >
-              <div className="flex flex-col min-w-0 group-hover:translate-x-1 transition-transform">
-                <span className="block truncate text-sm font-bold text-slate-800 dark:text-slate-100">
-                  {primaryLabel}
-                </span>
-                {secondaryLabel && (
-                  <span className="block truncate text-xs text-slate-400 dark:text-slate-500 font-semibold mt-0.5">
-                    {secondaryLabel}
-                  </span>
-                )}
-              </div>
-              <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <ChevronDown className="h-4 w-4 -rotate-90 text-slate-400" />
-              </span>
-            </button>
-          </motion.li>
-        );
-      })}
-    </motion.ul>
+            <span className="block truncate text-sm font-bold text-slate-900 dark:text-white">
+              {stationLabel(t, station, country)}
+            </span>
+          </button>
+        </li>
+      ))}
+    </ul>
   );
 }

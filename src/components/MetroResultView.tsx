@@ -5,7 +5,6 @@ import type { TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
 import { triggerHaptic } from "../utils/haptics";
 import { WeatherWidget } from "./WeatherWidget";
-import { stationLabel } from "../utils/stationLabel";
 
 interface MetroResultViewProps {
   origin: string;
@@ -125,7 +124,7 @@ export function MetroResultView({
                       <div className="min-w-0">
                         <p className="truncate text-sm font-bold text-slate-900 dark:text-white">{trip.service}</p>
                         <p className="truncate text-xs text-slate-500 dark:text-slate-400">
-                          {t("metro.towards", { destination: stationLabel(t, trip.headsign || destination, trip.country) })}
+                          {t("metro.towards", { destination: trip.headsign || destination })}
                         </p>
                       </div>
                       <span className="flex shrink-0 items-center gap-1.5 text-[11px] font-bold text-emerald-700 dark:text-emerald-400">

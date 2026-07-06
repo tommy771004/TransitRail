@@ -78,9 +78,9 @@ export function SearchForm({
     { country: "hong_kong", origin: "Central", destination: "Tsuen Wan", label: t("hot_routes.central_tsuenwan", { defaultValue: "中環 ➔ 荃灣" }) },
     { country: "singapore", origin: "Jurong East", destination: "Raffles Place", label: t("hot_routes.jurong_raffles", { defaultValue: "裕廊東 ➔ 萊佛士坊" }) },
     { country: "china", origin: "Beijing South", destination: "Shanghai Hongqiao", label: t("hot_routes.beijing_shanghai", { defaultValue: "北京南 ➔ 上海虹橋" }) },
-    { country: "thailand", origin: "Siam", destination: "Mo Chit", label: t("hot_routes.siam_mochit", { defaultValue: "暹羅 ➔ 蒙奇" }) },
+    { country: "thailand", origin: "Siam", destination: "Sukhumvit", label: t("hot_routes.siam_sukhumvit", { defaultValue: "暹羅 ➔ 蘇坤蔚" }) },
     { country: "united_kingdom", origin: "King's Cross St. Pancras Underground Station", destination: "Oxford Circus Underground Station", label: t("hot_routes.kings_oxford", { defaultValue: "國王十字 ➔ 牛津圓環" }) },
-    { country: "united_states", origin: "South Station", destination: "Harvard", label: t("hot_routes.south_harvard", { defaultValue: "南站 ➔ 哈佛" }) },
+    { country: "united_states", origin: "South Station", destination: "Back Bay", label: t("hot_routes.south_backbay", { defaultValue: "南站 ➔ 後灣" }) },
     { country: "germany", origin: "Berlin Hbf", destination: "Munich Hbf", label: t("hot_routes.berlin_munich", { defaultValue: "柏林 ➔ 慕尼黑" }) },
     { country: "france", origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu", label: t("hot_routes.paris_lyon", { defaultValue: "巴黎 ➔ 里昂" }) }
   ], [t]);
@@ -217,12 +217,7 @@ export function SearchForm({
             </div>
           )}
           <div className="relative p-6">
-            <div className="relative flex items-center justify-between gap-1">
-              {/* Animated Journey Connection Path */}
-              <div className="absolute left-[18%] right-[18%] top-[35%] h-[2px] bg-slate-100 dark:bg-slate-800/60 -translate-y-1/2 pointer-events-none overflow-hidden rounded-full">
-                <div className={`absolute top-0 bottom-0 w-12 bg-gradient-to-r from-transparent via-emerald-500 to-transparent dark:via-emerald-400 animate-travel-pulse`} />
-              </div>
-
+            <div className="flex items-center justify-between gap-1">
               <button
                 type="button"
                 onClick={() => {
@@ -230,7 +225,7 @@ export function SearchForm({
                   onOpenStations("origin");
                 }}
                 aria-label={origin ? `${t("search.origin")}: ${stationLabel(t, origin, country)}` : t("search.select_origin", { defaultValue: "Select Departure Station" })}
-                className="flex flex-1 flex-col items-center group focus:outline-none py-2 rounded-2xl hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors z-10"
+                className="flex flex-1 flex-col items-center group focus:outline-none py-2 rounded-2xl hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors"
               >
                 <div className={`mb-1.5 flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider transition-colors duration-300 ${theme.textActive} opacity-70`}>
                   <MapPin className="h-3 w-3" />
@@ -244,7 +239,7 @@ export function SearchForm({
                 </div>
               </button>
 
-              <div className="relative z-20 flex shrink-0 items-center justify-center px-1">
+              <div className="relative z-10 flex shrink-0 items-center justify-center px-1">
                 <button
                   type="button"
                   onClick={swapStations}
@@ -262,7 +257,7 @@ export function SearchForm({
                   onOpenStations("destination");
                 }}
                 aria-label={destination ? `${t("search.destination")}: ${stationLabel(t, destination, country)}` : t("search.select_dest", { defaultValue: "Select Destination Station" })}
-                className="flex flex-1 flex-col items-center group focus:outline-none py-2 rounded-2xl hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors z-10"
+                className="flex flex-1 flex-col items-center group focus:outline-none py-2 rounded-2xl hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors"
               >
                 <div className={`mb-1.5 flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider transition-colors duration-300 ${theme.textActive} opacity-70`}>
                   <MapPin className="h-3 w-3" />
