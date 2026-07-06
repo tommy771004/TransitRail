@@ -3,19 +3,175 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Rail Nation - Global train routes and transit schedules. Find the best transit options worldwide." />
-    <meta name="keywords" content="train, transit, routes, schedules, subway, railway, global transit, Rail Nation" />
+
+    <!-- Primary SEO Meta Tags -->
+    <title>Rail Nation — Global Train &amp; Transit Route Finder | Japan, Korea, UK, US &amp; More</title>
+    <meta name="description" content="Search real-time train schedules, routes, and fares across 10+ countries — Japan (Shinkansen), South Korea (KTX), Hong Kong MTR, London TfL, Boston MBTA, Germany DB, France SNCF, and more. Free, no registration required." />
+    <meta name="keywords" content="train schedule, transit route finder, shinkansen, KTX, TfL, MBTA, Japan train, Korea rail, Hong Kong MTR, Germany DB, France SNCF, international train, global transit, real-time departure, subway schedule, railway planner" />
     <meta name="author" content="Rail Nation" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://rail-national.vercel.app/" />
+
+    <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="6KE8Qp5p0dXMp1etepmmhRmw7fG_SRwVuBampfeCL5M" />
-    <!-- GEO Meta Tags (Defaulting to Taiwan based on app settings, but these are general tags) -->
+
+    <!-- Geo Meta Tags -->
     <meta name="geo.region" content="TW" />
     <meta name="geo.placename" content="Taipei" />
     <meta name="geo.position" content="25.0330;121.5654" />
     <meta name="ICBM" content="25.0330, 121.5654" />
-    
-    <title>Rail Nation</title>
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rail-national.vercel.app/" />
+    <meta property="og:site_name" content="Rail Nation" />
+    <meta property="og:title" content="Rail Nation — Global Train &amp; Transit Route Finder" />
+    <meta property="og:description" content="Search real-time train schedules, routes, and fares across Japan, South Korea, Hong Kong, UK, US, Germany, France, Singapore, Thailand, and China. Free, no registration." />
+    <meta property="og:image" content="https://rail-national.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Rail Nation — Global Train Route Finder showing search interface with country selection" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="zh_TW" />
+
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@RailNationApp" />
+    <meta name="twitter:title" content="Rail Nation — Global Train &amp; Transit Route Finder" />
+    <meta name="twitter:description" content="Real-time train schedules across Japan, Korea, Hong Kong MTR, London TfL, Boston MBTA, Germany DB, France SNCF and more. Free, no sign-up." />
+    <meta name="twitter:image" content="https://rail-national.vercel.app/og-image.png" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://rail-national.vercel.app/#website",
+          "url": "https://rail-national.vercel.app/",
+          "name": "Rail Nation",
+          "description": "Free global train and public transit timetable search. Real-time schedules across Japan, South Korea, Hong Kong, UK, US, Germany, France, Singapore, Thailand and China.",
+          "inLanguage": ["en", "zh-TW"],
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://rail-national.vercel.app/?origin={origin}&destination={destination}"
+            },
+            "query-input": "required name=origin required name=destination"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://rail-national.vercel.app/#app",
+          "name": "Rail Nation",
+          "description": "Rail Nation is a free cross-border train and public transit timetable search app. It integrates official railway and metro networks across 10 countries: Japan (Jorudan/ODPT), South Korea (Korail), Singapore (LTA), Thailand (BTS/MRT), Hong Kong (MTR), United Kingdom (TfL), United States (MBTA), Germany (DB), France (SNCF), and China (12306).",
+          "url": "https://rail-national.vercel.app/",
+          "applicationCategory": "TravelApplication",
+          "operatingSystem": "Web, iOS, Android",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "featureList": [
+            "Real-time train departure schedules",
+            "International route planning",
+            "Multi-country transit search",
+            "Shinkansen schedule lookup",
+            "KTX South Korea rail search",
+            "Hong Kong MTR live arrivals",
+            "London TfL journey planner",
+            "Boston MBTA real-time predictions",
+            "Germany DB timetable search",
+            "France SNCF schedule lookup",
+            "Smart transfer planning",
+            "Fare comparison across seat classes",
+            "No registration required",
+            "Available in English and Traditional Chinese"
+          ],
+          "areaServed": [
+            "Japan", "South Korea", "China", "Singapore", "Thailand",
+            "Hong Kong", "United Kingdom", "United States", "Germany", "France"
+          ],
+          "availableLanguage": ["English", "Chinese Traditional"],
+          "isAccessibleForFree": true,
+          "provider": {
+            "@type": "Organization",
+            "@id": "https://rail-national.vercel.app/#organization",
+            "name": "Rail Nation",
+            "url": "https://rail-national.vercel.app/"
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://rail-national.vercel.app/#organization",
+          "name": "Rail Nation",
+          "url": "https://rail-national.vercel.app/",
+          "description": "Rail Nation provides a free, ad-free global public transit search platform integrating official transit data from 10 countries.",
+          "knowsAbout": [
+            "Train schedules", "Public transit", "Railway timetables",
+            "Shinkansen", "KTX", "MTR", "TfL", "MBTA", "Deutsche Bahn", "SNCF"
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://rail-national.vercel.app/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What countries does Rail Nation support?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Rail Nation supports train and transit searches in 10 countries: Japan (Shinkansen via Jorudan), South Korea (KTX via Korail), China (high-speed rail via 12306), Singapore (MRT via LTA), Thailand (BTS/MRT), Hong Kong (MTR live arrivals), United Kingdom (TfL London transit), United States (Boston MBTA), Germany (Deutsche Bahn DB), and France (SNCF)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is Rail Nation free to use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, Rail Nation is completely free. There are no ads, no subscription fees, and no registration required. It is an open transit search tool designed for travelers planning cross-border journeys."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does Rail Nation show real-time train schedules?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Rail Nation integrates official transit provider APIs to deliver real-time or near real-time departure data. Live data is available for Hong Kong MTR, London TfL, and Boston MBTA. Japan, Korea, Germany, France, and China provide scheduled timetable data with fare information."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I search for a Shinkansen train in Japan?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Select Japan as your country, enter your origin station (e.g., Tokyo) and destination (e.g., Shin-Osaka), pick a travel date, and tap Search. Rail Nation will return available Shinkansen and express train options with departure times, durations, transfer information, and fare classes (Unreserved, Reserved, Green Car)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I search for Seoul Metro and KTX in South Korea?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Rail Nation covers both Seoul Metro (lines 1–9) and KTX/SRT high-speed rail across South Korea. Select Korea, enter your origin and destination stations, and choose a date to see available trains with fare options."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What transit data sources does Rail Nation use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Rail Nation integrates official and authoritative transit data: Japan (Jorudan + ODPT open data), South Korea (Korail ODsay API), Singapore (LTA DataMall), Thailand (BTS/MRT), Hong Kong (MTR Next Train API), United Kingdom (TfL Unified API), United States (MBTA V3 API), Germany (Deutsche Bahn DB API Marketplace), France (SNCF Navitia API), and China (12306). All schedules and fares reflect official operator data."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
     <script>
       (function(){try{var s=localStorage.getItem('transitrail.theme');if(s==='dark'){document.documentElement.classList.add('dark');}else if(!s&&window.matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.classList.add('dark');}}catch(e){}})();
     </script>
