@@ -14,7 +14,17 @@
  */
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "fs";
 import { resolve } from "path";
-import type { Country, TransitResult } from "../src/types";
+import type { Country, TransitLine, TransitResult } from "../src/types";
+import { planJourney, type PlannerLine } from "./lib/transferPlanner";
+import { llmResolveTransfer } from "./lib/llmTransfer";
+import {
+  singaporeMrtLines,
+  thailandTransitLines,
+  chinaRailLines,
+  germanyRailLines,
+  franceRailLines,
+} from "../src/data/metroLines";
+import { newCountryStationLists } from "../src/data/scraped/stations";
 
 const DATA_DIR = resolve("src/data/scraped");
 
@@ -110,15 +120,106 @@ const SEEDS: Seed[] = [
   { country: "germany", origin: "Berlin Hbf", destination: "Munich Hbf", code: "de-ber-mun", operator: "DB", service: "ICE", currency: "EUR", price: 69.9, durationMin: 235, kind: "hsr" },
 ];
 
-function generate(seed: Seed): TransitResult[] {
+// --- topology: real line data for deterministic interchange resolution -------
+const adaptLines = (lines: TransitLine[]): PlannerLine[] =>
+  lines.map((l) => ({ name: l.name, stations: l.stations.map((s) => s.name) }));
+
+const PLANNER_LINES: Partial<Record<Country, PlannerLine[]>> = {
+  singapore: adaptLines(singaporeMrtLines),
+  thailand: adaptLines(thailandTransitLines),
+  china: adaptLines(chinaRailLines),
+  germany: adaptLines(germanyRailLines),
+  france: adaptLines(franceRailLines),
+};
+
+// Station names per country, used to validate an LLM-proposed interchange.
+function stationList(country: Country): string[] {
+  const fromLines = (PLANNER_LINES[country] || []).flatMap((l) => l.stations);
+  const fromCurated = newCountryStationLists[country] || [];
+  return Array.from(new Set([...fromCurated, ...fromLines]));
+}
+
+interface Resolution {
+  direct: boolean;
+  stops: string[];
+  transfer?: {
+    interchange: string;
+    leg1: { line: string; stops: string[]; min: number };
+    leg2: { line: string; stops: string[]; min: number };
+    transferMin: number;
+  };
+  source: "topology-direct" | "topology-transfer" | "curated-transfer" | "llm-transfer" | "assumed-direct";
+  note?: string;
+}
+
+/**
+ * Decide a route's real shape: prefer deterministic topology; fall back to the
+ * curated transfer (optionally refined by the LLM gap-filler when a key is set)
+ * where the static line data can't resolve the interchange.
+ */
+async function resolveRouting(seed: Seed): Promise<Resolution> {
+  const lines = PLANNER_LINES[seed.country];
+  const topo = lines ? planJourney(lines, seed.origin, seed.destination) : null;
+
+  if (seed.transfer) {
+    // Curated as a transfer — topology usually can't resolve these (branch
+    // stations, cross-network interchanges under different names, no static
+    // topology). Try the LLM gap-filler; else keep the curated interchange.
+    const c = seed.transfer;
+    let plan = { interchange: c.interchange, leg1Line: c.leg1Line, leg2Line: c.leg2Line, leg1Min: c.leg1Min, transferMin: c.transferMin, leg2Min: c.leg2Min };
+    let source: Resolution["source"] = "curated-transfer";
+    const llm = await llmResolveTransfer(seed.country, seed.origin, seed.destination, stationList(seed.country), seed.durationMin);
+    if (llm) { plan = llm; source = "llm-transfer"; }
+    const note = topo && topo.direct
+      ? `topology said direct (${topo.hops} hops) but the branch/cross-network data is unreliable here — kept ${source === "llm-transfer" ? "LLM" : "curated"} transfer`
+      : undefined;
+    return {
+      direct: false,
+      stops: [seed.origin, plan.interchange, seed.destination],
+      transfer: {
+        interchange: plan.interchange,
+        leg1: { line: plan.leg1Line, stops: [seed.origin, plan.interchange], min: plan.leg1Min },
+        leg2: { line: plan.leg2Line, stops: [plan.interchange, seed.destination], min: plan.leg2Min },
+        transferMin: plan.transferMin,
+      },
+      source,
+      note,
+    };
+  }
+
+  // Curated as direct.
+  if (topo && topo.direct) {
+    return { direct: true, stops: topo.legs[0].stops, source: "topology-direct" };
+  }
+  if (topo && !topo.direct) {
+    // Topology found a transfer we hadn't curated — trust it; split minutes by hops.
+    const h1 = topo.legs[0].stops.length - 1;
+    const h2 = topo.legs[1].stops.length - 1;
+    const transferMin = 5;
+    const ride = Math.max(seed.durationMin - transferMin, h1 + h2);
+    const leg1Min = Math.max(1, Math.round((ride * h1) / (h1 + h2)));
+    return {
+      direct: false,
+      stops: [...topo.legs[0].stops, ...topo.legs[1].stops.slice(1)],
+      transfer: {
+        interchange: topo.interchange!,
+        leg1: { line: topo.legs[0].line, stops: topo.legs[0].stops, min: leg1Min },
+        leg2: { line: topo.legs[1].line, stops: topo.legs[1].stops, min: ride - leg1Min },
+        transferMin,
+      },
+      source: "topology-transfer",
+    };
+  }
+  // No static topology (UK/US) — trust the curated direct classification.
+  return { direct: true, stops: [seed.origin, seed.destination], source: "assumed-direct" };
+}
+
+function generate(seed: Seed, res: Resolution): TransitResult[] {
   const step = seed.kind === "metro" ? 10 : 30;
   const startMin = seed.kind === "metro" ? 5 * 60 + 30 : 6 * 60;
   const endMin = seed.kind === "metro" ? 23 * 60 + 30 : 22 * 60;
-
-  const tr = seed.transfer;
-  if (tr && tr.leg1Min + tr.transferMin + tr.leg2Min !== seed.durationMin) {
-    throw new Error(`${seed.code}: leg times (${tr.leg1Min}+${tr.transferMin}+${tr.leg2Min}) != durationMin ${seed.durationMin}`);
-  }
+  const tr = res.transfer;
+  const total = tr ? tr.leg1.min + tr.transferMin + tr.leg2.min : seed.durationMin;
 
   const out: TransitResult[] = [];
   for (const date of DATES) {
@@ -130,23 +231,23 @@ function generate(seed: Seed): TransitResult[] {
         operator: seed.operator,
         service: seed.service,
         departureTime: fmt(m),
-        arrivalTime: fmt(m + seed.durationMin),
-        durationMinutes: seed.durationMin,
+        arrivalTime: fmt(m + total),
+        durationMinutes: total,
         price: seed.price,
         currency: seed.currency,
         origin: seed.origin,
         destination: seed.destination,
-        direct: !tr,
-        stops: tr ? [seed.origin, tr.interchange, seed.destination] : [seed.origin, seed.destination],
+        direct: res.direct,
+        stops: res.stops,
         date,
       };
       if (tr) {
-        const leg1Arr = m + tr.leg1Min;
+        const leg1Arr = m + tr.leg1.min;
         const leg2Dep = leg1Arr + tr.transferMin;
         result.transferStations = [tr.interchange];
         result.legs = [
-          { lineName: tr.leg1Line, origin: seed.origin, destination: tr.interchange, departureTime: fmt(m), arrivalTime: fmt(leg1Arr), durationMinutes: tr.leg1Min },
-          { lineName: tr.leg2Line, origin: tr.interchange, destination: seed.destination, departureTime: fmt(leg2Dep), arrivalTime: fmt(leg2Dep + tr.leg2Min), durationMinutes: tr.leg2Min },
+          { lineName: tr.leg1.line, origin: seed.origin, destination: tr.interchange, departureTime: fmt(m), arrivalTime: fmt(leg1Arr), durationMinutes: tr.leg1.min, stopCount: tr.leg1.stops.length - 1 },
+          { lineName: tr.leg2.line, origin: tr.interchange, destination: seed.destination, departureTime: fmt(leg2Dep), arrivalTime: fmt(leg2Dep + tr.leg2.min), durationMinutes: tr.leg2.min, stopCount: tr.leg2.stops.length - 1 },
         ];
       }
       out.push(result);
@@ -176,6 +277,11 @@ const COUNTRIES = readdirSync(DATA_DIR).filter((entry) =>
   statSync(resolve(DATA_DIR, entry)).isDirectory(),
 );
 
+// Resolve each seed's real routing shape up-front (topology + optional LLM
+// gap-fill). Done once here, not per departure.
+const resolutions = new Map<string, Resolution>();
+for (const seed of SEEDS) resolutions.set(seed.code, await resolveRouting(seed));
+
 const seededSlugs: string[] = [];
 let dedupedRows = 0;
 let seededRows = 0;
@@ -203,7 +309,7 @@ for (const country of COUNTRIES) {
     if (seed) {
       const isSeedData = results.length === 0 || results.every((r) => baseId(r.id).startsWith(`${seed.code}-`));
       if (isSeedData) {
-        results = generate(seed);
+        results = generate(seed, resolutions.get(seed.code)!);
         seeded = true;
         seededRows += results.length;
         seededSlugs.push(`${country}/${file}`);
@@ -253,4 +359,18 @@ for (const country of COUNTRIES) {
 console.log(`\nDone. Deduped ${dedupedRows} duplicate rows; seeded ${seededSlugs.length} empty files (${seededRows} rows).`);
 if (seededSlugs.length !== SEEDS.length) {
   console.warn(`⚠ Expected to seed ${SEEDS.length} files but seeded ${seededSlugs.length} — some empty files did not match a seed entry (check origin/destination spelling).`);
+}
+
+console.log("\nRouting reconciliation (how each route's shape was decided):");
+const gaps: string[] = [];
+for (const seed of SEEDS) {
+  const r = resolutions.get(seed.code)!;
+  const shape = r.direct ? "direct" : `transfer@${r.transfer!.interchange}`;
+  console.log(`  [${r.source}] ${seed.country} ${seed.origin}→${seed.destination}: ${shape}${r.note ? ` — ${r.note}` : ""}`);
+  if (r.source === "curated-transfer") gaps.push(`${seed.country} ${seed.origin}→${seed.destination}`);
+}
+if (gaps.length > 0 && !process.env.OPENROUTER_API_KEY) {
+  console.log(`\n${gaps.length} transfer route(s) fell back to curated interchanges (topology could not resolve them).`);
+  console.log("Set OPENROUTER_API_KEY to let the LLM gap-filler (scripts/lib/llmTransfer.ts) refine them:");
+  gaps.forEach((g) => console.log(`  - ${g}`));
 }
