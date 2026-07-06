@@ -60,16 +60,31 @@ interface Seed {
   price: number;
   durationMin: number;
   kind: "metro" | "hsr";
+  /**
+   * Present only for journeys that require changing lines. leg1Min + transferMin
+   * + leg2Min must equal durationMin. Direct journeys omit this and get a single
+   * [origin, destination] hop.
+   */
+  transfer?: {
+    interchange: string;
+    leg1Line: string;
+    leg2Line: string;
+    leg1Min: number;
+    transferMin: number;
+    leg2Min: number;
+  };
 }
 
 const SEEDS: Seed[] = [
   // Singapore MRT (LTA) — SGD, high-frequency metro
-  { country: "singapore", origin: "Changi Airport", destination: "Jurong East", code: "sg-cha-jur", operator: "SMRT", service: "East West Line", currency: "SGD", price: 2.30, durationMin: 55, kind: "metro" },
+  { country: "singapore", origin: "Changi Airport", destination: "Jurong East", code: "sg-cha-jur", operator: "SMRT", service: "East West Line", currency: "SGD", price: 2.30, durationMin: 55, kind: "metro",
+    transfer: { interchange: "Tanah Merah", leg1Line: "East West Line (Changi Branch)", leg2Line: "East West Line", leg1Min: 8, transferMin: 4, leg2Min: 43 } },
   { country: "singapore", origin: "HarbourFront", destination: "Punggol", code: "sg-hbf-pun", operator: "SBS Transit", service: "North East Line", currency: "SGD", price: 1.99, durationMin: 33, kind: "metro" },
   { country: "singapore", origin: "Jurong East", destination: "Raffles Place", code: "sg-jur-raf", operator: "SMRT", service: "East West Line", currency: "SGD", price: 1.79, durationMin: 32, kind: "metro" },
   { country: "singapore", origin: "Woodlands", destination: "Orchard", code: "sg-wdl-orc", operator: "SMRT", service: "North South Line", currency: "SGD", price: 2.09, durationMin: 38, kind: "metro" },
   // Bangkok BTS/MRT — THB, high-frequency metro
-  { country: "thailand", origin: "Mo Chit", destination: "Hua Lamphong", code: "th-moc-hua", operator: "BTS/MRT", service: "Sukhumvit + Blue Line", currency: "THB", price: 42, durationMin: 28, kind: "metro" },
+  { country: "thailand", origin: "Mo Chit", destination: "Hua Lamphong", code: "th-moc-hua", operator: "BTS/MRT", service: "BTS Sukhumvit → MRT Blue", currency: "THB", price: 42, durationMin: 28, kind: "metro",
+    transfer: { interchange: "Sukhumvit", leg1Line: "BTS Sukhumvit Line", leg2Line: "MRT Blue Line", leg1Min: 14, transferMin: 5, leg2Min: 9 } },
   { country: "thailand", origin: "Siam", destination: "Mo Chit", code: "th-sia-moc", operator: "BTS", service: "Sukhumvit Line", currency: "THB", price: 33, durationMin: 14, kind: "metro" },
   { country: "thailand", origin: "Siam", destination: "Saphan Taksin", code: "th-sia-sap", operator: "BTS", service: "Silom Line", currency: "THB", price: 30, durationMin: 12, kind: "metro" },
   { country: "thailand", origin: "Sukhumvit", destination: "Hua Lamphong", code: "th-suk-hua", operator: "MRT", service: "Blue Line", currency: "THB", price: 33, durationMin: 16, kind: "metro" },
@@ -79,7 +94,8 @@ const SEEDS: Seed[] = [
   { country: "china", origin: "Guangzhou South", destination: "Shenzhen North", code: "cn-gzs-szn", operator: "China Railway", service: "High-Speed Rail (G)", currency: "CNY", price: 75, durationMin: 32, kind: "hsr" },
   { country: "china", origin: "Shanghai Hongqiao", destination: "Hangzhou East", code: "cn-shq-hze", operator: "China Railway", service: "High-Speed Rail (G)", currency: "CNY", price: 73, durationMin: 60, kind: "hsr" },
   // Boston MBTA — USD, flat-fare metro/light rail
-  { country: "united_states", origin: "Harvard", destination: "Logan International Airport", code: "us-har-log", operator: "MBTA", service: "Red Line + Silver Line", currency: "USD", price: 2.40, durationMin: 42, kind: "metro" },
+  { country: "united_states", origin: "Harvard", destination: "Logan International Airport", code: "us-har-log", operator: "MBTA", service: "Red Line → Silver Line", currency: "USD", price: 2.40, durationMin: 42, kind: "metro",
+    transfer: { interchange: "South Station", leg1Line: "Red Line", leg2Line: "Silver Line SL1", leg1Min: 18, transferMin: 6, leg2Min: 18 } },
   { country: "united_states", origin: "Park Street", destination: "Andrew", code: "us-prk-and", operator: "MBTA", service: "Red Line", currency: "USD", price: 2.40, durationMin: 11, kind: "metro" },
   { country: "united_states", origin: "Park Street", destination: "Boston College", code: "us-prk-bos", operator: "MBTA", service: "Green Line B", currency: "USD", price: 2.40, durationMin: 38, kind: "metro" },
   { country: "united_states", origin: "South Station", destination: "Harvard", code: "us-sth-har", operator: "MBTA", service: "Red Line", currency: "USD", price: 2.40, durationMin: 14, kind: "metro" },
@@ -98,11 +114,17 @@ function generate(seed: Seed): TransitResult[] {
   const step = seed.kind === "metro" ? 10 : 30;
   const startMin = seed.kind === "metro" ? 5 * 60 + 30 : 6 * 60;
   const endMin = seed.kind === "metro" ? 23 * 60 + 30 : 22 * 60;
+
+  const tr = seed.transfer;
+  if (tr && tr.leg1Min + tr.transferMin + tr.leg2Min !== seed.durationMin) {
+    throw new Error(`${seed.code}: leg times (${tr.leg1Min}+${tr.transferMin}+${tr.leg2Min}) != durationMin ${seed.durationMin}`);
+  }
+
   const out: TransitResult[] = [];
   for (const date of DATES) {
     let i = 0;
     for (let m = startMin; m <= endMin; m += step) {
-      out.push({
+      const result: TransitResult = {
         id: `${date}-${seed.code}-${i}`,
         country: seed.country,
         operator: seed.operator,
@@ -114,10 +136,20 @@ function generate(seed: Seed): TransitResult[] {
         currency: seed.currency,
         origin: seed.origin,
         destination: seed.destination,
-        direct: true,
-        stops: [seed.origin, seed.destination],
+        direct: !tr,
+        stops: tr ? [seed.origin, tr.interchange, seed.destination] : [seed.origin, seed.destination],
         date,
-      });
+      };
+      if (tr) {
+        const leg1Arr = m + tr.leg1Min;
+        const leg2Dep = leg1Arr + tr.transferMin;
+        result.transferStations = [tr.interchange];
+        result.legs = [
+          { lineName: tr.leg1Line, origin: seed.origin, destination: tr.interchange, departureTime: fmt(m), arrivalTime: fmt(leg1Arr), durationMinutes: tr.leg1Min },
+          { lineName: tr.leg2Line, origin: tr.interchange, destination: seed.destination, departureTime: fmt(leg2Dep), arrivalTime: fmt(leg2Dep + tr.leg2Min), durationMinutes: tr.leg2Min },
+        ];
+      }
+      out.push(result);
       i += 1;
     }
   }
@@ -163,11 +195,14 @@ for (const country of COUNTRIES) {
     const removed = before - results.length;
     if (removed > 0) dedupedRows += removed;
 
-    // 2) seed if empty and we have a curated timetable for it
+    // 2) (re)seed curated routes: fill empty files, and refresh files that
+    //    already hold seed-generated data so format changes (e.g. transfer
+    //    legs) propagate. Never overwrites real scraped data (different ids).
     let seeded = false;
-    if (results.length === 0) {
-      const seed = findSeed(country, data.origin, data.destination);
-      if (seed) {
+    const seed = findSeed(country, data.origin, data.destination);
+    if (seed) {
+      const isSeedData = results.length === 0 || results.every((r) => baseId(r.id).startsWith(`${seed.code}-`));
+      if (isSeedData) {
         results = generate(seed);
         seeded = true;
         seededRows += results.length;
