@@ -19,6 +19,8 @@ import { getMbtaLines, getMbtaStations } from "./src/server/mbta";
 import { findScrapedResults, loadScrapedData } from "./src/data/scraped";
 import { getCbcRates } from "./src/server/cbc";
 import type { TransitLine } from "./src/types";
+import { db } from "./src/db";
+import { feedbacks } from "./src/db/schema";
 
 dotenv.config();
 
@@ -28,6 +30,62 @@ const app = express();
 
 loadScrapedData();
 app.use(express.json());
+
+  async function getLinesForCountry(country: string): Promise<TransitLine[]> {
+    if (country === "japan") {
+      return japanRailLines;
+    }
+    if (country === "korea") {
+      return seoulSubwayLines;
+    }
+    if (country === "singapore") {
+      return singaporeMrtLines;
+    }
+    if (country === "thailand") {
+      return thailandTransitLines;
+    }
+    if (country === "china") {
+      return chinaRailLines;
+    }
+    if (country === "germany") {
+      return germanyRailLines;
+    }
+    if (country === "france") {
+      return franceRailLines;
+    }
+    if (country === "hong_kong") {
+      return hongKongMtrLineCatalog.map((line) => ({
+        id: line.code,
+        name: line.name,
+        color: line.color,
+        stations: line.stations.map((station) => {
+          const others = (mtrInterchanges.get(station.name) || []).filter((code) => code !== line.code);
+          const names = others
+            .map((code) => hongKongMtrLineCatalog.find((entry) => entry.code === code)?.name)
+            .filter((name): name is string => Boolean(name));
+          return {
+            name: station.name,
+            interchanges: names.length > 0 ? names : undefined,
+          };
+        }),
+      }));
+    }
+    if (country === "united_kingdom") {
+      try {
+        return await getTflLines();
+      } catch {
+        return [];
+      }
+    }
+    if (country === "united_states") {
+      try {
+        return await getMbtaLines();
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  }
 
   // Search API. It never fabricates schedules; providers must be wired before
   // result cards can be rendered.
@@ -49,6 +107,36 @@ app.use(express.json());
       }
       return res.json({ results: scraped, source: "scraped" });
     }
+
+    if (country === "korea") {
+      const { generateSeoulSubwayTimetable } = await import("./src/utils/seoulSubwayPathfinder");
+      const subwayResults = generateSeoulSubwayTimetable(origin, destination, date);
+      if (subwayResults && subwayResults.length > 0) {
+        let filtered = subwayResults;
+        if (typeof time === "string" && time.match(/^\d{2}:\d{2}$/)) {
+          filtered = subwayResults.filter(r => r.departureTime >= time);
+        }
+        return res.json({ results: filtered, source: "Seoul Metro Pathfinder" });
+      }
+    }
+
+    try {
+      const countryLines = await getLinesForCountry(country as string);
+      if (countryLines && countryLines.length > 0) {
+        const { generateFallbackTimetable } = await import("./src/utils/fallbackPathfinder");
+        const fallbackResults = generateFallbackTimetable(countryLines, origin, destination, date, country as string);
+        if (fallbackResults && fallbackResults.length > 0) {
+          let filtered = fallbackResults;
+          if (typeof time === "string" && time.match(/^\d{2}:\d{2}$/)) {
+            filtered = fallbackResults.filter(r => r.departureTime >= time);
+          }
+          return res.json({ results: filtered, source: "Dynamic Pathfinder Fallback" });
+        }
+      }
+    } catch (e) {
+      console.error("[search] Fallback pathfinder failed:", e);
+    }
+
     return res.status(404).json({
       error: "No data available",
       message: `No scraped timetable data found for ${origin} → ${destination}. The daily scraper may not have covered this route yet.`,
@@ -298,6 +386,33 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
   });
 
   // AI Planning Endpoint with High Thinking Level
+  app.post("/api/feedbacks", async (req, res) => {
+    try {
+      const { category, content, contact, latitude, longitude, county, district, locationMethod } = req.body;
+      if (!category || !content) {
+        return res.status(400).json({ error: "Category and content are required." });
+      }
+      if (!process.env.DATABASE_URL) {
+        console.warn("DATABASE_URL is not set. Skipping DB insertion for feedback.");
+        return res.json({ success: true });
+      }
+      await db.insert(feedbacks).values({
+        category,
+        content,
+        contact,
+        latitude,
+        longitude,
+        county,
+        district,
+        locationMethod,
+      });
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Failed to save feedback", error);
+      res.status(500).json({ error: "Failed to save feedback." });
+    }
+  });
+
   app.post("/api/ai-plan", async (req, res) => {
     try {
       if (!ai) {

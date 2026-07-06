@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Cloud, Sun, CloudRain, Snowflake, AlertCircle, Loader2 } from "lucide-react";
+import type { Country } from "../types";
+import { stationLabel } from "../utils/stationLabel";
 
 interface WeatherWidgetProps {
   destination: string;
   date: string;
+  country?: Country;
 }
 
 interface WeatherData {
@@ -13,7 +16,7 @@ interface WeatherData {
   code: number;
 }
 
-export function WeatherWidget({ destination, date }: WeatherWidgetProps) {
+export function WeatherWidget({ destination, date, country }: WeatherWidgetProps) {
   const { t } = useTranslation();
   const [data, setData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -111,7 +114,7 @@ export function WeatherWidget({ destination, date }: WeatherWidgetProps) {
       {loading ? (
         <div className="flex items-center gap-2 text-slate-400">
           <Loader2 className="h-4 w-4 animate-spin" />
-          <span className="text-xs font-medium">Forecast...</span>
+          <span className="text-xs font-medium">{t("result.forecast_loading", { defaultValue: "Forecast..." })}</span>
         </div>
       ) : data ? (
         <>
@@ -120,7 +123,7 @@ export function WeatherWidget({ destination, date }: WeatherWidgetProps) {
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-xs font-bold text-slate-900 dark:text-white">
-              {destination} Forecast
+              {t("result.forecast_title", { station: stationLabel(t, destination, country), defaultValue: `${stationLabel(t, destination, country)} Forecast` })}
             </p>
             <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">
               {data.temp}°C • {t(`weather.${data.description.toLowerCase().replace(" ", "_")}`, { defaultValue: data.description })}

@@ -1,6 +1,6 @@
 export type Country = "japan" | "korea" | "hong_kong" | "united_kingdom" | "united_states" | "singapore" | "thailand" | "germany" | "france" | "china";
 
-export type AppView = "search" | "results" | "stations" | "history" | "saved" | "alerts" | "workflow" | "legend";
+export type AppView = "search" | "results" | "stations" | "history" | "saved" | "alerts" | "workflow" | "legend" | "feedback";
 
 export type CurrencyDisplayMode = "original" | "converted" | "both";
 

@@ -1,4 +1,5 @@
 import { X, Activity } from "lucide-react";
+import { motion } from "motion/react";
 
 interface DiagnosticOverlayProps {
   diagnostic: any;
@@ -8,8 +9,22 @@ interface DiagnosticOverlayProps {
 export function DiagnosticOverlay({ diagnostic, onClose }: DiagnosticOverlayProps) {
   if (!diagnostic) return null;
   return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-      <div className="w-full max-w-2xl max-h-[80vh] flex flex-col rounded-2xl bg-white shadow-xl dark:bg-slate-900">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4"
+      onClick={onClose}
+    >
+      <motion.div 
+        initial={{ scale: 0.94, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.94, opacity: 0, y: 15 }}
+        transition={{ type: "spring", damping: 28, stiffness: 280, mass: 0.8 }}
+        className="w-full max-w-2xl max-h-[80vh] flex flex-col rounded-2xl bg-white shadow-2xl dark:bg-slate-900"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4 dark:border-slate-700">
           <div className="flex items-center gap-2">
             <Activity className="h-5 w-5 text-slate-500 dark:text-slate-400" />
@@ -63,7 +78,7 @@ export function DiagnosticOverlay({ diagnostic, onClose }: DiagnosticOverlayProp
             </pre>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

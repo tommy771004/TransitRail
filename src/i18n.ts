@@ -1,15 +1,17 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import translations from './data/translations.json';
+import { additionalStationZhTW } from './data/stationTranslations';
+import { seoulSubwayTranslationsZhTW } from './data/seoulSubwayTranslations';
 
 const resources = {
   en: {
     translation: {
       header: {
-        title: "Rail National",
+        title: "Rail Nation",
         open_menu: "Open menu",
         switch_language: "Switch language",
-        open_profile: "Open profile"
+        open_profile: "Open Setting"
       },
       nav: {
         primary: "Primary navigation",
@@ -80,7 +82,13 @@ const resources = {
         lines_unavailable: "The line catalog is unavailable.",
         note_japan: "Major stops only. The full station list arrives with the ODPT adapter.",
         note_korea: "Seoul Metro lines 1-9. KTX and other stations are in the all-stations list.",
-        note_united_states: "Subway and light rail lines. Commuter rail stations are in the all-stations list."
+        note_united_states: "Subway and light rail lines. Commuter rail stations are in the all-stations list.",
+        featured: "Popular Stations",
+        locating: "Locating...",
+        use_current_location: "Use Current Location",
+        geolocation_unsupported: "Geolocation is not supported by your browser.",
+        location_error: "Could not determine nearest station.",
+        location_permission_denied: "Location access denied or failed."
       },
       workflow: {
         title: "Data workflow",
@@ -126,7 +134,39 @@ const resources = {
         fare_unavailable: "Fare unavailable",
         transfer: "Transfer",
         transfer_at: "Transfer at {{station}}",
-        next_at_interchange: "Next from {{station}}"
+        next_at_interchange: "Next from {{station}}",
+        hide_details: "Hide details",
+        show_details: "Trip details & timeline",
+        fare_comparison: "Fare Details Comparison",
+        by_passenger: "By Passenger Type",
+        by_seat: "By Seat Class",
+        ticket_adult: "Adult Ticket",
+        standard_rate: "Standard Fare",
+        ticket_child: "Child Ticket",
+        ticket_senior: "Senior Ticket",
+        seat_non_reserved: "Non-Reserved / Regular",
+        seat_reserved: "Reserved / Designated",
+        seat_premium: "Business / Green Car",
+        fare_disclaimer: "Actual fares may vary depending on date, class, optional insurance, or promotional schemes. Please refer to official booking systems.",
+        toward: "toward",
+        next_departures: "Upcoming departures",
+        platform_label: "Platform",
+        plat_label: "Plat",
+        min_connection: "min connection",
+        min_label: "min",
+        forecast_title: "{{station}} Forecast",
+        forecast_loading: "Forecast..."
+      },
+      weather: {
+        clear: "Clear",
+        partly_cloudy: "Partly Cloudy",
+        fog: "Fog",
+        rain: "Rain",
+        snow: "Snow",
+        showers: "Showers",
+        snow_showers: "Snow Showers",
+        storm: "Storm",
+        unknown: "Unknown"
       },
       metro: {
         live_mtr: "Official MTR live data",
@@ -177,14 +217,35 @@ const resources = {
         trip_saved: "Trip saved",
         seat_selected: "Seat preference saved"
       },
+      feedback: {
+        title: "Feedback",
+        description: "With your help, we can do better! If you encounter any system errors or have new feature suggestions, please feel free to fill out the form to let us know.",
+        category: "Feedback Category",
+        category_feature: "Feature Request",
+        category_bug: "System Bug",
+        category_ui: "UI/UX Improvement",
+        category_other: "Other",
+        content: "Feedback Content *",
+        content_placeholder: "Please describe the problem you encountered or your suggestions and ideas...",
+        contact: "Contact (Optional)",
+        contact_placeholder: "Email, LINE ID or other contact methods",
+        submit: "Submit Feedback",
+        success: "Thank you for your feedback!",
+        success_title: "Submitted Successfully!",
+        close_btn: "Close",
+        chars_remaining: "{{count}} characters remaining",
+        error: "Failed to submit feedback. Please try again later."
+      },
       menu: {
         title: "Menu",
-        new_search: "New search"
+        new_search: "New search",
+        feedback: "Feedback"
       },
       profile: {
-        title: "Profile",
+        title: "Setting",
         guest: "Guest traveler",
         local_only: "History and saved trips stay on this device.",
+        preferred_region: "Preferred Region",
         timezone: "Timezone",
         local_currency: "Local Currency",
         price_display: "Price Display",
@@ -248,6 +309,7 @@ const resources = {
         first: "First class",
         confirm: "Save preference"
       },
+      line: {},
       station: {
         "Tokyo": "Tokyo",
         "Shinagawa": "Shinagawa",
@@ -338,10 +400,10 @@ const resources = {
   'zh-TW': {
     translation: {
       header: {
-        title: "Rail Nation",
+        title: "國際地鐵查詢",
         open_menu: "開啟選單",
         switch_language: "切換語言",
-        open_profile: "開啟個人資料"
+        open_profile: "開啟個人設定"
       },
       nav: {
         primary: "主要導覽",
@@ -412,7 +474,13 @@ const resources = {
         lines_unavailable: "目前無法讀取路線目錄。",
         note_japan: "僅列出主要停靠站，完整站點將隨 ODPT adapter 提供。",
         note_korea: "首爾地鐵 1-9 號線；KTX 與其他車站請見全部車站。",
-        note_united_states: "地鐵與輕軌路線；通勤鐵路車站請見全部車站。"
+        note_united_states: "地鐵與輕軌路線；通勤鐵路車站請見全部車站。",
+        featured: "熱門車站",
+        locating: "正在取得定位...",
+        use_current_location: "使用目前位置",
+        geolocation_unsupported: "您的瀏覽器不支援取得地理位置。",
+        location_error: "無法確定最近的車站。",
+        location_permission_denied: "拒絕提供位置存取權限，或定位失敗。"
       },
       workflow: {
         title: "資料流程",
@@ -458,7 +526,39 @@ const resources = {
         fare_unavailable: "未提供票價",
         transfer: "轉乘",
         transfer_at: "於{{station}}轉乘",
-        next_at_interchange: "{{station}} 目前下一班"
+        next_at_interchange: "{{station}} 目前下一班",
+        hide_details: "隱藏詳細資訊",
+        show_details: "行程詳細資訊與時間軸",
+        fare_comparison: "票價明細比較",
+        by_passenger: "乘客票種",
+        by_seat: "座位等級",
+        ticket_adult: "成人票",
+        standard_rate: "標準票價",
+        ticket_child: "兒童票",
+        ticket_senior: "敬老/長者",
+        seat_non_reserved: "自由席/一般",
+        seat_reserved: "對號/指定席",
+        seat_premium: "商務/綠色車廂",
+        fare_disclaimer: "實際票價可能隨日期、班次、加購保險或特定優惠方案而異，請以官方購票系統為準。",
+        toward: "往",
+        next_departures: "後續班次",
+        platform_label: "月台",
+        plat_label: "月台",
+        min_connection: "分鐘轉乘時間",
+        min_label: "分鐘",
+        forecast_title: "{{station}}天氣預報",
+        forecast_loading: "正在載入天氣..."
+      },
+      weather: {
+        clear: "晴朗",
+        partly_cloudy: "多雲",
+        fog: "濃霧",
+        rain: "降雨",
+        snow: "降雪",
+        showers: "陣雨",
+        snow_showers: "陣雪",
+        storm: "暴風雨",
+        unknown: "未知"
       },
       metro: {
         live_mtr: "MTR 官方即時資料",
@@ -509,14 +609,35 @@ const resources = {
         trip_saved: "已儲存行程",
         seat_selected: "已儲存座位偏好"
       },
+      feedback: {
+        title: "意見回饋",
+        description: "在您的協助下，我們能做得更好！如果您遇到任何系統錯誤或有新功能建議，歡迎隨時填寫表單通知我們。",
+        category: "回饋類別",
+        category_feature: "功能建議",
+        category_bug: "系統錯誤",
+        category_ui: "介面優化",
+        category_other: "其它",
+        content: "回饋內容 *",
+        content_placeholder: "請描述您遇到的問題或您的建議與想法...",
+        contact: "聯絡方式 (選填)",
+        contact_placeholder: "電子信箱、LINE ID 或其它聯絡管道",
+        submit: "送出意見回饋",
+        success: "感謝您的意見回饋！",
+        success_title: "提交成功！",
+        close_btn: "關閉",
+        chars_remaining: "剩餘 {{count}} 字",
+        error: "意見回饋送出失敗，請稍後再試。"
+      },
       menu: {
         title: "選單",
-        new_search: "新的搜尋"
+        new_search: "新的搜尋",
+        feedback: "意見回饋"
       },
       profile: {
-        title: "個人資料",
+        title: "個人設定",
         guest: "訪客旅人",
         local_only: "搜尋紀錄與儲存行程會保留在這台裝置。",
+        preferred_region: "偏好地區",
         timezone: "時區",
         local_currency: "本地幣別",
         price_display: "票價顯示",
@@ -579,6 +700,81 @@ const resources = {
         aisle: "走道",
         first: "頭等艙",
         confirm: "儲存偏好"
+      },
+      line: {
+        // Japan
+        "Tōkaidō Shinkansen": "東海道新幹線",
+        "San'yō Shinkansen": "山陽新幹線",
+        "Kyūshū Shinkansen": "九州新幹線",
+        "Nishi-Kyūshū Shinkansen": "西九州新幹線",
+        "Tōhoku Shinkansen": "東北新幹線",
+        "Hokkaidō Shinkansen": "北海道新幹線",
+        "Hokuriku Shinkansen": "北陸新幹線",
+        "Jōetsu Shinkansen": "上越新幹線",
+        "Yamagata Shinkansen": "山形新幹線",
+        "Akita Shinkansen": "秋田新幹線",
+        "Yamanote Line": "山手線",
+        "Chūō Line (Rapid)": "中央線快速",
+        "Sōbu Line (Local)": "總武緩行線",
+        "Keihin-Tōhoku Line": "京濱東北線",
+        "Tōkaidō Line": "東海道線",
+        "Yokosuka Line": "橫須賀線",
+        // Korea
+        "Line 1": "1 號線",
+        "Line 2": "2 號線",
+        "Line 3": "3 號線",
+        "Line 4": "4 號線",
+        "Line 5": "5 號線",
+        "Line 6": "6 號線",
+        "Line 7": "7 號線",
+        "Line 8": "8 號線",
+        "Line 9": "9 號線",
+        "Line 2 (Seongsu Branch)": "2 號線 (聖水支線)",
+        "Line 2 (Sinjeong Branch)": "2 號線 (新亭支線)",
+        "Line 5 (Macheon Branch)": "5 號線 (馬川支線)",
+        // Singapore
+        "North South Line": "南北線",
+        "East West Line": "東西線",
+        "North East Line": "東北線",
+        "Circle Line": "環線",
+        "Downtown Line": "濱海市區線",
+        "Thomson–East Coast Line": "湯申-東海岸線",
+        // Bangkok
+        "BTS Sukhumvit Line": "BTS 蘇坤蔚線",
+        "BTS Silom Line": "BTS 席隆線",
+        "MRT Blue Line": "MRT 藍線",
+        "MRT Purple Line": "MRT 紫線",
+        "Airport Rail Link": "機場鐵路聯絡線",
+        // China
+        "Beijing–Shanghai HSR": "京滬高鐵",
+        "Beijing–Guangzhou HSR": "京廣高鐵",
+        "Shanghai–Kunming HSR": "滬昆高鐵",
+        "Zhengzhou–Xi'an HSR": "鄭西高鐵",
+        "Guangzhou–Shenzhen–Hong Kong HSR": "廣深港高鐵",
+        "Chengdu–Chongqing HSR": "成渝高鐵",
+        // Germany
+        "ICE Berlin–München": "ICE 柏林-慕尼黑",
+        "ICE Hamburg–München": "ICE 漢堡-慕尼黑",
+        "ICE Berlin–Rhein/Ruhr": "ICE 柏林-萊茵/魯爾",
+        "ICE Köln–Freiburg": "ICE 科隆-弗萊堡",
+        "ICE Bremen–Dresden": "ICE 不來梅-德勒斯登",
+        "ICE Berlin–Hamburg": "ICE 柏林-漢堡",
+        // France
+        "LGV Sud-Est / Méditerranée": "LGV 東南線 / 地中海線",
+        "LGV Nord": "LGV 北線",
+        "LGV Est": "LGV 東線",
+        "LGV Atlantique": "LGV 大西洋線",
+        // Hong Kong
+        "East Rail Line": "東鐵綫",
+        "Tsuen Wan Line": "荃灣綫",
+        "Island Line": "港島綫",
+        "Kwun Tong Line": "觀塘綫",
+        "Tseung Kwan O Line": "將軍澳綫",
+        "Tung Chung Line": "東涌綫",
+        "Airport Express": "機場快綫",
+        "Disneyland Resort Line": "迪士尼綫",
+        "South Island Line": "南港島綫",
+        "Tuen Ma Line": "屯馬綫"
       },
       station: {
         "Tokyo": "東京",
@@ -1021,6 +1217,8 @@ const resources = {
 // Curated entries above win: the generated file shares keys across countries
 // (e.g. MBTA "Central" vs MTR "Central" 中環) and must not clobber them.
 const stationDict = resources['zh-TW'].translation.station as Record<string, string>;
+Object.assign(stationDict, additionalStationZhTW);
+Object.assign(stationDict, seoulSubwayTranslationsZhTW);
 Object.entries(translations).forEach(([key, value]) => {
   if (!(key in stationDict)) stationDict[key] = value;
 });

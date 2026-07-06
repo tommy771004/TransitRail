@@ -1,4 +1,4 @@
-import { ArrowLeftRight, CalendarDays, DatabaseZap, Star, Search, MapPin, History, ChevronDown, Loader2 } from "lucide-react";
+import { ArrowLeftRight, CalendarDays, DatabaseZap, Star, Search, MapPin, History, ChevronDown, Loader2, Navigation } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { countryConfig, countryOptions, providerDateValue, countryThemes, countryFlags } from "../data/countries";
@@ -71,6 +71,62 @@ export function SearchForm({
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [aiResult, setAiResult] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [isDetectingCountry, setIsDetectingCountry] = useState(false);
+  const [detectError, setDetectError] = useState<string | null>(null);
+
+  const handleAutoDetectCountry = () => {
+    triggerHaptic("medium");
+    if (!navigator.geolocation) {
+      setDetectError(t("stations.geolocation_unsupported", { defaultValue: "Geolocation is not supported by your browser." }));
+      return;
+    }
+    setIsDetectingCountry(true);
+    setDetectError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        // Centers of supported countries
+        const countryCenters: Record<Country, { lat: number; lng: number }> = {
+          japan: { lat: 36.2048, lng: 138.2529 },
+          korea: { lat: 35.9078, lng: 127.7669 },
+          hong_kong: { lat: 22.3193, lng: 114.1694 },
+          singapore: { lat: 1.3521, lng: 103.8198 },
+          thailand: { lat: 15.8700, lng: 100.9925 },
+          united_kingdom: { lat: 55.3781, lng: -3.4360 },
+          united_states: { lat: 37.0902, lng: -95.7129 },
+          germany: { lat: 51.1657, lng: 10.4515 },
+          france: { lat: 46.2276, lng: 2.2137 },
+          china: { lat: 35.8617, lng: 104.1954 },
+        };
+
+        let closestCountry: Country = "japan";
+        let minDistance = Infinity;
+
+        for (const [c, center] of Object.entries(countryCenters)) {
+          const dist = Math.pow(latitude - center.lat, 2) + Math.pow(longitude - center.lng, 2);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestCountry = c as Country;
+          }
+        }
+
+        triggerHaptic("success");
+        onChange({
+          origin: "",
+          destination: "",
+          date: providerDateValue(closestCountry),
+          country: closestCountry,
+        });
+        setIsDetectingCountry(false);
+      },
+      (error) => {
+        setDetectError(t("stations.location_permission_denied", { defaultValue: "Location access denied or failed." }));
+        setIsDetectingCountry(false);
+      },
+      { enableHighAccuracy: false, timeout: 5000, maximumAge: 300000 }
+    );
+  };
 
   const hotRoutes = useMemo(() => [
     { country: "japan", origin: "Tokyo", destination: "Shin-Osaka", label: t("hot_routes.tokyo_osaka", { defaultValue: "東京 ➔ 新大阪" }) },
@@ -78,9 +134,9 @@ export function SearchForm({
     { country: "hong_kong", origin: "Central", destination: "Tsuen Wan", label: t("hot_routes.central_tsuenwan", { defaultValue: "中環 ➔ 荃灣" }) },
     { country: "singapore", origin: "Jurong East", destination: "Raffles Place", label: t("hot_routes.jurong_raffles", { defaultValue: "裕廊東 ➔ 萊佛士坊" }) },
     { country: "china", origin: "Beijing South", destination: "Shanghai Hongqiao", label: t("hot_routes.beijing_shanghai", { defaultValue: "北京南 ➔ 上海虹橋" }) },
-    { country: "thailand", origin: "Siam", destination: "Sukhumvit", label: t("hot_routes.siam_sukhumvit", { defaultValue: "暹羅 ➔ 蘇坤蔚" }) },
+    { country: "thailand", origin: "Siam", destination: "Mo Chit", label: t("hot_routes.siam_mochit", { defaultValue: "暹羅 ➔ 蒙奇" }) },
     { country: "united_kingdom", origin: "King's Cross St. Pancras Underground Station", destination: "Oxford Circus Underground Station", label: t("hot_routes.kings_oxford", { defaultValue: "國王十字 ➔ 牛津圓環" }) },
-    { country: "united_states", origin: "South Station", destination: "Back Bay", label: t("hot_routes.south_backbay", { defaultValue: "南站 ➔ 後灣" }) },
+    { country: "united_states", origin: "South Station", destination: "Harvard", label: t("hot_routes.south_harvard", { defaultValue: "南站 ➔ 哈佛" }) },
     { country: "germany", origin: "Berlin Hbf", destination: "Munich Hbf", label: t("hot_routes.berlin_munich", { defaultValue: "柏林 ➔ 慕尼黑" }) },
     { country: "france", origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu", label: t("hot_routes.paris_lyon", { defaultValue: "巴黎 ➔ 里昂" }) }
   ], [t]);
@@ -208,6 +264,33 @@ export function SearchForm({
           ))}
         </div>
 
+        {/* Location Detection pill */}
+        <div className="flex justify-between items-center px-1 mb-4">
+          <div className="text-[10px] text-slate-400 dark:text-slate-500">
+            {detectError && <span className="text-red-500 font-semibold">{detectError}</span>}
+          </div>
+          <button
+            type="button"
+            onClick={handleAutoDetectCountry}
+            disabled={isDetectingCountry}
+            className={`flex items-center gap-1.5 rounded-full bg-slate-100/80 px-3 py-1 text-[11px] font-black tracking-wide text-slate-600 hover:bg-slate-200/80 dark:bg-slate-800/60 dark:text-slate-300 dark:hover:bg-slate-700/60 transition-all ${
+              isDetectingCountry ? "animate-pulse" : ""
+            }`}
+          >
+            {isDetectingCountry ? (
+              <>
+                <Loader2 className="h-3 w-3 animate-spin text-slate-400" />
+                <span>{i18n.language === "zh-TW" ? "偵測中..." : "Detecting..."}</span>
+              </>
+            ) : (
+              <>
+                <Navigation className="h-3 w-3 text-indigo-500 dark:text-indigo-400" />
+                <span>{i18n.language === "zh-TW" ? "自動偵測國家" : "Auto-Detect Country"}</span>
+              </>
+            )}
+          </button>
+        </div>
+
         {/* Main Search Card */}
         <div className="relative overflow-hidden rounded-[28px] border border-slate-100 bg-white/80 backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.03)] dark:border-slate-800/80 dark:bg-slate-900/80">
           {/* Top glowing progress bar during network latency */}
@@ -217,7 +300,12 @@ export function SearchForm({
             </div>
           )}
           <div className="relative p-6">
-            <div className="flex items-center justify-between gap-1">
+            <div className="relative flex items-center justify-between gap-1">
+              {/* Animated Journey Connection Path */}
+              <div className="absolute left-[18%] right-[18%] top-[35%] h-[2px] bg-slate-100 dark:bg-slate-800/60 -translate-y-1/2 pointer-events-none overflow-hidden rounded-full">
+                <div className={`absolute top-0 bottom-0 w-12 bg-gradient-to-r from-transparent via-emerald-500 to-transparent dark:via-emerald-400 animate-travel-pulse`} />
+              </div>
+
               <button
                 type="button"
                 onClick={() => {
@@ -225,7 +313,7 @@ export function SearchForm({
                   onOpenStations("origin");
                 }}
                 aria-label={origin ? `${t("search.origin")}: ${stationLabel(t, origin, country)}` : t("search.select_origin", { defaultValue: "Select Departure Station" })}
-                className="flex flex-1 flex-col items-center group focus:outline-none py-2 rounded-2xl hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors"
+                className="flex flex-1 flex-col items-center group focus:outline-none py-2 rounded-2xl hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors z-10"
               >
                 <div className={`mb-1.5 flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider transition-colors duration-300 ${theme.textActive} opacity-70`}>
                   <MapPin className="h-3 w-3" />
@@ -239,7 +327,7 @@ export function SearchForm({
                 </div>
               </button>
 
-              <div className="relative z-10 flex shrink-0 items-center justify-center px-1">
+              <div className="relative z-20 flex shrink-0 items-center justify-center px-1">
                 <button
                   type="button"
                   onClick={swapStations}
@@ -257,7 +345,7 @@ export function SearchForm({
                   onOpenStations("destination");
                 }}
                 aria-label={destination ? `${t("search.destination")}: ${stationLabel(t, destination, country)}` : t("search.select_dest", { defaultValue: "Select Destination Station" })}
-                className="flex flex-1 flex-col items-center group focus:outline-none py-2 rounded-2xl hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors"
+                className="flex flex-1 flex-col items-center group focus:outline-none py-2 rounded-2xl hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors z-10"
               >
                 <div className={`mb-1.5 flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider transition-colors duration-300 ${theme.textActive} opacity-70`}>
                   <MapPin className="h-3 w-3" />

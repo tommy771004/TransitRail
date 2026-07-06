@@ -8,6 +8,7 @@
   --animate-marquee-left: marquee-left 25s linear infinite;
   --animate-marquee-right: marquee-right 25s linear infinite;
   --animate-loading-bar: loading-bar 1.5s infinite ease-in-out;
+  --animate-travel-pulse: travel-pulse 3s infinite linear;
 
   @keyframes marquee-left {
     0% { transform: translateX(0); }
@@ -22,26 +23,24 @@
     50% { left: 0%; width: 50%; }
     100% { left: 100%; width: 100%; }
   }
-}
-
-@layer base {
-  .dark {
-    --color-slate-50: #0f172a;
-    --color-slate-100: #1e293b;
-    --color-slate-200: #334155;
-    --color-slate-300: #475569;
-    --color-slate-400: #64748b;
-    --color-slate-500: #94a3b8;
-    --color-slate-600: #cbd5e1;
-    --color-slate-700: #e2e8f0;
-    --color-slate-800: #f1f5f9;
-    --color-slate-900: #f8fafc;
-    --color-slate-950: #ffffff;
-    --color-white: #0b1220;
-    --color-black: #f8fafc;
+  @keyframes travel-pulse {
+    0% { left: 0%; opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
   }
 }
 
+/*
+ * Dark mode is driven entirely by the `dark:` utility variants authored on the
+ * components (every bg/text/border already has an explicit dark: companion).
+ * Do NOT re-introduce an inverted slate/white palette here (i.e. redefining
+ * --color-slate-* / --color-white inside `.dark`): because the components use
+ * `dark:bg-slate-900`, `dark:text-white`, etc., inverting those tokens makes
+ * dark surfaces resolve to near-white and repaints whole views (StationBrowser,
+ * search card, …) in light colors. Keep the palette default and let the
+ * variants do the work.
+ */
 @layer base {
   html.dark {
     background-color: #0b1220;
@@ -84,4 +83,9 @@ body {
   min-height: 100dvh;
   background-color: var(--color-slate-50);
   color: var(--color-slate-900);
+}
+
+.dark body {
+  background-color: #0b1220;
+  color: #f8fafc;
 }

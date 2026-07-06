@@ -68,7 +68,7 @@ export function Header({ onMenuOpen, onProfileOpen, timezone, homeCurrency }: He
   };
 
   return (
-    <header className="fixed top-0 z-50 flex h-14 w-full items-center justify-between border-b border-slate-200/50 bg-white/70 backdrop-blur-md px-4 shadow-[0_4px_30px_rgba(0,0,0,0.03)] dark:border-slate-800/40 dark:bg-[#0b1220]/75 dark:backdrop-blur-md">
+    <header className="fixed top-0 z-50 flex h-14 w-full items-center justify-between border-b border-slate-200/50 bg-white/70 backdrop-blur-md px-4 shadow-[0_4px_30px_rgba(0,0,0,0.03)] dark:border-slate-800/40 dark:bg-[#060a13]/75 dark:backdrop-blur-md">
       <div className="flex items-center gap-2">
         <button
           onClick={onMenuOpen}
