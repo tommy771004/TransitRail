@@ -291,7 +291,7 @@ export class KoreaScraper extends BaseScraper {
           operator: "Korail",
           service: `KTX ${String(100 + (h - 6) / 2).padStart(3, "0")}`,
           departureTime: `${String(h).padStart(2, "0")}:00`,
-          arrivalTime: `${String(h + info.hours).padStart(2, "0")}:00`,
+          arrivalTime: `${String((h + info.hours) % 24).padStart(2, "0")}:00`,
           durationMinutes: info.hours * 60,
           price: info.price,
           currency: "KRW" as const,

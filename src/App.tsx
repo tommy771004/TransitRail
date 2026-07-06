@@ -697,13 +697,6 @@ export default function App() {
           country={draftSearch.country}
           target={stationPickTarget}
           onBack={() => setView("search")}
-          onCountryChange={(country) => setDraftSearch((current) => ({
-            ...current,
-            country,
-            origin: "",
-            destination: "",
-            date: providerDateValue(country),
-          }))}
           onSelectStation={selectStation}
         />
       )}

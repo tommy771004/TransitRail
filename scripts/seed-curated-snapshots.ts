@@ -148,7 +148,7 @@ interface Resolution {
     leg2: { line: string; stops: string[]; min: number };
     transferMin: number;
   };
-  source: "topology-direct" | "topology-transfer" | "curated-transfer" | "llm-transfer" | "assumed-direct";
+  source: "topology-direct" | "topology-transfer" | "curated-transfer" | "llm-confirmed" | "assumed-direct";
   note?: string;
 }
 
@@ -162,25 +162,34 @@ async function resolveRouting(seed: Seed): Promise<Resolution> {
   const topo = lines ? planJourney(lines, seed.origin, seed.destination) : null;
 
   if (seed.transfer) {
-    // Curated as a transfer — topology usually can't resolve these (branch
-    // stations, cross-network interchanges under different names, no static
-    // topology). Try the LLM gap-filler; else keep the curated interchange.
+    // Curated as a transfer — topology can't resolve these (branch stations,
+    // cross-network interchanges under different names, no static topology).
+    // The free-model LLM is an ADVISORY cross-check only: it confirms or flags
+    // the curated interchange but never overwrites it. A probe (2026-07-06)
+    // showed free models return plausible-but-wrong interchanges for 2 of these
+    // 3 routes (e.g. Mo Chit→Hua Lamphong "via Makkasan"), which pass the
+    // membership+duration validator yet are geographically wrong.
     const c = seed.transfer;
-    let plan = { interchange: c.interchange, leg1Line: c.leg1Line, leg2Line: c.leg2Line, leg1Min: c.leg1Min, transferMin: c.transferMin, leg2Min: c.leg2Min };
+    const same = (a: string, b: string) => a.toLowerCase().trim() === b.toLowerCase().trim();
     let source: Resolution["source"] = "curated-transfer";
+    let note: string | undefined;
     const llm = await llmResolveTransfer(seed.country, seed.origin, seed.destination, stationList(seed.country), seed.durationMin);
-    if (llm) { plan = llm; source = "llm-transfer"; }
-    const note = topo && topo.direct
-      ? `topology said direct (${topo.hops} hops) but the branch/cross-network data is unreliable here — kept ${source === "llm-transfer" ? "LLM" : "curated"} transfer`
-      : undefined;
+    if (llm && same(llm.interchange, c.interchange)) {
+      source = "llm-confirmed";
+      note = `LLM confirmed interchange ${c.interchange}`;
+    } else if (llm) {
+      note = `LLM proposed ${llm.interchange} via ${llm.leg1Line}→${llm.leg2Line} (differs from curated ${c.interchange}) — kept curated; free-model routing is unreliable here, review before trusting`;
+    } else if (topo && topo.direct) {
+      note = `topology said direct (${topo.hops} hops) but the branch/cross-network data is unreliable here — kept curated transfer`;
+    }
     return {
       direct: false,
-      stops: [seed.origin, plan.interchange, seed.destination],
+      stops: [seed.origin, c.interchange, seed.destination],
       transfer: {
-        interchange: plan.interchange,
-        leg1: { line: plan.leg1Line, stops: [seed.origin, plan.interchange], min: plan.leg1Min },
-        leg2: { line: plan.leg2Line, stops: [plan.interchange, seed.destination], min: plan.leg2Min },
-        transferMin: plan.transferMin,
+        interchange: c.interchange,
+        leg1: { line: c.leg1Line, stops: [seed.origin, c.interchange], min: c.leg1Min },
+        leg2: { line: c.leg2Line, stops: [c.interchange, seed.destination], min: c.leg2Min },
+        transferMin: c.transferMin,
       },
       source,
       note,
@@ -367,7 +376,7 @@ for (const seed of SEEDS) {
   const r = resolutions.get(seed.code)!;
   const shape = r.direct ? "direct" : `transfer@${r.transfer!.interchange}`;
   console.log(`  [${r.source}] ${seed.country} ${seed.origin}→${seed.destination}: ${shape}${r.note ? ` — ${r.note}` : ""}`);
-  if (r.source === "curated-transfer") gaps.push(`${seed.country} ${seed.origin}→${seed.destination}`);
+  if (!r.direct && (r.source === "curated-transfer" || r.source === "llm-confirmed")) gaps.push(`${seed.country} ${seed.origin}→${seed.destination}`);
 }
 if (gaps.length > 0 && !process.env.OPENROUTER_API_KEY) {
   console.log(`\n${gaps.length} transfer route(s) fell back to curated interchanges (topology could not resolve them).`);

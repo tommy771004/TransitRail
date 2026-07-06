@@ -1,7 +1,7 @@
 import { ArrowLeft, ChevronDown, Search, X, MapPin, Loader2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { countryConfig, countryOptions, countryFlags } from "../data/countries";
+import { countryConfig, countryFlags } from "../data/countries";
 import type { Country, TransitLine } from "../types";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel } from "../utils/stationLabel";
@@ -10,7 +10,6 @@ interface StationBrowserProps {
   country: Country;
   target: "origin" | "destination";
   onBack: () => void;
-  onCountryChange: (country: Country) => void;
   onSelectStation: (station: string) => void;
 }
 
@@ -26,7 +25,6 @@ export function StationBrowser({
   country,
   target,
   onBack,
-  onCountryChange,
   onSelectStation,
 }: StationBrowserProps) {
   const { t } = useTranslation();
@@ -173,30 +171,12 @@ export function StationBrowser({
                 {target === "origin" ? t("stations.pick_origin") : t("stations.pick_destination")}
               </h1>
               <p className="truncate text-xs text-slate-500 dark:text-slate-400">
+                <span className="mr-1">{countryFlags[country] || ""}</span>
+                <span className="font-semibold text-slate-600 dark:text-slate-300">{t(countryConfig[country].labelKey)}</span>
+                <span className="mx-1">·</span>
                 {countryConfig[country].provider}
               </p>
             </div>
-          </div>
-
-          <div className="flex gap-2 overflow-x-auto no-scrollbar">
-            {countryOptions.map((item) => (
-              <button
-                key={item}
-                onClick={() => {
-                  triggerHaptic("light");
-                  onCountryChange(item);
-                  setQuery("");
-                  setSelectedCategory("all");
-                }}
-                className={`shrink-0 whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-bold transition-all ${
-                  country === item
-                    ? "bg-emerald-600 text-white shadow-[0_2px_6px_rgba(16,185,129,0.25)]"
-                    : "border border-slate-200 bg-white text-slate-600 hover:border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
-                }`}
-              >
-                {countryFlags[item] || ""} {t(countryConfig[item].labelKey)}
-              </button>
-            ))}
           </div>
 
           <div className="mt-3 flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 dark:border-slate-700 dark:bg-slate-800">
