@@ -43,7 +43,7 @@ export const thailandRoutes: ScrapedRoute[] = [
 export const hongKongRoutes: ScrapedRoute[] = [
   { origin: "Admiralty", destination: "Tsim Sha Tsui" },
   { origin: "Central", destination: "Tsuen Wan" },
-  { origin: "Hong Kong Station", destination: "Airport" },
+  { origin: "Hong Kong", destination: "Airport" },
   { origin: "Tung Chung", destination: "Sunny Bay" },
 ];
 
@@ -71,7 +71,7 @@ export const germanyRoutes: ScrapedRoute[] = [
 export const franceRoutes: ScrapedRoute[] = [
   { origin: "Paris Gare de l'Est", destination: "Strasbourg" },
   { origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu" },
-  { origin: "Paris Gare de Lyon", destination: "Marseille Saint-Charles" },
+  { origin: "Paris Gare de Lyon", destination: "Marseille St-Charles" },
   { origin: "Paris Gare du Nord", destination: "Lille Europe" },
 ];
 
