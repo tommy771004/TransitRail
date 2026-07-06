@@ -134,7 +134,7 @@ const thailandLineDefs: LineDef[] = [
       "Wat Phra Sri Mahathat", "11th Infantry Regiment", "Bang Bua",
       "Royal Forest Department", "Kasetsart University", "Sena Nikhom",
       "Ratchayothin", "Phahon Yothin 24", "Ha Yaek Lat Phrao", "Mo Chit",
-      "Saphan Khwai", "Sena Ruam", "Ari", "Sanam Pao", "Victory Monument",
+      "Saphan Khwai", "Ari", "Sanam Pao", "Victory Monument",
       "Phaya Thai", "Ratchathewi", "Siam", "Chit Lom", "Phloen Chit", "Nana",
       "Asok", "Phrom Phong", "Thong Lo", "Ekkamai", "Phra Khanong", "On Nut",
       "Bang Chak", "Punnawithi", "Udom Suk", "Bang Na", "Bearing", "Samrong",

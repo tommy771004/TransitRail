@@ -130,6 +130,116 @@ function normalizeResults(results: TransitResult[]): TransitResult[] {
   return results.map(normalizeTransferLegTimes);
 }
 
+interface RouteEdge {
+  route: ScrapedRouteData;
+  from: string;
+  to: string;
+  reversed: boolean;
+}
+
+function reverseResult(result: TransitResult): TransitResult {
+  const originalLegs = result.legs || [];
+  const waits = originalLegs.slice(0, -1).map((leg, index) => {
+    if (!leg.arrivalTime || !originalLegs[index + 1].departureTime) return 0;
+    const arrival = parseTime(leg.arrivalTime);
+    const departure = parseTime(originalLegs[index + 1].departureTime!);
+    return departure - arrival + (departure < arrival ? 1440 : 0);
+  }).reverse();
+  let cursor = parseTime(result.departureTime);
+  const reversedLegs = [...originalLegs].reverse().map((leg, index): JourneyLeg => {
+    const duration = leg.durationMinutes
+      ?? (leg.departureTime && leg.arrivalTime
+        ? parseTime(leg.arrivalTime) - parseTime(leg.departureTime)
+        : 0);
+    const departureTime = formatTime(cursor);
+    cursor += Math.max(0, duration);
+    const arrivalTime = formatTime(cursor);
+    cursor += waits[index] || 0;
+    return {
+      ...leg,
+      origin: leg.destination,
+      destination: leg.origin,
+      departureTime,
+      arrivalTime,
+      platform: undefined,
+      headsign: undefined,
+    };
+  });
+
+  return {
+    ...result,
+    id: `rev-${result.id}`,
+    origin: result.destination,
+    destination: result.origin,
+    stops: [...result.stops].reverse(),
+    // A reverse timetable cannot safely reuse the original direction's
+    // platform or headsign. Leg durations and transfer waits are retained.
+    platform: undefined,
+    headsign: undefined,
+    legs: reversedLegs.length > 0 ? reversedLegs : undefined,
+    transferStations: result.transferStations
+      ? [...result.transferStations].reverse()
+      : undefined,
+  };
+}
+
+function resultsForEdge(edge: RouteEdge, date?: string): TransitResult[] {
+  const results = resultsForDate(edge.route, date);
+  return edge.reversed ? results.map(reverseResult) : results;
+}
+
+/**
+ * Find a small number of shortest paths through the route snapshots. Edges
+ * are usable in both directions, matching the existing reverse-route search.
+ * Five edges covers the sparse intercity snapshot graph without allowing an
+ * unbounded walk through unrelated routes.
+ */
+function findRoutePaths(
+  routes: ScrapedRouteData[],
+  origin: string,
+  destination: string,
+  date?: string,
+): RouteEdge[][] {
+  const edges: RouteEdge[] = routes
+    .filter((route) => resultsForDate(route, date).length > 0)
+    .flatMap((route) => [
+      { route, from: route.origin, to: route.destination, reversed: false },
+      { route, from: route.destination, to: route.origin, reversed: true },
+    ]);
+  const target = key(destination);
+  const queue: Array<{ station: string; path: RouteEdge[]; visited: Set<string> }> = [{
+    station: origin,
+    path: [],
+    visited: new Set([key(origin)]),
+  }];
+  const found: RouteEdge[][] = [];
+  let shortestLength = Number.POSITIVE_INFINITY;
+
+  while (queue.length > 0 && found.length < 5) {
+    const current = queue.shift()!;
+    if (current.path.length >= Math.min(shortestLength, 5)) continue;
+
+    for (const edge of edges) {
+      if (key(edge.from) !== key(current.station) || current.visited.has(key(edge.to))) continue;
+      const path = [...current.path, edge];
+      if (key(edge.to) === target) {
+        shortestLength = path.length;
+        found.push(path);
+        continue;
+      }
+      if (path.length < 5) {
+        queue.push({
+          station: edge.to,
+          path,
+          visited: new Set([...current.visited, key(edge.to)]),
+        });
+      }
+    }
+  }
+
+  return found.filter((path) => path.length === shortestLength);
+}
+
 function resultsForDate(route: ScrapedRouteData, date?: string): TransitResult[] {
   if (!date) return route.results;
 
@@ -176,103 +286,97 @@ export function findScrapedResults(
     (r) => key(r.origin) === dKey && key(r.destination) === oKey && resultsForDate(r, date).length > 0,
   );
   if (reverse) {
-    return normalizeResults(resultsForDate(reverse, date).map((r) => {
-      const result = { ...r };
-      result.origin = r.destination;
-      result.destination = r.origin;
-      result.id = `rev-${r.id}`;
-      result.stops = [...r.stops].reverse();
-      return result;
-    }));
+    return normalizeResults(resultsForDate(reverse, date).map(reverseResult));
   }
 
-  // Step 3: transfer chaining — find origin→X + X→destination
+  // Step 3: graph chaining. Unlike the old origin→X→destination loop, this
+  // supports reverse edges and several regional/intercity connections.
   const chainResults: TransitResult[] = [];
-  const transferCandidates = new Map<string, { outbound: ScrapedRouteData; inbound: ScrapedRouteData }>();
-
-  for (const routeOut of countryData) {
-    if (key(routeOut.origin) !== oKey || !resultsForDate(routeOut, date).length) continue;
-    const transferStation = routeOut.destination;
-    if (key(transferStation) === oKey || key(transferStation) === dKey) continue;
-
-    for (const routeIn of countryData) {
-      if (key(routeIn.destination) !== dKey || !resultsForDate(routeIn, date).length) continue;
-      if (key(routeIn.origin) !== key(transferStation)) continue;
-
-      transferCandidates.set(key(transferStation), { outbound: routeOut, inbound: routeIn });
-    }
-  }
-
-  // Build chained results for each transfer candidate
   let chainId = 0;
-  for (const { outbound, inbound } of transferCandidates.values()) {
-    const transferName = outbound.destination;
-    const outboundResults = resultsForDate(outbound, date);
-    const inboundResults = resultsForDate(inbound, date);
+  for (const path of findRoutePaths(countryData, origin, destination, date)) {
+    type PartialChain = { results: TransitResult[]; legs: JourneyLeg[] };
+    let partials: PartialChain[] = resultsForEdge(path[0], date)
+      .filter((result) => result.departureTime && result.arrivalTime)
+      .slice(0, 100)
+      .map((result) => ({
+        results: [result],
+        legs: [resultToLeg(result, path[0].route.source)],
+      }));
 
-    for (const first of outboundResults) {
-      for (const second of inboundResults) {
-        if (!first.departureTime || !second.arrivalTime) continue;
+    for (const edge of path.slice(1)) {
+      const nextResults = resultsForEdge(edge, date)
+        .filter((result) => result.departureTime && result.arrivalTime)
+        .sort((a, b) => a.departureTime.localeCompare(b.departureTime));
+      const extended: PartialChain[] = [];
 
-        const dep = parseTime(first.departureTime);
-        const firstArr = parseTime(first.arrivalTime || first.departureTime);
-        const secondDep = parseTime(second.departureTime || "00:00");
-        const waitMinutes = secondDep - firstArr + (secondDep < firstArr ? 1440 : 0);
+      for (const partial of partials) {
+        const previous = partial.results[partial.results.length - 1];
+        const previousArrival = parseTime(previous.arrivalTime!);
+        const connections = nextResults
+          .map((result) => {
+            const departure = parseTime(result.departureTime);
+            const wait = departure - previousArrival + (departure < previousArrival ? 1440 : 0);
+            return { result, wait };
+          })
+          .filter(({ wait }) => wait >= 2 && wait <= 120)
+          .slice(0, 2);
 
-        // Only chain if transfer wait is reasonable (≥2 min, ≤120 min)
-        if (waitMinutes < 2 || waitMinutes > 120) continue;
+        for (const { result } of connections) {
+          extended.push({
+            results: [...partial.results, result],
+            legs: [...partial.legs, resultToLeg(result, edge.route.source)],
+          });
+        }
+      }
+      partials = extended.slice(0, 200);
+      if (partials.length === 0) break;
+    }
 
-        const totalDuration = parseTime(second.arrivalTime) - dep + (parseTime(second.arrivalTime) < dep ? 1440 : 0);
-        if (totalDuration <= 0) continue;
+    for (const partial of partials) {
+      const first = partial.results[0];
+      const last = partial.results[partial.results.length - 1];
+      const arrival = parseTime(last.arrivalTime!);
+      const departure = parseTime(first.departureTime);
+      const totalDuration = arrival - departure + (arrival < departure ? 1440 : 0);
+      if (totalDuration <= 0) continue;
+      const transferStations = partial.results.slice(0, -1).map((result) => result.destination);
 
-        // Construct legs
-        const firstLeg: JourneyLeg = {
-          lineName: first.service || outbound.source,
-          origin: first.origin,
-          destination: first.destination,
-          departureTime: first.departureTime,
-          arrivalTime: first.arrivalTime,
-          durationMinutes: first.durationMinutes,
-          stopCount: first.stops ? first.stops.length - 1 : undefined,
-          headsign: first.headsign,
-          lineCode: first.service,
-        };
-
-        const secondLeg: JourneyLeg = {
-          lineName: second.service || inbound.source,
-          origin: second.origin,
-          destination: second.destination,
-          departureTime: second.departureTime,
-          arrivalTime: second.arrivalTime,
-          durationMinutes: second.durationMinutes,
-          stopCount: second.stops ? second.stops.length - 1 : undefined,
-          headsign: second.headsign,
-          lineCode: second.service,
-        };
-
-        chainResults.push({
+      chainResults.push({
           id: `chain-${country}-${chainId++}`,
           country,
-          date: first.date || second.date || date,
-          operator: `${first.operator} → ${second.operator}`,
-          service: `${first.service} → ${second.service}`,
+          date: first.date || last.date || date,
+          operator: partial.results.map((result) => result.operator).join(" → "),
+          service: partial.results.map((result) => result.service).join(" → "),
           departureTime: first.departureTime,
-          arrivalTime: second.arrivalTime,
+          arrivalTime: last.arrivalTime,
           durationMinutes: totalDuration,
-          price: first.price != null && second.price != null
-            ? first.price + second.price
-            : first.price ?? second.price,
-          currency: first.currency || second.currency,
+          price: partial.results.every((result) => result.price != null)
+            ? partial.results.reduce((sum, result) => sum + result.price!, 0)
+            : undefined,
+          currency: first.currency,
           origin: first.origin,
-          destination: second.destination,
+          destination: last.destination,
           direct: false,
-          stops: [first.origin, transferName, second.destination],
-          legs: [firstLeg, secondLeg],
-          transferStations: [transferName],
+          stops: [first.origin, ...transferStations, last.destination],
+          legs: partial.legs,
+          transferStations,
           tags: ["chain"],
         });
-      }
     }
+  }
+
+  function resultToLeg(result: TransitResult, source: string): JourneyLeg {
+    return {
+      lineName: result.service || source,
+      origin: result.origin,
+      destination: result.destination,
+      departureTime: result.departureTime,
+      arrivalTime: result.arrivalTime,
+      durationMinutes: result.durationMinutes,
+      stopCount: result.stops ? Math.max(0, result.stops.length - 1) : undefined,
+      headsign: result.headsign,
+      lineCode: result.service,
+    };
   }
 
   if (chainResults.length > 0) {

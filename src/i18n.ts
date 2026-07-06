@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import translations from './data/translations.json';
+import { additionalStationZhTW } from './data/stationTranslations';
 
 const resources = {
   en: {
@@ -1021,6 +1022,7 @@ const resources = {
 // Curated entries above win: the generated file shares keys across countries
 // (e.g. MBTA "Central" vs MTR "Central" 中環) and must not clobber them.
 const stationDict = resources['zh-TW'].translation.station as Record<string, string>;
+Object.assign(stationDict, additionalStationZhTW);
 Object.entries(translations).forEach(([key, value]) => {
   if (!(key in stationDict)) stationDict[key] = value;
 });
