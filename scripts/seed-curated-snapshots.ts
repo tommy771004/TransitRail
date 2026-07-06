@@ -12,6 +12,7 @@
  * Idempotent: re-running dedupes nothing new and re-seeds nothing already full.
  * Run: npx tsx scripts/seed-curated-snapshots.ts
  */
+import "dotenv/config"; // load OPENROUTER_API_KEY (+ ALLOW_PAID_FALLBACK) from .env for the LLM cross-check
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import type { Country, TransitLine, TransitResult } from "../src/types";
@@ -94,7 +95,9 @@ const SEEDS: Seed[] = [
   { country: "singapore", origin: "Woodlands", destination: "Orchard", code: "sg-wdl-orc", operator: "SMRT", service: "North South Line", currency: "SGD", price: 2.09, durationMin: 38, kind: "metro" },
   // Bangkok BTS/MRT — THB, high-frequency metro
   { country: "thailand", origin: "Mo Chit", destination: "Hua Lamphong", code: "th-moc-hua", operator: "BTS/MRT", service: "BTS Sukhumvit → MRT Blue", currency: "THB", price: 42, durationMin: 28, kind: "metro",
-    transfer: { interchange: "Sukhumvit", leg1Line: "BTS Sukhumvit Line", leg2Line: "MRT Blue Line", leg1Min: 14, transferMin: 5, leg2Min: 9 } },
+    // Interchange at the origin: Mo Chit (BTS) ⇄ Chatuchak Park (MRT Blue) are the
+    // adjacent connected stations, so the journey is a short interchange + one MRT ride.
+    transfer: { interchange: "Chatuchak Park", leg1Line: "BTS Sukhumvit Line", leg2Line: "MRT Blue Line", leg1Min: 4, transferMin: 4, leg2Min: 20 } },
   { country: "thailand", origin: "Siam", destination: "Mo Chit", code: "th-sia-moc", operator: "BTS", service: "Sukhumvit Line", currency: "THB", price: 33, durationMin: 14, kind: "metro" },
   { country: "thailand", origin: "Siam", destination: "Saphan Taksin", code: "th-sia-sap", operator: "BTS", service: "Silom Line", currency: "THB", price: 30, durationMin: 12, kind: "metro" },
   { country: "thailand", origin: "Sukhumvit", destination: "Hua Lamphong", code: "th-suk-hua", operator: "MRT", service: "Blue Line", currency: "THB", price: 33, durationMin: 16, kind: "metro" },
