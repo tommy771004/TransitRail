@@ -47,29 +47,52 @@
       "@context": "https://schema.org",
       "@graph": [
         {
+          "@type": "Organization",
+          "@id": "https://rail-national.vercel.app/#organization",
+          "name": "Rail Nation",
+          "url": "https://rail-national.vercel.app/",
+          "description": "Rail Nation provides a free global rail and transit search platform that aggregates official timetable and provider feeds across Asia, Europe, and North America.",
+          "knowsAbout": [
+            "Train schedules",
+            "Public transit",
+            "Railway timetables",
+            "Shinkansen",
+            "KTX",
+            "MTR",
+            "TfL",
+            "MBTA",
+            "Deutsche Bahn",
+            "SNCF"
+          ]
+        },
+        {
           "@type": "WebSite",
           "@id": "https://rail-national.vercel.app/#website",
           "url": "https://rail-national.vercel.app/",
           "name": "Rail Nation",
-          "description": "Free global train and public transit timetable search. Real-time schedules across Japan, South Korea, Hong Kong, UK, US, Germany, France, Singapore, Thailand and China.",
+          "description": "Free global train and public transit timetable search across Japan, South Korea, Hong Kong, UK, US, Germany, France, Singapore, Thailand, and China.",
           "inLanguage": ["en", "zh-TW"],
+          "publisher": {
+            "@id": "https://rail-national.vercel.app/#organization"
+          },
           "potentialAction": {
             "@type": "SearchAction",
             "target": {
               "@type": "EntryPoint",
-              "urlTemplate": "https://rail-national.vercel.app/?origin={origin}&destination={destination}"
+              "urlTemplate": "https://rail-national.vercel.app/?country={country}&origin={origin}&destination={destination}&date={date}"
             },
-            "query-input": "required name=origin required name=destination"
+            "query-input": "required name=country required name=origin required name=destination required name=date"
           }
         },
         {
-          "@type": "SoftwareApplication",
-          "@id": "https://rail-national.vercel.app/#app",
+          "@type": "WebApplication",
+          "@id": "https://rail-national.vercel.app/#webapp",
           "name": "Rail Nation",
-          "description": "Rail Nation is a free cross-border train and public transit timetable search app. It integrates official railway and metro networks across 10 countries: Japan (Jorudan/ODPT), South Korea (Korail), Singapore (LTA), Thailand (BTS/MRT), Hong Kong (MTR), United Kingdom (TfL), United States (MBTA), Germany (DB), France (SNCF), and China (12306).",
+          "description": "Rail Nation is a free cross-border train and public transit search web application integrating official railway and metro provider sources across 10 countries.",
           "url": "https://rail-national.vercel.app/",
           "applicationCategory": "TravelApplication",
-          "operatingSystem": "Web, iOS, Android",
+          "operatingSystem": "Any",
+          "browserRequirements": "Requires JavaScript and a modern browser",
           "offers": {
             "@type": "Offer",
             "price": "0",
@@ -91,29 +114,178 @@
             "No registration required",
             "Available in English and Traditional Chinese"
           ],
-          "areaServed": [
-            "Japan", "South Korea", "China", "Singapore", "Thailand",
-            "Hong Kong", "United Kingdom", "United States", "Germany", "France"
-          ],
+          "areaServed": ["Japan", "South Korea", "China", "Singapore", "Thailand", "Hong Kong", "United Kingdom", "United States", "Germany", "France"],
           "availableLanguage": ["English", "Chinese Traditional"],
           "isAccessibleForFree": true,
           "provider": {
-            "@type": "Organization",
-            "@id": "https://rail-national.vercel.app/#organization",
-            "name": "Rail Nation",
-            "url": "https://rail-national.vercel.app/"
+            "@id": "https://rail-national.vercel.app/#organization"
           }
         },
         {
-          "@type": "Organization",
-          "@id": "https://rail-national.vercel.app/#organization",
-          "name": "Rail Nation",
+          "@type": "Service",
+          "@id": "https://rail-national.vercel.app/#service",
+          "name": "Rail and Transit Route Planning Service",
+          "serviceType": "Train and metro route planning",
+          "provider": {
+            "@id": "https://rail-national.vercel.app/#organization"
+          },
           "url": "https://rail-national.vercel.app/",
-          "description": "Rail Nation provides a free, ad-free global public transit search platform integrating official transit data from 10 countries.",
-          "knowsAbout": [
-            "Train schedules", "Public transit", "Railway timetables",
-            "Shinkansen", "KTX", "MTR", "TfL", "MBTA", "Deutsche Bahn", "SNCF"
+          "areaServed": [
+            { "@type": "Country", "name": "Japan" },
+            { "@type": "Country", "name": "South Korea" },
+            { "@type": "Country", "name": "China" },
+            { "@type": "Country", "name": "Singapore" },
+            { "@type": "Country", "name": "Thailand" },
+            { "@type": "Country", "name": "Hong Kong" },
+            { "@type": "Country", "name": "United Kingdom" },
+            { "@type": "Country", "name": "United States" },
+            { "@type": "Country", "name": "Germany" },
+            { "@type": "Country", "name": "France" }
+          ],
+          "availableChannel": {
+            "@type": "ServiceChannel",
+            "serviceUrl": "https://rail-national.vercel.app/"
+          }
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://rail-national.vercel.app/#supported-countries",
+          "name": "Supported Rail Coverage",
+          "numberOfItems": 10,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "item": { "@type": "Thing", "name": "Japan", "url": "https://rail-national.vercel.app/japan" } },
+            { "@type": "ListItem", "position": 2, "item": { "@type": "Thing", "name": "South Korea", "url": "https://rail-national.vercel.app/korea" } },
+            { "@type": "ListItem", "position": 3, "item": { "@type": "Thing", "name": "China", "url": "https://rail-national.vercel.app/china" } },
+            { "@type": "ListItem", "position": 4, "item": { "@type": "Thing", "name": "Singapore", "url": "https://rail-national.vercel.app/singapore" } },
+            { "@type": "ListItem", "position": 5, "item": { "@type": "Thing", "name": "Thailand", "url": "https://rail-national.vercel.app/thailand" } },
+            { "@type": "ListItem", "position": 6, "item": { "@type": "Thing", "name": "Hong Kong", "url": "https://rail-national.vercel.app/hong-kong" } },
+            { "@type": "ListItem", "position": 7, "item": { "@type": "Thing", "name": "United Kingdom", "url": "https://rail-national.vercel.app/united-kingdom" } },
+            { "@type": "ListItem", "position": 8, "item": { "@type": "Thing", "name": "United States", "url": "https://rail-national.vercel.app/united-states" } },
+            { "@type": "ListItem", "position": 9, "item": { "@type": "Thing", "name": "Germany", "url": "https://rail-national.vercel.app/germany" } },
+            { "@type": "ListItem", "position": 10, "item": { "@type": "Thing", "name": "France", "url": "https://rail-national.vercel.app/france" } }
           ]
+        },
+        {
+          "@type": "DataCatalog",
+          "@id": "https://rail-national.vercel.app/#data-catalog",
+          "name": "Rail Nation Transit Provider Data Catalog",
+          "description": "Catalog of country-level transit provider sources integrated by Rail Nation for journey planning and timetable lookup.",
+          "url": "https://rail-national.vercel.app/",
+          "provider": {
+            "@id": "https://rail-national.vercel.app/#organization"
+          },
+          "dataset": [
+            { "@id": "https://rail-national.vercel.app/#dataset-japan" },
+            { "@id": "https://rail-national.vercel.app/#dataset-korea" },
+            { "@id": "https://rail-national.vercel.app/#dataset-china" },
+            { "@id": "https://rail-national.vercel.app/#dataset-singapore" },
+            { "@id": "https://rail-national.vercel.app/#dataset-thailand" },
+            { "@id": "https://rail-national.vercel.app/#dataset-hong-kong" },
+            { "@id": "https://rail-national.vercel.app/#dataset-united-kingdom" },
+            { "@id": "https://rail-national.vercel.app/#dataset-united-states" },
+            { "@id": "https://rail-national.vercel.app/#dataset-germany" },
+            { "@id": "https://rail-national.vercel.app/#dataset-france" }
+          ]
+        },
+        {
+          "@type": "Dataset",
+          "@id": "https://rail-national.vercel.app/#dataset-japan",
+          "name": "Japan Rail Timetable Coverage",
+          "description": "Japan rail timetable and fare coverage including Shinkansen corridors.",
+          "url": "https://rail-national.vercel.app/japan",
+          "spatialCoverage": { "@type": "Country", "name": "Japan" },
+          "creator": { "@type": "Organization", "name": "Jorudan / ODPT" },
+          "isAccessibleForFree": true
+        },
+        {
+          "@type": "Dataset",
+          "@id": "https://rail-national.vercel.app/#dataset-korea",
+          "name": "South Korea Rail Timetable Coverage",
+          "description": "KTX and rail timetable coverage for South Korea journeys.",
+          "url": "https://rail-national.vercel.app/korea",
+          "spatialCoverage": { "@type": "Country", "name": "South Korea" },
+          "creator": { "@type": "Organization", "name": "Korail" },
+          "isAccessibleForFree": true
+        },
+        {
+          "@type": "Dataset",
+          "@id": "https://rail-national.vercel.app/#dataset-china",
+          "name": "China Rail Timetable Coverage",
+          "description": "China high-speed and long-distance rail timetable coverage.",
+          "url": "https://rail-national.vercel.app/china",
+          "spatialCoverage": { "@type": "Country", "name": "China" },
+          "creator": { "@type": "Organization", "name": "12306" },
+          "isAccessibleForFree": true
+        },
+        {
+          "@type": "Dataset",
+          "@id": "https://rail-national.vercel.app/#dataset-singapore",
+          "name": "Singapore MRT Coverage",
+          "description": "Singapore MRT timetable and routing coverage.",
+          "url": "https://rail-national.vercel.app/singapore",
+          "spatialCoverage": { "@type": "Country", "name": "Singapore" },
+          "creator": { "@type": "Organization", "name": "LTA" },
+          "isAccessibleForFree": true
+        },
+        {
+          "@type": "Dataset",
+          "@id": "https://rail-national.vercel.app/#dataset-thailand",
+          "name": "Thailand BTS and MRT Coverage",
+          "description": "Bangkok BTS and MRT timetable and routing coverage.",
+          "url": "https://rail-national.vercel.app/thailand",
+          "spatialCoverage": { "@type": "Country", "name": "Thailand" },
+          "creator": { "@type": "Organization", "name": "BTS / MRT" },
+          "isAccessibleForFree": true
+        },
+        {
+          "@type": "Dataset",
+          "@id": "https://rail-national.vercel.app/#dataset-hong-kong",
+          "name": "Hong Kong MTR Coverage",
+          "description": "Hong Kong MTR timetable and next-train coverage.",
+          "url": "https://rail-national.vercel.app/hong-kong",
+          "spatialCoverage": { "@type": "Place", "name": "Hong Kong" },
+          "creator": { "@type": "Organization", "name": "MTR" },
+          "isAccessibleForFree": true
+        },
+        {
+          "@type": "Dataset",
+          "@id": "https://rail-national.vercel.app/#dataset-united-kingdom",
+          "name": "United Kingdom Transit Coverage",
+          "description": "London transit route and timetable coverage via TfL.",
+          "url": "https://rail-national.vercel.app/united-kingdom",
+          "spatialCoverage": { "@type": "Country", "name": "United Kingdom" },
+          "creator": { "@type": "Organization", "name": "Transport for London (TfL)" },
+          "isAccessibleForFree": true
+        },
+        {
+          "@type": "Dataset",
+          "@id": "https://rail-national.vercel.app/#dataset-united-states",
+          "name": "United States Transit Coverage",
+          "description": "Boston MBTA route and timetable coverage.",
+          "url": "https://rail-national.vercel.app/united-states",
+          "spatialCoverage": { "@type": "Country", "name": "United States" },
+          "creator": { "@type": "Organization", "name": "MBTA" },
+          "isAccessibleForFree": true
+        },
+        {
+          "@type": "Dataset",
+          "@id": "https://rail-national.vercel.app/#dataset-germany",
+          "name": "Germany Rail Coverage",
+          "description": "Germany long-distance and regional rail timetable coverage via DB sources.",
+          "url": "https://rail-national.vercel.app/germany",
+          "spatialCoverage": { "@type": "Country", "name": "Germany" },
+          "creator": { "@type": "Organization", "name": "Deutsche Bahn" },
+          "isAccessibleForFree": true
+        },
+        {
+          "@type": "Dataset",
+          "@id": "https://rail-national.vercel.app/#dataset-france",
+          "name": "France Rail Coverage",
+          "description": "France intercity rail timetable coverage via SNCF source data.",
+          "url": "https://rail-national.vercel.app/france",
+          "spatialCoverage": { "@type": "Country", "name": "France" },
+          "creator": { "@type": "Organization", "name": "SNCF" },
+          "isAccessibleForFree": true
         },
         {
           "@type": "FAQPage",

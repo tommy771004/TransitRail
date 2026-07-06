@@ -46,6 +46,91 @@ const emptySearch: SearchParams = {
   preferredTransitTypes: [],
 };
 
+const seoCountryPathMap: Record<Country, string> = {
+  japan: "/japan",
+  korea: "/korea",
+  china: "/china",
+  singapore: "/singapore",
+  thailand: "/thailand",
+  hong_kong: "/hong-kong",
+  united_kingdom: "/united-kingdom",
+  united_states: "/united-states",
+  germany: "/germany",
+  france: "/france",
+};
+
+function normalizeCountrySlug(value: string | null): Country | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  const normalized = value.trim().toLowerCase().replace(/-/g, "_");
+  return countryOptions.includes(normalized as Country) ? (normalized as Country) : undefined;
+}
+
+function countryFromPath(pathname: string): Country | undefined {
+  const normalizedPath = pathname.replace(/\/+$/, "").toLowerCase() || "/";
+  const pathMap: Record<string, Country> = {
+    "/japan": "japan",
+    "/korea": "korea",
+    "/china": "china",
+    "/singapore": "singapore",
+    "/thailand": "thailand",
+    "/hong-kong": "hong_kong",
+    "/hong_kong": "hong_kong",
+    "/united-kingdom": "united_kingdom",
+    "/united_kingdom": "united_kingdom",
+    "/united-states": "united_states",
+    "/united_states": "united_states",
+    "/germany": "germany",
+    "/france": "france",
+  };
+
+  return pathMap[normalizedPath];
+}
+
+function buildInitialSearch(defaultCountry: Country): SearchParams {
+  const pathCountry = countryFromPath(window.location.pathname);
+  const query = new URLSearchParams(window.location.search);
+  const queryCountry = normalizeCountrySlug(query.get("country"));
+  const resolvedCountry = queryCountry ?? pathCountry ?? defaultCountry;
+  const rawDate = query.get("date");
+  const date = rawDate && /^\d{4}-\d{2}-\d{2}$/.test(rawDate)
+    ? rawDate
+    : providerDateValue(resolvedCountry);
+
+  return {
+    origin: (query.get("origin") || "").trim(),
+    destination: (query.get("destination") || "").trim(),
+    date,
+    country: resolvedCountry,
+    preferredTransitTypes: [],
+  };
+}
+
+function buildCanonicalSearchUrl(params: SearchParams) {
+  const path = seoCountryPathMap[params.country] || "/";
+  const query = new URLSearchParams();
+  const origin = params.origin.trim();
+  const destination = params.destination.trim();
+  const date = params.date?.trim();
+
+  if (origin) {
+    query.set("origin", origin);
+  }
+  if (destination) {
+    query.set("destination", destination);
+  }
+  if (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    query.set("date", date);
+  }
+
+  const queryString = query.toString();
+  return queryString
+    ? `${window.location.origin}${path}?${queryString}`
+    : `${window.location.origin}${path}`;
+}
+
 function loadJson<T>(key: string, fallback: T): T {
   try {
     const value = window.localStorage.getItem(key);
@@ -148,9 +233,15 @@ export default function App() {
   const { t, i18n } = useTranslation();
   
   const initialPreferredCountry = useMemo<Country>(() => {
+    const pathSelectedCountry = countryFromPath(window.location.pathname);
+    const querySelectedCountry = normalizeCountrySlug(new URLSearchParams(window.location.search).get("country"));
+    if (pathSelectedCountry || querySelectedCountry) {
+      return querySelectedCountry ?? pathSelectedCountry ?? "japan";
+    }
+
     const stored = localStorage.getItem("transitrail.preferredCountry") as Country | null;
-    if (stored && ["japan", "korea", "china", "singapore", "thailand", "hong_kong", "united_kingdom", "united_states", "germany", "france"].includes(stored)) {
-      return stored;
+    if (stored && countryOptions.includes(stored as Country)) {
+      return stored as Country;
     }
     // Auto-detect based on local timezone (Geo alignment)
     try {
@@ -173,13 +264,7 @@ export default function App() {
 
   const [preferredCountry, setPreferredCountry] = useState<Country>(initialPreferredCountry);
 
-  const initialSearch: SearchParams = {
-    origin: "",
-    destination: "",
-    date: providerDateValue(initialPreferredCountry),
-    country: initialPreferredCountry,
-    preferredTransitTypes: [],
-  };
+  const initialSearch: SearchParams = buildInitialSearch(initialPreferredCountry);
 
   const [view, setView] = useState<AppView>("search");
   const [previousView, setPreviousView] = useState<AppView>("search");
@@ -223,6 +308,11 @@ export default function App() {
     let title = baseTitle;
     let description = "International rail routing with official live transit providers and AI planning";
     let schemaJson: any = null;
+    const searchLikeParams = view === "results" ? searchParams : draftSearch;
+    const canonicalUrl =
+      view === "search" || view === "results"
+        ? buildCanonicalSearchUrl(searchLikeParams)
+        : `${window.location.origin}/`;
 
     if (view === "search") {
       const countryLabel = t(countryConfig[draftSearch.country].labelKey);
@@ -233,18 +323,18 @@ export default function App() {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": baseTitle,
-        "url": window.location.origin,
+        "url": canonicalUrl,
         "description": description,
         "potentialAction": {
           "@type": "SearchAction",
           "target": {
             "@type": "EntryPoint",
-            "urlTemplate": `${window.location.origin}/?country=${draftSearch.country}&origin={search_term_string}`
+            "urlTemplate": `${window.location.origin}/?country={country}&origin={origin}&destination={destination}&date={date}`
           },
-          "query-input": "required name=search_term_string"
+          "query-input": "required name=country required name=origin required name=destination required name=date"
         }
       };
-    } else if (view === "result") {
+    } else if (view === "results") {
       const countryLabel = t(countryConfig[searchParams.country].labelKey);
       const originName = stationLabel(t, searchParams.origin, searchParams.country);
       const destinationName = stationLabel(t, searchParams.destination, searchParams.country);
@@ -253,8 +343,9 @@ export default function App() {
       
       schemaJson = {
         "@context": "https://schema.org",
-        "@type": "TrainTrip",
+        "@type": "Trip",
         "name": `${originName} to ${destinationName} Transit`,
+        "url": canonicalUrl,
         "provider": {
           "@type": "Organization",
           "name": countryConfig[searchParams.country].provider
@@ -273,13 +364,11 @@ export default function App() {
       title = `${t("profile.favorites", { defaultValue: "Favorites" })} & Saved Trips | ${baseTitle}`;
       description = "View your saved trips, favorite routes, and offline schedule history on Rail National.";
     } else if (view === "alerts") {
-      title = `Transit Alerts } else if (view === "alerts") { Updates | ${baseTitle}`;
+      title = `Transit Alerts & Updates | ${baseTitle}`;
       description = "Real-time transit service alerts, platform notices, and system diagnostic updates.";
     } else if (view === "feedback") {
       title = `${t("feedback.title", { defaultValue: "Feedback" })} | ${baseTitle}`;
       description = "Send feedback to Rail National.";
-      title = `Transit Alerts & Updates | ${baseTitle}`;
-      description = "Real-time transit service alerts, platform notices, and system diagnostic updates.";
     }
 
     // Apply document title
@@ -306,7 +395,7 @@ export default function App() {
       metaKeywords.setAttribute("name", "keywords");
       document.head.appendChild(metaKeywords);
     }
-    const keywords = view === "result"
+    const keywords = view === "results"
       ? `train, transit, schedule, routing, ${searchParams.origin}, ${searchParams.destination}, ${searchParams.country}, timetables`
       : `train, transit, schedule, routing, international rail, subway, travel planner, timetables`;
     metaKeywords.setAttribute("content", keywords);
@@ -318,13 +407,13 @@ export default function App() {
       canonicalLink.setAttribute("rel", "canonical");
       document.head.appendChild(canonicalLink);
     }
-    canonicalLink.setAttribute("href", window.location.href);
+    canonicalLink.setAttribute("href", canonicalUrl);
 
     // Apply OpenGraph & Twitter Card Meta Tags
     const ogTags = {
       "og:title": title,
       "og:description": description,
-      "og:url": window.location.href,
+      "og:url": canonicalUrl,
       "og:type": "website",
       "og:site_name": baseTitle,
       "twitter:card": "summary_large_image",
@@ -347,18 +436,18 @@ export default function App() {
 
     // Control indexing for non-content routes (noindex, nofollow)
     let robotsMeta = document.querySelector('meta[name="robots"]');
-    if (view === "alerts" || view === "saved" || view === "history" || view === "workflow") {
-      if (!robotsMeta) {
-        robotsMeta = document.createElement("meta");
-        robotsMeta.setAttribute("name", "robots");
-        document.head.appendChild(robotsMeta);
-      }
-      robotsMeta.setAttribute("content", "noindex, nofollow");
-    } else {
-      if (robotsMeta) {
-        robotsMeta.remove();
-      }
+    if (!robotsMeta) {
+      robotsMeta = document.createElement("meta");
+      robotsMeta.setAttribute("name", "robots");
+      document.head.appendChild(robotsMeta);
     }
+    const shouldNoIndex = view === "alerts" || view === "saved" || view === "history" || view === "workflow" || view === "feedback";
+    robotsMeta.setAttribute(
+      "content",
+      shouldNoIndex
+        ? "noindex, nofollow"
+        : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    );
 
     // Apply structured SEO data (JSON-LD)
     if (schemaJson) {
@@ -376,7 +465,7 @@ export default function App() {
       const script = document.getElementById("jsonld-seo");
       if (script) script.remove();
     }
-  }, [view, draftSearch.country, searchParams.origin, searchParams.destination, searchParams.country, searchParams.date, t, i18n.language]);
+  }, [view, draftSearch.country, draftSearch.origin, draftSearch.destination, draftSearch.date, searchParams.origin, searchParams.destination, searchParams.country, searchParams.date, t, i18n.language]);
   const [legendHighlight, setLegendHighlight] = useState<string | null>(null);
   const [timezone, setTimezone] = useState<string>(() => {
     return localStorage.getItem("transitrail.timezone") || Intl.DateTimeFormat().resolvedOptions().timeZone;
