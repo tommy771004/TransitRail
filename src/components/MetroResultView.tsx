@@ -1,3 +1,7 @@
+// Author: AI Coding Agent
+// OS support: Linux, macOS, Windows
+// Description: Component to render Subway and Metro transit query results with staggered motion animations
+
 import { AlertTriangle, Bookmark, Check, Edit2, Compass } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
@@ -163,10 +167,10 @@ export function MetroResultView({
                     <motion.article
                       key={trip.id}
                       layout
-                      initial={{ opacity: 0, y: 16 }}
+                      initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -16 }}
-                      transition={{ duration: 0.35, ease: "easeOut", delay: index * 0.05 }}
+                      exit={{ opacity: 0, y: -12 }}
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: index * 0.05 }}
                       className="overflow-hidden rounded-3xl border border-slate-100 bg-white/90 shadow-[0_4px_20px_rgba(0,0,0,0.02)] dark:border-slate-800/80 dark:bg-slate-900/90 backdrop-blur-md hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.3)] transition-all duration-300"
                     >
                       <div
@@ -299,3 +303,5 @@ export function MetroResultView({
     </main>
   );
 }
+
+// --- End of MetroResultView.tsx ---

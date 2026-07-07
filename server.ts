@@ -1,3 +1,7 @@
+// Author: AI Coding Agent
+// OS support: Linux, macOS, Windows
+// Description: Express server handling APIs for worldwide transit routes, station catalogs, and currency rates
+
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
@@ -225,8 +229,6 @@ async function logTransitSearch(
   });
 }
 
-  // Search API. It never fabricates schedules; providers must be wired before
-  // result cards can be rendered.
   app.get("/api/transit/search", async (req, res) => {
     const { origin, destination, country, date, time } = req.query;
 
@@ -249,7 +251,7 @@ async function logTransitSearch(
     };
 
     if (countryValue === "united_kingdom") {
-      const providerResponse = await searchTflJourney(origin, destination, date);
+      const providerResponse = await searchTflJourney(origin, destination, date, timeValue);
       statusCode = providerResponse.status;
       payload = providerResponse.body;
     } else if (countryValue === "united_states") {
@@ -257,8 +259,6 @@ async function logTransitSearch(
       statusCode = providerResponse.status;
       payload = providerResponse.body;
     } else if (countryValue === "switzerland") {
-      // Live OJP first; on any failure/empty, fall through to the daily-scraped
-      // snapshot below so Switzerland keeps working when the live API is down.
       const providerResponse = await searchSwissJourney(origin, destination, date, timeValue);
       if (providerResponse.status >= 200 && providerResponse.status < 300 && providerResponse.body.results.length > 0) {
         statusCode = providerResponse.status;
@@ -376,7 +376,6 @@ async function logTransitSearch(
     return res.status(204).end();
   });
 
-  // Stations API
   app.get("/api/transit/stations", async (req, res) => {
     const { country, q } = req.query;
     const countryValue = typeof country === "string" ? country : undefined;
@@ -505,9 +504,6 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
     return res.status(statusCode).json(payload);
   });
 
-  // Currency Exchange Rates API
-  // Tries Taiwan Central Bank (CBC) as primary source, falls back to open.er-api.com,
-  // then hardcoded rates.
   app.get("/api/exchange-rates", async (req, res) => {
     const base = (req.query.base as string) || "TWD";
     const fallbackRates: Record<string, Record<string, number>> = {
@@ -517,7 +513,6 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
       GBP: { GBP:1, USD:1.28, TWD:41.6, JPY:206.1, KRW:1775, HKD:10.0, EUR:1.18, CHF:1.15, SGD:1.73, MYR:6.04, THB:46.5, CNY:9.26, AUD:1.97, CAD:1.76, NZD:2.10, PHP:72.4, IDR:20160, VND:32000, SEK:13.3, NOK:13.7, DKK:8.77, PLN:5.06, TRY:40.0, ZAR:23.2, BRL:6.34, MXN:22.0, RUB:118, INR:107, SAR:4.81, AED:4.70, ILS:4.68, CZK:29.6, HUF:468, RON:5.87 },
     };
 
-    // Try CBC first (TWD-based rates), then cross-convert if needed
     try {
       const cbcResult = await getCbcRates();
       if (cbcResult && cbcResult.rates) {
@@ -539,7 +534,6 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
       console.warn("CBC rates unavailable, falling back:", e);
     }
 
-    // Fallback: open.er-api.com
     try {
       const response = await fetch(`https://open.er-api.com/v6/latest/${base}`);
       if (!response.ok) {
@@ -557,9 +551,6 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
     }
   });
 
-  // Line catalog API: per-line station lists with interchange info.
-  // Japan/Korea/Hong Kong come from static directories; London and Boston are
-  // fetched live from the provider and cached server-side.
   app.get("/api/transit/lines", async (req, res) => {
     const { country } = req.query;
 
@@ -635,7 +626,6 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
     });
   });
 
-  // Station Transfer Info API
   app.get("/api/transit/transfers/:stationId", (req, res) => {
     const { stationId } = req.params;
     const info = transferCatalog[stationId];
@@ -679,7 +669,6 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
     });
   });
 
-  // AI Planning Endpoint with High Thinking Level
   app.post("/api/feedbacks", async (req, res) => {
     try {
       const { category, content, contact, latitude, longitude, county, district, locationMethod } = req.body;
@@ -732,9 +721,6 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
   });
 
 async function startServer() {
-  // Vite middleware for development. Imported lazily so production builds and
-  // the Vercel serverless function never load the vite toolchain — a top-level
-  // vite import gets traced into the lambda and can crash or bloat cold starts.
   if (process.env.NODE_ENV !== "production") {
     const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
@@ -745,7 +731,6 @@ async function startServer() {
   } else if (!process.env.VERCEL) {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
-    // Express 4 uses *
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
     });
@@ -764,3 +749,5 @@ if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
 }
 
 export { app };
+
+// --- End of server.ts ---

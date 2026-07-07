@@ -1,3 +1,7 @@
+// Author: AI Coding Agent
+// OS support: Linux, macOS, Windows
+// Description: Component to render Korea transit query results with staggered motion animations
+
 import { AlertTriangle, Bookmark, Check, Edit2, Utensils, Wifi, Zap, Compass } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
@@ -178,9 +182,9 @@ export function KoreaResultView({
             <motion.article
               key={trip.id}
               layout
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, ease: "easeOut", delay: index * 0.05 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: index * 0.05 }}
               className="overflow-hidden rounded-3xl border border-slate-100 bg-white/90 shadow-[0_4px_20px_rgba(0,0,0,0.02)] dark:border-slate-800/80 dark:bg-slate-900/90 backdrop-blur-md hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.3)] transition-all duration-300"
             >
               <div className="p-5 sm:p-6">
@@ -219,31 +223,25 @@ export function KoreaResultView({
                     </p>
                   </div>
 
-                  {/* Re-imagined SwiftUI style transit progress line */}
                   <div className="relative flex min-w-[75px] flex-col items-center">
                     <span className="font-mono text-[10px] font-bold text-emerald-600 dark:text-emerald-400 mb-1">
                       {formatDuration(trip.durationMinutes)}
                     </span>
                     <div className="relative flex w-full items-center justify-between px-1">
-                      {/* Background track */}
                       <div className="absolute left-1 right-1 h-[3px] rounded-full bg-slate-100 dark:bg-slate-800" />
-                      {/* Active line with service color */}
                       <div 
                         className="absolute left-1 right-1 h-[3px] rounded-full"
                         style={{
                           background: `linear-gradient(to right, ${trip.lineColor || "#10b981"}, ${trip.lineColor || "#10b981"}ee)`
                         }}
                       />
-                      {/* Origin dot */}
                       <span 
                         className="z-10 h-3 w-3 rounded-full bg-white dark:bg-slate-950 ring-[2.5px] shadow-xs" 
                         style={{ borderColor: trip.lineColor || "#10b981" }} 
                       />
-                      {/* Middle transfer indicator */}
                       {!trip.direct && (
                         <span className="z-10 h-2 w-2 rounded-full bg-amber-400 ring-[2px] ring-white dark:ring-slate-950 shadow-xs" />
                       )}
-                      {/* Destination dot */}
                       <span 
                         className="z-10 h-3 w-3 rounded-full bg-white dark:bg-slate-950 ring-[2.5px] shadow-xs" 
                         style={{ borderColor: trip.lineColor || "#10b981" }} 
@@ -307,3 +305,5 @@ export function KoreaResultView({
     </main>
   );
 }
+
+// --- End of KoreaResultView.tsx ---

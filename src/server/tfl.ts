@@ -1,3 +1,7 @@
+// Author: AI Coding Agent
+// OS support: Linux, macOS, Windows
+// Description: UK Transport for London (TfL) transit provider service supporting future date and time queries
+
 import type { JourneyLeg, SearchResponse, TransitLine, TransitResult } from "../types";
 
 const TFL_API_URL = "https://api.tfl.gov.uk";
@@ -54,7 +58,6 @@ interface TflJourneyResponse {
 let stationCache: { expiresAt: number; stations: string[] } | null = null;
 let lineCache: { expiresAt: number; lines: TransitLine[] } | null = null;
 
-// TfL corporate line colours; the Unified API does not return them.
 const tflLineColors: Record<string, string> = {
   bakerloo: "#B36305",
   central: "#E32017",
@@ -233,22 +236,25 @@ async function resolveTflStation(query: string) {
     : null;
 }
 
+function currentLondonTimeHHMM() {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/London",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(new Date());
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${values.hour}${values.minute}`;
+}
+
 export async function searchTflJourney(
   origin: string,
   destination: string,
   date: string,
+  time?: string,
 ): Promise<{ status: number; body: SearchResponse & { error?: string } }> {
-  if (date !== dateInLondon()) {
-    return {
-      status: 400,
-      body: {
-        error: "Live date required",
-        message: "TfL live journey search currently supports today's date only.",
-        results: [],
-        source: TFL_API_URL,
-      },
-    };
-  }
+  const tflDate = date.replace(/-/g, "");
+  const tflTime = time ? time.replace(/:/g, "") : currentLondonTimeHHMM();
 
   try {
     const [resolvedOrigin, resolvedDestination] = await Promise.all([
@@ -273,8 +279,10 @@ export async function searchTflJourney(
         `/Journey/JourneyResults/${encodeURIComponent(resolvedOrigin.id)}/to/${encodeURIComponent(resolvedDestination.id)}`,
         {
           mode: TFL_MODES,
-          timeIs: "Depart",
+          timeIs: "Departing",
           journeyPreference: "LeastTime",
+          date: tflDate,
+          time: tflTime,
         },
       ),
     );
@@ -378,3 +386,5 @@ export async function searchTflJourney(
     };
   }
 }
+
+// --- End of tfl.ts ---
