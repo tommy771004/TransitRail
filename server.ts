@@ -21,6 +21,9 @@ import { getCbcRates } from "./src/server/cbc";
 import type { TransitLine } from "./src/types";
 import { db } from "./src/db";
 import { feedbacks } from "./src/db/schema";
+import { generateSeoulSubwayTimetable } from "./src/utils/seoulSubwayPathfinder";
+import { generateFallbackTimetable } from "./src/utils/fallbackPathfinder";
+import { newCountryStationLists } from "./src/data/scraped/stations";
 
 dotenv.config();
 
@@ -109,7 +112,6 @@ app.use(express.json());
     }
 
     if (country === "korea") {
-      const { generateSeoulSubwayTimetable } = await import("./src/utils/seoulSubwayPathfinder");
       const subwayResults = generateSeoulSubwayTimetable(origin, destination, date);
       if (subwayResults && subwayResults.length > 0) {
         let filtered = subwayResults;
@@ -123,7 +125,6 @@ app.use(express.json());
     try {
       const countryLines = await getLinesForCountry(country as string);
       if (countryLines && countryLines.length > 0) {
-        const { generateFallbackTimetable } = await import("./src/utils/fallbackPathfinder");
         const fallbackResults = generateFallbackTimetable(countryLines, origin, destination, date, country as string);
         if (fallbackResults && fallbackResults.length > 0) {
           let filtered = fallbackResults;
@@ -148,8 +149,6 @@ app.use(express.json());
   async function getStationsForCountry(country: string, q?: string) {
     let stations: string[] = [];
     let source: string | undefined;
-
-    const { newCountryStationLists } = await import("./src/data/scraped/stations");
 
     if (country === "japan") {
       stations = japanStations;

@@ -14,20 +14,26 @@ interface ScrapedRouteData {
 
 // Resolve the data directory relative to this file, regardless of CJS or ESM.
 function resolveDataDir(): string {
-  // ESM: use import.meta.url
+  let dir = "";
   if (typeof import.meta !== "undefined" && import.meta.url) {
-    return dirname(fileURLToPath(import.meta.url));
+    dir = dirname(fileURLToPath(import.meta.url));
+  } else {
+    try {
+      // @ts-ignore – __dirname exists in CJS
+      dir = __dirname as string;
+    } catch {
+      dir = "";
+    }
   }
-  // CJS production bundle: __dirname is the dist/ directory
-  try {
-    // @ts-ignore – __dirname exists in CJS
-    const d = __dirname as string;
-    const isDist = d.endsWith("dist") || d.endsWith("api");
-    return isDist ? join(d, "../src/data/scraped") : d;
-  } catch {
-    // Last-resort fallback: cwd-relative (works when running from project root)
-    return join(process.cwd(), "src/data/scraped");
+
+  // If we are in development, the directory is already /src/data/scraped or similar
+  if (dir && (dir.endsWith("scraped") || dir.endsWith("scraped/"))) {
+    return dir;
   }
+
+  // Otherwise, we are likely bundled (e.g. in 'dist', 'api', or some Vercel build folder)
+  // We can use process.cwd() as it is extremely stable across dev and Vercel!
+  return join(process.cwd(), "src/data/scraped");
 }
 
 const ACTUAL_DATA_DIR = resolveDataDir();
