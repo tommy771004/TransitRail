@@ -1,3 +1,6 @@
+// Author: AI Coding Agent
+// OS support: Linux, macOS, Windows
+// Description: Multi-language configuration and resources
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import translations from './data/translations.json';
@@ -90,7 +93,10 @@ const resources = {
         use_current_location: "Use Current Location",
         geolocation_unsupported: "Geolocation is not supported by your browser.",
         location_error: "Could not determine nearest station.",
-        location_permission_denied: "Location access denied or failed."
+        location_permission_denied: "Location access denied or failed.",
+        direct_route: "Direct",
+        transfer: "Transfer",
+        transfers: "Transfers"
       },
       workflow: {
         title: "Data workflow",
@@ -161,7 +167,15 @@ const resources = {
         transfer_info: "Transfer Info",
         transfer_details: "Transfer Details",
         recommended_exit: "Recommended Exit / Platform",
-        smart_guidance: "Smart Transfer Guide"
+        smart_guidance: "Smart Transfer Guide",
+        timeline_tab: "Timeline",
+        map_tab: "Route Map",
+        hide_stops: "Hide intermediate stops",
+        show_stops: "Show {{count}} intermediate stop",
+        show_stops_other: "Show {{count}} intermediate stops"
+      },
+      map: {
+        officialRouteMap: "Official Route Map"
       },
       weather: {
         clear: "Clear",
@@ -496,7 +510,10 @@ const resources = {
         use_current_location: "使用目前位置",
         geolocation_unsupported: "您的瀏覽器不支援取得地理位置。",
         location_error: "無法確定最近的車站。",
-        location_permission_denied: "拒絕提供位置存取權限，或定位失敗。"
+        location_permission_denied: "拒絕提供位置存取權限，或定位失敗。",
+        direct_route: "直達",
+        transfer: "轉乘",
+        transfers: "次轉乘"
       },
       workflow: {
         title: "資料流程",
@@ -567,7 +584,15 @@ const resources = {
         transfer_info: "轉乘資訊",
         transfer_details: "轉乘詳細資訊",
         recommended_exit: "推薦出口 / 月台",
-        smart_guidance: "智慧轉乘指引"
+        smart_guidance: "智慧轉乘指引",
+        timeline_tab: "時間軸",
+        map_tab: "路線圖",
+        hide_stops: "隱藏中途停靠站",
+        show_stops: "顯示 {{count}} 個中途停靠站",
+        show_stops_other: "顯示 {{count}} 個中途停靠站"
+      },
+      map: {
+        officialRouteMap: "官方路線圖"
       },
       weather: {
         clear: "晴朗",
@@ -731,7 +756,6 @@ const resources = {
         confirm: "儲存偏好"
       },
       line: {
-        // Japan
         "Tōkaidō Shinkansen": "東海道新幹線",
         "San'yō Shinkansen": "山陽新幹線",
         "Kyūshū Shinkansen": "九州新幹線",
@@ -748,7 +772,6 @@ const resources = {
         "Keihin-Tōhoku Line": "京濱東北線",
         "Tōkaidō Line": "東海道線",
         "Yokosuka Line": "橫須賀線",
-        // Korea
         "Line 1": "1 號線",
         "Line 2": "2 號線",
         "Line 3": "3 號線",
@@ -761,39 +784,33 @@ const resources = {
         "Line 2 (Seongsu Branch)": "2 號線 (聖水支線)",
         "Line 2 (Sinjeong Branch)": "2 號線 (新亭支線)",
         "Line 5 (Macheon Branch)": "5 號線 (馬川支線)",
-        // Singapore
         "North South Line": "南北線",
         "East West Line": "東西線",
         "North East Line": "東北線",
         "Circle Line": "環線",
         "Downtown Line": "濱海市區線",
         "Thomson–East Coast Line": "湯申-東海岸線",
-        // Bangkok
         "BTS Sukhumvit Line": "BTS 蘇坤蔚線",
         "BTS Silom Line": "BTS 席隆線",
         "MRT Blue Line": "MRT 藍線",
         "MRT Purple Line": "MRT 紫線",
         "Airport Rail Link": "機場鐵路聯絡線",
-        // China
         "Beijing–Shanghai HSR": "京滬高鐵",
         "Beijing–Guangzhou HSR": "京廣高鐵",
         "Shanghai–Kunming HSR": "滬昆高鐵",
         "Zhengzhou–Xi'an HSR": "鄭西高鐵",
         "Guangzhou–Shenzhen–Hong Kong HSR": "廣深港高鐵",
         "Chengdu–Chongqing HSR": "成渝高鐵",
-        // Germany
         "ICE Berlin–München": "ICE 柏林-慕尼黑",
         "ICE Hamburg–München": "ICE 漢堡-慕尼黑",
         "ICE Berlin–Rhein/Ruhr": "ICE 柏林-萊茵/魯爾",
         "ICE Köln–Freiburg": "ICE 科隆-弗萊堡",
         "ICE Bremen–Dresden": "ICE 不來梅-德勒斯登",
         "ICE Berlin–Hamburg": "ICE 柏林-漢堡",
-        // France
         "LGV Sud-Est / Méditerranée": "LGV 東南線 / 地中海線",
         "LGV Nord": "LGV 北線",
         "LGV Est": "LGV 東線",
         "LGV Atlantique": "LGV 大西洋線",
-        // Hong Kong
         "East Rail Line": "東鐵綫",
         "Tsuen Wan Line": "荃灣綫",
         "Island Line": "港島綫",
@@ -995,7 +1012,6 @@ const resources = {
         "North Station": "北站",
         "Park Street": "公園街",
         "Harvard": "哈佛",
-        // Singapore MRT (official LTA Chinese names)
         "Jurong East": "裕廊東",
         "Clementi": "金文泰",
         "Buona Vista": "波那維斯達",
@@ -1017,15 +1033,12 @@ const resources = {
         "Lakeside": "湖畔",
         "Changi Airport": "樟宜機場",
         "Punggol": "榜鵝",
-        // Singapore MRT — remainder of open network (official LTA Chinese names)
         "Bukit Batok": "武吉巴督",
         "Bukit Gombak": "武吉甘柏",
         "Choa Chu Kang": "蔡厝港",
         "Yew Tee": "油池",
         "Kranji": "克蘭芝",
         "Marsiling": "馬西嶺",
-        // "Admiralty" / "City Hall" for SG live in stationOverrides.ts — they
-        // collide with HK 金鐘 / Seoul 市廳 in this shared flat namespace.
         "Sembawang": "三巴旺",
         "Canberra": "坎貝拉",
         "Khatib": "卡迪",
@@ -1142,7 +1155,6 @@ const resources = {
         "Marine Terrace": "馬林台",
         "Siglap": "實乞納",
         "Bayshore": "海灣",
-        // Bangkok BTS/MRT
         "Siam": "暹羅",
         "Chit Lom": "奇隆",
         "Phloen Chit": "奔集",
@@ -1161,7 +1173,6 @@ const resources = {
         "Si Lom": "是隆",
         "Chatuchak Park": "乍都乍公園",
         "Lat Phrao": "拉拋",
-        // Germany (DB Hauptbahnhöfe)
         "Berlin Hbf": "柏林中央車站",
         "Munich Hbf": "慕尼黑中央車站",
         "Hamburg Hbf": "漢堡中央車站",
@@ -1178,7 +1189,6 @@ const resources = {
         "Mannheim Hbf": "曼海姆中央車站",
         "Freiburg Hbf": "弗萊堡中央車站",
         "Wolfsburg Hbf": "沃爾夫斯堡中央車站",
-        // France (SNCF)
         "Paris Gare de Lyon": "巴黎里昂車站",
         "Paris Gare du Nord": "巴黎北站",
         "Paris Gare de l'Est": "巴黎東站",
@@ -1197,7 +1207,6 @@ const resources = {
         "Arras": "阿拉斯",
         "Le Creusot TGV": "勒克魯佐TGV站",
         "Mâcon-Loché TGV": "馬孔洛謝TGV站",
-        // China HSR
         "Beijing South": "北京南",
         "Beijing West": "北京西",
         "Shanghai Hongqiao": "上海虹橋",
@@ -1215,7 +1224,6 @@ const resources = {
         "Kunming South": "昆明南",
         "Shanghai Songjiang": "上海松江",
         "Jiaxing South": "嘉興南",
-        // Taiwan
         "Taipei": "台北",
         "Banqiao": "板橋",
         "Taoyuan": "桃園",
@@ -1242,21 +1250,16 @@ const resources = {
   }
 };
 
-// Merge dynamically generated translations for MBTA and TfL.
-// Curated entries above win: the generated file shares keys across countries
-// (e.g. MBTA "Central" vs MTR "Central" 中環) and must not clobber them.
 const stationDict = resources['zh-TW'].translation.station as Record<string, string>;
 Object.assign(stationDict, additionalStationZhTW);
 Object.assign(stationDict, seoulSubwayTranslationsZhTW);
 Object.entries(translations).forEach(([key, value]) => {
   if (!(key in stationDict)) stationDict[key] = value;
 });
-// For English, use the original English names
 Object.keys(translations).forEach(key => {
   resources['en'].translation.station[key] = key;
 });
 
-// Merge transfer translations
 Object.assign(resources['en'].translation, transferTranslations.en);
 Object.assign(resources['zh-TW'].translation, transferTranslations['zh-TW']);
 
@@ -1264,7 +1267,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'zh-TW', // default language
+    lng: 'zh-TW',
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false
@@ -1272,3 +1275,5 @@ i18n
   });
 
 export default i18n;
+
+// --- End of i18n.ts ---

@@ -217,19 +217,22 @@ export function StationBrowser({
     };
   }, [country]);
 
+  const [isInputFocused, setIsInputFocused] = useState(false);
+
   const dependencyMap = useMemo(() => {
     return buildDependencyMap(lines);
   }, [lines]);
 
   const visibleLines = useMemo(() => {
     if (target === "destination" && selectedOrigin) {
-      return lines.filter(line => {
-        const idx = line.stations.findIndex(s => s.name === selectedOrigin);
-        return idx !== -1 && idx < line.stations.length - 1;
-      });
+      const allowed = dependencyMap.get(selectedOrigin);
+      if (!allowed) return [];
+      return lines.filter(line => 
+        line.stations.some(s => s.name !== selectedOrigin && allowed.has(s.name))
+      );
     }
     return lines;
-  }, [lines, target, selectedOrigin]);
+  }, [lines, target, selectedOrigin, dependencyMap]);
 
   useEffect(() => {
     if (visibleLines.length > 0) {
@@ -243,14 +246,12 @@ export function StationBrowser({
     const line = lines.find((l) => l.id === selectedCategory);
     if (!line) return [];
     if (target === "destination" && selectedOrigin) {
-      const originIdx = line.stations.findIndex(s => s.name === selectedOrigin);
-      if (originIdx !== -1) {
-        return line.stations.slice(originIdx + 1);
-      }
-      return [];
+      const allowed = dependencyMap.get(selectedOrigin);
+      if (!allowed) return [];
+      return line.stations.filter(s => s.name !== selectedOrigin && allowed.has(s.name));
     }
     return line.stations;
-  }, [lines, selectedCategory, target, selectedOrigin]);
+  }, [lines, selectedCategory, target, selectedOrigin, dependencyMap]);
 
   const lineColorByName = useMemo(() => {
     const map = new Map<string, string | undefined>();
@@ -436,24 +437,47 @@ export function StationBrowser({
             </div>
           </div>
 
-          <div className="relative flex items-center gap-2 rounded-2xl border border-slate-200/80 bg-slate-50/80 px-4 py-3 dark:border-slate-800/60 dark:bg-slate-900/60 focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500/50 dark:focus-within:ring-emerald-500/10 focus-within:bg-white dark:focus-within:bg-slate-950/80 transition-all duration-300 shadow-xs">
-            <Search className="h-4.5 w-4.5 text-slate-400 dark:text-slate-500 shrink-0 transition-colors group-focus-within:text-emerald-500" />
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder={t("stations.search_placeholder")}
-              className="w-full bg-transparent text-sm font-semibold text-slate-800 outline-none placeholder:text-slate-400 dark:text-slate-200 dark:placeholder:text-slate-600"
-            />
-            {query && (
-              <button
-                onClick={() => {
-                  triggerHaptic("light");
-                  setQuery("");
-                }}
-                className="p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
-              >
-                <X className="h-3.5 w-3.5" />
-              </button>
+          <div className="relative">
+            <div className="relative flex items-center gap-2 rounded-2xl border border-slate-200/80 bg-slate-50/80 px-4 py-3 dark:border-slate-800/60 dark:bg-slate-900/60 focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500/50 dark:focus-within:ring-emerald-500/10 focus-within:bg-white dark:focus-within:bg-slate-950/80 transition-all duration-300 shadow-xs">
+              <Search className="h-4.5 w-4.5 text-slate-400 dark:text-slate-500 shrink-0 transition-colors group-focus-within:text-emerald-500" />
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                onFocus={() => setIsInputFocused(true)}
+                onBlur={() => setTimeout(() => setIsInputFocused(false), 200)}
+                placeholder={t("stations.search_placeholder")}
+                className="w-full bg-transparent text-sm font-semibold text-slate-800 outline-none placeholder:text-slate-400 dark:text-slate-200 dark:placeholder:text-slate-600"
+              />
+              {query && (
+                <button
+                  onClick={() => {
+                    triggerHaptic("light");
+                    setQuery("");
+                  }}
+                  className="p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
+            </div>
+
+            {query.trim().length > 0 && isInputFocused && (
+              <div className="absolute top-[calc(100%+8px)] left-0 right-0 z-50 max-h-72 overflow-y-auto rounded-2xl border border-slate-200/80 bg-white/95 p-2 shadow-2xl dark:border-slate-800/80 dark:bg-[#070b14]/95 backdrop-blur-xl">
+                <StationList
+                  isLoading={isLoading}
+                  loadFailed={loadFailed}
+                  stations={filteredStations}
+                  country={country}
+                  onSelectStation={(st) => {
+                    handleSelectStation(st);
+                    setQuery("");
+                  }}
+                  accessibilityMap={accessibilityMap}
+                  target={target}
+                  selectedOrigin={selectedOrigin}
+                  dependencyMap={dependencyMap}
+                />
+              </div>
             )}
           </div>
 
@@ -620,6 +644,37 @@ export function StationBrowser({
                                     {secondaryLabel}
                                   </span>
                                 )}
+                                {target === "destination" && selectedOrigin && (() => {
+                                  const conn = dependencyMap.get(selectedOrigin)?.get(station.name);
+                                  if (!conn) return null;
+                                  return (
+                                    <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                                      {conn.isDirect ? (
+                                        <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border border-emerald-200/30">
+                                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                          {t("stations.direct_route", "Direct")}
+                                        </span>
+                                      ) : (
+                                        <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 border border-amber-200/30">
+                                          <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+                                          {conn.transferCount} {conn.transferCount === 1 ? t("stations.transfer", "Transfer") : t("stations.transfers", "Transfers")}
+                                        </span>
+                                      )}
+                                      {conn.lines.map((lineObj) => (
+                                        <span
+                                          key={lineObj.id}
+                                          className="inline-flex items-center gap-1 rounded-md bg-slate-50 dark:bg-slate-850 border border-slate-200/40 dark:border-slate-800/60 px-1.5 py-0.5 text-[10px] font-bold text-slate-600 dark:text-slate-300"
+                                        >
+                                          <span
+                                            className="h-1.5 w-1.5 rounded-full"
+                                            style={{ backgroundColor: lineObj.color }}
+                                          />
+                                          {t(`line.${lineObj.name}`, { defaultValue: lineObj.name })}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  );
+                                })()}
                                 {station.interchanges && station.interchanges.length > 0 && (
                                   <span className="mt-1.5 flex flex-wrap items-center gap-1.5">
                                     {station.interchanges.map((other) => (
@@ -657,6 +712,9 @@ function StationList({
   country,
   onSelectStation,
   accessibilityMap,
+  target,
+  selectedOrigin,
+  dependencyMap,
 }: {
   isLoading: boolean;
   loadFailed: boolean;
@@ -664,6 +722,9 @@ function StationList({
   country: Country;
   onSelectStation: (station: string) => void;
   accessibilityMap: Map<string, boolean>;
+  target?: "origin" | "destination";
+  selectedOrigin?: string;
+  dependencyMap?: Map<string, Map<string, ConnectionInfo>>;
 }) {
   const { t } = useTranslation();
   if (isLoading) {
@@ -745,6 +806,37 @@ function StationList({
                     {secondaryLabel}
                   </span>
                 )}
+                {target === "destination" && selectedOrigin && dependencyMap && (() => {
+                  const conn = dependencyMap.get(selectedOrigin)?.get(station);
+                  if (!conn) return null;
+                  return (
+                    <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                      {conn.isDirect ? (
+                        <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border border-emerald-200/30">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          {t("stations.direct_route", "Direct")}
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 border border-amber-200/30">
+                          <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+                          {conn.transferCount} {conn.transferCount === 1 ? t("stations.transfer", "Transfer") : t("stations.transfers", "Transfers")}
+                        </span>
+                      )}
+                      {conn.lines.map((lineObj) => (
+                        <span
+                          key={lineObj.id}
+                          className="inline-flex items-center gap-1 rounded-md bg-slate-50 dark:bg-slate-850 border border-slate-200/40 dark:border-slate-800/60 px-1.5 py-0.5 text-[10px] font-bold text-slate-600 dark:text-slate-300"
+                        >
+                          <span
+                            className="h-1.5 w-1.5 rounded-full"
+                            style={{ backgroundColor: lineObj.color }}
+                          />
+                          {t(`line.${lineObj.name}`, { defaultValue: lineObj.name })}
+                        </span>
+                      ))}
+                    </div>
+                  );
+                })()}
               </div>
               <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 <ChevronDown className="h-4 w-4 -rotate-90 text-slate-400" />
@@ -757,21 +849,103 @@ function StationList({
   );
 }
 
-export function buildDependencyMap(lines: TransitLine[]): Map<string, Set<string>> {
-  const map = new Map<string, Set<string>>();
+export interface ConnectionInfo {
+  isDirect: boolean;
+  lines: Array<{ id: string; name: string; color: string }>;
+  transferCount: number;
+  path: string[];
+}
+
+export function buildDependencyMap(lines: TransitLine[]): Map<string, Map<string, ConnectionInfo>> {
+  const map = new Map<string, Map<string, ConnectionInfo>>();
+  const adj = new Map<string, Array<{ to: string; lineId: string; lineName: string; lineColor: string }>>();
+  const allStations = new Set<string>();
+  
   for (const line of lines) {
-    const stations = line.stations;
-    for (let i = 0; i < stations.length; i++) {
-      const stationName = stations[i].name;
-      if (!map.has(stationName)) {
-        map.set(stationName, new Set<string>());
+    for (let i = 0; i < line.stations.length; i++) {
+      const current = line.stations[i].name;
+      allStations.add(current);
+      if (!adj.has(current)) {
+        adj.set(current, []);
       }
-      const allowedSet = map.get(stationName)!;
-      for (let j = i + 1; j < stations.length; j++) {
-        allowedSet.add(stations[j].name);
+      if (i > 0) {
+        adj.get(current)!.push({
+          to: line.stations[i - 1].name,
+          lineId: line.id,
+          lineName: line.name,
+          lineColor: line.color || "#94a3b8"
+        });
+      }
+      if (i < line.stations.length - 1) {
+        adj.get(current)!.push({
+          to: line.stations[i + 1].name,
+          lineId: line.id,
+          lineName: line.name,
+          lineColor: line.color || "#94a3b8"
+        });
       }
     }
   }
+
+  for (const origin of allStations) {
+    const originMap = new Map<string, ConnectionInfo>();
+    const queue: Array<{ station: string; path: Array<{ station: string; lineId: string; lineName: string; lineColor: string }> }> = [{ station: origin, path: [] }];
+    const visited = new Set<string>([origin]);
+    
+    while (queue.length > 0) {
+      const curr = queue.shift()!;
+      
+      if (curr.station !== origin) {
+        const linesInvolved: Array<{ id: string; name: string; color: string }> = [];
+        const lineIdsSet = new Set<string>();
+        for (const step of curr.path) {
+          if (!lineIdsSet.has(step.lineId)) {
+            lineIdsSet.add(step.lineId);
+            linesInvolved.push({ id: step.lineId, name: step.lineName, color: step.lineColor });
+          }
+        }
+        
+        const sharedLines = lines.filter(line => 
+          line.stations.some(s => s.name === origin) && 
+          line.stations.some(s => s.name === curr.station)
+        );
+        const isDirect = sharedLines.length > 0;
+        const linesToShow = isDirect 
+          ? sharedLines.map(l => ({ id: l.id, name: l.name, color: l.color || "#94a3b8" }))
+          : linesInvolved;
+        const transferCount = isDirect ? 0 : (linesInvolved.length - 1);
+        
+        originMap.set(curr.station, {
+          isDirect,
+          lines: linesToShow,
+          transferCount,
+          path: curr.path.map(p => p.station)
+        });
+      }
+      
+      const neighbors = adj.get(curr.station) || [];
+      for (const edge of neighbors) {
+        if (!visited.has(edge.to)) {
+          visited.add(edge.to);
+          queue.push({
+            station: edge.to,
+            path: [
+              ...curr.path,
+              {
+                station: edge.to,
+                lineId: edge.lineId,
+                lineName: edge.lineName,
+                lineColor: edge.lineColor
+              }
+            ]
+          });
+        }
+      }
+    }
+    
+    map.set(origin, originMap);
+  }
+  
   return map;
 }
 
