@@ -1,5 +1,6 @@
 import { XMLParser } from "fast-xml-parser";
 import type { JourneyLeg, SearchResponse, TransitResult } from "../types";
+import { getSwissRouteWarning } from "./swissSituations";
 
 const SWISS_OJP_URL = process.env.SWISS_OJP_URL || "https://api.opentransportdata.swiss/ojp20";
 const SWISS_TIME_ZONE = "Europe/Zurich";
@@ -404,6 +405,21 @@ export async function searchSwissJourney(
       token,
     );
     const results = parseTripResults(tripXml, resolvedOrigin, resolvedDestination, date);
+
+    // Overlay any currently-valid unplanned disruption (SIRI-SX) that affects a
+    // station on the route. Best-effort: a feed failure leaves results untouched.
+    if (results.length > 0) {
+      const routeStations = new Set<string>([resolvedOrigin.name, resolvedDestination.name]);
+      for (const result of results) {
+        for (const station of result.transferStations || []) routeStations.add(station);
+      }
+      const warning = await getSwissRouteWarning([...routeStations]);
+      if (warning) {
+        for (const result of results) {
+          if (!result.warning) result.warning = warning;
+        }
+      }
+    }
 
     return {
       status: 200,
