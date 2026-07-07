@@ -23,6 +23,7 @@ import { feedbacks } from "./src/db/schema";
 import { generateSeoulSubwayTimetable } from "./src/utils/seoulSubwayPathfinder";
 import { generateFallbackTimetable } from "./src/utils/fallbackPathfinder";
 import { newCountryStationLists } from "./src/data/scraped/stations";
+import { getStationsForCountry, getLinesForCountry } from "./src/server/catalog";
 
 dotenv.config();
 
@@ -32,62 +33,6 @@ const app = express();
 
 loadScrapedData();
 app.use(express.json());
-
-  async function getLinesForCountry(country: string): Promise<TransitLine[]> {
-    if (country === "japan") {
-      return japanRailLines;
-    }
-    if (country === "korea") {
-      return seoulSubwayLines;
-    }
-    if (country === "singapore") {
-      return singaporeMrtLines;
-    }
-    if (country === "thailand") {
-      return thailandTransitLines;
-    }
-    if (country === "china") {
-      return chinaRailLines;
-    }
-    if (country === "germany") {
-      return germanyRailLines;
-    }
-    if (country === "france") {
-      return franceRailLines;
-    }
-    if (country === "hong_kong") {
-      return hongKongMtrLineCatalog.map((line) => ({
-        id: line.code,
-        name: line.name,
-        color: line.color,
-        stations: line.stations.map((station) => {
-          const others = (mtrInterchanges.get(station.name) || []).filter((code) => code !== line.code);
-          const names = others
-            .map((code) => hongKongMtrLineCatalog.find((entry) => entry.code === code)?.name)
-            .filter((name): name is string => Boolean(name));
-          return {
-            name: station.name,
-            interchanges: names.length > 0 ? names : undefined,
-          };
-        }),
-      }));
-    }
-    if (country === "united_kingdom") {
-      try {
-        return await getTflLines();
-      } catch {
-        return [];
-      }
-    }
-    if (country === "united_states") {
-      try {
-        return await getMbtaLines();
-      } catch {
-        return [];
-      }
-    }
-    return [];
-  }
 
   // Search API. It never fabricates schedules; providers must be wired before
   // result cards can be rendered.
@@ -144,49 +89,6 @@ app.use(express.json());
       source: "scraped",
     });
   });
-
-  async function getStationsForCountry(country: string, q?: string) {
-    let stations: string[] = [];
-    let source: string | undefined;
-
-    if (country === "japan") {
-      stations = japanStations;
-    } else if (country === "korea") {
-      stations = Array.from(new Set([...koreaStations, ...seoulSubwayStationNames]))
-        .sort((a, b) => a.localeCompare(b));
-    } else if (country === "hong_kong") {
-      stations = hongKongStations;
-    } else if (country === "united_kingdom") {
-      stations = await getTflStations();
-      source = "https://api.tfl.gov.uk";
-    } else if (country === "united_states") {
-      stations = await getMbtaStations();
-      source = "https://api-v3.mbta.com";
-    } else if (newCountryStationLists[country as string]) {
-      const lineSets: Record<string, TransitLine[]> = {
-        singapore: singaporeMrtLines,
-        thailand: thailandTransitLines,
-        china: chinaRailLines,
-        germany: germanyRailLines,
-        france: franceRailLines,
-      };
-      const fromLines = (lineSets[country as string] || []).flatMap((line) =>
-        line.stations.map((station) => station.name),
-      );
-      stations = Array.from(
-        new Set([...newCountryStationLists[country as string], ...fromLines]),
-      ).sort((a, b) => a.localeCompare(b));
-    } else {
-      throw new Error("Invalid country");
-    }
-
-    if (typeof q === "string" && q.trim().length > 0) {
-      const queryVal = q.trim().toLowerCase();
-      stations = stations.filter((station) => station.toLowerCase().includes(queryVal));
-    }
-
-    return { stations, source };
-  }
 
   // Stations API
   app.get("/api/transit/stations", async (req, res) => {

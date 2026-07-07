@@ -1,0 +1,207 @@
+{
+  "country": "germany",
+  "stations": [
+    "Berlin Hbf",
+    "Bremen Hbf",
+    "Büchen",
+    "Cologne Hbf",
+    "Dortmund Hbf",
+    "Dresden Hbf",
+    "Essen Hbf",
+    "Frankfurt Hbf",
+    "Freiburg Hbf",
+    "Hamburg Hbf",
+    "Hanover Hbf",
+    "Leipzig Hbf",
+    "Mannheim Hbf",
+    "Munich Hbf",
+    "Nuremberg Hbf",
+    "Stuttgart Hbf",
+    "Wolfsburg Hbf"
+  ],
+  "lines": [
+    {
+      "id": "de-berlin-munich",
+      "name": "ICE Berlin–München",
+      "color": "#EC0016",
+      "stations": [
+        {
+          "name": "Berlin Hbf",
+          "interchanges": [
+            "ICE Berlin–Rhein/Ruhr",
+            "ICE Berlin–Hamburg"
+          ]
+        },
+        {
+          "name": "Leipzig Hbf",
+          "interchanges": [
+            "ICE Bremen–Dresden"
+          ]
+        },
+        {
+          "name": "Nuremberg Hbf"
+        },
+        {
+          "name": "Munich Hbf",
+          "interchanges": [
+            "ICE Hamburg–München"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "de-hamburg-munich",
+      "name": "ICE Hamburg–München",
+      "color": "#00A6EB",
+      "stations": [
+        {
+          "name": "Hamburg Hbf",
+          "interchanges": [
+            "ICE Berlin–Hamburg"
+          ]
+        },
+        {
+          "name": "Hanover Hbf",
+          "interchanges": [
+            "ICE Berlin–Rhein/Ruhr",
+            "ICE Bremen–Dresden"
+          ]
+        },
+        {
+          "name": "Frankfurt Hbf",
+          "interchanges": [
+            "ICE Köln–Freiburg"
+          ]
+        },
+        {
+          "name": "Mannheim Hbf",
+          "interchanges": [
+            "ICE Köln–Freiburg"
+          ]
+        },
+        {
+          "name": "Stuttgart Hbf"
+        },
+        {
+          "name": "Munich Hbf",
+          "interchanges": [
+            "ICE Berlin–München"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "de-rhine-ruhr",
+      "name": "ICE Berlin–Rhein/Ruhr",
+      "color": "#63A615",
+      "stations": [
+        {
+          "name": "Berlin Hbf",
+          "interchanges": [
+            "ICE Berlin–München",
+            "ICE Berlin–Hamburg"
+          ]
+        },
+        {
+          "name": "Wolfsburg Hbf"
+        },
+        {
+          "name": "Hanover Hbf",
+          "interchanges": [
+            "ICE Hamburg–München",
+            "ICE Bremen–Dresden"
+          ]
+        },
+        {
+          "name": "Dortmund Hbf"
+        },
+        {
+          "name": "Essen Hbf"
+        },
+        {
+          "name": "Cologne Hbf",
+          "interchanges": [
+            "ICE Köln–Freiburg"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "de-koln-freiburg",
+      "name": "ICE Köln–Freiburg",
+      "color": "#EC6608",
+      "stations": [
+        {
+          "name": "Cologne Hbf",
+          "interchanges": [
+            "ICE Berlin–Rhein/Ruhr"
+          ]
+        },
+        {
+          "name": "Frankfurt Hbf",
+          "interchanges": [
+            "ICE Hamburg–München"
+          ]
+        },
+        {
+          "name": "Mannheim Hbf",
+          "interchanges": [
+            "ICE Hamburg–München"
+          ]
+        },
+        {
+          "name": "Freiburg Hbf"
+        }
+      ]
+    },
+    {
+      "id": "de-bremen-dresden",
+      "name": "ICE Bremen–Dresden",
+      "color": "#814997",
+      "stations": [
+        {
+          "name": "Bremen Hbf"
+        },
+        {
+          "name": "Hanover Hbf",
+          "interchanges": [
+            "ICE Hamburg–München",
+            "ICE Berlin–Rhein/Ruhr"
+          ]
+        },
+        {
+          "name": "Leipzig Hbf",
+          "interchanges": [
+            "ICE Berlin–München"
+          ]
+        },
+        {
+          "name": "Dresden Hbf"
+        }
+      ]
+    },
+    {
+      "id": "de-berlin-hamburg",
+      "name": "ICE Berlin–Hamburg",
+      "color": "#F39200",
+      "stations": [
+        {
+          "name": "Berlin Hbf",
+          "interchanges": [
+            "ICE Berlin–München",
+            "ICE Berlin–Rhein/Ruhr"
+          ]
+        },
+        {
+          "name": "Büchen"
+        },
+        {
+          "name": "Hamburg Hbf",
+          "interchanges": [
+            "ICE Hamburg–München"
+          ]
+        }
+      ]
+    }
+  ]
+}

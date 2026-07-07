@@ -40,10 +40,13 @@ jobs:
       - name: Run scrapers
         run: npm run scrape -- ${{ github.event.inputs.date }}
 
+      - name: Generate static station catalog
+        run: npm run catalog
+
       - name: Commit updated data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: update transit scraped data [skip ci]"
-          file_pattern: "src/data/scraped/*.json src/data/scraped/*/*.json"
+          file_pattern: "src/data/scraped/*.json src/data/scraped/*/*.json public/catalog/*.json"
           commit_user_name: "TransitRail Scraper Bot"
           commit_user_email: "scraper@transitrail.app"

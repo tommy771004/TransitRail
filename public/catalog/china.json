@@ -1,0 +1,153 @@
+{
+  "country": "china",
+  "stations": [
+    "Beijing South",
+    "Beijing West",
+    "Changsha South",
+    "Chengdu East",
+    "Chongqing North",
+    "Guangzhou South",
+    "Hangzhou East",
+    "Jiaxing South",
+    "Jinan West",
+    "Kunming South",
+    "Nanjing South",
+    "Shanghai Hongqiao",
+    "Shanghai Songjiang",
+    "Shenzhen North",
+    "Wuhan",
+    "Xi'an North",
+    "Zhengzhou East"
+  ],
+  "lines": [
+    {
+      "id": "cn-jinghu",
+      "name": "Beijing–Shanghai HSR",
+      "color": "#E60012",
+      "stations": [
+        {
+          "name": "Beijing South"
+        },
+        {
+          "name": "Jinan West"
+        },
+        {
+          "name": "Nanjing South"
+        },
+        {
+          "name": "Shanghai Hongqiao",
+          "interchanges": [
+            "Shanghai–Kunming HSR"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cn-jingguang",
+      "name": "Beijing–Guangzhou HSR",
+      "color": "#0068B7",
+      "stations": [
+        {
+          "name": "Beijing West"
+        },
+        {
+          "name": "Zhengzhou East",
+          "interchanges": [
+            "Zhengzhou–Xi'an HSR"
+          ]
+        },
+        {
+          "name": "Wuhan"
+        },
+        {
+          "name": "Changsha South",
+          "interchanges": [
+            "Shanghai–Kunming HSR"
+          ]
+        },
+        {
+          "name": "Guangzhou South",
+          "interchanges": [
+            "Guangzhou–Shenzhen–Hong Kong HSR"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cn-hukun",
+      "name": "Shanghai–Kunming HSR",
+      "color": "#00A040",
+      "stations": [
+        {
+          "name": "Shanghai Hongqiao",
+          "interchanges": [
+            "Beijing–Shanghai HSR"
+          ]
+        },
+        {
+          "name": "Shanghai Songjiang"
+        },
+        {
+          "name": "Jiaxing South"
+        },
+        {
+          "name": "Hangzhou East"
+        },
+        {
+          "name": "Changsha South",
+          "interchanges": [
+            "Beijing–Guangzhou HSR"
+          ]
+        },
+        {
+          "name": "Kunming South"
+        }
+      ]
+    },
+    {
+      "id": "cn-zhengxi",
+      "name": "Zhengzhou–Xi'an HSR",
+      "color": "#F39800",
+      "stations": [
+        {
+          "name": "Zhengzhou East",
+          "interchanges": [
+            "Beijing–Guangzhou HSR"
+          ]
+        },
+        {
+          "name": "Xi'an North"
+        }
+      ]
+    },
+    {
+      "id": "cn-guangshengang",
+      "name": "Guangzhou–Shenzhen–Hong Kong HSR",
+      "color": "#8A6BBE",
+      "stations": [
+        {
+          "name": "Guangzhou South",
+          "interchanges": [
+            "Beijing–Guangzhou HSR"
+          ]
+        },
+        {
+          "name": "Shenzhen North"
+        }
+      ]
+    },
+    {
+      "id": "cn-chengyu",
+      "name": "Chengdu–Chongqing HSR",
+      "color": "#E4007F",
+      "stations": [
+        {
+          "name": "Chengdu East"
+        },
+        {
+          "name": "Chongqing North"
+        }
+      ]
+    }
+  ]
+}

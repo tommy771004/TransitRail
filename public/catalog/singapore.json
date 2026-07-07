@@ -1,0 +1,881 @@
+{
+  "country": "singapore",
+  "stations": [
+    "Admiralty",
+    "Aljunied",
+    "Ang Mo Kio",
+    "Bartley",
+    "Bayfront",
+    "Bayshore",
+    "Beauty World",
+    "Bedok",
+    "Bedok North",
+    "Bedok Reservoir",
+    "Bencoolen",
+    "Bendemeer",
+    "Bishan",
+    "Boon Keng",
+    "Boon Lay",
+    "Botanic Gardens",
+    "Braddell",
+    "Bras Basah",
+    "Bright Hill",
+    "Buangkok",
+    "Bugis",
+    "Bukit Batok",
+    "Bukit Gombak",
+    "Bukit Panjang",
+    "Buona Vista",
+    "Caldecott",
+    "Canberra",
+    "Cashew",
+    "Changi Airport",
+    "Chinatown",
+    "Chinese Garden",
+    "Choa Chu Kang",
+    "City Hall",
+    "Clarke Quay",
+    "Clementi",
+    "Commonwealth",
+    "Dakota",
+    "Dhoby Ghaut",
+    "Dover",
+    "Downtown",
+    "Esplanade",
+    "Eunos",
+    "Expo",
+    "Farrer Park",
+    "Farrer Road",
+    "Fort Canning",
+    "Gardens by the Bay",
+    "Geylang Bahru",
+    "Great World",
+    "Gul Circle",
+    "HarbourFront",
+    "Havelock",
+    "Haw Par Villa",
+    "Hillview",
+    "Holland Village",
+    "Hougang",
+    "Hume",
+    "Jalan Besar",
+    "Joo Koon",
+    "Jurong East",
+    "Kaki Bukit",
+    "Kallang",
+    "Katong Park",
+    "Kembangan",
+    "Kent Ridge",
+    "Khatib",
+    "King Albert Park",
+    "Kovan",
+    "Kranji",
+    "Labrador Park",
+    "Lakeside",
+    "Lavender",
+    "Lentor",
+    "Little India",
+    "Lorong Chuan",
+    "MacPherson",
+    "Marina Bay",
+    "Marina South Pier",
+    "Marine Parade",
+    "Marine Terrace",
+    "Marsiling",
+    "Marymount",
+    "Mattar",
+    "Maxwell",
+    "Mayflower",
+    "Mountbatten",
+    "Napier",
+    "Newton",
+    "Nicoll Highway",
+    "Novena",
+    "one-north",
+    "Orchard",
+    "Orchard Boulevard",
+    "Outram Park",
+    "Pasir Panjang",
+    "Pasir Ris",
+    "Paya Lebar",
+    "Pioneer",
+    "Potong Pasir",
+    "Promenade",
+    "Punggol",
+    "Punggol Coast",
+    "Queenstown",
+    "Raffles Place",
+    "Redhill",
+    "Rochor",
+    "Sembawang",
+    "Sengkang",
+    "Serangoon",
+    "Shenton Way",
+    "Siglap",
+    "Simei",
+    "Sixth Avenue",
+    "Somerset",
+    "Springleaf",
+    "Stadium",
+    "Stevens",
+    "Sungei Bedok",
+    "Tai Seng",
+    "Tampines",
+    "Tampines East",
+    "Tampines West",
+    "Tan Kah Kee",
+    "Tanah Merah",
+    "Tanjong Katong",
+    "Tanjong Pagar",
+    "Tanjong Rhu",
+    "Telok Ayer",
+    "Telok Blangah",
+    "Tiong Bahru",
+    "Toa Payoh",
+    "Tuas Crescent",
+    "Tuas Link",
+    "Tuas West Road",
+    "Ubi",
+    "Upper Changi",
+    "Upper Thomson",
+    "Woodlands",
+    "Woodlands North",
+    "Woodlands South",
+    "Woodleigh",
+    "Xilin",
+    "Yew Tee",
+    "Yio Chu Kang",
+    "Yishun"
+  ],
+  "lines": [
+    {
+      "id": "sg-nsl",
+      "name": "North South Line",
+      "color": "#D42E12",
+      "stations": [
+        {
+          "name": "Jurong East",
+          "interchanges": [
+            "East West Line"
+          ]
+        },
+        {
+          "name": "Bukit Batok"
+        },
+        {
+          "name": "Bukit Gombak"
+        },
+        {
+          "name": "Choa Chu Kang"
+        },
+        {
+          "name": "Yew Tee"
+        },
+        {
+          "name": "Kranji"
+        },
+        {
+          "name": "Marsiling"
+        },
+        {
+          "name": "Woodlands",
+          "interchanges": [
+            "Thomson–East Coast Line"
+          ]
+        },
+        {
+          "name": "Admiralty"
+        },
+        {
+          "name": "Sembawang"
+        },
+        {
+          "name": "Canberra"
+        },
+        {
+          "name": "Yishun"
+        },
+        {
+          "name": "Khatib"
+        },
+        {
+          "name": "Yio Chu Kang"
+        },
+        {
+          "name": "Ang Mo Kio"
+        },
+        {
+          "name": "Bishan",
+          "interchanges": [
+            "Circle Line"
+          ]
+        },
+        {
+          "name": "Braddell"
+        },
+        {
+          "name": "Toa Payoh"
+        },
+        {
+          "name": "Novena"
+        },
+        {
+          "name": "Newton",
+          "interchanges": [
+            "Downtown Line"
+          ]
+        },
+        {
+          "name": "Orchard",
+          "interchanges": [
+            "Thomson–East Coast Line"
+          ]
+        },
+        {
+          "name": "Somerset"
+        },
+        {
+          "name": "Dhoby Ghaut",
+          "interchanges": [
+            "North East Line",
+            "Circle Line"
+          ]
+        },
+        {
+          "name": "City Hall",
+          "interchanges": [
+            "East West Line"
+          ]
+        },
+        {
+          "name": "Raffles Place",
+          "interchanges": [
+            "East West Line"
+          ]
+        },
+        {
+          "name": "Marina Bay",
+          "interchanges": [
+            "Circle Line",
+            "Thomson–East Coast Line"
+          ]
+        },
+        {
+          "name": "Marina South Pier"
+        }
+      ]
+    },
+    {
+      "id": "sg-ewl",
+      "name": "East West Line",
+      "color": "#009645",
+      "stations": [
+        {
+          "name": "Pasir Ris"
+        },
+        {
+          "name": "Tampines",
+          "interchanges": [
+            "Downtown Line"
+          ]
+        },
+        {
+          "name": "Simei"
+        },
+        {
+          "name": "Tanah Merah"
+        },
+        {
+          "name": "Bedok"
+        },
+        {
+          "name": "Kembangan"
+        },
+        {
+          "name": "Eunos"
+        },
+        {
+          "name": "Paya Lebar",
+          "interchanges": [
+            "Circle Line"
+          ]
+        },
+        {
+          "name": "Aljunied"
+        },
+        {
+          "name": "Kallang"
+        },
+        {
+          "name": "Lavender"
+        },
+        {
+          "name": "Bugis",
+          "interchanges": [
+            "Downtown Line"
+          ]
+        },
+        {
+          "name": "City Hall",
+          "interchanges": [
+            "North South Line"
+          ]
+        },
+        {
+          "name": "Raffles Place",
+          "interchanges": [
+            "North South Line"
+          ]
+        },
+        {
+          "name": "Tanjong Pagar"
+        },
+        {
+          "name": "Outram Park",
+          "interchanges": [
+            "North East Line",
+            "Thomson–East Coast Line"
+          ]
+        },
+        {
+          "name": "Tiong Bahru"
+        },
+        {
+          "name": "Redhill"
+        },
+        {
+          "name": "Queenstown"
+        },
+        {
+          "name": "Commonwealth"
+        },
+        {
+          "name": "Buona Vista",
+          "interchanges": [
+            "Circle Line"
+          ]
+        },
+        {
+          "name": "Dover"
+        },
+        {
+          "name": "Clementi"
+        },
+        {
+          "name": "Jurong East",
+          "interchanges": [
+            "North South Line"
+          ]
+        },
+        {
+          "name": "Chinese Garden"
+        },
+        {
+          "name": "Lakeside"
+        },
+        {
+          "name": "Boon Lay"
+        },
+        {
+          "name": "Pioneer"
+        },
+        {
+          "name": "Joo Koon"
+        },
+        {
+          "name": "Gul Circle"
+        },
+        {
+          "name": "Tuas Crescent"
+        },
+        {
+          "name": "Tuas West Road"
+        },
+        {
+          "name": "Tuas Link"
+        },
+        {
+          "name": "Expo",
+          "interchanges": [
+            "Downtown Line"
+          ]
+        },
+        {
+          "name": "Changi Airport"
+        }
+      ]
+    },
+    {
+      "id": "sg-nel",
+      "name": "North East Line",
+      "color": "#9900AA",
+      "stations": [
+        {
+          "name": "HarbourFront",
+          "interchanges": [
+            "Circle Line"
+          ]
+        },
+        {
+          "name": "Outram Park",
+          "interchanges": [
+            "East West Line",
+            "Thomson–East Coast Line"
+          ]
+        },
+        {
+          "name": "Chinatown",
+          "interchanges": [
+            "Downtown Line"
+          ]
+        },
+        {
+          "name": "Clarke Quay"
+        },
+        {
+          "name": "Dhoby Ghaut",
+          "interchanges": [
+            "North South Line",
+            "Circle Line"
+          ]
+        },
+        {
+          "name": "Little India",
+          "interchanges": [
+            "Downtown Line"
+          ]
+        },
+        {
+          "name": "Farrer Park"
+        },
+        {
+          "name": "Boon Keng"
+        },
+        {
+          "name": "Potong Pasir"
+        },
+        {
+          "name": "Woodleigh"
+        },
+        {
+          "name": "Serangoon",
+          "interchanges": [
+            "Circle Line"
+          ]
+        },
+        {
+          "name": "Kovan"
+        },
+        {
+          "name": "Hougang"
+        },
+        {
+          "name": "Buangkok"
+        },
+        {
+          "name": "Sengkang"
+        },
+        {
+          "name": "Punggol"
+        },
+        {
+          "name": "Punggol Coast"
+        }
+      ]
+    },
+    {
+      "id": "sg-ccl",
+      "name": "Circle Line",
+      "color": "#FA9E0D",
+      "stations": [
+        {
+          "name": "Dhoby Ghaut",
+          "interchanges": [
+            "North South Line",
+            "North East Line"
+          ]
+        },
+        {
+          "name": "Bras Basah"
+        },
+        {
+          "name": "Esplanade"
+        },
+        {
+          "name": "Promenade",
+          "interchanges": [
+            "Downtown Line"
+          ]
+        },
+        {
+          "name": "Nicoll Highway"
+        },
+        {
+          "name": "Stadium"
+        },
+        {
+          "name": "Mountbatten"
+        },
+        {
+          "name": "Dakota"
+        },
+        {
+          "name": "Paya Lebar",
+          "interchanges": [
+            "East West Line"
+          ]
+        },
+        {
+          "name": "MacPherson",
+          "interchanges": [
+            "Downtown Line"
+          ]
+        },
+        {
+          "name": "Tai Seng"
+        },
+        {
+          "name": "Bartley"
+        },
+        {
+          "name": "Serangoon",
+          "interchanges": [
+            "North East Line"
+          ]
+        },
+        {
+          "name": "Lorong Chuan"
+        },
+        {
+          "name": "Bishan",
+          "interchanges": [
+            "North South Line"
+          ]
+        },
+        {
+          "name": "Marymount"
+        },
+        {
+          "name": "Caldecott",
+          "interchanges": [
+            "Thomson–East Coast Line"
+          ]
+        },
+        {
+          "name": "Botanic Gardens",
+          "interchanges": [
+            "Downtown Line"
+          ]
+        },
+        {
+          "name": "Farrer Road"
+        },
+        {
+          "name": "Holland Village"
+        },
+        {
+          "name": "Buona Vista",
+          "interchanges": [
+            "East West Line"
+          ]
+        },
+        {
+          "name": "one-north"
+        },
+        {
+          "name": "Kent Ridge"
+        },
+        {
+          "name": "Haw Par Villa"
+        },
+        {
+          "name": "Pasir Panjang"
+        },
+        {
+          "name": "Labrador Park"
+        },
+        {
+          "name": "Telok Blangah"
+        },
+        {
+          "name": "HarbourFront",
+          "interchanges": [
+            "North East Line"
+          ]
+        },
+        {
+          "name": "Bayfront",
+          "interchanges": [
+            "Downtown Line"
+          ]
+        },
+        {
+          "name": "Marina Bay",
+          "interchanges": [
+            "North South Line",
+            "Thomson–East Coast Line"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sg-dtl",
+      "name": "Downtown Line",
+      "color": "#005EC4",
+      "stations": [
+        {
+          "name": "Bukit Panjang"
+        },
+        {
+          "name": "Cashew"
+        },
+        {
+          "name": "Hillview"
+        },
+        {
+          "name": "Hume"
+        },
+        {
+          "name": "Beauty World"
+        },
+        {
+          "name": "King Albert Park"
+        },
+        {
+          "name": "Sixth Avenue"
+        },
+        {
+          "name": "Tan Kah Kee"
+        },
+        {
+          "name": "Botanic Gardens",
+          "interchanges": [
+            "Circle Line"
+          ]
+        },
+        {
+          "name": "Stevens",
+          "interchanges": [
+            "Thomson–East Coast Line"
+          ]
+        },
+        {
+          "name": "Newton",
+          "interchanges": [
+            "North South Line"
+          ]
+        },
+        {
+          "name": "Little India",
+          "interchanges": [
+            "North East Line"
+          ]
+        },
+        {
+          "name": "Rochor"
+        },
+        {
+          "name": "Bugis",
+          "interchanges": [
+            "East West Line"
+          ]
+        },
+        {
+          "name": "Promenade",
+          "interchanges": [
+            "Circle Line"
+          ]
+        },
+        {
+          "name": "Bayfront",
+          "interchanges": [
+            "Circle Line"
+          ]
+        },
+        {
+          "name": "Downtown"
+        },
+        {
+          "name": "Telok Ayer"
+        },
+        {
+          "name": "Chinatown",
+          "interchanges": [
+            "North East Line"
+          ]
+        },
+        {
+          "name": "Fort Canning"
+        },
+        {
+          "name": "Bencoolen"
+        },
+        {
+          "name": "Jalan Besar"
+        },
+        {
+          "name": "Bendemeer"
+        },
+        {
+          "name": "Geylang Bahru"
+        },
+        {
+          "name": "Mattar"
+        },
+        {
+          "name": "MacPherson",
+          "interchanges": [
+            "Circle Line"
+          ]
+        },
+        {
+          "name": "Ubi"
+        },
+        {
+          "name": "Kaki Bukit"
+        },
+        {
+          "name": "Bedok North"
+        },
+        {
+          "name": "Bedok Reservoir"
+        },
+        {
+          "name": "Tampines West"
+        },
+        {
+          "name": "Tampines",
+          "interchanges": [
+            "East West Line"
+          ]
+        },
+        {
+          "name": "Tampines East"
+        },
+        {
+          "name": "Upper Changi"
+        },
+        {
+          "name": "Expo",
+          "interchanges": [
+            "East West Line"
+          ]
+        },
+        {
+          "name": "Xilin"
+        },
+        {
+          "name": "Sungei Bedok"
+        }
+      ]
+    },
+    {
+      "id": "sg-tel",
+      "name": "Thomson–East Coast Line",
+      "color": "#9D5B25",
+      "stations": [
+        {
+          "name": "Woodlands North"
+        },
+        {
+          "name": "Woodlands",
+          "interchanges": [
+            "North South Line"
+          ]
+        },
+        {
+          "name": "Woodlands South"
+        },
+        {
+          "name": "Springleaf"
+        },
+        {
+          "name": "Lentor"
+        },
+        {
+          "name": "Mayflower"
+        },
+        {
+          "name": "Bright Hill"
+        },
+        {
+          "name": "Upper Thomson"
+        },
+        {
+          "name": "Caldecott",
+          "interchanges": [
+            "Circle Line"
+          ]
+        },
+        {
+          "name": "Stevens",
+          "interchanges": [
+            "Downtown Line"
+          ]
+        },
+        {
+          "name": "Napier"
+        },
+        {
+          "name": "Orchard Boulevard"
+        },
+        {
+          "name": "Orchard",
+          "interchanges": [
+            "North South Line"
+          ]
+        },
+        {
+          "name": "Great World"
+        },
+        {
+          "name": "Havelock"
+        },
+        {
+          "name": "Outram Park",
+          "interchanges": [
+            "East West Line",
+            "North East Line"
+          ]
+        },
+        {
+          "name": "Maxwell"
+        },
+        {
+          "name": "Shenton Way"
+        },
+        {
+          "name": "Marina Bay",
+          "interchanges": [
+            "North South Line",
+            "Circle Line"
+          ]
+        },
+        {
+          "name": "Gardens by the Bay"
+        },
+        {
+          "name": "Tanjong Rhu"
+        },
+        {
+          "name": "Katong Park"
+        },
+        {
+          "name": "Tanjong Katong"
+        },
+        {
+          "name": "Marine Parade"
+        },
+        {
+          "name": "Marine Terrace"
+        },
+        {
+          "name": "Siglap"
+        },
+        {
+          "name": "Bayshore"
+        }
+      ]
+    }
+  ]
+}

@@ -113,54 +113,56 @@ export function StationBrowser({
   useEffect(() => {
     let active = true;
     setSelectedCategory("");
-    const fetchStations = async () => {
-      setIsLoading(true);
-      setLoadFailed(false);
-      try {
-        const res = await fetch(`/api/transit/stations?country=${country}`);
-        const data = await res.json();
-        if (active && res.ok) {
-          setStations(data.stations || []);
-        } else if (active) {
-          setStations([]);
-          setLoadFailed(true);
-        }
-      } catch {
-        if (active) {
-          setStations([]);
-          setLoadFailed(true);
-        }
-      } finally {
-        if (active) setIsLoading(false);
+
+    const applyLines = (fetchedLines: TransitLine[]) => {
+      setLines(fetchedLines);
+      if (fetchedLines.length > 0) {
+        setSelectedCategory(scrollToLineId || fetchedLines[0].id);
+      } else {
+        setLinesFailed(true);
       }
     };
-    const fetchLines = async () => {
+
+    // Fallback: the /api serverless function (also fine once the lambda is healthy).
+    const loadFromApi = async () => {
+      const [sRes, lRes] = await Promise.allSettled([
+        fetch(`/api/transit/stations?country=${country}`).then((r) => r.json().then((d) => ({ ok: r.ok, d }))),
+        fetch(`/api/transit/lines?country=${country}`).then((r) => r.json().then((d) => ({ ok: r.ok, d }))),
+      ]);
+      if (!active) return;
+      if (sRes.status === "fulfilled" && sRes.value.ok) setStations(sRes.value.d.stations || []);
+      else { setStations([]); setLoadFailed(true); }
+      if (lRes.status === "fulfilled" && lRes.value.ok) applyLines(lRes.value.d.lines || []);
+      else { setLines([]); setLinesFailed(true); }
+    };
+
+    // Static catalog first: a CDN file that survives a total /api outage.
+    const load = async () => {
+      setIsLoading(true);
       setLinesLoading(true);
+      setLoadFailed(false);
       setLinesFailed(false);
       try {
-        const res = await fetch(`/api/transit/lines?country=${country}`);
-        const data = await res.json();
-        if (active && res.ok) {
-          const fetchedLines = data.lines || [];
-          setLines(fetchedLines);
-          if (fetchedLines.length > 0) {
-            setSelectedCategory(scrollToLineId || fetchedLines[0].id);
-          }
-        } else if (active) {
-          setLines([]);
-          setLinesFailed(true);
+        const res = await fetch(`/catalog/${country}.json`);
+        if (res.ok) {
+          const data = await res.json();
+          if (!active) return;
+          setStations(data.stations || []);
+          applyLines(data.lines || []);
+          return;
         }
+        await loadFromApi();
       } catch {
-        if (active) {
-          setLines([]);
-          setLinesFailed(true);
-        }
+        await loadFromApi();
       } finally {
-        if (active) setLinesLoading(false);
+        if (active) {
+          setIsLoading(false);
+          setLinesLoading(false);
+        }
       }
     };
-    void fetchStations();
-    void fetchLines();
+
+    void load();
     return () => {
       active = false;
     };

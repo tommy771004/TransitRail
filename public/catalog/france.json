@@ -1,0 +1,107 @@
+{
+  "country": "france",
+  "stations": [
+    "Arras",
+    "Avignon TGV",
+    "Bordeaux St-Jean",
+    "Le Creusot TGV",
+    "Lille Europe",
+    "Lille Flandres",
+    "Lyon Part-Dieu",
+    "Lyon Perrache",
+    "Mâcon-Loché TGV",
+    "Marseille St-Charles",
+    "Nantes",
+    "Nice",
+    "Paris Gare de l'Est",
+    "Paris Gare de Lyon",
+    "Paris Gare du Nord",
+    "Rennes",
+    "Strasbourg",
+    "Toulouse Matabiau"
+  ],
+  "lines": [
+    {
+      "id": "fr-sud-est",
+      "name": "LGV Sud-Est / Méditerranée",
+      "color": "#A0006E",
+      "stations": [
+        {
+          "name": "Paris Gare de Lyon"
+        },
+        {
+          "name": "Le Creusot TGV"
+        },
+        {
+          "name": "Mâcon-Loché TGV"
+        },
+        {
+          "name": "Lyon Perrache"
+        },
+        {
+          "name": "Lyon Part-Dieu"
+        },
+        {
+          "name": "Avignon TGV"
+        },
+        {
+          "name": "Marseille St-Charles"
+        },
+        {
+          "name": "Nice"
+        }
+      ]
+    },
+    {
+      "id": "fr-nord",
+      "name": "LGV Nord",
+      "color": "#0064B0",
+      "stations": [
+        {
+          "name": "Paris Gare du Nord"
+        },
+        {
+          "name": "Arras"
+        },
+        {
+          "name": "Lille Flandres"
+        },
+        {
+          "name": "Lille Europe"
+        }
+      ]
+    },
+    {
+      "id": "fr-est",
+      "name": "LGV Est",
+      "color": "#E2001A",
+      "stations": [
+        {
+          "name": "Paris Gare de l'Est"
+        },
+        {
+          "name": "Strasbourg"
+        }
+      ]
+    },
+    {
+      "id": "fr-atlantique",
+      "name": "LGV Atlantique",
+      "color": "#009640",
+      "stations": [
+        {
+          "name": "Rennes"
+        },
+        {
+          "name": "Nantes"
+        },
+        {
+          "name": "Bordeaux St-Jean"
+        },
+        {
+          "name": "Toulouse Matabiau"
+        }
+      ]
+    }
+  ]
+}

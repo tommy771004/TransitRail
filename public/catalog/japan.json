@@ -1,0 +1,394 @@
+{
+  "country": "japan",
+  "stations": [
+    "Tokyo",
+    "Shinagawa",
+    "Shinjuku",
+    "Shibuya",
+    "Ikebukuro",
+    "Ueno",
+    "Akihabara",
+    "Shin-Yokohama",
+    "Yokohama",
+    "Omiya",
+    "Nagoya",
+    "Kyoto",
+    "Shin-Osaka",
+    "Osaka",
+    "Umeda",
+    "Namba",
+    "Tennoji",
+    "Kobe",
+    "Shin-Kobe",
+    "Sannomiya",
+    "Himeji",
+    "Okayama",
+    "Hiroshima",
+    "Hakata",
+    "Fukuoka",
+    "Kumamoto",
+    "Kagoshima-Chuo",
+    "Sendai",
+    "Morioka",
+    "Shin-Aomori",
+    "Shin-Hakodate-Hokuto",
+    "Sapporo",
+    "Kanazawa",
+    "Toyama",
+    "Nagano",
+    "Niigata",
+    "Fukui",
+    "Tsuruga",
+    "Fukushima",
+    "Yonezawa",
+    "Yamagata",
+    "Shinjo",
+    "Kakunodate",
+    "Akita",
+    "Takeo-Onsen",
+    "Ureshino-Onsen",
+    "Shin-Omura",
+    "Isahaya",
+    "Nagasaki"
+  ],
+  "lines": [
+    {
+      "id": "tokaido-shinkansen",
+      "name": "Tōkaidō Shinkansen",
+      "color": "#1153AF",
+      "stations": [
+        {
+          "name": "Tokyo",
+          "interchanges": [
+            "Tōhoku Shinkansen",
+            "Hokuriku Shinkansen",
+            "Jōetsu Shinkansen",
+            "Yamagata Shinkansen",
+            "Akita Shinkansen"
+          ]
+        },
+        {
+          "name": "Shinagawa"
+        },
+        {
+          "name": "Shin-Yokohama"
+        },
+        {
+          "name": "Nagoya"
+        },
+        {
+          "name": "Kyoto"
+        },
+        {
+          "name": "Shin-Osaka",
+          "interchanges": [
+            "San'yō Shinkansen"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sanyo-shinkansen",
+      "name": "San'yō Shinkansen",
+      "color": "#0068B7",
+      "stations": [
+        {
+          "name": "Shin-Osaka",
+          "interchanges": [
+            "Tōkaidō Shinkansen"
+          ]
+        },
+        {
+          "name": "Shin-Kobe"
+        },
+        {
+          "name": "Himeji"
+        },
+        {
+          "name": "Okayama"
+        },
+        {
+          "name": "Hiroshima"
+        },
+        {
+          "name": "Hakata",
+          "interchanges": [
+            "Kyūshū Shinkansen"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kyushu-shinkansen",
+      "name": "Kyūshū Shinkansen",
+      "color": "#E50012",
+      "stations": [
+        {
+          "name": "Hakata",
+          "interchanges": [
+            "San'yō Shinkansen"
+          ]
+        },
+        {
+          "name": "Kumamoto"
+        },
+        {
+          "name": "Kagoshima-Chuo"
+        }
+      ]
+    },
+    {
+      "id": "nishi-kyushu-shinkansen",
+      "name": "Nishi-Kyūshū Shinkansen",
+      "color": "#E50012",
+      "stations": [
+        {
+          "name": "Takeo-Onsen"
+        },
+        {
+          "name": "Ureshino-Onsen"
+        },
+        {
+          "name": "Shin-Omura"
+        },
+        {
+          "name": "Isahaya"
+        },
+        {
+          "name": "Nagasaki"
+        }
+      ]
+    },
+    {
+      "id": "tohoku-shinkansen",
+      "name": "Tōhoku Shinkansen",
+      "color": "#008803",
+      "stations": [
+        {
+          "name": "Tokyo",
+          "interchanges": [
+            "Tōkaidō Shinkansen",
+            "Hokuriku Shinkansen",
+            "Jōetsu Shinkansen",
+            "Yamagata Shinkansen",
+            "Akita Shinkansen"
+          ]
+        },
+        {
+          "name": "Ueno",
+          "interchanges": [
+            "Hokuriku Shinkansen",
+            "Jōetsu Shinkansen",
+            "Yamagata Shinkansen"
+          ]
+        },
+        {
+          "name": "Omiya",
+          "interchanges": [
+            "Hokuriku Shinkansen",
+            "Jōetsu Shinkansen",
+            "Yamagata Shinkansen"
+          ]
+        },
+        {
+          "name": "Sendai",
+          "interchanges": [
+            "Akita Shinkansen"
+          ]
+        },
+        {
+          "name": "Morioka",
+          "interchanges": [
+            "Akita Shinkansen"
+          ]
+        },
+        {
+          "name": "Shin-Aomori",
+          "interchanges": [
+            "Hokkaidō Shinkansen"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hokkaido-shinkansen",
+      "name": "Hokkaidō Shinkansen",
+      "color": "#8FC31F",
+      "stations": [
+        {
+          "name": "Shin-Aomori",
+          "interchanges": [
+            "Tōhoku Shinkansen"
+          ]
+        },
+        {
+          "name": "Shin-Hakodate-Hokuto"
+        }
+      ]
+    },
+    {
+      "id": "hokuriku-shinkansen",
+      "name": "Hokuriku Shinkansen",
+      "color": "#8A6BBE",
+      "stations": [
+        {
+          "name": "Tokyo",
+          "interchanges": [
+            "Tōkaidō Shinkansen",
+            "Tōhoku Shinkansen",
+            "Jōetsu Shinkansen",
+            "Yamagata Shinkansen",
+            "Akita Shinkansen"
+          ]
+        },
+        {
+          "name": "Ueno",
+          "interchanges": [
+            "Tōhoku Shinkansen",
+            "Jōetsu Shinkansen",
+            "Yamagata Shinkansen"
+          ]
+        },
+        {
+          "name": "Omiya",
+          "interchanges": [
+            "Tōhoku Shinkansen",
+            "Jōetsu Shinkansen",
+            "Yamagata Shinkansen"
+          ]
+        },
+        {
+          "name": "Nagano"
+        },
+        {
+          "name": "Toyama"
+        },
+        {
+          "name": "Kanazawa"
+        },
+        {
+          "name": "Fukui"
+        },
+        {
+          "name": "Tsuruga"
+        }
+      ]
+    },
+    {
+      "id": "joetsu-shinkansen",
+      "name": "Jōetsu Shinkansen",
+      "color": "#00B2E5",
+      "stations": [
+        {
+          "name": "Tokyo",
+          "interchanges": [
+            "Tōkaidō Shinkansen",
+            "Tōhoku Shinkansen",
+            "Hokuriku Shinkansen",
+            "Yamagata Shinkansen",
+            "Akita Shinkansen"
+          ]
+        },
+        {
+          "name": "Ueno",
+          "interchanges": [
+            "Tōhoku Shinkansen",
+            "Hokuriku Shinkansen",
+            "Yamagata Shinkansen"
+          ]
+        },
+        {
+          "name": "Omiya",
+          "interchanges": [
+            "Tōhoku Shinkansen",
+            "Hokuriku Shinkansen",
+            "Yamagata Shinkansen"
+          ]
+        },
+        {
+          "name": "Niigata"
+        }
+      ]
+    },
+    {
+      "id": "yamagata-shinkansen",
+      "name": "Yamagata Shinkansen",
+      "color": "#F08300",
+      "stations": [
+        {
+          "name": "Tokyo",
+          "interchanges": [
+            "Tōkaidō Shinkansen",
+            "Tōhoku Shinkansen",
+            "Hokuriku Shinkansen",
+            "Jōetsu Shinkansen",
+            "Akita Shinkansen"
+          ]
+        },
+        {
+          "name": "Ueno",
+          "interchanges": [
+            "Tōhoku Shinkansen",
+            "Hokuriku Shinkansen",
+            "Jōetsu Shinkansen"
+          ]
+        },
+        {
+          "name": "Omiya",
+          "interchanges": [
+            "Tōhoku Shinkansen",
+            "Hokuriku Shinkansen",
+            "Jōetsu Shinkansen"
+          ]
+        },
+        {
+          "name": "Fukushima"
+        },
+        {
+          "name": "Yonezawa"
+        },
+        {
+          "name": "Yamagata"
+        },
+        {
+          "name": "Shinjo"
+        }
+      ]
+    },
+    {
+      "id": "akita-shinkansen",
+      "name": "Akita Shinkansen",
+      "color": "#E4007F",
+      "stations": [
+        {
+          "name": "Tokyo",
+          "interchanges": [
+            "Tōkaidō Shinkansen",
+            "Tōhoku Shinkansen",
+            "Hokuriku Shinkansen",
+            "Jōetsu Shinkansen",
+            "Yamagata Shinkansen"
+          ]
+        },
+        {
+          "name": "Sendai",
+          "interchanges": [
+            "Tōhoku Shinkansen"
+          ]
+        },
+        {
+          "name": "Morioka",
+          "interchanges": [
+            "Tōhoku Shinkansen"
+          ]
+        },
+        {
+          "name": "Kakunodate"
+        },
+        {
+          "name": "Akita"
+        }
+      ]
+    }
+  ]
+}
