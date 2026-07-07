@@ -8,7 +8,7 @@ import { WeatherWidget } from "./WeatherWidget";
 import { stationLabel } from "../utils/stationLabel";
 
 interface LiveRailResultViewProps {
-  market: "london" | "boston";
+  market: "london" | "boston" | "switzerland";
   origin: string;
   destination: string;
   date: string;
@@ -23,7 +23,7 @@ interface LiveRailResultViewProps {
 
 function formatFare(trip: TransitResult) {
   if (trip.price === undefined || !trip.currency) return null;
-  return new Intl.NumberFormat("en-GB", {
+  return new Intl.NumberFormat(trip.country === "switzerland" ? "de-CH" : "en-GB", {
     style: "currency",
     currency: trip.currency,
     minimumFractionDigits: 2,
@@ -45,12 +45,14 @@ export function LiveRailResultView({
 }: LiveRailResultViewProps) {
   const { t } = useTranslation();
   const isBoston = market === "boston";
-  const copyKey = isBoston ? "boston" : "london";
-  const country: Country = isBoston ? "united_states" : "united_kingdom";
+  const isSwiss = market === "switzerland";
+  const copyKey = isBoston ? "boston" : isSwiss ? "switzerland" : "london";
+  const country: Country = isBoston ? "united_states" : isSwiss ? "switzerland" : "united_kingdom";
+  const fallbackAccent = isSwiss ? "#D52B1E" : country === "united_kingdom" ? "#2563EB" : "#10B981";
 
   return (
     <main className="min-h-screen bg-transparent pb-28 pt-14">
-      <section className="border-b border-slate-200/80 bg-white/95 backdrop-blur-sm px-4 py-4 dark:border-slate-700/50 dark:bg-slate-900/95">
+      <section className={`border-b px-4 py-4 backdrop-blur-sm ${isSwiss ? "border-rose-200/90 bg-[linear-gradient(135deg,rgba(255,255,255,0.98)_0%,rgba(255,246,246,0.98)_72%,rgba(255,237,237,0.98)_100%)] dark:border-rose-900/40 dark:bg-[linear-gradient(135deg,rgba(12,12,12,0.96)_0%,rgba(44,10,14,0.96)_100%)]" : "border-slate-200/80 bg-white/95 dark:border-slate-700/50 dark:bg-slate-900/95"}`}>
         <div className="mx-auto flex max-w-md items-center justify-between gap-3">
           <div className="min-w-0">
             <div className="flex min-w-0 items-center gap-2 text-base font-bold tracking-tight text-slate-900 dark:text-white">
@@ -58,13 +60,14 @@ export function LiveRailResultView({
               <span className="shrink-0 text-slate-400">&rarr;</span>
               <span className="truncate">{stationLabel(t, destination, country)}</span>
             </div>
-            <p className="mt-1 flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
+            <p className={`mt-1 flex items-center gap-1.5 text-xs font-bold ${isSwiss ? "text-rose-700 dark:text-rose-300" : "text-emerald-700 dark:text-emerald-400"}`}>
               <span className="relative flex h-2 w-2">
-                <span className="absolute h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
-                <span className="h-2 w-2 rounded-full bg-emerald-600" />
+                <span className={`absolute h-full w-full animate-ping rounded-full opacity-60 ${isSwiss ? "bg-rose-500" : "bg-emerald-500"}`} />
+                <span className={`h-2 w-2 rounded-full ${isSwiss ? "bg-rose-600" : "bg-emerald-600"}`} />
               </span>
               {t(`${copyKey}.official_data`)}
               <span className="font-mono text-slate-400 dark:text-slate-500">{date}</span>
+              {isSwiss ? <span className="rounded-full bg-rose-700 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.18em] text-white dark:bg-rose-500 dark:text-slate-950">OJP 2.0</span> : null}
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-1.5">
@@ -172,10 +175,10 @@ export function LiveRailResultView({
                                   : t("london.transfers")}
                             </p>
                           </div>
-                          <span className="flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-500/5 dark:bg-emerald-400/10 px-2.5 py-1 text-[10px] font-black text-emerald-700 dark:text-emerald-400">
+                          <span className={`flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-black ${isSwiss ? "bg-rose-500/10 text-rose-700 dark:bg-rose-400/10 dark:text-rose-300" : "bg-emerald-500/5 text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-400"}`}>
                             <span className="relative flex h-2 w-2">
-                              <span className="absolute h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
-                              <span className="h-2 w-2 rounded-full bg-emerald-600" />
+                              <span className={`absolute h-full w-full animate-ping rounded-full opacity-60 ${isSwiss ? "bg-rose-500" : "bg-emerald-500"}`} />
+                              <span className={`h-2 w-2 rounded-full ${isSwiss ? "bg-rose-600" : "bg-emerald-600"}`} />
                             </span>
                             {t(`${copyKey}.current`)}
                           </span>
@@ -184,6 +187,13 @@ export function LiveRailResultView({
                         <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
                           <div className="min-w-0">
                             <p className="font-mono text-3xl font-black leading-none tracking-tight text-slate-950 dark:text-white">{trip.departureTime}</p>
+                            {trip.realtime && typeof trip.delayMinutes === "number" && (
+                              <p className={`mt-1 font-mono text-[11px] font-black ${trip.delayMinutes > 0 ? "text-rose-600 dark:text-rose-400" : "text-emerald-600 dark:text-emerald-400"}`}>
+                                {trip.delayMinutes > 0
+                                  ? `+${trip.delayMinutes} ${t("result.delay_min", { defaultValue: "min" })}`
+                                  : t("result.on_time", { defaultValue: "On time" })}
+                              </p>
+                            )}
                             <p className="mt-1.5 flex items-center gap-1.5 truncate text-xs font-bold text-slate-500 dark:text-slate-400">
                               <span className="truncate">{stationLabel(t, trip.origin, trip.country)}</span>
                               {(trip.platform || trip.legs?.[0]?.platform) && (
@@ -196,8 +206,8 @@ export function LiveRailResultView({
 
                           {/* Re-imagined SwiftUI style transit progress line */}
                           <div className="relative flex min-w-[75px] flex-col items-center">
-                            <span className="font-mono text-[10px] font-bold text-slate-400 dark:text-slate-500 mb-1">
-                              {trip.durationMinutes ?? "-"} {t("london.minutes")}
+                            <span className="mb-1 font-mono text-[10px] font-bold text-slate-400 dark:text-slate-500">
+                              {trip.durationMinutes ?? "-"} {t(`${copyKey}.minutes`, { defaultValue: "min" })}
                             </span>
                             <div className="relative flex w-full items-center justify-between px-1">
                               {/* Background track */}
@@ -206,13 +216,13 @@ export function LiveRailResultView({
                               <div 
                                 className="absolute left-1 right-1 h-[3px] rounded-full"
                                 style={{
-                                  background: `linear-gradient(to right, ${trip.lineColor || "#10b981"}, ${trip.lineColor || "#10b981"}ee)`
+                                  background: `linear-gradient(to right, ${trip.lineColor || fallbackAccent}, ${trip.lineColor || fallbackAccent}ee)`
                                 }}
                               />
                               {/* Origin dot */}
                               <span 
                                 className="z-10 h-3 w-3 rounded-full bg-white dark:bg-slate-950 ring-[2.5px] shadow-xs" 
-                                style={{ borderColor: trip.lineColor || "#10b981" }} 
+                                style={{ borderColor: trip.lineColor || fallbackAccent }} 
                               />
                               {/* Middle transfer indicator */}
                               {!trip.direct && (
@@ -221,7 +231,7 @@ export function LiveRailResultView({
                               {/* Destination dot */}
                               <span 
                                 className="z-10 h-3 w-3 rounded-full bg-white dark:bg-slate-950 ring-[2.5px] shadow-xs" 
-                                style={{ borderColor: trip.lineColor || "#10b981" }} 
+                                style={{ borderColor: trip.lineColor || fallbackAccent }} 
                               />
                             </div>
                           </div>
@@ -252,7 +262,7 @@ export function LiveRailResultView({
                             </p>
                           )}
                           {fare ? (
-                            <p className="mt-1 text-sm font-black text-slate-950 dark:text-emerald-400">
+                            <p className={`mt-1 text-sm font-black ${isSwiss ? "text-rose-700 dark:text-rose-300" : "text-slate-950 dark:text-emerald-400"}`}>
                               {(formatPrice ? formatPrice(trip) : null) || fare}
                             </p>
                           ) : null}

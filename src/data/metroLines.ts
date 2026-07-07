@@ -326,3 +326,53 @@ const franceLineDefs: LineDef[] = [
 ];
 
 export const franceRailLines = buildLines(franceLineDefs);
+
+// ---------------------------------------------------------------------------
+// Switzerland intercity rail — major SBB corridors.
+// ---------------------------------------------------------------------------
+const switzerlandLineDefs: LineDef[] = [
+  {
+    id: "ch-ic1",
+    name: "IC1 Genève-Aéroport–St. Gallen",
+    color: "#D52B1E",
+    stations: [
+      "Genève-Aéroport", "Genève", "Lausanne", "Fribourg/Freiburg", "Bern",
+      "Zürich HB", "Winterthur", "St. Gallen",
+    ],
+  },
+  {
+    id: "ch-ic2",
+    name: "IC2 Zürich HB–Lugano",
+    color: "#444B54",
+    stations: [
+      "Zürich HB", "Zug", "Arth-Goldau", "Bellinzona", "Lugano",
+    ],
+  },
+  {
+    id: "ch-ic3",
+    name: "IC3 Basel SBB–Chur",
+    color: "#8C1D40",
+    stations: [
+      "Basel SBB", "Zürich HB", "Zürich Flughafen", "Sargans", "Chur",
+    ],
+  },
+  {
+    id: "ch-ic5",
+    name: "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne",
+    color: "#F5B700",
+    stations: [
+      "Genève-Aéroport", "Genève", "Lausanne", "Yverdon-les-Bains", "Biel/Bienne",
+      "Zürich HB", "Winterthur", "St. Gallen",
+    ],
+  },
+  {
+    id: "ch-ir90",
+    name: "IR90 Brig–Genève-Aéroport",
+    color: "#1D6FA3",
+    stations: [
+      "Brig", "Sion", "Montreux", "Lausanne", "Genève", "Genève-Aéroport",
+    ],
+  },
+];
+
+export const switzerlandRailLines = buildLines(switzerlandLineDefs);

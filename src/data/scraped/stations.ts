@@ -43,6 +43,14 @@ export const chinaStations = [
   "Chongqing North", "Kunming South", "Shanghai Songjiang", "Jiaxing South",
 ];
 
+export const switzerlandStations = [
+  "Zürich HB", "Zürich Flughafen", "Bern", "Basel SBB", "Lausanne",
+  "Genève", "Genève-Aéroport", "Luzern", "Winterthur", "St. Gallen",
+  "Biel/Bienne", "Fribourg/Freiburg", "Lugano", "Bellinzona", "Chur",
+  "Interlaken Ost", "Montreux", "Brig", "Sion", "Arth-Goldau",
+  "Zug", "Yverdon-les-Bains", "Sargans",
+];
+
 export const newCountryStationLists: Record<string, string[]> = {
   taiwan: taiwanStations,
   singapore: singaporeStations,
@@ -50,4 +58,5 @@ export const newCountryStationLists: Record<string, string[]> = {
   germany: germanyStations,
   france: franceStations,
   china: chinaStations,
+  switzerland: switzerlandStations,
 };

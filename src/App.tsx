@@ -58,6 +58,7 @@ const seoCountryPathMap: Record<Country, string> = {
   united_states: "/united-states",
   germany: "/germany",
   france: "/france",
+  switzerland: "/switzerland",
 };
 
 function normalizeCountrySlug(value: string | null): Country | undefined {
@@ -85,6 +86,7 @@ function countryFromPath(pathname: string): Country | undefined {
     "/united_states": "united_states",
     "/germany": "germany",
     "/france": "france",
+    "/switzerland": "switzerland",
   };
 
   return pathMap[normalizedPath];
@@ -1087,6 +1089,23 @@ export default function App() {
           return (
             <LiveRailResultView
               market="boston"
+              origin={searchParams.origin}
+              destination={searchParams.destination}
+              date={searchParams.date}
+              error={error}
+              results={visibleResults}
+              savedIds={savedIds}
+              onModify={() => setView("search")}
+              onSave={toggleSaveTrip}
+              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
+              formatPrice={formatTripPrice}
+            />
+          );
+        }
+        if (searchParams.country === "switzerland") {
+          return (
+            <LiveRailResultView
+              market="switzerland"
               origin={searchParams.origin}
               destination={searchParams.destination}
               date={searchParams.date}

@@ -31,6 +31,7 @@ const resources = {
         united_states: "United States",
         germany: "Germany",
         france: "France",
+        switzerland: "Switzerland",
         china: "China",
         title: "Train search",
         origin: "Origin",
@@ -60,8 +61,8 @@ const resources = {
         popular_routes: "Popular Routes",
         faq_title: "Frequently Asked Questions FAQ",
         about_title: "About Global Transit Search",
-        about_body: "TransitRail is a free cross-border train and public transit timetable search utility. It integrates main railway and subway networks across 10 countries and territories, including Japan (Jorudan), South Korea (Korail), Singapore (LTA), Thailand (BTS/MRT), Hong Kong (MTR), United Kingdom (TfL), United States (MBTA), Germany (DB), France (SNCF), and China (12306). Search live departures, schedules, operators, and smart transfers instantly without registration, offering a smooth cross-border travel journey.",
-        data_source_detail: "Schedules, fares, and live statuses are directly integrated from official transit systems and third-party APIs (such as Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF, etc.).",
+        about_body: "TransitRail is a free cross-border train and public transit timetable search utility. It integrates main railway and subway networks across 11 countries and territories, including Japan (Jorudan), South Korea (Korail), Singapore (LTA), Thailand (BTS/MRT), Hong Kong (MTR), United Kingdom (TfL), United States (MBTA), Germany (DB), France (SNCF), Switzerland (OpenTransportData Swiss), and China (12306). Search live departures, schedules, operators, and smart transfers instantly without registration, offering a smooth cross-border travel journey.",
+        data_source_detail: "Schedules, fares, and live statuses are directly integrated from official transit systems and third-party APIs (such as Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF, and OpenTransportData Swiss).",
         taiwan_rail_link: "Taiwan Rail & Metro",
         date_of_travel: "Date of Travel",
       },
@@ -193,6 +194,14 @@ const resources = {
         no_journeys: "No direct Boston predictions",
         no_journeys_hint: "Try two stations served by the same MBTA rail trip today."
       },
+      switzerland: {
+        official_data: "Official Swiss OJP timetable data",
+        current: "Live routing",
+        transfers: "Swiss transfer journey",
+        minutes: "min",
+        no_journeys: "No matching Swiss journeys",
+        no_journeys_hint: "Try another SBB / Swiss PT station pair or a different departure date."
+      },
       history: {
         recent: "Recent searches",
         empty_title: "No searches yet",
@@ -299,7 +308,8 @@ const resources = {
         kings_oxford: "King's Cross ➔ Oxford Circus",
         south_backbay: "South Station ➔ Back Bay",
         berlin_munich: "Berlin ➔ Munich",
-        paris_lyon: "Paris ➔ Lyon"
+        paris_lyon: "Paris ➔ Lyon",
+        zurich_geneva: "Zurich ➔ Geneva"
       },
       seat: {
         title: "Seat preference",
@@ -423,6 +433,7 @@ const resources = {
         united_states: "美國",
         germany: "德國",
         france: "法國",
+        switzerland: "瑞士",
         china: "中國",
         title: "班次查詢",
         origin: "起點站",
@@ -452,8 +463,8 @@ const resources = {
         popular_routes: "熱門路線",
         faq_title: "常見問題 FAQ",
         about_title: "關於全球鐵道查詢",
-        about_body: "TransitRail 是一個免費的跨國鐵道與大眾運輸時刻表查詢工具。本專案整合了全球 10 個國家與地區的主流鐵路與地鐵系統，包括日本（Jorudan）、韓國（Korail）、新加坡（LTA）、泰國（BTS/MRT）、香港（MTR）、英國（TfL 倫敦地鐵）、美國（波士頓 MBTA）、德國（DB）、法國（SNCF）以及中國（12306 鐵路）。無需註冊即可即時查詢站點班次、行車日期、營運商與智慧轉乘資訊，提供極致流暢的跨國自主旅行體驗。",
-        data_source_detail: "班次、票價與即時狀態資料來源：各國大眾運輸系統與第三方 API（如 Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF 等）。",
+        about_body: "TransitRail 是一個免費的跨國鐵道與大眾運輸時刻表查詢工具。本專案整合了全球 11 個國家與地區的主流鐵路與地鐵系統，包括日本（Jorudan）、韓國（Korail）、新加坡（LTA）、泰國（BTS/MRT）、香港（MTR）、英國（TfL 倫敦地鐵）、美國（波士頓 MBTA）、德國（DB）、法國（SNCF）、瑞士（OpenTransportData Swiss）以及中國（12306 鐵路）。無需註冊即可即時查詢站點班次、行車日期、營運商與智慧轉乘資訊，提供極致流暢的跨國自主旅行體驗。",
+        data_source_detail: "班次、票價與即時狀態資料來源：各國大眾運輸系統與第三方 API（如 Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF 與 OpenTransportData Swiss 等）。",
         taiwan_rail_link: "台/鐵/捷運 查詢",
         date_of_travel: "出發日期",
       },
@@ -585,6 +596,14 @@ const resources = {
         no_journeys: "目前沒有波士頓直達預測",
         no_journeys_hint: "請選擇今天由同一班 MBTA 軌道旅程停靠的兩站。"
       },
+      switzerland: {
+        official_data: "瑞士 OJP 官方時刻資料",
+        current: "即時路徑",
+        transfers: "瑞士轉乘旅程",
+        minutes: "分鐘",
+        no_journeys: "目前沒有符合的瑞士旅程",
+        no_journeys_hint: "請改查其他 SBB / 瑞士大眾運輸站點組合，或更換出發日期。"
+      },
       history: {
         recent: "近期搜尋",
         empty_title: "尚無搜尋紀錄",
@@ -691,7 +710,8 @@ const resources = {
         kings_oxford: "國王十字 ➔ 牛津圓環",
         south_backbay: "南站 ➔ 後灣",
         berlin_munich: "柏林 ➔ 慕尼黑",
-        paris_lyon: "巴黎 ➔ 里昂"
+        paris_lyon: "巴黎 ➔ 里昂",
+        zurich_geneva: "蘇黎世 ➔ 日內瓦"
       },
       seat: {
         title: "座位偏好",

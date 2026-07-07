@@ -1,0 +1,229 @@
+{
+  "country": "switzerland",
+  "stations": [
+    "Arth-Goldau",
+    "Basel SBB",
+    "Bellinzona",
+    "Bern",
+    "Biel/Bienne",
+    "Brig",
+    "Chur",
+    "Fribourg/Freiburg",
+    "Genève",
+    "Genève-Aéroport",
+    "Interlaken Ost",
+    "Lausanne",
+    "Lugano",
+    "Luzern",
+    "Montreux",
+    "Sargans",
+    "Sion",
+    "St. Gallen",
+    "Winterthur",
+    "Yverdon-les-Bains",
+    "Zug",
+    "Zürich Flughafen",
+    "Zürich HB"
+  ],
+  "lines": [
+    {
+      "id": "ch-ic1",
+      "name": "IC1 Genève-Aéroport–St. Gallen",
+      "color": "#D52B1E",
+      "stations": [
+        {
+          "name": "Genève-Aéroport",
+          "interchanges": [
+            "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne",
+            "IR90 Brig–Genève-Aéroport"
+          ]
+        },
+        {
+          "name": "Genève",
+          "interchanges": [
+            "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne",
+            "IR90 Brig–Genève-Aéroport"
+          ]
+        },
+        {
+          "name": "Lausanne",
+          "interchanges": [
+            "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne",
+            "IR90 Brig–Genève-Aéroport"
+          ]
+        },
+        {
+          "name": "Fribourg/Freiburg"
+        },
+        {
+          "name": "Bern"
+        },
+        {
+          "name": "Zürich HB",
+          "interchanges": [
+            "IC2 Zürich HB–Lugano",
+            "IC3 Basel SBB–Chur",
+            "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne"
+          ]
+        },
+        {
+          "name": "Winterthur",
+          "interchanges": [
+            "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne"
+          ]
+        },
+        {
+          "name": "St. Gallen",
+          "interchanges": [
+            "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ch-ic2",
+      "name": "IC2 Zürich HB–Lugano",
+      "color": "#444B54",
+      "stations": [
+        {
+          "name": "Zürich HB",
+          "interchanges": [
+            "IC1 Genève-Aéroport–St. Gallen",
+            "IC3 Basel SBB–Chur",
+            "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne"
+          ]
+        },
+        {
+          "name": "Zug"
+        },
+        {
+          "name": "Arth-Goldau"
+        },
+        {
+          "name": "Bellinzona"
+        },
+        {
+          "name": "Lugano"
+        }
+      ]
+    },
+    {
+      "id": "ch-ic3",
+      "name": "IC3 Basel SBB–Chur",
+      "color": "#8C1D40",
+      "stations": [
+        {
+          "name": "Basel SBB"
+        },
+        {
+          "name": "Zürich HB",
+          "interchanges": [
+            "IC1 Genève-Aéroport–St. Gallen",
+            "IC2 Zürich HB–Lugano",
+            "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne"
+          ]
+        },
+        {
+          "name": "Zürich Flughafen"
+        },
+        {
+          "name": "Sargans"
+        },
+        {
+          "name": "Chur"
+        }
+      ]
+    },
+    {
+      "id": "ch-ic5",
+      "name": "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne",
+      "color": "#F5B700",
+      "stations": [
+        {
+          "name": "Genève-Aéroport",
+          "interchanges": [
+            "IC1 Genève-Aéroport–St. Gallen",
+            "IR90 Brig–Genève-Aéroport"
+          ]
+        },
+        {
+          "name": "Genève",
+          "interchanges": [
+            "IC1 Genève-Aéroport–St. Gallen",
+            "IR90 Brig–Genève-Aéroport"
+          ]
+        },
+        {
+          "name": "Lausanne",
+          "interchanges": [
+            "IC1 Genève-Aéroport–St. Gallen",
+            "IR90 Brig–Genève-Aéroport"
+          ]
+        },
+        {
+          "name": "Yverdon-les-Bains"
+        },
+        {
+          "name": "Biel/Bienne"
+        },
+        {
+          "name": "Zürich HB",
+          "interchanges": [
+            "IC1 Genève-Aéroport–St. Gallen",
+            "IC2 Zürich HB–Lugano",
+            "IC3 Basel SBB–Chur"
+          ]
+        },
+        {
+          "name": "Winterthur",
+          "interchanges": [
+            "IC1 Genève-Aéroport–St. Gallen"
+          ]
+        },
+        {
+          "name": "St. Gallen",
+          "interchanges": [
+            "IC1 Genève-Aéroport–St. Gallen"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ch-ir90",
+      "name": "IR90 Brig–Genève-Aéroport",
+      "color": "#1D6FA3",
+      "stations": [
+        {
+          "name": "Brig"
+        },
+        {
+          "name": "Sion"
+        },
+        {
+          "name": "Montreux"
+        },
+        {
+          "name": "Lausanne",
+          "interchanges": [
+            "IC1 Genève-Aéroport–St. Gallen",
+            "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne"
+          ]
+        },
+        {
+          "name": "Genève",
+          "interchanges": [
+            "IC1 Genève-Aéroport–St. Gallen",
+            "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne"
+          ]
+        },
+        {
+          "name": "Genève-Aéroport",
+          "interchanges": [
+            "IC1 Genève-Aéroport–St. Gallen",
+            "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne"
+          ]
+        }
+      ]
+    }
+  ]
+}

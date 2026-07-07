@@ -15,6 +15,7 @@ import {
   chinaRailLines,
   germanyRailLines,
   franceRailLines,
+  switzerlandRailLines,
 } from "../data/metroLines";
 import { hongKongMtrLineCatalog, mtrInterchanges, hongKongStations } from "../data/hongKongMtr";
 import { getTflLines, getTflStations } from "./tfl";
@@ -24,7 +25,7 @@ import type { TransitLine } from "../types";
 
 export const CATALOG_COUNTRIES = [
   "japan", "korea", "china", "singapore", "thailand",
-  "hong_kong", "united_kingdom", "united_states", "germany", "france",
+  "hong_kong", "united_kingdom", "united_states", "germany", "france", "switzerland",
 ] as const;
 
 const staticLineSets: Record<string, TransitLine[]> = {
@@ -33,6 +34,7 @@ const staticLineSets: Record<string, TransitLine[]> = {
   china: chinaRailLines,
   germany: germanyRailLines,
   france: franceRailLines,
+  switzerland: switzerlandRailLines,
 };
 
 function hongKongLines(): TransitLine[] {

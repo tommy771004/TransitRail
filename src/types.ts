@@ -1,4 +1,4 @@
-export type Country = "japan" | "korea" | "hong_kong" | "united_kingdom" | "united_states" | "singapore" | "thailand" | "germany" | "france" | "china";
+export type Country = "japan" | "korea" | "hong_kong" | "united_kingdom" | "united_states" | "singapore" | "thailand" | "germany" | "france" | "china" | "switzerland";
 
 export type AppView = "search" | "results" | "stations" | "history" | "saved" | "alerts" | "workflow" | "legend" | "feedback";
 
@@ -31,6 +31,8 @@ export interface JourneyLeg {
   arrivalTime?: string;
   durationMinutes?: number;
   platform?: string;
+  /** Real-time delay at this leg's boarding stop, in minutes (0 = on time). */
+  delayMinutes?: number;
   headsign?: string;
   stopCount?: number;
   /** Live "next train" times at the boarding station of this leg. */
@@ -59,6 +61,8 @@ export interface TransitResult {
   direct: boolean;
   stops: string[];
   platform?: string;
+  /** Real-time departure delay in minutes (0 = on time). */
+  delayMinutes?: number;
   headsign?: string;
   realtime?: boolean;
   amenities?: string[];

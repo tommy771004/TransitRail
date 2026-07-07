@@ -12,9 +12,10 @@ import {
   chinaRailLines,
   germanyRailLines,
   franceRailLines,
+  switzerlandRailLines,
 } from "./src/data/metroLines";
-import { getTflLines, getTflStations } from "./src/server/tfl";
-import { getMbtaLines, getMbtaStations } from "./src/server/mbta";
+import { getTflLines, getTflStations, searchTflJourney } from "./src/server/tfl";
+import { getMbtaLines, getMbtaStations, searchMbtaJourney } from "./src/server/mbta";
 import { findScrapedResults, loadScrapedData } from "./src/data/scraped";
 import { getCbcRates } from "./src/server/cbc";
 import type { TransitLine } from "./src/types";
@@ -24,6 +25,7 @@ import { generateSeoulSubwayTimetable } from "./src/utils/seoulSubwayPathfinder"
 import { generateFallbackTimetable } from "./src/utils/fallbackPathfinder";
 import { newCountryStationLists } from "./src/data/scraped/stations";
 import { getStationsForCountry, getLinesForCountry } from "./src/server/catalog";
+import { searchSwissJourney } from "./src/server/swiss";
 
 dotenv.config();
 
@@ -244,13 +246,27 @@ async function logTransitSearch(
       source?: string;
     };
 
+    if (countryValue === "united_kingdom") {
+      const providerResponse = await searchTflJourney(origin, destination, date);
+      statusCode = providerResponse.status;
+      payload = providerResponse.body;
+    } else if (countryValue === "united_states") {
+      const providerResponse = await searchMbtaJourney(origin, destination, date);
+      statusCode = providerResponse.status;
+      payload = providerResponse.body;
+    } else if (countryValue === "switzerland") {
+      const providerResponse = await searchSwissJourney(origin, destination, date, timeValue);
+      statusCode = providerResponse.status;
+      payload = providerResponse.body;
+    }
+
     let scraped = findScrapedResults(country as any, origin, destination, date);
-    if (scraped && scraped.length > 0) {
+    if (!payload && scraped && scraped.length > 0) {
       if (timeValue && timeValue.match(/^\d{2}:\d{2}$/)) {
         scraped = scraped.filter(r => r.departureTime >= time);
       }
       payload = { results: scraped, source: "scraped" };
-    } else if (country === "korea") {
+    } else if (!payload && country === "korea") {
       const subwayResults = generateSeoulSubwayTimetable(origin, destination, date);
       if (subwayResults && subwayResults.length > 0) {
         let filtered = subwayResults;
@@ -364,7 +380,7 @@ async function logTransitSearch(
         statusCode = 400;
         payload = {
           error: "Invalid country",
-          message: "Country must be one of japan, korea, taiwan, singapore, thailand, hong_kong, united_kingdom, united_states, germany, france, china.",
+          message: "Country must be one of japan, korea, taiwan, singapore, thailand, hong_kong, united_kingdom, united_states, germany, france, switzerland, china.",
           stations: [],
         };
       } else {
@@ -589,6 +605,7 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
       china: chinaRailLines,
       germany: germanyRailLines,
       france: franceRailLines,
+        switzerland: switzerlandRailLines,
     };
     if (typeof country === "string" && staticLines[country]) {
       return res.json({ lines: staticLines[country] });
@@ -596,7 +613,7 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
 
     return res.status(400).json({
       error: "Invalid country",
-      message: "Country must be one of japan, korea, taiwan, singapore, thailand, hong_kong, united_kingdom, united_states, germany, france, china.",
+      message: "Country must be one of japan, korea, taiwan, singapore, thailand, hong_kong, united_kingdom, united_states, germany, france, switzerland, china.",
       lines: [],
     });
   });

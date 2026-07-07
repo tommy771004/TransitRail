@@ -10,6 +10,7 @@ export const countryFlags: Record<string, string> = {
   united_states: "🇺🇸",
   germany: "🇩🇪",
   france: "🇫🇷",
+  switzerland: "🇨🇭",
   china: "🇨🇳",
   taiwan: "🇹🇼",
 };
@@ -25,6 +26,7 @@ export const countryOptions: Country[] = [
   "united_states",
   "germany",
   "france",
+  "switzerland",
 ];
 
 export const countryConfig: Record<Country, {
@@ -96,7 +98,7 @@ export const countryConfig: Record<Country, {
   },
   united_kingdom: {
     labelKey: "search.united_kingdom",
-    provider: "Scraped (TfL)",
+    provider: "Official TfL Journey API",
     originPlaceholder: "King's Cross St. Pancras",
     destinationPlaceholder: "Oxford Circus",
     featuredStations: [
@@ -113,7 +115,7 @@ export const countryConfig: Record<Country, {
   },
   united_states: {
     labelKey: "search.united_states",
-    provider: "Scraped (MBTA)",
+    provider: "Official MBTA Realtime",
     originPlaceholder: "South Station",
     destinationPlaceholder: "Back Bay",
     featuredStations: [
@@ -150,6 +152,17 @@ export const countryConfig: Record<Country, {
     liveOnly: false,
     timeZone: "Europe/Paris",
   },
+  switzerland: {
+    labelKey: "search.switzerland",
+    provider: "OpenTransportData Swiss (OJP 2.0)",
+    originPlaceholder: "Zürich HB",
+    destinationPlaceholder: "Genève",
+    featuredStations: ["Zürich HB", "Bern", "Basel SBB", "Lausanne", "Genève"],
+    promptName: "瑞士",
+    connected: true,
+    liveOnly: false,
+    timeZone: "Europe/Zurich",
+  },
   china: {
     labelKey: "search.china",
     provider: "Scraped (12306)",
@@ -173,6 +186,7 @@ export const countryCurrency: Record<Country, string> = {
   thailand: "THB",
   germany: "EUR",
   france: "EUR",
+  switzerland: "CHF",
   china: "CNY",
 };
 
@@ -315,6 +329,18 @@ export const countryThemes: Record<Country, {
     indicatorBg: "bg-violet-500",
     dateSelected: "bg-violet-50 dark:bg-violet-950/30 border-violet-500 dark:border-violet-500/50 text-violet-600 dark:text-violet-400 shadow-sm",
     dateLabelSelected: "text-violet-500/80 dark:text-violet-400/80",
+  },
+  switzerland: {
+    primaryBgLight: "from-rose-500/5",
+    primaryBgDark: "dark:from-rose-950/25",
+    buttonBg: "bg-rose-700 hover:bg-rose-600 dark:bg-rose-700 dark:hover:bg-rose-600",
+    buttonShadow: "shadow-[0_4px_14px_rgba(190,24,93,0.28)] dark:shadow-[0_4px_14px_rgba(190,24,93,0.16)]",
+    textActive: "text-rose-700 dark:text-rose-300",
+    borderActive: "border-rose-600",
+    badgeBg: "border-rose-600 bg-rose-50 text-rose-700 dark:border-rose-500/30 dark:bg-rose-950/30 dark:text-rose-300",
+    indicatorBg: "bg-rose-600",
+    dateSelected: "bg-rose-50 dark:bg-rose-950/30 border-rose-600 dark:border-rose-500/40 text-rose-700 dark:text-rose-300 shadow-sm",
+    dateLabelSelected: "text-rose-600/80 dark:text-rose-300/80",
   },
   china: {
     primaryBgLight: "from-orange-500/5",

@@ -97,6 +97,7 @@ export function SearchForm({
           united_states: { lat: 37.0902, lng: -95.7129 },
           germany: { lat: 51.1657, lng: 10.4515 },
           france: { lat: 46.2276, lng: 2.2137 },
+          switzerland: { lat: 46.8182, lng: 8.2275 },
           china: { lat: 35.8617, lng: 104.1954 },
         };
 
@@ -138,11 +139,12 @@ export function SearchForm({
     { country: "united_kingdom", origin: "King's Cross St. Pancras Underground Station", destination: "Oxford Circus Underground Station", label: t("hot_routes.kings_oxford", { defaultValue: "國王十字 ➔ 牛津圓環" }) },
     { country: "united_states", origin: "South Station", destination: "Harvard", label: t("hot_routes.south_harvard", { defaultValue: "南站 ➔ 哈佛" }) },
     { country: "germany", origin: "Berlin Hbf", destination: "Munich Hbf", label: t("hot_routes.berlin_munich", { defaultValue: "柏林 ➔ 慕尼黑" }) },
-    { country: "france", origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu", label: t("hot_routes.paris_lyon", { defaultValue: "巴黎 ➔ 里昂" }) }
+    { country: "france", origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu", label: t("hot_routes.paris_lyon", { defaultValue: "巴黎 ➔ 里昂" }) },
+    { country: "switzerland", origin: "Zürich HB", destination: "Genève", label: t("hot_routes.zurich_geneva", { defaultValue: "蘇黎世 ➔ 日內瓦" }) }
   ], [t]);
 
   const row1 = useMemo(() => hotRoutes.slice(0, 5), [hotRoutes]);
-  const row2 = useMemo(() => hotRoutes.slice(5, 10), [hotRoutes]);
+  const row2 = useMemo(() => hotRoutes.slice(5), [hotRoutes]);
 
   const faqs = useMemo(() => [
     {
