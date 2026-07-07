@@ -1,29 +1,44 @@
 import type { IncomingMessage, ServerResponse } from "http";
-import { app } from "../server";
 
 // Vercel serverless entrypoint for every /api/* route.
 //
-// `app` MUST be imported STATICALLY. @vercel/node bundles the function as native
-// ESM ("type": "module") and inlines static imports — but esbuild leaves a
-// dynamic `await import("../server")` as an unresolved runtime specifier, so the
-// lambda crashed with ERR_MODULE_NOT_FOUND: Cannot find module '/var/task/server'
-// (taking down every /api route). A static import inlines server.ts into the
-// bundle, so there is no runtime relative import to resolve.
+// It loads the PRE-BUILT, self-contained bundle `dist/server.cjs` (produced by
+// `npm run build`) via an explicit-extension import — NOT `../server`.
 //
-// The app is wrapped in an explicit (req, res) handler — the shape @vercel/node
-// invokes; a bare Express-app default export can fail to be called.
+// Why: @vercel/node transpiles this function per-file as native ESM
+// ("type": "module") and does NOT bundle it, so an extensionless relative
+// import such as `../server` is unresolvable by Node's ESM loader at runtime
+// (ERR_MODULE_NOT_FOUND: Cannot find module '/var/task/server'), which crashed
+// the entire function — taking down every /api route. dist/server.cjs is fully
+// bundled (only node_modules stay external), so there is no further relative
+// path for the loader to fail on. The import is dynamic + wrapped so any
+// remaining failure returns a readable JSON 500 instead of an opaque
+// FUNCTION_INVOCATION_FAILED.
 type NodeHandler = (req: IncomingMessage, res: ServerResponse) => void;
 
-export default function handler(req: IncomingMessage, res: ServerResponse) {
+let cachedApp: NodeHandler | null = null;
+
+async function loadApp(): Promise<NodeHandler> {
+  if (cachedApp) return cachedApp;
+  // @ts-ignore - built at deploy time by `npm run build`; absent at typecheck time
+  const mod = await import("../dist/server.cjs");
+  const bundle = (mod as { default?: { app?: unknown } }).default ?? (mod as { app?: unknown });
+  const app = ((bundle as { app?: unknown }).app ?? bundle) as NodeHandler;
+  cachedApp = app;
+  return app;
+}
+
+export default async function handler(req: IncomingMessage, res: ServerResponse) {
   try {
-    (app as unknown as NodeHandler)(req, res);
+    const app = await loadApp();
+    app(req, res);
   } catch (error) {
-    console.error("[api] Request dispatch failed:", error);
+    console.error("[api] Server initialization failed:", error);
     res.statusCode = 500;
     res.setHeader("content-type", "application/json; charset=utf-8");
     res.end(
       JSON.stringify({
-        error: "Request dispatch failed",
+        error: "Server initialization failed",
         detail: error instanceof Error ? error.stack || error.message : String(error),
       }),
     );
