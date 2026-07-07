@@ -48,24 +48,25 @@ let cache: Record<string, ScrapedRouteData[]> = {};
 let loaded = false;
 
 function loadDir(country: string): ScrapedRouteData[] {
-  const dirPath = join(ACTUAL_DATA_DIR, country);
   const data: ScrapedRouteData[] = [];
-
-  if (!existsSync(dirPath)) {
-    return data;
-  }
-
-  const files = readdirSync(dirPath);
-  for (const file of files) {
-    if (!file.endsWith(".json") || file === "metadata.json") continue;
-    try {
-      const content = readFileSync(join(dirPath, file), "utf-8");
-      data.push(JSON.parse(content));
-    } catch (e) {
-      console.warn(`[scraped] Failed to parse ${country}/${file}:`, e);
+  try {
+    const dirPath = join(ACTUAL_DATA_DIR, country);
+    if (!existsSync(dirPath)) {
+      return data;
     }
+    const files = readdirSync(dirPath);
+    for (const file of files) {
+      if (!file.endsWith(".json") || file === "metadata.json") continue;
+      try {
+        const content = readFileSync(join(dirPath, file), "utf-8");
+        data.push(JSON.parse(content));
+      } catch (e) {
+        console.warn(`[scraped] Failed to parse ${country}/${file}:`, e);
+      }
+    }
+  } catch (error) {
+    console.warn(`[scraped] Directory check failed for ${country}:`, error);
   }
-
   return data;
 }
 
