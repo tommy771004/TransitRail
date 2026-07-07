@@ -5,19 +5,6 @@
       "includeFiles": "src/data/scraped/**"
     }
   },
-  "builds": [
-    {
-      "src": "api/index.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
   "headers": [
     {
       "source": "/sitemap.xml",
@@ -85,25 +72,22 @@
       ]
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "api/index.ts"
+      "source": "/api/(.*)",
+      "destination": "/api/index.ts"
     },
     {
-      "src": "/sitemap_index.xml",
-      "dest": "/sitemap.xml"
+      "source": "/sitemap_index.xml",
+      "destination": "/sitemap.xml"
     },
     {
-      "src": "/sitemap-index.xml",
-      "dest": "/sitemap.xml"
+      "source": "/sitemap-index.xml",
+      "destination": "/sitemap.xml"
     },
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
