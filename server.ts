@@ -19,7 +19,7 @@ import { findScrapedResults, loadScrapedData } from "./src/data/scraped";
 import { getCbcRates } from "./src/server/cbc";
 import type { TransitLine } from "./src/types";
 import { db } from "./src/db";
-import { feedbacks } from "./src/db/schema";
+import { feedbacks, tnAuditLog } from "./src/db/schema";
 import { generateSeoulSubwayTimetable } from "./src/utils/seoulSubwayPathfinder";
 import { generateFallbackTimetable } from "./src/utils/fallbackPathfinder";
 import { newCountryStationLists } from "./src/data/scraped/stations";
@@ -34,6 +34,108 @@ const app = express();
 loadScrapedData();
 app.use(express.json());
 
+function readHeader(req: express.Request, name: string) {
+  const value = req.header(name);
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  const trimmed = value.trim();
+  return trimmed ? trimmed : undefined;
+}
+
+function parseInteger(value: string | undefined) {
+  if (!value) {
+    return undefined;
+  }
+
+  const parsed = Number.parseInt(value, 10);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function parseDecimal(value: string | undefined) {
+  if (!value) {
+    return undefined;
+  }
+
+  const parsed = Number.parseFloat(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function normalizeDate(value: string) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : undefined;
+}
+
+function inferDeviceType(userAgent: string | undefined) {
+  if (!userAgent) {
+    return undefined;
+  }
+
+  const normalized = userAgent.toLowerCase();
+  if (/(ipad|tablet)/.test(normalized)) {
+    return "tablet";
+  }
+  if (/(mobi|android|iphone)/.test(normalized)) {
+    return "mobile";
+  }
+  return "desktop";
+}
+
+function buildActiveFilter(country: string | undefined, time: string | undefined) {
+  const filters: string[] = [];
+
+  if (country) {
+    filters.push(`country:${country}`);
+  }
+  if (time && /^\d{2}:\d{2}$/.test(time)) {
+    filters.push(`departure_after:${time}`);
+  }
+
+  return filters.length > 0 ? filters.join("|") : undefined;
+}
+
+async function logTransitSearch(
+  req: express.Request,
+  search: {
+    origin: string;
+    destination: string;
+    date: string;
+    country?: string;
+    time?: string;
+    resultCount: number;
+  },
+) {
+  if (!process.env.DATABASE_URL) {
+    return;
+  }
+
+  const userAgent = readHeader(req, "user-agent");
+  const acceptLanguage = readHeader(req, "accept-language");
+
+  await db.insert(tnAuditLog).values({
+    sessionId: readHeader(req, "x-tr-session-id"),
+    transportType: "rail",
+    originStationName: search.origin,
+    destStationName: search.destination,
+    queryDate: normalizeDate(search.date),
+    activeFilter: buildActiveFilter(search.country, search.time),
+    resultCount: search.resultCount,
+    language: readHeader(req, "x-tr-language") ?? acceptLanguage?.split(",")[0]?.trim(),
+    timezone: readHeader(req, "x-tr-timezone"),
+    deviceType: readHeader(req, "x-tr-device-type") ?? inferDeviceType(userAgent),
+    screenWidth: parseInteger(readHeader(req, "x-tr-screen-width")),
+    screenHeight: parseInteger(readHeader(req, "x-tr-screen-height")),
+    userAgent,
+    countryCode: readHeader(req, "x-vercel-ip-country"),
+    region: readHeader(req, "x-vercel-ip-country-region"),
+    city: readHeader(req, "x-vercel-ip-city"),
+    postalCode: readHeader(req, "x-vercel-ip-postal-code"),
+    ipTimezone: readHeader(req, "x-vercel-ip-timezone"),
+    geoLatitude: parseDecimal(readHeader(req, "x-vercel-ip-latitude")),
+    geoLongitude: parseDecimal(readHeader(req, "x-vercel-ip-longitude")),
+  });
+}
+
   // Search API. It never fabricates schedules; providers must be wired before
   // result cards can be rendered.
   app.get("/api/transit/search", async (req, res) => {
@@ -47,47 +149,73 @@ app.use(express.json());
       });
     }
 
+    const countryValue = typeof country === "string" ? country : undefined;
+    const timeValue = typeof time === "string" ? time : undefined;
+    let statusCode = 200;
+    let payload: {
+      error?: string;
+      message?: string;
+      results: any[];
+      source?: string;
+    };
+
     let scraped = findScrapedResults(country as any, origin, destination, date);
     if (scraped && scraped.length > 0) {
-      if (typeof time === "string" && time.match(/^\d{2}:\d{2}$/)) {
+      if (timeValue && timeValue.match(/^\d{2}:\d{2}$/)) {
         scraped = scraped.filter(r => r.departureTime >= time);
       }
-      return res.json({ results: scraped, source: "scraped" });
-    }
-
-    if (country === "korea") {
+      payload = { results: scraped, source: "scraped" };
+    } else if (country === "korea") {
       const subwayResults = generateSeoulSubwayTimetable(origin, destination, date);
       if (subwayResults && subwayResults.length > 0) {
         let filtered = subwayResults;
-        if (typeof time === "string" && time.match(/^\d{2}:\d{2}$/)) {
+        if (timeValue && timeValue.match(/^\d{2}:\d{2}$/)) {
           filtered = subwayResults.filter(r => r.departureTime >= time);
         }
-        return res.json({ results: filtered, source: "Seoul Metro Pathfinder" });
+        payload = { results: filtered, source: "Seoul Metro Pathfinder" };
       }
     }
 
-    try {
-      const countryLines = await getLinesForCountry(country as string);
-      if (countryLines && countryLines.length > 0) {
-        const fallbackResults = generateFallbackTimetable(countryLines, origin, destination, date, country as string);
-        if (fallbackResults && fallbackResults.length > 0) {
-          let filtered = fallbackResults;
-          if (typeof time === "string" && time.match(/^\d{2}:\d{2}$/)) {
-            filtered = fallbackResults.filter(r => r.departureTime >= time);
+    if (!payload) {
+      try {
+        const countryLines = await getLinesForCountry(country as string);
+        if (countryLines && countryLines.length > 0) {
+          const fallbackResults = generateFallbackTimetable(countryLines, origin, destination, date, country as string);
+          if (fallbackResults && fallbackResults.length > 0) {
+            let filtered = fallbackResults;
+            if (timeValue && timeValue.match(/^\d{2}:\d{2}$/)) {
+              filtered = fallbackResults.filter(r => r.departureTime >= time);
+            }
+            payload = { results: filtered, source: "Dynamic Pathfinder Fallback" };
           }
-          return res.json({ results: filtered, source: "Dynamic Pathfinder Fallback" });
         }
+      } catch (e) {
+        console.error("[search] Fallback pathfinder failed:", e);
       }
-    } catch (e) {
-      console.error("[search] Fallback pathfinder failed:", e);
     }
 
-    return res.status(404).json({
-      error: "No data available",
-      message: `No scraped timetable data found for ${origin} → ${destination}. The daily scraper may not have covered this route yet.`,
-      results: [],
-      source: "scraped",
+    if (!payload) {
+      statusCode = 404;
+      payload = {
+        error: "No data available",
+        message: `No scraped timetable data found for ${origin} → ${destination}. The daily scraper may not have covered this route yet.`,
+        results: [],
+        source: "scraped",
+      };
+    }
+
+    await logTransitSearch(req, {
+      origin,
+      destination,
+      date,
+      country: countryValue,
+      time: timeValue,
+      resultCount: payload.results.length,
+    }).catch((error) => {
+      console.error("[audit] Failed to record transit search:", error);
     });
+
+    return res.status(statusCode).json(payload);
   });
 
   // Stations API
