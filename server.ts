@@ -1,6 +1,5 @@
 import express from "express";
 import path from "path";
-import { createServer as createViteServer } from "vite";
 import dotenv from "dotenv";
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { hongKongMtrLineCatalog, hongKongStations } from "./src/data/hongKongMtr";
@@ -437,8 +436,11 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
   });
 
 async function startServer() {
-  // Vite middleware for development
+  // Vite middleware for development. Imported lazily so production builds and
+  // the Vercel serverless function never load the vite toolchain — a top-level
+  // vite import gets traced into the lambda and can crash or bloat cold starts.
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
