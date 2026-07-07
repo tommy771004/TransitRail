@@ -227,7 +227,9 @@ const resources = {
         empty_body: "Your completed searches will appear here.",
         results: "results",
         search_again: "Search again",
-        clear_all: "Clear All"
+        clear_all: "Clear All",
+        pin: "Pin route",
+        unpin: "Unpin route"
       },
       saved: {
         empty_title: "No saved trips",
@@ -644,7 +646,9 @@ const resources = {
         empty_body: "完成搜尋後會顯示在這裡。",
         results: "筆結果",
         search_again: "再次搜尋",
-        clear_all: "清除紀錄"
+        clear_all: "清除紀錄",
+        pin: "固定路線",
+        unpin: "取消固定"
       },
       saved: {
         empty_title: "尚無儲存行程",

@@ -1,4 +1,8 @@
-import { ArrowLeftRight, CalendarDays, DatabaseZap, Star, Search, MapPin, History, ChevronDown, Loader2, Navigation } from "lucide-react";
+// Author: AI Coding Agent
+// OS support: Linux, macOS, Windows
+// Description: Interactive search form for transit route selection
+
+import { ArrowLeftRight, CalendarDays, DatabaseZap, Star, Search, MapPin, History, ChevronDown, Loader2, Navigation, Pin } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { countryConfig, countryOptions, providerDateValue, countryThemes, countryFlags } from "../data/countries";
@@ -50,6 +54,7 @@ interface SearchFormProps {
   onOpenStations: (target: "origin" | "destination") => void;
   onOpenWorkflow: () => void;
   onRepeatSearch: (item: SearchHistoryItem) => void;
+  onTogglePinHistory: (id: string) => void;
 }
 
 export function SearchForm({
@@ -65,6 +70,7 @@ export function SearchForm({
   onOpenStations,
   onOpenWorkflow,
   onRepeatSearch,
+  onTogglePinHistory,
 }: SearchFormProps) {
   const { t, i18n } = useTranslation();
   const [formError, setFormError] = useState<string | null>(null);
@@ -86,7 +92,6 @@ export function SearchForm({
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        // Centers of supported countries
         const countryCenters: Record<Country, { lat: number; lng: number }> = {
           japan: { lat: 36.2048, lng: 138.2529 },
           korea: { lat: 35.9078, lng: 127.7669 },
@@ -194,15 +199,23 @@ export function SearchForm({
       .slice(0, 3);
   }, [recentHistory, country]);
 
-  const isFavorited = favorites.some(
-    (f) => f.origin === origin && f.destination === destination && f.country === country
-  );
+  const sortedHistory = useMemo(() => {
+    return [...recentHistory].sort((a, b) => {
+      if (a.pinned && !b.pinned) return -1;
+      if (!a.pinned && b.pinned) return 1;
+      return 0;
+    });
+  }, [recentHistory]);
 
   const handleToggleFavorite = () => {
     if (!origin || !destination) return;
     triggerHaptic(isFavorited ? "light" : "success");
     onToggleFavorite(origin, destination, country);
   };
+
+  const isFavorited = favorites.some(
+    (f) => f.origin === origin && f.destination === destination && f.country === country
+  );
 
   const updateParam = (key: keyof SearchParams, value: string) => {
     onChange({ ...params, [key]: value });
@@ -540,23 +553,25 @@ export function SearchForm({
           </section>
         )}
 
-        {recentHistory.length > 0 && (
+        {sortedHistory.length > 0 && (
           <section className="mt-8">
             <h2 className="text-[11px] font-black uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">
               {t("history.recent")}
             </h2>
             <div className="mt-3 divide-y divide-slate-100 rounded-3xl border border-slate-200 bg-white dark:divide-slate-800 dark:border-slate-700 dark:bg-slate-900">
-              {recentHistory.slice(0, 3).map((item) => (
-                <button
+              {sortedHistory.slice(0, 5).map((item) => (
+                <div
                   key={item.id}
-                  onClick={() => {
-                    triggerHaptic("medium");
-                    onRepeatSearch(item);
-                  }}
-                  aria-label={`Search recent route ${stationLabel(t, item.origin, item.country)} to ${stationLabel(t, item.destination, item.country)}`}
-                  className="flex w-full items-center gap-3 px-5 py-3.5 text-left"
+                  className="flex w-full items-center justify-between gap-3 px-5 py-3.5 text-left"
                 >
-                  <span className="min-w-0 flex-1">
+                  <button
+                    onClick={() => {
+                      triggerHaptic("medium");
+                      onRepeatSearch(item);
+                    }}
+                    aria-label={`Search recent route ${stationLabel(t, item.origin, item.country)} to ${stationLabel(t, item.destination, item.country)}`}
+                    className="flex-1 min-w-0 text-left"
+                  >
                     <span className="block truncate text-sm font-bold text-slate-900 dark:text-white">
                       {stationLabel(t, item.origin, item.country)}
                       <span className="mx-1.5 text-slate-400">&rarr;</span>
@@ -565,9 +580,34 @@ export function SearchForm({
                     <span className="mt-0.5 block font-mono text-[11px] text-slate-400">
                       {item.date} · <span className={`font-bold ${countryThemes[item.country]?.textActive || ""}`}>{countryFlags[item.country] || ""} {t(countryConfig[item.country].labelKey)}</span>
                     </span>
-                  </span>
-                  <Search className="h-4 w-4 shrink-0 text-slate-300 dark:text-slate-600" />
-                </button>
+                  </button>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        triggerHaptic("light");
+                        onTogglePinHistory(item.id);
+                      }}
+                      title={item.pinned ? t("history.unpin") : t("history.pin")}
+                      className={`p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${
+                        item.pinned
+                          ? "text-emerald-500 hover:text-emerald-600 dark:text-emerald-400"
+                          : "text-slate-300 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400"
+                      }`}
+                    >
+                      <Pin className={`h-4 w-4 ${item.pinned ? "fill-current rotate-45" : ""}`} />
+                    </button>
+                    <button
+                      onClick={() => {
+                        triggerHaptic("medium");
+                        onRepeatSearch(item);
+                      }}
+                      className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-300 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400 transition-colors"
+                    >
+                      <Search className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
               ))}
             </div>
           </section>
@@ -755,5 +795,7 @@ export function SearchForm({
     </main>
   );
 }
+
+// --- End of SearchForm.tsx ---
 
 

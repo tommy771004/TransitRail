@@ -1,11 +1,10 @@
-/**
- * Author: AI Coding Agent
- * OS support: Linux
- * Description: Main App entry component handling multi-country transit routing, views, and data workflow
- */
+// Author: AI Coding Agent
+// OS support: Linux, macOS, Windows
+// Description: Main App entry component handling multi-country transit routing, views, and data workflow
+
 import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { MessageSquare, Bell, BellOff, Share2, Bookmark, Check, Clock, DatabaseZap, MapPinned, Trash2, UserCircle, X, Activity, Sun, Moon, Monitor, CalendarDays, Coins, Compass, Search } from "lucide-react";
+import { MessageSquare, Bell, BellOff, Share2, Bookmark, Check, Clock, DatabaseZap, MapPinned, Trash2, UserCircle, X, Activity, Sun, Moon, Monitor, CalendarDays, Coins, Compass, Search, Pin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
 import { Header } from "./components/Header";
@@ -21,6 +20,7 @@ import { FeedbackView } from "./components/FeedbackView";
 import { DiagnosticOverlay } from "./components/DiagnosticOverlay";
 import { ResultSkeleton } from "./components/ResultSkeleton";
 import { TransitLegend } from "./components/TransitLegend";
+import { TransitIcon, formatPlatform } from "./components/TransitIcon";
 import { generateICS } from "./utils/ics";
 import { stationLabel } from "./utils/stationLabel";
 import { triggerHaptic } from "./utils/haptics";
@@ -286,6 +286,13 @@ export default function App() {
   const [sortMode, setSortMode] = useState<SortMode>("fastest");
   const [koreaFilter, setKoreaFilter] = useState<KoreaFilter>("all");
   const [history, setHistory] = useState<SearchHistoryItem[]>(() => loadJson("transitrail.history", []));
+  const sortedHistoryList = useMemo(() => {
+    return [...history].sort((a, b) => {
+      if (a.pinned && !b.pinned) return -1;
+      if (!a.pinned && b.pinned) return 1;
+      return 0;
+    });
+  }, [history]);
   const [favorites, setFavorites] = useState<FavoriteRoute[]>(() => loadJson("transitrail.favorites", []));
   const [savedTrips, setSavedTrips] = useState<SavedTrip[]>(() => loadJson("transitrail.saved", []));
   const [savedTripsSearch, setSavedTripsSearch] = useState("");
@@ -309,6 +316,38 @@ export default function App() {
   const [homeCurrency, setHomeCurrency] = useState<string>(() => localStorage.getItem("transitrail.homeCurrency") || "TWD");
   const [exchangeRates, setExchangeRates] = useState<Record<string, number>>({});
   const [loadingRates, setLoadingRates] = useState<boolean>(false);
+  const [generatingPosterIds, setGeneratingPosterIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (view !== "saved") return;
+    const tripToGenerate = savedTrips.find(t => !t.posterSvg && !generatingPosterIds.includes(t.id));
+    if (!tripToGenerate) return;
+    setGeneratingPosterIds(prev => [...prev, tripToGenerate.id]);
+    fetch("/api/generate-poster", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        origin: tripToGenerate.origin,
+        destination: tripToGenerate.destination,
+        country: tripToGenerate.country
+      })
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to generate poster");
+        return res.json();
+      })
+      .then(data => {
+        if (data.svg) {
+          setSavedTrips(prev => prev.map(t => t.id === tripToGenerate.id ? { ...t, posterSvg: data.svg } : t));
+        }
+      })
+      .catch(err => {
+        console.error("Poster generation error:", err);
+      })
+      .finally(() => {
+        setGeneratingPosterIds(prev => prev.filter(id => id !== tripToGenerate.id));
+      });
+  }, [view, savedTrips, generatingPosterIds]);
 
   // SEO and Dynamic Metadata Engine
   useEffect(() => {
@@ -930,6 +969,14 @@ export default function App() {
     void handleSearch(item.origin, item.destination, item.date, item.country);
   };
 
+  const togglePinHistory = (id: string) => {
+    setHistory((current) =>
+      current.map((item) =>
+        item.id === id ? { ...item, pinned: !item.pinned } : item
+      )
+    );
+  };
+
   const toggleFavoriteRoute = (origin: string, destination: string, country: Country) => {
     const isFavorited = favorites.some(
       (f) => f.origin === origin && f.destination === destination && f.country === country
@@ -1003,6 +1050,7 @@ export default function App() {
             onOpenStations={openStations}
             onOpenWorkflow={() => setView("workflow")}
             onRepeatSearch={rerunHistorySearch}
+            onTogglePinHistory={togglePinHistory}
           />
         );
       case "workflow":
@@ -1154,9 +1202,9 @@ export default function App() {
               <EmptyState title={t("history.empty_title")} body={t("history.empty_body")} />
             ) : (
               <div className="space-y-2">
-                {history.map((item) => (
+                {sortedHistoryList.map((item) => (
                   <div key={item.id} className="flex items-center justify-between gap-3 rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
                         {stationLabel(t, item.origin, item.country)}
                         <span className="mx-1.5 text-slate-400">&rarr;</span>
@@ -1164,12 +1212,28 @@ export default function App() {
                       </p>
                       <p className="mt-0.5 font-mono text-[11px] text-slate-400">{item.date} · {countryFlags[item.country] || ""} {t(countryConfig[item.country].labelKey)} · {item.resultCount} {t("history.results")}</p>
                     </div>
-                    <button
-                      onClick={() => rerunHistorySearch(item)}
-                      className="shrink-0 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-[0_2px_8px_rgba(16,185,129,0.25)] hover:bg-emerald-500 transition-all"
-                    >
-                      {t("history.search_again")}
-                    </button>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <button
+                        onClick={() => {
+                          triggerHaptic("light");
+                          togglePinHistory(item.id);
+                        }}
+                        title={item.pinned ? t("history.unpin") : t("history.pin")}
+                        className={`p-2 rounded-xl border transition-all ${
+                          item.pinned
+                            ? "bg-emerald-50 border-emerald-200 text-emerald-600 dark:bg-emerald-950/20 dark:border-emerald-900/30 dark:text-emerald-400"
+                            : "bg-slate-50 border-slate-200 text-slate-400 hover:text-slate-600 dark:bg-slate-800/40 dark:border-slate-800 dark:text-slate-500 dark:hover:text-slate-400"
+                        }`}
+                      >
+                        <Pin className={`h-4 w-4 ${item.pinned ? "fill-current rotate-45" : ""}`} />
+                      </button>
+                      <button
+                        onClick={() => rerunHistorySearch(item)}
+                        className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-[0_2px_8px_rgba(16,185,129,0.25)] hover:bg-emerald-500 transition-all h-[36px]"
+                      >
+                        {t("history.search_again")}
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -1302,11 +1366,18 @@ export default function App() {
                       <div className="space-y-2.5">
                         {(trips as SavedTrip[]).map((trip) => (
                     <div key={trip.id} className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                      {trip.posterSvg && (
+                        <div 
+                          className="mb-4 overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-800 shadow-inner max-h-[140px] flex items-center justify-center bg-slate-950 [&>svg]:w-full [&>svg]:h-auto"
+                          dangerouslySetInnerHTML={{ __html: trip.posterSvg }}
+                        />
+                      )}
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="truncate rounded-lg bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-300" style={{ borderLeft: `3px solid ${trip.lineColor || "#94a3b8"}` }}>
-                              {trip.service}
+                            <span className="inline-flex items-center gap-1.5 truncate rounded-lg bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-300" style={{ borderLeft: `3px solid ${trip.lineColor || "#94a3b8"}` }}>
+                              <TransitIcon trip={trip} className="h-3 w-3" />
+                              <span>{trip.service}</span>
                             </span>
                           </div>
                           <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
@@ -1314,9 +1385,16 @@ export default function App() {
                             <span className="mx-1.5 text-slate-400">&rarr;</span>
                             {stationLabel(t, trip.destination, trip.country)}
                           </p>
-                          <p className="mt-1 font-mono text-xs text-slate-500 flex items-center gap-1">
-                            <Clock className="h-3 w-3 text-slate-400 shrink-0" />
-                            <span>{trip.departureTime}{trip.arrivalTime ? ` - ${trip.arrivalTime}` : ""}</span>
+                          <p className="mt-1 font-mono text-xs text-slate-500 flex flex-wrap items-center gap-1.5">
+                            <span className="flex items-center gap-1">
+                              <Clock className="h-3 w-3 text-slate-400 shrink-0" />
+                              <span>{trip.departureTime}{trip.arrivalTime ? ` - ${trip.arrivalTime}` : ""}</span>
+                            </span>
+                            {formatPlatform(trip.platform || (trip as any).legs?.[0]?.platform, t) && (
+                              <span className="shrink-0 inline-flex items-center rounded-md bg-slate-100/80 px-1.5 py-0.5 font-mono text-[9px] font-black uppercase tracking-wider text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                                {formatPlatform(trip.platform || (trip as any).legs?.[0]?.platform, t)}
+                              </span>
+                            )}
                           </p>
 
                           {trip.price !== undefined && trip.currency && (

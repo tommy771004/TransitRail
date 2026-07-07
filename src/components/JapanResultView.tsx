@@ -10,6 +10,7 @@ import { TripDetails } from "./TripDetails";
 import { triggerHaptic } from "../utils/haptics";
 import { WeatherWidget } from "./WeatherWidget";
 import { stationLabel } from "../utils/stationLabel";
+import { TransitIcon, formatPlatform } from "./TransitIcon";
 
 interface JapanResultViewProps {
   country: Country;
@@ -232,10 +233,11 @@ export function JapanResultView({
                 <div className="mb-4 flex items-center justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-2">
                     <span
-                      className="truncate rounded-xl bg-slate-50 px-3 py-1.5 text-[11px] font-black text-slate-800 dark:bg-slate-800/60 dark:text-slate-200 border border-slate-100 dark:border-slate-800"
+                      className="inline-flex items-center gap-1.5 truncate rounded-xl bg-slate-50 px-3 py-1.5 text-[11px] font-black text-slate-800 dark:bg-slate-800/60 dark:text-slate-200 border border-slate-100 dark:border-slate-800"
                       style={{ borderLeft: `3.5px solid ${trip.lineColor || "#94a3b8"}` }}
                     >
-                      {trip.service}
+                      <TransitIcon trip={trip} className="h-3.5 w-3.5" />
+                      <span>{trip.service}</span>
                     </span>
                     <span className="shrink-0 rounded-lg bg-emerald-500/5 dark:bg-emerald-400/10 px-2 py-0.5 font-mono text-[11px] font-bold text-emerald-700 dark:text-emerald-400">
                       {formatDuration(trip.durationMinutes)}
@@ -250,9 +252,9 @@ export function JapanResultView({
                     <p className="font-mono text-3xl font-black leading-none tracking-tight text-slate-950 dark:text-white">{trip.departureTime}</p>
                     <p className="mt-1.5 flex items-center gap-1.5 truncate text-xs font-bold text-slate-500 dark:text-slate-400">
                       <span className="truncate">{stationLabel(t, trip.origin, trip.country)}</span>
-                      {(trip.platform || trip.legs?.[0]?.platform) && (
+                      {formatPlatform(trip.platform || trip.legs?.[0]?.platform, t) && (
                         <span className="shrink-0 inline-flex items-center rounded-md bg-slate-100/80 px-1.5 py-0.5 font-mono text-[9px] font-black uppercase tracking-wider text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                          {t("result.plat_label", { defaultValue: "Plat" })} {trip.platform || trip.legs?.[0]?.platform}
+                          {formatPlatform(trip.platform || trip.legs?.[0]?.platform, t)}
                         </span>
                       )}
                     </p>

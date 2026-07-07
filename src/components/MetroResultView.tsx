@@ -11,6 +11,7 @@ import { triggerHaptic } from "../utils/haptics";
 import { WeatherWidget } from "./WeatherWidget";
 import { stationLabel } from "../utils/stationLabel";
 import { extractPathBetweenStations } from "../utils/pathExtractor";
+import { TransitIcon, formatPlatform } from "./TransitIcon";
 
 function getAlternatingColor(hex: string): string {
   if (!hex || !hex.startsWith("#")) return "#94a3b8";
@@ -179,7 +180,12 @@ export function MetroResultView({
                       >
                         <div className="flex items-center justify-between gap-3">
                           <div className="min-w-0">
-                            <p className="truncate text-sm font-bold text-slate-900 dark:text-white">{trip.service}</p>
+                            <div className="flex items-center gap-2">
+                              <span className="p-1 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0">
+                                <TransitIcon trip={trip} className="h-3.5 w-3.5" />
+                              </span>
+                              <p className="truncate text-sm font-bold text-slate-900 dark:text-white">{trip.service}</p>
+                            </div>
                             <p className="truncate text-xs font-bold text-slate-400 dark:text-slate-500">
                               {t("metro.towards", { destination: stationLabel(t, trip.headsign || destination, trip.country) })}
                             </p>
@@ -202,10 +208,14 @@ export function MetroResultView({
                               {trip.departureTime}
                             </p>
                           </div>
-                          <div className="rounded-2xl bg-slate-50 px-4.5 py-2 text-center border border-slate-100 dark:bg-slate-800/60 dark:border-slate-800/80">
-                            <p className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">{t("metro.platform")}</p>
-                            <p className="font-mono text-base font-black text-slate-900 dark:text-white mt-0.5">{trip.platform || trip.legs?.[0]?.platform || "-"}</p>
-                          </div>
+                          {formatPlatform(trip.platform || trip.legs?.[0]?.platform, t) && (
+                            <div className="rounded-2xl bg-slate-50 px-4.5 py-2 text-center border border-slate-100 dark:bg-slate-800/60 dark:border-slate-800/80">
+                              <p className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">{t("metro.platform")}</p>
+                              <p className="font-mono text-base font-black text-slate-900 dark:text-white mt-0.5">
+                                {formatPlatform(trip.platform || trip.legs?.[0]?.platform, t)}
+                              </p>
+                            </div>
+                          )}
                         </div>
                       </div>
 

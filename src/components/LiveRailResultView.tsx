@@ -10,6 +10,7 @@ import { TripDetails } from "./TripDetails";
 import { triggerHaptic } from "../utils/haptics";
 import { WeatherWidget } from "./WeatherWidget";
 import { stationLabel } from "../utils/stationLabel";
+import { TransitIcon, formatPlatform } from "./TransitIcon";
 
 interface LiveRailResultViewProps {
   market: "london" | "boston" | "switzerland";
@@ -170,7 +171,12 @@ export function LiveRailResultView({
                       >
                         <div className="flex items-start justify-between gap-3">
                           <div className="min-w-0">
-                            <p className="truncate text-sm font-bold text-slate-900 dark:text-white">{trip.service}</p>
+                            <div className="flex items-center gap-2">
+                              <span className="p-1 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0">
+                                <TransitIcon trip={trip} className="h-3.5 w-3.5" />
+                              </span>
+                              <p className="truncate text-sm font-bold text-slate-900 dark:text-white">{trip.service}</p>
+                            </div>
                             <p className="mt-0.5 truncate text-xs font-bold text-slate-400 dark:text-slate-500">
                               {trip.direct
                                 ? t("result.direct")
@@ -200,9 +206,9 @@ export function LiveRailResultView({
                             )}
                             <p className="mt-1.5 flex items-center gap-1.5 truncate text-xs font-bold text-slate-500 dark:text-slate-400">
                               <span className="truncate">{stationLabel(t, trip.origin, trip.country)}</span>
-                              {(trip.platform || trip.legs?.[0]?.platform) && (
+                              {formatPlatform(trip.platform || trip.legs?.[0]?.platform, t) && (
                                 <span className="shrink-0 inline-flex items-center rounded-md bg-slate-100/80 px-1.5 py-0.5 font-mono text-[9px] font-black uppercase tracking-wider text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                                  {t("result.plat_label", { defaultValue: "Plat" })} {trip.platform || trip.legs?.[0]?.platform}
+                                  {formatPlatform(trip.platform || trip.legs?.[0]?.platform, t)}
                                 </span>
                               )}
                             </p>
