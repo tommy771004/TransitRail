@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import translations from './data/translations.json';
 import { additionalStationZhTW } from './data/stationTranslations';
 import { seoulSubwayTranslationsZhTW } from './data/seoulSubwayTranslations';
+import { transferTranslations } from './data/transfers/translations';
 
 const resources = {
   en: {
@@ -156,7 +157,11 @@ const resources = {
         min_connection: "min connection",
         min_label: "min",
         forecast_title: "{{station}} Forecast",
-        forecast_loading: "Forecast..."
+        forecast_loading: "Forecast...",
+        transfer_info: "Transfer Info",
+        transfer_details: "Transfer Details",
+        recommended_exit: "Recommended Exit / Platform",
+        smart_guidance: "Smart Transfer Guide"
       },
       weather: {
         clear: "Clear",
@@ -558,7 +563,11 @@ const resources = {
         min_connection: "分鐘轉乘時間",
         min_label: "分鐘",
         forecast_title: "{{station}}天氣預報",
-        forecast_loading: "正在載入天氣..."
+        forecast_loading: "正在載入天氣...",
+        transfer_info: "轉乘資訊",
+        transfer_details: "轉乘詳細資訊",
+        recommended_exit: "推薦出口 / 月台",
+        smart_guidance: "智慧轉乘指引"
       },
       weather: {
         clear: "晴朗",
@@ -1246,6 +1255,10 @@ Object.entries(translations).forEach(([key, value]) => {
 Object.keys(translations).forEach(key => {
   resources['en'].translation.station[key] = key;
 });
+
+// Merge transfer translations
+Object.assign(resources['en'].translation, transferTranslations.en);
+Object.assign(resources['zh-TW'].translation, transferTranslations['zh-TW']);
 
 i18n
   .use(initReactI18next)

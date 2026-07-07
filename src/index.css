@@ -9,6 +9,7 @@
   --animate-marquee-right: marquee-right 25s linear infinite;
   --animate-loading-bar: loading-bar 1.5s infinite ease-in-out;
   --animate-travel-pulse: travel-pulse 3s infinite linear;
+  --animate-badge-pulse: badge-pulse 2s infinite ease-in-out;
 
   @keyframes marquee-left {
     0% { transform: translateX(0); }
@@ -28,6 +29,16 @@
     15% { opacity: 1; }
     85% { opacity: 1; }
     100% { left: 100%; opacity: 0; }
+  }
+  @keyframes badge-pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.5);
+      transform: scale(1);
+    }
+    50% {
+      box-shadow: 0 0 0 6px rgba(99, 102, 241, 0);
+      transform: scale(1.04);
+    }
   }
 }
 
@@ -62,6 +73,19 @@
   }
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
+  }
+  .route-path-glow {
+    animation: route-glow 1.5s ease-in-out infinite alternate;
+  }
+  @keyframes route-glow {
+    0% {
+      opacity: 0.3;
+      stroke-width: 6px;
+    }
+    100% {
+      opacity: 0.7;
+      stroke-width: 14px;
+    }
   }
   .soft-scrollbar::-webkit-scrollbar {
     width: 4px;

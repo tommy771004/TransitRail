@@ -7,17 +7,20 @@ import type { LineStation, TransitLine } from "../types";
  * Japan Shinkansen directory. Interchanges are derived from shared station
  * names within each country group.
  */
+type StationDef = string | { name: string; accessible?: boolean };
+
 interface LineDef {
   id: string;
   name: string;
   color: string;
-  stations: string[];
+  stations: StationDef[];
 }
 
 function buildLines(defs: LineDef[]): TransitLine[] {
   const linesByStation = new Map<string, string[]>();
   for (const line of defs) {
-    for (const station of line.stations) {
+    for (const stationDef of line.stations) {
+      const station = typeof stationDef === "string" ? stationDef : stationDef.name;
       const names = linesByStation.get(station) || [];
       if (!names.includes(line.name)) names.push(line.name);
       linesByStation.set(station, names);
@@ -27,9 +30,16 @@ function buildLines(defs: LineDef[]): TransitLine[] {
     id: line.id,
     name: line.name,
     color: line.color,
-    stations: line.stations.map((station): LineStation => {
+    stations: line.stations.map((stationDef): LineStation => {
+      const isStr = typeof stationDef === "string";
+      const station = isStr ? stationDef : stationDef.name;
+      const accessible = isStr ? undefined : stationDef.accessible;
       const transfers = (linesByStation.get(station) || []).filter((name) => name !== line.name);
-      return { name: station, interchanges: transfers.length > 0 ? transfers : undefined };
+      return { 
+        name: station, 
+        interchanges: transfers.length > 0 ? transfers : undefined,
+        accessible 
+      };
     }),
   }));
 }
@@ -43,11 +53,11 @@ const singaporeLineDefs: LineDef[] = [
     name: "North South Line",
     color: "#D42E12",
     stations: [
-      "Jurong East", "Bukit Batok", "Bukit Gombak", "Choa Chu Kang", "Yew Tee",
+      { name: "Jurong East", accessible: true }, "Bukit Batok", "Bukit Gombak", "Choa Chu Kang", "Yew Tee",
       "Kranji", "Marsiling", "Woodlands", "Admiralty", "Sembawang", "Canberra",
       "Yishun", "Khatib", "Yio Chu Kang", "Ang Mo Kio", "Bishan", "Braddell",
       "Toa Payoh", "Novena", "Newton", "Orchard", "Somerset", "Dhoby Ghaut",
-      "City Hall", "Raffles Place", "Marina Bay", "Marina South Pier",
+      { name: "City Hall", accessible: true }, "Raffles Place", "Marina Bay", "Marina South Pier",
     ],
   },
   {

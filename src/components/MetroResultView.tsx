@@ -6,6 +6,20 @@ import { TripDetails } from "./TripDetails";
 import { triggerHaptic } from "../utils/haptics";
 import { WeatherWidget } from "./WeatherWidget";
 import { stationLabel } from "../utils/stationLabel";
+import { extractPathBetweenStations } from "../utils/pathExtractor";
+
+function getAlternatingColor(hex: string): string {
+  if (!hex || !hex.startsWith("#")) return "#94a3b8";
+  const cleanHex = hex.substring(1);
+  if (cleanHex.length !== 6) return hex;
+  const r = parseInt(cleanHex.substring(0, 2), 16);
+  const g = parseInt(cleanHex.substring(2, 4), 16);
+  const b = parseInt(cleanHex.substring(4, 6), 16);
+  const altR = (r + 128) % 256;
+  const altG = (g + 128) % 256;
+  const altB = (b + 128) % 256;
+  return `#${altR.toString(16).padStart(2, "0")}${altG.toString(16).padStart(2, "0")}${altB.toString(16).padStart(2, "0")}`;
+}
 
 interface MetroResultViewProps {
   country: Country;
@@ -140,6 +154,11 @@ export function MetroResultView({
               <AnimatePresence mode="popLayout">
                 {results.map((trip, index) => {
                   const isSaved = savedIds.has(trip.id);
+                  const pathData = extractPathBetweenStations(
+                    trip.legs?.[0]?.lineCode || trip.service,
+                    trip.origin,
+                    trip.destination
+                  );
                   return (
                     <motion.article
                       key={trip.id}
@@ -152,7 +171,7 @@ export function MetroResultView({
                     >
                       <div
                         className="px-5 py-5 sm:px-6"
-                        style={{ borderLeft: `4px solid ${trip.lineColor || "#94a3b8"}` }}
+                        style={{ borderLeft: `4px solid ${trip.lineColor || (pathData ? pathData.color : "#94a3b8")}` }}
                       >
                         <div className="flex items-center justify-between gap-3">
                           <div className="min-w-0">
@@ -185,6 +204,58 @@ export function MetroResultView({
                           </div>
                         </div>
                       </div>
+
+                      {pathData && (
+                        <div className="mx-5 mb-5 sm:mx-6 p-4 rounded-2xl bg-slate-50/50 dark:bg-slate-800/20 border border-slate-100/50 dark:border-slate-800/50">
+                          <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3 flex items-center gap-1.5">
+                            <span>🗺️</span>
+                            {pathData.name} Stops
+                          </p>
+                          <div className="relative pl-6 space-y-3">
+                            <div
+                              className="absolute left-[7px] top-1.5 bottom-1.5 w-0.5"
+                              style={{
+                                background: `linear-gradient(to bottom, ${pathData.color}, ${getAlternatingColor(pathData.color)})`,
+                              }}
+                            />
+                            {pathData.stations.map((station, sIdx) => {
+                              const isEven = sIdx % 2 === 0;
+                              const dotColor = isEven ? pathData.color : getAlternatingColor(pathData.color);
+                              return (
+                                <motion.div 
+                                  key={sIdx}
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ duration: 0.3, ease: "easeOut", delay: index * 0.05 + sIdx * 0.04 + 0.1 }}
+                                  className="relative flex items-center justify-between text-xs"
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <div
+                                      className="absolute left-[-23px] h-3 w-3 rounded-full border-2 border-white dark:border-slate-900"
+                                      style={{ backgroundColor: dotColor }}
+                                    />
+                                    <span className="font-semibold text-slate-800 dark:text-slate-200">
+                                      {stationLabel(t, station.name, trip.country)}
+                                    </span>
+                                  </div>
+                                  {station.interchanges && station.interchanges.length > 0 && (
+                                    <div className="flex gap-1 flex-wrap justify-end max-w-[40%]">
+                                      {station.interchanges.map((ic, icIdx) => (
+                                        <span
+                                          key={icIdx}
+                                          className="text-[9px] px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium truncate"
+                                        >
+                                          {ic}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  )}
+                                </motion.div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
 
                       <TripDetails trip={trip} onOpenLegend={onOpenLegend} formatPrice={formatPrice} />
 

@@ -35,6 +35,7 @@ export interface JourneyLeg {
   delayMinutes?: number;
   headsign?: string;
   stopCount?: number;
+  stops?: string[];
   /** Live "next train" times at the boarding station of this leg. */
   upcomingDepartures?: string[];
 }
@@ -85,6 +86,8 @@ export interface LineStation {
   localName?: string;
   /** Names of other lines that also serve this station. */
   interchanges?: string[];
+  /** Whether the station has wheelchair/accessible facilities. */
+  accessible?: boolean;
 }
 
 export interface TransitLine {

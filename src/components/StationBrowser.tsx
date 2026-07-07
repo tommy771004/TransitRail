@@ -241,6 +241,18 @@ export function StationBrowser({
     return map;
   }, [lines]);
 
+  const accessibilityMap = useMemo(() => {
+    const map = new Map<string, boolean>();
+    for (const line of lines) {
+      for (const st of line.stations) {
+        if (st.accessible) {
+          map.set(st.name, true);
+        }
+      }
+    }
+    return map;
+  }, [lines]);
+
   const filteredStations = useMemo(() => {
     const value = query.trim().toLowerCase();
     if (!value) return stations;
@@ -430,6 +442,7 @@ export function StationBrowser({
                 stations={filteredStations}
                 country={country}
                 onSelectStation={handleSelectStation}
+                accessibilityMap={accessibilityMap}
               />
             </div>
           ) : (
@@ -536,11 +549,16 @@ export function StationBrowser({
                                 <span className={`w-[2px] flex-1 ${index === arr.length - 1 ? "bg-transparent" : "bg-slate-200 dark:bg-slate-800"}`} />
                               </span>
                               <div className="flex-1 min-w-0 flex flex-col group-hover:translate-x-1 transition-transform">
-                                <span className="block truncate text-sm font-bold text-slate-800 dark:text-slate-100">
+                                <span className="block truncate text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
                                   {primaryLabel}
                                   {station.localName ? (
-                                    <span className="ml-2 text-xs font-semibold text-slate-400 dark:text-slate-500">{station.localName}</span>
+                                    <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">{station.localName}</span>
                                   ) : null}
+                                  {station.accessible && (
+                                    <span className="inline-flex items-center justify-center p-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded" title={t("stations.accessible", "Wheelchair Accessible")}>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="2"/><path d="M19 22l-3-6-4 2"/><path d="M16 16l-4-2-2-6 2-2 4 4"/><circle cx="8" cy="18" r="4"/><path d="M8 22v-8"/></svg>
+                                    </span>
+                                  )}
                                 </span>
                                 {secondaryLabel && (
                                   <span className="block truncate text-xs text-slate-400 dark:text-slate-500 font-semibold mt-0.5">
@@ -583,12 +601,14 @@ function StationList({
   stations,
   country,
   onSelectStation,
+  accessibilityMap,
 }: {
   isLoading: boolean;
   loadFailed: boolean;
   stations: string[];
   country: Country;
   onSelectStation: (station: string) => void;
+  accessibilityMap: Map<string, boolean>;
 }) {
   const { t } = useTranslation();
   if (isLoading) {
@@ -657,8 +677,13 @@ function StationList({
               className="w-full flex items-center justify-between px-3.5 py-3 rounded-2xl hover:bg-slate-100/40 dark:hover:bg-slate-800/40 text-left transition-all group"
             >
               <div className="flex flex-col min-w-0 group-hover:translate-x-1 transition-transform">
-                <span className="block truncate text-sm font-bold text-slate-800 dark:text-slate-100">
+                <span className="block truncate text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
                   {primaryLabel}
+                  {accessibilityMap.get(station) && (
+                    <span className="inline-flex items-center justify-center p-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded" title={t("stations.accessible", "Wheelchair Accessible")}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="2"/><path d="M19 22l-3-6-4 2"/><path d="M16 16l-4-2-2-6 2-2 4 4"/><circle cx="8" cy="18" r="4"/><path d="M8 22v-8"/></svg>
+                    </span>
+                  )}
                 </span>
                 {secondaryLabel && (
                   <span className="block truncate text-xs text-slate-400 dark:text-slate-500 font-semibold mt-0.5">

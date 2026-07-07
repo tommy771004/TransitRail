@@ -5,6 +5,9 @@ import { stationLabel } from "../utils/stationLabel";
 import { getTransitIcon } from "../utils/transitIcons";
 import { ChevronDown, ChevronUp, Clock, MapPin, ArrowRightLeft, Users, Armchair, Info } from "lucide-react";
 import { motion } from "motion/react";
+import { D3LeafletRouteMap } from "./D3LeafletRouteMap";
+import { TransferInfoPopup } from "./TransferInfoPopup";
+import { getTransferInfo } from "../data/transfers";
 
 interface TripDetailsProps {
   trip: TransitResult;
@@ -82,6 +85,18 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(false);
   const [fareTab, setFareTab] = useState<"passenger" | "seat">("passenger");
+  const [viewMode, setViewMode] = useState<"timeline" | "map">("timeline");
+  const [expandedLegs, setExpandedLegs] = useState<Record<number, boolean>>({});
+  const [selectedTransferStationId, setSelectedTransferStationId] = useState<string | null>(null);
+  const [selectedTransferStationName, setSelectedTransferStationName] = useState<string | null>(null);
+
+  const handleOpenTransferInfo = (stationName: string, country: string) => {
+    const info = getTransferInfo(stationName, country);
+    if (info) {
+      setSelectedTransferStationId(info.stationId);
+      setSelectedTransferStationName(stationName);
+    }
+  };
 
   const displayLegs: JourneyLeg[] = trip.legs && trip.legs.length > 0 ? trip.legs : [
     {
@@ -323,234 +338,314 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
             </div>
           )}
 
-          <div className="flex flex-col space-y-0 relative">
-            {timelineItems.map((item, idx) => {
-              const currentLeg = displayLegs[item.legIndex];
-              const legColor = currentLeg ? getLegColor(currentLeg, trip.lineColor) : (trip.lineColor || "#10b981");
+          <div className="flex rounded-xl bg-slate-100 p-1 dark:bg-slate-800 mb-6 max-w-md mx-auto">
+            <button
+              type="button"
+              onClick={() => setViewMode("timeline")}
+              className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-bold transition-all ${
+                viewMode === "timeline"
+                  ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
+                  : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+              }`}
+            >
+              <span>📋</span>
+              {t("result.timeline_tab", { defaultValue: "Timeline" })}
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("map")}
+              className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-bold transition-all ${
+                viewMode === "map"
+                  ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
+                  : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+              }`}
+            >
+              <span>🗺️</span>
+              {t("result.map_tab", { defaultValue: "Route Map" })}
+            </button>
+          </div>
 
-              // Determine the color of the vertical line that runs DOWN from this item
-              let lineStyle = "solid";
-              let lineColor = legColor;
-              const nextItem = timelineItems[idx + 1];
-              if (nextItem) {
-                if (nextItem.type === "transfer" || item.type === "transfer") {
-                  lineStyle = "dashed";
-                  lineColor = "#94a3b8"; // grey for waiting / transferring
-                } else if (nextItem.type === "transit") {
-                  const nextLeg = displayLegs[nextItem.legIndex];
-                  lineColor = getLegColor(nextLeg, trip.lineColor);
+          {viewMode === "map" && <D3LeafletRouteMap trip={trip} />}
+          {viewMode === "timeline" && (
+            <div className="flex flex-col space-y-0 relative">
+              {timelineItems.map((item, idx) => {
+                const currentLeg = displayLegs[item.legIndex];
+                const legColor = currentLeg ? getLegColor(currentLeg, trip.lineColor) : (trip.lineColor || "#10b981");
+
+                let lineStyle = "solid";
+                let lineColor = legColor;
+                const nextItem = timelineItems[idx + 1];
+                if (nextItem) {
+                  if (nextItem.type === "transfer" || item.type === "transfer") {
+                    lineStyle = "dashed";
+                    lineColor = "#94a3b8";
+                  } else if (nextItem.type === "transit") {
+                    const nextLeg = displayLegs[nextItem.legIndex];
+                    lineColor = getLegColor(nextLeg, trip.lineColor);
+                  }
                 }
-              }
 
-              if (item.type === "station") {
-                return (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: idx * 0.05, ease: "easeOut" }}
-                    className="flex gap-x-4 min-h-[48px] relative"
-                  >
-                    {/* Time Column */}
-                    <div className="w-12 shrink-0 text-right font-mono text-xs font-bold text-slate-500 dark:text-slate-400 pt-0.5">
-                      {item.time || "--:--"}
-                    </div>
+                if (item.type === "station") {
+                  return (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.35, delay: idx * 0.05, ease: "easeOut" }}
+                      className="flex gap-x-4 min-h-[48px] relative"
+                    >
+                      <div className="w-12 shrink-0 text-right font-mono text-xs font-bold text-slate-500 dark:text-slate-400 pt-0.5">
+                        {item.time || "--:--"}
+                      </div>
 
-                    {/* Timeline Node Column */}
-                    <div className="relative w-6 shrink-0 flex flex-col items-center">
-                      {/* Connection line down */}
-                      {!item.isEnd && (
+                      <div className="relative w-6 shrink-0 flex flex-col items-center">
+                        {!item.isEnd && (
+                          <div
+                            className="absolute top-4.5 bottom-0 w-[3px]"
+                            style={{
+                              backgroundColor: lineColor,
+                              borderLeft: lineStyle === "dashed" ? "3px dashed #cbd5e1" : "none",
+                              background: lineStyle === "dashed" ? "transparent" : lineColor,
+                            }}
+                          />
+                        )}
+                        
                         <div
-                          className="absolute top-4.5 bottom-0 w-[3px]"
-                          style={{
-                            backgroundColor: lineColor,
-                            borderLeft: lineStyle === "dashed" ? "3px dashed #cbd5e1" : "none",
-                            background: lineStyle === "dashed" ? "transparent" : lineColor,
-                          }}
-                        />
-                      )}
-                      
-                      {/* Node circle */}
-                      <div
-                        className={`z-10 h-4.5 w-4.5 rounded-full border-2 bg-white dark:bg-slate-900 shadow-sm flex items-center justify-center`}
-                        style={{ borderColor: legColor }}
-                      >
+                          className={`z-10 h-4.5 w-4.5 rounded-full border-2 bg-white dark:bg-slate-900 shadow-sm flex items-center justify-center`}
+                          style={{ borderColor: legColor }}
+                        >
+                          <div
+                            className="h-2 w-2 rounded-full"
+                            style={{ backgroundColor: legColor }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex-1 pb-4">
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                          <span className="text-sm font-black text-slate-800 dark:text-slate-100">
+                            {stationLabel(t, item.name, trip.country)}
+                          </span>
+                          {item.isStart && (
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-blue-50 text-blue-600 border border-blue-100 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-900/30">
+                              {t("search.origin", { defaultValue: "Origin" })}
+                            </span>
+                          )}
+                          {item.isEnd && (
+                            <>
+                              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900/30">
+                                {t("search.destination", { defaultValue: "Destination" })}
+                              </span>
+                              {getTransferInfo(item.name, trip.country) && (
+                                <button
+                                  onClick={() => handleOpenTransferInfo(item.name, trip.country)}
+                                  className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-600 border border-indigo-200/60 shadow-xs hover:from-indigo-100 hover:to-purple-100 dark:from-indigo-950/40 dark:to-purple-950/30 dark:text-indigo-300 dark:border-indigo-800/40 dark:hover:from-indigo-900/50 dark:hover:to-purple-900/40 transition-all cursor-pointer animate-badge-pulse"
+                                >
+                                  <Info className="h-3 w-3 animate-spin [animation-duration:3s]" />
+                                  {t("result.transfer_info", { defaultValue: "Transfer Info" })}
+                                </button>
+                              )}
+                            </>
+                          )}
+                        </div>
+                        {item.platform && (
+                          <div className="mt-1 font-mono text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                            {t("result.platform_label", { defaultValue: "Platform" })} {item.platform}
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  );
+                }
+
+                if (item.type === "transit") {
+                  const leg = item.leg;
+                  return (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.35, delay: idx * 0.05, ease: "easeOut" }}
+                      className="flex gap-x-4 relative"
+                    >
+                      <div className="w-12 shrink-0" />
+
+                      <div className="relative w-6 shrink-0 flex flex-col items-center">
                         <div
-                          className="h-2 w-2 rounded-full"
+                          className="absolute top-0 bottom-0 w-[3px]"
                           style={{ backgroundColor: legColor }}
                         />
                       </div>
-                    </div>
 
-                    {/* Content Column */}
-                    <div className="flex-1 pb-4">
-                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                        <span className="text-sm font-black text-slate-800 dark:text-slate-100">
-                          {stationLabel(t, item.name, trip.country)}
-                        </span>
-                        {item.isStart && (
-                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-blue-50 text-blue-600 border border-blue-100 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-900/30">
-                            {t("search.origin", { defaultValue: "Origin" })}
-                          </span>
-                        )}
-                        {item.isEnd && (
-                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-600 border border-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900/30">
-                            {t("search.destination", { defaultValue: "Destination" })}
-                          </span>
-                        )}
-                      </div>
-                      {item.platform && (
-                        <div className="mt-1 font-mono text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                          {t("result.platform_label", { defaultValue: "Platform" })} {item.platform}
-                        </div>
-                      )}
-                    </div>
-                  </motion.div>
-                );
-              }
+                      <div className="flex-1 pb-4 pr-1">
+                        <div className="rounded-3xl border border-slate-100 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40 backdrop-blur-sm">
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="flex items-start gap-2.5">
+                              <span className="text-2xl mt-0.5 shrink-0 select-none">
+                                {getTransitIcon(leg.mode, leg.lineName)}
+                              </span>
+                              <div className="min-w-0">
+                                <h5 className="text-xs font-black text-slate-800 dark:text-slate-200 uppercase tracking-wide">
+                                  {leg.lineName}
+                                </h5>
+                                {leg.headsign && (
+                                  <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold mt-0.5">
+                                    {t("result.toward", { defaultValue: "toward" })} {stationLabel(t, leg.headsign, trip.country)}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
 
-              if (item.type === "transit") {
-                const leg = item.leg;
-                return (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: idx * 0.05, ease: "easeOut" }}
-                    className="flex gap-x-4 relative"
-                  >
-                    {/* Time Column (blank but reserves space) */}
-                    <div className="w-12 shrink-0" />
-
-                    {/* Timeline Line Column */}
-                    <div className="relative w-6 shrink-0 flex flex-col items-center">
-                      <div
-                        className="absolute top-0 bottom-0 w-[3px]"
-                        style={{ backgroundColor: legColor }}
-                      />
-                    </div>
-
-                    {/* Content Column */}
-                    <div className="flex-1 pb-4 pr-1">
-                      <div className="rounded-3xl border border-slate-100 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/40 backdrop-blur-sm">
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex items-start gap-2.5">
-                            <span className="text-2xl mt-0.5 shrink-0 select-none">
-                              {getTransitIcon(leg.mode, leg.lineName)}
-                            </span>
-                            <div className="min-w-0">
-                              <h5 className="text-xs font-black text-slate-800 dark:text-slate-200 uppercase tracking-wide">
-                                {leg.lineName}
-                              </h5>
-                              {leg.headsign && (
+                            <div className="text-right shrink-0">
+                              {leg.durationMinutes != null && (
+                                <span className="inline-flex items-center gap-1 font-mono text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                                  <Clock className="h-3 w-3 text-slate-400" />
+                                  {leg.durationMinutes} {t("result.min_label", { defaultValue: "min" })}
+                                </span>
+                              )}
+                              {leg.stopCount != null && (
                                 <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold mt-0.5">
-                                  {t("result.toward", { defaultValue: "toward" })} {stationLabel(t, leg.headsign, trip.country)}
+                                  {leg.stopCount} {t("result.stops", { defaultValue: "stops" })}
                                 </p>
                               )}
                             </div>
                           </div>
 
-                          <div className="text-right shrink-0">
-                            {leg.durationMinutes != null && (
-                              <span className="inline-flex items-center gap-1 font-mono text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                          {leg.upcomingDepartures && leg.upcomingDepartures.length > 0 && (
+                            <div className="mt-3 pt-2.5 border-t border-slate-100/60 dark:border-slate-800/60">
+                              <span className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                                {t("result.next_departures", { defaultValue: "Upcoming departures" })}:
+                              </span>
+                              <div className="flex gap-1.5 mt-1 overflow-x-auto scrollbar-none pb-0.5">
+                                {leg.upcomingDepartures.map((time: string) => (
+                                  <span
+                                    key={time}
+                                    className="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 shrink-0"
+                                  >
+                                    {time}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {leg.stops && leg.stops.length > 2 && (
+                            <div className="mt-3 pt-2.5 border-t border-slate-100/60 dark:border-slate-800/60">
+                              <button
+                                type="button"
+                                onClick={() => setExpandedLegs((prev) => ({ ...prev, [item.legIndex]: !prev[item.legIndex] }))}
+                                className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300"
+                              >
+                                <span>🚉</span>
+                                {expandedLegs[item.legIndex]
+                                  ? t("result.hide_stops", { defaultValue: "Hide intermediate stops" })
+                                  : t("result.show_stops", { count: leg.stops.length - 2, defaultValue: `Show ${leg.stops.length - 2} intermediate stops` })}
+                              </button>
+                              
+                              {expandedLegs[item.legIndex] && (
+                                <div className="mt-2.5 pl-3 border-l-2 border-emerald-100 dark:border-emerald-950/60 flex flex-col space-y-1.5">
+                                  {leg.stops.slice(1, -1).map((stop: string, sIdx: number) => (
+                                    <div key={sIdx} className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+                                      <span className="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700 shrink-0" />
+                                      <span>{stationLabel(t, stop, trip.country)}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                }
+
+                if (item.type === "transfer") {
+                  return (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.35, delay: idx * 0.05, ease: "easeOut" }}
+                      className="flex gap-x-4 relative"
+                    >
+                      <div className="w-12 shrink-0 flex flex-col justify-between py-1 text-right font-mono text-[10px] font-bold text-slate-400 dark:text-slate-500">
+                        <div>{item.arrivalTime}</div>
+                        <div className="text-slate-300 dark:text-slate-700">|</div>
+                        <div>{item.departureTime}</div>
+                      </div>
+
+                      <div className="relative w-6 shrink-0 flex flex-col items-center py-1">
+                        <div
+                          className="absolute top-0 bottom-0 w-[3px]"
+                          style={{ borderLeft: "3px dashed #cbd5e1" }}
+                        />
+                        <div className="z-10 h-3 w-3 rounded-full bg-slate-300 dark:bg-slate-700 border-2 border-white dark:border-slate-900" />
+                        <div className="flex-1" />
+                        <div className="z-10 h-3 w-3 rounded-full bg-slate-300 dark:bg-slate-700 border-2 border-white dark:border-slate-900" />
+                      </div>
+
+                      <div className="flex-1 py-1.5 pb-4">
+                        <div className="rounded-3xl border border-dashed border-slate-200 bg-slate-100/40 p-3 dark:border-slate-800 dark:bg-slate-900/20">
+                          <div className="flex items-center justify-between gap-2 text-xs font-black text-slate-700 dark:text-slate-300 flex-wrap">
+                            <div className="flex items-center gap-1.5">
+                              <ArrowRightLeft className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+                              <span>
+                                {t("result.transfer_at", { 
+                                  station: stationLabel(t, item.stationName, trip.country),
+                                  defaultValue: `Transfer at ${stationLabel(t, item.stationName, trip.country)}`
+                                })}
+                              </span>
+                            </div>
+                            
+                            {getTransferInfo(item.stationName, trip.country) && (
+                              <button
+                                onClick={() => handleOpenTransferInfo(item.stationName, trip.country)}
+                                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-600 border border-indigo-200/60 shadow-xs hover:from-indigo-100 hover:to-purple-100 dark:from-indigo-950/40 dark:to-purple-950/30 dark:text-indigo-300 dark:border-indigo-800/40 dark:hover:from-indigo-900/50 dark:hover:to-purple-900/40 transition-all cursor-pointer animate-badge-pulse shrink-0"
+                              >
+                                <Info className="h-3 w-3 animate-spin [animation-duration:3s]" />
+                                {t("result.transfer_info", { defaultValue: "Transfer Info" })}
+                              </button>
+                            )}
+                          </div>
+                          
+                          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                            {item.durationMinutes != null && (
+                              <span className="inline-flex items-center gap-1">
                                 <Clock className="h-3 w-3 text-slate-400" />
-                                {leg.durationMinutes} {t("result.min_label", { defaultValue: "min" })}
+                                {item.durationMinutes} {t("result.min_connection", { defaultValue: "min connection" })}
                               </span>
                             )}
-                            {leg.stopCount != null && (
-                              <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold mt-0.5">
-                                {leg.stopCount} {t("result.stops", { defaultValue: "stops" })}
-                              </p>
+                            {item.arrivalPlatform && item.departurePlatform && (
+                              <span className="text-slate-400">
+                                {t("result.plat_label", { defaultValue: "Plat" })} {item.arrivalPlatform} → {item.departurePlatform}
+                              </span>
                             )}
                           </div>
                         </div>
-
-                        {leg.upcomingDepartures && leg.upcomingDepartures.length > 0 && (
-                          <div className="mt-3 pt-2.5 border-t border-slate-100/60 dark:border-slate-800/60">
-                            <span className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                              {t("result.next_departures", { defaultValue: "Upcoming departures" })}:
-                            </span>
-                            <div className="flex gap-1.5 mt-1 overflow-x-auto scrollbar-none pb-0.5">
-                              {leg.upcomingDepartures.map((time: string) => (
-                                <span
-                                  key={time}
-                                  className="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 shrink-0"
-                                >
-                                  {time}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
                       </div>
-                    </div>
-                  </motion.div>
-                );
-              }
+                    </motion.div>
+                  );
+                }
 
-              if (item.type === "transfer") {
-                return (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: idx * 0.05, ease: "easeOut" }}
-                    className="flex gap-x-4 relative"
-                  >
-                    {/* Time Column (Arrival and Departure) */}
-                    <div className="w-12 shrink-0 flex flex-col justify-between py-1 text-right font-mono text-[10px] font-bold text-slate-400 dark:text-slate-500">
-                      <div>{item.arrivalTime}</div>
-                      <div className="text-slate-300 dark:text-slate-700">|</div>
-                      <div>{item.departureTime}</div>
-                    </div>
-
-                    {/* Timeline Node Column */}
-                    <div className="relative w-6 shrink-0 flex flex-col items-center py-1">
-                      <div
-                        className="absolute top-0 bottom-0 w-[3px]"
-                        style={{ borderLeft: "3px dashed #cbd5e1" }}
-                      />
-                      <div className="z-10 h-3 w-3 rounded-full bg-slate-300 dark:bg-slate-700 border-2 border-white dark:border-slate-900" />
-                      <div className="flex-1" />
-                      <div className="z-10 h-3 w-3 rounded-full bg-slate-300 dark:bg-slate-700 border-2 border-white dark:border-slate-900" />
-                    </div>
-
-                    {/* Content Column */}
-                    <div className="flex-1 py-1.5 pb-4">
-                      <div className="rounded-3xl border border-dashed border-slate-200 bg-slate-100/40 p-3 dark:border-slate-800 dark:bg-slate-900/20">
-                        <div className="flex items-center gap-1.5 text-xs font-black text-slate-700 dark:text-slate-300">
-                          <ArrowRightLeft className="h-3.5 w-3.5 text-slate-400 shrink-0" />
-                          <span>
-                            {t("result.transfer_at", { 
-                              station: stationLabel(t, item.stationName, trip.country),
-                              defaultValue: `Transfer at ${stationLabel(t, item.stationName, trip.country)}`
-                            })}
-                          </span>
-                        </div>
-                        
-                        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] font-bold text-slate-500 dark:text-slate-400">
-                          {item.durationMinutes != null && (
-                            <span className="inline-flex items-center gap-1">
-                              <Clock className="h-3 w-3 text-slate-400" />
-                              {item.durationMinutes} {t("result.min_connection", { defaultValue: "min connection" })}
-                            </span>
-                          )}
-                          {item.arrivalPlatform && item.departurePlatform && (
-                            <span className="text-slate-400">
-                              {t("result.plat_label", { defaultValue: "Plat" })} {item.arrivalPlatform} → {item.departurePlatform}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              }
-
-              return null;
-            })}
-          </div>
+                return null;
+              })}
+            </div>
+          )}
         </div>
+      )}
+      
+      {selectedTransferStationId && (
+        <TransferInfoPopup
+          isOpen={!!selectedTransferStationId}
+          onClose={() => {
+            setSelectedTransferStationId(null);
+            setSelectedTransferStationName(null);
+          }}
+          stationId={selectedTransferStationId}
+          stationName={selectedTransferStationName || undefined}
+          country={trip.country}
+        />
       )}
     </div>
   );

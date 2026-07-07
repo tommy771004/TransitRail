@@ -1,0 +1,198 @@
+export interface GeoCoord {
+  lat: number;
+  lng: number;
+}
+
+const countryHubs: Record<string, GeoCoord> = {
+  japan: { lat: 35.6812, lng: 139.7671 },
+  korea: { lat: 37.5547, lng: 126.9708 },
+  hong_kong: { lat: 22.3193, lng: 114.1694 },
+  singapore: { lat: 1.3521, lng: 103.8198 },
+  thailand: { lat: 13.7563, lng: 100.5018 },
+  united_kingdom: { lat: 51.5074, lng: -0.1278 },
+  united_states: { lat: 42.3601, lng: -71.0589 },
+  germany: { lat: 52.5200, lng: 13.4050 },
+  france: { lat: 48.8566, lng: 2.3522 },
+  china: { lat: 39.9042, lng: 116.4074 },
+  switzerland: { lat: 47.3769, lng: 8.5417 },
+};
+
+const stationCoords: Record<string, GeoCoord> = {
+  "Tokyo": { lat: 35.6812, lng: 139.7671 },
+  "Shinagawa": { lat: 35.6284, lng: 139.7387 },
+  "Shinjuku": { lat: 35.6895, lng: 139.7003 },
+  "Shibuya": { lat: 35.6580, lng: 139.7016 },
+  "Ikebukuro": { lat: 35.7295, lng: 139.7109 },
+  "Ueno": { lat: 35.7138, lng: 139.7773 },
+  "Akihabara": { lat: 35.6983, lng: 139.7731 },
+  "Shin-Yokohama": { lat: 35.5074, lng: 139.6075 },
+  "Yokohama": { lat: 35.4658, lng: 139.6223 },
+  "Omiya": { lat: 35.9063, lng: 139.6240 },
+  "Nagoya": { lat: 35.1709, lng: 136.8815 },
+  "Kyoto": { lat: 34.9858, lng: 135.7588 },
+  "Shin-Osaka": { lat: 34.7335, lng: 135.5003 },
+  "Osaka": { lat: 34.7024, lng: 135.4959 },
+  "Umeda": { lat: 34.7024, lng: 135.4959 },
+  "Namba": { lat: 34.6670, lng: 135.5013 },
+  "Tennoji": { lat: 34.6468, lng: 135.5134 },
+  "Kobe": { lat: 34.6798, lng: 135.1783 },
+  "Shin-Kobe": { lat: 34.7066, lng: 135.1951 },
+  "Sannomiya": { lat: 34.6942, lng: 135.1954 },
+  "Himeji": { lat: 34.8272, lng: 134.6908 },
+  "Okayama": { lat: 34.6663, lng: 133.9186 },
+  "Hiroshima": { lat: 34.3975, lng: 132.4754 },
+  "Hakata": { lat: 33.5897, lng: 130.4208 },
+  "Fukuoka": { lat: 33.5897, lng: 130.4208 },
+  "Kumamoto": { lat: 32.7898, lng: 130.6887 },
+  "Kagoshima-Chuo": { lat: 31.5838, lng: 130.5410 },
+  "Sendai": { lat: 38.2601, lng: 140.8824 },
+  "Morioka": { lat: 39.7016, lng: 141.1365 },
+  "Shin-Aomori": { lat: 40.8279, lng: 140.6934 },
+  "Shin-Hakodate-Hokuto": { lat: 41.9047, lng: 140.6483 },
+  "Sapporo": { lat: 43.0687, lng: 141.3508 },
+  "Kanazawa": { lat: 36.5781, lng: 136.6482 },
+  "Toyama": { lat: 36.7020, lng: 137.2114 },
+  "Nagano": { lat: 36.6431, lng: 138.1886 },
+  "Niigata": { lat: 37.9121, lng: 139.0619 },
+  "Fukui": { lat: 36.0621, lng: 136.2230 },
+  "Tsuruga": { lat: 35.6450, lng: 136.0792 },
+  "Seoul": { lat: 37.5547, lng: 126.9708 },
+  "Yongsan": { lat: 37.5298, lng: 126.9648 },
+  "Cheongnyangni": { lat: 37.5801, lng: 127.0450 },
+  "Yeongdeungpo": { lat: 37.5156, lng: 126.9076 },
+  "Suwon": { lat: 37.2657, lng: 127.0003 },
+  "Incheon": { lat: 37.4563, lng: 126.7052 },
+  "Busan": { lat: 35.1152, lng: 129.0422 },
+  "Daejeon": { lat: 36.3504, lng: 127.3845 },
+  "Daegu": { lat: 35.8714, lng: 128.6014 },
+  "East Daegu": { lat: 35.8799, lng: 128.6285 },
+  "Gwangju-Songjeong": { lat: 35.1376, lng: 126.7915 },
+  "Ulsan": { lat: 35.5389, lng: 129.3114 },
+  "Mokpo": { lat: 34.7912, lng: 126.3868 },
+  "Yeosu-Expo": { lat: 34.7523, lng: 127.7459 },
+  "Central": { lat: 22.2819, lng: 114.1581 },
+  "Hong Kong": { lat: 22.2853, lng: 114.1584 },
+  "Kowloon": { lat: 22.3040, lng: 114.1614 },
+  "Admiralty": { lat: 22.2797, lng: 114.1655 },
+  "Tsim Sha Tsui": { lat: 22.2988, lng: 114.1722 },
+  "Mong Kok": { lat: 22.3193, lng: 114.1694 },
+  "Yaumati": { lat: 22.3129, lng: 114.1708 },
+  "Yau Ma Tei": { lat: 22.3129, lng: 114.1708 },
+  "Jordan": { lat: 22.3049, lng: 114.1717 },
+  "Causeway Bay": { lat: 22.2800, lng: 114.1850 },
+  "Wan Chai": { lat: 22.2760, lng: 114.1730 },
+  "North Point": { lat: 22.2913, lng: 114.2006 },
+  "Quarry Bay": { lat: 22.2857, lng: 114.2152 },
+  "Tai Koo": { lat: 22.2844, lng: 114.2161 },
+  "Sai Wan Ho": { lat: 22.2817, lng: 114.2231 },
+  "Shau Kei Wan": { lat: 22.2794, lng: 114.2294 },
+  "Chai Wan": { lat: 22.2647, lng: 114.2367 },
+  "Sheung Wan": { lat: 22.2867, lng: 114.1519 },
+  "Sai Ying Pun": { lat: 22.2861, lng: 114.1428 },
+  "HKU": { lat: 22.2831, lng: 114.1347 },
+  "Kennedy Town": { lat: 22.2814, lng: 114.1283 },
+  "Sunny Bay": { lat: 22.3224, lng: 114.0228 },
+  "Tung Chung": { lat: 22.2890, lng: 113.9413 },
+  "Disneyland Resort": { lat: 22.3154, lng: 114.0453 },
+  "Jurong East": { lat: 1.3331, lng: 103.7423 },
+  "Clementi": { lat: 1.3150, lng: 103.7652 },
+  "Buona Vista": { lat: 1.3072, lng: 103.7903 },
+  "Queenstown": { lat: 1.2946, lng: 103.8060 },
+  "Redhill": { lat: 1.2897, lng: 103.8168 },
+  "Tiong Bahru": { lat: 1.2861, lng: 103.8269 },
+  "Outram Park": { lat: 1.2803, lng: 103.8394 },
+  "Tanjong Pagar": { lat: 1.2764, lng: 103.8458 },
+  "Raffles Place": { lat: 1.2839, lng: 103.8515 },
+  "City Hall": { lat: 1.2931, lng: 103.8522 },
+  "Bugis": { lat: 1.3007, lng: 103.8560 },
+  "Lavender": { lat: 1.3073, lng: 103.8628 },
+  "Kallang": { lat: 1.3115, lng: 103.8714 },
+  "Aljunied": { lat: 1.3164, lng: 103.8829 },
+  "Paya Lebar": { lat: 1.3181, lng: 103.8931 },
+  "Eunos": { lat: 1.3197, lng: 103.9030 },
+  "Kembangan": { lat: 1.3210, lng: 103.9129 },
+  "Bedok": { lat: 1.3240, lng: 103.9300 },
+  "Tanah Merah": { lat: 1.3272, lng: 103.9465 },
+  "Simei": { lat: 1.3431, lng: 103.9533 },
+  "Tampines": { lat: 1.3532, lng: 103.9452 },
+  "Pasir Ris": { lat: 1.3732, lng: 103.9493 },
+  "Changi Airport": { lat: 1.3575, lng: 103.9871 },
+  "Expo": { lat: 1.3353, lng: 103.9619 },
+  "Krung Thep Aphiwat": { lat: 13.8038, lng: 100.5407 },
+  "Bang Sue": { lat: 13.8038, lng: 100.5407 },
+  "Phaya Thai": { lat: 13.7568, lng: 100.5350 },
+  "Makkasan": { lat: 13.7516, lng: 100.5615 },
+  "Suvarnabhumi": { lat: 13.6899, lng: 100.7501 },
+  "Don Mueang": { lat: 13.9213, lng: 100.6014 },
+  "Ayutthaya": { lat: 14.3570, lng: 100.5843 },
+  "Chiang Mai": { lat: 18.7854, lng: 99.0169 },
+  "Nakhon Ratchasima": { lat: 14.9739, lng: 102.0792 },
+  "Khon Kaen": { lat: 16.4253, lng: 102.8272 },
+  "Nong Khai": { lat: 17.8631, lng: 102.7239 },
+  "Surat Thani": { lat: 9.1022, lng: 99.2307 },
+  "Hat Yai": { lat: 7.0041, lng: 100.4682 },
+  "Padang Besar": { lat: 6.6622, lng: 100.3204 },
+  "Beijing Nan": { lat: 39.8637, lng: 116.3789 },
+  "Beijing West": { lat: 39.8941, lng: 116.3214 },
+  "Beijing": { lat: 39.9015, lng: 116.4272 },
+  "Shanghai Hongqiao": { lat: 31.1947, lng: 121.3197 },
+  "Shanghai": { lat: 31.2492, lng: 121.4557 },
+  "Guangzhou South": { lat: 22.9882, lng: 113.2678 },
+  "Shenzhen North": { lat: 22.6106, lng: 114.0298 },
+  "West Kowloon": { lat: 22.3031, lng: 114.1654 },
+  "Tianjin": { lat: 39.1369, lng: 117.2045 },
+  "Nanjing South": { lat: 31.9696, lng: 118.7972 },
+  "Hangzhou East": { lat: 30.2923, lng: 120.2117 },
+  "Wuhan": { lat: 30.6067, lng: 114.4239 },
+  "Xi'an North": { lat: 34.3756, lng: 108.9372 },
+  "Chengdu East": { lat: 30.6289, lng: 104.1408 },
+  "Berlin Hbf": { lat: 52.5256, lng: 13.3694 },
+  "München Hbf": { lat: 48.1403, lng: 11.5583 },
+  "Frankfurt(Main)Hbf": { lat: 50.1072, lng: 8.6637 },
+  "Hamburg Hbf": { lat: 53.5528, lng: 10.0066 },
+  "Köln Hbf": { lat: 50.9427, lng: 6.9587 },
+  "Stuttgart Hbf": { lat: 48.7841, lng: 9.1816 },
+  "Düsseldorf Hbf": { lat: 51.2198, lng: 6.7943 },
+  "Hannover Hbf": { lat: 52.3768, lng: 9.7410 },
+  "Nürnberg Hbf": { lat: 49.4463, lng: 11.0820 },
+  "Leipzig Hbf": { lat: 51.3454, lng: 12.3820 },
+  "Paris Gare de Lyon": { lat: 48.8443, lng: 2.3744 },
+  "Paris Montparnasse": { lat: 48.8412, lng: 2.3201 },
+  "Paris Nord": { lat: 48.8809, lng: 2.3553 },
+  "Paris Est": { lat: 48.8762, lng: 2.3592 },
+  "Lyon-Part-Dieu": { lat: 45.7606, lng: 4.8599 },
+  "Marseille-St-Charles": { lat: 43.3027, lng: 5.3804 },
+  "Lille Flandres": { lat: 50.6364, lng: 3.0699 },
+  "Bordeaux-St-Jean": { lat: 44.8258, lng: -0.5564 },
+  "Strasbourg": { lat: 48.5851, lng: 7.7342 },
+  "Nantes": { lat: 47.2173, lng: -1.5419 },
+};
+
+export function getStationCoordinates(stationName: string, country: string): GeoCoord {
+  const normalized = stationName.replace(/ Station| Underground Station| Railway Station/gi, "").trim();
+  
+  if (stationCoords[normalized]) {
+    return stationCoords[normalized];
+  }
+
+  const lowerStation = normalized.toLowerCase();
+  for (const [key, val] of Object.entries(stationCoords)) {
+    if (key.toLowerCase() === lowerStation) {
+      return val;
+    }
+  }
+
+  const hub = countryHubs[country] || { lat: 46.8182, lng: 8.2275 }; // Switzerland / generic center
+  let hash = 0;
+  for (let i = 0; i < stationName.length; i++) {
+    hash = stationName.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  const latOffset = ((hash & 0xFF) / 255 - 0.5) * 0.15;
+  const lngOffset = (((hash >> 8) & 0xFF) / 255 - 0.5) * 0.15;
+
+  return {
+    lat: hub.lat + latOffset,
+    lng: hub.lng + lngOffset
+  };
+}

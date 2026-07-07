@@ -26,6 +26,8 @@ import { generateFallbackTimetable } from "./src/utils/fallbackPathfinder";
 import { newCountryStationLists } from "./src/data/scraped/stations";
 import { getStationsForCountry, getLinesForCountry } from "./src/server/catalog";
 import { searchSwissJourney } from "./src/server/swiss";
+import { enrichTransitResultsWithLineStations } from "./src/utils/metroEnricher";
+import { transferCatalog, getTransferInfo } from "./src/data/transfers";
 
 dotenv.config();
 
@@ -307,6 +309,17 @@ async function logTransitSearch(
         results: [],
         source: "scraped",
       };
+    }
+
+    if (payload && payload.results && payload.results.length > 0 && countryValue) {
+      try {
+        const countryLines = await getLinesForCountry(countryValue);
+        if (countryLines && countryLines.length > 0) {
+          payload.results = enrichTransitResultsWithLineStations(payload.results, countryLines, countryValue);
+        }
+      } catch (e) {
+        console.error(e);
+      }
     }
 
     await logTransitSearch(req, {
@@ -619,6 +632,50 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
       error: "Invalid country",
       message: "Country must be one of japan, korea, taiwan, singapore, thailand, hong_kong, united_kingdom, united_states, germany, france, switzerland, china.",
       lines: [],
+    });
+  });
+
+  // Station Transfer Info API
+  app.get("/api/transit/transfers/:stationId", (req, res) => {
+    const { stationId } = req.params;
+    const info = transferCatalog[stationId];
+    if (info) {
+      return res.json(info);
+    }
+    return res.status(404).json({
+      error: "Not found",
+      message: `No transfer info found for station ID ${stationId}.`
+    });
+  });
+
+  app.get("/api/transit/transfers", (req, res) => {
+    const { stationId, stationName, country } = req.query;
+
+    if (typeof stationId === "string" && stationId) {
+      const info = transferCatalog[stationId];
+      if (info) {
+        return res.json(info);
+      }
+      return res.status(404).json({
+        error: "Not found",
+        message: `No transfer info found for station ID ${stationId}.`
+      });
+    }
+
+    if (typeof stationName === "string" && typeof country === "string") {
+      const info = getTransferInfo(stationName, country);
+      if (info) {
+        return res.json(info);
+      }
+      return res.status(404).json({
+        error: "Not found",
+        message: `No transfer info found for station "${stationName}" in ${country}.`
+      });
+    }
+
+    return res.status(400).json({
+      error: "Bad request",
+      message: "Must provide either 'stationId' or both 'stationName' and 'country'."
     });
   });
 
