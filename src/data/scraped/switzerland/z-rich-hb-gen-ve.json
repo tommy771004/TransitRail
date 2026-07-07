@@ -1,14 +1,13 @@
 {
   "origin": "Zürich HB",
   "destination": "Genève",
-  "date": "2026-07-07",
-  "scrapedAt": "2026-07-07T07:42:37.319Z",
-  "source": "https://api.opentransportdata.swiss/ojp20",
+  "date": "2026-07-07..2026-07-13",
+  "scrapedAt": "2026-07-07T07:50:39.577Z",
+  "source": "OpenTransportData Swiss curated snapshot fallback (Swiss OJP returned HTTP 403. {\n    \"error\": \"Access to this API has been disallowed\"\n})",
   "results": [
     {
-      "id": "ch-ojp-2026-07-07-514-09:04",
+      "id": "2026-07-07-ch-ojp-2026-07-07-514-09:04",
       "country": "switzerland",
-      "date": "2026-07-07",
       "operator": "OpenTransportData Swiss",
       "service": "IC5",
       "trainType": "rail/highSpeedRail",
@@ -69,12 +68,12 @@
       ],
       "transferStations": [
         "Renens VD"
-      ]
+      ],
+      "date": "2026-07-07"
     },
     {
-      "id": "ch-ojp-2026-07-07-712-09:33",
+      "id": "2026-07-07-ch-ojp-2026-07-07-712-09:33",
       "country": "switzerland",
-      "date": "2026-07-07",
       "operator": "OpenTransportData Swiss",
       "service": "IC1",
       "trainType": "rail/highSpeedRail",
@@ -104,12 +103,12 @@
       "tags": [
         "swiss",
         "ojp2"
-      ]
+      ],
+      "date": "2026-07-07"
     },
     {
-      "id": "ch-ojp-2026-07-07-516-10:04",
+      "id": "2026-07-07-ch-ojp-2026-07-07-516-10:04",
       "country": "switzerland",
-      "date": "2026-07-07",
       "operator": "OpenTransportData Swiss",
       "service": "IC5",
       "trainType": "rail/highSpeedRail",
@@ -170,12 +169,12 @@
       ],
       "transferStations": [
         "Renens VD"
-      ]
+      ],
+      "date": "2026-07-07"
     },
     {
-      "id": "ch-ojp-2026-07-07-714-10:32",
+      "id": "2026-07-07-ch-ojp-2026-07-07-714-10:32",
       "country": "switzerland",
-      "date": "2026-07-07",
       "operator": "OpenTransportData Swiss",
       "service": "IC1",
       "trainType": "rail/highSpeedRail",
@@ -205,12 +204,12 @@
       "tags": [
         "swiss",
         "ojp2"
-      ]
+      ],
+      "date": "2026-07-07"
     },
     {
-      "id": "ch-ojp-2026-07-07-518-11:04",
+      "id": "2026-07-07-ch-ojp-2026-07-07-518-11:04",
       "country": "switzerland",
-      "date": "2026-07-07",
       "operator": "OpenTransportData Swiss",
       "service": "IC5",
       "trainType": "rail/highSpeedRail",
@@ -271,12 +270,12 @@
       ],
       "transferStations": [
         "Renens VD"
-      ]
+      ],
+      "date": "2026-07-07"
     },
     {
-      "id": "ch-ojp-2026-07-07-716-11:32",
+      "id": "2026-07-07-ch-ojp-2026-07-07-716-11:32",
       "country": "switzerland",
-      "date": "2026-07-07",
       "operator": "OpenTransportData Swiss",
       "service": "IC1",
       "trainType": "rail/highSpeedRail",
@@ -306,7 +305,1826 @@
       "tags": [
         "swiss",
         "ojp2"
-      ]
+      ],
+      "date": "2026-07-07"
+    },
+    {
+      "id": "2026-07-08-ch-ojp-2026-07-07-514-09:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "09:04",
+      "arrivalTime": "11:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "514",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "09:04",
+          "arrivalTime": "11:17",
+          "durationMinutes": 133,
+          "platform": "32",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1814",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "11:23",
+          "arrivalTime": "11:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-ch-ojp-2026-07-07-712-09:33",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 185,
+      "departureTime": "09:33",
+      "arrivalTime": "12:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 1,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-ch-ojp-2026-07-07-516-10:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "10:04",
+      "arrivalTime": "12:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "516",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "10:04",
+          "arrivalTime": "12:17",
+          "durationMinutes": 133,
+          "platform": "32",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1816",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "12:23",
+          "arrivalTime": "12:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-ch-ojp-2026-07-07-714-10:32",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 186,
+      "departureTime": "10:32",
+      "arrivalTime": "13:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-ch-ojp-2026-07-07-518-11:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "11:04",
+      "arrivalTime": "13:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "15",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "518",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "11:04",
+          "arrivalTime": "13:17",
+          "durationMinutes": 133,
+          "platform": "15",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1818",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "13:23",
+          "arrivalTime": "13:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-08-ch-ojp-2026-07-07-716-11:32",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 186,
+      "departureTime": "11:32",
+      "arrivalTime": "14:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-08"
+    },
+    {
+      "id": "2026-07-09-ch-ojp-2026-07-07-514-09:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "09:04",
+      "arrivalTime": "11:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "514",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "09:04",
+          "arrivalTime": "11:17",
+          "durationMinutes": 133,
+          "platform": "32",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1814",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "11:23",
+          "arrivalTime": "11:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-ch-ojp-2026-07-07-712-09:33",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 185,
+      "departureTime": "09:33",
+      "arrivalTime": "12:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 1,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-ch-ojp-2026-07-07-516-10:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "10:04",
+      "arrivalTime": "12:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "516",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "10:04",
+          "arrivalTime": "12:17",
+          "durationMinutes": 133,
+          "platform": "32",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1816",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "12:23",
+          "arrivalTime": "12:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-ch-ojp-2026-07-07-714-10:32",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 186,
+      "departureTime": "10:32",
+      "arrivalTime": "13:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-ch-ojp-2026-07-07-518-11:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "11:04",
+      "arrivalTime": "13:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "15",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "518",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "11:04",
+          "arrivalTime": "13:17",
+          "durationMinutes": 133,
+          "platform": "15",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1818",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "13:23",
+          "arrivalTime": "13:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-09-ch-ojp-2026-07-07-716-11:32",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 186,
+      "departureTime": "11:32",
+      "arrivalTime": "14:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-09"
+    },
+    {
+      "id": "2026-07-10-ch-ojp-2026-07-07-514-09:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "09:04",
+      "arrivalTime": "11:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "514",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "09:04",
+          "arrivalTime": "11:17",
+          "durationMinutes": 133,
+          "platform": "32",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1814",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "11:23",
+          "arrivalTime": "11:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-ch-ojp-2026-07-07-712-09:33",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 185,
+      "departureTime": "09:33",
+      "arrivalTime": "12:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 1,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-ch-ojp-2026-07-07-516-10:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "10:04",
+      "arrivalTime": "12:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "516",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "10:04",
+          "arrivalTime": "12:17",
+          "durationMinutes": 133,
+          "platform": "32",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1816",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "12:23",
+          "arrivalTime": "12:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-ch-ojp-2026-07-07-714-10:32",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 186,
+      "departureTime": "10:32",
+      "arrivalTime": "13:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-ch-ojp-2026-07-07-518-11:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "11:04",
+      "arrivalTime": "13:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "15",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "518",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "11:04",
+          "arrivalTime": "13:17",
+          "durationMinutes": 133,
+          "platform": "15",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1818",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "13:23",
+          "arrivalTime": "13:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-ch-ojp-2026-07-07-716-11:32",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 186,
+      "departureTime": "11:32",
+      "arrivalTime": "14:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-11-ch-ojp-2026-07-07-514-09:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "09:04",
+      "arrivalTime": "11:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "514",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "09:04",
+          "arrivalTime": "11:17",
+          "durationMinutes": 133,
+          "platform": "32",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1814",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "11:23",
+          "arrivalTime": "11:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-ch-ojp-2026-07-07-712-09:33",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 185,
+      "departureTime": "09:33",
+      "arrivalTime": "12:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 1,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-ch-ojp-2026-07-07-516-10:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "10:04",
+      "arrivalTime": "12:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "516",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "10:04",
+          "arrivalTime": "12:17",
+          "durationMinutes": 133,
+          "platform": "32",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1816",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "12:23",
+          "arrivalTime": "12:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-ch-ojp-2026-07-07-714-10:32",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 186,
+      "departureTime": "10:32",
+      "arrivalTime": "13:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-ch-ojp-2026-07-07-518-11:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "11:04",
+      "arrivalTime": "13:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "15",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "518",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "11:04",
+          "arrivalTime": "13:17",
+          "durationMinutes": 133,
+          "platform": "15",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1818",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "13:23",
+          "arrivalTime": "13:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-11-ch-ojp-2026-07-07-716-11:32",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 186,
+      "departureTime": "11:32",
+      "arrivalTime": "14:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-11"
+    },
+    {
+      "id": "2026-07-12-ch-ojp-2026-07-07-514-09:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "09:04",
+      "arrivalTime": "11:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "514",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "09:04",
+          "arrivalTime": "11:17",
+          "durationMinutes": 133,
+          "platform": "32",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1814",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "11:23",
+          "arrivalTime": "11:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-12"
+    },
+    {
+      "id": "2026-07-12-ch-ojp-2026-07-07-712-09:33",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 185,
+      "departureTime": "09:33",
+      "arrivalTime": "12:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 1,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-12"
+    },
+    {
+      "id": "2026-07-12-ch-ojp-2026-07-07-516-10:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "10:04",
+      "arrivalTime": "12:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "516",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "10:04",
+          "arrivalTime": "12:17",
+          "durationMinutes": 133,
+          "platform": "32",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1816",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "12:23",
+          "arrivalTime": "12:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-12"
+    },
+    {
+      "id": "2026-07-12-ch-ojp-2026-07-07-714-10:32",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 186,
+      "departureTime": "10:32",
+      "arrivalTime": "13:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-12"
+    },
+    {
+      "id": "2026-07-12-ch-ojp-2026-07-07-518-11:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "11:04",
+      "arrivalTime": "13:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "15",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "518",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "11:04",
+          "arrivalTime": "13:17",
+          "durationMinutes": 133,
+          "platform": "15",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1818",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "13:23",
+          "arrivalTime": "13:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-12"
+    },
+    {
+      "id": "2026-07-12-ch-ojp-2026-07-07-716-11:32",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 186,
+      "departureTime": "11:32",
+      "arrivalTime": "14:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-12"
+    },
+    {
+      "id": "2026-07-13-ch-ojp-2026-07-07-514-09:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "09:04",
+      "arrivalTime": "11:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "514",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "09:04",
+          "arrivalTime": "11:17",
+          "durationMinutes": 133,
+          "platform": "32",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1814",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "11:23",
+          "arrivalTime": "11:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-13"
+    },
+    {
+      "id": "2026-07-13-ch-ojp-2026-07-07-712-09:33",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 185,
+      "departureTime": "09:33",
+      "arrivalTime": "12:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 1,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-13"
+    },
+    {
+      "id": "2026-07-13-ch-ojp-2026-07-07-516-10:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "10:04",
+      "arrivalTime": "12:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "516",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "10:04",
+          "arrivalTime": "12:17",
+          "durationMinutes": 133,
+          "platform": "32",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1816",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "12:23",
+          "arrivalTime": "12:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-13"
+    },
+    {
+      "id": "2026-07-13-ch-ojp-2026-07-07-714-10:32",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 186,
+      "departureTime": "10:32",
+      "arrivalTime": "13:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-13"
+    },
+    {
+      "id": "2026-07-13-ch-ojp-2026-07-07-518-11:04",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC5",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 164,
+      "departureTime": "11:04",
+      "arrivalTime": "13:54",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": false,
+      "stops": [],
+      "platform": "15",
+      "delayMinutes": 0,
+      "headsign": "Lausanne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Aussteigeseite: Links",
+        "Restaurant",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IC5",
+          "lineCode": "518",
+          "mode": "rail/highSpeedRail",
+          "origin": "Zürich HB",
+          "destination": "Renens VD",
+          "departureTime": "11:04",
+          "arrivalTime": "13:17",
+          "durationMinutes": 133,
+          "platform": "15",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        },
+        {
+          "lineName": "IR90",
+          "lineCode": "1818",
+          "mode": "rail/interregionalRail",
+          "origin": "Renens VD",
+          "destination": "Genève",
+          "departureTime": "13:23",
+          "arrivalTime": "13:54",
+          "durationMinutes": 31,
+          "platform": "2",
+          "delayMinutes": 0,
+          "headsign": "Genève-Aéroport"
+        }
+      ],
+      "transferStations": [
+        "Renens VD"
+      ],
+      "date": "2026-07-13"
+    },
+    {
+      "id": "2026-07-13-ch-ojp-2026-07-07-716-11:32",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 186,
+      "departureTime": "11:32",
+      "arrivalTime": "14:38",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Genève",
+      "destLat": 46.21021,
+      "destLng": 6.14246,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 0,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-13"
     }
   ]
 }
