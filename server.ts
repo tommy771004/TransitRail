@@ -44,8 +44,20 @@ function readHeader(req: express.Request, name: string) {
   return trimmed ? trimmed : undefined;
 }
 
-function parseInteger(value: string | undefined) {
-  if (!value) {
+function readText(value: unknown) {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  const trimmed = value.trim();
+  return trimmed ? trimmed : undefined;
+}
+
+function parseInteger(value: unknown) {
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? Math.trunc(value) : undefined;
+  }
+  if (typeof value !== "string" || !value.trim()) {
     return undefined;
   }
 
@@ -53,8 +65,11 @@ function parseInteger(value: string | undefined) {
   return Number.isFinite(parsed) ? parsed : undefined;
 }
 
-function parseDecimal(value: string | undefined) {
-  if (!value) {
+function parseDecimal(value: unknown) {
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : undefined;
+  }
+  if (typeof value !== "string" || !value.trim()) {
     return undefined;
   }
 
@@ -62,8 +77,28 @@ function parseDecimal(value: string | undefined) {
   return Number.isFinite(parsed) ? parsed : undefined;
 }
 
-function normalizeDate(value: string) {
-  return /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : undefined;
+function normalizeDate(value: string | undefined) {
+  return value && /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : undefined;
+}
+
+const legacyAuditEventAliases: Record<string, string> = {
+  station_browser_open: "station.browser.open",
+  station_selected: "station.select",
+  nearest_station_failed: "station.geolocation.failed",
+};
+
+function normalizeAuditEvent(value: string | undefined) {
+  const trimmed = value?.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+
+  const aliased = legacyAuditEventAliases[trimmed] ?? trimmed;
+  return aliased.toLowerCase().replace(/_/g, ".");
+}
+
+function encodeAuditValue(value: string | number) {
+  return encodeURIComponent(String(value));
 }
 
 function inferDeviceType(userAgent: string | undefined) {
@@ -81,28 +116,44 @@ function inferDeviceType(userAgent: string | undefined) {
   return "desktop";
 }
 
-function buildActiveFilter(country: string | undefined, time: string | undefined) {
-  const filters: string[] = [];
-
-  if (country) {
-    filters.push(`country:${country}`);
+function buildActiveFilter(input: {
+  event: string;
+  country?: string;
+  tags?: Record<string, string | number | undefined>;
+}) {
+  const event = normalizeAuditEvent(input.event);
+  if (!event) {
+    return undefined;
   }
-  if (time && /^\d{2}:\d{2}$/.test(time)) {
-    filters.push(`departure_after:${time}`);
+
+  const filters = [`event:${encodeAuditValue(event)}`];
+  if (input.country) {
+    filters.push(`country:${encodeAuditValue(input.country)}`);
   }
 
-  return filters.length > 0 ? filters.join("|") : undefined;
+  const tags = Object.entries(input.tags ?? {})
+    .filter(([, value]) => value !== undefined && value !== "")
+    .sort(([left], [right]) => left.localeCompare(right));
+
+  for (const [key, value] of tags) {
+    filters.push(`tag:${key}=${encodeAuditValue(value as string | number)}`);
+  }
+
+  return filters.join("|");
 }
 
-async function logTransitSearch(
+async function insertAuditLog(
   req: express.Request,
-  search: {
-    origin: string;
-    destination: string;
-    date: string;
-    country?: string;
-    time?: string;
-    resultCount: number;
+  entry: {
+    transportType: string;
+    originStationName?: string;
+    destStationName?: string;
+    queryDate?: string;
+    activeFilter?: string;
+    resultCount?: number;
+    latitude?: number;
+    longitude?: number;
+    geoAccuracy?: number;
   },
 ) {
   if (!process.env.DATABASE_URL) {
@@ -114,12 +165,12 @@ async function logTransitSearch(
 
   await db.insert(tnAuditLog).values({
     sessionId: readHeader(req, "x-tr-session-id"),
-    transportType: "rail",
-    originStationName: search.origin,
-    destStationName: search.destination,
-    queryDate: normalizeDate(search.date),
-    activeFilter: buildActiveFilter(search.country, search.time),
-    resultCount: search.resultCount,
+    transportType: entry.transportType,
+    originStationName: entry.originStationName,
+    destStationName: entry.destStationName,
+    queryDate: normalizeDate(entry.queryDate),
+    activeFilter: entry.activeFilter,
+    resultCount: entry.resultCount,
     language: readHeader(req, "x-tr-language") ?? acceptLanguage?.split(",")[0]?.trim(),
     timezone: readHeader(req, "x-tr-timezone"),
     deviceType: readHeader(req, "x-tr-device-type") ?? inferDeviceType(userAgent),
@@ -130,9 +181,43 @@ async function logTransitSearch(
     region: readHeader(req, "x-vercel-ip-country-region"),
     city: readHeader(req, "x-vercel-ip-city"),
     postalCode: readHeader(req, "x-vercel-ip-postal-code"),
+    latitude: entry.latitude,
+    longitude: entry.longitude,
     ipTimezone: readHeader(req, "x-vercel-ip-timezone"),
     geoLatitude: parseDecimal(readHeader(req, "x-vercel-ip-latitude")),
     geoLongitude: parseDecimal(readHeader(req, "x-vercel-ip-longitude")),
+    geoAccuracy: entry.geoAccuracy,
+  });
+}
+
+async function logTransitSearch(
+  req: express.Request,
+  search: {
+    origin: string;
+    destination: string;
+    date: string;
+    country?: string;
+    time?: string;
+    source?: string;
+    statusCode: number;
+    resultCount: number;
+  },
+) {
+  await insertAuditLog(req, {
+    transportType: "rail",
+    originStationName: search.origin,
+    destStationName: search.destination,
+    queryDate: search.date,
+    activeFilter: buildActiveFilter({
+      event: "search.execute",
+      country: search.country,
+      tags: {
+        "filter.departure_after": search.time && /^\d{2}:\d{2}$/.test(search.time) ? search.time : undefined,
+        "result.source": search.source,
+        "result.status": search.statusCode,
+      },
+    }),
+    resultCount: search.resultCount,
   });
 }
 
@@ -210,6 +295,8 @@ async function logTransitSearch(
       date,
       country: countryValue,
       time: timeValue,
+      source: payload.source,
+      statusCode,
       resultCount: payload.results.length,
     }).catch((error) => {
       console.error("[audit] Failed to record transit search:", error);
@@ -218,70 +305,171 @@ async function logTransitSearch(
     return res.status(statusCode).json(payload);
   });
 
+  app.post("/api/transit/audit", async (req, res) => {
+    const body = req.body && typeof req.body === "object" ? (req.body as Record<string, unknown>) : undefined;
+    const eventValue = normalizeAuditEvent(readText(body?.event) ?? readText(body?.action));
+
+    if (!eventValue) {
+      return res.status(400).json({ error: "Event is required." });
+    }
+
+    const countryValue = readText(body?.country);
+    const targetValue = readText(body?.target);
+    const stationValue = readText(body?.station);
+    const lineIdValue = readText(body?.lineId);
+    const reasonValue = readText(body?.reason);
+
+    await insertAuditLog(req, {
+      transportType: "rail",
+      originStationName: targetValue === "origin" ? stationValue : undefined,
+      destStationName: targetValue === "destination" ? stationValue : undefined,
+      activeFilter: buildActiveFilter({
+        event: eventValue,
+        country: countryValue,
+        tags: {
+          "context.target": targetValue,
+          "line.id": lineIdValue,
+          "failure.reason": reasonValue,
+        },
+      }),
+      resultCount: parseInteger(body?.resultCount),
+      latitude: parseDecimal(body?.latitude),
+      longitude: parseDecimal(body?.longitude),
+      geoAccuracy: parseDecimal(body?.accuracy),
+    }).catch((error) => {
+      console.error("[audit] Failed to record transit event:", error);
+    });
+
+    return res.status(204).end();
+  });
+
   // Stations API
   app.get("/api/transit/stations", async (req, res) => {
     const { country, q } = req.query;
+    const countryValue = typeof country === "string" ? country : undefined;
+    const queryValue = typeof q === "string" ? q.trim() || undefined : undefined;
+    let statusCode = 200;
+    let payload: {
+      stations: string[];
+      source?: string;
+      error?: string;
+      message?: string;
+    };
+
     try {
       const { stations, source } = await getStationsForCountry(country as string, q as string);
-      return res.json({ stations, source });
+      payload = { stations, source };
     } catch (error) {
       if (error instanceof Error && error.message === "Invalid country") {
-        return res.status(400).json({
+        statusCode = 400;
+        payload = {
           error: "Invalid country",
           message: "Country must be one of japan, korea, taiwan, singapore, thailand, hong_kong, united_kingdom, united_states, germany, france, china.",
           stations: [],
-        });
+        };
+      } else {
+        statusCode = 502;
+        payload = {
+          error: "Provider request failed",
+          message: error instanceof Error ? error.message : "Could not fetch stations.",
+          stations: [],
+        };
       }
-      return res.status(502).json({
-        error: "Provider request failed",
-        message: error instanceof Error ? error.message : "Could not fetch stations.",
-        stations: [],
-      });
     }
+
+    await insertAuditLog(req, {
+      transportType: "rail",
+      originStationName: queryValue,
+      activeFilter: buildActiveFilter({
+        event: queryValue ? "station.catalog.search" : "station.catalog.fetch",
+        country: countryValue,
+        tags: {
+          "query.term": queryValue,
+          "result.source": payload.source,
+          "result.status": statusCode,
+        },
+      }),
+      resultCount: payload.stations.length,
+    }).catch((error) => {
+      console.error("[audit] Failed to record station catalog access:", error);
+    });
+
+    return res.status(statusCode).json(payload);
   });
 
   app.get("/api/transit/nearest-station", async (req, res) => {
-    const { country, lat, lng } = req.query;
-    if (!country || !lat || !lng) {
-      return res.status(400).json({ error: "Missing required parameters: country, lat, lng" });
-    }
-    
-    try {
-      const { stations } = await getStationsForCountry(country as string);
-      if (stations.length === 0) {
-         return res.status(404).json({ error: "No stations found for country" });
-      }
+    const { country, lat, lng, accuracy } = req.query;
+    const countryValue = typeof country === "string" ? country : undefined;
+    const latitudeValue = parseDecimal(lat);
+    const longitudeValue = parseDecimal(lng);
+    const accuracyValue = parseDecimal(accuracy);
+    let statusCode = 200;
+    let payload: {
+      station?: string;
+      error?: string;
+    };
 
-      if (!process.env.GEMINI_API_KEY) {
-        return res.status(501).json({ error: "Gemini API key not configured." });
-      }
-
-      const prompt = `Given the user's location (latitude: ${lat}, longitude: ${lng}) in ${country}, which of the following train stations is physically closest to them?
+    if (!countryValue || latitudeValue === undefined || longitudeValue === undefined) {
+      statusCode = 400;
+      payload = { error: "Missing required parameters: country, lat, lng" };
+    } else {
+      try {
+        const { stations } = await getStationsForCountry(countryValue);
+        if (stations.length === 0) {
+          statusCode = 404;
+          payload = { error: "No stations found for country" };
+        } else if (!process.env.GEMINI_API_KEY) {
+          statusCode = 501;
+          payload = { error: "Gemini API key not configured." };
+        } else {
+          const prompt = `Given the user's location (latitude: ${latitudeValue}, longitude: ${longitudeValue}) in ${countryValue}, which of the following train stations is physically closest to them?
 
 List of stations:
 ${stations.join(", ")}
 
 Respond ONLY with the exact name of the closest station from the list above. Do not include any other text or explanation.`;
 
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-      const response = await ai.models.generateContent({
-        model: "gemini-3.1-pro-preview",
-        contents: prompt,
-        config: {
-          thinkingConfig: {
-            thinkingLevel: ThinkingLevel.HIGH,
-          }
+          const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+          const response = await ai.models.generateContent({
+            model: "gemini-3.1-pro-preview",
+            contents: prompt,
+            config: {
+              thinkingConfig: {
+                thinkingLevel: ThinkingLevel.HIGH,
+              }
+            }
+          });
+          
+          let nearest = response.text?.trim() || "";
+          nearest = nearest.replace(/^["']|["']$/g, '');
+          payload = { station: nearest };
         }
-      });
-      
-      let nearest = response.text?.trim() || "";
-      nearest = nearest.replace(/^["']|["']$/g, '');
-      
-      return res.json({ station: nearest });
-    } catch (e) {
-      console.error(e);
-      return res.status(500).json({ error: "Failed to determine nearest station" });
+      } catch (e) {
+        console.error(e);
+        statusCode = 500;
+        payload = { error: "Failed to determine nearest station" };
+      }
     }
+
+    await insertAuditLog(req, {
+      transportType: "rail",
+      originStationName: payload.station,
+      activeFilter: buildActiveFilter({
+        event: "station.lookup.nearest",
+        country: countryValue,
+        tags: {
+          "result.status": statusCode,
+        },
+      }),
+      resultCount: payload.station ? 1 : 0,
+      latitude: latitudeValue,
+      longitude: longitudeValue,
+      geoAccuracy: accuracyValue,
+    }).catch((error) => {
+      console.error("[audit] Failed to record nearest-station lookup:", error);
+    });
+      
+    return res.status(statusCode).json(payload);
   });
 
   // Currency Exchange Rates API

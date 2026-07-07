@@ -19,6 +19,7 @@ import { TransitLegend } from "./components/TransitLegend";
 import { generateICS } from "./utils/ics";
 import { stationLabel } from "./utils/stationLabel";
 import { triggerHaptic } from "./utils/haptics";
+import { getAuditHeaders } from "./utils/audit";
 import { get, set } from "idb-keyval";
 import { countryConfig, providerDateValue, countryThemes, countryFlags, countryOptions } from "./data/countries";
 import type {
@@ -142,47 +143,6 @@ function loadJson<T>(key: string, fallback: T): T {
 
 function saveJson<T>(key: string, value: T) {
   window.localStorage.setItem(key, JSON.stringify(value));
-}
-
-const AUDIT_SESSION_STORAGE_KEY = "transitrail.auditSessionId";
-
-function getAuditSessionId() {
-  if (typeof window === "undefined") {
-    return undefined;
-  }
-
-  const existing = window.sessionStorage.getItem(AUDIT_SESSION_STORAGE_KEY);
-  if (existing) {
-    return existing;
-  }
-
-  const created = window.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-  window.sessionStorage.setItem(AUDIT_SESSION_STORAGE_KEY, created);
-  return created;
-}
-
-function getAuditHeaders(language: string, timezone: string) {
-  const headers: Record<string, string> = {};
-  const sessionId = getAuditSessionId();
-
-  if (sessionId) {
-    headers["x-tr-session-id"] = sessionId;
-  }
-  if (language) {
-    headers["x-tr-language"] = language;
-  }
-  if (timezone) {
-    headers["x-tr-timezone"] = timezone;
-  }
-  if (typeof window !== "undefined") {
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    headers["x-tr-screen-width"] = String(viewportWidth);
-    headers["x-tr-screen-height"] = String(viewportHeight);
-    headers["x-tr-device-type"] = viewportWidth < 768 ? "mobile" : viewportWidth < 1024 ? "tablet" : "desktop";
-  }
-
-  return headers;
 }
 
 function filterByTransitTypes(results: TransitResult[], preferred: string[] | undefined) {

@@ -8,6 +8,7 @@ import type { Country, TransitLine } from "../types";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel } from "../utils/stationLabel";
 import { fuzzyMatch } from "../utils/fuzzy";
+import { getAuditHeaders, postAuditEvent, resolveAuditTimezone } from "../utils/audit";
 
 interface StationBrowserProps {
   country: Country;
@@ -32,6 +33,7 @@ export function StationBrowser({
 }: StationBrowserProps) {
   const { t } = useTranslation();
   const theme = countryThemes[country] || countryThemes.japan;
+  const buildAuditHeaders = () => getAuditHeaders(i18n.language, resolveAuditTimezone());
 
   const dragControls = useDragControls();
 
@@ -68,6 +70,14 @@ export function StationBrowser({
         }
       }
     }
+
+    void postAuditEvent({
+      event: "station.select",
+      country,
+      target,
+      station,
+      lineId: selectedLineId,
+    }, { language: i18n.language });
     
     onSelectStation(station, autoFillDest, selectedLineId);
   };
@@ -75,6 +85,12 @@ export function StationBrowser({
   const handleUseLocation = () => {
     triggerHaptic("medium");
     if (!navigator.geolocation) {
+      void postAuditEvent({
+        event: "station.geolocation.failed",
+        country,
+        target,
+        reason: "geolocation_unsupported",
+      }, { language: i18n.language });
       setLocationError(t("stations.geolocation_unsupported", "Geolocation is not supported by your browser."));
       return;
     }
@@ -85,8 +101,16 @@ export function StationBrowser({
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         try {
-          const { latitude, longitude } = position.coords;
-          const res = await fetch(`/api/transit/nearest-station?country=${country}&lat=${latitude}&lng=${longitude}`);
+          const { latitude, longitude, accuracy } = position.coords;
+          const params = new URLSearchParams({
+            country,
+            lat: String(latitude),
+            lng: String(longitude),
+            accuracy: String(accuracy),
+          });
+          const res = await fetch(`/api/transit/nearest-station?${params.toString()}`, {
+            headers: buildAuditHeaders(),
+          });
           if (!res.ok) {
             throw new Error("Failed to find nearest station");
           }
@@ -103,12 +127,26 @@ export function StationBrowser({
         }
       },
       (error) => {
+        void postAuditEvent({
+          event: "station.geolocation.failed",
+          country,
+          target,
+          reason: error.code === error.PERMISSION_DENIED ? "permission_denied" : "geolocation_error",
+        }, { language: i18n.language });
         setLocationError(t("stations.location_permission_denied", "Location access denied or failed."));
         setIsLocating(false);
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
   };
+
+  useEffect(() => {
+    void postAuditEvent({
+      event: "station.browser.open",
+      country,
+      target,
+    }, { language: i18n.language });
+  }, [country, target]);
 
   useEffect(() => {
     let active = true;
@@ -126,7 +164,9 @@ export function StationBrowser({
     // Fallback: the /api serverless function (also fine once the lambda is healthy).
     const loadFromApi = async () => {
       const [sRes, lRes] = await Promise.allSettled([
-        fetch(`/api/transit/stations?country=${country}`).then((r) => r.json().then((d) => ({ ok: r.ok, d }))),
+        fetch(`/api/transit/stations?country=${country}`, {
+          headers: buildAuditHeaders(),
+        }).then((r) => r.json().then((d) => ({ ok: r.ok, d }))),
         fetch(`/api/transit/lines?country=${country}`).then((r) => r.json().then((d) => ({ ok: r.ok, d }))),
       ]);
       if (!active) return;
