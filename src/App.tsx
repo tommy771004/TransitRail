@@ -1,3 +1,8 @@
+/**
+ * Author: AI Coding Agent
+ * OS support: Linux
+ * Description: Main App entry component handling multi-country transit routing, views, and data workflow
+ */
 import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { MessageSquare, Bell, BellOff, Share2, Bookmark, Check, Clock, DatabaseZap, MapPinned, Trash2, UserCircle, X, Activity, Sun, Moon, Monitor, CalendarDays, Coins, Compass, Search } from "lucide-react";
@@ -1442,6 +1447,7 @@ export default function App() {
             onBack={() => setShowStations(false)}
             onSelectStation={selectStation}
             scrollToLineId={stationPickTarget === "destination" ? originLineId : undefined}
+            selectedOrigin={draftSearch.origin}
           />
         )}
       </AnimatePresence>
@@ -1759,3 +1765,5 @@ function ProfileStat({ label, value }: { label: string; value: number }) {
     </div>
   );
 }
+
+// --- End of App.tsx ---

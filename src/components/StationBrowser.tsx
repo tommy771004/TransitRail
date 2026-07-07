@@ -1,3 +1,8 @@
+/**
+ * Author: AI Coding Agent
+ * OS support: Linux
+ * Description: Component for browsing and selecting origin or destination stations with auto-fill logic
+ */
 import { ArrowLeft, ChevronDown, Search, X, MapPin, Loader2, Navigation } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,6 +21,7 @@ interface StationBrowserProps {
   onBack: () => void;
   onSelectStation: (station: string, autoFillDest?: string, lineId?: string) => void;
   scrollToLineId?: string;
+  selectedOrigin?: string;
 }
 
 const lineNoteKeys: Partial<Record<Country, string>> = {
@@ -30,6 +36,7 @@ export function StationBrowser({
   onBack,
   onSelectStation,
   scrollToLineId,
+  selectedOrigin,
 }: StationBrowserProps) {
   const { t } = useTranslation();
   const theme = countryThemes[country] || countryThemes.japan;
@@ -55,22 +62,27 @@ export function StationBrowser({
 
   const handleSelectStation = (station: string) => {
     triggerHaptic("medium");
-    
     let autoFillDest: string | undefined;
     let selectedLineId: string | undefined;
-    
     if (target === "origin") {
-      for (const line of lines) {
-        if (line.stations.some(s => s.name === station)) {
-          const first = line.stations[0].name;
-          const last = line.stations[line.stations.length - 1].name;
-          autoFillDest = (last === station) ? first : last;
-          selectedLineId = line.id;
-          break;
+      const activeLine = lines.find(l => l.id === selectedCategory);
+      if (activeLine && activeLine.stations.some(s => s.name === station)) {
+        const first = activeLine.stations[0].name;
+        const last = activeLine.stations[activeLine.stations.length - 1].name;
+        autoFillDest = (last === station) ? first : last;
+        selectedLineId = activeLine.id;
+      } else {
+        for (const line of lines) {
+          if (line.stations.some(s => s.name === station)) {
+            const first = line.stations[0].name;
+            const last = line.stations[line.stations.length - 1].name;
+            autoFillDest = (last === station) ? first : last;
+            selectedLineId = line.id;
+            break;
+          }
         }
       }
     }
-
     void postAuditEvent({
       event: "station.select",
       country,
@@ -78,7 +90,6 @@ export function StationBrowser({
       station,
       lineId: selectedLineId,
     }, { language: i18n.language });
-    
     onSelectStation(station, autoFillDest, selectedLineId);
   };
 
@@ -161,7 +172,6 @@ export function StationBrowser({
       }
     };
 
-    // Fallback: the /api serverless function (also fine once the lambda is healthy).
     const loadFromApi = async () => {
       const [sRes, lRes] = await Promise.allSettled([
         fetch(`/api/transit/stations?country=${country}`, {
@@ -176,7 +186,6 @@ export function StationBrowser({
       else { setLines([]); setLinesFailed(true); }
     };
 
-    // Static catalog first: a CDN file that survives a total /api outage.
     const load = async () => {
       setIsLoading(true);
       setLinesLoading(true);
@@ -208,6 +217,41 @@ export function StationBrowser({
     };
   }, [country]);
 
+  const dependencyMap = useMemo(() => {
+    return buildDependencyMap(lines);
+  }, [lines]);
+
+  const visibleLines = useMemo(() => {
+    if (target === "destination" && selectedOrigin) {
+      return lines.filter(line => {
+        const idx = line.stations.findIndex(s => s.name === selectedOrigin);
+        return idx !== -1 && idx < line.stations.length - 1;
+      });
+    }
+    return lines;
+  }, [lines, target, selectedOrigin]);
+
+  useEffect(() => {
+    if (visibleLines.length > 0) {
+      if (!visibleLines.some(l => l.id === selectedCategory)) {
+        setSelectedCategory(scrollToLineId || visibleLines[0].id);
+      }
+    }
+  }, [visibleLines, selectedCategory, scrollToLineId]);
+
+  const stationsToRender = useMemo(() => {
+    const line = lines.find((l) => l.id === selectedCategory);
+    if (!line) return [];
+    if (target === "destination" && selectedOrigin) {
+      const originIdx = line.stations.findIndex(s => s.name === selectedOrigin);
+      if (originIdx !== -1) {
+        return line.stations.slice(originIdx + 1);
+      }
+      return [];
+    }
+    return line.stations;
+  }, [lines, selectedCategory, target, selectedOrigin]);
+
   const lineColorByName = useMemo(() => {
     const map = new Map<string, string | undefined>();
     for (const line of lines) map.set(line.name, line.color);
@@ -216,7 +260,6 @@ export function StationBrowser({
 
   const searching = query.trim().length > 0;
 
-  // Scroll the active category button into view when lines are loaded or target category changes
   useEffect(() => {
     if (selectedCategory && !searching && lines.length > 0) {
       const timer = setTimeout(() => {
@@ -224,7 +267,7 @@ export function StationBrowser({
         if (el && el.scrollIntoView) {
           el.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }
-      }, 400); // Wait for modal animation
+      }, 400);
       return () => clearTimeout(timer);
     }
   }, [selectedCategory, searching, lines.length]);
@@ -255,11 +298,20 @@ export function StationBrowser({
 
   const filteredStations = useMemo(() => {
     const value = query.trim().toLowerCase();
-    if (!value) return stations;
+    let baseStations = stations;
+    if (target === "destination" && selectedOrigin) {
+      const allowed = dependencyMap.get(selectedOrigin);
+      if (allowed) {
+        baseStations = stations.filter(s => allowed.has(s));
+      } else {
+        baseStations = [];
+      }
+    }
+    if (!value) return baseStations;
     
     const tZh = i18n.getFixedT("zh-TW", "translation");
     
-    return stations.filter((station) => {
+    return baseStations.filter((station) => {
       const primary = station.toLowerCase();
       const translated = stationLabel(t, station, country).toLowerCase();
       const zhLabel = stationLabel(tZh, station, country).toLowerCase();
@@ -270,12 +322,22 @@ export function StationBrowser({
              fuzzyMatch(value, zhLabel) || 
              (localName && fuzzyMatch(value, localName));
     });
-  }, [query, stations, t, country, localNameMap]);
+  }, [query, stations, t, country, localNameMap, target, selectedOrigin, dependencyMap]);
 
-  const featured = countryConfig[country].featuredStations;
+  const featured = useMemo(() => {
+    const origFeatured = countryConfig[country].featuredStations;
+    if (target === "destination" && selectedOrigin) {
+      const allowed = dependencyMap.get(selectedOrigin);
+      if (allowed) {
+        return origFeatured.filter(s => allowed.has(s));
+      }
+      return [];
+    }
+    return origFeatured;
+  }, [country, target, selectedOrigin, dependencyMap]);
+
   const noteKey = lineNoteKeys[country];
 
-  // Animation variants
   const backdropVariants = {
     hidden: { 
       opacity: 0,
@@ -342,10 +404,8 @@ export function StationBrowser({
         }}
         className="relative flex h-[88vh] w-full flex-col overflow-hidden rounded-t-[32px] bg-white/95 dark:bg-[#060a13]/95 backdrop-blur-xl sm:h-[80vh] sm:max-w-md sm:rounded-[28px] border border-slate-200/50 dark:border-slate-800/60 shadow-[0_24px_64px_rgba(0,0,0,0.12)] dark:shadow-[0_24px_64px_rgba(0,0,0,0.4)]"
       >
-        {/* Sleek Top Accent Lightbeam */}
         <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-emerald-500/60 to-transparent`} />
 
-        {/* Swipe bar indicator / Drag handle */}
         <div 
           onPointerDown={(e) => dragControls.start(e)}
           className="w-full pt-3 pb-2 flex justify-center cursor-grab active:cursor-grabbing select-none shrink-0"
@@ -376,7 +436,6 @@ export function StationBrowser({
             </div>
           </div>
 
-          {/* Interactive Search Bar */}
           <div className="relative flex items-center gap-2 rounded-2xl border border-slate-200/80 bg-slate-50/80 px-4 py-3 dark:border-slate-800/60 dark:bg-slate-900/60 focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500/50 dark:focus-within:ring-emerald-500/10 focus-within:bg-white dark:focus-within:bg-slate-950/80 transition-all duration-300 shadow-xs">
             <Search className="h-4.5 w-4.5 text-slate-400 dark:text-slate-500 shrink-0 transition-colors group-focus-within:text-emerald-500" />
             <input
@@ -398,7 +457,6 @@ export function StationBrowser({
             )}
           </div>
 
-          {/* Location Geolocation Button */}
           {target === "origin" && (
             <div className="mt-3">
               <button
@@ -406,7 +464,6 @@ export function StationBrowser({
                 disabled={isLocating}
                 className="relative overflow-hidden flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-indigo-500/10 py-3 text-sm font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 dark:border-emerald-500/30 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 disabled:opacity-50 shadow-sm group"
               >
-                {/* Premium Shine Effect */}
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shine" />
                 
                 {isLocating ? (
@@ -447,10 +504,9 @@ export function StationBrowser({
             </div>
           ) : (
             <>
-              {/* Left Column: Categories / Lines */}
               <div className="w-[115px] sm:w-[135px] shrink-0 overflow-y-auto border-r border-slate-100 dark:border-slate-800/60 bg-slate-50/30 dark:bg-[#040810]/20 pb-12 pt-2">
                 <ul className="space-y-1">
-                  {!linesLoading && !linesFailed && lines.map((line) => (
+                  {!linesLoading && !linesFailed && visibleLines.map((line) => (
                     <li key={line.id}>
                       <button
                         id={`line-btn-${line.id}`}
@@ -476,7 +532,6 @@ export function StationBrowser({
                 </ul>
               </div>
 
-              {/* Right Column: Stations */}
               <div className="flex-1 overflow-y-auto px-4 pb-12 pt-2">
                 {linesLoading ? (
                   <div className="py-12 flex flex-col items-center justify-center gap-3">
@@ -514,7 +569,7 @@ export function StationBrowser({
                       animate="visible"
                       className="space-y-1"
                     >
-                      {lines.find((l) => l.id === selectedCategory)?.stations.map((station, index, arr) => {
+                      {stationsToRender.map((station, index, arr) => {
                         const line = lines.find((l) => l.id === selectedCategory);
                         const primaryLabel = stationLabel(t, station.name, country);
                         
@@ -701,3 +756,23 @@ function StationList({
     </motion.ul>
   );
 }
+
+export function buildDependencyMap(lines: TransitLine[]): Map<string, Set<string>> {
+  const map = new Map<string, Set<string>>();
+  for (const line of lines) {
+    const stations = line.stations;
+    for (let i = 0; i < stations.length; i++) {
+      const stationName = stations[i].name;
+      if (!map.has(stationName)) {
+        map.set(stationName, new Set<string>());
+      }
+      const allowedSet = map.get(stationName)!;
+      for (let j = i + 1; j < stations.length; j++) {
+        allowedSet.add(stations[j].name);
+      }
+    }
+  }
+  return map;
+}
+
+// --- End of StationBrowser.tsx ---
