@@ -41,7 +41,7 @@ const ACTUAL_DATA_DIR = resolveDataDir();
 const ALL_COUNTRIES: Country[] = [
   "japan", "korea", "singapore", "thailand",
   "hong_kong", "united_kingdom", "united_states",
-  "germany", "france", "china",
+  "germany", "france", "china", "switzerland",
 ];
 
 let cache: Record<string, ScrapedRouteData[]> = {};

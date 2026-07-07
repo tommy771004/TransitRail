@@ -255,9 +255,13 @@ async function logTransitSearch(
       statusCode = providerResponse.status;
       payload = providerResponse.body;
     } else if (countryValue === "switzerland") {
+      // Live OJP first; on any failure/empty, fall through to the daily-scraped
+      // snapshot below so Switzerland keeps working when the live API is down.
       const providerResponse = await searchSwissJourney(origin, destination, date, timeValue);
-      statusCode = providerResponse.status;
-      payload = providerResponse.body;
+      if (providerResponse.status >= 200 && providerResponse.status < 300 && providerResponse.body.results.length > 0) {
+        statusCode = providerResponse.status;
+        payload = providerResponse.body;
+      }
     }
 
     let scraped = findScrapedResults(country as any, origin, destination, date);

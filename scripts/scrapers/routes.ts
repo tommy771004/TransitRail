@@ -88,6 +88,14 @@ export const franceRoutes: ScrapedRoute[] = [
   { origin: "Paris Gare du Nord", destination: "Lille Europe" },
 ];
 
+export const switzerlandRoutes: ScrapedRoute[] = [
+  { origin: "Zürich HB", destination: "Bern" },
+  { origin: "Zürich HB", destination: "Genève" },
+  { origin: "Zürich HB", destination: "Basel SBB" },
+  { origin: "Zürich HB", destination: "Lugano" },
+  { origin: "Bern", destination: "Lausanne" },
+];
+
 export const chinaRoutes: ScrapedRoute[] = [
   { origin: "Beijing South", destination: "Nanjing South" },
   { origin: "Beijing South", destination: "Shanghai Hongqiao" },

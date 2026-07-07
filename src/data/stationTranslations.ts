@@ -4,6 +4,30 @@
  * the provider/station catalog names.
  */
 export const additionalStationZhTW: Record<string, string> = {
+  // Switzerland (SBB / OpenTransportData Swiss)
+  "Zürich HB": "蘇黎世中央車站",
+  "Zürich Flughafen": "蘇黎世機場",
+  "Bern": "伯恩",
+  "Basel SBB": "巴塞爾",
+  "Genève": "日內瓦",
+  "Genève-Aéroport": "日內瓦機場",
+  "Lausanne": "洛桑",
+  "Luzern": "琉森",
+  "Lugano": "盧加諾",
+  "St. Gallen": "聖加侖",
+  "Winterthur": "溫特圖爾",
+  "Zug": "楚格",
+  "Chur": "庫爾",
+  "Sion": "錫永",
+  "Brig": "布里格",
+  "Bellinzona": "貝林佐納",
+  "Montreux": "蒙特勒",
+  "Interlaken Ost": "因特拉肯東站",
+  "Biel/Bienne": "比爾/比恩",
+  "Fribourg/Freiburg": "弗里堡",
+  "Arth-Goldau": "阿爾特-戈爾道",
+  "Sargans": "薩爾岡斯",
+  "Yverdon-les-Bains": "伊韋爾東",
   // Bangkok BTS Sukhumvit Line
   "Khu Khot": "窟口",
   "Yaek Kor Por Aor": "安委會交叉口",

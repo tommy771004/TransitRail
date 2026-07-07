@@ -1,0 +1,240 @@
+{
+  "origin": "Zürich HB",
+  "destination": "Basel SBB",
+  "date": "2026-07-07",
+  "scrapedAt": "2026-07-07T07:42:38.171Z",
+  "source": "https://api.opentransportdata.swiss/ojp20",
+  "results": [
+    {
+      "id": "ch-ojp-2026-07-07-794-09:00",
+      "country": "switzerland",
+      "date": "2026-07-07",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC3",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 57,
+      "departureTime": "09:00",
+      "arrivalTime": "09:57",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Basel SBB",
+      "destLat": 47.54741,
+      "destLng": 7.58956,
+      "direct": true,
+      "stops": [],
+      "platform": "17",
+      "delayMinutes": 1,
+      "headsign": "Basel SBB",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienzone ohne Spielplatz",
+        "Neigezug"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ]
+    },
+    {
+      "id": "ch-ojp-2026-07-07-2260-09:09",
+      "country": "switzerland",
+      "date": "2026-07-07",
+      "operator": "OpenTransportData Swiss",
+      "service": "IR37",
+      "trainType": "rail/interregionalRail",
+      "durationMinutes": 66,
+      "departureTime": "09:09",
+      "arrivalTime": "10:15",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Basel SBB",
+      "destLat": 47.54741,
+      "destLng": 7.58956,
+      "direct": true,
+      "stops": [],
+      "platform": "16",
+      "delayMinutes": 1,
+      "headsign": "Basel SBB",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Niederflureinstieg"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ]
+    },
+    {
+      "id": "ch-ojp-2026-07-07-2064-09:11",
+      "country": "switzerland",
+      "date": "2026-07-07",
+      "operator": "OpenTransportData Swiss",
+      "service": "IR36",
+      "trainType": "rail/interregionalRail",
+      "durationMinutes": 71,
+      "departureTime": "09:11",
+      "arrivalTime": "10:22",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Basel SBB",
+      "destLat": 47.54741,
+      "destLng": 7.58956,
+      "direct": true,
+      "stops": [],
+      "platform": "32",
+      "delayMinutes": 1,
+      "headsign": "Basel SBB",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Niederflureinstieg"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ]
+    },
+    {
+      "id": "ch-ojp-2026-07-07-1764-09:30",
+      "country": "switzerland",
+      "date": "2026-07-07",
+      "operator": "OpenTransportData Swiss",
+      "service": "IR55",
+      "trainType": "rail/interregionalRail",
+      "durationMinutes": 56,
+      "departureTime": "09:30",
+      "arrivalTime": "10:32",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Basel SBB",
+      "destLat": 47.54741,
+      "destLng": 7.58956,
+      "direct": false,
+      "stops": [],
+      "platform": "18",
+      "delayMinutes": 1,
+      "headsign": "Biel/Bienne",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Niederflureinstieg",
+        "Aussteigeseite: Links",
+        "Fahrplanänderung",
+        "Ruhezone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IR55",
+          "lineCode": "1764",
+          "mode": "rail/interregionalRail",
+          "origin": "Zürich HB",
+          "destination": "Olten",
+          "departureTime": "09:30",
+          "arrivalTime": "09:59",
+          "durationMinutes": 29,
+          "platform": "18",
+          "delayMinutes": 1,
+          "headsign": "Biel/Bienne"
+        },
+        {
+          "lineName": "IC61",
+          "lineCode": "612",
+          "mode": "rail/highSpeedRail",
+          "origin": "Olten",
+          "destination": "Basel SBB",
+          "departureTime": "10:05",
+          "arrivalTime": "10:32",
+          "durationMinutes": 27,
+          "platform": "4",
+          "delayMinutes": 0,
+          "headsign": "Basel SBB"
+        }
+      ],
+      "transferStations": [
+        "Olten"
+      ]
+    },
+    {
+      "id": "ch-ojp-2026-07-07-1964-09:37",
+      "country": "switzerland",
+      "date": "2026-07-07",
+      "operator": "OpenTransportData Swiss",
+      "service": "IR36",
+      "trainType": "rail/interregionalRail",
+      "durationMinutes": 74,
+      "departureTime": "09:37",
+      "arrivalTime": "10:50",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Basel SBB",
+      "destLat": 47.54741,
+      "destLng": 7.58956,
+      "direct": true,
+      "stops": [],
+      "platform": "17",
+      "delayMinutes": 1,
+      "headsign": "Basel SBB",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Niederflureinstieg"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ]
+    },
+    {
+      "id": "ch-ojp-2026-07-07-108-09:59",
+      "country": "switzerland",
+      "date": "2026-07-07",
+      "operator": "OpenTransportData Swiss",
+      "service": "ICE",
+      "trainType": "rail/international",
+      "durationMinutes": 59,
+      "departureTime": "09:59",
+      "arrivalTime": "10:58",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Basel SBB",
+      "destLat": 47.54741,
+      "destLng": 7.58956,
+      "direct": true,
+      "stops": [],
+      "platform": "14",
+      "headsign": "Basel Bad Bf",
+      "realtime": true,
+      "amenities": [
+        "Fahrplanänderung",
+        "Platzreservierung möglich",
+        "WLAN Hotspot verfügbar",
+        "Familienzone ohne Spielplatz",
+        "Ruhezone in 1. Klasse",
+        "VELOS: Reservierung obligatorisch"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ]
+    }
+  ]
+}

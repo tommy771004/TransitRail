@@ -1,12 +1,14 @@
 import { searchHongKongMtr } from "../../src/server/hongKongMtr";
 import { searchMbtaJourney } from "../../src/server/mbta";
 import { searchTflJourney } from "../../src/server/tfl";
+import { searchSwissJourney } from "../../src/server/swiss";
 import {
   chinaRoutes,
   franceRoutes,
   germanyRoutes,
   hongKongRoutes,
   singaporeRoutes,
+  switzerlandRoutes,
   thailandRoutes,
   unitedKingdomRoutes,
   unitedStatesRoutes,
@@ -40,6 +42,12 @@ export class UnitedKingdomScraper extends ProviderBackedScraper {
 export class UnitedStatesScraper extends ProviderBackedScraper {
   constructor() {
     super("MBTA", "united_states", unitedStatesRoutes, searchMbtaJourney);
+  }
+}
+
+export class SwitzerlandScraper extends ProviderBackedScraper {
+  constructor() {
+    super("OpenTransportData Swiss", "switzerland", switzerlandRoutes, searchSwissJourney);
   }
 }
 

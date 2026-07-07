@@ -38,6 +38,11 @@ jobs:
         run: npx playwright install chromium
 
       - name: Run scrapers
+        env:
+          # Enables the Switzerland OJP scrape. Add SWISS_OJP_TOKEN to the repo's
+          # Actions secrets; without it the Switzerland scraper is skipped.
+          SWISS_OJP_TOKEN: ${{ secrets.SWISS_OJP_TOKEN }}
+          SWISS_OJP_REQUESTOR_REF: TransitRail_prod
         run: npm run scrape -- ${{ github.event.inputs.date }}
 
       - name: Generate static station catalog

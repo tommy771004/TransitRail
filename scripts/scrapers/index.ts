@@ -8,6 +8,7 @@ import {
   GermanyScraper,
   HongKongScraper,
   SingaporeScraper,
+  SwitzerlandScraper,
   ThailandScraper,
   UnitedKingdomScraper,
   UnitedStatesScraper,
@@ -28,6 +29,7 @@ export async function runAllScrapers(dates: string | string[]): Promise<void> {
     new UnitedStatesScraper(),
     new GermanyScraper(),
     new FranceScraper(),
+    new SwitzerlandScraper(),
   ];
   const scraperNames = Object.fromEntries(scrapers.map((scraper) => [scraper.country, scraper.name]));
   const automatedCountries = new Set<string>(scrapers.map((scraper) => scraper.country));

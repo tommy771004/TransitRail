@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { JapanScraper } from "./scrapers/japan";
 import { KoreaScraper } from "./scrapers/korea";
 import { syncScrapedMetadata } from "./scrapers/metadata";
@@ -7,6 +8,7 @@ import {
   GermanyScraper,
   HongKongScraper,
   SingaporeScraper,
+  SwitzerlandScraper,
   ThailandScraper,
   UnitedKingdomScraper,
   UnitedStatesScraper,
@@ -23,6 +25,7 @@ const scraperByCountry = {
   united_states: new UnitedStatesScraper(),
   germany: new GermanyScraper(),
   france: new FranceScraper(),
+  switzerland: new SwitzerlandScraper(),
 };
 
 async function main() {
