@@ -1,275 +1,10 @@
 {
   "origin": "Bern",
   "destination": "Lausanne",
-  "date": "2026-07-09..2026-07-15",
-  "scrapedAt": "2026-07-08T22:20:20.875Z",
+  "date": "2026-07-10..2026-07-16",
+  "scrapedAt": "2026-07-09T22:28:37.324Z",
   "source": "OpenTransportData Swiss curated snapshot fallback (Swiss OJP returned HTTP 403. {\n    \"error\": \"Access to this API has been disallowed\"\n})",
   "results": [
-    {
-      "id": "2026-07-09-ch-ojp-2026-07-07-2512-09:07",
-      "country": "switzerland",
-      "operator": "OpenTransportData Swiss",
-      "service": "IR15",
-      "trainType": "rail/interregionalRail",
-      "durationMinutes": 71,
-      "departureTime": "09:07",
-      "arrivalTime": "10:18",
-      "origin": "Bern",
-      "originLat": 46.94883,
-      "originLng": 7.43913,
-      "destination": "Lausanne",
-      "destLat": 46.51679,
-      "destLng": 6.62909,
-      "direct": true,
-      "stops": [],
-      "platform": "7",
-      "delayMinutes": 3,
-      "headsign": "Genève-Aéroport",
-      "realtime": true,
-      "amenities": [
-        "Aussteigeseite: Rechts",
-        "Aussteigeseite: Links",
-        "Gratis-Internet mit der App SBB FreeSurf",
-        "Businesszone in 1. Klasse",
-        "Niederflureinstieg"
-      ],
-      "tags": [
-        "swiss",
-        "ojp2"
-      ],
-      "date": "2026-07-09"
-    },
-    {
-      "id": "2026-07-09-ch-ojp-2026-07-07-3812-09:09",
-      "country": "switzerland",
-      "operator": "OpenTransportData Swiss",
-      "service": "RE2",
-      "trainType": "rail/local",
-      "durationMinutes": 76,
-      "departureTime": "09:09",
-      "arrivalTime": "10:39",
-      "origin": "Bern",
-      "originLat": 46.94883,
-      "originLng": 7.43913,
-      "destination": "Lausanne",
-      "destLat": 46.51679,
-      "destLng": 6.62909,
-      "direct": false,
-      "stops": [],
-      "platform": "4F-H",
-      "delayMinutes": 0,
-      "headsign": "Broc-Chocolaterie",
-      "realtime": true,
-      "amenities": [
-        "Aussteigeseite: Links",
-        "Niederflureinstieg"
-      ],
-      "tags": [
-        "swiss",
-        "ojp2"
-      ],
-      "legs": [
-        {
-          "lineName": "RE2",
-          "lineCode": "3812",
-          "mode": "rail/local",
-          "origin": "Bern",
-          "destination": "Romont FR",
-          "departureTime": "09:09",
-          "arrivalTime": "09:50",
-          "durationMinutes": 40,
-          "platform": "4F-H",
-          "delayMinutes": 0,
-          "headsign": "Broc-Chocolaterie"
-        },
-        {
-          "lineName": "S40",
-          "lineCode": "24622",
-          "mode": "rail/local",
-          "origin": "Romont FR",
-          "destination": "Lausanne",
-          "departureTime": "10:02",
-          "arrivalTime": "10:39",
-          "durationMinutes": 36,
-          "platform": "1",
-          "delayMinutes": 0,
-          "headsign": "Lausanne"
-        }
-      ],
-      "transferStations": [
-        "Romont FR"
-      ],
-      "date": "2026-07-09"
-    },
-    {
-      "id": "2026-07-09-ch-ojp-2026-07-07-710-09:34",
-      "country": "switzerland",
-      "operator": "OpenTransportData Swiss",
-      "service": "IC1",
-      "trainType": "rail/highSpeedRail",
-      "durationMinutes": 68,
-      "departureTime": "09:34",
-      "arrivalTime": "10:43",
-      "origin": "Bern",
-      "originLat": 46.94883,
-      "originLng": 7.43913,
-      "destination": "Lausanne",
-      "destLat": 46.51679,
-      "destLng": 6.62909,
-      "direct": true,
-      "stops": [],
-      "platform": "6",
-      "delayMinutes": 0,
-      "headsign": "Genève-Aéroport",
-      "realtime": true,
-      "amenities": [
-        "Aussteigeseite: Links",
-        "Aussteigeseite: Rechts",
-        "Fahrplanänderung",
-        "Gratis-Internet mit der App SBB FreeSurf",
-        "Ruhezone in 1. Klasse",
-        "Familienwagen mit Spielplatz"
-      ],
-      "tags": [
-        "swiss",
-        "ojp2"
-      ],
-      "date": "2026-07-09"
-    },
-    {
-      "id": "2026-07-09-ch-ojp-2026-07-07-3216-09:53",
-      "country": "switzerland",
-      "operator": "OpenTransportData Swiss",
-      "service": "IR66",
-      "trainType": "rail/interregionalRail",
-      "durationMinutes": 79,
-      "departureTime": "09:53",
-      "arrivalTime": "11:24",
-      "origin": "Bern",
-      "originLat": 46.94883,
-      "originLng": 7.43913,
-      "destination": "Lausanne",
-      "destLat": 46.51679,
-      "destLng": 6.62909,
-      "direct": false,
-      "stops": [],
-      "platform": "8",
-      "delayMinutes": 0,
-      "headsign": "La Chaux-de-Fonds",
-      "realtime": true,
-      "amenities": [
-        "Aussteigeseite: Rechts",
-        "Cateringzone / Automaten",
-        "Aussteigeseite: Links",
-        "Gratis-Internet mit der App SBB FreeSurf",
-        "Platzreservierung möglich",
-        "Neigezug"
-      ],
-      "tags": [
-        "swiss",
-        "ojp2"
-      ],
-      "legs": [
-        {
-          "lineName": "IR66",
-          "lineCode": "3216",
-          "mode": "rail/interregionalRail",
-          "origin": "Bern",
-          "destination": "Neuchâtel",
-          "departureTime": "09:53",
-          "arrivalTime": "10:27",
-          "durationMinutes": 34,
-          "platform": "8",
-          "delayMinutes": 0,
-          "headsign": "La Chaux-de-Fonds"
-        },
-        {
-          "lineName": "IC5",
-          "lineCode": "514",
-          "mode": "rail/highSpeedRail",
-          "origin": "Neuchâtel",
-          "destination": "Lausanne",
-          "departureTime": "10:39",
-          "arrivalTime": "11:24",
-          "durationMinutes": 45,
-          "platform": "3",
-          "delayMinutes": 0,
-          "headsign": "Lausanne"
-        }
-      ],
-      "transferStations": [
-        "Neuchâtel"
-      ],
-      "date": "2026-07-09"
-    },
-    {
-      "id": "2026-07-09-ch-ojp-2026-07-07-2514-10:13",
-      "country": "switzerland",
-      "operator": "OpenTransportData Swiss",
-      "service": "IR15",
-      "trainType": "rail/interregionalRail",
-      "durationMinutes": 75,
-      "departureTime": "10:13",
-      "arrivalTime": "11:27",
-      "origin": "Bern",
-      "originLat": 46.94883,
-      "originLng": 7.43913,
-      "destination": "Lausanne",
-      "destLat": 46.51679,
-      "destLng": 6.62909,
-      "direct": true,
-      "stops": [],
-      "platform": "1A-D",
-      "delayMinutes": 9,
-      "headsign": "Genève-Aéroport",
-      "realtime": true,
-      "amenities": [
-        "Aussteigeseite: Rechts",
-        "Aussteigeseite: Links",
-        "Gratis-Internet mit der App SBB FreeSurf",
-        "Businesszone in 1. Klasse"
-      ],
-      "tags": [
-        "swiss",
-        "ojp2"
-      ],
-      "date": "2026-07-09"
-    },
-    {
-      "id": "2026-07-09-ch-ojp-2026-07-07-712-10:34",
-      "country": "switzerland",
-      "operator": "OpenTransportData Swiss",
-      "service": "IC1",
-      "trainType": "rail/highSpeedRail",
-      "durationMinutes": 69,
-      "departureTime": "10:34",
-      "arrivalTime": "11:43",
-      "origin": "Bern",
-      "originLat": 46.94883,
-      "originLng": 7.43913,
-      "destination": "Lausanne",
-      "destLat": 46.51679,
-      "destLng": 6.62909,
-      "direct": true,
-      "stops": [],
-      "platform": "6",
-      "delayMinutes": 0,
-      "headsign": "Genève-Aéroport",
-      "realtime": true,
-      "amenities": [
-        "Aussteigeseite: Links",
-        "Aussteigeseite: Rechts",
-        "Fahrplanänderung",
-        "Gratis-Internet mit der App SBB FreeSurf",
-        "Ruhezone in 1. Klasse",
-        "Familienwagen mit Spielplatz"
-      ],
-      "tags": [
-        "swiss",
-        "ojp2"
-      ],
-      "date": "2026-07-09"
-    },
     {
       "id": "2026-07-10-ch-ojp-2026-07-07-2512-09:07",
       "country": "switzerland",
@@ -1859,6 +1594,271 @@
         "ojp2"
       ],
       "date": "2026-07-15"
+    },
+    {
+      "id": "2026-07-16-ch-ojp-2026-07-07-2512-09:07",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IR15",
+      "trainType": "rail/interregionalRail",
+      "durationMinutes": 71,
+      "departureTime": "09:07",
+      "arrivalTime": "10:18",
+      "origin": "Bern",
+      "originLat": 46.94883,
+      "originLng": 7.43913,
+      "destination": "Lausanne",
+      "destLat": 46.51679,
+      "destLng": 6.62909,
+      "direct": true,
+      "stops": [],
+      "platform": "7",
+      "delayMinutes": 3,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Aussteigeseite: Links",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Businesszone in 1. Klasse",
+        "Niederflureinstieg"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-16"
+    },
+    {
+      "id": "2026-07-16-ch-ojp-2026-07-07-3812-09:09",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "RE2",
+      "trainType": "rail/local",
+      "durationMinutes": 76,
+      "departureTime": "09:09",
+      "arrivalTime": "10:39",
+      "origin": "Bern",
+      "originLat": 46.94883,
+      "originLng": 7.43913,
+      "destination": "Lausanne",
+      "destLat": 46.51679,
+      "destLng": 6.62909,
+      "direct": false,
+      "stops": [],
+      "platform": "4F-H",
+      "delayMinutes": 0,
+      "headsign": "Broc-Chocolaterie",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Niederflureinstieg"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "RE2",
+          "lineCode": "3812",
+          "mode": "rail/local",
+          "origin": "Bern",
+          "destination": "Romont FR",
+          "departureTime": "09:09",
+          "arrivalTime": "09:50",
+          "durationMinutes": 40,
+          "platform": "4F-H",
+          "delayMinutes": 0,
+          "headsign": "Broc-Chocolaterie"
+        },
+        {
+          "lineName": "S40",
+          "lineCode": "24622",
+          "mode": "rail/local",
+          "origin": "Romont FR",
+          "destination": "Lausanne",
+          "departureTime": "10:02",
+          "arrivalTime": "10:39",
+          "durationMinutes": 36,
+          "platform": "1",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        }
+      ],
+      "transferStations": [
+        "Romont FR"
+      ],
+      "date": "2026-07-16"
+    },
+    {
+      "id": "2026-07-16-ch-ojp-2026-07-07-710-09:34",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 68,
+      "departureTime": "09:34",
+      "arrivalTime": "10:43",
+      "origin": "Bern",
+      "originLat": 46.94883,
+      "originLng": 7.43913,
+      "destination": "Lausanne",
+      "destLat": 46.51679,
+      "destLng": 6.62909,
+      "direct": true,
+      "stops": [],
+      "platform": "6",
+      "delayMinutes": 0,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Aussteigeseite: Rechts",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-16"
+    },
+    {
+      "id": "2026-07-16-ch-ojp-2026-07-07-3216-09:53",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IR66",
+      "trainType": "rail/interregionalRail",
+      "durationMinutes": 79,
+      "departureTime": "09:53",
+      "arrivalTime": "11:24",
+      "origin": "Bern",
+      "originLat": 46.94883,
+      "originLng": 7.43913,
+      "destination": "Lausanne",
+      "destLat": 46.51679,
+      "destLng": 6.62909,
+      "direct": false,
+      "stops": [],
+      "platform": "8",
+      "delayMinutes": 0,
+      "headsign": "La Chaux-de-Fonds",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Cateringzone / Automaten",
+        "Aussteigeseite: Links",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Neigezug"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IR66",
+          "lineCode": "3216",
+          "mode": "rail/interregionalRail",
+          "origin": "Bern",
+          "destination": "Neuchâtel",
+          "departureTime": "09:53",
+          "arrivalTime": "10:27",
+          "durationMinutes": 34,
+          "platform": "8",
+          "delayMinutes": 0,
+          "headsign": "La Chaux-de-Fonds"
+        },
+        {
+          "lineName": "IC5",
+          "lineCode": "514",
+          "mode": "rail/highSpeedRail",
+          "origin": "Neuchâtel",
+          "destination": "Lausanne",
+          "departureTime": "10:39",
+          "arrivalTime": "11:24",
+          "durationMinutes": 45,
+          "platform": "3",
+          "delayMinutes": 0,
+          "headsign": "Lausanne"
+        }
+      ],
+      "transferStations": [
+        "Neuchâtel"
+      ],
+      "date": "2026-07-16"
+    },
+    {
+      "id": "2026-07-16-ch-ojp-2026-07-07-2514-10:13",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IR15",
+      "trainType": "rail/interregionalRail",
+      "durationMinutes": 75,
+      "departureTime": "10:13",
+      "arrivalTime": "11:27",
+      "origin": "Bern",
+      "originLat": 46.94883,
+      "originLng": 7.43913,
+      "destination": "Lausanne",
+      "destLat": 46.51679,
+      "destLng": 6.62909,
+      "direct": true,
+      "stops": [],
+      "platform": "1A-D",
+      "delayMinutes": 9,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Aussteigeseite: Links",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Businesszone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-16"
+    },
+    {
+      "id": "2026-07-16-ch-ojp-2026-07-07-712-10:34",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC1",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 69,
+      "departureTime": "10:34",
+      "arrivalTime": "11:43",
+      "origin": "Bern",
+      "originLat": 46.94883,
+      "originLng": 7.43913,
+      "destination": "Lausanne",
+      "destLat": 46.51679,
+      "destLng": 6.62909,
+      "direct": true,
+      "stops": [],
+      "platform": "6",
+      "delayMinutes": 0,
+      "headsign": "Genève-Aéroport",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Links",
+        "Aussteigeseite: Rechts",
+        "Fahrplanänderung",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Ruhezone in 1. Klasse",
+        "Familienwagen mit Spielplatz"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-16"
     }
   ]
 }
