@@ -5,6 +5,7 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
+import { createHmac, randomUUID } from "node:crypto";
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { hongKongMtrLineCatalog, hongKongStations } from "./src/data/hongKongMtr";
 import { mtrInterchanges } from "./src/data/hongKongMtr";
@@ -45,6 +46,56 @@ const app = express();
 
 loadScrapedData();
 app.use(express.json());
+
+type TelemetryProperties = Record<string, string | number | boolean | null>;
+
+/**
+ * Send only server-generated, non-identifying product events to the Admin Console.
+ * If the optional telemetry environment variables are absent, TransitRail keeps working.
+ */
+async function sendTelemetry(name: string, properties: TelemetryProperties) {
+  const url = process.env.TELEMETRY_INGEST_URL;
+  const project = process.env.TELEMETRY_PROJECT_KEY;
+  const secret = process.env.TELEMETRY_INGEST_KEY;
+  if (!url || !project || !secret) return;
+
+  const rawBody = JSON.stringify({
+    events: [
+      {
+        id: randomUUID(),
+        name,
+        source: "server",
+        occurredAt: new Date().toISOString(),
+        properties,
+      },
+    ],
+  });
+  const timestamp = Math.floor(Date.now() / 1000).toString();
+  const signature = `sha256=${createHmac("sha256", secret).update(`${timestamp}.`).update(rawBody).digest("hex")}`;
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-telemetry-project": project,
+        "x-telemetry-timestamp": timestamp,
+        "x-telemetry-signature": signature,
+      },
+      body: rawBody,
+      signal: AbortSignal.timeout(4_000),
+    });
+    if (!response.ok) console.warn(`[telemetry] ${name} rejected: ${response.status}`);
+  } catch (error) {
+    console.warn("[telemetry] delivery failed:", error instanceof Error ? error.message : error);
+  }
+}
+
+function eventGroup(value: string | undefined) {
+  if (value?.startsWith("station.")) return "station";
+  if (value?.startsWith("search.")) return "search";
+  return "other";
+}
 
 function readHeader(req: express.Request, name: string) {
   const value = req.header(name);
@@ -231,6 +282,12 @@ async function logTransitSearch(
     }),
     resultCount: search.resultCount,
   });
+  void sendTelemetry("journey.search.completed", {
+    has_country: Boolean(search.country),
+    has_time_filter: Boolean(search.time),
+    result_count: search.resultCount,
+    status_code: search.statusCode,
+  });
 }
 
   app.get("/api/transit/search", async (req, res) => {
@@ -392,6 +449,11 @@ async function logTransitSearch(
     }).catch((error) => {
       console.error("[audit] Failed to record transit event:", error);
     });
+    void sendTelemetry("transit.action.recorded", {
+      action_group: eventGroup(eventValue),
+      has_country: Boolean(countryValue),
+      result_count: parseInteger(body?.resultCount) ?? null,
+    });
 
     return res.status(204).end();
   });
@@ -444,6 +506,12 @@ async function logTransitSearch(
       resultCount: payload.stations.length,
     }).catch((error) => {
       console.error("[audit] Failed to record station catalog access:", error);
+    });
+    void sendTelemetry("station.catalog.completed", {
+      has_country: Boolean(countryValue),
+      has_query: Boolean(queryValue),
+      result_count: payload.stations.length,
+      status_code: statusCode,
     });
 
     return res.status(statusCode).json(payload);
@@ -519,6 +587,11 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
       geoAccuracy: accuracyValue,
     }).catch((error) => {
       console.error("[audit] Failed to record nearest-station lookup:", error);
+    });
+    void sendTelemetry("station.nearest.completed", {
+      has_country: Boolean(countryValue),
+      result_count: payload.station ? 1 : 0,
+      status_code: statusCode,
     });
       
     return res.status(statusCode).json(payload);
@@ -731,6 +804,7 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
       }
       if (!process.env.DATABASE_URL) {
         console.warn("DATABASE_URL is not set. Skipping DB insertion for feedback.");
+        void sendTelemetry("feedback.submitted", { has_category: true, has_contact: Boolean(contact) });
         return res.json({ success: true });
       }
       await db.insert(feedbacks).values({
@@ -743,6 +817,7 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
         district,
         locationMethod,
       });
+      void sendTelemetry("feedback.submitted", { has_category: true, has_contact: Boolean(contact) });
       res.json({ success: true });
     } catch (error) {
       console.error("Failed to save feedback", error);
