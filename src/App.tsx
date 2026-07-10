@@ -139,6 +139,38 @@ function buildCanonicalSearchUrl(params: SearchParams) {
     : `${window.location.origin}${path}`;
 }
 
+interface CachedExchangeRates {
+  base: string;
+  rates: Record<string, number>;
+  cachedAt: number;
+}
+
+const EXCHANGE_RATE_CACHE_TTL_MS = 5 * 60 * 1000;
+
+function readCachedExchangeRates(base: string): Record<string, number> | undefined {
+  try {
+    const raw = window.sessionStorage.getItem(`transitrail.exchange-rates.${base}`);
+    if (!raw) return undefined;
+
+    const cached = JSON.parse(raw) as CachedExchangeRates;
+    if (cached.base !== base || !cached.rates || Date.now() - cached.cachedAt > EXCHANGE_RATE_CACHE_TTL_MS) {
+      return undefined;
+    }
+    return cached.rates;
+  } catch {
+    return undefined;
+  }
+}
+
+function cacheExchangeRates(base: string, rates: Record<string, number>) {
+  try {
+    const value: CachedExchangeRates = { base, rates, cachedAt: Date.now() };
+    window.sessionStorage.setItem(`transitrail.exchange-rates.${base}`, JSON.stringify(value));
+  } catch {
+    // Private browsing or a full storage quota should not block the converter.
+  }
+}
+
 function loadJson<T>(key: string, fallback: T): T {
   try {
     const value = window.localStorage.getItem(key);
@@ -543,6 +575,14 @@ export default function App() {
   }, [priceDisplayMode]);
 
   useEffect(() => {
+    const cachedRates = readCachedExchangeRates(homeCurrency);
+    if (cachedRates) {
+      setExchangeRates(cachedRates);
+      setLoadingRates(false);
+      return;
+    }
+
+    let cancelled = false;
     const fetchRates = async () => {
       setLoadingRates(true);
       try {
@@ -550,16 +590,24 @@ export default function App() {
         if (res.ok) {
           const data = await res.json();
           if (data && data.rates) {
-            setExchangeRates(data.rates);
+            cacheExchangeRates(homeCurrency, data.rates);
+            if (!cancelled) {
+              setExchangeRates(data.rates);
+            }
           }
         }
       } catch (err) {
         console.error("Failed to fetch exchange rates", err);
       } finally {
-        setLoadingRates(false);
+        if (!cancelled) {
+          setLoadingRates(false);
+        }
       }
     };
     fetchRates();
+    return () => {
+      cancelled = true;
+    };
   }, [homeCurrency]);
 
   useEffect(() => {

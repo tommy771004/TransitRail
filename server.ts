@@ -22,6 +22,7 @@ import { getTflLines, getTflStations, searchTflJourney } from "./src/server/tfl"
 import { getMbtaLines, getMbtaStations, searchMbtaJourney } from "./src/server/mbta";
 import { findScrapedResults, loadScrapedData } from "./src/data/scraped";
 import { getCbcRates } from "./src/server/cbc";
+import { getExternalExchangeRates } from "./src/server/exchangeRates";
 import type { TransitLine } from "./src/types";
 import { db } from "./src/db";
 import { feedbacks, tnAuditLog } from "./src/db/schema";
@@ -506,7 +507,8 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
   });
 
   app.get("/api/exchange-rates", async (req, res) => {
-    const base = (req.query.base as string) || "TWD";
+    const requestedBase = typeof req.query.base === "string" ? req.query.base : "TWD";
+    const base = /^[A-Za-z]{3}$/.test(requestedBase) ? requestedBase.toUpperCase() : "TWD";
     const fallbackRates: Record<string, Record<string, number>> = {
       TWD: { TWD:1, USD:0.031, JPY:4.95, KRW:42.6, HKD:0.24, GBP:0.024, EUR:0.028, CHF:0.028, SGD:0.041, MYR:0.14, THB:1.11, CNY:0.22, AUD:0.047, CAD:0.042, NZD:0.051, PHP:1.74, IDR:485, VND:770, SEK:0.32, NOK:0.33, DKK:0.21, PLN:0.12, TRY:0.96, ZAR:0.56, BRL:0.15, MXN:0.53, RUB:2.83, INR:2.57, SAR:0.12, AED:0.11, ILS:0.11, CZK:0.71, HUF:11.2, RON:0.14 },
       USD: { USD:1, TWD:32.5, JPY:160.8, KRW:1385, HKD:7.8, GBP:0.78, EUR:0.92, CHF:0.90, SGD:1.35, MYR:4.71, THB:36.2, CNY:7.24, AUD:1.54, CAD:1.37, NZD:1.64, PHP:56.5, IDR:15750, VND:25000, SEK:10.4, NOK:10.7, DKK:6.85, PLN:3.95, TRY:31.2, ZAR:18.1, BRL:4.95, MXN:17.2, RUB:92.0, INR:83.5, SAR:3.75, AED:3.67, ILS:3.65, CZK:23.1, HUF:365, RON:4.58 },
@@ -518,8 +520,22 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
       const cbcResult = await getCbcRates();
       if (cbcResult && cbcResult.rates) {
         const twdRates = cbcResult.rates;
+        res.set({
+          // Vercel's CDN keeps the gateway response available across
+          // serverless cold starts while the module cache protects a warm one.
+          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=1800",
+          "X-Rate-Source": "cbc",
+          "X-Rate-Cache": cbcResult.cacheStatus,
+        });
         if (base === "TWD") {
-          return res.json({ base: "TWD", rates: twdRates, source: "cbc" });
+          return res.json({
+            base: "TWD",
+            rates: twdRates,
+            source: "cbc",
+            updatedAt: cbcResult.updatedAt,
+            cacheStatus: cbcResult.cacheStatus,
+            cacheAgeSeconds: cbcResult.cacheAgeSeconds,
+          });
         }
         const baseToTwd = twdRates[base];
         if (baseToTwd && baseToTwd > 0) {
@@ -528,27 +544,38 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
             converted[currency] = rate / baseToTwd;
           }
           converted[base] = 1;
-          return res.json({ base, rates: converted, source: "cbc" });
+          return res.json({
+            base,
+            rates: converted,
+            source: "cbc",
+            updatedAt: cbcResult.updatedAt,
+            cacheStatus: cbcResult.cacheStatus,
+            cacheAgeSeconds: cbcResult.cacheAgeSeconds,
+          });
         }
       }
     } catch (e) {
       console.warn("CBC rates unavailable, falling back:", e);
     }
 
-    try {
-      const response = await fetch(`https://open.er-api.com/v6/latest/${base}`);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch exchange rates: ${response.statusText}`);
-      }
-      const data = await response.json();
-      if (data && data.rates) {
-        return res.json({ base, rates: data.rates, source: "er-api" });
-      }
-      throw new Error("Invalid exchange rates data format");
-    } catch (error) {
-      console.warn("Using fallback exchange rates:", error);
-      const rates = fallbackRates[base] || fallbackRates["TWD"];
-      return res.json({ base, rates, isFallback: true });
+    const externalRates = await getExternalExchangeRates(base);
+    if (externalRates) {
+      res.set({
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=1800",
+        "X-Rate-Source": externalRates.source,
+        "X-Rate-Cache": externalRates.cacheStatus,
+      });
+      return res.json(externalRates);
+    }
+
+    console.warn("All exchange-rate providers unavailable; using static fallback rates.");
+    res.set({
+      "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+      "X-Rate-Source": "static-fallback",
+    });
+    {
+      const fallbackBase = fallbackRates[base] ? base : "TWD";
+      return res.json({ base: fallbackBase, rates: fallbackRates[fallbackBase], isFallback: true });
     }
   });
 

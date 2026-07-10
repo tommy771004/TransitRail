@@ -6,48 +6,97 @@ const BROWSER_HEADERS = {
   Referer: "https://www.cbc.gov.tw/",
 };
 
-interface CbcRates {
+export interface CbcRates {
   base: "TWD";
   rates: Record<string, number>;
   updatedAt: string;
+  /** Whether the response was fetched during this request or is a last-known-good value. */
+  cacheStatus: "fresh" | "stale";
+  /** The age of the gateway cache, rounded down to seconds. */
+  cacheAgeSeconds: number;
 }
 
-let cached: CbcRates | null = null;
-let lastFetch = 0;
+interface CachedCbcRates {
+  base: "TWD";
+  rates: Record<string, number>;
+  updatedAt: string;
+  fetchedAt: number;
+}
+
+let cached: CachedCbcRates | null = null;
+let inFlightFetch: Promise<CachedCbcRates | null> | null = null;
 const CACHE_TTL_MS = 30 * 60 * 1000;
+const STALE_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const REQUEST_TIMEOUT_MS = 8_000;
 
 function now(): number {
   return Date.now();
 }
 
 export async function getCbcRates(): Promise<CbcRates | null> {
-  if (cached && now() - lastFetch < CACHE_TTL_MS) {
-    return cached;
+  if (cached && now() - cached.fetchedAt < CACHE_TTL_MS) {
+    return withCacheMetadata(cached, "fresh");
   }
+
+  if (!inFlightFetch) {
+    inFlightFetch = refreshCbcRates().finally(() => {
+      inFlightFetch = null;
+    });
+  }
+
+  const refreshed = await inFlightFetch;
+  if (refreshed) {
+    cached = refreshed;
+    return withCacheMetadata(refreshed, "fresh");
+  }
+
+  // An upstream outage must not make price conversion disappear. Returning the
+  // last successful snapshot is safer than silently substituting made-up rates.
+  if (cached && now() - cached.fetchedAt < STALE_CACHE_TTL_MS) {
+    return withCacheMetadata(cached, "stale");
+  }
+
+  return null;
+}
+
+function withCacheMetadata(snapshot: CachedCbcRates, cacheStatus: CbcRates["cacheStatus"]): CbcRates {
+  return {
+    base: snapshot.base,
+    rates: snapshot.rates,
+    updatedAt: snapshot.updatedAt,
+    cacheStatus,
+    cacheAgeSeconds: Math.floor((now() - snapshot.fetchedAt) / 1000),
+  };
+}
+
+async function refreshCbcRates(): Promise<CachedCbcRates | null> {
   try {
     const result = await tryJsonApi();
     if (result) {
-      cached = result;
-      lastFetch = now();
-      return cached;
+      return result;
     }
   } catch { /* fall through */ }
 
   try {
-    const result = await tryCsvSource();
-    if (result) {
-      cached = result;
-      lastFetch = now();
-      return cached;
-    }
+    return await tryCsvSource();
   } catch { /* fall through */ }
 
   return null;
 }
 
-async function tryJsonApi(): Promise<CbcRates | null> {
+async function fetchWithTimeout(url: string, init: RequestInit = {}) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function tryJsonApi(): Promise<CachedCbcRates | null> {
   const url = "https://cpx.cbc.gov.tw/API/DataAPI/Get?FileName=BP01D01en";
-  const res = await fetch(url, { headers: BROWSER_HEADERS });
+  const res = await fetchWithTimeout(url, { headers: BROWSER_HEADERS });
   if (!res.ok) return null;
 
   const text = await res.text();
@@ -165,17 +214,17 @@ async function tryJsonApi(): Promise<CbcRates | null> {
 
   if (Object.keys(rates).length <= 1) return null;
 
-  return { base: "TWD", rates, updatedAt: dateStr };
+  return { base: "TWD", rates, updatedAt: dateStr, fetchedAt: now() };
 }
 
-async function tryCsvSource(): Promise<CbcRates | null> {
+async function tryCsvSource(): Promise<CachedCbcRates | null> {
   const urls = [
     "https://www.cbc.gov.tw/public/data/foreign_exchange.csv",
   ];
 
   for (const url of urls) {
     try {
-      const res = await fetch(url, { headers: BROWSER_HEADERS });
+      const res = await fetchWithTimeout(url, { headers: BROWSER_HEADERS });
       if (!res.ok) continue;
 
       const csv = await res.text();
@@ -219,7 +268,7 @@ async function tryCsvSource(): Promise<CbcRates | null> {
       const dateMatch = csv.match(/(\d{4})[/-]?(\d{2})[/-]?(\d{2})/);
       const updatedAt = dateMatch ? `${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]}` : new Date().toISOString();
 
-      return { base: "TWD", rates, updatedAt };
+      return { base: "TWD", rates, updatedAt, fetchedAt: now() };
     } catch {
       continue;
     }
@@ -230,5 +279,5 @@ async function tryCsvSource(): Promise<CbcRates | null> {
 
 export function clearCbcCache() {
   cached = null;
-  lastFetch = 0;
+  inFlightFetch = null;
 }
