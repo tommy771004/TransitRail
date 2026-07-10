@@ -43,6 +43,7 @@ import type {
 } from "./types";
 
 import { allCurrencies } from "./data/countries";
+import { MalaysiaCatalogView } from "./components/MalaysiaCatalogView";
 
 const emptySearch: SearchParams = {
   origin: "",
@@ -57,6 +58,7 @@ const seoCountryPathMap: Record<Country, string> = {
   korea: "/korea",
   china: "/china",
   singapore: "/singapore",
+  malaysia: "/malaysia",
   thailand: "/thailand",
   hong_kong: "/hong-kong",
   united_kingdom: "/united-kingdom",
@@ -82,6 +84,7 @@ function countryFromPath(pathname: string): Country | undefined {
     "/korea": "korea",
     "/china": "china",
     "/singapore": "singapore",
+    "/malaysia": "malaysia",
     "/thailand": "thailand",
     "/hong-kong": "hong_kong",
     "/hong_kong": "hong_kong",
@@ -418,9 +421,11 @@ export default function App() {
       const originName = stationLabel(t, searchParams.origin, searchParams.country);
       const destinationName = stationLabel(t, searchParams.destination, searchParams.country);
       title = `${originName} ➔ ${destinationName} | ${countryLabel} | ${baseTitle}`;
-      description = `Live train timetables from ${originName} to ${destinationName} in ${countryLabel}. Compare ticket prices, seat options, and transfer details.`;
+      description = searchParams.country === "malaysia"
+        ? "Malaysia station directory sourced from official historical data.gov.my ridership downloads. Timetables and real-time arrivals are not available."
+        : `Live train timetables from ${originName} to ${destinationName} in ${countryLabel}. Compare ticket prices, seat options, and transfer details.`;
       
-      schemaJson = {
+      schemaJson = searchParams.country === "malaysia" ? null : {
         "@context": "https://schema.org",
         "@type": "Trip",
         "name": `${originName} to ${destinationName} Transit`,
@@ -1149,6 +1154,15 @@ export default function App() {
               onSelectSeat={openSeatPicker}
               onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
               formatPrice={formatTripPrice}
+            />
+          );
+        }
+        if (searchParams.country === "malaysia") {
+          return (
+            <MalaysiaCatalogView
+              origin={searchParams.origin}
+              destination={searchParams.destination}
+              onModify={() => setView("search")}
             />
           );
         }

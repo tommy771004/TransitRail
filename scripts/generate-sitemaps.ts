@@ -19,6 +19,7 @@ const COUNTRY_PATHS: Record<string, string> = {
   korea: "/korea",
   china: "/china",
   singapore: "/singapore",
+  malaysia: "/malaysia",
   thailand: "/thailand",
   hong_kong: "/hong-kong",
   united_kingdom: "/united-kingdom",

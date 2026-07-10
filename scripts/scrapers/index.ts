@@ -2,6 +2,7 @@ import { JapanScraper } from "./japan";
 import { KoreaScraper } from "./korea";
 import { countryOptions } from "../../src/data/countries";
 import { syncScrapedMetadata } from "./metadata";
+import { syncMalaysiaStationCatalog } from "./malaysia";
 import {
   ChinaScraper,
   FranceScraper,
@@ -31,8 +32,19 @@ export async function runAllScrapers(dates: string | string[]): Promise<void> {
     new FranceScraper(),
     new SwitzerlandScraper(),
   ];
-  const scraperNames = Object.fromEntries(scrapers.map((scraper) => [scraper.country, scraper.name]));
-  const automatedCountries = new Set<string>(scrapers.map((scraper) => scraper.country));
+  try {
+    const malaysia = await syncMalaysiaStationCatalog();
+    console.log(`  Malaysia station catalog: ${malaysia.stationCount} stations from ${malaysia.sourceCount} official daily source(s)`);
+  } catch (error) {
+    // Keep the last committed catalog when data.gov.my is temporarily unavailable;
+    // this must not block timetable refreshes for countries with schedule feeds.
+    console.warn(`  Malaysia station catalog refresh failed: ${error instanceof Error ? error.message : error}`);
+  }
+  const scraperNames = Object.fromEntries([
+    ...scrapers.map((scraper) => [scraper.country, scraper.name]),
+    ["malaysia", "data.gov.my historical-ridership station catalog"],
+  ]);
+  const automatedCountries = new Set<string>([...scrapers.map((scraper) => scraper.country), "malaysia"]);
   const dataOnlyCountries = countryOptions.filter((country) => !automatedCountries.has(country));
 
   if (dataOnlyCountries.length > 0) {

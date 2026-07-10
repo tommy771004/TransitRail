@@ -97,6 +97,7 @@ export function SearchForm({
           korea: { lat: 35.9078, lng: 127.7669 },
           hong_kong: { lat: 22.3193, lng: 114.1694 },
           singapore: { lat: 1.3521, lng: 103.8198 },
+          malaysia: { lat: 4.2105, lng: 101.9758 },
           thailand: { lat: 15.8700, lng: 100.9925 },
           united_kingdom: { lat: 55.3781, lng: -3.4360 },
           united_states: { lat: 37.0902, lng: -95.7129 },
@@ -797,5 +798,4 @@ export function SearchForm({
 }
 
 // --- End of SearchForm.tsx ---
-
 

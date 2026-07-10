@@ -29,6 +29,7 @@ const resources = {
         japan: "Japan",
         korea: "Korea",
         singapore: "Singapore",
+        malaysia: "Malaysia",
         thailand: "Thailand",
         hong_kong: "Hong Kong",
         united_kingdom: "United Kingdom",
@@ -65,7 +66,7 @@ const resources = {
         popular_routes: "Popular Routes",
         faq_title: "Frequently Asked Questions FAQ",
         about_title: "About Global Transit Search",
-        about_body: "TransitRail is a free cross-border train and public transit timetable search utility. It integrates main railway and subway networks across 11 countries and territories, including Japan (Jorudan), South Korea (Korail), Singapore (LTA), Thailand (BTS/MRT), Hong Kong (MTR), United Kingdom (TfL), United States (MBTA), Germany (DB), France (SNCF), Switzerland (OpenTransportData Swiss), and China (12306). Search live departures, schedules, operators, and smart transfers instantly without registration, offering a smooth cross-border travel journey.",
+        about_body: "TransitRail is a free cross-border train and public transit timetable search utility. It integrates railway and subway networks across 12 countries and territories, including Japan, South Korea, Singapore, Malaysia, Thailand, Hong Kong, the United Kingdom, the United States, Germany, France, Switzerland, and China. Malaysia currently provides an official historical-ridership station catalog only; it is not presented as timetable or live-arrival data.",
         data_source_detail: "Schedules, fares, and live statuses are directly integrated from official transit systems and third-party APIs (such as Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF, and OpenTransportData Swiss).",
         taiwan_rail_link: "Taiwan Rail & Metro",
         date_of_travel: "Date of Travel",
@@ -86,6 +87,7 @@ const resources = {
         lines_loading: "Loading lines...",
         lines_unavailable: "The line catalog is unavailable.",
         note_japan: "Major stops only. The full station list arrives with the ODPT adapter.",
+        note_malaysia: "Station names are refreshed daily from data.gov.my historical ridership files. This source has no timetable or real-time arrival data.",
         note_korea: "Seoul Metro lines 1-9. KTX and other stations are in the all-stations list.",
         note_united_states: "Subway and light rail lines. Commuter rail stations are in the all-stations list.",
         featured: "Popular Stations",
@@ -198,6 +200,10 @@ const resources = {
         no_departures_hint: "Try another pair of stations on the same supported MTR line.",
         save_departure: "Save",
         transfer_hint: "Second-leg times are the current next trains at the interchange, not guaranteed connections."
+      },
+      malaysia: {
+        catalog_title: "Malaysia timetables are not available yet",
+        catalog_body: "The station directory is refreshed daily from official data.gov.my historical ridership downloads. Those files record past passenger demand, not scheduled or real-time train arrivals, so Rail Nation does not generate departures from them."
       },
       london: {
         official_data: "Official TfL journey data",
@@ -448,6 +454,7 @@ const resources = {
         japan: "日本",
         korea: "韓國",
         singapore: "新加坡",
+        malaysia: "馬來西亞",
         thailand: "泰國",
         hong_kong: "香港",
         united_kingdom: "英國",
@@ -484,7 +491,7 @@ const resources = {
         popular_routes: "熱門路線",
         faq_title: "常見問題 FAQ",
         about_title: "關於全球鐵道查詢",
-        about_body: "TransitRail 是一個免費的跨國鐵道與大眾運輸時刻表查詢工具。本專案整合了全球 11 個國家與地區的主流鐵路與地鐵系統，包括日本（Jorudan）、韓國（Korail）、新加坡（LTA）、泰國（BTS/MRT）、香港（MTR）、英國（TfL 倫敦地鐵）、美國（波士頓 MBTA）、德國（DB）、法國（SNCF）、瑞士（OpenTransportData Swiss）以及中國（12306 鐵路）。無需註冊即可即時查詢站點班次、行車日期、營運商與智慧轉乘資訊，提供極致流暢的跨國自主旅行體驗。",
+        about_body: "TransitRail 是免費的跨國鐵道與大眾運輸查詢工具，整合日本、韓國、新加坡、馬來西亞、泰國、香港、英國、美國、德國、法國、瑞士與中國共 12 個國家及地區。馬來西亞目前僅使用官方歷史運量資料建立每日更新的站點目錄，絕不標示為時刻表或即時到站資料。",
         data_source_detail: "班次、票價與即時狀態資料來源：各國大眾運輸系統與第三方 API（如 Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF 與 OpenTransportData Swiss 等）。",
         taiwan_rail_link: "台/鐵/捷運 查詢",
         date_of_travel: "出發日期",
@@ -505,6 +512,7 @@ const resources = {
         lines_loading: "正在載入路線...",
         lines_unavailable: "目前無法讀取路線目錄。",
         note_japan: "僅列出主要停靠站，完整站點將隨 ODPT adapter 提供。",
+        note_malaysia: "站名目錄每日由 data.gov.my 的歷史運量檔更新；該來源不含時刻表或即時到站資料。",
         note_korea: "首爾地鐵 1-9 號線；KTX 與其他車站請見全部車站。",
         note_united_states: "地鐵與輕軌路線；通勤鐵路車站請見全部車站。",
         featured: "熱門車站",
@@ -617,6 +625,10 @@ const resources = {
         no_departures_hint: "請改選同一條支援路線上的其他起訖站。",
         save_departure: "儲存",
         transfer_hint: "第二段顯示的是轉乘站目前的下一班列車，實際銜接視抵達時間而定。"
+      },
+      malaysia: {
+        catalog_title: "馬來西亞尚無可用時刻表",
+        catalog_body: "站名目錄每日由官方 data.gov.my 歷史運量下載檔更新。該檔案記錄過去需求，並非排定班次或即時到站資料，因此 Rail Nation 不會據此產生班次。"
       },
       london: {
         official_data: "TfL 官方旅程資料",

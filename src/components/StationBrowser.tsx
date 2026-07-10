@@ -28,6 +28,7 @@ const lineNoteKeys: Partial<Record<Country, string>> = {
   japan: "stations.note_japan",
   korea: "stations.note_korea",
   united_states: "stations.note_united_states",
+  malaysia: "stations.note_malaysia",
 };
 
 export function StationBrowser({
@@ -224,7 +225,7 @@ export function StationBrowser({
   }, [lines]);
 
   const visibleLines = useMemo(() => {
-    if (target === "destination" && selectedOrigin) {
+    if (target === "destination" && selectedOrigin && dependencyMap.size > 0) {
       const allowed = dependencyMap.get(selectedOrigin);
       if (!allowed) return [];
       return lines.filter(line => 
@@ -516,6 +517,17 @@ export function StationBrowser({
 
         <div className="flex flex-1 overflow-hidden">
           {searching ? (
+            <div className="w-full overflow-y-auto px-5 pb-12 pt-2">
+              <StationList
+                isLoading={isLoading}
+                loadFailed={loadFailed}
+                stations={filteredStations}
+                country={country}
+                onSelectStation={handleSelectStation}
+                accessibilityMap={accessibilityMap}
+              />
+            </div>
+          ) : lines.length === 0 && !linesLoading && !linesFailed ? (
             <div className="w-full overflow-y-auto px-5 pb-12 pt-2">
               <StationList
                 isLoading={isLoading}

@@ -252,7 +252,15 @@ async function logTransitSearch(
       source?: string;
     };
 
-    if (countryValue === "united_kingdom") {
+    if (countryValue === "malaysia") {
+      statusCode = 422;
+      payload = {
+        error: "Timetable unavailable",
+        message: "Malaysia currently provides an official station catalog derived from historical data.gov.my ridership files. Those files do not contain train schedules or real-time arrivals, so no timetable is shown.",
+        results: [],
+        source: "data.gov.my historical ridership station catalog",
+      };
+    } else if (countryValue === "united_kingdom") {
       const providerResponse = await searchTflJourney(origin, destination, date, timeValue);
       statusCode = providerResponse.status;
       payload = providerResponse.body;
@@ -398,7 +406,7 @@ async function logTransitSearch(
         statusCode = 400;
         payload = {
           error: "Invalid country",
-          message: "Country must be one of japan, korea, taiwan, singapore, thailand, hong_kong, united_kingdom, united_states, germany, france, switzerland, china.",
+          message: "Country must be one of japan, korea, taiwan, singapore, malaysia, thailand, hong_kong, united_kingdom, united_states, germany, france, switzerland, china.",
           stations: [],
         };
       } else {
@@ -635,6 +643,14 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
       }
     }
 
+    if (country === "malaysia") {
+      return res.json({
+        lines: [],
+        source: "https://data.gov.my/data-catalogue/ridership_od_rapidrail_daily",
+        message: "Historical ridership data supplies station names only; no timetable topology is available.",
+      });
+    }
+
     const staticLines: Record<string, TransitLine[]> = {
       singapore: singaporeMrtLines,
       thailand: thailandTransitLines,
@@ -649,7 +665,7 @@ Respond ONLY with the exact name of the closest station from the list above. Do 
 
     return res.status(400).json({
       error: "Invalid country",
-      message: "Country must be one of japan, korea, taiwan, singapore, thailand, hong_kong, united_kingdom, united_states, germany, france, switzerland, china.",
+      message: "Country must be one of japan, korea, taiwan, singapore, malaysia, thailand, hong_kong, united_kingdom, united_states, germany, france, switzerland, china.",
       lines: [],
     });
   });

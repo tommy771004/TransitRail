@@ -8,6 +8,7 @@ const countryHubs: Record<string, GeoCoord> = {
   korea: { lat: 37.5547, lng: 126.9708 },
   hong_kong: { lat: 22.3193, lng: 114.1694 },
   singapore: { lat: 1.3521, lng: 103.8198 },
+  malaysia: { lat: 3.1390, lng: 101.6869 },
   thailand: { lat: 13.7563, lng: 100.5018 },
   united_kingdom: { lat: 51.5074, lng: -0.1278 },
   united_states: { lat: 42.3601, lng: -71.0589 },

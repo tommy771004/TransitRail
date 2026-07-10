@@ -20,12 +20,13 @@ import {
 import { hongKongMtrLineCatalog, mtrInterchanges, hongKongStations } from "../data/hongKongMtr";
 import { getTflLines, getTflStations } from "./tfl";
 import { getMbtaLines, getMbtaStations } from "./mbta";
+import { getMalaysiaStations, MALAYSIA_STATION_CATALOG_SOURCE } from "./malaysia";
 import { newCountryStationLists } from "../data/scraped/stations";
 import type { TransitLine } from "../types";
 
 export const CATALOG_COUNTRIES = [
   "japan", "korea", "china", "singapore", "thailand",
-  "hong_kong", "united_kingdom", "united_states", "germany", "france", "switzerland",
+  "malaysia", "hong_kong", "united_kingdom", "united_states", "germany", "france", "switzerland",
 ] as const;
 
 const staticLineSets: Record<string, TransitLine[]> = {
@@ -79,6 +80,9 @@ export async function getStationsForCountry(
     stations = Array.from(new Set([...koreaStations, ...seoulSubwayStationNames])).sort((a, b) => a.localeCompare(b));
   } else if (country === "hong_kong") {
     stations = hongKongStations;
+  } else if (country === "malaysia") {
+    stations = getMalaysiaStations();
+    source = MALAYSIA_STATION_CATALOG_SOURCE;
   } else if (country === "united_kingdom") {
     stations = await getTflStations();
     source = "https://api.tfl.gov.uk";
