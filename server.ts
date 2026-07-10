@@ -1060,6 +1060,12 @@ function generateFallbackSvg(origin: string, destination: string, country?: stri
 
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
+    // Serve prerendered SEO route pages (public/<country>/<route>/index.html)
+    // with directory-index resolution, which Vite's publicDir middleware does
+    // not do. Mirrors Vercel's static-file-before-rewrite behaviour in dev.
+    // redirect:false keeps /japan (a directory of route pages but no index
+    // itself) falling through to the SPA instead of 301ing to /japan/.
+    app.use(express.static(path.join(process.cwd(), "public"), { index: "index.html", redirect: false }));
     const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },

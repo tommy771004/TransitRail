@@ -18,6 +18,10 @@ npm run scrape:metadata         # Regenerate every src/data/scraped/<country>/me
 # Maintenance scripts (run with npx tsx)
 npx tsx scripts/audit-station-mapping.ts    # Verify scraper route names match the station menu (0 = clean)
 npx tsx scripts/seed-curated-snapshots.ts   # De-dupe + (re)seed curated snapshot timetables
+
+# SEO artifacts (both also run inside npm run build)
+npm run routes           # Prerender static route pages → public/<country>/<o>-to-<d>/ + /zh/... + /routes/ hubs
+npm run sitemap          # Regenerate sitemap index (core + countries + routes.xml); run AFTER npm run routes
 ```
 
 There is no test framework. `npm run lint` (TypeScript typecheck) is the gate. Verify data changes by importing `findScrapedResults` from `src/data/scraped` in a `npx tsx -e '...'` snippet.
@@ -43,6 +47,8 @@ A mobile-first cross-border transit timetable search app: React 19 SPA + a singl
 - Result IDs are `${date}-${baseId}`; `canonicalDay`/dedupe strip the `YYYY-MM-DD-` prefix to find the canonical departure.
 
 **i18n / station labels.** [src/i18n.ts](src/i18n.ts) hardcodes `en` + `zh-TW` resources including a curated `station` name dict (this is where e.g. `"Hong Kong": "香港"` lives — NOT `translations.json`, which is the auto-generated TfL/MBTA name file merged in *without* overwriting curated keys). `stationLabel()` ([src/utils/stationLabel.ts](src/utils/stationLabel.ts)) applies per-country overrides from [stationOverrides.ts](src/data/stationOverrides.ts) first, because the flat dict shares one value across countries and some English names collide (e.g. "Central", "City Hall", "Admiralty").
+
+**Prerendered SEO route pages.** `scripts/generate-route-pages.ts` (build step) emits a static HTML page per scraped route file — EN at `/<country>/<origin>-to-<dest>/`, zh-TW under `/zh/...`, plus `/routes/` hub pages. Route enumeration, slugs, and the thin-content guard (≥3 canonical-day departures) live in [scripts/lib/routePages.ts](scripts/lib/routePages.ts), shared with `generate-sitemaps.ts` so pages and `sitemaps/routes.xml` never disagree. Output dirs are gitignored and wiped on every run — never hand-place files under `public/<country>/`, `public/zh/`, or `public/routes/`. Vercel serves these static files before the SPA catch-all rewrite; in dev, `server.ts` mounts `express.static("public", { index, redirect:false })` ahead of Vite to mirror that.
 
 **Result rendering** branches by country in [App.tsx](src/App.tsx): japan/germany/france/china → `JapanResultView`, korea → `KoreaResultView`, hong_kong/singapore/thailand → `MetroResultView`, uk/us → `LiveRailResultView`. All render the journey timeline (including transfer legs) via [TripDetails.tsx](src/components/TripDetails.tsx), which reads `trip.legs` (multi-leg = `direct:false` + `transferStations`) and computes transfer waits from `leg2.departureTime − leg1.arrivalTime`.
 

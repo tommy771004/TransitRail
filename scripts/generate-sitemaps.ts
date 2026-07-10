@@ -1,35 +1,20 @@
 /**
  * Generate the public sitemap files from the same scrape metadata used by the
- * app. Only stable, useful GET pages are advertised: the home page and country
- * landing pages. Search-result query strings are intentionally excluded because
- * the SPA does not execute those searches on page load, so they are not durable
- * canonical content pages.
+ * app. Advertised pages: the home page, country landing pages, and the
+ * prerendered route pages emitted by scripts/generate-route-pages.ts (both
+ * languages plus the /routes/ hubs). Search-result query strings are
+ * intentionally excluded because the SPA does not execute those searches on
+ * page load, so they are not durable canonical content pages.
  *
- * Run: npm run sitemap
+ * Run: npm run sitemap  (after npm run routes so both read the same data)
  */
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
+import { COUNTRY_PATHS, collectRoutePages } from "./lib/routePages";
 
 const SITE_URL = (process.env.SITE_URL || "https://rail-national.vercel.app").replace(/\/$/, "");
 const SCRAPED_DIR = resolve("src/data/scraped");
 const OUTPUT_DIR = resolve("public/sitemaps");
-
-const COUNTRY_PATHS: Record<string, string> = {
-  japan: "/japan",
-  korea: "/korea",
-  china: "/china",
-  singapore: "/singapore",
-  malaysia: "/malaysia",
-  thailand: "/thailand",
-  hong_kong: "/hong-kong",
-  united_kingdom: "/united-kingdom",
-  united_states: "/united-states",
-  germany: "/germany",
-  france: "/france",
-  belgium: "/belgium",
-  norway: "/norway",
-  switzerland: "/switzerland",
-};
 
 interface ScrapeMetadata {
   lastScraped?: string;
@@ -70,6 +55,20 @@ function main() {
   }));
   const latest = countryEntries.map(({ lastmod }) => lastmod).sort().at(-1) ?? dateOnly(undefined);
 
+  const routePages = collectRoutePages(SCRAPED_DIR);
+  const routeEntries = routePages.flatMap((page) => {
+    const lastmod = dateOnly(page.scrapedAt || undefined);
+    return [
+      { url: `${SITE_URL}${page.urlPath}`, lastmod },
+      { url: `${SITE_URL}${page.zhUrlPath}`, lastmod },
+    ];
+  });
+  const routeLatest = routeEntries.map(({ lastmod }) => lastmod).sort().at(-1) ?? latest;
+  routeEntries.unshift(
+    { url: `${SITE_URL}/routes/`, lastmod: routeLatest },
+    { url: `${SITE_URL}/zh/routes/`, lastmod: routeLatest },
+  );
+
   const core = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urlEntry(`${SITE_URL}/`, latest)}
@@ -78,20 +77,26 @@ ${urlEntry(`${SITE_URL}/`, latest)}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${countryEntries.map(({ url, lastmod }) => urlEntry(url, lastmod)).join("\n")}
 </urlset>`;
+  const routeSitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${routeEntries.map(({ url, lastmod }) => urlEntry(url, lastmod)).join("\n")}
+</urlset>`;
   const index = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>\n    <loc>${SITE_URL}/sitemaps/core.xml</loc>\n    <lastmod>${latest}</lastmod>\n  </sitemap>
   <sitemap>\n    <loc>${SITE_URL}/sitemaps/countries.xml</loc>\n    <lastmod>${latest}</lastmod>\n  </sitemap>
+  <sitemap>\n    <loc>${SITE_URL}/sitemaps/routes.xml</loc>\n    <lastmod>${routeLatest}</lastmod>\n  </sitemap>
 </sitemapindex>`;
 
   write(resolve(OUTPUT_DIR, "core.xml"), core);
   write(resolve(OUTPUT_DIR, "countries.xml"), countrySitemap);
+  write(resolve(OUTPUT_DIR, "routes.xml"), routeSitemap);
   // Keep historical aliases valid, but establish sitemap.xml as the single
   // canonical submitted entry point.
   write(resolve("public/sitemap.xml"), index);
   write(resolve("public/sitemap-index.xml"), index);
   write(resolve("public/sitemap_index.xml"), index);
-  console.log(`Generated sitemap index for ${countryEntries.length} country landing pages.`);
+  console.log(`Generated sitemap index: ${countryEntries.length} country pages, ${routeEntries.length} route page URLs.`);
 }
 
 main();

@@ -23,7 +23,8 @@ const resources = {
         settings: "Settings",
         history: "History",
         saved: "Saved",
-        alerts: "Alerts"
+        alerts: "Alerts",
+        route_directory: "Browse all route timetables"
       },
       search: {
         japan: "Japan",
@@ -479,7 +480,8 @@ const resources = {
         settings: "設定",
         history: "紀錄",
         saved: "儲存",
-        alerts: "通知"
+        alerts: "通知",
+        route_directory: "瀏覽所有路線時刻表"
       },
       search: {
         japan: "日本",

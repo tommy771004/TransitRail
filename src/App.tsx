@@ -1146,21 +1146,32 @@ export default function App() {
     switch (view) {
       case "search":
         return (
-          <SearchForm
-            params={draftSearch}
-            isSearching={isSearching}
-            recentHistory={history}
-            favorites={favorites}
-            onToggleFavorite={toggleFavoriteRoute}
-            onRemoveFavorite={removeFavoriteById}
-            onRepeatFavoriteSearch={rerunFavoriteSearch}
-            onChange={setDraftSearch}
-            onSearch={handleSearch}
-            onOpenStations={openStations}
-            onOpenWorkflow={() => setView("workflow")}
-            onRepeatSearch={rerunHistorySearch}
-            onTogglePinHistory={togglePinHistory}
-          />
+          <>
+            <SearchForm
+              params={draftSearch}
+              isSearching={isSearching}
+              recentHistory={history}
+              favorites={favorites}
+              onToggleFavorite={toggleFavoriteRoute}
+              onRemoveFavorite={removeFavoriteById}
+              onRepeatFavoriteSearch={rerunFavoriteSearch}
+              onChange={setDraftSearch}
+              onSearch={handleSearch}
+              onOpenStations={openStations}
+              onOpenWorkflow={() => setView("workflow")}
+              onRepeatSearch={rerunHistorySearch}
+              onTogglePinHistory={togglePinHistory}
+            />
+            {/* Crawlable path from the home page to the prerendered route pages. */}
+            <p className="mx-auto max-w-md px-4 pb-28 text-center">
+              <a
+                href={i18n.language === "zh-TW" ? "/zh/routes/" : "/routes/"}
+                className="text-xs font-bold text-slate-400 underline-offset-2 hover:underline dark:text-slate-500"
+              >
+                {t("nav.route_directory")} →
+              </a>
+            </p>
+          </>
         );
       case "workflow":
         return (
