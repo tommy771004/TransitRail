@@ -7,7 +7,7 @@ import { ChevronDown, ChevronUp, Clock, MapPin, ArrowRightLeft, Users, Armchair,
 import { motion } from "motion/react";
 import { D3LeafletRouteMap } from "./D3LeafletRouteMap";
 import { TransferInfoPopup } from "./TransferInfoPopup";
-import { getTransferInfo } from "../data/transfers";
+import { getTransferInfo, type TransferInfo } from "../data/transfers";
 
 interface TripDetailsProps {
   trip: TransitResult;
@@ -89,14 +89,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
   const [expandedLegs, setExpandedLegs] = useState<Record<number, boolean>>({});
   const [selectedTransferStationId, setSelectedTransferStationId] = useState<string | null>(null);
   const [selectedTransferStationName, setSelectedTransferStationName] = useState<string | null>(null);
-
-  const handleOpenTransferInfo = (stationName: string, country: string) => {
-    const info = getTransferInfo(stationName, country);
-    if (info) {
-      setSelectedTransferStationId(info.stationId);
-      setSelectedTransferStationName(stationName);
-    }
-  };
+  const [selectedTransferInfo, setSelectedTransferInfo] = useState<TransferInfo | null>(null);
 
   const displayLegs: JourneyLeg[] = trip.legs && trip.legs.length > 0 ? trip.legs : [
     {
@@ -109,6 +102,40 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
       mode: trip.trainType,
     }
   ];
+
+  const routeTransferInfo = (stationName: string, legIndex: number): TransferInfo => {
+    const curated = getTransferInfo(stationName, trip.country);
+    if (curated) return curated;
+
+    const arrivingLeg = displayLegs[legIndex];
+    const departingLeg = displayLegs[legIndex + 1];
+    const lines = [arrivingLeg, departingLeg]
+      .filter((leg): leg is JourneyLeg => Boolean(leg))
+      .map((leg) => ({ name: leg.lineName, color: getLegColor(leg, trip.lineColor) }))
+      .filter((line, index, all) => all.findIndex((candidate) => candidate.name === line.name) === index);
+
+    return {
+      stationId: `route-${trip.id}-${legIndex}`,
+      stationName,
+      country: trip.country,
+      guidanceZh: "此提示依目前查得的兩段行程產生；請依現場月台、出口與服務公告完成轉乘。",
+      guidanceEn: "This guidance is based on the two services in the current result. Follow on-site platform, exit, and service notices when transferring.",
+      transferLines: [{
+        category: t("result.current_journey_services", { defaultValue: "Services in this journey" }),
+        lines,
+      }],
+    };
+  };
+
+  const handleOpenTransferInfo = (stationName: string, country: string, legIndex?: number) => {
+    const info = legIndex === undefined
+      ? getTransferInfo(stationName, country)
+      : routeTransferInfo(stationName, legIndex);
+    if (!info) return;
+    setSelectedTransferInfo(info);
+    setSelectedTransferStationId(info.stationId);
+    setSelectedTransferStationName(stationName);
+  };
 
   // Normalize the timeline items
   const timelineItems: any[] = [];
@@ -598,15 +625,13 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                               </span>
                             </div>
                             
-                            {getTransferInfo(item.stationName, trip.country) && (
-                              <button
-                                onClick={() => handleOpenTransferInfo(item.stationName, trip.country)}
+                            <button
+                                onClick={() => handleOpenTransferInfo(item.stationName, trip.country, item.legIndex)}
                                 className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-600 border border-indigo-200/60 shadow-xs hover:from-indigo-100 hover:to-purple-100 dark:from-indigo-950/40 dark:to-purple-950/30 dark:text-indigo-300 dark:border-indigo-800/40 dark:hover:from-indigo-900/50 dark:hover:to-purple-900/40 transition-all cursor-pointer animate-badge-pulse shrink-0"
                               >
                                 <Info className="h-3 w-3 animate-spin [animation-duration:3s]" />
                                 {t("result.transfer_info", { defaultValue: "Transfer Info" })}
                               </button>
-                            )}
                           </div>
                           
                           <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] font-bold text-slate-500 dark:text-slate-400">
@@ -641,10 +666,12 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
           onClose={() => {
             setSelectedTransferStationId(null);
             setSelectedTransferStationName(null);
+            setSelectedTransferInfo(null);
           }}
           stationId={selectedTransferStationId}
           stationName={selectedTransferStationName || undefined}
           country={trip.country}
+          info={selectedTransferInfo || undefined}
         />
       )}
     </div>

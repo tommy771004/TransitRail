@@ -2,7 +2,7 @@
 // OS support: Linux, macOS, Windows
 // Description: Interactive search form for transit route selection
 
-import { ArrowLeftRight, CalendarDays, DatabaseZap, Star, Search, MapPin, History, ChevronDown, Loader2, Navigation, Pin } from "lucide-react";
+import { ArrowLeftRight, CalendarDays, Clock3, DatabaseZap, Star, Search, MapPin, History, ChevronDown, Loader2, Navigation, Pin } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { countryConfig, countryOptions, providerDateValue, countryThemes, countryFlags } from "../data/countries";
@@ -50,7 +50,7 @@ interface SearchFormProps {
   onRemoveFavorite: (id: string) => void;
   onRepeatFavoriteSearch: (fav: FavoriteRoute) => void;
   onChange: (params: SearchParams) => void;
-  onSearch: (origin: string, destination: string, date: string, country: Country) => Promise<void>;
+  onSearch: (origin: string, destination: string, date: string, country: Country, time?: string) => Promise<void>;
   onOpenStations: (target: "origin" | "destination") => void;
   onOpenWorkflow: () => void;
   onRepeatSearch: (item: SearchHistoryItem) => void;
@@ -182,6 +182,7 @@ export function SearchForm({
   const destination = params.destination;
   const country = params.country;
   const config = countryConfig[country];
+  const canSearchTimetable = config.connected;
   const date = config.liveOnly ? providerDateValue(country) : (params.date || providerDateValue(country));
   const theme = countryThemes[country] || countryThemes.japan;
 
@@ -218,7 +219,7 @@ export function SearchForm({
     (f) => f.origin === origin && f.destination === destination && f.country === country
   );
 
-  const updateParam = (key: keyof SearchParams, value: string) => {
+  const updateParam = (key: keyof SearchParams, value: string | undefined) => {
     onChange({ ...params, [key]: value });
   };
 
@@ -228,6 +229,10 @@ export function SearchForm({
   };
 
   const handleSubmit = async () => {
+    if (!canSearchTimetable) {
+      setFormError(t("search.timetable_unavailable", { defaultValue: "這個地區目前提供站點與轉乘資料，尚未提供可查詢的時刻表。" }));
+      return;
+    }
     if (!origin.trim() || !destination.trim()) {
       triggerHaptic("error");
       setFormError(t("search.validation_required"));
@@ -241,7 +246,7 @@ export function SearchForm({
     triggerHaptic("medium");
     setFormError(null);
     const submitDate = config.liveOnly ? providerDateValue(country) : date;
-    await onSearch(origin.trim(), destination.trim(), submitDate, country);
+    await onSearch(origin.trim(), destination.trim(), submitDate, country, params.time);
   };
 
   const handleAiPlan = () => {
@@ -378,7 +383,14 @@ export function SearchForm({
           </div>
 
           <div className="border-t border-slate-100/80 p-5 dark:border-slate-800/60">
-            {config.liveOnly ? (
+            {!canSearchTimetable ? (
+              <div className="rounded-2xl border border-amber-200/80 bg-amber-50/70 px-4 py-3 text-xs font-semibold leading-relaxed text-amber-800 dark:border-amber-900/40 dark:bg-amber-950/20 dark:text-amber-300">
+                <span className="block text-[10px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                  {t("search.station_directory_only", { defaultValue: "Station directory & transfer guidance" })}
+                </span>
+                <span className="mt-1 block">{t("search.timetable_unavailable", { defaultValue: "這個地區目前提供站點與轉乘資料，尚未提供可查詢的時刻表。" })}</span>
+              </div>
+            ) : config.liveOnly ? (
               <div className="flex items-center gap-2 rounded-xl bg-emerald-50/50 px-3 py-2 text-xs font-semibold text-emerald-800 dark:bg-emerald-950/20 dark:text-emerald-400">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
@@ -437,6 +449,63 @@ export function SearchForm({
               </div>
             )}
 
+            {canSearchTimetable && !config.liveOnly && (
+              <div className="mt-5 border-t border-slate-100 pt-4 dark:border-slate-800/60">
+                <div className="mb-2.5 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <Clock3 className="h-4 w-4 text-slate-400" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                      {t("search.depart_after", { defaultValue: "最早出發時間" })}
+                    </span>
+                  </div>
+                  <label className="flex items-center gap-1.5 rounded-lg bg-slate-100 px-2 py-1 font-mono text-[11px] font-bold text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                    <span className="sr-only">{t("search.custom_time", { defaultValue: "自訂時間" })}</span>
+                    <input
+                      type="time"
+                      value={params.time || ""}
+                      onChange={(event) => updateParam("time", event.target.value || undefined)}
+                      className="w-[76px] bg-transparent text-right outline-none"
+                    />
+                  </label>
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar" role="group" aria-label={t("search.depart_after", { defaultValue: "最早出發時間" })}>
+                  {[
+                    { value: undefined, label: t("search.time_any", { defaultValue: "不限" }) },
+                    { value: "06:00", label: t("search.time_morning", { defaultValue: "清晨" }) },
+                    { value: "09:00", label: "09:00" },
+                    { value: "12:00", label: "12:00" },
+                    { value: "15:00", label: "15:00" },
+                    { value: "18:00", label: t("search.time_evening", { defaultValue: "傍晚" }) },
+                  ].map((option) => {
+                    const selected = (params.time || undefined) === option.value;
+                    return (
+                      <button
+                        key={option.value || "any"}
+                        type="button"
+                        aria-pressed={selected}
+                        onClick={() => {
+                          triggerHaptic("light");
+                          updateParam("time", option.value);
+                        }}
+                        className={`shrink-0 rounded-xl border px-3 py-2 text-xs font-bold transition-all ${
+                          selected
+                            ? `${theme.badgeBg} shadow-sm`
+                            : "border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-slate-200"
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    );
+                  })}
+                </div>
+                <p className="mt-2 text-[11px] leading-relaxed text-slate-400 dark:text-slate-500">
+                  {params.time
+                    ? t("search.depart_after_hint", { time: params.time, defaultValue: `僅顯示 ${params.time} 起的班次` })
+                    : t("search.time_any_hint", { defaultValue: "不限制出發時間，方便比較所有可用班次" })}
+                </p>
+              </div>
+            )}
+
             {formError && (
               <p className="mt-4 rounded-xl border border-red-100 bg-red-50/75 px-4 py-2.5 text-xs font-semibold text-red-700 dark:border-red-950/40 dark:bg-red-950/20 dark:text-red-400">
                 {formError}
@@ -453,11 +522,11 @@ export function SearchForm({
             <div className="mt-5 flex gap-2">
               <button
                 onClick={handleSubmit}
-                disabled={isSearching}
-                aria-label={isSearching ? t("search.searching") : t("search.realtime_search")}
-                className={`h-12 flex-1 rounded-2xl ${theme.buttonBg} text-sm font-bold text-white ${theme.buttonShadow} hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-300 disabled:hover:translate-y-0 disabled:active:scale-100 disabled:cursor-wait ${isSearching ? "animate-pulse" : ""}`}
+                disabled={isSearching || !canSearchTimetable}
+                aria-label={isSearching ? t("search.searching") : canSearchTimetable ? t("search.search_timetable", { defaultValue: "查詢時刻表" }) : t("search.timetable_unavailable", { defaultValue: "時刻表尚未提供" })}
+                className={`h-12 flex-1 rounded-2xl ${theme.buttonBg} text-sm font-bold text-white ${theme.buttonShadow} hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-300 disabled:hover:translate-y-0 disabled:active:scale-100 disabled:cursor-wait disabled:opacity-55 ${isSearching ? "animate-pulse" : ""}`}
               >
-                {isSearching ? t("search.searching") : t("search.realtime_search")}
+                {isSearching ? t("search.searching") : canSearchTimetable ? t("search.search_timetable", { defaultValue: "查詢時刻表" }) : t("search.timetable_unavailable_short", { defaultValue: "暫無時刻表" })}
               </button>
               {origin.trim() && destination.trim() && (
                 <button
@@ -798,4 +867,3 @@ export function SearchForm({
 }
 
 // --- End of SearchForm.tsx ---
-

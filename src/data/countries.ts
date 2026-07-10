@@ -140,7 +140,8 @@ export const countryConfig: Record<Country, {
     ],
     promptName: "美國波士頓",
     connected: true,
-    liveOnly: false,
+    // MBTA predictions are restricted to the current local service day.
+    liveOnly: true,
     timeZone: "America/New_York",
   },
   germany: {

@@ -227,7 +227,9 @@ export function StationBrowser({
   const visibleLines = useMemo(() => {
     if (target === "destination" && selectedOrigin && dependencyMap.size > 0) {
       const allowed = dependencyMap.get(selectedOrigin);
-      if (!allowed) return [];
+      // Static route diagrams only cover parts of several national station
+      // catalogs. A missing graph node means "unknown", not "unreachable".
+      if (!allowed) return lines;
       return lines.filter(line => 
         line.stations.some(s => s.name !== selectedOrigin && allowed.has(s.name))
       );
@@ -248,7 +250,7 @@ export function StationBrowser({
     if (!line) return [];
     if (target === "destination" && selectedOrigin) {
       const allowed = dependencyMap.get(selectedOrigin);
-      if (!allowed) return [];
+      if (!allowed) return line.stations;
       return line.stations.filter(s => s.name !== selectedOrigin && allowed.has(s.name));
     }
     return line.stations;
@@ -305,8 +307,6 @@ export function StationBrowser({
       const allowed = dependencyMap.get(selectedOrigin);
       if (allowed) {
         baseStations = stations.filter(s => allowed.has(s));
-      } else {
-        baseStations = [];
       }
     }
     if (!value) return baseStations;
@@ -333,7 +333,6 @@ export function StationBrowser({
       if (allowed) {
         return origFeatured.filter(s => allowed.has(s));
       }
-      return [];
     }
     return origFeatured;
   }, [country, target, selectedOrigin, dependencyMap]);

@@ -17,6 +17,7 @@ interface LiveRailResultViewProps {
   origin: string;
   destination: string;
   date: string;
+  time?: string;
   error?: string;
   results: TransitResult[];
   savedIds: Set<string>;
@@ -40,6 +41,7 @@ export function LiveRailResultView({
   origin,
   destination,
   date,
+  time,
   error,
   results,
   savedIds,
@@ -72,6 +74,7 @@ export function LiveRailResultView({
               </span>
               {t(`${copyKey}.official_data`)}
               <span className="font-mono text-slate-400 dark:text-slate-500">{date}</span>
+              {time ? <span className="font-mono text-slate-400 dark:text-slate-500">≥ {time}</span> : null}
               {isSwiss ? <span className="rounded-full bg-rose-700 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.18em] text-white dark:bg-rose-500 dark:text-slate-950">OJP 2.0</span> : null}
             </p>
           </div>

@@ -31,6 +31,7 @@ interface MetroResultViewProps {
   origin: string;
   destination: string;
   date: string;
+  time?: string;
   error?: string;
   results: TransitResult[];
   savedIds: Set<string>;
@@ -45,6 +46,7 @@ export function MetroResultView({
   origin,
   destination,
   date,
+  time,
   error,
   results,
   savedIds,
@@ -73,6 +75,7 @@ export function MetroResultView({
               </span>
               {t("metro.live_mtr")}
               <span className="font-mono text-slate-400 dark:text-slate-500">{date}</span>
+              {time ? <span className="font-mono text-slate-400 dark:text-slate-500">≥ {time}</span> : null}
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-1.5">

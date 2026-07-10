@@ -106,6 +106,7 @@ function buildInitialSearch(defaultCountry: Country): SearchParams {
   const queryCountry = normalizeCountrySlug(query.get("country"));
   const resolvedCountry = queryCountry ?? pathCountry ?? defaultCountry;
   const rawDate = query.get("date");
+  const rawTime = query.get("time");
   const date = rawDate && /^\d{4}-\d{2}-\d{2}$/.test(rawDate)
     ? rawDate
     : providerDateValue(resolvedCountry);
@@ -114,6 +115,7 @@ function buildInitialSearch(defaultCountry: Country): SearchParams {
     origin: (query.get("origin") || "").trim(),
     destination: (query.get("destination") || "").trim(),
     date,
+    time: rawTime && /^\d{2}:\d{2}$/.test(rawTime) ? rawTime : undefined,
     country: resolvedCountry,
     preferredTransitTypes: [],
   };
@@ -125,6 +127,7 @@ function buildCanonicalSearchUrl(params: SearchParams) {
   const origin = params.origin.trim();
   const destination = params.destination.trim();
   const date = params.date?.trim();
+  const time = params.time?.trim();
 
   if (origin) {
     query.set("origin", origin);
@@ -134,6 +137,9 @@ function buildCanonicalSearchUrl(params: SearchParams) {
   }
   if (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
     query.set("date", date);
+  }
+  if (time && /^\d{2}:\d{2}$/.test(time)) {
+    query.set("time", time);
   }
 
   const queryString = query.toString();
@@ -549,7 +555,7 @@ export default function App() {
       const script = document.getElementById("jsonld-seo");
       if (script) script.remove();
     }
-  }, [view, draftSearch.country, draftSearch.origin, draftSearch.destination, draftSearch.date, searchParams.origin, searchParams.destination, searchParams.country, searchParams.date, t, i18n.language]);
+  }, [view, draftSearch.country, draftSearch.origin, draftSearch.destination, draftSearch.date, draftSearch.time, searchParams.origin, searchParams.destination, searchParams.country, searchParams.date, searchParams.time, t, i18n.language]);
   const [legendHighlight, setLegendHighlight] = useState<string | null>(null);
   const [timezone, setTimezone] = useState<string>(() => {
     return localStorage.getItem("transitrail.timezone") || Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -754,8 +760,8 @@ export default function App() {
     ].slice(0, 20));
   };
 
-  const handleSearch = async (origin: string, destination: string, date: string, country: Country) => {
-    const params = { origin, destination, date, country };
+  const handleSearch = async (origin: string, destination: string, date: string, country: Country, time?: string) => {
+    const params: SearchParams = { origin, destination, date, country, ...(time ? { time } : {}) };
     setSearchParams(params);
     setDraftSearch(params);
     setIsSearching(true);
@@ -765,7 +771,9 @@ export default function App() {
 
     const todayStr = providerDateValue(country);
     const queryParams: any = { ...params };
-    if (date === todayStr) {
+    if (time && /^\d{2}:\d{2}$/.test(time)) {
+      queryParams.time = time;
+    } else if (date === todayStr) {
       const nowInTz = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }));
       nowInTz.setHours(nowInTz.getHours() - 1);
       const queryTime = `${String(nowInTz.getHours()).padStart(2, '0')}:${String(nowInTz.getMinutes()).padStart(2, '0')}`;
@@ -1019,7 +1027,7 @@ export default function App() {
   };
 
   const rerunHistorySearch = (item: SearchHistoryItem) => {
-    void handleSearch(item.origin, item.destination, item.date, item.country);
+    void handleSearch(item.origin, item.destination, item.date, item.country, item.time);
   };
 
   const togglePinHistory = (id: string) => {
@@ -1125,6 +1133,7 @@ export default function App() {
               origin={searchParams.origin}
               destination={searchParams.destination}
               date={searchParams.date}
+              time={searchParams.time}
               error={error}
               results={visibleResults}
               sortMode={sortMode}
@@ -1144,6 +1153,7 @@ export default function App() {
               origin={searchParams.origin}
               destination={searchParams.destination}
               date={searchParams.date}
+              time={searchParams.time}
               error={error}
               results={visibleResults}
               filter={koreaFilter}
@@ -1173,6 +1183,7 @@ export default function App() {
               origin={searchParams.origin}
               destination={searchParams.destination}
               date={searchParams.date}
+              time={searchParams.time}
               error={error}
               results={visibleResults}
               savedIds={savedIds}
@@ -1190,6 +1201,7 @@ export default function App() {
               origin={searchParams.origin}
               destination={searchParams.destination}
               date={searchParams.date}
+              time={searchParams.time}
               error={error}
               results={visibleResults}
               savedIds={savedIds}
@@ -1207,6 +1219,7 @@ export default function App() {
               origin={searchParams.origin}
               destination={searchParams.destination}
               date={searchParams.date}
+              time={searchParams.time}
               error={error}
               results={visibleResults}
               savedIds={savedIds}
@@ -1224,6 +1237,7 @@ export default function App() {
               origin={searchParams.origin}
               destination={searchParams.destination}
               date={searchParams.date}
+              time={searchParams.time}
               error={error}
               results={visibleResults}
               savedIds={savedIds}

@@ -16,6 +16,8 @@ export interface SearchParams {
   origin: string;
   destination: string;
   date: string;
+  /** Only return departures at or after this local service time. */
+  time?: string;
   country: Country;
   preferredTransitTypes?: string[];
 }

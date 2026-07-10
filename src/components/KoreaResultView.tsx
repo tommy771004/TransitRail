@@ -16,6 +16,7 @@ interface KoreaResultViewProps {
   origin: string;
   destination: string;
   date: string;
+  time?: string;
   error?: string;
   results: TransitResult[];
   filter: KoreaFilter;
@@ -46,6 +47,7 @@ export function KoreaResultView({
   origin,
   destination,
   date,
+  time,
   error,
   results,
   filter,
@@ -75,7 +77,7 @@ export function KoreaResultView({
               <span className="shrink-0 text-slate-400">&rarr;</span>
               <span className="truncate">{stationLabel(t, destination, "korea")}</span>
             </div>
-            <p className="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">{date} · 1 {t("result.adult")}</p>
+            <p className="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">{date}{time ? ` · ≥ ${time}` : ""} · 1 {t("result.adult")}</p>
           </div>
           <div className="flex shrink-0 items-center gap-1.5">
             {onOpenLegend && (

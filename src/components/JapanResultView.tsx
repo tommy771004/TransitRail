@@ -17,6 +17,7 @@ interface JapanResultViewProps {
   origin: string;
   destination: string;
   date: string;
+  time?: string;
   error?: string;
   results: TransitResult[];
   sortMode: SortMode;
@@ -87,6 +88,7 @@ export function JapanResultView({
   origin,
   destination,
   date,
+  time,
   error,
   results,
   sortMode,
@@ -116,7 +118,7 @@ export function JapanResultView({
               <span className="shrink-0 text-slate-400">&rarr;</span>
               <span className="truncate">{stationLabel(t, destination, country)}</span>
             </div>
-            <p className="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">{date} · 1 {t("result.adult")}</p>
+            <p className="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">{date}{time ? ` · ≥ ${time}` : ""} · 1 {t("result.adult")}</p>
           </div>
           <div className="flex shrink-0 items-center gap-1.5">
             {onOpenLegend && (

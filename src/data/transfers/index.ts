@@ -1,6 +1,8 @@
 export interface TransferInfo {
   stationId: string;
   stationName: string;
+  /** Exact station names used by provider catalogs for this same physical hub. */
+  aliases?: string[];
   country: string;
   description?: string;
   recommendedExit?: string;
@@ -201,6 +203,7 @@ export const transferCatalog: Record<string, TransferInfo> = {
   "germany_nuremberg": {
     stationId: "germany_nuremberg",
     stationName: "Nürnberg Hbf",
+    aliases: ["Nuremberg Hbf"],
     country: "Germany",
     recommendedExit: "Königstor (Old Town) (Pl. 8)",
     guidanceZh: "轉乘地鐵 U2 線（全自動無人駕駛）可直達紐倫堡機場。出站通過國王門（Königstor）地下道即達老城區入口。",
@@ -226,6 +229,7 @@ export const transferCatalog: Record<string, TransferInfo> = {
   "germany_munich": {
     stationId: "germany_munich",
     stationName: "München Hbf",
+    aliases: ["Munich Hbf"],
     country: "Germany",
     recommendedExit: "Arnulfstraße / Bayerstraße (Pl. 22)",
     guidanceZh: "轉乘 S-Bahn (S1 或 S8) 可直達慕尼黑機場；亦可在此轉乘原 BOB（現為 BRB）地方鐵路前往阿爾卑斯山麓的泰根湖（Tegernsee）。",
@@ -489,6 +493,7 @@ export const transferCatalog: Record<string, TransferInfo> = {
   "korea_seoul": {
     stationId: "korea_seoul",
     stationName: "Seoul",
+    aliases: ["Seoul (SNC)", "Seoul Station"],
     country: "South Korea",
     recommendedExit: "Exit 1 / Main Concourse",
     guidanceZh: "韓國主要鐵路車站，整合高鐵 KTX 與多條地鐵、機場快線，提供極其便利的全國與國際接駁。",
@@ -521,6 +526,7 @@ export const transferCatalog: Record<string, TransferInfo> = {
   "korea_busan": {
     stationId: "korea_busan",
     stationName: "Busan",
+    aliases: ["Busan (BSN)", "Busan Station"],
     country: "South Korea",
     recommendedExit: "Exit 1 / Main Concourse",
     guidanceZh: "釜山最大高速鐵路樞紐，轉乘地鐵 1 號線可輕鬆前往市區主要觀光景點。",
@@ -783,6 +789,7 @@ export const transferCatalog: Record<string, TransferInfo> = {
   "uk_heathrow": {
     stationId: "uk_heathrow",
     stationName: "Heathrow Terminals 2 & 3",
+    aliases: ["Heathrow Terminals 2&3", "Heathrow Terminals 2 and 3"],
     country: "United Kingdom",
     recommendedExit: "Central Terminal Area (Pl. 1)",
     guidanceZh: "出站通往客運航廈。在此可選擇便宜但站站停的皮卡迪利線，或選擇高規格的伊莉莎白線，或 15 分鐘直達帕丁頓的機場快線。",
@@ -985,6 +992,7 @@ export const transferCatalog: Record<string, TransferInfo> = {
   "malaysia_kl_sentral": {
     stationId: "malaysia_kl_sentral",
     stationName: "KL Sentral",
+    aliases: ["KJ15: KL Sentral", "MR01: KL Sentral"],
     country: "Malaysia",
     recommendedExit: "Follow MRT/LRT/Monorail interchange signage",
     guidanceZh: "KL Sentral 與 MRT Muzium Negara 之間設有轉乘通道；在 KL Sentral 站區可續轉 Kelana Jaya 線與 KL Monorail。請依車站指標及站務人員指示步行。",
@@ -1001,6 +1009,7 @@ export const transferCatalog: Record<string, TransferInfo> = {
   "malaysia_pasar_seni": {
     stationId: "malaysia_pasar_seni",
     stationName: "Pasar Seni",
+    aliases: ["KG16: Pasar Seni", "KJ14: Pasar Seni"],
     country: "Malaysia",
     recommendedExit: "Follow MRT/LRT interchange signage",
     guidanceZh: "MRT Pasar Seni 與 LRT Pasar Seni（Kelana Jaya 線）可轉乘。此站繁忙時可能實施人流管制，請依現場指示通行。",
@@ -1016,6 +1025,7 @@ export const transferCatalog: Record<string, TransferInfo> = {
   "malaysia_merdeka": {
     stationId: "malaysia_merdeka",
     stationName: "Merdeka",
+    aliases: ["KG17: Merdeka"],
     country: "Malaysia",
     recommendedExit: "Follow signs to Plaza Rakyat",
     guidanceZh: "MRT Merdeka 可步行轉乘 Plaza Rakyat 的 Ampang／Sri Petaling 線；請依站內指標完成站外步行連接。",
@@ -1032,6 +1042,7 @@ export const transferCatalog: Record<string, TransferInfo> = {
   "malaysia_maluri": {
     stationId: "malaysia_maluri",
     stationName: "Maluri",
+    aliases: ["AG13: Maluri", "KG22: Maluri"],
     country: "Malaysia",
     recommendedExit: "Follow MRT/LRT interchange signage",
     guidanceZh: "MRT Maluri 可轉乘 LRT Maluri 的 Ampang／Sri Petaling 線；請以現場指標為準。",
@@ -1048,6 +1059,7 @@ export const transferCatalog: Record<string, TransferInfo> = {
   "malaysia_tun_razak_exchange": {
     stationId: "malaysia_tun_razak_exchange",
     stationName: "Tun Razak Exchange",
+    aliases: ["KG20: Tun Razak Exchange"],
     country: "Malaysia",
     recommendedExit: "Follow MRT line-transfer signage",
     guidanceZh: "TRX 是 MRT Kajang 線與 Putrajaya 線的換乘站；請依月台與站內指標轉乘，勿將此資料視為即時行車資訊。",
@@ -1063,6 +1075,7 @@ export const transferCatalog: Record<string, TransferInfo> = {
   "malaysia_bukit_bintang": {
     stationId: "malaysia_bukit_bintang",
     stationName: "Bukit Bintang",
+    aliases: ["KG18: Bukit Bintang", "MR06: Bukit Bintang"],
     country: "Malaysia",
     recommendedExit: "Follow MRT/Monorail interchange signage",
     guidanceZh: "MRT Bukit Bintang 可轉乘 Bukit Bintang Monorail；此站繁忙時請預留步行與排隊時間，並依現場人流指示。",
@@ -1152,18 +1165,18 @@ export function getTransferInfo(stationName: string, country: string): TransferI
   const normalizedName = normalizeMatchKey(stationName);
   const normalizedCountry = countryCanonicalName[normalizeMatchKey(country)] || normalizeMatchKey(country);
   
-  // Find match using fuzzy names
-  for (const key of Object.keys(transferCatalog)) {
-    const entry = transferCatalog[key];
+  // A partial match can turn "Seoul Nat'l Univ." into Seoul Station or
+  // "Genève-Aéroport" into Genève. Only exact catalog names and explicit
+  // aliases are safe enough to show station-specific walking/exit guidance.
+  for (const entry of Object.values(transferCatalog)) {
     
     // Check if country matches
     const entryCountry = countryCanonicalName[normalizeMatchKey(entry.country)] || normalizeMatchKey(entry.country);
     const countryMatch = normalizedCountry === entryCountry;
                          
     if (countryMatch) {
-      // Check if station name matches partially or exactly
-      const entryStation = normalizeMatchKey(entry.stationName);
-      const stationMatch = normalizedName.includes(entryStation) || entryStation.includes(normalizedName);
+      const stationNames = [entry.stationName, ...(entry.aliases || [])];
+      const stationMatch = stationNames.some((name) => normalizeMatchKey(name) === normalizedName);
                            
       if (stationMatch) {
         return entry;
