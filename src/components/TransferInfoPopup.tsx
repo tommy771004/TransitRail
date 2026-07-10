@@ -186,6 +186,20 @@ export function TransferInfoPopup({ isOpen, onClose, stationId, stationName, cou
                       {t(`transfers.${data.stationId}.description`, { defaultValue: data.description })}
                     </p>
                   )}
+
+                  {data.sources && data.sources.length > 0 && (
+                    <div className="mb-5 text-xs text-slate-500 dark:text-slate-400">
+                      <span className="font-bold">{t("common.sources", { defaultValue: "Sources" })}: </span>
+                      {data.sources.map((source, index) => (
+                        <span key={source.url}>
+                          {index > 0 && ", "}
+                          <a className="font-semibold text-indigo-600 underline underline-offset-2 dark:text-indigo-400" href={source.url} target="_blank" rel="noreferrer">
+                            {source.label}
+                          </a>
+                        </span>
+                      ))}
+                    </div>
+                  )}
                   
                   <div className="space-y-5">
                     {data.transferLines && data.transferLines.map((categoryGroup, idx) => {

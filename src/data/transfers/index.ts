@@ -6,6 +6,7 @@ export interface TransferInfo {
   recommendedExit?: string;
   guidanceZh?: string;
   guidanceEn?: string;
+  sources?: { label: string; url: string }[];
   transferLines: {
     category: string; // e.g. "High Speed Rail", "Metro", "Bus", "Airport"
     lines: {
@@ -980,7 +981,102 @@ export const transferCatalog: Record<string, TransferInfo> = {
     ]
   },
 
-  // 11. China (中國)
+  // 11. Malaysia (馬來西亞) — verified against MyRapid interchange guidance.
+  "malaysia_kl_sentral": {
+    stationId: "malaysia_kl_sentral",
+    stationName: "KL Sentral",
+    country: "Malaysia",
+    recommendedExit: "Follow MRT/LRT/Monorail interchange signage",
+    guidanceZh: "KL Sentral 與 MRT Muzium Negara 之間設有轉乘通道；在 KL Sentral 站區可續轉 Kelana Jaya 線與 KL Monorail。請依車站指標及站務人員指示步行。",
+    guidanceEn: "A pedestrian connection links KL Sentral with MRT Muzium Negara. Within the KL Sentral complex, follow station signage for the Kelana Jaya Line and KL Monorail.",
+    transferLines: [
+      { category: "Rapid KL rail", lines: [
+        { name: "MRT Kajang Line (Muzium Negara)", color: "#0092D0" },
+        { name: "LRT Kelana Jaya Line", color: "#E91E63" },
+        { name: "KL Monorail", color: "#76BC21" },
+      ] },
+    ],
+    sources: [{ label: "MyRapid interchange guidance", url: "https://myrapid.com.my/kelewatan-tren-laluan-kelana-jaya-3/" }],
+  },
+  "malaysia_pasar_seni": {
+    stationId: "malaysia_pasar_seni",
+    stationName: "Pasar Seni",
+    country: "Malaysia",
+    recommendedExit: "Follow MRT/LRT interchange signage",
+    guidanceZh: "MRT Pasar Seni 與 LRT Pasar Seni（Kelana Jaya 線）可轉乘。此站繁忙時可能實施人流管制，請依現場指示通行。",
+    guidanceEn: "MRT Pasar Seni connects with LRT Pasar Seni on the Kelana Jaya Line. Follow station signage; passenger-flow controls may operate during busy periods.",
+    transferLines: [
+      { category: "Rapid KL rail", lines: [
+        { name: "MRT Kajang Line", color: "#0092D0" },
+        { name: "LRT Kelana Jaya Line", color: "#E91E63" },
+      ] },
+    ],
+    sources: [{ label: "MyRapid Kajang Line interchange guidance", url: "https://myrapid.com.my/info-semasa-laluan-kajang-3/" }],
+  },
+  "malaysia_merdeka": {
+    stationId: "malaysia_merdeka",
+    stationName: "Merdeka",
+    country: "Malaysia",
+    recommendedExit: "Follow signs to Plaza Rakyat",
+    guidanceZh: "MRT Merdeka 可步行轉乘 Plaza Rakyat 的 Ampang／Sri Petaling 線；請依站內指標完成站外步行連接。",
+    guidanceEn: "MRT Merdeka connects on foot to Plaza Rakyat for the Ampang and Sri Petaling Lines. Follow the signed pedestrian interchange route.",
+    transferLines: [
+      { category: "Rapid KL rail", lines: [
+        { name: "MRT Kajang Line", color: "#0092D0" },
+        { name: "LRT Ampang Line", color: "#F58220" },
+        { name: "LRT Sri Petaling Line", color: "#7E57C2" },
+      ] },
+    ],
+    sources: [{ label: "MyRapid Kajang Line interchange guidance", url: "https://myrapid.com.my/info-semasa-laluan-kajang-3/" }],
+  },
+  "malaysia_maluri": {
+    stationId: "malaysia_maluri",
+    stationName: "Maluri",
+    country: "Malaysia",
+    recommendedExit: "Follow MRT/LRT interchange signage",
+    guidanceZh: "MRT Maluri 可轉乘 LRT Maluri 的 Ampang／Sri Petaling 線；請以現場指標為準。",
+    guidanceEn: "MRT Maluri connects with LRT Maluri for the Ampang and Sri Petaling Lines. Follow interchange signage at the station.",
+    transferLines: [
+      { category: "Rapid KL rail", lines: [
+        { name: "MRT Kajang Line", color: "#0092D0" },
+        { name: "LRT Ampang Line", color: "#F58220" },
+        { name: "LRT Sri Petaling Line", color: "#7E57C2" },
+      ] },
+    ],
+    sources: [{ label: "MyRapid Kajang Line interchange guidance", url: "https://myrapid.com.my/info-semasa-laluan-kajang-3/" }],
+  },
+  "malaysia_tun_razak_exchange": {
+    stationId: "malaysia_tun_razak_exchange",
+    stationName: "Tun Razak Exchange",
+    country: "Malaysia",
+    recommendedExit: "Follow MRT line-transfer signage",
+    guidanceZh: "TRX 是 MRT Kajang 線與 Putrajaya 線的換乘站；請依月台與站內指標轉乘，勿將此資料視為即時行車資訊。",
+    guidanceEn: "TRX is the interchange between the MRT Kajang and Putrajaya Lines. Follow platform and station signage; this guidance is not real-time service information.",
+    transferLines: [
+      { category: "MRT", lines: [
+        { name: "MRT Kajang Line", color: "#0092D0" },
+        { name: "MRT Putrajaya Line", color: "#FFD100" },
+      ] },
+    ],
+    sources: [{ label: "MyRapid Putrajaya Line interchange guidance", url: "https://myrapid.com.my/kemas-kini-laluan-putrajaya-putrajaya-line-update-2/" }],
+  },
+  "malaysia_bukit_bintang": {
+    stationId: "malaysia_bukit_bintang",
+    stationName: "Bukit Bintang",
+    country: "Malaysia",
+    recommendedExit: "Follow MRT/Monorail interchange signage",
+    guidanceZh: "MRT Bukit Bintang 可轉乘 Bukit Bintang Monorail；此站繁忙時請預留步行與排隊時間，並依現場人流指示。",
+    guidanceEn: "MRT Bukit Bintang connects with Bukit Bintang Monorail. Allow time for walking and queues during busy periods, and follow passenger-flow directions.",
+    transferLines: [
+      { category: "Rapid KL rail", lines: [
+        { name: "MRT Kajang Line", color: "#0092D0" },
+        { name: "KL Monorail", color: "#76BC21" },
+      ] },
+    ],
+    sources: [{ label: "MyRapid Kajang Line interchange guidance", url: "https://myrapid.com.my/info-semasa-laluan-kajang-3/" }],
+  },
+
+  // 12. China (中國)
   "china_pudong": {
     stationId: "china_pudong",
     stationName: "Pudong Airport",
@@ -1038,22 +1134,36 @@ export const transferCatalog: Record<string, TransferInfo> = {
   }
 };
 
+const normalizeMatchKey = (value: string) => value
+  .toLowerCase()
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "")
+  .replace(/[^a-z0-9]+/g, "");
+
+const countryCanonicalName: Record<string, string> = {
+  korea: "southkorea",
+  southkorea: "southkorea",
+  hongkong: "hongkong",
+  unitedkingdom: "unitedkingdom",
+  unitedstates: "unitedstates",
+};
+
 export function getTransferInfo(stationName: string, country: string): TransferInfo | null {
-  const normalizedName = stationName.toLowerCase();
-  const normalizedCountry = country.toLowerCase();
+  const normalizedName = normalizeMatchKey(stationName);
+  const normalizedCountry = countryCanonicalName[normalizeMatchKey(country)] || normalizeMatchKey(country);
   
   // Find match using fuzzy names
   for (const key of Object.keys(transferCatalog)) {
     const entry = transferCatalog[key];
     
     // Check if country matches
-    const countryMatch = normalizedCountry.includes(entry.country.toLowerCase()) || 
-                         entry.country.toLowerCase().includes(normalizedCountry);
+    const entryCountry = countryCanonicalName[normalizeMatchKey(entry.country)] || normalizeMatchKey(entry.country);
+    const countryMatch = normalizedCountry === entryCountry;
                          
     if (countryMatch) {
       // Check if station name matches partially or exactly
-      const stationMatch = normalizedName.includes(entry.stationName.toLowerCase()) ||
-                           entry.stationName.toLowerCase().includes(normalizedName);
+      const entryStation = normalizeMatchKey(entry.stationName);
+      const stationMatch = normalizedName.includes(entryStation) || entryStation.includes(normalizedName);
                            
       if (stationMatch) {
         return entry;
