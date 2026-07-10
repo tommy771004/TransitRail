@@ -56,7 +56,7 @@ export function BottomNav({ activeView, unreadAlerts, onNavigate, onOpenSettings
               <span className="relative flex items-center justify-center">
                 <Icon className="h-4.5 w-4.5" strokeWidth={active ? 2.5 : 1.8} />
                 {view === "alerts" && unreadAlerts > 0 ? (
-                  <span className="absolute -right-2 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-emerald-600 px-1 font-mono text-[9px] font-bold leading-none text-white shadow-[0_0_6px_rgba(16,185,129,0.4)]">
+                  <span className={`absolute -right-2 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full px-1 font-mono text-[9px] font-bold leading-none text-white shadow-sm ${theme.buttonBg}`}>
                     {unreadAlerts > 9 ? "9+" : unreadAlerts}
                   </span>
                 ) : null}

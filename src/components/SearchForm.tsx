@@ -257,7 +257,7 @@ export function SearchForm({
   };
 
   return (
-    <main className={`min-h-screen bg-slate-50/40 bg-gradient-to-tr ${theme.primaryBgLight} px-4 pb-28 pt-20 transition-all duration-500 dark:bg-[#0b1220] ${theme.primaryBgDark}`}>
+    <main className="min-h-screen bg-transparent px-4 pb-28 pt-20 transition-all duration-500">
       <section className="mx-auto max-w-md">
 
         {/* Country Selector */}
@@ -307,7 +307,7 @@ export function SearchForm({
               </>
             ) : (
               <>
-                <Navigation className="h-3 w-3 text-indigo-500 dark:text-indigo-400" />
+                <Navigation className={`h-3 w-3 ${theme.textActive}`} />
                 <span>{i18n.language === "zh-TW" ? "自動偵測國家" : "Auto-Detect Country"}</span>
               </>
             )}
@@ -319,14 +319,14 @@ export function SearchForm({
           {/* Top glowing progress bar during network latency */}
           {isSearching && (
             <div className="absolute top-0 left-0 right-0 h-1 overflow-hidden bg-slate-100 dark:bg-slate-800 z-20">
-              <div className="absolute top-0 bottom-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-loading-bar" />
+              <div className={`absolute top-0 bottom-0 ${theme.buttonBg} animate-loading-bar`} />
             </div>
           )}
           <div className="relative p-6">
             <div className="relative flex items-center justify-between gap-1">
               {/* Animated Journey Connection Path */}
               <div className="absolute left-[18%] right-[18%] top-[35%] h-[2px] bg-slate-100 dark:bg-slate-800/60 -translate-y-1/2 pointer-events-none overflow-hidden rounded-full">
-                <div className={`absolute top-0 bottom-0 w-12 bg-gradient-to-r from-transparent via-emerald-500 to-transparent dark:via-emerald-400 animate-travel-pulse`} />
+                <div className={`absolute top-0 bottom-0 w-12 bg-gradient-to-r from-transparent via-current to-transparent ${theme.textActive} animate-travel-pulse`} />
               </div>
 
               <button

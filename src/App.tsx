@@ -1630,7 +1630,7 @@ export default function App() {
                       {trip.seatClass ? (
                         <button
                           onClick={() => openSeatPicker(trip)}
-                          className="mt-3 w-full rounded-xl bg-emerald-600 py-3 text-xs font-bold text-white shadow-[0_2px_8px_rgba(16,185,129,0.25)] hover:bg-emerald-500 transition-all"
+                          className={`mt-3 w-full rounded-xl py-3 text-xs font-bold text-white transition-all ${activeTheme.buttonBg} ${activeTheme.buttonShadow}`}
                         >
                           {t("result.select_seat")}
                         </button>
@@ -1669,11 +1669,7 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen relative overflow-x-hidden bg-slate-50/40 bg-gradient-to-tr ${activeTheme.primaryBgLight} font-sans text-slate-900 selection:bg-emerald-200 transition-all duration-500 dark:bg-[#060a13] ${activeTheme.primaryBgDark} dark:text-slate-100 dark:selection:bg-emerald-800/40`}>
-      {/* Premium Cinematic Background Glows */}
-      <div className="absolute top-[-10%] left-[-20%] w-[80%] h-[60%] rounded-full bg-indigo-500/10 dark:bg-indigo-600/5 blur-[120px] pointer-events-none" />
-      <div className="absolute top-[30%] right-[-10%] w-[60%] h-[50%] rounded-full bg-emerald-500/10 dark:bg-emerald-600/5 blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[10%] left-[10%] w-[50%] h-[40%] rounded-full bg-cyan-500/10 dark:bg-cyan-600/5 blur-[110px] pointer-events-none" />
+    <div data-country={activeCountry} className="country-shell min-h-screen relative isolate overflow-x-hidden font-sans text-slate-900 selection:bg-slate-300 transition-colors duration-500 dark:text-slate-100 dark:selection:bg-slate-700">
 
       <Header 
         onMenuOpen={() => setMenuOpen(true)} 
@@ -1943,14 +1939,14 @@ export default function App() {
                     key={seat}
                     onClick={() => setSeatChoice(seat)}
                     className={`rounded-xl border p-3 text-left text-sm font-bold ${
-                      seatChoice === seat ? "border-emerald-600 bg-emerald-600 text-white shadow-[0_2px_8px_rgba(16,185,129,0.25)]" : "border-slate-200 bg-white text-slate-900 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+                      seatChoice === seat ? `border-transparent text-white ${activeTheme.buttonBg} ${activeTheme.buttonShadow}` : "border-slate-200 bg-white text-slate-900 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
                     }`}
                   >
                     {t(`seat.${seat}`)}
                   </button>
                 ))}
               </div>
-              <button onClick={confirmSeat} className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-bold text-white shadow-[0_4px_14px_rgba(16,185,129,0.3)] hover:bg-emerald-500 transition-all">
+              <button onClick={confirmSeat} className={`flex h-12 w-full items-center justify-center gap-2 rounded-xl text-sm font-bold text-white transition-all ${activeTheme.buttonBg} ${activeTheme.buttonShadow}`}>
                 <Check className="h-4 w-4" />
                 {t("seat.confirm")}
               </button>

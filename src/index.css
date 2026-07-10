@@ -114,6 +114,38 @@ body {
   color: #f8fafc;
 }
 
+/* Each country supplies two restrained accent hues for a soft, blurred backdrop. */
+[data-country="japan"] { --country-a: 244, 63, 94; --country-b: 251, 146, 60; }
+[data-country="korea"] { --country-a: 99, 102, 241; --country-b: 56, 189, 248; }
+[data-country="singapore"] { --country-a: 217, 70, 239; --country-b: 244, 114, 182; }
+[data-country="malaysia"] { --country-a: 16, 185, 129; --country-b: 74, 222, 128; }
+[data-country="thailand"] { --country-a: 245, 158, 11; --country-b: 251, 113, 133; }
+[data-country="hong_kong"] { --country-a: 6, 182, 212; --country-b: 45, 212, 191; }
+[data-country="united_kingdom"] { --country-a: 37, 99, 235; --country-b: 56, 189, 248; }
+[data-country="united_states"] { --country-a: 71, 85, 105; --country-b: 14, 165, 233; }
+[data-country="germany"] { --country-a: 220, 38, 38; --country-b: 251, 146, 60; }
+[data-country="france"] { --country-a: 124, 58, 237; --country-b: 59, 130, 246; }
+[data-country="belgium"] { --country-a: 202, 138, 4; --country-b: 239, 68, 68; }
+[data-country="norway"] { --country-a: 190, 24, 93; --country-b: 251, 113, 133; }
+[data-country="switzerland"] { --country-a: 225, 29, 72; --country-b: 239, 68, 68; }
+[data-country="china"] { --country-a: 234, 88, 12; --country-b: 239, 68, 68; }
+
+.country-shell {
+  background:
+    radial-gradient(48rem 34rem at 4% -8%, rgba(var(--country-a), 0.18), transparent 70%),
+    radial-gradient(42rem 30rem at 96% 16%, rgba(var(--country-b), 0.13), transparent 72%),
+    radial-gradient(38rem 30rem at 46% 100%, rgba(var(--country-a), 0.08), transparent 74%),
+    linear-gradient(145deg, #f8fafc 0%, rgba(var(--country-a), 0.035) 46%, rgba(var(--country-b), 0.07) 100%);
+}
+
+.dark .country-shell {
+  background:
+    radial-gradient(48rem 34rem at 4% -8%, rgba(var(--country-a), 0.18), transparent 70%),
+    radial-gradient(42rem 30rem at 96% 16%, rgba(var(--country-b), 0.12), transparent 72%),
+    radial-gradient(38rem 30rem at 46% 100%, rgba(var(--country-a), 0.08), transparent 74%),
+    linear-gradient(145deg, #060a13 0%, rgba(var(--country-a), 0.11) 52%, #060a13 100%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

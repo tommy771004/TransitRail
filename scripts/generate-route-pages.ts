@@ -83,7 +83,8 @@ const UI = {
     breadcrumbRoutes: "Routes",
     titleSuffix: "Train Timetable, Duration & Fares",
     metaDescription: (o: string, d: string, n: number, first: string, last: string, fastest: string, price: string | null) =>
-      `All ${n} daily trains from ${o} to ${d}: first departure ${first}, last ${last}, fastest journey ${fastest}` +
+      `All ${n} daily trains from ${o} to ${d}: first departure ${first}, last ${last}` +
+      (fastest ? `, fastest journey ${fastest}` : "") +
       (price ? `, fares from ${price}` : "") +
       ". Timetable, transfers and prices.",
   },
@@ -135,7 +136,8 @@ const UI = {
     breadcrumbRoutes: "路線",
     titleSuffix: "列車時刻表・行車時間・票價",
     metaDescription: (o: string, d: string, n: number, first: string, last: string, fastest: string, price: string | null) =>
-      `${o}到${d}每日 ${n} 班列車完整時刻表：首班 ${first}、末班 ${last}、最快 ${fastest}` +
+      `${o}到${d}每日 ${n} 班列車完整時刻表：首班 ${first}、末班 ${last}` +
+      (fastest ? `、最快 ${fastest}` : "") +
       (price ? `、票價 ${price} 起` : "") +
       "。含轉乘與票價資訊。",
   },
@@ -364,10 +366,10 @@ ${[...families.entries()].map(([family, results]) => {
     : "";
 
   const faq: Array<{ q: string; a: string }> = [
-    { q: ui.faqDuration(origin, destination), a: ui.faqDurationA(origin, destination, fastest, typical) },
     { q: ui.faqFirstLast(origin, destination), a: ui.faqFirstLastA(stats.first, stats.last) },
     { q: ui.faqFrequency(origin, destination), a: ui.faqFrequencyA(stats.count) },
   ];
+  if (fastest) faq.unshift({ q: ui.faqDuration(origin, destination), a: ui.faqDurationA(origin, destination, fastest, typical) });
   if (cheapest) faq.push({ q: ui.faqPrice(origin, destination), a: ui.faqPriceA(cheapest) });
 
   const reverse = siblings.find((s) => s.origin === page.destination && s.destination === page.origin);

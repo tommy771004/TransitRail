@@ -69,7 +69,7 @@ export function slugifyStation(name: string): string {
 
 /**
  * Route files accumulate one dated day slice per scrape date. The page renders
- * the earliest stored date (the freshest scrape's "today"); dateless results
+ * the latest stored date (the freshest scrape's "today"); dateless results
  * (curated snapshots collapsed to a canonical day) are all kept.
  */
 function canonicalDaySlice(results: TransitResult[]): { date: string; slice: TransitResult[] } {
@@ -77,7 +77,7 @@ function canonicalDaySlice(results: TransitResult[]): { date: string; slice: Tra
   if (dates.length === 0) {
     return { date: "", slice: results };
   }
-  const date = dates[0];
+  const date = dates[dates.length - 1];
   return { date, slice: results.filter((r) => (r.date || "").trim() === date) };
 }
 
