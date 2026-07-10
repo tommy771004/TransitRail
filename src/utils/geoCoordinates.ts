@@ -169,19 +169,54 @@ const stationCoords: Record<string, GeoCoord> = {
   "Nantes": { lat: 47.2173, lng: -1.5419 },
 };
 
-export function getStationCoordinates(stationName: string, country: string): GeoCoord {
+function findKnownStationCoordinates(stationName: string): GeoCoord | undefined {
   const normalized = stationName.replace(/ Station| Underground Station| Railway Station/gi, "").trim();
-  
-  if (stationCoords[normalized]) {
-    return stationCoords[normalized];
-  }
+  if (stationCoords[normalized]) return stationCoords[normalized];
 
   const lowerStation = normalized.toLowerCase();
-  for (const [key, val] of Object.entries(stationCoords)) {
-    if (key.toLowerCase() === lowerStation) {
-      return val;
+  return Object.entries(stationCoords).find(([key]) => key.toLowerCase() === lowerStation)?.[1];
+}
+
+function distanceInKm(origin: GeoCoord, destination: GeoCoord): number {
+  const radians = (degrees: number) => (degrees * Math.PI) / 180;
+  const earthRadiusKm = 6371;
+  const deltaLat = radians(destination.lat - origin.lat);
+  const deltaLng = radians(destination.lng - origin.lng);
+  const latitudeFactor = Math.sin(deltaLat / 2) ** 2
+    + Math.cos(radians(origin.lat)) * Math.cos(radians(destination.lat)) * Math.sin(deltaLng / 2) ** 2;
+  return 2 * earthRadiusKm * Math.asin(Math.sqrt(latitudeFactor));
+}
+
+/**
+ * Finds the closest station only among stations with an explicit coordinate.
+ * It intentionally never falls back to a generated coordinate, because this
+ * function is used to make a real-world proximity claim to the traveller.
+ */
+export function findNearestKnownStation(
+  stationNames: string[],
+  latitude: number,
+  longitude: number,
+): { station: string; distanceKm: number; matchedStationCount: number } | undefined {
+  const origin = { lat: latitude, lng: longitude };
+  let nearest: { station: string; distanceKm: number } | undefined;
+  let matchedStationCount = 0;
+
+  for (const station of stationNames) {
+    const coordinates = findKnownStationCoordinates(station);
+    if (!coordinates) continue;
+    matchedStationCount += 1;
+    const distanceKm = distanceInKm(origin, coordinates);
+    if (!nearest || distanceKm < nearest.distanceKm) {
+      nearest = { station, distanceKm };
     }
   }
+
+  return nearest ? { ...nearest, matchedStationCount } : undefined;
+}
+
+export function getStationCoordinates(stationName: string, country: string): GeoCoord {
+  const knownCoordinates = findKnownStationCoordinates(stationName);
+  if (knownCoordinates) return knownCoordinates;
 
   const hub = countryHubs[country] || { lat: 46.8182, lng: 8.2275 }; // Switzerland / generic center
   let hash = 0;

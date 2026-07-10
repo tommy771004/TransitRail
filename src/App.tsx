@@ -35,6 +35,7 @@ import type {
   FavoriteRoute,
   KoreaFilter,
   SavedTrip,
+  SearchDataStatus,
   SearchHistoryItem,
   SearchParams,
   SearchResponse,
@@ -328,6 +329,7 @@ export default function App() {
   const activeTheme = countryThemes[activeCountry] || countryThemes.japan;
   const [searchParams, setSearchParams] = useState<SearchParams>(initialSearch);
   const [results, setResults] = useState<TransitResult[]>([]);
+  const [searchDataStatus, setSearchDataStatus] = useState<SearchDataStatus | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [isSearching, setIsSearching] = useState(false);
   const [sortMode, setSortMode] = useState<SortMode>("fastest");
@@ -345,7 +347,7 @@ export default function App() {
   const [savedTripsSearch, setSavedTripsSearch] = useState("");
   const [alerts, setAlerts] = useState<AppAlert[]>(() => loadJson("transitrail.alerts", []));
   const [selectedTrip, setSelectedTrip] = useState<TransitResult | null>(null);
-  const [seatChoice, setSeatChoice] = useState("standard");
+  const [seatChoice, setSeatChoice] = useState<NonNullable<SavedTrip["seatPreference"]>>("standard");
   const [stationPickTarget, setStationPickTarget] = useState<"origin" | "destination">("origin");
   const [originLineId, setOriginLineId] = useState<string | undefined>();
   const [showStations, setShowStations] = useState(false);
@@ -774,6 +776,7 @@ export default function App() {
     setView("results");
     setError(undefined);
     setResults([]);
+    setSearchDataStatus(undefined);
 
     const todayStr = providerDateValue(country);
     const queryParams: any = { ...params };
@@ -819,13 +822,18 @@ export default function App() {
       }
 
       const resultList = Array.isArray(data.results) ? data.results : [];
+      setSearchDataStatus(data.dataStatus);
 
       if (!res.ok) {
         setError(data.message || "Failed to fetch real-time data.");
         pushAlert(t("alerts.search_failed"), data.message || t("alerts.search_failed_body"));
       } else {
         setResults(resultList);
-        await set(`transit_search_${query}`, resultList).catch(console.error);
+        await set(`transit_search_${query}`, {
+          results: resultList,
+          dataStatus: data.dataStatus,
+          fetchedAt: new Date().toISOString(),
+        }).catch(console.error);
       }
 
       setHistory((current) => [
@@ -845,8 +853,18 @@ export default function App() {
     } catch {
       try {
         const cachedData = await get(`transit_search_${query}`);
-        if (cachedData && Array.isArray(cachedData) && cachedData.length > 0) {
-          setResults(cachedData);
+        const cached = Array.isArray(cachedData)
+          ? { results: cachedData, dataStatus: undefined, fetchedAt: undefined }
+          : cachedData && typeof cachedData === "object" && Array.isArray((cachedData as { results?: unknown }).results)
+            ? cachedData as { results: TransitResult[]; dataStatus?: SearchDataStatus; fetchedAt?: string }
+            : undefined;
+        if (cached && cached.results.length > 0) {
+          setResults(cached.results);
+          setSearchDataStatus(cached.dataStatus || {
+            kind: "snapshot",
+            source: "Offline cache (timestamp unavailable)",
+            checkedAt: cached.fetchedAt,
+          });
           pushAlert("Offline Mode", "Showing cached results from a previous search.");
           setIsSearching(false);
           return;
@@ -917,8 +935,13 @@ export default function App() {
   };
 
   const triggerReminder = (trip: SavedTrip) => {
-    const title = `Departure Approaching: ${trip.service}`;
-    const body = `Your trip from ${trip.origin} to ${trip.destination} departs in less than 15 minutes at ${trip.departureTime}!`;
+    const title = t("alerts.departure_approaching", { service: trip.service, defaultValue: `Departure approaching: ${trip.service}` });
+    const body = t("alerts.departure_approaching_body", {
+      origin: trip.origin,
+      destination: trip.destination,
+      time: trip.departureTime,
+      defaultValue: `Your trip from ${trip.origin} to ${trip.destination} departs in less than 15 minutes at ${trip.departureTime}.`,
+    });
 
     pushAlert(title, body);
 
@@ -963,7 +986,7 @@ export default function App() {
       if (Notification.permission === "default") {
         Notification.requestPermission().then((permission) => {
           if (permission === "granted") {
-            pushAlert("Notifications Enabled", "You will now receive desktop alerts for approaching trip departures.");
+            pushAlert(t("alerts.notifications_enabled", { defaultValue: "Browser notifications enabled" }), t("saved.reminder_limit"));
           }
         });
       }
@@ -982,10 +1005,10 @@ export default function App() {
     );
 
     pushAlert(
-      isEnabling ? "Reminder Set" : "Reminder Removed",
+      isEnabling ? t("alerts.reminder_set", { defaultValue: "Reminder enabled" }) : t("alerts.reminder_removed", { defaultValue: "Reminder removed" }),
       isEnabling
-        ? `We'll remind you 15m before ${trip.service} departs.`
-        : `Alert for ${trip.service} has been turned off.`
+        ? `${t("saved.reminder_limit")} ${trip.service}`
+        : t("alerts.reminder_removed_body", { service: trip.service, defaultValue: `Reminder for ${trip.service} has been turned off.` })
     );
   };
 
@@ -1023,12 +1046,31 @@ export default function App() {
 
   const openSeatPicker = (trip: TransitResult) => {
     setSelectedTrip(trip);
-    setSeatChoice(trip.seatClass === "first" ? "first" : "standard");
+    const savedPreference = savedTrips.find((savedTrip) => savedTrip.id === trip.id)?.seatPreference;
+    setSeatChoice(savedPreference || (trip.seatClass === "first" ? "first" : "standard"));
   };
 
   const confirmSeat = () => {
     if (!selectedTrip) return;
-    pushAlert(t("alerts.seat_selected"), `${selectedTrip.service} / ${t(`seat.${seatChoice}`)}`);
+    const trip = selectedTrip;
+    setSavedTrips((current) => {
+      const existing = current.find((item) => item.id === trip.id);
+      if (existing) {
+        return current.map((item) => item.id === trip.id ? { ...item, seatPreference: seatChoice } : item);
+      }
+      return [
+        {
+          ...trip,
+          savedAt: new Date().toISOString(),
+          date: searchParams.date || providerDateValue(trip.country),
+          seatPreference: seatChoice,
+          reminderEnabled: false,
+          reminderFired: false,
+        },
+        ...current,
+      ];
+    });
+    pushAlert(t("alerts.seat_selected"), `${trip.service} / ${t(`seat.${seatChoice}`)} — ${t("seat.saved_notice")}`);
     setSelectedTrip(null);
   };
 
@@ -1431,6 +1473,11 @@ export default function App() {
                     </div>
                   </div>
                 </div>
+
+                <p className="flex items-start gap-2 rounded-2xl border border-amber-200 bg-amber-50 px-3.5 py-3 text-xs leading-relaxed text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
+                  <Bell className="mt-0.5 h-4 w-4 shrink-0" />
+                  {t("saved.reminder_limit")}
+                </p>
                 
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -1523,6 +1570,11 @@ export default function App() {
                               </span>
                             </div>
                           )}
+                          {trip.seatPreference ? (
+                            <p className="mt-2 text-xs font-bold text-emerald-700 dark:text-emerald-400">
+                              {t("seat.title")}: {t(`seat.${trip.seatPreference}`)}
+                            </p>
+                          ) : null}
                         </div>
 
                         <div className="flex flex-col gap-1.5 shrink-0">
@@ -1533,7 +1585,7 @@ export default function App() {
                                 ? "border-amber-200 bg-amber-50 text-amber-600 hover:bg-amber-100 dark:border-amber-700 dark:bg-amber-900/20 dark:text-amber-400"
                                 : "border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
                             }`}
-                            title={trip.reminderEnabled ? "Disable departure alert" : "Enable 15m departure alert"}
+                            title={trip.reminderEnabled ? t("alerts.reminder_removed", { defaultValue: "Disable page-open reminder" }) : t("saved.reminder_limit")}
                             aria-label="Toggle reminder"
                           >
                             {trip.reminderEnabled ? <Bell className="h-3.5 w-3.5 text-amber-500" /> : <BellOff className="h-3.5 w-3.5" />}
@@ -1628,7 +1680,13 @@ export default function App() {
           transition={{ type: "spring", damping: 30, stiffness: 350, mass: 0.7 }}
           className="w-full flex-1 flex flex-col"
         >
-          {renderView()}
+          {view === "results" && !isSearching ? (
+            <div className="pt-14">
+              {searchDataStatus ? <SearchDataNotice status={searchDataStatus} language={i18n.language} /> : null}
+              {error || results.length === 0 ? <SearchRecoveryNotice language={i18n.language} onModify={() => setView("search")} /> : null}
+              {renderView()}
+            </div>
+          ) : renderView()}
         </motion.div>
       </AnimatePresence>
 
@@ -1848,21 +1906,28 @@ export default function App() {
               transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
               className="w-full max-w-md space-y-4 rounded-t-3xl bg-white p-6 sm:rounded-3xl dark:bg-slate-900 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="seat-preference-title"
             >
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-sm text-slate-500 dark:text-slate-400">{selectedTrip.service}</p>
-                  <h2 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">{t("seat.title")}</h2>
+                  <h2 id="seat-preference-title" className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">{t("seat.title")}</h2>
                 </div>
                 <button
                   onClick={() => setSelectedTrip(null)}
                   className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
+                  aria-label={t("feedback.close_btn", { defaultValue: "Close" })}
                 >
                   <X className="h-4 w-4" />
                 </button>
               </div>
+              <p className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
+                {t("seat.disclaimer")}
+              </p>
               <div className="grid grid-cols-2 gap-2">
-                {["standard", "window", "aisle", "first"].map((seat) => (
+                {(["standard", "window", "aisle", "first"] as const).map((seat) => (
                   <button
                     key={seat}
                     onClick={() => setSeatChoice(seat)}
@@ -1891,6 +1956,55 @@ export default function App() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+function SearchDataNotice({ status, language }: { status: SearchDataStatus; language: string }) {
+  const isChinese = language === "zh-TW";
+  const isOfflineCache = status.source.startsWith("Offline cache");
+  const copy = {
+    provider: isChinese ? "營運商資料服務" : "Transit provider data",
+    snapshot: isChinese ? "預先擷取的時刻快照" : "Pre-scraped timetable snapshot",
+    estimated: isChinese ? "路線推估（非正式時刻表）" : "Route estimate (not an official timetable)",
+    catalog: isChinese ? "站點目錄資料，非時刻表" : "Station catalog, not a timetable",
+  }[status.kind];
+  const detail = isOfflineCache
+    ? isChinese ? "這是之前搜尋的離線快取，可能已過期；恢復連線後請重新查詢。" : "This is a previous offline cache and may be stale; search again after reconnecting."
+    : status.kind === "estimated"
+    ? isChinese ? "請勿以此資料安排行程或購票。" : "Do not use this data to plan or purchase travel."
+    : status.kind === "snapshot"
+      ? isChinese ? "非即時資料；請在出發前向營運商確認。" : "Not live data; confirm with the operator before travel."
+      : status.kind === "catalog"
+        ? isChinese ? "此地區尚未提供可查詢的時刻表。" : "Timetable search is not available for this region."
+        : isChinese ? "營運商回應時間如下；實際班次仍以營運商為準。" : "Shown at the time of the provider response; confirm service details with the operator.";
+  const timestamp = status.updatedAt || status.checkedAt;
+
+  return (
+    <aside className={`mx-auto max-w-md px-4 pt-3 ${status.kind === "estimated" ? "text-amber-900 dark:text-amber-200" : "text-slate-700 dark:text-slate-300"}`} aria-live="polite">
+      <div className={`rounded-2xl border px-3.5 py-3 text-xs ${status.kind === "estimated" ? "border-amber-200 bg-amber-50 dark:border-amber-900/60 dark:bg-amber-950/30" : "border-slate-200 bg-white/85 dark:border-slate-800 dark:bg-slate-900/80"}`}>
+        <p className="font-bold">{isOfflineCache ? (isChinese ? "離線快取結果" : "Offline cached result") : copy}</p>
+        <p className="mt-1 leading-relaxed opacity-80">{detail}</p>
+        {timestamp ? <p className="mt-1.5 font-mono text-[10px] opacity-65">{isChinese ? "資料時間" : "Data time"}: {new Date(timestamp).toLocaleString(isChinese ? "zh-TW" : "en-US")}</p> : null}
+      </div>
+    </aside>
+  );
+}
+
+function SearchRecoveryNotice({ language, onModify }: { language: string; onModify: () => void }) {
+  const isChinese = language === "zh-TW";
+
+  return (
+    <aside className="mx-auto max-w-md px-4 pt-3" aria-live="polite">
+      <div className="rounded-2xl border border-sky-200 bg-sky-50/90 px-3.5 py-3 text-xs text-sky-950 dark:border-sky-900/70 dark:bg-sky-950/30 dark:text-sky-100">
+        <p className="font-bold">{isChinese ? "找不到可用班次" : "No supported timetable found"}</p>
+        <p className="mt-1 leading-relaxed opacity-80">
+          {isChinese ? "可嘗試不同日期或出發時間、改選附近站點，或交換起訖站後重新查詢。" : "Try another date or departure time, a nearby station, or reverse the origin and destination before searching again."}
+        </p>
+        <button type="button" onClick={onModify} className="mt-2 rounded-lg bg-sky-700 px-3 py-1.5 font-bold text-white hover:bg-sky-600 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400">
+          {isChinese ? "修改搜尋條件" : "Modify search"}
+        </button>
+      </div>
+    </aside>
   );
 }
 
@@ -1937,12 +2051,16 @@ function Panel({ title, onClose, children }: { title: string; onClose: () => voi
         transition={{ type: "spring", damping: 28, stiffness: 260, mass: 0.85 }}
         className="h-[100dvh] w-full max-w-sm overflow-y-auto overscroll-contain space-y-5 border-l border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
       >
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">{title}</h2>
           <button
             onClick={onClose}
             className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
+            aria-label="Close"
           >
             <X className="h-4 w-4" />
           </button>

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { MessageSquare, Send, AlertCircle, CheckCircle2, X } from "lucide-react";
+import { MessageSquare, Send, AlertCircle, CheckCircle2, X, MapPin } from "lucide-react";
 import { motion } from "motion/react";
 
 interface FeedbackViewProps {
@@ -22,24 +22,33 @@ export function FeedbackView({ onBack }: FeedbackViewProps) {
     longitude?: number;
     locationMethod?: string;
   }>({});
+  const [isLocating, setIsLocating] = useState(false);
+  const [locationStatus, setLocationStatus] = useState<"idle" | "attached" | "unavailable">("idle");
 
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocationData({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            locationMethod: "html5",
-          });
-        },
-        (error) => {
-          console.warn("Geolocation error:", error);
-        },
-        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
-      );
+  const attachLocation = () => {
+    if (!("geolocation" in navigator)) {
+      setLocationStatus("unavailable");
+      return;
     }
-  }, []);
+
+    setIsLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLocationData({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          locationMethod: "html5",
+        });
+        setLocationStatus("attached");
+        setIsLocating(false);
+      },
+      () => {
+        setLocationStatus("unavailable");
+        setIsLocating(false);
+      },
+      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 },
+    );
+  };
 
   const validate = (val: string) => {
     if (!val.trim()) {
@@ -120,6 +129,9 @@ export function FeedbackView({ onBack }: FeedbackViewProps) {
         transition={{ type: "spring", damping: 25, stiffness: 350 }}
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-md max-h-[90vh] overflow-y-auto rounded-[32px] shadow-2xl"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="feedback-title"
       >
       <div className="overflow-hidden rounded-[32px] bg-[#FCF9F2] shadow-sm ring-1 ring-slate-200/50 dark:bg-slate-900 dark:ring-slate-800">
         {status === "success" ? (
@@ -163,13 +175,14 @@ export function FeedbackView({ onBack }: FeedbackViewProps) {
             <div className="flex items-center justify-between border-b border-[#F0EBE1] px-6 py-5 dark:border-slate-800">
               <div className="flex items-center gap-3">
                 <MessageSquare className="h-5 w-5 text-[#5A7342] dark:text-[#8CB066]" />
-                <h2 className="text-lg font-black tracking-tight text-slate-800 dark:text-white">
+                <h2 id="feedback-title" className="text-lg font-black tracking-tight text-slate-800 dark:text-white">
                   {t("feedback.title", "意見回饋")}
                 </h2>
               </div>
               <button
                 onClick={onBack}
                 className="rounded-full p-2 text-slate-400 transition-colors hover:bg-slate-200/50 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300"
+                aria-label={t("feedback.close_btn", "Close")}
               >
                 <X className="h-5 w-5" />
               </button>
@@ -254,6 +267,25 @@ export function FeedbackView({ onBack }: FeedbackViewProps) {
                     className="w-full rounded-2xl border border-[#E5E0D8] bg-white px-4 py-3 text-sm font-medium text-slate-900 shadow-sm outline-none transition-all focus:border-[#6A8B42] focus:ring-4 focus:ring-[#6A8B42]/10 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:focus:border-[#8CB066] dark:focus:ring-[#8CB066]/10"
                     placeholder={t("feedback.contact_placeholder", "電子信箱、LINE ID 或其它聯絡管道")}
                   />
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3.5 dark:border-slate-700 dark:bg-slate-800/50">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-black text-slate-800 dark:text-slate-200">{t("feedback.location_title", "Attach location (optional)")}</p>
+                      <p className="mt-1 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">{t("feedback.location_privacy", "Your precise location is requested only after you choose to attach it and is sent with this feedback.")}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={attachLocation}
+                      disabled={isLocating || locationStatus === "attached"}
+                      className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-700"
+                    >
+                      <MapPin className="h-3.5 w-3.5" />
+                      {isLocating ? t("feedback.location_locating", "Locating...") : locationStatus === "attached" ? t("feedback.location_attached", "Location attached") : t("feedback.location_attach", "Attach")}
+                    </button>
+                  </div>
+                  {locationStatus === "unavailable" ? <p className="mt-2 text-[11px] font-semibold text-amber-700 dark:text-amber-300">{t("feedback.location_unavailable", "Location was not attached. You can still send feedback.")}</p> : null}
                 </div>
 
                 {status === "error" && (

@@ -68,13 +68,8 @@ export function MetroResultView({
               <span className="shrink-0 text-slate-400">&rarr;</span>
               <span className="truncate">{stationLabel(t, destination, country)}</span>
             </div>
-            <p className="mt-1 flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
-                <span className="h-2 w-2 rounded-full bg-emerald-600" />
-              </span>
-              {t("metro.live_mtr")}
-              <span className="font-mono text-slate-400 dark:text-slate-500">{date}</span>
+            <p className="mt-1 flex items-center gap-1.5 text-xs font-bold text-slate-500 dark:text-slate-400">
+              <span className="font-mono">{date}</span>
               {time ? <span className="font-mono text-slate-400 dark:text-slate-500">≥ {time}</span> : null}
             </p>
           </div>
@@ -193,13 +188,15 @@ export function MetroResultView({
                               {t("metro.towards", { destination: stationLabel(t, trip.headsign || destination, trip.country) })}
                             </p>
                           </div>
-                          <span className="flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-500/5 dark:bg-emerald-400/10 px-2.5 py-1 text-[10px] font-black text-emerald-700 dark:text-emerald-400">
-                            <span className="relative flex h-2 w-2">
-                              <span className="absolute h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
-                              <span className="h-2 w-2 rounded-full bg-emerald-600" />
+                          {trip.realtime ? (
+                            <span className="flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-500/5 dark:bg-emerald-400/10 px-2.5 py-1 text-[10px] font-black text-emerald-700 dark:text-emerald-400">
+                              <span className="relative flex h-2 w-2">
+                                <span className="absolute h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
+                                <span className="h-2 w-2 rounded-full bg-emerald-600" />
+                              </span>
+                              {t("metro.realtime")}
                             </span>
-                            {t("metro.realtime")}
-                          </span>
+                          ) : null}
                         </div>
 
                         <div className="mt-4 flex items-end justify-between gap-4">

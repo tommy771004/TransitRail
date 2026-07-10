@@ -257,7 +257,8 @@ const resources = {
         empty_title: "No saved trips",
         empty_body: "Save a result to keep it here for later.",
         remove: "Remove saved trip",
-        clear_all: "Clear All"
+        clear_all: "Clear All",
+        reminder_limit: "Departure reminders are checked only while this page remains open."
       },
       alerts: {
         empty_title: "No alerts",
@@ -267,7 +268,13 @@ const resources = {
         network_error: "Network error",
         network_error_body: "Could not connect to the transit service.",
         trip_saved: "Trip saved",
-        seat_selected: "Seat preference saved"
+        seat_selected: "Seat preference saved",
+        departure_approaching: "Departure approaching: {{service}}",
+        departure_approaching_body: "Your trip from {{origin}} to {{destination}} departs in less than 15 minutes at {{time}}.",
+        notifications_enabled: "Browser notifications enabled",
+        reminder_set: "Reminder enabled",
+        reminder_removed: "Reminder removed",
+        reminder_removed_body: "Reminder for {{service}} has been turned off."
       },
       feedback: {
         title: "Feedback",
@@ -281,6 +288,12 @@ const resources = {
         content_placeholder: "Please describe the problem you encountered or your suggestions and ideas...",
         contact: "Contact (Optional)",
         contact_placeholder: "Email, LINE ID or other contact methods",
+        location_title: "Attach location (optional)",
+        location_privacy: "Your precise location is requested only after you choose to attach it and is sent with this feedback.",
+        location_locating: "Locating...",
+        location_attached: "Location attached",
+        location_attach: "Attach",
+        location_unavailable: "Location was not attached. You can still send feedback.",
         submit: "Submit Feedback",
         success: "Thank you for your feedback!",
         success_title: "Submitted Successfully!",
@@ -356,11 +369,13 @@ const resources = {
       },
       seat: {
         title: "Seat preference",
+        disclaimer: "This saves a local preference only. It does not reserve a seat or create a booking.",
         standard: "Standard",
         window: "Window",
         aisle: "Aisle",
         first: "First class",
-        confirm: "Save preference"
+        confirm: "Save trip and preference",
+        saved_notice: "Saved locally only — no reservation has been made."
       },
       line: {},
       station: {
@@ -698,7 +713,8 @@ const resources = {
         empty_title: "尚無儲存行程",
         empty_body: "在結果頁儲存班次後，就能在這裡快速查看。",
         remove: "移除儲存行程",
-        clear_all: "清除全部"
+        clear_all: "清除全部",
+        reminder_limit: "出發提醒只會在此頁面保持開啟時檢查。"
       },
       alerts: {
         empty_title: "沒有通知",
@@ -708,7 +724,13 @@ const resources = {
         network_error: "網路錯誤",
         network_error_body: "無法連線到交通服務。",
         trip_saved: "已儲存行程",
-        seat_selected: "已儲存座位偏好"
+        seat_selected: "已儲存座位偏好",
+        departure_approaching: "即將出發：{{service}}",
+        departure_approaching_body: "{{origin}} 前往 {{destination}} 的班次將於 {{time}} 出發，距離出發不到 15 分鐘。",
+        notifications_enabled: "已啟用瀏覽器通知",
+        reminder_set: "已啟用提醒",
+        reminder_removed: "已移除提醒",
+        reminder_removed_body: "已關閉 {{service}} 的提醒。"
       },
       feedback: {
         title: "意見回饋",
@@ -722,6 +744,12 @@ const resources = {
         content_placeholder: "請描述您遇到的問題或您的建議與想法...",
         contact: "聯絡方式 (選填)",
         contact_placeholder: "電子信箱、LINE ID 或其它聯絡管道",
+        location_title: "附上位置（選填）",
+        location_privacy: "只有在您主動附上時，才會要求精確位置並隨此回饋送出。",
+        location_locating: "正在取得位置…",
+        location_attached: "已附上位置",
+        location_attach: "附上位置",
+        location_unavailable: "未附上位置，仍可照常送出回饋。",
         submit: "送出意見回饋",
         success: "感謝您的意見回饋！",
         success_title: "提交成功！",
@@ -797,11 +825,13 @@ const resources = {
       },
       seat: {
         title: "座位偏好",
+        disclaimer: "這只會儲存本機偏好，不會保留座位、建立訂位或完成購票。",
         standard: "標準座",
         window: "靠窗",
         aisle: "走道",
         first: "頭等艙",
-        confirm: "儲存偏好"
+        confirm: "儲存行程與偏好",
+        saved_notice: "僅儲存在此裝置，尚未完成訂位。"
       },
       line: {
         "Tōkaidō Shinkansen": "東海道新幹線",

@@ -80,6 +80,19 @@ export function loadScrapedData(): void {
   console.log(`[scraped] Loaded ${totalRoutes} routes across ${ALL_COUNTRIES.length} countries`);
 }
 
+/** Returns the newest route-snapshot timestamp loaded for a country, if known. */
+export function getScrapedCountryFreshness(country: Country): string | undefined {
+  if (!loaded) loadScrapedData();
+
+  const newest = (cache[country] || []).reduce<number | undefined>((latest, route) => {
+    const timestamp = Date.parse(route.scrapedAt);
+    if (!Number.isFinite(timestamp)) return latest;
+    return latest === undefined || timestamp > latest ? timestamp : latest;
+  }, undefined);
+
+  return newest === undefined ? undefined : new Date(newest).toISOString();
+}
+
 const key = (s: string) => s.toLowerCase().trim();
 
 function parseTime(t: string): number {

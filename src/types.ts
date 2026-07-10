@@ -81,6 +81,19 @@ export interface SearchResponse {
   results: TransitResult[];
   source?: string;
   message?: string;
+  dataStatus?: SearchDataStatus;
+}
+
+export type SearchDataKind = "provider" | "snapshot" | "estimated" | "catalog";
+
+/** Describes how a search result was produced without overstating its freshness. */
+export interface SearchDataStatus {
+  kind: SearchDataKind;
+  source: string;
+  /** The upstream or snapshot timestamp, when the source exposes one. */
+  updatedAt?: string;
+  /** When TransitRail queried an upstream provider. */
+  checkedAt?: string;
 }
 
 export interface LineStation {
@@ -106,6 +119,8 @@ export interface LinesResponse {
 export interface SavedTrip extends TransitResult {
   savedAt: string;
   date?: string;
+  /** Local preference only; it never represents a reservation with an operator. */
+  seatPreference?: "standard" | "window" | "aisle" | "first";
   reminderEnabled?: boolean;
   reminderFired?: boolean;
   posterSvg?: string;

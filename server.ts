@@ -23,20 +23,20 @@ import { getTflLines, getTflStations, searchTflJourney } from "./src/server/tfl"
 import { getMbtaLines, getMbtaStations, searchMbtaJourney } from "./src/server/mbta";
 import { searchBelgiumJourney } from "./src/server/belgium";
 import { searchNorwayJourney } from "./src/server/norway";
-import { findScrapedResults, loadScrapedData } from "./src/data/scraped";
+import { findScrapedResults, getScrapedCountryFreshness, loadScrapedData } from "./src/data/scraped";
 import { getCbcRates } from "./src/server/cbc";
 import { getExternalExchangeRates } from "./src/server/exchangeRates";
-import type { TransitLine } from "./src/types";
+import type { Country, SearchDataStatus, TransitLine } from "./src/types";
 import { db } from "./src/db";
 import { feedbacks, tnAuditLog } from "./src/db/schema";
 import { generateSeoulSubwayTimetable } from "./src/utils/seoulSubwayPathfinder";
-import { generateFallbackTimetable } from "./src/utils/fallbackPathfinder";
 import { newCountryStationLists } from "./src/data/scraped/stations";
 import { getStationsForCountry, getLinesForCountry } from "./src/server/catalog";
 import { searchSwissJourney } from "./src/server/swiss";
 import { enrichTransitResultsWithLineStations } from "./src/utils/metroEnricher";
 import { transferCatalog, getTransferInfo } from "./src/data/transfers";
 import { fetchOpenRouterWithFallback } from "./src/openRouterHelper";
+import { findNearestKnownStation } from "./src/utils/geoCoordinates";
 
 dotenv.config();
 
@@ -114,6 +114,40 @@ function readText(value: unknown) {
 
   const trimmed = value.trim();
   return trimmed ? trimmed : undefined;
+}
+
+function describeSearchData(source: string | undefined, country: string | undefined): SearchDataStatus {
+  const checkedAt = new Date().toISOString();
+
+  if (source === "scraped") {
+    return {
+      kind: "snapshot",
+      source: "Pre-scraped timetable snapshot",
+      updatedAt: country ? getScrapedCountryFreshness(country as Country) : undefined,
+    };
+  }
+
+  if (source === "Seoul Metro Pathfinder") {
+    return {
+      kind: "estimated",
+      source: "Seoul Metro route estimate",
+      checkedAt,
+    };
+  }
+
+  if (source?.includes("historical ridership station catalog")) {
+    return {
+      kind: "catalog",
+      source,
+      checkedAt,
+    };
+  }
+
+  return {
+    kind: "provider",
+    source: source || "Transit provider",
+    checkedAt,
+  };
 }
 
 function parseInteger(value: unknown) {
@@ -309,6 +343,7 @@ async function logTransitSearch(
       message?: string;
       results: any[];
       source?: string;
+      dataStatus?: SearchDataStatus;
     };
 
     if (countryValue === "malaysia") {
@@ -361,28 +396,10 @@ async function logTransitSearch(
     }
 
     if (!payload) {
-      try {
-        const countryLines = await getLinesForCountry(country as string);
-        if (countryLines && countryLines.length > 0) {
-          const fallbackResults = generateFallbackTimetable(countryLines, origin, destination, date, country as string);
-          if (fallbackResults && fallbackResults.length > 0) {
-            let filtered = fallbackResults;
-            if (timeValue && timeValue.match(/^\d{2}:\d{2}$/)) {
-              filtered = fallbackResults.filter(r => r.departureTime >= time);
-            }
-            payload = { results: filtered, source: "Dynamic Pathfinder Fallback" };
-          }
-        }
-      } catch (e) {
-        console.error("[search] Fallback pathfinder failed:", e);
-      }
-    }
-
-    if (!payload) {
       statusCode = 404;
       payload = {
         error: "No data available",
-        message: `No scraped timetable data found for ${origin} → ${destination}. The daily scraper may not have covered this route yet.`,
+        message: `No supported timetable data found for ${origin} → ${destination}. This route may not be covered yet.`,
         results: [],
         source: "scraped",
       };
@@ -398,6 +415,8 @@ async function logTransitSearch(
         console.error(e);
       }
     }
+
+    payload.dataStatus = describeSearchData(payload.source, countryValue);
 
     await logTransitSearch(req, {
       origin,
@@ -526,6 +545,8 @@ async function logTransitSearch(
     let statusCode = 200;
     let payload: {
       station?: string;
+      distanceKm?: number;
+      matchedStationCount?: number;
       error?: string;
     };
 
@@ -538,31 +559,18 @@ async function logTransitSearch(
         if (stations.length === 0) {
           statusCode = 404;
           payload = { error: "No stations found for country" };
-        } else if (!process.env.GEMINI_API_KEY) {
-          statusCode = 501;
-          payload = { error: "Gemini API key not configured." };
         } else {
-          const prompt = `Given the user's location (latitude: ${latitudeValue}, longitude: ${longitudeValue}) in ${countryValue}, which of the following train stations is physically closest to them?
-
-List of stations:
-${stations.join(", ")}
-
-Respond ONLY with the exact name of the closest station from the list above. Do not include any other text or explanation.`;
-
-          const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-          const response = await ai.models.generateContent({
-            model: "gemini-3.1-pro-preview",
-            contents: prompt,
-            config: {
-              thinkingConfig: {
-                thinkingLevel: ThinkingLevel.HIGH,
-              }
-            }
-          });
-          
-          let nearest = response.text?.trim() || "";
-          nearest = nearest.replace(/^["']|["']$/g, '');
-          payload = { station: nearest };
+          const nearest = findNearestKnownStation(stations, latitudeValue, longitudeValue);
+          if (!nearest) {
+            statusCode = 404;
+            payload = { error: "No verified station coordinates are available for this country." };
+          } else {
+            payload = {
+              station: nearest.station,
+              distanceKm: Math.round(nearest.distanceKm * 100) / 100,
+              matchedStationCount: nearest.matchedStationCount,
+            };
+          }
         }
       } catch (e) {
         console.error(e);
