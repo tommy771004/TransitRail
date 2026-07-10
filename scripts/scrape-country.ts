@@ -37,6 +37,8 @@ async function main() {
     united_states: new metro.UnitedStatesScraper(),
     germany: new metro.GermanyScraper(),
     france: new metro.FranceScraper(),
+    belgium: new metro.BelgiumScraper(),
+    norway: new metro.NorwayScraper(),
     switzerland: new metro.SwitzerlandScraper(),
   };
   const country = requestedCountry as keyof typeof scraperByCountry | undefined;

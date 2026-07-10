@@ -26,6 +26,8 @@ const COUNTRY_PATHS: Record<string, string> = {
   united_states: "/united-states",
   germany: "/germany",
   france: "/france",
+  belgium: "/belgium",
+  norway: "/norway",
   switzerland: "/switzerland",
 };
 

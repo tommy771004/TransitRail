@@ -1,4 +1,5 @@
 import type { Country } from "../types";
+import { norwayFeaturedStations } from "./norway";
 
 export const countryFlags: Record<string, string> = {
   japan: "🇯🇵",
@@ -12,6 +13,8 @@ export const countryFlags: Record<string, string> = {
   germany: "🇩🇪",
   france: "🇫🇷",
   switzerland: "🇨🇭",
+  belgium: "🇧🇪",
+  norway: "🇳🇴",
   china: "🇨🇳",
   taiwan: "🇹🇼",
 };
@@ -28,6 +31,8 @@ export const countryOptions: Country[] = [
   "united_states",
   "germany",
   "france",
+  "belgium",
+  "norway",
   "switzerland",
 ];
 
@@ -166,6 +171,28 @@ export const countryConfig: Record<Country, {
     liveOnly: false,
     timeZone: "Europe/Paris",
   },
+  belgium: {
+    labelKey: "search.belgium",
+    provider: "iRail / SNCB-NMBS",
+    originPlaceholder: "Brussels-Central",
+    destinationPlaceholder: "Antwerpen-Centraal",
+    featuredStations: ["Brussels-Central", "Brussels-South/Brussels-Midi", "Brussels-North", "Antwerpen-Centraal", "Gent-Sint-Pieters"],
+    promptName: "比利時",
+    connected: true,
+    liveOnly: false,
+    timeZone: "Europe/Brussels",
+  },
+  norway: {
+    labelKey: "search.norway",
+    provider: "Entur Journey Planner",
+    originPlaceholder: "Oslo S",
+    destinationPlaceholder: "Bergen stasjon",
+    featuredStations: norwayFeaturedStations.slice(0, 5),
+    promptName: "挪威",
+    connected: true,
+    liveOnly: false,
+    timeZone: "Europe/Oslo",
+  },
   switzerland: {
     labelKey: "search.switzerland",
     provider: "OpenTransportData Swiss (OJP 2.0)",
@@ -203,6 +230,8 @@ export const countryCurrency: Record<Country, string> = {
   france: "EUR",
   switzerland: "CHF",
   china: "CNY",
+  belgium: "EUR",
+  norway: "NOK",
 };
 
 export const allCurrencies = [
@@ -356,6 +385,30 @@ export const countryThemes: Record<Country, {
     indicatorBg: "bg-violet-500",
     dateSelected: "bg-violet-50 dark:bg-violet-950/30 border-violet-500 dark:border-violet-500/50 text-violet-600 dark:text-violet-400 shadow-sm",
     dateLabelSelected: "text-violet-500/80 dark:text-violet-400/80",
+  },
+  belgium: {
+    primaryBgLight: "from-yellow-500/5",
+    primaryBgDark: "dark:from-yellow-950/20",
+    buttonBg: "bg-yellow-600 hover:bg-yellow-500 dark:bg-yellow-600 dark:hover:bg-yellow-500",
+    buttonShadow: "shadow-[0_4px_14px_rgba(202,138,4,0.28)] dark:shadow-[0_4px_14px_rgba(202,138,4,0.14)]",
+    textActive: "text-yellow-700 dark:text-yellow-300",
+    borderActive: "border-yellow-600",
+    badgeBg: "border-yellow-600 bg-yellow-50 text-yellow-700 dark:border-yellow-500/30 dark:bg-yellow-950/30 dark:text-yellow-300",
+    indicatorBg: "bg-yellow-600",
+    dateSelected: "bg-yellow-50 dark:bg-yellow-950/30 border-yellow-600 dark:border-yellow-500/50 text-yellow-700 dark:text-yellow-300 shadow-sm",
+    dateLabelSelected: "text-yellow-600/80 dark:text-yellow-300/80",
+  },
+  norway: {
+    primaryBgLight: "from-rose-500/5",
+    primaryBgDark: "dark:from-rose-950/20",
+    buttonBg: "bg-rose-700 hover:bg-rose-600 dark:bg-rose-700 dark:hover:bg-rose-600",
+    buttonShadow: "shadow-[0_4px_14px_rgba(190,24,93,0.28)] dark:shadow-[0_4px_14px_rgba(190,24,93,0.16)]",
+    textActive: "text-rose-700 dark:text-rose-300",
+    borderActive: "border-rose-600",
+    badgeBg: "border-rose-600 bg-rose-50 text-rose-700 dark:border-rose-500/30 dark:bg-rose-950/30 dark:text-rose-300",
+    indicatorBg: "bg-rose-600",
+    dateSelected: "bg-rose-50 dark:bg-rose-950/30 border-rose-600 dark:border-rose-500/40 text-rose-700 dark:text-rose-300 shadow-sm",
+    dateLabelSelected: "text-rose-600/80 dark:text-rose-300/80",
   },
   switzerland: {
     primaryBgLight: "from-rose-500/5",

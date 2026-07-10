@@ -13,7 +13,7 @@ import { stationLabel } from "../utils/stationLabel";
 import { TransitIcon, formatPlatform } from "./TransitIcon";
 
 interface LiveRailResultViewProps {
-  market: "london" | "boston" | "switzerland";
+  market: "london" | "boston" | "switzerland" | "belgium" | "norway";
   origin: string;
   destination: string;
   date: string;
@@ -53,9 +53,11 @@ export function LiveRailResultView({
   const { t } = useTranslation();
   const isBoston = market === "boston";
   const isSwiss = market === "switzerland";
-  const copyKey = isBoston ? "boston" : isSwiss ? "switzerland" : "london";
-  const country: Country = isBoston ? "united_states" : isSwiss ? "switzerland" : "united_kingdom";
-  const fallbackAccent = isSwiss ? "#D52B1E" : country === "united_kingdom" ? "#2563EB" : "#10B981";
+  const isBelgium = market === "belgium";
+  const isNorway = market === "norway";
+  const copyKey = isBoston ? "boston" : isSwiss ? "switzerland" : isBelgium ? "belgium" : isNorway ? "norway" : "london";
+  const country: Country = isBoston ? "united_states" : isSwiss ? "switzerland" : isBelgium ? "belgium" : isNorway ? "norway" : "united_kingdom";
+  const fallbackAccent = isSwiss ? "#D52B1E" : isBelgium ? "#E2001A" : isNorway ? "#8B1D3D" : country === "united_kingdom" ? "#2563EB" : "#10B981";
 
   return (
     <main className="min-h-screen bg-transparent pb-28 pt-14">
@@ -72,7 +74,7 @@ export function LiveRailResultView({
                 <span className={`absolute h-full w-full animate-ping rounded-full opacity-60 ${isSwiss ? "bg-rose-500" : "bg-emerald-500"}`} />
                 <span className={`h-2 w-2 rounded-full ${isSwiss ? "bg-rose-600" : "bg-emerald-600"}`} />
               </span>
-              {t(`${copyKey}.official_data`)}
+              {t(`${copyKey}.official_data`, { defaultValue: isBelgium ? "Official iRail timetable data" : "Official timetable data" })}
               <span className="font-mono text-slate-400 dark:text-slate-500">{date}</span>
               {time ? <span className="font-mono text-slate-400 dark:text-slate-500">≥ {time}</span> : null}
               {isSwiss ? <span className="rounded-full bg-rose-700 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.18em] text-white dark:bg-rose-500 dark:text-slate-950">OJP 2.0</span> : null}

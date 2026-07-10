@@ -4,6 +4,8 @@ import { countryOptions } from "../../src/data/countries";
 import { syncScrapedMetadata } from "./metadata";
 import { syncMalaysiaStationCatalog } from "./malaysia";
 import {
+  BelgiumScraper,
+  NorwayScraper,
   ChinaScraper,
   FranceScraper,
   GermanyScraper,
@@ -30,6 +32,8 @@ export async function runAllScrapers(dates: string | string[]): Promise<void> {
     new UnitedStatesScraper(),
     new GermanyScraper(),
     new FranceScraper(),
+    new BelgiumScraper(),
+    new NorwayScraper(),
     new SwitzerlandScraper(),
   ];
   try {

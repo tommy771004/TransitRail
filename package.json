@@ -22,6 +22,8 @@
     "scrape:united_states": "tsx scripts/scrape-country.ts united_states",
     "scrape:germany": "tsx scripts/scrape-country.ts germany",
     "scrape:france": "tsx scripts/scrape-country.ts france",
+    "scrape:belgium": "tsx scripts/scrape-country.ts belgium",
+    "scrape:norway": "tsx scripts/scrape-country.ts norway",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"
   },

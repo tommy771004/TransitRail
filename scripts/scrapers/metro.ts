@@ -2,7 +2,11 @@ import { searchHongKongMtr } from "../../src/server/hongKongMtr";
 import { searchMbtaJourney } from "../../src/server/mbta";
 import { searchTflJourney } from "../../src/server/tfl";
 import { searchSwissJourney } from "../../src/server/swiss";
+import { searchBelgiumJourney } from "../../src/server/belgium";
+import { searchNorwayJourney } from "../../src/server/norway";
 import {
+  belgiumRoutes,
+  norwayRoutes,
   chinaRoutes,
   franceRoutes,
   germanyRoutes,
@@ -60,6 +64,18 @@ export class GermanyScraper extends SnapshotScraper {
 export class FranceScraper extends SnapshotScraper {
   constructor() {
     super("SNCF", "france", franceRoutes);
+  }
+}
+
+export class BelgiumScraper extends ProviderBackedScraper {
+  constructor() {
+    super("iRail", "belgium", belgiumRoutes, searchBelgiumJourney);
+  }
+}
+
+export class NorwayScraper extends ProviderBackedScraper {
+  constructor() {
+    super("Entur Journey Planner", "norway", norwayRoutes, searchNorwayJourney);
   }
 }
 

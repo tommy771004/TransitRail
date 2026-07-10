@@ -20,6 +20,8 @@ import {
 } from "./src/data/metroLines";
 import { getTflLines, getTflStations, searchTflJourney } from "./src/server/tfl";
 import { getMbtaLines, getMbtaStations, searchMbtaJourney } from "./src/server/mbta";
+import { searchBelgiumJourney } from "./src/server/belgium";
+import { searchNorwayJourney } from "./src/server/norway";
 import { findScrapedResults, loadScrapedData } from "./src/data/scraped";
 import { getCbcRates } from "./src/server/cbc";
 import { getExternalExchangeRates } from "./src/server/exchangeRates";
@@ -266,6 +268,14 @@ async function logTransitSearch(
       payload = providerResponse.body;
     } else if (countryValue === "united_states") {
       const providerResponse = await searchMbtaJourney(origin, destination, date);
+      statusCode = providerResponse.status;
+      payload = providerResponse.body;
+    } else if (countryValue === "belgium") {
+      const providerResponse = await searchBelgiumJourney(origin, destination, date, timeValue);
+      statusCode = providerResponse.status;
+      payload = providerResponse.body;
+    } else if (countryValue === "norway") {
+      const providerResponse = await searchNorwayJourney(origin, destination, date, timeValue);
       statusCode = providerResponse.status;
       payload = providerResponse.body;
     } else if (countryValue === "switzerland") {

@@ -1,0 +1,298 @@
+{
+  "origin": "Brussels-Central",
+  "destination": "Antwerpen-Centraal",
+  "date": "2026-07-10",
+  "scrapedAt": "2026-07-10T04:03:21.290Z",
+  "source": "https://api.irail.be",
+  "results": [
+    {
+      "id": "2026-07-10-be-irail-0",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 4505",
+      "trainType": "IC",
+      "durationMinutes": 41,
+      "departureTime": "06:25",
+      "arrivalTime": "07:06",
+      "origin": "Brussels-Central",
+      "originLat": 50.845658,
+      "originLng": 4.356801,
+      "destination": "Antwerp-Central",
+      "destLat": 51.2172,
+      "destLng": 4.421101,
+      "direct": true,
+      "stops": [
+        "Brussels-North",
+        "Mechelen",
+        "Antwerp-Berchem"
+      ],
+      "platform": "5",
+      "headsign": {
+        "name": "Antwerp-Central"
+      },
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "transferStations": [],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-be-irail-1",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2005",
+      "trainType": "IC",
+      "durationMinutes": 41,
+      "departureTime": "06:55",
+      "arrivalTime": "07:36",
+      "origin": "Brussels-Central",
+      "originLat": 50.845658,
+      "originLng": 4.356801,
+      "destination": "Antwerp-Central",
+      "destLat": 51.2172,
+      "destLng": 4.421101,
+      "direct": true,
+      "stops": [
+        "Brussels-North",
+        "Mechelen",
+        "Antwerp-Berchem"
+      ],
+      "platform": "5",
+      "headsign": {
+        "name": "Essen"
+      },
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "transferStations": [],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-be-irail-2",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 3106",
+      "trainType": "IC",
+      "durationMinutes": 49,
+      "departureTime": "07:04",
+      "arrivalTime": "07:53",
+      "origin": "Brussels-Central",
+      "originLat": 50.845658,
+      "originLng": 4.356801,
+      "destination": "Antwerp-Central",
+      "destLat": 51.2172,
+      "destLng": 4.421101,
+      "direct": true,
+      "stops": [
+        "Brussels-North",
+        "Vilvoorde",
+        "Mechelen",
+        "Mechelen-Nekkerspoel",
+        "Mortsel-Oude God",
+        "Antwerp-Berchem"
+      ],
+      "platform": "5",
+      "headsign": {
+        "name": "Antwerp-Central"
+      },
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "transferStations": [],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-be-irail-3",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 4506",
+      "trainType": "IC",
+      "durationMinutes": 41,
+      "departureTime": "07:25",
+      "arrivalTime": "08:06",
+      "origin": "Brussels-Central",
+      "originLat": 50.845658,
+      "originLng": 4.356801,
+      "destination": "Antwerp-Central",
+      "destLat": 51.2172,
+      "destLng": 4.421101,
+      "direct": true,
+      "stops": [
+        "Brussels-North",
+        "Mechelen",
+        "Antwerp-Berchem"
+      ],
+      "platform": "5",
+      "headsign": {
+        "name": "Antwerp-Central"
+      },
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "transferStations": [],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-be-irail-4",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2829 + EUR 9303",
+      "trainType": "IC + EUR",
+      "durationMinutes": 44,
+      "departureTime": "07:43",
+      "arrivalTime": "08:27",
+      "origin": "Brussels-Central",
+      "originLat": 50.845658,
+      "originLng": 4.356801,
+      "destination": "Antwerp-Central",
+      "destLat": 51.2172,
+      "destLng": 4.421101,
+      "direct": false,
+      "stops": [],
+      "platform": "2",
+      "headsign": {
+        "name": "Amsterdam CS"
+      },
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 2829",
+          "lineCode": "BE.NMBS.IC2829",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-Central",
+          "originLat": 50.845658,
+          "originLng": 4.356801,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "07:43",
+          "arrivalTime": "07:47",
+          "durationMinutes": 4,
+          "platform": "2",
+          "headsign": {
+            "name": "Knokke"
+          }
+        },
+        {
+          "lineName": "EUR 9303",
+          "lineCode": "BE.NMBS.EUR9303",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Antwerp-Central",
+          "destLat": 51.2172,
+          "destLng": 4.421101,
+          "departureTime": "07:53",
+          "arrivalTime": "08:27",
+          "durationMinutes": 34,
+          "platform": "3",
+          "headsign": {
+            "name": "Amsterdam CS"
+          }
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-be-irail-5",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 3628 + EUR 9303",
+      "trainType": "IC + EUR",
+      "durationMinutes": 44,
+      "departureTime": "07:43",
+      "arrivalTime": "08:27",
+      "origin": "Brussels-Central",
+      "originLat": 50.845658,
+      "originLng": 4.356801,
+      "destination": "Antwerp-Central",
+      "destLat": 51.2172,
+      "destLng": 4.421101,
+      "direct": false,
+      "stops": [],
+      "platform": "4",
+      "headsign": {
+        "name": "Amsterdam CS"
+      },
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 3628",
+          "lineCode": "BE.NMBS.IC3628",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-Central",
+          "originLat": 50.845658,
+          "originLng": 4.356801,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "07:43",
+          "arrivalTime": "07:47",
+          "durationMinutes": 4,
+          "platform": "4",
+          "headsign": {
+            "name": "Ghent-Sint-Pieters"
+          }
+        },
+        {
+          "lineName": "EUR 9303",
+          "lineCode": "BE.NMBS.EUR9303",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Antwerp-Central",
+          "destLat": 51.2172,
+          "destLng": 4.421101,
+          "departureTime": "07:53",
+          "arrivalTime": "08:27",
+          "durationMinutes": 34,
+          "platform": "3",
+          "headsign": {
+            "name": "Amsterdam CS"
+          }
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-be-irail-6",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2006",
+      "trainType": "IC",
+      "durationMinutes": 41,
+      "departureTime": "07:55",
+      "arrivalTime": "08:36",
+      "origin": "Brussels-Central",
+      "originLat": 50.845658,
+      "originLng": 4.356801,
+      "destination": "Antwerp-Central",
+      "destLat": 51.2172,
+      "destLng": 4.421101,
+      "direct": true,
+      "stops": [
+        "Brussels-North",
+        "Mechelen",
+        "Antwerp-Berchem"
+      ],
+      "platform": "5",
+      "headsign": {
+        "name": "Essen"
+      },
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "transferStations": [],
+      "date": "2026-07-10"
+    }
+  ]
+}

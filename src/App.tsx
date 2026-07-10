@@ -65,6 +65,8 @@ const seoCountryPathMap: Record<Country, string> = {
   united_states: "/united-states",
   germany: "/germany",
   france: "/france",
+  belgium: "/belgium",
+  norway: "/norway",
   switzerland: "/switzerland",
 };
 
@@ -94,6 +96,8 @@ function countryFromPath(pathname: string): Country | undefined {
     "/united_states": "united_states",
     "/germany": "germany",
     "/france": "france",
+    "/belgium": "belgium",
+    "/norway": "norway",
     "/switzerland": "switzerland",
   };
 
@@ -304,6 +308,8 @@ export default function App() {
       if (tz.includes("New_York") || tz.includes("Chicago") || tz.includes("Denver") || tz.includes("Los_Angeles") || tz.includes("Phoenix") || tz.includes("Detroit") || tz.includes("Indianapolis") || tz.includes("Anchorage") || tz.includes("Honolulu")) return "united_states";
       if (tz.includes("Berlin") || tz.includes("Europe/Berlin")) return "germany";
       if (tz.includes("Paris") || tz.includes("Europe/Paris")) return "france";
+      if (tz.includes("Brussels")) return "belgium";
+      if (tz.includes("Oslo")) return "norway";
       if (tz.includes("Shanghai") || tz.includes("Chongqing") || tz.includes("Harbin") || tz.includes("Urumqi")) return "china";
     } catch (e) {
       console.error("Timezone detection error", e);
@@ -1198,6 +1204,42 @@ export default function App() {
           return (
             <LiveRailResultView
               market="london"
+              origin={searchParams.origin}
+              destination={searchParams.destination}
+              date={searchParams.date}
+              time={searchParams.time}
+              error={error}
+              results={visibleResults}
+              savedIds={savedIds}
+              onModify={() => setView("search")}
+              onSave={toggleSaveTrip}
+              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
+              formatPrice={formatTripPrice}
+            />
+          );
+        }
+        if (searchParams.country === "belgium") {
+          return (
+            <LiveRailResultView
+              market="belgium"
+              origin={searchParams.origin}
+              destination={searchParams.destination}
+              date={searchParams.date}
+              time={searchParams.time}
+              error={error}
+              results={visibleResults}
+              savedIds={savedIds}
+              onModify={() => setView("search")}
+              onSave={toggleSaveTrip}
+              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
+              formatPrice={formatTripPrice}
+            />
+          );
+        }
+        if (searchParams.country === "norway") {
+          return (
+            <LiveRailResultView
+              market="norway"
               origin={searchParams.origin}
               destination={searchParams.destination}
               date={searchParams.date}

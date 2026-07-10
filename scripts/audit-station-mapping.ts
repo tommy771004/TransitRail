@@ -15,6 +15,7 @@ import { japanStations, koreaStations } from "../src/data/stations";
 import { hongKongStations } from "../src/data/hongKongMtr";
 import { seoulSubwayStationNames } from "../src/data/seoulSubway";
 import { newCountryStationLists } from "../src/data/scraped/stations";
+import { norwayFeaturedStations } from "../src/data/norway";
 import {
   singaporeMrtLines,
   thailandTransitLines,
@@ -27,7 +28,8 @@ import type { TransitLine } from "../src/types";
 const DATA_DIR = resolve("src/data/scraped");
 
 // Mirror server.ts getStationsForCountry() for the statically-defined countries.
-// (UK/US menus come live from TfL/MBTA APIs and are checked separately below.)
+// UK, US, and Belgium menus come from provider APIs and are checked separately
+// below: their complete catalog is not available in an offline audit run.
 function menuStations(country: string): string[] | null {
   if (country === "japan") return japanStations;
   if (country === "korea") return Array.from(new Set([...koreaStations, ...seoulSubwayStationNames]));
@@ -43,7 +45,8 @@ function menuStations(country: string): string[] | null {
     const fromLines = (lineSets[country] || []).flatMap((line) => line.stations.map((s) => s.name));
     return Array.from(new Set([...newCountryStationLists[country], ...fromLines]));
   }
-  return null; // UK / US: live provider menu
+  if (country === "norway") return norwayFeaturedStations;
+  return null; // UK / US / Belgium: provider-backed station menu
 }
 
 interface ScrapedFile {
@@ -67,7 +70,7 @@ function scrapedRoutes(country: string): ScrapedFile[] {
 
 const COUNTRIES = [
   "japan", "korea", "singapore", "thailand", "hong_kong",
-  "united_kingdom", "united_states", "germany", "france", "china",
+  "united_kingdom", "united_states", "germany", "france", "belgium", "norway", "china",
 ];
 
 let totalMismatch = 0;

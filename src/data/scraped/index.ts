@@ -41,7 +41,7 @@ const ACTUAL_DATA_DIR = resolveDataDir();
 const ALL_COUNTRIES: Country[] = [
   "japan", "korea", "singapore", "thailand",
   "hong_kong", "united_kingdom", "united_states",
-  "germany", "france", "china", "switzerland",
+  "germany", "france", "belgium", "norway", "china", "switzerland",
 ];
 
 let cache: Record<string, ScrapedRouteData[]> = {};
@@ -133,8 +133,21 @@ function normalizeTransferLegTimes(result: TransitResult): TransitResult {
   };
 }
 
+function normalizeHeadsigns(result: TransitResult): TransitResult {
+  const asText = (value: unknown) => {
+    if (typeof value === "string") return value;
+    if (value && typeof value === "object" && "name" in value && typeof value.name === "string") return value.name;
+    return undefined;
+  };
+  return {
+    ...result,
+    headsign: asText(result.headsign),
+    legs: result.legs?.map((leg) => ({ ...leg, headsign: asText(leg.headsign) })),
+  };
+}
+
 function normalizeResults(results: TransitResult[]): TransitResult[] {
-  return results.map(normalizeTransferLegTimes);
+  return results.map((result) => normalizeTransferLegTimes(normalizeHeadsigns(result)));
 }
 
 interface RouteEdge {

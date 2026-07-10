@@ -1,0 +1,362 @@
+{
+  "origin": "Brugge",
+  "destination": "Liège-Guillemins",
+  "date": "2026-07-10",
+  "scrapedAt": "2026-07-10T04:03:23.647Z",
+  "source": "https://api.irail.be",
+  "results": [
+    {
+      "id": "2026-07-10-be-irail-0",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2805",
+      "trainType": "IC",
+      "durationMinutes": 162,
+      "departureTime": "06:11",
+      "arrivalTime": "08:53",
+      "origin": "Brugge",
+      "originLat": 51.197226,
+      "originLng": 3.216726,
+      "destination": "Liège-Guillemins",
+      "destLat": 50.62455,
+      "destLng": 5.566695,
+      "direct": true,
+      "stops": [
+        "Aalter",
+        "Ghent-Sint-Pieters",
+        "Brussels-South/Brussels-Midi",
+        "Brussels-Central",
+        "Brussels-North",
+        "Brussels Airport - Zaventem",
+        "Leuven",
+        "Tienen",
+        "Landen",
+        "Waremme",
+        "Ans"
+      ],
+      "platform": "5",
+      "headsign": {
+        "name": "Liège-Guillemins"
+      },
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "transferStations": [],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-be-irail-1",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 1806 + IC 406",
+      "trainType": "IC + IC",
+      "durationMinutes": 126,
+      "departureTime": "06:25",
+      "arrivalTime": "08:31",
+      "origin": "Brugge",
+      "originLat": 51.197226,
+      "originLng": 3.216726,
+      "destination": "Liège-Guillemins",
+      "destLat": 50.62455,
+      "destLng": 5.566695,
+      "direct": false,
+      "stops": [
+        "Brussels-South/Brussels-Midi",
+        "Brussels-Central",
+        "Brussels-North",
+        "Leuven",
+        "Ans"
+      ],
+      "platform": "9",
+      "headsign": {
+        "name": "Welkenraedt"
+      },
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 1806",
+          "lineCode": "BE.NMBS.IC1806",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brugge",
+          "originLat": 51.197226,
+          "originLng": 3.216726,
+          "destination": "Ghent-Sint-Pieters",
+          "destLat": 51.035896,
+          "destLng": 3.710675,
+          "departureTime": "06:25",
+          "arrivalTime": "06:49",
+          "durationMinutes": 24,
+          "platform": "9",
+          "headsign": {
+            "name": "Antwerp-Central"
+          }
+        },
+        {
+          "lineName": "IC 406",
+          "lineCode": "BE.NMBS.IC406",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Ghent-Sint-Pieters",
+          "originLat": 51.035896,
+          "originLng": 3.710675,
+          "destination": "Liège-Guillemins",
+          "destLat": 50.62455,
+          "destLng": 5.566695,
+          "departureTime": "06:55",
+          "arrivalTime": "08:31",
+          "durationMinutes": 96,
+          "platform": "9",
+          "headsign": {
+            "name": "Welkenraedt"
+          },
+          "stopCount": 5,
+          "stops": [
+            "Brussels-South/Brussels-Midi",
+            "Brussels-Central",
+            "Brussels-North",
+            "Leuven",
+            "Ans"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Ghent-Sint-Pieters"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-be-irail-2",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 506",
+      "trainType": "IC",
+      "durationMinutes": 119,
+      "departureTime": "06:59",
+      "arrivalTime": "08:59",
+      "origin": "Brugge",
+      "originLat": 51.197226,
+      "originLng": 3.216726,
+      "destination": "Liège-Guillemins",
+      "destLat": 50.62455,
+      "destLng": 5.566695,
+      "direct": true,
+      "stops": [
+        "Ghent-Sint-Pieters",
+        "Brussels-South/Brussels-Midi",
+        "Brussels-Central",
+        "Brussels-North",
+        "Leuven"
+      ],
+      "platform": "9",
+      "headsign": {
+        "name": "Eupen"
+      },
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "transferStations": [],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-be-irail-3",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2806 + ICE 13",
+      "trainType": "IC + ICE",
+      "durationMinutes": 121,
+      "departureTime": "07:11",
+      "arrivalTime": "09:12",
+      "origin": "Brugge",
+      "originLat": 51.197226,
+      "originLng": 3.216726,
+      "destination": "Liège-Guillemins",
+      "destLat": 50.62455,
+      "destLng": 5.566695,
+      "direct": false,
+      "stops": [
+        "Aalter",
+        "Ghent-Sint-Pieters",
+        "Brussels-North"
+      ],
+      "platform": "9",
+      "headsign": {
+        "name": "Frankfurt am Main Hbf"
+      },
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 2806",
+          "lineCode": "BE.NMBS.IC2806",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brugge",
+          "originLat": 51.197226,
+          "originLng": 3.216726,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "07:11",
+          "arrivalTime": "08:11",
+          "durationMinutes": 60,
+          "platform": "9",
+          "headsign": {
+            "name": "Liège-Guillemins"
+          },
+          "stopCount": 2,
+          "stops": [
+            "Aalter",
+            "Ghent-Sint-Pieters"
+          ]
+        },
+        {
+          "lineName": "ICE 13",
+          "lineCode": "BE.NMBS.ICE13",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Liège-Guillemins",
+          "destLat": 50.62455,
+          "destLng": 5.566695,
+          "departureTime": "08:25",
+          "arrivalTime": "09:12",
+          "durationMinutes": 47,
+          "platform": "8",
+          "headsign": {
+            "name": "Frankfurt am Main Hbf"
+          },
+          "stopCount": 1,
+          "stops": [
+            "Brussels-North"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-be-irail-4",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2806",
+      "trainType": "IC",
+      "durationMinutes": 162,
+      "departureTime": "07:11",
+      "arrivalTime": "09:53",
+      "origin": "Brugge",
+      "originLat": 51.197226,
+      "originLng": 3.216726,
+      "destination": "Liège-Guillemins",
+      "destLat": 50.62455,
+      "destLng": 5.566695,
+      "direct": true,
+      "stops": [
+        "Aalter",
+        "Ghent-Sint-Pieters",
+        "Brussels-South/Brussels-Midi",
+        "Brussels-Central",
+        "Brussels-North",
+        "Brussels Airport - Zaventem",
+        "Leuven",
+        "Tienen",
+        "Landen",
+        "Waremme",
+        "Ans"
+      ],
+      "platform": "9",
+      "headsign": {
+        "name": "Liège-Guillemins"
+      },
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "transferStations": [],
+      "date": "2026-07-10"
+    },
+    {
+      "id": "2026-07-10-be-irail-5",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 1807 + IC 407",
+      "trainType": "IC + IC",
+      "durationMinutes": 126,
+      "departureTime": "07:25",
+      "arrivalTime": "09:31",
+      "origin": "Brugge",
+      "originLat": 51.197226,
+      "originLng": 3.216726,
+      "destination": "Liège-Guillemins",
+      "destLat": 50.62455,
+      "destLng": 5.566695,
+      "direct": false,
+      "stops": [
+        "Brussels-South/Brussels-Midi",
+        "Brussels-Central",
+        "Brussels-North",
+        "Leuven",
+        "Ans"
+      ],
+      "platform": "9",
+      "headsign": {
+        "name": "Welkenraedt"
+      },
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 1807",
+          "lineCode": "BE.NMBS.IC1807",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brugge",
+          "originLat": 51.197226,
+          "originLng": 3.216726,
+          "destination": "Ghent-Sint-Pieters",
+          "destLat": 51.035896,
+          "destLng": 3.710675,
+          "departureTime": "07:25",
+          "arrivalTime": "07:48",
+          "durationMinutes": 23,
+          "platform": "9",
+          "headsign": {
+            "name": "Antwerp-Central"
+          }
+        },
+        {
+          "lineName": "IC 407",
+          "lineCode": "BE.NMBS.IC407",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Ghent-Sint-Pieters",
+          "originLat": 51.035896,
+          "originLng": 3.710675,
+          "destination": "Liège-Guillemins",
+          "destLat": 50.62455,
+          "destLng": 5.566695,
+          "departureTime": "07:55",
+          "arrivalTime": "09:31",
+          "durationMinutes": 96,
+          "platform": "8",
+          "headsign": {
+            "name": "Welkenraedt"
+          },
+          "stopCount": 5,
+          "stops": [
+            "Brussels-South/Brussels-Midi",
+            "Brussels-Central",
+            "Brussels-North",
+            "Leuven",
+            "Ans"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Ghent-Sint-Pieters"
+      ],
+      "date": "2026-07-10"
+    }
+  ]
+}

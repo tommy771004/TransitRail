@@ -88,6 +88,22 @@ export const franceRoutes: ScrapedRoute[] = [
   { origin: "Paris Gare du Nord", destination: "Lille Europe" },
 ];
 
+export const belgiumRoutes: ScrapedRoute[] = [
+  { origin: "Brussels-Central", destination: "Antwerpen-Centraal" },
+  { origin: "Brussels-Luxembourg", destination: "Antwerpen-Centraal" },
+  { origin: "Gent-Sint-Pieters", destination: "Brussels Airport-Zaventem" },
+  { origin: "Brugge", destination: "Liège-Guillemins" },
+  { origin: "Brussels-South/Brussels-Midi", destination: "Namur" },
+];
+
+export const norwayRoutes: ScrapedRoute[] = [
+  { origin: "Oslo S", destination: "Bergen stasjon" },
+  { origin: "Oslo S", destination: "Trondheim S" },
+  { origin: "Oslo S", destination: "Stavanger stasjon" },
+  { origin: "Oslo lufthavn", destination: "Lillehammer" },
+  { origin: "Trondheim S", destination: "Bodø stasjon" },
+];
+
 export const switzerlandRoutes: ScrapedRoute[] = [
   { origin: "Zürich HB", destination: "Bern" },
   { origin: "Zürich HB", destination: "Genève" },

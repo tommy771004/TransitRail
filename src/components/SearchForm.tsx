@@ -103,6 +103,8 @@ export function SearchForm({
           united_states: { lat: 37.0902, lng: -95.7129 },
           germany: { lat: 51.1657, lng: 10.4515 },
           france: { lat: 46.2276, lng: 2.2137 },
+          belgium: { lat: 50.5039, lng: 4.4699 },
+          norway: { lat: 60.472, lng: 8.4689 },
           switzerland: { lat: 46.8182, lng: 8.2275 },
           china: { lat: 35.8617, lng: 104.1954 },
         };

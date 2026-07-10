@@ -5,7 +5,8 @@
  * public/catalog/<country>.json so the station menu never depends on the
  * serverless function being healthy.
  *
- * 8 countries are deterministic (bundled data); UK/US fetch TfL/MBTA live.
+ * Most countries are deterministic (bundled data); UK/US/Belgium fetch public
+ * station catalogs from their timetable providers.
  */
 import { japanRailLines, japanStations, koreaStations } from "../data/stations";
 import { seoulSubwayLines, seoulSubwayStationNames } from "../data/seoulSubway";
@@ -20,13 +21,15 @@ import {
 import { hongKongMtrLineCatalog, mtrInterchanges, hongKongStations } from "../data/hongKongMtr";
 import { getTflLines, getTflStations } from "./tfl";
 import { getMbtaLines, getMbtaStations } from "./mbta";
+import { getBelgiumStations } from "./belgium";
+import { norwayFeaturedStations } from "../data/norway";
 import { getMalaysiaStations, MALAYSIA_STATION_CATALOG_SOURCE } from "./malaysia";
 import { newCountryStationLists } from "../data/scraped/stations";
 import type { TransitLine } from "../types";
 
 export const CATALOG_COUNTRIES = [
   "japan", "korea", "china", "singapore", "thailand",
-  "malaysia", "hong_kong", "united_kingdom", "united_states", "germany", "france", "switzerland",
+  "malaysia", "hong_kong", "united_kingdom", "united_states", "germany", "france", "belgium", "norway", "switzerland",
 ] as const;
 
 const staticLineSets: Record<string, TransitLine[]> = {
@@ -89,6 +92,12 @@ export async function getStationsForCountry(
   } else if (country === "united_states") {
     stations = await getMbtaStations();
     source = "https://api-v3.mbta.com";
+  } else if (country === "belgium") {
+    stations = await getBelgiumStations();
+    source = "https://api.irail.be";
+  } else if (country === "norway") {
+    stations = norwayFeaturedStations;
+    source = "Entur National Stop Register / Geocoder";
   } else if (newCountryStationLists[country]) {
     const fromLines = (staticLineSets[country] || []).flatMap((line) => line.stations.map((s) => s.name));
     stations = Array.from(new Set([...newCountryStationLists[country], ...fromLines])).sort((a, b) => a.localeCompare(b));
