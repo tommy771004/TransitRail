@@ -270,10 +270,11 @@ function htmlShell(options: {
   description: string;
   path: string;
   altPath: string;
+  ogImagePath?: string;
   body: string;
   jsonLd: object[];
 }): string {
-  const { lang, title, description, path, altPath, body, jsonLd } = options;
+  const { lang, title, description, path, altPath, ogImagePath, body, jsonLd } = options;
   const ui = UI[lang];
   const enPath = lang === "en" ? path : altPath;
   const zhPath = lang === "zh" ? path : altPath;
@@ -294,6 +295,11 @@ function htmlShell(options: {
 <meta property="og:type" content="website">
 <meta property="og:url" content="${SITE_URL}${path}">
 <meta property="og:locale" content="${ui.ogLocale}">
+${ogImagePath ? `<meta property="og:image" content="${SITE_URL}${ogImagePath}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${SITE_URL}${ogImagePath}">` : ""}
 <meta name="robots" content="index, follow">
 <style>${PAGE_CSS}</style>
 ${jsonLd.map((entry) => `<script type="application/ld+json">${JSON.stringify(entry)}</script>`).join("\n")}
@@ -309,6 +315,26 @@ ${body}
 </body>
 </html>
 `;
+}
+
+function renderRouteOgSvg(page: RoutePageData, lang: Lang): string {
+  const ui = UI[lang];
+  const origin = stationName(page.origin, page.country, lang);
+  const destination = stationName(page.destination, page.country, lang);
+  const country = countryLabel(page.country, lang);
+  const departures = page.dayResults.slice(0, 3).map((result) => result.departureTime || "—");
+  const palette = {
+    japan: ["#be123c", "#fb7185"], korea: ["#1d4ed8", "#38bdf8"], china: ["#b91c1c", "#f97316"],
+    singapore: ["#047857", "#2dd4bf"], malaysia: ["#0f766e", "#5eead4"], thailand: ["#7c3aed", "#f472b6"],
+    hong_kong: ["#be123c", "#f43f5e"], united_kingdom: ["#1d4ed8", "#60a5fa"], united_states: ["#0369a1", "#22d3ee"],
+    germany: ["#b91c1c", "#f59e0b"], france: ["#1d4ed8", "#818cf8"], belgium: ["#111827", "#facc15"],
+    norway: ["#8b1d3d", "#e11d48"], switzerland: ["#b91c1c", "#ef4444"],
+  }[page.country] || ["#0f766e", "#2dd4bf"];
+  const departureCards = departures.map((time, index) => {
+    const x = 76 + index * 346;
+    return `<g transform="translate(${x} 456)"><rect width="308" height="98" rx="22" fill="#fff" fill-opacity=".13" stroke="#fff" stroke-opacity=".22"/><text x="24" y="33" fill="#e2e8f0" font-size="18" font-family="system-ui, sans-serif" font-weight="700">${esc(index === 0 ? (lang === "zh" ? "早班" : "EARLY") : (lang === "zh" ? "班次" : "DEPARTURE"))}</text><text x="24" y="76" fill="#fff" font-size="38" font-family="ui-monospace, SFMono-Regular, monospace" font-weight="800">${esc(time)}</text></g>`;
+  }).join("");
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="${esc(`${origin} to ${destination} timetable`)}"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${palette[0]}"/><stop offset="1" stop-color="${palette[1]}"/></linearGradient><filter id="blur"><feGaussianBlur stdDeviation="36"/></filter></defs><rect width="1200" height="630" fill="url(#bg)"/><circle cx="1050" cy="90" r="175" fill="#fff" fill-opacity=".14" filter="url(#blur)"/><circle cx="130" cy="590" r="210" fill="#020617" fill-opacity=".18" filter="url(#blur)"/><path d="M-30 420 C260 250 480 610 760 378 S1120 290 1260 180" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="7" stroke-dasharray="13 17"/><text x="76" y="90" fill="#fff" font-size="27" font-family="system-ui, sans-serif" font-weight="800" letter-spacing="2">RAIL NATION · ${esc(country.toUpperCase())}</text><text x="76" y="200" fill="#fff" font-size="62" font-family="system-ui, sans-serif" font-weight="800">${esc(origin)}</text><text x="76" y="275" fill="#fff" fill-opacity=".92" font-size="48" font-family="system-ui, sans-serif" font-weight="700">→ ${esc(destination)}</text><text x="76" y="352" fill="#fff" fill-opacity=".82" font-size="25" font-family="system-ui, sans-serif">${esc(lang === "zh" ? "今日時刻表 · 前三班車" : "Timetable · first three departures")}</text>${departureCards}<text x="76" y="601" fill="#fff" fill-opacity=".72" font-size="17" font-family="system-ui, sans-serif">${esc(ui.disclaimer)}</text></svg>`;
 }
 
 function transferCell(result: TransitResult, country: Country, lang: Lang): string {
@@ -334,6 +360,7 @@ function renderRoutePage(page: RoutePageData, siblings: RoutePageData[], lang: L
   const description = ui.metaDescription(origin, destination, stats.count, stats.first, stats.last, fastest, cheapest);
   const appLink = `${page.countryPath}?origin=${encodeURIComponent(page.origin)}&destination=${encodeURIComponent(page.destination)}`;
   const hubPath = lang === "zh" ? "/zh/routes/" : "/routes/";
+  const ogImagePath = `/og-routes/${page.country}/${page.slug}-${lang}.svg`;
 
   const rows = page.dayResults.slice(0, MAX_TABLE_ROWS).map((r) => {
     const duration = resultDurationMinutes(r);
@@ -461,7 +488,7 @@ ${relatedSection}
 <p>${ui.disclaimer}</p>
 </footer>`;
 
-  return htmlShell({ lang, title, description, path, altPath, body, jsonLd });
+  return htmlShell({ lang, title, description, path, altPath, ogImagePath, body, jsonLd });
 }
 
 function renderHubPage(pages: RoutePageData[], lang: Lang): string {
@@ -519,6 +546,12 @@ function writePage(urlPath: string, html: string): void {
   writeFileSync(join(dir, "index.html"), html, "utf8");
 }
 
+function writeRouteOgImage(page: RoutePageData, lang: Lang): void {
+  const dir = join(PUBLIC_DIR, "og-routes", page.country);
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(join(dir, `${page.slug}-${lang}.svg`), renderRouteOgSvg(page, lang), "utf8");
+}
+
 function main(): void {
   const pages = collectRoutePages();
 
@@ -527,6 +560,7 @@ function main(): void {
   const generatedRoots = new Set<string>([
     "zh",
     "routes",
+    "og-routes",
     ...Object.values(COUNTRY_PATHS).map((p) => p.replace(/^\//, "")),
   ]);
   for (const root of generatedRoots) {
@@ -542,11 +576,13 @@ function main(): void {
     const siblings = byCountry.get(page.country) || [];
     writePage(page.urlPath, renderRoutePage(page, siblings, "en"));
     writePage(page.zhUrlPath, renderRoutePage(page, siblings, "zh"));
+    writeRouteOgImage(page, "en");
+    writeRouteOgImage(page, "zh");
   }
   writePage("/routes/", renderHubPage(pages, "en"));
   writePage("/zh/routes/", renderHubPage(pages, "zh"));
 
-  console.log(`Generated ${pages.length} route pages × 2 languages + 2 hub pages under public/.`);
+  console.log(`Generated ${pages.length} route pages and ${pages.length * 2} social cards under public/.`);
 }
 
 main();

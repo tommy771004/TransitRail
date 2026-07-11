@@ -91,11 +91,9 @@ ${routeEntries.map(({ url, lastmod }) => urlEntry(url, lastmod)).join("\n")}
   write(resolve(OUTPUT_DIR, "core.xml"), core);
   write(resolve(OUTPUT_DIR, "countries.xml"), countrySitemap);
   write(resolve(OUTPUT_DIR, "routes.xml"), routeSitemap);
-  // Keep historical aliases valid, but establish sitemap.xml as the single
-  // canonical submitted entry point.
+  // sitemap.xml is the single canonical entry point; the historical
+  // sitemap-index.xml / sitemap_index.xml aliases 301 to it via vercel.json.
   write(resolve("public/sitemap.xml"), index);
-  write(resolve("public/sitemap-index.xml"), index);
-  write(resolve("public/sitemap_index.xml"), index);
   console.log(`Generated sitemap index: ${countryEntries.length} country pages, ${routeEntries.length} route page URLs.`);
 }
 

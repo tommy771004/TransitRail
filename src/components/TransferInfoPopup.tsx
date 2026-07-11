@@ -46,7 +46,7 @@ export function TransferInfoPopup({ isOpen, onClose, stationId, stationName, cou
       try {
         let url = "";
         if (stationId) {
-          url = `/api/transit/transfers/${encodeURIComponent(stationId)}`;
+          url = `/api/transit/transfers?stationId=${encodeURIComponent(stationId)}`;
         } else if (stationName && country) {
           url = `/api/transit/transfers?stationName=${encodeURIComponent(stationName)}&country=${encodeURIComponent(country)}`;
         } else {

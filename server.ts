@@ -6,7 +6,6 @@ import express from "express";
 import path from "path";
 import dotenv from "dotenv";
 import { createHmac, randomUUID } from "node:crypto";
-import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { hongKongMtrLineCatalog, hongKongStations } from "./src/data/hongKongMtr";
 import { mtrInterchanges } from "./src/data/hongKongMtr";
 import { japanRailLines, japanStations, koreaStations } from "./src/data/stations";
@@ -29,18 +28,15 @@ import { getExternalExchangeRates } from "./src/server/exchangeRates";
 import type { Country, SearchDataStatus, TransitLine } from "./src/types";
 import { db } from "./src/db";
 import { feedbacks, tnAuditLog } from "./src/db/schema";
-import { generateSeoulSubwayTimetable } from "./src/utils/seoulSubwayPathfinder";
 import { newCountryStationLists } from "./src/data/scraped/stations";
 import { getStationsForCountry, getLinesForCountry } from "./src/server/catalog";
 import { searchSwissJourney } from "./src/server/swiss";
 import { enrichTransitResultsWithLineStations } from "./src/utils/metroEnricher";
 import { transferCatalog, getTransferInfo } from "./src/data/transfers";
-import { fetchOpenRouterWithFallback } from "./src/openRouterHelper";
 import { findNearestKnownStation } from "./src/utils/geoCoordinates";
+import { fetchOpenRouterWithFallback } from "./src/openRouterHelper";
 
 dotenv.config();
-
-const ai = process.env.GEMINI_API_KEY ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY }) : null;
 
 const app = express();
 
@@ -124,14 +120,6 @@ function describeSearchData(source: string | undefined, country: string | undefi
       kind: "snapshot",
       source: "Pre-scraped timetable snapshot",
       updatedAt: country ? getScrapedCountryFreshness(country as Country) : undefined,
-    };
-  }
-
-  if (source === "Seoul Metro Pathfinder") {
-    return {
-      kind: "estimated",
-      source: "Seoul Metro route estimate",
-      checkedAt,
     };
   }
 
@@ -384,15 +372,6 @@ async function logTransitSearch(
         scraped = scraped.filter(r => r.departureTime >= time);
       }
       payload = { results: scraped, source: "scraped" };
-    } else if (!payload && country === "korea") {
-      const subwayResults = generateSeoulSubwayTimetable(origin, destination, date);
-      if (subwayResults && subwayResults.length > 0) {
-        let filtered = subwayResults;
-        if (timeValue && timeValue.match(/^\d{2}:\d{2}$/)) {
-          filtered = subwayResults.filter(r => r.departureTime >= time);
-        }
-        payload = { results: filtered, source: "Seoul Metro Pathfinder" };
-      }
     }
 
     if (!payload) {
@@ -608,13 +587,6 @@ async function logTransitSearch(
   app.get("/api/exchange-rates", async (req, res) => {
     const requestedBase = typeof req.query.base === "string" ? req.query.base : "TWD";
     const base = /^[A-Za-z]{3}$/.test(requestedBase) ? requestedBase.toUpperCase() : "TWD";
-    const fallbackRates: Record<string, Record<string, number>> = {
-      TWD: { TWD:1, USD:0.031, JPY:4.95, KRW:42.6, HKD:0.24, GBP:0.024, EUR:0.028, CHF:0.028, SGD:0.041, MYR:0.14, THB:1.11, CNY:0.22, AUD:0.047, CAD:0.042, NZD:0.051, PHP:1.74, IDR:485, VND:770, SEK:0.32, NOK:0.33, DKK:0.21, PLN:0.12, TRY:0.96, ZAR:0.56, BRL:0.15, MXN:0.53, RUB:2.83, INR:2.57, SAR:0.12, AED:0.11, ILS:0.11, CZK:0.71, HUF:11.2, RON:0.14 },
-      USD: { USD:1, TWD:32.5, JPY:160.8, KRW:1385, HKD:7.8, GBP:0.78, EUR:0.92, CHF:0.90, SGD:1.35, MYR:4.71, THB:36.2, CNY:7.24, AUD:1.54, CAD:1.37, NZD:1.64, PHP:56.5, IDR:15750, VND:25000, SEK:10.4, NOK:10.7, DKK:6.85, PLN:3.95, TRY:31.2, ZAR:18.1, BRL:4.95, MXN:17.2, RUB:92.0, INR:83.5, SAR:3.75, AED:3.67, ILS:3.65, CZK:23.1, HUF:365, RON:4.58 },
-      EUR: { EUR:1, USD:1.09, TWD:35.3, JPY:174.8, KRW:1505, HKD:8.48, GBP:0.85, CHF:0.98, SGD:1.47, MYR:5.12, THB:39.4, CNY:7.88, AUD:1.67, CAD:1.49, NZD:1.78, PHP:61.4, IDR:17120, VND:27170, SEK:11.3, NOK:11.6, DKK:7.44, PLN:4.29, TRY:33.9, ZAR:19.7, BRL:5.38, MXN:18.7, RUB:100, INR:90.7, SAR:4.08, AED:3.99, ILS:3.97, CZK:25.1, HUF:397, RON:4.98 },
-      GBP: { GBP:1, USD:1.28, TWD:41.6, JPY:206.1, KRW:1775, HKD:10.0, EUR:1.18, CHF:1.15, SGD:1.73, MYR:6.04, THB:46.5, CNY:9.26, AUD:1.97, CAD:1.76, NZD:2.10, PHP:72.4, IDR:20160, VND:32000, SEK:13.3, NOK:13.7, DKK:8.77, PLN:5.06, TRY:40.0, ZAR:23.2, BRL:6.34, MXN:22.0, RUB:118, INR:107, SAR:4.81, AED:4.70, ILS:4.68, CZK:29.6, HUF:468, RON:5.87 },
-    };
-
     try {
       const cbcResult = await getCbcRates();
       if (cbcResult && cbcResult.rates) {
@@ -667,15 +639,12 @@ async function logTransitSearch(
       return res.json(externalRates);
     }
 
-    console.warn("All exchange-rate providers unavailable; using static fallback rates.");
+    console.warn("All exchange-rate providers unavailable; refusing to return stale static rates.");
     res.set({
-      "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
-      "X-Rate-Source": "static-fallback",
+      "Cache-Control": "no-store",
+      "X-Rate-Source": "unavailable",
     });
-    {
-      const fallbackBase = fallbackRates[base] ? base : "TWD";
-      return res.json({ base: fallbackBase, rates: fallbackRates[fallbackBase], isFallback: true });
-    }
+    return res.status(503).json({ error: "Exchange rates are temporarily unavailable." });
   });
 
   app.get("/api/transit/lines", async (req, res) => {
@@ -761,18 +730,6 @@ async function logTransitSearch(
     });
   });
 
-  app.get("/api/transit/transfers/:stationId", (req, res) => {
-    const { stationId } = req.params;
-    const info = transferCatalog[stationId];
-    if (info) {
-      return res.json(info);
-    }
-    return res.status(404).json({
-      error: "Not found",
-      message: `No transfer info found for station ID ${stationId}.`
-    });
-  });
-
   app.get("/api/transit/transfers", (req, res) => {
     const { stationId, stationName, country } = req.query;
 
@@ -835,78 +792,140 @@ async function logTransitSearch(
 
   app.post("/api/ai-plan", async (req, res) => {
     try {
-      if (!ai) {
-        return res.status(501).json({ error: "Gemini API key not configured." });
+      const openRouterKey = process.env.OPENROUTER_API_KEY;
+      const geminiKey = process.env.GEMINI_API_KEY;
+      if (!openRouterKey && !geminiKey) {
+        return res.status(501).json({ error: "No AI provider configured. Set OPENROUTER_API_KEY or GEMINI_API_KEY." });
       }
       const { prompt } = req.body;
+      if (typeof prompt !== "string" || !prompt.trim()) {
+        return res.status(400).json({ error: "Prompt is required." });
+      }
 
-      const response = await ai.models.generateContent({
-        model: "gemini-3.1-pro-preview",
-        contents: prompt,
-        config: {
-          thinkingConfig: {
-            thinkingLevel: ThinkingLevel.HIGH,
-          }
-        }
-      });
+      // OpenRouter deployments get the full multi-model fallback chain;
+      // Gemini-only deployments reuse the same retry/backoff pipeline
+      // against the generativelanguage endpoint.
+      const response = openRouterKey
+        ? await fetchOpenRouterWithFallback(openRouterKey, prompt)
+        : await fetchOpenRouterWithFallback(geminiKey!, prompt, undefined, "gemini-3.1-pro-preview", undefined, "gemini");
 
-      res.json({ result: response.text });
+      res.json({ result: response.text, model: response.model });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Failed to generate AI plan." });
     }
   });
 
-  app.post("/api/generate-poster", async (req, res) => {
-    try {
-      const { origin, destination, country } = req.body;
-      if (!origin || !destination) {
-        return res.status(400).json({ error: "Origin and Destination are required." });
-      }
-      const openRouterKey = process.env.OPENROUTER_API_KEY || "";
-      const systemPrompt = "You are a professional graphic designer and SVG illustrator. Your task is to generate a highly stylized, beautiful, responsive, modern flat-design vector SVG travel poster or header card for a trip between the specified locations. Guidelines: - The output MUST be a valid, standalone, responsive SVG starting with <svg and ending with </svg>. - Use viewBox=\"0 0 800 320\" to make it wide and suitable as a header card. - Make it look incredibly artistic and professional: use rich linear/radial CSS gradients, beautiful layered shapes to match the vibe of the locations. - Use landmarks or general aesthetic elements corresponding to the destinations if known. - Include stylized text labels in a beautiful, elegant sans-serif/serif display font showing the departure and destination name, e.g., 'TOKYO → KYOTO'. Place it elegantly so it's readable and blends with the artwork. - Do NOT import external fonts or resources; use standard safe system fonts. - Make sure the SVG is self-contained. Use <defs> for gradients, masks, and shadow effects. - Ensure high contrast and a highly polished feel. - Wrap your SVG inside a markdown XML codeblock, or just return it directly. Do NOT include any introductory or concluding text. Return ONLY the SVG code.";
-      const prompt = `Create a gorgeous, stylized travel poster SVG for a journey from "${origin}" to "${destination}" in "${country || "any"}" country. Make it a stunning flat vector design with gradients, nice landmarks or nature, and elegant typography.`;
-      let svgCode = "";
-      if (openRouterKey) {
-        try {
-          const response = await fetchOpenRouterWithFallback(
-            openRouterKey,
-            prompt,
-            undefined,
-            undefined,
-            undefined,
-            "openrouter",
-            undefined,
-            undefined,
-            "auto",
-            systemPrompt
-          );
-          let text = response.text || "";
-          const codeBlockMatch = text.match(/```(?:xml|html)?\s*([\s\S]*?)```/i);
-          if (codeBlockMatch) {
-            svgCode = codeBlockMatch[1].trim();
-          } else {
-            const svgStart = text.indexOf("<svg");
-            const svgEnd = text.lastIndexOf("</svg>");
-            if (svgStart !== -1 && svgEnd !== -1 && svgEnd > svgStart) {
-              svgCode = text.substring(svgStart, svgEnd + 6).trim();
-            } else {
-              svgCode = text.trim();
-            }
-          }
-        } catch (apiError) {
-          console.error("OpenRouter API call failed, generating fallback SVG:", apiError);
-        }
-      }
-      if (!svgCode || !svgCode.startsWith("<svg")) {
-        svgCode = generateFallbackSvg(origin, destination, country);
-      }
-      res.json({ svg: svgCode });
-    } catch (error) {
-      console.error("Poster generation failed", error);
-      res.status(500).json({ error: "Failed to generate travel poster." });
+  app.post("/api/share-card", (req, res) => {
+    const trip = readShareCardPayload(req.body);
+    if (!trip) {
+      return res.status(400).json({ error: "Origin, destination, service, date, and departure time are required." });
     }
+
+    res.set("Cache-Control", "no-store");
+    return res.json({ svg: generateShareCardSvg(trip) });
   });
+
+  app.get("/api/share-card.svg", (req, res) => {
+    const trip = readShareCardPayload(req.query);
+    if (!trip) return res.status(400).type("text/plain").send("Missing journey details.");
+    res.set("Cache-Control", "public, max-age=300, s-maxage=300");
+    return res.type("image/svg+xml").send(generateShareCardSvg(trip));
+  });
+
+  app.get("/api/share", (req, res) => {
+    const trip = readShareCardPayload(req.query);
+    if (!trip) return res.status(400).type("text/plain").send("Missing journey details.");
+
+    const baseUrl = (process.env.APP_URL || `${req.protocol}://${req.get("host")}`).replace(/\/$/, "");
+    const query = new URLSearchParams({
+      origin: trip.origin,
+      destination: trip.destination,
+      country: trip.country,
+      service: trip.service,
+      date: trip.date,
+      departureTime: trip.departureTime,
+      arrivalTime: trip.arrivalTime,
+    }).toString();
+    const pageUrl = `${baseUrl}/api/share?${query}`;
+    const imageUrl = `${baseUrl}/api/share-card.svg?${query}`;
+    const title = `${trip.origin} → ${trip.destination} · ${trip.departureTime}`;
+    const description = `${trip.service} · ${trip.date} · ${trip.departureTime} → ${trip.arrivalTime}`;
+    res.set("Cache-Control", "public, max-age=300, s-maxage=300");
+    return res.type("html").send(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeSvgText(title)}</title><meta name="robots" content="noindex"><meta property="og:type" content="website"><meta property="og:site_name" content="Rail Nation"><meta property="og:title" content="${escapeSvgText(title)}"><meta property="og:description" content="${escapeSvgText(description)}"><meta property="og:url" content="${escapeSvgText(pageUrl)}"><meta property="og:image" content="${escapeSvgText(imageUrl)}"><meta property="og:image:type" content="image/svg+xml"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escapeSvgText(title)}"><meta name="twitter:description" content="${escapeSvgText(description)}"><meta name="twitter:image" content="${escapeSvgText(imageUrl)}"></head><body><p>${escapeSvgText(description)}</p></body></html>`);
+  });
+
+function escapeSvgText(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+interface ShareCardPayload {
+  origin: string;
+  destination: string;
+  country: string;
+  service: string;
+  date: string;
+  departureTime: string;
+  arrivalTime: string;
+}
+
+function readShareCardPayload(input: unknown): ShareCardPayload | undefined {
+  const data = input && typeof input === "object" ? input as Record<string, unknown> : {};
+  const required = ["origin", "destination", "service", "date", "departureTime"] as const;
+  if (required.some((key) => typeof data[key] !== "string" || !data[key].trim())) return undefined;
+  return {
+    origin: (data.origin as string).trim(),
+    destination: (data.destination as string).trim(),
+    country: typeof data.country === "string" ? data.country.trim() : "",
+    service: (data.service as string).trim(),
+    date: (data.date as string).trim(),
+    departureTime: (data.departureTime as string).trim(),
+    arrivalTime: typeof data.arrivalTime === "string" && data.arrivalTime.trim() ? data.arrivalTime.trim() : "—",
+  };
+}
+
+function generateShareCardSvg(trip: ShareCardPayload): string {
+  const countryLabel = trip.country.replace(/_/g, " ").toUpperCase() || "RAIL";
+  const values = {
+    origin: escapeSvgText(trip.origin),
+    destination: escapeSvgText(trip.destination),
+    country: escapeSvgText(countryLabel),
+    service: escapeSvgText(trip.service),
+    date: escapeSvgText(trip.date),
+    departureTime: escapeSvgText(trip.departureTime),
+    arrivalTime: escapeSvgText(trip.arrivalTime),
+  };
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="${values.origin} to ${values.destination} journey card">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0f766e"/><stop offset="1" stop-color="#155e75"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#042f2e" flood-opacity=".35"/></filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <circle cx="1060" cy="60" r="210" fill="#99f6e4" fill-opacity=".15"/><circle cx="120" cy="620" r="250" fill="#020617" fill-opacity=".18"/>
+  <path d="M50 372 C250 230 420 520 640 344 S990 250 1170 138" fill="none" stroke="#ccfbf1" stroke-opacity=".42" stroke-width="7" stroke-dasharray="12 18"/>
+  <text x="76" y="84" fill="#ccfbf1" font-size="25" font-family="system-ui, sans-serif" font-weight="800" letter-spacing="2">RAIL NATION · ${values.country}</text>
+  <text x="76" y="172" fill="#fff" font-size="42" font-family="system-ui, sans-serif" font-weight="700">${values.service}</text>
+  <text x="76" y="240" fill="#fff" font-size="52" font-family="system-ui, sans-serif" font-weight="800">${values.origin}</text>
+  <text x="76" y="306" fill="#ccfbf1" font-size="44" font-family="system-ui, sans-serif" font-weight="700">→ ${values.destination}</text>
+  <g transform="translate(76 402)" filter="url(#shadow)">
+    <rect width="322" height="126" rx="24" fill="#fff" fill-opacity=".16" stroke="#fff" stroke-opacity=".25"/>
+    <text x="26" y="38" fill="#ccfbf1" font-size="19" font-family="system-ui, sans-serif" font-weight="700">DEPARTURE · ${values.date}</text>
+    <text x="26" y="94" fill="#fff" font-size="52" font-family="ui-monospace, SFMono-Regular, monospace" font-weight="800">${values.departureTime}</text>
+  </g>
+  <g transform="translate(430 402)" filter="url(#shadow)">
+    <rect width="322" height="126" rx="24" fill="#fff" fill-opacity=".16" stroke="#fff" stroke-opacity=".25"/>
+    <text x="26" y="38" fill="#ccfbf1" font-size="19" font-family="system-ui, sans-serif" font-weight="700">ARRIVAL</text>
+    <text x="26" y="94" fill="#fff" font-size="52" font-family="ui-monospace, SFMono-Regular, monospace" font-weight="800">${values.arrivalTime}</text>
+  </g>
+  <text x="76" y="585" fill="#ccfbf1" fill-opacity=".8" font-size="18" font-family="system-ui, sans-serif">Confirm times with the operator before travelling.</text>
+</svg>`;
+}
 
 function generateFallbackSvg(origin: string, destination: string, country?: string): string {
   const hash = (str: string) => {

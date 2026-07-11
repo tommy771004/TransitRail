@@ -84,7 +84,7 @@ export interface SearchResponse {
   dataStatus?: SearchDataStatus;
 }
 
-export type SearchDataKind = "provider" | "snapshot" | "estimated" | "catalog";
+export type SearchDataKind = "provider" | "snapshot" | "catalog";
 
 /** Describes how a search result was produced without overstating its freshness. */
 export interface SearchDataStatus {
@@ -123,7 +123,6 @@ export interface SavedTrip extends TransitResult {
   seatPreference?: "standard" | "window" | "aisle" | "first";
   reminderEnabled?: boolean;
   reminderFired?: boolean;
-  posterSvg?: string;
 }
 
 export interface SearchHistoryItem extends SearchParams {

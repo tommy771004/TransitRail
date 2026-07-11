@@ -25,6 +25,8 @@ import { generateICS } from "./utils/ics";
 import { stationLabel } from "./utils/stationLabel";
 import { triggerHaptic } from "./utils/haptics";
 import { getAuditHeaders } from "./utils/audit";
+import { describeTimetableChange } from "./utils/timetableChanges";
+import { RouteServiceOverview } from "./components/RouteServiceOverview";
 import { get, set } from "idb-keyval";
 import { countryConfig, providerDateValue, countryThemes, countryFlags, countryOptions } from "./data/countries";
 import type {
@@ -151,6 +153,19 @@ function buildCanonicalSearchUrl(params: SearchParams) {
   return queryString
     ? `${window.location.origin}${path}?${queryString}`
     : `${window.location.origin}${path}`;
+}
+
+function buildDynamicShareUrl(trip: SavedTrip, date: string) {
+  const query = new URLSearchParams({
+    origin: trip.origin,
+    destination: trip.destination,
+    country: trip.country,
+    service: trip.service,
+    date,
+    departureTime: trip.departureTime,
+    arrivalTime: trip.arrivalTime || "—",
+  });
+  return `${window.location.origin}/api/share?${query}`;
 }
 
 interface CachedExchangeRates {
@@ -365,39 +380,6 @@ export default function App() {
   const [homeCurrency, setHomeCurrency] = useState<string>(() => localStorage.getItem("transitrail.homeCurrency") || "TWD");
   const [exchangeRates, setExchangeRates] = useState<Record<string, number>>({});
   const [loadingRates, setLoadingRates] = useState<boolean>(false);
-  const [generatingPosterIds, setGeneratingPosterIds] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (view !== "saved") return;
-    const tripToGenerate = savedTrips.find(t => !t.posterSvg && !generatingPosterIds.includes(t.id));
-    if (!tripToGenerate) return;
-    setGeneratingPosterIds(prev => [...prev, tripToGenerate.id]);
-    fetch("/api/generate-poster", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        origin: tripToGenerate.origin,
-        destination: tripToGenerate.destination,
-        country: tripToGenerate.country
-      })
-    })
-      .then(res => {
-        if (!res.ok) throw new Error("Failed to generate poster");
-        return res.json();
-      })
-      .then(data => {
-        if (data.svg) {
-          setSavedTrips(prev => prev.map(t => t.id === tripToGenerate.id ? { ...t, posterSvg: data.svg } : t));
-        }
-      })
-      .catch(err => {
-        console.error("Poster generation error:", err);
-      })
-      .finally(() => {
-        setGeneratingPosterIds(prev => prev.filter(id => id !== tripToGenerate.id));
-      });
-  }, [view, savedTrips, generatingPosterIds]);
-
   // SEO and Dynamic Metadata Engine
   useEffect(() => {
     const baseTitle = "Rail National";
@@ -603,6 +585,7 @@ export default function App() {
 
     let cancelled = false;
     const fetchRates = async () => {
+      setExchangeRates({});
       setLoadingRates(true);
       try {
         const res = await fetch(`/api/exchange-rates?base=${homeCurrency}`);
@@ -828,12 +811,25 @@ export default function App() {
         setError(data.message || "Failed to fetch real-time data.");
         pushAlert(t("alerts.search_failed"), data.message || t("alerts.search_failed_body"));
       } else {
+        const cachedData = await get(`transit_search_${query}`);
+        const previousResults = cachedData && typeof cachedData === "object" && Array.isArray((cachedData as { results?: unknown }).results)
+          ? (cachedData as { results: TransitResult[] }).results
+          : undefined;
+        const timetableChange = previousResults
+          ? describeTimetableChange(previousResults, resultList, i18n.language.toLowerCase().startsWith("zh"))
+          : undefined;
         setResults(resultList);
         await set(`transit_search_${query}`, {
           results: resultList,
           dataStatus: data.dataStatus,
           fetchedAt: new Date().toISOString(),
         }).catch(console.error);
+        if (timetableChange) {
+          pushAlert(
+            i18n.language.toLowerCase().startsWith("zh") ? "時刻表已更新" : "Timetable updated",
+            timetableChange,
+          );
+        }
       }
 
       setHistory((current) => [
@@ -1014,6 +1010,7 @@ export default function App() {
 
   const shareTrip = async (trip: SavedTrip) => {
     const tripDate = trip.date || providerDateValue(trip.country);
+    const shareUrl = buildDynamicShareUrl(trip, tripDate);
     const shareText = `🚇 Transit Details:\n` +
       `• Train/Service: ${trip.service}\n` +
       `• Origin: ${trip.origin}\n` +
@@ -1026,16 +1023,40 @@ export default function App() {
 
     if (navigator.share) {
       try {
-        await navigator.share({
+        const shareData = {
           title: `Trip Details: ${trip.origin} to ${trip.destination}`,
           text: shareText,
+          url: shareUrl,
+        };
+        const cardResponse = await fetch("/api/share-card", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            origin: trip.origin,
+            destination: trip.destination,
+            country: trip.country,
+            service: trip.service,
+            date: tripDate,
+            departureTime: trip.departureTime,
+            arrivalTime: trip.arrivalTime,
+          }),
         });
+        const card = cardResponse.ok ? await cardResponse.json() as { svg?: string } : undefined;
+        const shareFile = card?.svg
+          ? new File([card.svg], "rail-nation-journey.svg", { type: "image/svg+xml" })
+          : undefined;
+
+        if (shareFile && navigator.canShare?.({ files: [shareFile] })) {
+          await navigator.share({ ...shareData, files: [shareFile] });
+        } else {
+          await navigator.share(shareData);
+        }
       } catch (err) {
         console.error("Web Share API failed", err);
       }
     } else {
       try {
-        await navigator.clipboard.writeText(shareText);
+        await navigator.clipboard.writeText(`${shareText}\n${shareUrl}`);
         pushAlert("Trip Details Copied", "Trip details copied to clipboard!");
       } catch (err) {
         console.error("Clipboard copy failed", err);
@@ -1143,6 +1164,14 @@ export default function App() {
   };
 
   const renderView = () => {
+    const routeOverview = view === "results" && visibleResults.length > 0 ? (
+      <RouteServiceOverview
+        country={searchParams.country}
+        date={searchParams.date}
+        results={visibleResults}
+      />
+    ) : undefined;
+
     switch (view) {
       case "search":
         return (
@@ -1203,6 +1232,7 @@ export default function App() {
               onSelectSeat={openSeatPicker}
               onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
               formatPrice={formatTripPrice}
+              overview={routeOverview}
             />
           );
         }
@@ -1223,6 +1253,7 @@ export default function App() {
               onSelectSeat={openSeatPicker}
               onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
               formatPrice={formatTripPrice}
+              overview={routeOverview}
             />
           );
         }
@@ -1250,6 +1281,7 @@ export default function App() {
               onSave={toggleSaveTrip}
               onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
               formatPrice={formatTripPrice}
+              overview={routeOverview}
             />
           );
         }
@@ -1268,6 +1300,7 @@ export default function App() {
               onSave={toggleSaveTrip}
               onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
               formatPrice={formatTripPrice}
+              overview={routeOverview}
             />
           );
         }
@@ -1286,6 +1319,7 @@ export default function App() {
               onSave={toggleSaveTrip}
               onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
               formatPrice={formatTripPrice}
+              overview={routeOverview}
             />
           );
         }
@@ -1304,6 +1338,7 @@ export default function App() {
               onSave={toggleSaveTrip}
               onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
               formatPrice={formatTripPrice}
+              overview={routeOverview}
             />
           );
         }
@@ -1322,6 +1357,7 @@ export default function App() {
               onSave={toggleSaveTrip}
               onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
               formatPrice={formatTripPrice}
+              overview={routeOverview}
             />
           );
         }
@@ -1340,6 +1376,7 @@ export default function App() {
               onSave={toggleSaveTrip}
               onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
               formatPrice={formatTripPrice}
+              overview={routeOverview}
             />
           );
         }
@@ -1542,12 +1579,6 @@ export default function App() {
                       <div className="space-y-2.5">
                         {(trips as SavedTrip[]).map((trip) => (
                     <div key={trip.id} className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
-                      {trip.posterSvg && (
-                        <div 
-                          className="mb-4 overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-800 shadow-inner max-h-[140px] flex items-center justify-center bg-slate-950 [&>svg]:w-full [&>svg]:h-auto"
-                          dangerouslySetInnerHTML={{ __html: trip.posterSvg }}
-                        />
-                      )}
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2 mb-1">
@@ -1972,13 +2003,10 @@ function SearchDataNotice({ status, language }: { status: SearchDataStatus; lang
   const copy = {
     provider: isChinese ? "營運商資料服務" : "Transit provider data",
     snapshot: isChinese ? "預先擷取的時刻快照" : "Pre-scraped timetable snapshot",
-    estimated: isChinese ? "路線推估（非正式時刻表）" : "Route estimate (not an official timetable)",
     catalog: isChinese ? "站點目錄資料，非時刻表" : "Station catalog, not a timetable",
   }[status.kind];
   const detail = isOfflineCache
     ? isChinese ? "這是之前搜尋的離線快取，可能已過期；恢復連線後請重新查詢。" : "This is a previous offline cache and may be stale; search again after reconnecting."
-    : status.kind === "estimated"
-    ? isChinese ? "請勿以此資料安排行程或購票。" : "Do not use this data to plan or purchase travel."
     : status.kind === "snapshot"
       ? isChinese ? "非即時資料；請在出發前向營運商確認。" : "Not live data; confirm with the operator before travel."
       : status.kind === "catalog"
@@ -1987,8 +2015,8 @@ function SearchDataNotice({ status, language }: { status: SearchDataStatus; lang
   const timestamp = status.updatedAt || status.checkedAt;
 
   return (
-    <aside className={`mx-auto max-w-md px-4 pt-3 ${status.kind === "estimated" ? "text-amber-900 dark:text-amber-200" : "text-slate-700 dark:text-slate-300"}`} aria-live="polite">
-      <div className={`rounded-2xl border px-3.5 py-3 text-xs ${status.kind === "estimated" ? "border-amber-200 bg-amber-50 dark:border-amber-900/60 dark:bg-amber-950/30" : "border-slate-200 bg-white/85 dark:border-slate-800 dark:bg-slate-900/80"}`}>
+    <aside className="mx-auto max-w-md px-4 pt-3 text-slate-700 dark:text-slate-300" aria-live="polite">
+      <div className="rounded-2xl border border-slate-200 bg-white/85 px-3.5 py-3 text-xs dark:border-slate-800 dark:bg-slate-900/80">
         <p className="font-bold">{isOfflineCache ? (isChinese ? "離線快取結果" : "Offline cached result") : copy}</p>
         <p className="mt-1 leading-relaxed opacity-80">{detail}</p>
         {timestamp ? <p className="mt-1.5 font-mono text-[10px] opacity-65">{isChinese ? "資料時間" : "Data time"}: {new Date(timestamp).toLocaleString(isChinese ? "zh-TW" : "en-US")}</p> : null}

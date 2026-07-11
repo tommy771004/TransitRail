@@ -3,21 +3,6 @@ export interface GeoCoord {
   lng: number;
 }
 
-const countryHubs: Record<string, GeoCoord> = {
-  japan: { lat: 35.6812, lng: 139.7671 },
-  korea: { lat: 37.5547, lng: 126.9708 },
-  hong_kong: { lat: 22.3193, lng: 114.1694 },
-  singapore: { lat: 1.3521, lng: 103.8198 },
-  malaysia: { lat: 3.1390, lng: 101.6869 },
-  thailand: { lat: 13.7563, lng: 100.5018 },
-  united_kingdom: { lat: 51.5074, lng: -0.1278 },
-  united_states: { lat: 42.3601, lng: -71.0589 },
-  germany: { lat: 52.5200, lng: 13.4050 },
-  france: { lat: 48.8566, lng: 2.3522 },
-  china: { lat: 39.9042, lng: 116.4074 },
-  switzerland: { lat: 47.3769, lng: 8.5417 },
-};
-
 const stationCoords: Record<string, GeoCoord> = {
   "Tokyo": { lat: 35.6812, lng: 139.7671 },
   "Shinagawa": { lat: 35.6284, lng: 139.7387 },
@@ -214,21 +199,7 @@ export function findNearestKnownStation(
   return nearest ? { ...nearest, matchedStationCount } : undefined;
 }
 
-export function getStationCoordinates(stationName: string, country: string): GeoCoord {
-  const knownCoordinates = findKnownStationCoordinates(stationName);
-  if (knownCoordinates) return knownCoordinates;
-
-  const hub = countryHubs[country] || { lat: 46.8182, lng: 8.2275 }; // Switzerland / generic center
-  let hash = 0;
-  for (let i = 0; i < stationName.length; i++) {
-    hash = stationName.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  const latOffset = ((hash & 0xFF) / 255 - 0.5) * 0.15;
-  const lngOffset = (((hash >> 8) & 0xFF) / 255 - 0.5) * 0.15;
-
-  return {
-    lat: hub.lat + latOffset,
-    lng: hub.lng + lngOffset
-  };
+/** Returns only verified station coordinates; it never invents map positions. */
+export function getStationCoordinates(stationName: string): GeoCoord | undefined {
+  return findKnownStationCoordinates(stationName);
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import type { TransitResult } from "../types";
@@ -15,7 +15,7 @@ const OFFICIAL_MAPS: Record<string, string> = {
   hong_kong: "https://www.mtr.com.hk/en/customer/services/system_map.html",
   thailand: "https://www.bts.co.th/eng/library/system-map.html",
   united_kingdom: "https://tfl.gov.uk/maps/track/tube",
-  united_states: "https://new.mta.info/maps",
+  united_states: "https://www.mbta.com/maps",
   germany: "https://www.bvg.de/en/connections/network-maps-and-routes",
   france: "https://www.ratp.fr/en/plans",
   switzerland: "https://www.sbb.ch/en/station-services/at-the-station/railway-stations.html",
@@ -29,12 +29,14 @@ interface D3LeafletRouteMapProps {
 export function D3LeafletRouteMap({ trip }: D3LeafletRouteMapProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
+  const [hasMapCoordinates, setHasMapCoordinates] = useState(true);
   const { t } = useTranslation();
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
     const points: any[] = [];
+    let missingCoordinates = false;
 
     if (trip.legs && trip.legs.length > 0) {
       trip.legs.forEach((leg, legIdx) => {
@@ -72,7 +74,11 @@ export function D3LeafletRouteMap({ trip }: D3LeafletRouteMapProps) {
             pointType = "end";
           }
 
-          const coord = getStationCoordinates(stopName, trip.country);
+          const coord = getStationCoordinates(stopName);
+          if (!coord) {
+            missingCoordinates = true;
+            return;
+          }
 
           points.push({
             name: stopName,
@@ -85,20 +91,26 @@ export function D3LeafletRouteMap({ trip }: D3LeafletRouteMapProps) {
     } else {
       const originCoord = trip.originLat && trip.originLng
         ? { lat: trip.originLat, lng: trip.originLng }
-        : getStationCoordinates(trip.origin, trip.country);
+        : getStationCoordinates(trip.origin);
 
-      points.push({
-        name: trip.origin,
-        lat: originCoord.lat,
-        lng: originCoord.lng,
-        type: "start"
-      });
+      if (originCoord) {
+        points.push({
+          name: trip.origin,
+          lat: originCoord.lat,
+          lng: originCoord.lng,
+          type: "start"
+        });
+      } else missingCoordinates = true;
 
       if (trip.stops && trip.stops.length > 0) {
         trip.stops.forEach((stopName) => {
           if (stopName.toLowerCase().trim() === trip.origin.toLowerCase().trim()) return;
           if (stopName.toLowerCase().trim() === trip.destination.toLowerCase().trim()) return;
-          const coord = getStationCoordinates(stopName, trip.country);
+          const coord = getStationCoordinates(stopName);
+          if (!coord) {
+            missingCoordinates = true;
+            return;
+          }
           points.push({
             name: stopName,
             lat: coord.lat,
@@ -110,17 +122,23 @@ export function D3LeafletRouteMap({ trip }: D3LeafletRouteMapProps) {
 
       const destCoord = trip.destLat && trip.destLng
         ? { lat: trip.destLat, lng: trip.destLng }
-        : getStationCoordinates(trip.destination, trip.country);
+        : getStationCoordinates(trip.destination);
 
-      points.push({
-        name: trip.destination,
-        lat: destCoord.lat,
-        lng: destCoord.lng,
-        type: "end"
-      });
+      if (destCoord) {
+        points.push({
+          name: trip.destination,
+          lat: destCoord.lat,
+          lng: destCoord.lng,
+          type: "end"
+        });
+      } else missingCoordinates = true;
     }
 
-    if (points.length === 0) return;
+    if (missingCoordinates || points.length < 2) {
+      setHasMapCoordinates(false);
+      return;
+    }
+    setHasMapCoordinates(true);
 
     const map = L.map(mapContainerRef.current, {
       zoomControl: true,
@@ -194,6 +212,11 @@ export function D3LeafletRouteMap({ trip }: D3LeafletRouteMapProps) {
   return (
     <div className="relative w-full h-80 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-inner my-4 group">
       <div ref={mapContainerRef} className="w-full h-full z-0" />
+      {!hasMapCoordinates ? (
+        <p className="absolute inset-0 z-10 flex items-center justify-center bg-slate-50/95 px-6 text-center text-xs font-medium text-slate-500 dark:bg-slate-900/95 dark:text-slate-400">
+          {t("map.coordinates_unavailable", { defaultValue: "A verified map position is not available for every station on this journey." })}
+        </p>
+      ) : null}
       {officialMapUrl && (
         <a 
           href={officialMapUrl}

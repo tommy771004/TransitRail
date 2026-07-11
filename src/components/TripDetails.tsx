@@ -1,66 +1,21 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { TransitResult, JourneyLeg } from "../types";
 import { useTranslation } from "react-i18next";
 import { stationLabel } from "../utils/stationLabel";
 import { getTransitIcon } from "../utils/transitIcons";
-import { ChevronDown, ChevronUp, Clock, MapPin, ArrowRightLeft, Users, Armchair, Info } from "lucide-react";
+import { ChevronDown, ChevronUp, Clock, MapPin, ArrowRightLeft, Info, BellRing, LocateFixed } from "lucide-react";
 import { motion } from "motion/react";
 import { D3LeafletRouteMap } from "./D3LeafletRouteMap";
 import { TransferInfoPopup } from "./TransferInfoPopup";
 import { getTransferInfo, type TransferInfo } from "../data/transfers";
+import { findNearestKnownStation } from "../utils/geoCoordinates";
+import { triggerHaptic } from "../utils/haptics";
 
 interface TripDetailsProps {
   trip: TransitResult;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
 }
-
-const localeForCurrency = (currency?: string) => {
-  switch (currency) {
-    case "JPY": return "ja-JP";
-    case "KRW": return "ko-KR";
-    case "HKD": return "zh-HK";
-    case "TWD": return "zh-TW";
-    case "CNY": return "zh-CN";
-    case "EUR": return "de-DE";
-    case "GBP": return "en-GB";
-    case "AUD": return "en-AU";
-    case "CAD": return "en-CA";
-    case "NZD": return "en-NZ";
-    case "PHP": return "en-PH";
-    case "IDR": return "id-ID";
-    case "VND": return "vi-VN";
-    case "SEK": return "sv-SE";
-    case "NOK": return "nb-NO";
-    case "DKK": return "da-DK";
-    case "PLN": return "pl-PL";
-    case "TRY": return "tr-TR";
-    case "ZAR": return "en-ZA";
-    case "BRL": return "pt-BR";
-    case "MXN": return "es-MX";
-    case "RUB": return "ru-RU";
-    case "INR": return "en-IN";
-    case "SAR": return "ar-SA";
-    case "AED": return "ar-AE";
-    case "ILS": return "he-IL";
-    case "CZK": return "cs-CZ";
-    case "HUF": return "hu-HU";
-    case "RON": return "ro-RO";
-    default: return "en-US";
-  }
-};
-
-const fractionDigitsForCurrency = (currency?: string) =>
-  currency === "JPY" || currency === "KRW" || currency === "TWD" || currency === "CNY" || currency === "VND" || currency === "IDR" ? 0 : 2;
-
-const formatCustomPrice = (price: number, currency?: string) => {
-  if (!currency) return price.toString();
-  return new Intl.NumberFormat(localeForCurrency(currency), {
-    style: "currency",
-    currency: currency,
-    maximumFractionDigits: fractionDigitsForCurrency(currency),
-  }).format(price);
-};
 
 function getMinutesDiff(time1?: string, time2?: string): number | null {
   if (!time1 || !time2) return null;
@@ -81,15 +36,28 @@ function getLegColor(leg: JourneyLeg, defaultColor?: string) {
   return defaultColor || "#10b981"; // emerald default
 }
 
+function transferPressure(minutes: number | null, isChinese: boolean) {
+  if (minutes === null) return undefined;
+  if (minutes <= 4) {
+    return { emoji: "🔴", label: isChinese ? "要跑" : "Run", className: "text-rose-700 dark:text-rose-300" };
+  }
+  if (minutes <= 10) {
+    return { emoji: "🟡", label: isChinese ? "正常轉乘" : "Normal connection", className: "text-amber-700 dark:text-amber-300" };
+  }
+  return { emoji: "🟢", label: isChinese ? "可以買杯咖啡" : "Time for coffee", className: "text-emerald-700 dark:text-emerald-300" };
+}
+
 export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [expanded, setExpanded] = useState(false);
-  const [fareTab, setFareTab] = useState<"passenger" | "seat">("passenger");
   const [viewMode, setViewMode] = useState<"timeline" | "map">("timeline");
   const [expandedLegs, setExpandedLegs] = useState<Record<number, boolean>>({});
   const [selectedTransferStationId, setSelectedTransferStationId] = useState<string | null>(null);
   const [selectedTransferStationName, setSelectedTransferStationName] = useState<string | null>(null);
   const [selectedTransferInfo, setSelectedTransferInfo] = useState<TransferInfo | null>(null);
+  const [arrivalReminderState, setArrivalReminderState] = useState<"idle" | "watching" | "alerted" | "unavailable">("idle");
+  const [arrivalDistanceKm, setArrivalDistanceKm] = useState<number | undefined>();
+  const arrivalWatchId = useRef<number | undefined>();
 
   const displayLegs: JourneyLeg[] = trip.legs && trip.legs.length > 0 ? trip.legs : [
     {
@@ -102,6 +70,62 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
       mode: trip.trainType,
     }
   ];
+
+  const destinationStation = displayLegs[displayLegs.length - 1]?.destination || trip.destination;
+
+  const stopArrivalReminder = () => {
+    if (arrivalWatchId.current !== undefined && navigator.geolocation) {
+      navigator.geolocation.clearWatch(arrivalWatchId.current);
+    }
+    arrivalWatchId.current = undefined;
+  };
+
+  useEffect(() => () => stopArrivalReminder(), []);
+
+  const enableArrivalReminder = () => {
+    if (!navigator.geolocation) {
+      setArrivalReminderState("unavailable");
+      return;
+    }
+    if ("Notification" in window && Notification.permission === "default") {
+      void Notification.requestPermission();
+    }
+    setArrivalReminderState("watching");
+    arrivalWatchId.current = navigator.geolocation.watchPosition(
+      (position) => {
+        const nearest = findNearestKnownStation(
+          [destinationStation],
+          position.coords.latitude,
+          position.coords.longitude,
+        );
+        if (!nearest) {
+          setArrivalReminderState("unavailable");
+          stopArrivalReminder();
+          return;
+        }
+        setArrivalDistanceKm(nearest.distanceKm);
+        if (nearest.distanceKm <= 0.6) {
+          setArrivalReminderState("alerted");
+          triggerHaptic("warning");
+          if ("Notification" in window && Notification.permission === "granted") {
+            try {
+              new Notification(t("result.arrival_reminder_title", { defaultValue: "Approaching your stop" }), {
+                body: t("result.arrival_reminder_body", { station: destinationStation, defaultValue: `${destinationStation} is coming up. Prepare to get off.` }),
+              });
+            } catch {
+              // Notification support varies by browser; haptics remain the fallback.
+            }
+          }
+          stopArrivalReminder();
+        }
+      },
+      () => {
+        setArrivalReminderState("unavailable");
+        stopArrivalReminder();
+      },
+      { enableHighAccuracy: true, maximumAge: 30_000, timeout: 15_000 },
+    );
+  };
 
   const routeTransferInfo = (stationName: string, legIndex: number): TransferInfo => {
     const curated = getTransferInfo(stationName, trip.country);
@@ -194,25 +218,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
   }
 
   const hasPrice = trip.price !== undefined && trip.price !== null;
-
-  // Passenger fare options calculations
-  const adultPrice = trip.price || 0;
-  const childPrice = Math.round(adultPrice * 0.5);
-  const seniorPrice = Math.round(adultPrice * 0.5);
-
-  // Seat fare options calculations
-  const nonReservedPrice = Math.round(adultPrice * 0.95);
-  const reservedPrice = adultPrice;
-  const firstClassPrice = Math.round(adultPrice * 1.55);
-
-  // Use formatPrice (which includes currency conversion) if available
-  const displayFare = (price: number) => {
-    if (formatPrice) {
-      const tripWithPrice = { ...trip, price };
-      return formatPrice(tripWithPrice) || formatCustomPrice(price, trip.currency);
-    }
-    return formatCustomPrice(price, trip.currency);
-  };
+  const isChinese = i18n.language.toLowerCase().startsWith("zh");
 
   return (
     <div className="border-t border-slate-100 dark:border-slate-800">
@@ -235,131 +241,48 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
 
       {expanded && (
         <div className="bg-slate-50/50 px-4 sm:px-6 py-5 rounded-b-3xl border-t border-slate-100 dark:bg-slate-950/30 dark:border-slate-800/80">
-          
-          {hasPrice && (
-            <div className="mb-6 rounded-3xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-              <div className="flex items-center justify-between gap-3 mb-4">
-                <div className="flex items-center gap-1.5 shrink-0">
-                  <span className="text-base select-none">🎫</span>
-                  <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                    {t("result.fare_comparison", { defaultValue: "Fare Details Comparison" })}
-                  </h4>
-                </div>
-                
-                {/* Switcher tabs */}
-                <div className="flex rounded-lg bg-slate-100 p-0.5 dark:bg-slate-800">
-                  <button
-                    type="button"
-                    onClick={() => setFareTab("passenger")}
-                    className={`flex items-center gap-1 rounded-md px-2.5 py-1 text-[10px] font-bold transition-all ${
-                      fareTab === "passenger"
-                        ? "bg-white text-slate-900 shadow-xs dark:bg-slate-700 dark:text-white"
-                        : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                    }`}
-                  >
-                    <Users className="h-3 w-3" />
-                    {t("result.by_passenger", { defaultValue: "By Passenger Type" })}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setFareTab("seat")}
-                    className={`flex items-center gap-1 rounded-md px-2.5 py-1 text-[10px] font-bold transition-all ${
-                      fareTab === "seat"
-                        ? "bg-white text-slate-900 shadow-xs dark:bg-slate-700 dark:text-white"
-                        : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                    }`}
-                  >
-                    <Armchair className="h-3 w-3" />
-                    {t("result.by_seat", { defaultValue: "By Seat Class" })}
-                  </button>
+          <div className="mb-5 rounded-2xl border border-sky-200 bg-sky-50/70 p-3 dark:border-sky-900/60 dark:bg-sky-950/25">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex min-w-0 items-center gap-2">
+                <LocateFixed className="h-4 w-4 shrink-0 text-sky-700 dark:text-sky-300" />
+                <div>
+                  <p className="text-xs font-black text-sky-950 dark:text-sky-100">{isChinese ? "下車提醒" : "Get-off reminder"}</p>
+                  <p className="text-[10px] font-medium text-sky-800/80 dark:text-sky-200/80">
+                    {arrivalReminderState === "watching"
+                      ? (arrivalDistanceKm !== undefined
+                        ? (isChinese ? `距 ${stationLabel(t, destinationStation, trip.country)} 約 ${arrivalDistanceKm.toFixed(1)} 公里` : `${arrivalDistanceKm.toFixed(1)} km from ${stationLabel(t, destinationStation, trip.country)}`)
+                        : (isChinese ? "正在確認你與目的站的距離…" : "Checking your distance to the destination…"))
+                      : arrivalReminderState === "alerted"
+                        ? (isChinese ? "已提醒，準備下車。" : "Alert sent — prepare to get off.")
+                        : arrivalReminderState === "unavailable"
+                          ? (isChinese ? "此目的站沒有可靠座標，或定位權限未開啟。" : "A reliable station coordinate or location permission is unavailable.")
+                          : (isChinese ? `接近 ${stationLabel(t, destinationStation, trip.country)} 600 公尺時震動提醒。` : `Vibrates when you are within 600 m of ${stationLabel(t, destinationStation, trip.country)}.`)}
+                  </p>
                 </div>
               </div>
-
-              {/* Passenger tickets display */}
-              {fareTab === "passenger" ? (
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
-                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500">
-                      {t("result.ticket_adult", { defaultValue: "Adult Ticket" })}
-                    </div>
-                    <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
-                      {displayFare(adultPrice)}
-                    </div>
-                    <div className="mt-0.5 text-[9px] text-emerald-600 dark:text-emerald-400 font-bold">
-                      {t("result.standard_rate", { defaultValue: "Standard Fare" })}
-                    </div>
-                  </div>
-
-                  <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
-                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500">
-                      {t("result.ticket_child", { defaultValue: "Child Ticket" })}
-                    </div>
-                    <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
-                      {displayFare(childPrice)}
-                    </div>
-                    <div className="mt-0.5 text-[9px] text-blue-600 dark:text-blue-400 font-bold">
-                      50% OFF
-                    </div>
-                  </div>
-
-                  <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
-                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500">
-                      {t("result.ticket_senior", { defaultValue: "Senior Ticket" })}
-                    </div>
-                    <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
-                      {displayFare(seniorPrice)}
-                    </div>
-                    <div className="mt-0.5 text-[9px] text-blue-600 dark:text-blue-400 font-bold">
-                      50% OFF
-                    </div>
-                  </div>
-                </div>
+              {arrivalReminderState === "watching" ? (
+                <button type="button" onClick={() => { stopArrivalReminder(); setArrivalReminderState("idle"); }} className="shrink-0 rounded-lg border border-sky-300 px-2.5 py-1.5 text-[10px] font-black text-sky-800 dark:border-sky-700 dark:text-sky-200">
+                  {isChinese ? "停止" : "Stop"}
+                </button>
               ) : (
-                /* Seat class tickets display */
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
-                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 truncate">
-                      {t("result.seat_non_reserved", { defaultValue: "Non-Reserved / Regular" })}
-                    </div>
-                    <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
-                      {displayFare(nonReservedPrice)}
-                    </div>
-                    <div className="mt-0.5 text-[9px] text-slate-500 dark:text-slate-400 font-bold">
-                      ~95% Rate
-                    </div>
-                  </div>
-
-                  <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40 ring-1 ring-emerald-500/30 dark:ring-emerald-500/20">
-                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 truncate">
-                      {t("result.seat_reserved", { defaultValue: "Reserved / Designated" })}
-                    </div>
-                    <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
-                      {displayFare(reservedPrice)}
-                    </div>
-                    <div className="mt-0.5 text-[9px] text-emerald-600 dark:text-emerald-400 font-bold">
-                      Base Rate
-                    </div>
-                  </div>
-
-                  <div className="rounded-2xl bg-slate-50 p-2.5 text-center dark:bg-slate-950/40">
-                    <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 truncate">
-                      {t("result.seat_premium", { defaultValue: "Business / Green Car" })}
-                    </div>
-                    <div className="mt-1.5 font-mono text-sm font-black text-slate-800 dark:text-slate-200">
-                      {displayFare(firstClassPrice)}
-                    </div>
-                    <div className="mt-0.5 text-[9px] text-amber-600 dark:text-amber-500 font-bold">
-                      +55% Fee
-                    </div>
-                  </div>
-                </div>
+                <button type="button" onClick={enableArrivalReminder} disabled={arrivalReminderState === "alerted"} className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-sky-700 px-2.5 py-1.5 text-[10px] font-black text-white disabled:cursor-not-allowed disabled:opacity-60 dark:bg-sky-500 dark:text-slate-950">
+                  <BellRing className="h-3 w-3" />
+                  {arrivalReminderState === "alerted" ? (isChinese ? "已提醒" : "Alerted") : (isChinese ? "開啟" : "Enable")}
+                </button>
               )}
+            </div>
+          </div>
 
-              {/* Sub-text information banner */}
-              <div className="mt-3 flex items-center gap-1.5 rounded-2xl bg-blue-50/50 p-2 text-[10px] text-blue-800/80 dark:bg-blue-950/20 dark:text-blue-400/80">
+          {hasPrice && (
+            <div className="mb-6 flex items-center justify-between gap-3 rounded-3xl border border-slate-200/80 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">{isChinese ? "此班次票價" : "Fare for this service"}</p>
+                <p className="mt-1 font-mono text-xl font-black text-slate-800 dark:text-slate-100">{formatPrice?.(trip) || `${trip.price} ${trip.currency || ""}`}</p>
+              </div>
+              <div className="flex max-w-52 items-start gap-1.5 text-[10px] leading-relaxed text-blue-800/80 dark:text-blue-400/80">
                 <Info className="h-3 w-3 shrink-0" />
                 <span>
-                  {t("result.fare_disclaimer", { defaultValue: "Actual fares may vary depending on date, class, optional insurance, or promotional schemes. Please refer to official booking systems." })}
+                  {isChinese ? "僅顯示資料來源提供的此班次票價；不同乘客、座位或優惠方案請以營運商為準。" : "Only the provider fare for this service is shown. Confirm passenger, seat, and promotional fares with the operator."}
                 </span>
               </div>
             </div>
@@ -588,6 +511,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                 }
 
                 if (item.type === "transfer") {
+                  const pressure = transferPressure(item.durationMinutes, isChinese);
                   return (
                     <motion.div
                       key={item.id}
@@ -641,6 +565,12 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                                 {item.durationMinutes} {t("result.min_connection", { defaultValue: "min connection" })}
                               </span>
                             )}
+                            {pressure ? (
+                              <span className={`inline-flex items-center gap-1 font-black ${pressure.className}`}>
+                                <span aria-hidden="true">{pressure.emoji}</span>
+                                {pressure.label}
+                              </span>
+                            ) : null}
                             {item.arrivalPlatform && item.departurePlatform && (
                               <span className="text-slate-400">
                                 {t("result.plat_label", { defaultValue: "Plat" })} {item.arrivalPlatform} → {item.departurePlatform}
