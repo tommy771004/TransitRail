@@ -8,7 +8,8 @@ import {
   doublePrecision,
   uuid,
   serial,
-  varchar
+  varchar,
+  jsonb
 } from "drizzle-orm/pg-core";
 
 export const feedbacks = pgTable("feedbacks", {
@@ -54,4 +55,30 @@ export const tnAuditLog = pgTable("TN_AUDIT_LOG", {
   geoLatitude: doublePrecision("geo_latitude"),
   geoLongitude: doublePrecision("geo_longitude"),
   geoAccuracy: doublePrecision("geo_accuracy"),
+});
+
+/** One saved-route watch entry inside a subscription's `watched_routes` JSON array. */
+export interface WatchedRoute {
+  origin: string;
+  destination: string;
+  country: string;
+  /** Canonical-day timetable snapshot from the last check; compared against the
+   *  latest scrape to decide whether to notify. Undefined until the first check runs. */
+  fingerprint?: {
+    first?: string;
+    last?: string;
+    departures: number;
+  };
+}
+
+export const pushSubscriptions = pgTable("push_subscriptions", {
+  id: serial("id").primaryKey(),
+  /** The Push API subscription endpoint URL; unique per browser/device registration. */
+  endpoint: text("endpoint").notNull().unique(),
+  p256dhKey: text("p256dh_key").notNull(),
+  authKey: text("auth_key").notNull(),
+  watchedRoutes: jsonb("watched_routes").$type<WatchedRoute[]>().notNull().default([]),
+  language: text("language"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });

@@ -50,6 +50,10 @@ export interface RoutePageData {
   urlPath: string;
   /** zh-TW page path, e.g. "/zh/japan/tokyo-to-kyoto/" */
   zhUrlPath: string;
+  /** Japanese page path, e.g. "/ja/japan/tokyo-to-kyoto/" */
+  jaUrlPath: string;
+  /** Korean page path, e.g. "/ko/japan/tokyo-to-kyoto/" */
+  koUrlPath: string;
   /** The date whose day slice the page renders (empty for dateless snapshots). */
   canonicalDate: string;
   scrapedAt: string;
@@ -130,6 +134,8 @@ export function collectRoutePages(scrapedDir = resolve("src/data/scraped")): Rou
         slug,
         urlPath,
         zhUrlPath: `/zh${urlPath}`,
+        jaUrlPath: `/ja${urlPath}`,
+        koUrlPath: `/ko${urlPath}`,
         canonicalDate: date,
         scrapedAt: route.scrapedAt || "",
         source: route.source || "",

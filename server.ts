@@ -6,6 +6,7 @@ import express from "express";
 import path from "path";
 import dotenv from "dotenv";
 import { createHmac, randomUUID } from "node:crypto";
+import { eq } from "drizzle-orm";
 import { hongKongMtrLineCatalog, hongKongStations } from "./src/data/hongKongMtr";
 import { mtrInterchanges } from "./src/data/hongKongMtr";
 import { japanRailLines, japanStations, koreaStations } from "./src/data/stations";
@@ -27,14 +28,16 @@ import { getCbcRates } from "./src/server/cbc";
 import { getExternalExchangeRates } from "./src/server/exchangeRates";
 import type { Country, SearchDataStatus, TransitLine } from "./src/types";
 import { db } from "./src/db";
-import { feedbacks, tnAuditLog } from "./src/db/schema";
+import { feedbacks, tnAuditLog, pushSubscriptions, type WatchedRoute } from "./src/db/schema";
 import { newCountryStationLists } from "./src/data/scraped/stations";
 import { getStationsForCountry, getLinesForCountry } from "./src/server/catalog";
 import { searchSwissJourney } from "./src/server/swiss";
 import { enrichTransitResultsWithLineStations } from "./src/utils/metroEnricher";
 import { transferCatalog, getTransferInfo } from "./src/data/transfers";
 import { findNearestKnownStation } from "./src/utils/geoCoordinates";
-import { fetchOpenRouterWithFallback } from "./src/openRouterHelper";
+import { getTransitSituations } from "./src/server/situations";
+import { countryOptions, providerDateValue } from "./src/data/countries";
+import { timetableFingerprint } from "./src/utils/timetableChanges";
 
 dotenv.config();
 
@@ -411,6 +414,16 @@ async function logTransitSearch(
     });
 
     return res.status(statusCode).json(payload);
+  });
+
+  app.get("/api/transit/situations", async (req, res) => {
+    const country = typeof req.query.country === "string" ? req.query.country as Country : undefined;
+    if (country && !countryOptions.includes(country)) {
+      return res.status(400).json({ error: "Invalid country.", situations: [] });
+    }
+    const situations = await getTransitSituations(country);
+    res.set("Cache-Control", "public, s-maxage=120, stale-while-revalidate=300");
+    return res.json({ situations, checkedAt: new Date().toISOString() });
   });
 
   app.post("/api/transit/audit", async (req, res) => {
@@ -790,29 +803,95 @@ async function logTransitSearch(
     }
   });
 
-  app.post("/api/ai-plan", async (req, res) => {
+  // Web Push: schedule-change notifications for saved routes. The public key is
+  // safe to expose — VAPID_PRIVATE_KEY never leaves the server. The daily
+  // scripts/check-push-notifications.ts job (run after the scrape commits new
+  // data) is what actually sends notifications; these endpoints only manage
+  // subscriptions.
+  app.get("/api/push/vapid-public-key", (_req, res) => {
+    const available = Boolean(process.env.DATABASE_URL && process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY);
+    res.json({ publicKey: available ? process.env.VAPID_PUBLIC_KEY : null });
+  });
+
+  app.post("/api/push/subscribe", async (req, res) => {
     try {
-      const openRouterKey = process.env.OPENROUTER_API_KEY;
-      const geminiKey = process.env.GEMINI_API_KEY;
-      if (!openRouterKey && !geminiKey) {
-        return res.status(501).json({ error: "No AI provider configured. Set OPENROUTER_API_KEY or GEMINI_API_KEY." });
+      if (!process.env.DATABASE_URL || !process.env.VAPID_PUBLIC_KEY || !process.env.VAPID_PRIVATE_KEY) {
+        return res.status(501).json({ error: "Push notifications are not configured on this server." });
       }
-      const { prompt } = req.body;
-      if (typeof prompt !== "string" || !prompt.trim()) {
-        return res.status(400).json({ error: "Prompt is required." });
+      const { subscription, routes, language } = req.body as {
+        subscription?: { endpoint?: string; keys?: { p256dh?: string; auth?: string } };
+        routes?: Array<{ origin?: string; destination?: string; country?: string }>;
+        language?: string;
+      };
+      if (!subscription?.endpoint || !subscription.keys?.p256dh || !subscription.keys?.auth) {
+        return res.status(400).json({ error: "A valid push subscription is required." });
+      }
+      if (!Array.isArray(routes) || routes.length === 0) {
+        return res.status(400).json({ error: "At least one route to watch is required." });
       }
 
-      // OpenRouter deployments get the full multi-model fallback chain;
-      // Gemini-only deployments reuse the same retry/backoff pipeline
-      // against the generativelanguage endpoint.
-      const response = openRouterKey
-        ? await fetchOpenRouterWithFallback(openRouterKey, prompt)
-        : await fetchOpenRouterWithFallback(geminiKey!, prompt, undefined, "gemini-3.1-pro-preview", undefined, "gemini");
+      const cleanRoutes: WatchedRoute[] = [];
+      for (const route of routes.slice(0, 20)) {
+        const origin = readText(route?.origin);
+        const destination = readText(route?.destination);
+        const country = readText(route?.country);
+        if (!origin || !destination || !country) continue;
+        if (!countryOptions.includes(country as Country)) continue;
 
-      res.json({ result: response.text, model: response.model });
+        const today = providerDateValue(country as Country);
+        const results = findScrapedResults(country as Country, origin, destination, today);
+        cleanRoutes.push({
+          origin,
+          destination,
+          country,
+          fingerprint: results ? timetableFingerprint(results) : undefined,
+        });
+      }
+      if (cleanRoutes.length === 0) {
+        return res.status(400).json({ error: "None of the provided routes could be resolved against scraped data." });
+      }
+
+      await db
+        .insert(pushSubscriptions)
+        .values({
+          endpoint: subscription.endpoint,
+          p256dhKey: subscription.keys.p256dh,
+          authKey: subscription.keys.auth,
+          watchedRoutes: cleanRoutes,
+          language: readText(language),
+        })
+        .onConflictDoUpdate({
+          target: pushSubscriptions.endpoint,
+          set: {
+            p256dhKey: subscription.keys.p256dh,
+            authKey: subscription.keys.auth,
+            watchedRoutes: cleanRoutes,
+            language: readText(language),
+            updatedAt: new Date(),
+          },
+        });
+
+      res.json({ success: true, watching: cleanRoutes.length });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Failed to generate AI plan." });
+      console.error("Failed to save push subscription", error);
+      res.status(500).json({ error: "Failed to save push subscription." });
+    }
+  });
+
+  app.post("/api/push/unsubscribe", async (req, res) => {
+    try {
+      if (!process.env.DATABASE_URL) {
+        return res.json({ success: true });
+      }
+      const endpoint = readText((req.body as { endpoint?: string } | undefined)?.endpoint);
+      if (!endpoint) {
+        return res.status(400).json({ error: "endpoint is required." });
+      }
+      await db.delete(pushSubscriptions).where(eq(pushSubscriptions.endpoint, endpoint));
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Failed to remove push subscription", error);
+      res.status(500).json({ error: "Failed to remove push subscription." });
     }
   });
 
@@ -927,155 +1006,6 @@ function generateShareCardSvg(trip: ShareCardPayload): string {
 </svg>`;
 }
 
-function generateFallbackSvg(origin: string, destination: string, country?: string): string {
-  const hash = (str: string) => {
-    let h = 0;
-    for (let i = 0; i < str.length; i++) {
-      h = (h << 5) - h + str.charCodeAt(i);
-      h |= 0;
-    }
-    return Math.abs(h);
-  };
-  const cCode = (country || "").toLowerCase();
-  const oHash = hash(origin);
-  const dHash = hash(destination);
-  const combinedHash = hash(origin + destination);
-  let gradStart = "#1e1b4b";
-  let gradEnd = "#311042";
-  let accentColor = "#f43f5e";
-  let patternType = "mountains";
-  if (cCode === "japan" || cCode === "jp") {
-    gradStart = "#111827";
-    gradEnd = "#4c0519";
-    accentColor = "#e11d48";
-    patternType = "mountains-sun";
-  } else if (cCode === "switzerland" || cCode === "ch") {
-    gradStart = "#0c4a6e";
-    gradEnd = "#0284c7";
-    accentColor = "#ffffff";
-    patternType = "swiss-alps";
-  } else if (cCode === "korea" || cCode === "kr") {
-    gradStart = "#0f172a";
-    gradEnd = "#1e3a8a";
-    accentColor = "#f43f5e";
-    patternType = "modern-city";
-  } else {
-    const presets = [
-      { start: "#1e1b4b", end: "#311042", accent: "#f43f5e", pattern: "mountains" },
-      { start: "#065f46", end: "#022c22", accent: "#10b981", pattern: "forest" },
-      { start: "#7c2d12", end: "#431407", accent: "#f97316", pattern: "sunset-desert" },
-      { start: "#1e3a8a", end: "#172554", accent: "#3b82f6", pattern: "city-night" },
-      { start: "#581c87", end: "#3b0764", accent: "#a855f7", pattern: "aurora" }
-    ];
-    const preset = presets[combinedHash % presets.length];
-    gradStart = preset.start;
-    gradEnd = preset.end;
-    accentColor = preset.accent;
-    patternType = preset.pattern;
-  }
-  let artwork = "";
-  if (patternType === "mountains-sun" || patternType === "mountains") {
-    artwork = `
-      <circle cx="400" cy="140" r="70" fill="${accentColor}" opacity="0.8" />
-      <circle cx="400" cy="140" r="90" fill="none" stroke="${accentColor}" stroke-width="2" stroke-dasharray="10 15" opacity="0.4" />
-      <polygon points="100,320 300,100 500,320" fill="#1f2937" opacity="0.8" />
-      <polygon points="300,320 500,80 700,320" fill="#111827" opacity="0.9" />
-      <polygon points="-50,320 150,150 350,320" fill="#374151" opacity="0.6" />
-      <polygon points="380,320 420,320 405,180 395,180" fill="#4b5563" opacity="0.5" />
-      <line x1="390" y1="220" x2="410" y2="220" stroke="#9ca3af" stroke-width="3" opacity="0.7" />
-      <line x1="385" y1="240" x2="415" y2="240" stroke="#9ca3af" stroke-width="4" opacity="0.7" />
-      <line x1="380" y1="270" x2="420" y2="270" stroke="#9ca3af" stroke-width="5" opacity="0.7" />
-      <line x1="370" y1="300" x2="430" y2="300" stroke="#9ca3af" stroke-width="6" opacity="0.7" />
-    `;
-  } else if (patternType === "swiss-alps") {
-    artwork = `
-      <circle cx="150" cy="100" r="120" fill="#fef08a" opacity="0.15" />
-      <polygon points="-50,320 150,60 350,320" fill="#38bdf8" opacity="0.6" />
-      <polygon points="100,320 350,30 600,320" fill="#0284c7" opacity="0.8" />
-      <polygon points="400,320 600,100 800,320" fill="#0369a1" opacity="0.9" />
-      <polygon points="120,100 150,60 170,100 155,90 145,95" fill="#f8fafc" opacity="0.95" />
-      <polygon points="310,80 350,30 380,80 365,65 350,75 335,65" fill="#f8fafc" opacity="0.95" />
-      <polygon points="560,140 600,100 630,140 615,125 600,135 585,125" fill="#f8fafc" opacity="0.95" />
-    `;
-  } else if (patternType === "forest") {
-    artwork = `
-      <circle cx="650" cy="110" r="50" fill="#fef08a" opacity="0.85" />
-      <circle cx="650" cy="110" r="65" fill="none" stroke="#fef08a" stroke-width="1" stroke-dasharray="5 10" opacity="0.5" />
-      <g fill="#022c22">
-        <polygon points="150,320 150,220 130,240 170,240 140,200 160,200 150,170" opacity="0.4" />
-        <polygon points="350,320 350,200 330,220 370,220 340,180 360,180 350,150" opacity="0.4" />
-        <polygon points="550,320 550,210 530,230 570,230 540,190 560,190 550,160" opacity="0.4" />
-        <polygon points="250,320 250,180 220,210 280,210 235,160 265,160 250,120" fill="#064e3b" opacity="0.7" />
-        <polygon points="450,320 450,170 420,200 480,200 435,150 465,150 450,110" fill="#064e3b" opacity="0.7" />
-        <polygon points="100,320 100,150 60,190 140,190 75,130 125,130 100,80" fill="#022c22" />
-        <polygon points="700,320 700,150 660,190 740,190 675,130 725,130 700,80" fill="#022c22" />
-      </g>
-    `;
-  } else if (patternType === "sunset-desert") {
-    artwork = `
-      <circle cx="400" cy="320" r="180" fill="#f97316" opacity="0.9" />
-      <circle cx="400" cy="320" r="150" fill="#facc15" opacity="0.95" />
-      <path d="M-100,320 Q150,200 400,320 Z" fill="#7c2d12" opacity="0.8" />
-      <path d="M300,320 Q550,180 900,320 Z" fill="#9a3412" opacity="0.9" />
-      <path d="M100,320 Q400,240 700,320 Z" fill="#ea580c" opacity="0.6" />
-    `;
-  } else if (patternType === "city-night" || patternType === "modern-city") {
-    artwork = `
-      <circle cx="120" cy="80" r="40" fill="#e2e8f0" opacity="0.9" />
-      <g fill="#1e293b">
-        <rect x="50" y="160" width="60" height="160" opacity="0.5" />
-        <rect x="180" y="120" width="80" height="200" opacity="0.6" />
-        <rect x="340" y="180" width="50" height="140" opacity="0.5" />
-        <rect x="440" y="140" width="70" height="180" opacity="0.7" />
-        <rect x="600" y="100" width="90" height="220" opacity="0.8" />
-      </g>
-      <g fill="#0f172a">
-        <rect x="100" y="200" width="50" height="120" />
-        <rect x="230" y="150" width="70" height="170" />
-        <polygon points="265,150 265,90 270,150" stroke="#0f172a" stroke-width="4" />
-        <rect x="380" y="170" width="80" height="150" />
-        <rect x="520" y="120" width="60" height="200" />
-        <polygon points="550,120 550,60 555,120" stroke="#0f172a" stroke-width="3" />
-      </g>
-      <g fill="#fef08a" opacity="0.7">
-        <rect x="110" y="220" width="8" height="12" />
-        <rect x="130" y="220" width="8" height="12" />
-        <rect x="110" y="250" width="8" height="12" />
-        <rect x="245" y="170" width="10" height="15" />
-        <rect x="275" y="170" width="10" height="15" />
-        <rect x="245" y="200" width="10" height="15" />
-        <rect x="400" y="190" width="12" height="12" />
-        <rect x="420" y="190" width="12" height="12" />
-        <rect x="400" y="220" width="12" height="12" />
-        <rect x="535" y="140" width="8" height="14" />
-        <rect x="535" y="170" width="8" height="14" />
-        <rect x="535" y="200" width="8" height="14" />
-      </g>
-    `;
-  } else {
-    artwork = `
-      <circle cx="400" cy="160" r="120" fill="none" stroke="${accentColor}" stroke-width="4" opacity="0.3" />
-      <circle cx="400" cy="160" r="100" fill="${accentColor}" opacity="0.1" />
-      <line x1="0" y1="160" x2="800" y2="160" stroke="#9ca3af" stroke-width="1" stroke-dasharray="5 5" opacity="0.3" />
-      <line x1="400" y1="0" x2="400" y2="320" stroke="#9ca3af" stroke-width="1" stroke-dasharray="5 5" opacity="0.3" />
-    `;
-  }
-  const label = `${origin.toUpperCase()}  →  ${destination.toUpperCase()}`;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="100%" height="100%" style="border-radius: 1.5rem; overflow: hidden; background: linear-gradient(135deg, ${gradStart}, ${gradEnd});">
-    <defs>
-      <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="${gradStart}" />
-        <stop offset="100%" stop-color="${gradEnd}" />
-      </linearGradient>
-    </defs>
-    <rect width="800" height="320" fill="url(#skyGrad)" />
-    ${artwork}
-    <rect x="0" y="240" width="800" height="80" fill="#0f172a" opacity="0.75" />
-    <text x="400" y="285" fill="#ffffff" font-family="'Inter', system-ui, sans-serif" font-size="20" font-weight="900" letter-spacing="4" text-anchor="middle" opacity="0.95">${label}</text>
-    <text x="400" y="302" fill="#94a3b8" font-family="'Inter', system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="2" text-anchor="middle" opacity="0.8">TRANSITRAIL EXPLORER POSTER</text>
-  </svg>`;
-  return svg;
-}
 
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {

@@ -55,3 +55,13 @@ jobs:
           file_pattern: "src/data/scraped/*.json src/data/scraped/*/*.json src/data/catalog/*.json public/catalog/*.json"
           commit_user_name: "TransitRail Scraper Bot"
           commit_user_email: "scraper@transitrail.app"
+
+      - name: Notify saved-route subscribers of timetable changes
+        env:
+          # All optional — the script no-ops without them, so deployments that
+          # don't use push notifications can leave these secrets unset.
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          VAPID_PUBLIC_KEY: ${{ secrets.VAPID_PUBLIC_KEY }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
+        run: npm run push:check

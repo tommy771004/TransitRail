@@ -39,27 +39,30 @@ const timezoneFlags: Record<string, string> = {
   "Asia/Shanghai": "🇨🇳",
 };
 
+const LANGUAGES = [
+  { code: "zh-TW", label: "繁中" },
+  { code: "en", label: "EN" },
+  { code: "ja", label: "日本語" },
+  { code: "ko", label: "한국어" },
+] as const;
+
 export function Header({ onMenuOpen, onProfileOpen, timezone, homeCurrency }: HeaderProps) {
   const { t, i18n } = useTranslation();
 
-  const toggleLanguage = () => {
-    i18n.changeLanguage(i18n.language === 'en' ? 'zh-TW' : 'en');
-  };
-
   const getTimezoneCity = (tz: string, lang: string) => {
-    const cityMap: Record<string, { en: string; 'zh-TW': string }> = {
-      'Asia/Taipei': { en: 'Taipei', 'zh-TW': '台北' },
-      'Asia/Tokyo': { en: 'Tokyo', 'zh-TW': '東京' },
-      'Asia/Seoul': { en: 'Seoul', 'zh-TW': '首爾' },
-      'Asia/Singapore': { en: 'Singapore', 'zh-TW': '新加坡' },
-      'Asia/Bangkok': { en: 'Bangkok', 'zh-TW': '曼谷' },
-      'Asia/Hong_Kong': { en: 'Hong Kong', 'zh-TW': '香港' },
-      'Europe/London': { en: 'London', 'zh-TW': '倫敦' },
-      'Europe/Berlin': { en: 'Berlin', 'zh-TW': '柏林' },
-      'Europe/Paris': { en: 'Paris', 'zh-TW': '巴黎' },
-      'America/New_York': { en: 'New York', 'zh-TW': '紐約' },
-      'America/Los_Angeles': { en: 'Los Angeles', 'zh-TW': '洛杉磯' },
-      'Asia/Shanghai': { en: 'Shanghai', 'zh-TW': '上海' },
+    const cityMap: Record<string, { en: string; 'zh-TW': string; ja: string; ko: string }> = {
+      'Asia/Taipei': { en: 'Taipei', 'zh-TW': '台北', ja: '台北', ko: '타이베이' },
+      'Asia/Tokyo': { en: 'Tokyo', 'zh-TW': '東京', ja: '東京', ko: '도쿄' },
+      'Asia/Seoul': { en: 'Seoul', 'zh-TW': '首爾', ja: 'ソウル', ko: '서울' },
+      'Asia/Singapore': { en: 'Singapore', 'zh-TW': '新加坡', ja: 'シンガポール', ko: '싱가포르' },
+      'Asia/Bangkok': { en: 'Bangkok', 'zh-TW': '曼谷', ja: 'バンコク', ko: '방콕' },
+      'Asia/Hong_Kong': { en: 'Hong Kong', 'zh-TW': '香港', ja: '香港', ko: '홍콩' },
+      'Europe/London': { en: 'London', 'zh-TW': '倫敦', ja: 'ロンドン', ko: '런던' },
+      'Europe/Berlin': { en: 'Berlin', 'zh-TW': '柏林', ja: 'ベルリン', ko: '베를린' },
+      'Europe/Paris': { en: 'Paris', 'zh-TW': '巴黎', ja: 'パリ', ko: '파리' },
+      'America/New_York': { en: 'New York', 'zh-TW': '紐約', ja: 'ニューヨーク', ko: '뉴욕' },
+      'America/Los_Angeles': { en: 'Los Angeles', 'zh-TW': '洛杉磯', ja: 'ロサンゼルス', ko: '로스앤젤레스' },
+      'Asia/Shanghai': { en: 'Shanghai', 'zh-TW': '上海', ja: '上海', ko: '상하이' },
     };
     const mapping = cityMap[tz];
     const flag = timezoneFlags[tz] || "";
@@ -95,13 +98,16 @@ export function Header({ onMenuOpen, onProfileOpen, timezone, homeCurrency }: He
           </span>
         </div>
 
-        <button
-          onClick={toggleLanguage}
-          className="flex h-8 items-center rounded-xl px-2.5 font-mono text-[11px] font-bold uppercase text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
+        <select
+          value={i18n.language}
+          onChange={(e) => i18n.changeLanguage(e.target.value)}
+          className="h-8 cursor-pointer rounded-xl border-none bg-transparent px-2 text-[11px] font-bold text-slate-500 outline-none hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
           aria-label={t("header.switch_language")}
         >
-          {i18n.language === 'en' ? '中' : 'EN'}
-        </button>
+          {LANGUAGES.map((lang) => (
+            <option key={lang.code} value={lang.code}>{lang.label}</option>
+          ))}
+        </select>
         <button
           onClick={onProfileOpen}
           className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"

@@ -3,9 +3,11 @@
  *
  * For every route file that clears the thin-content guard (see
  * scripts/lib/routePages.ts) this emits:
- *   public/<country>/<origin>-to-<dest>/index.html   (English)
+ *   public/<country>/<origin>-to-<dest>/index.html    (English)
  *   public/zh/<country>/<origin>-to-<dest>/index.html (zh-TW)
- * plus a crawlable hub page at /routes/ and /zh/routes/.
+ *   public/ja/<country>/<origin>-to-<dest>/index.html (Japanese)
+ *   public/ko/<country>/<origin>-to-<dest>/index.html (Korean)
+ * plus a crawlable hub page at /routes/, /zh/routes/, /ja/routes/, /ko/routes/.
  *
  * Vercel serves static files before the SPA catch-all rewrite, so these pages
  * win their exact paths while every other path still loads the app. Each page
@@ -26,20 +28,33 @@ const MAX_TABLE_ROWS = 40;
 const MAX_SCHEMA_TRIPS = 10;
 const MAX_RELATED_LINKS = 6;
 
-type Lang = "en" | "zh";
+type Lang = "en" | "zh" | "ja" | "ko";
+const ALL_LANGS: Lang[] = ["en", "zh", "ja", "ko"];
+const HREFLANG: Record<Lang, string> = { en: "en", zh: "zh-Hant", ja: "ja", ko: "ko" };
+const HUB_PATH: Record<Lang, string> = { en: "/routes/", zh: "/zh/routes/", ja: "/ja/routes/", ko: "/ko/routes/" };
 
-const tEn = i18n.getFixedT("en");
-const tZh = i18n.getFixedT("zh-TW");
-const zhStationDict = i18n.getResourceBundle("zh-TW", "translation").station as Record<string, string>;
+const T: Record<Lang, ReturnType<typeof i18n.getFixedT>> = {
+  en: i18n.getFixedT("en"),
+  zh: i18n.getFixedT("zh-TW"),
+  ja: i18n.getFixedT("ja"),
+  ko: i18n.getFixedT("ko"),
+};
+
+const STATION_DICTS: Record<Lang, Record<string, string>> = {
+  en: i18n.getResourceBundle("en", "translation").station as Record<string, string>,
+  zh: i18n.getResourceBundle("zh-TW", "translation").station as Record<string, string>,
+  ja: i18n.getResourceBundle("ja", "translation").station as Record<string, string>,
+  ko: i18n.getResourceBundle("ko", "translation").station as Record<string, string>,
+};
 
 const UI = {
   en: {
     langCode: "en",
     ogLocale: "en_US",
     siteName: "Rail Nation",
+    shortLabel: "EN",
     home: "Home",
     allRoutes: "All routes",
-    switchLang: "中文版",
     trainsPerDay: "trains/day",
     firstDeparture: "First departure",
     lastDeparture: "Last departure",
@@ -92,9 +107,9 @@ const UI = {
     langCode: "zh-Hant",
     ogLocale: "zh_TW",
     siteName: "Rail Nation",
+    shortLabel: "中文",
     home: "首頁",
     allRoutes: "所有路線",
-    switchLang: "English",
     trainsPerDay: "班/日",
     firstDeparture: "首班車",
     lastDeparture: "末班車",
@@ -141,7 +156,122 @@ const UI = {
       (price ? `、票價 ${price} 起` : "") +
       "。含轉乘與票價資訊。",
   },
+  ja: {
+    langCode: "ja",
+    ogLocale: "ja_JP",
+    siteName: "Rail Nation",
+    shortLabel: "日本語",
+    home: "ホーム",
+    allRoutes: "全路線",
+    trainsPerDay: "本/日",
+    firstDeparture: "始発",
+    lastDeparture: "終電",
+    fastest: "最速",
+    faresFrom: "運賃",
+    timetable: "時刻表",
+    departure: "出発",
+    arrival: "到着",
+    service: "列車種別",
+    duration: "所要時間",
+    transfer: "乗換",
+    price: "運賃",
+    direct: "直通",
+    via: "経由",
+    moreDepartures: (n: number) => `他 ${n} 便 — アプリのリアルタイム検索で全便を確認できます。`,
+    openApp: "アプリでこの旅程を計画",
+    services: "この路線の列車種別",
+    servicesCount: (n: number, fastest: string) => `1日 ${n} 便 · 最速 ${fastest}`,
+    faq: "よくある質問",
+    faqDuration: (o: string, d: string) => `${o}から${d}までの所要時間は？`,
+    faqDurationA: (o: string, d: string, fastest: string, typical: string) =>
+      `${o}から${d}への最速便は${fastest}、多くの便は約${typical}かかります。`,
+    faqFirstLast: (o: string, d: string) => `${o}から${d}行きの始発と終電は何時ですか？`,
+    faqFirstLastA: (first: string, last: string) => `当日の始発は${first}、終電は${last}です。`,
+    faqPrice: (o: string, d: string) => `${o}から${d}までの運賃はいくらですか？`,
+    faqPriceA: (price: string) => `運賃は${price}から（表示中の最安便の通常運賃）。`,
+    faqFrequency: (o: string, d: string) => `${o}から${d}までは1日何本運行していますか？`,
+    faqFrequencyA: (n: number) => `この時刻表スナップショットでは1日${n}便運行しています。`,
+    related: "関連路線",
+    reverseDirection: "反対方向",
+    routesHubTitle: "全列車路線時刻表",
+    routesHubDescription:
+      "Rail Nationに掲載されている全ての出発地・到着地の時刻表を検索：発車時刻、所要時間、乗換、運賃をアジア・ヨーロッパ・北米で網羅。",
+    routesOnHub: (n: number) => `${n} 路線`,
+    countryApp: (c: string) => `アプリで${c}を開く`,
+    sourceLabel: "データソース",
+    snapshotDate: "時刻表スナップショット",
+    disclaimer:
+      "掲載の時刻・運賃はスクレイピングによるスナップショットです。ご利用前に必ず運行会社の公式情報をご確認ください。",
+    breadcrumbRoutes: "路線",
+    titleSuffix: "列車時刻表・所要時間・運賃",
+    metaDescription: (o: string, d: string, n: number, first: string, last: string, fastest: string, price: string | null) =>
+      `${o}から${d}への1日${n}本の列車時刻表：始発${first}、終電${last}` +
+      (fastest ? `、最速${fastest}` : "") +
+      (price ? `、運賃${price}から` : "") +
+      "。時刻表・乗換・運賃情報。",
+  },
+  ko: {
+    langCode: "ko",
+    ogLocale: "ko_KR",
+    siteName: "Rail Nation",
+    shortLabel: "한국어",
+    home: "홈",
+    allRoutes: "전체 노선",
+    trainsPerDay: "편/일",
+    firstDeparture: "첫차",
+    lastDeparture: "막차",
+    fastest: "최단시간",
+    faresFrom: "요금",
+    timetable: "시간표",
+    departure: "출발",
+    arrival: "도착",
+    service: "열차 종류",
+    duration: "소요시간",
+    transfer: "환승",
+    price: "요금",
+    direct: "직통",
+    via: "경유",
+    moreDepartures: (n: number) => `${n}편 더 있음 — 전체 목록은 앱의 실시간 검색에서 확인하세요.`,
+    openApp: "앱에서 이 여정 계획하기",
+    services: "이 노선의 열차 종류",
+    servicesCount: (n: number, fastest: string) => `하루 ${n}편 · 최단 ${fastest}`,
+    faq: "자주 묻는 질문",
+    faqDuration: (o: string, d: string) => `${o}에서 ${d}까지 열차로 얼마나 걸리나요?`,
+    faqDurationA: (o: string, d: string, fastest: string, typical: string) =>
+      `${o}에서 ${d}까지 가장 빠른 열차는 ${fastest}가 걸리며, 대부분의 열차는 약 ${typical}이 걸립니다.`,
+    faqFirstLast: (o: string, d: string) => `${o}에서 ${d}행 첫차와 막차는 몇 시인가요?`,
+    faqFirstLastA: (first: string, last: string) => `당일 첫차는 ${first}, 막차는 ${last}입니다.`,
+    faqPrice: (o: string, d: string) => `${o}에서 ${d}까지 요금은 얼마인가요?`,
+    faqPriceA: (price: string) => `요금은 ${price}부터입니다 (표시된 가장 저렴한 열차의 일반 요금 기준).`,
+    faqFrequency: (o: string, d: string) => `${o}에서 ${d}까지 하루에 몇 편 운행하나요?`,
+    faqFrequencyA: (n: number) => `이 시간표 스냅샷 기준으로 하루 ${n}편이 운행됩니다.`,
+    related: "관련 노선",
+    reverseDirection: "반대 방향",
+    routesHubTitle: "전체 열차 노선 시간표",
+    routesHubDescription:
+      "Rail Nation에 등록된 모든 출발지-도착지 시간표를 살펴보세요: 출발 시각, 소요 시간, 환승, 요금까지 아시아・유럽・북미를 아우릅니다.",
+    routesOnHub: (n: number) => `${n}개 노선`,
+    countryApp: (c: string) => `앱에서 ${c} 열기`,
+    sourceLabel: "데이터 출처",
+    snapshotDate: "시간표 스냅샷",
+    disclaimer:
+      "표시된 시각과 요금은 수집된 스냅샷이며 참고용입니다. 이용 전 반드시 운영사의 공식 정보를 확인하세요.",
+    breadcrumbRoutes: "노선",
+    titleSuffix: "열차 시간표・소요시간・요금",
+    metaDescription: (o: string, d: string, n: number, first: string, last: string, fastest: string, price: string | null) =>
+      `${o}에서 ${d}까지 하루 ${n}편의 열차 시간표: 첫차 ${first}, 막차 ${last}` +
+      (fastest ? `, 최단 ${fastest}` : "") +
+      (price ? `, 요금 ${price}부터` : "") +
+      ". 시간표, 환승, 요금 정보.",
+  },
 } as const;
+
+const OG_LABELS: Record<Lang, { early: string; departure: string; snapshot: string }> = {
+  en: { early: "EARLY", departure: "DEPARTURE", snapshot: "Timetable · first three departures" },
+  zh: { early: "早班", departure: "班次", snapshot: "今日時刻表 · 前三班車" },
+  ja: { early: "始発", departure: "発車", snapshot: "本日の時刻表・上位3便" },
+  ko: { early: "첫차", departure: "출발", snapshot: "오늘의 시간표・상위 3편" },
+};
 
 function esc(value: string): string {
   return value
@@ -152,16 +282,25 @@ function esc(value: string): string {
     .replace(/'/g, "&#39;");
 }
 
-function zhStation(name: string, country: Country): string {
-  return stationOverrides[country]?.[name] ?? zhStationDict[name] ?? name;
-}
-
+/** Only zh-TW has per-country disambiguation overrides (see stationOverrides.ts);
+ *  en/ja/ko fall straight through to their flat station dict, then the raw name. */
 function stationName(name: string, country: Country, lang: Lang): string {
-  return lang === "zh" ? zhStation(name, country) : name;
+  if (lang === "zh") return stationOverrides[country]?.[name] ?? STATION_DICTS.zh[name] ?? name;
+  return STATION_DICTS[lang][name] ?? name;
 }
 
 function countryLabel(country: Country, lang: Lang): string {
-  return (lang === "zh" ? tZh : tEn)(`search.${country}`);
+  return T[lang](`search.${country}`);
+}
+
+function pagePath(page: RoutePageData, lang: Lang): string {
+  return lang === "en" ? page.urlPath : lang === "zh" ? page.zhUrlPath : lang === "ja" ? page.jaUrlPath : page.koUrlPath;
+}
+
+function routeTitle(origin: string, destination: string, lang: Lang): string {
+  if (lang === "en") return `${origin} to ${destination}`;
+  if (lang === "zh") return `${origin}到${destination}`;
+  return `${origin}→${destination}`;
 }
 
 function parseTimeMinutes(time: string | undefined): number | undefined {
@@ -181,15 +320,16 @@ function resultDurationMinutes(result: TransitResult): number | undefined {
 function formatDuration(minutes: number, lang: Lang): string {
   const h = Math.floor(minutes / 60);
   const m = Math.round(minutes % 60);
-  if (lang === "zh") {
-    return h > 0 ? (m > 0 ? `${h} 小時 ${m} 分` : `${h} 小時`) : `${m} 分鐘`;
-  }
+  if (lang === "zh") return h > 0 ? (m > 0 ? `${h} 小時 ${m} 分` : `${h} 小時`) : `${m} 分鐘`;
+  if (lang === "ja") return h > 0 ? (m > 0 ? `${h}時間${m}分` : `${h}時間`) : `${m}分`;
+  if (lang === "ko") return h > 0 ? (m > 0 ? `${h}시간 ${m}분` : `${h}시간`) : `${m}분`;
   return h > 0 ? (m > 0 ? `${h} hr ${m} min` : `${h} hr`) : `${m} min`;
 }
 
 function formatPrice(price: number, currency: string, lang: Lang): string {
+  const locale = lang === "zh" ? "zh-TW" : lang === "ja" ? "ja-JP" : lang === "ko" ? "ko-KR" : "en-US";
   try {
-    return new Intl.NumberFormat(lang === "zh" ? "zh-TW" : "en-US", {
+    return new Intl.NumberFormat(locale, {
       style: "currency",
       currency,
       maximumFractionDigits: price % 1 === 0 ? 0 : 2,
@@ -236,7 +376,7 @@ function computeStats(results: TransitResult[]): RouteStats {
 const PAGE_CSS = `
 :root{color-scheme:light dark;--bg:#f8fafc;--card:#ffffff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#0f766e;--accent-ink:#ffffff}
 @media(prefers-color-scheme:dark){:root{--bg:#0f172a;--card:#1e293b;--ink:#f1f5f9;--muted:#94a3b8;--line:#334155;--accent:#2dd4bf;--accent-ink:#042f2e}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans TC",sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans TC","Noto Sans JP","Noto Sans KR",sans-serif}
 main{max-width:56rem;margin:0 auto;padding:1rem 1rem 3rem}
 nav.crumbs{font-size:.85rem;color:var(--muted);padding:.75rem 0}nav.crumbs a{color:var(--muted)}
 h1{font-size:1.6rem;line-height:1.3;margin:.25rem 0 1rem}h2{font-size:1.15rem;margin:2rem 0 .75rem}
@@ -268,16 +408,17 @@ function htmlShell(options: {
   lang: Lang;
   title: string;
   description: string;
-  path: string;
-  altPath: string;
+  paths: Record<Lang, string>;
   ogImagePath?: string;
   body: string;
   jsonLd: object[];
 }): string {
-  const { lang, title, description, path, altPath, ogImagePath, body, jsonLd } = options;
+  const { lang, title, description, paths, ogImagePath, body, jsonLd } = options;
   const ui = UI[lang];
-  const enPath = lang === "en" ? path : altPath;
-  const zhPath = lang === "zh" ? path : altPath;
+  const path = paths[lang];
+  const langSwitcher = ALL_LANGS.filter((l) => l !== lang)
+    .map((l) => `<a href="${paths[l]}" hreflang="${HREFLANG[l]}">${UI[l].shortLabel}</a>`)
+    .join(" · ");
   return `<!doctype html>
 <html lang="${ui.langCode}">
 <head>
@@ -286,9 +427,8 @@ function htmlShell(options: {
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${SITE_URL}${path}">
-<link rel="alternate" hreflang="en" href="${SITE_URL}${enPath}">
-<link rel="alternate" hreflang="zh-Hant" href="${SITE_URL}${zhPath}">
-<link rel="alternate" hreflang="x-default" href="${SITE_URL}${enPath}">
+${ALL_LANGS.map((l) => `<link rel="alternate" hreflang="${HREFLANG[l]}" href="${SITE_URL}${paths[l]}">`).join("\n")}
+<link rel="alternate" hreflang="x-default" href="${SITE_URL}${paths.en}">
 <meta property="og:site_name" content="${ui.siteName}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
@@ -308,7 +448,7 @@ ${jsonLd.map((entry) => `<script type="application/ld+json">${JSON.stringify(ent
 <main>
 <header class="top">
 <a class="brand" href="/">${ui.siteName}</a>
-<span><a href="${lang === "zh" ? "/zh/routes/" : "/routes/"}">${ui.allRoutes}</a> · <a href="${altPath}" hreflang="${lang === "en" ? "zh-Hant" : "en"}">${ui.switchLang}</a></span>
+<span><a href="${HUB_PATH[lang]}">${ui.allRoutes}</a> · ${langSwitcher}</span>
 </header>
 ${body}
 </main>
@@ -319,6 +459,7 @@ ${body}
 
 function renderRouteOgSvg(page: RoutePageData, lang: Lang): string {
   const ui = UI[lang];
+  const labels = OG_LABELS[lang];
   const origin = stationName(page.origin, page.country, lang);
   const destination = stationName(page.destination, page.country, lang);
   const country = countryLabel(page.country, lang);
@@ -332,9 +473,9 @@ function renderRouteOgSvg(page: RoutePageData, lang: Lang): string {
   }[page.country] || ["#0f766e", "#2dd4bf"];
   const departureCards = departures.map((time, index) => {
     const x = 76 + index * 346;
-    return `<g transform="translate(${x} 456)"><rect width="308" height="98" rx="22" fill="#fff" fill-opacity=".13" stroke="#fff" stroke-opacity=".22"/><text x="24" y="33" fill="#e2e8f0" font-size="18" font-family="system-ui, sans-serif" font-weight="700">${esc(index === 0 ? (lang === "zh" ? "早班" : "EARLY") : (lang === "zh" ? "班次" : "DEPARTURE"))}</text><text x="24" y="76" fill="#fff" font-size="38" font-family="ui-monospace, SFMono-Regular, monospace" font-weight="800">${esc(time)}</text></g>`;
+    return `<g transform="translate(${x} 456)"><rect width="308" height="98" rx="22" fill="#fff" fill-opacity=".13" stroke="#fff" stroke-opacity=".22"/><text x="24" y="33" fill="#e2e8f0" font-size="18" font-family="system-ui, sans-serif" font-weight="700">${esc(index === 0 ? labels.early : labels.departure)}</text><text x="24" y="76" fill="#fff" font-size="38" font-family="ui-monospace, SFMono-Regular, monospace" font-weight="800">${esc(time)}</text></g>`;
   }).join("");
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="${esc(`${origin} to ${destination} timetable`)}"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${palette[0]}"/><stop offset="1" stop-color="${palette[1]}"/></linearGradient><filter id="blur"><feGaussianBlur stdDeviation="36"/></filter></defs><rect width="1200" height="630" fill="url(#bg)"/><circle cx="1050" cy="90" r="175" fill="#fff" fill-opacity=".14" filter="url(#blur)"/><circle cx="130" cy="590" r="210" fill="#020617" fill-opacity=".18" filter="url(#blur)"/><path d="M-30 420 C260 250 480 610 760 378 S1120 290 1260 180" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="7" stroke-dasharray="13 17"/><text x="76" y="90" fill="#fff" font-size="27" font-family="system-ui, sans-serif" font-weight="800" letter-spacing="2">RAIL NATION · ${esc(country.toUpperCase())}</text><text x="76" y="200" fill="#fff" font-size="62" font-family="system-ui, sans-serif" font-weight="800">${esc(origin)}</text><text x="76" y="275" fill="#fff" fill-opacity=".92" font-size="48" font-family="system-ui, sans-serif" font-weight="700">→ ${esc(destination)}</text><text x="76" y="352" fill="#fff" fill-opacity=".82" font-size="25" font-family="system-ui, sans-serif">${esc(lang === "zh" ? "今日時刻表 · 前三班車" : "Timetable · first three departures")}</text>${departureCards}<text x="76" y="601" fill="#fff" fill-opacity=".72" font-size="17" font-family="system-ui, sans-serif">${esc(ui.disclaimer)}</text></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="${esc(`${origin} to ${destination} timetable`)}"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${palette[0]}"/><stop offset="1" stop-color="${palette[1]}"/></linearGradient><filter id="blur"><feGaussianBlur stdDeviation="36"/></filter></defs><rect width="1200" height="630" fill="url(#bg)"/><circle cx="1050" cy="90" r="175" fill="#fff" fill-opacity=".14" filter="url(#blur)"/><circle cx="130" cy="590" r="210" fill="#020617" fill-opacity=".18" filter="url(#blur)"/><path d="M-30 420 C260 250 480 610 760 378 S1120 290 1260 180" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="7" stroke-dasharray="13 17"/><text x="76" y="90" fill="#fff" font-size="27" font-family="system-ui, sans-serif" font-weight="800" letter-spacing="2">RAIL NATION · ${esc(country.toUpperCase())}</text><text x="76" y="200" fill="#fff" font-size="62" font-family="system-ui, sans-serif" font-weight="800">${esc(origin)}</text><text x="76" y="275" fill="#fff" fill-opacity=".92" font-size="48" font-family="system-ui, sans-serif" font-weight="700">→ ${esc(destination)}</text><text x="76" y="352" fill="#fff" fill-opacity=".82" font-size="25" font-family="system-ui, sans-serif">${esc(labels.snapshot)}</text>${departureCards}<text x="76" y="601" fill="#fff" fill-opacity=".72" font-size="17" font-family="system-ui, sans-serif">${esc(ui.disclaimer)}</text></svg>`;
 }
 
 function transferCell(result: TransitResult, country: Country, lang: Lang): string {
@@ -353,13 +494,13 @@ function renderRoutePage(page: RoutePageData, siblings: RoutePageData[], lang: L
   const fastest = stats.fastestMinutes !== undefined ? formatDuration(stats.fastestMinutes, lang) : "";
   const typical = stats.typicalMinutes !== undefined ? formatDuration(stats.typicalMinutes, lang) : fastest;
   const cheapest = stats.cheapest ? formatPrice(stats.cheapest.price, stats.cheapest.currency, lang) : null;
-  const path = lang === "zh" ? page.zhUrlPath : page.urlPath;
-  const altPath = lang === "zh" ? page.urlPath : page.zhUrlPath;
-  const routeTitle = lang === "zh" ? `${origin}到${destination}` : `${origin} to ${destination}`;
-  const title = `${routeTitle} ${ui.titleSuffix} | ${ui.siteName}`;
+  const paths: Record<Lang, string> = { en: page.urlPath, zh: page.zhUrlPath, ja: page.jaUrlPath, ko: page.koUrlPath };
+  const path = paths[lang];
+  const title_ = routeTitle(origin, destination, lang);
+  const title = `${title_} ${ui.titleSuffix} | ${ui.siteName}`;
   const description = ui.metaDescription(origin, destination, stats.count, stats.first, stats.last, fastest, cheapest);
   const appLink = `${page.countryPath}?origin=${encodeURIComponent(page.origin)}&destination=${encodeURIComponent(page.destination)}`;
-  const hubPath = lang === "zh" ? "/zh/routes/" : "/routes/";
+  const hubPath = HUB_PATH[lang];
   const ogImagePath = `/og-routes/${page.country}/${page.slug}-${lang}.svg`;
 
   const rows = page.dayResults.slice(0, MAX_TABLE_ROWS).map((r) => {
@@ -411,7 +552,7 @@ ${[...families.entries()].map(([family, results]) => {
   const relatedSection = relatedItems.length > 0
     ? `<h2>${ui.related}</h2>
 <ul class="links">
-${relatedItems.map(({ page: p, label }) => `<li><a href="${lang === "zh" ? p.zhUrlPath : p.urlPath}">${esc(label)}</a></li>`).join("\n")}
+${relatedItems.map(({ page: p, label }) => `<li><a href="${pagePath(p, lang)}">${esc(label)}</a></li>`).join("\n")}
 </ul>`
     : "";
 
@@ -423,7 +564,7 @@ ${relatedItems.map(({ page: p, label }) => `<li><a href="${lang === "zh" ? p.zhU
         { "@type": "ListItem", position: 1, name: ui.home, item: `${SITE_URL}/` },
         { "@type": "ListItem", position: 2, name: ui.breadcrumbRoutes, item: `${SITE_URL}${hubPath}` },
         { "@type": "ListItem", position: 3, name: country, item: `${SITE_URL}${page.countryPath}` },
-        { "@type": "ListItem", position: 4, name: routeTitle, item: `${SITE_URL}${path}` },
+        { "@type": "ListItem", position: 4, name: title_, item: `${SITE_URL}${path}` },
       ],
     },
     {
@@ -438,7 +579,7 @@ ${relatedItems.map(({ page: p, label }) => `<li><a href="${lang === "zh" ? p.zhU
     {
       "@context": "https://schema.org",
       "@type": "ItemList",
-      name: `${routeTitle} — ${ui.timetable}`,
+      name: `${title_} — ${ui.timetable}`,
       itemListElement: page.dayResults.slice(0, MAX_SCHEMA_TRIPS).map((r, index) => ({
         "@type": "ListItem",
         position: index + 1,
@@ -459,8 +600,8 @@ ${relatedItems.map(({ page: p, label }) => `<li><a href="${lang === "zh" ? p.zhU
   ];
 
   const body = `
-<nav class="crumbs"><a href="/">${ui.home}</a> › <a href="${hubPath}">${ui.breadcrumbRoutes}</a> › <a href="${page.countryPath}">${esc(country)}</a> › ${esc(routeTitle)}</nav>
-<h1>${esc(routeTitle)} ${ui.titleSuffix}</h1>
+<nav class="crumbs"><a href="/">${ui.home}</a> › <a href="${hubPath}">${ui.breadcrumbRoutes}</a> › <a href="${page.countryPath}">${esc(country)}</a> › ${esc(title_)}</nav>
+<h1>${esc(title_)} ${ui.titleSuffix}</h1>
 <div class="stats">
 <div class="stat"><div class="k">${ui.timetable}</div><div class="v">${stats.count} ${ui.trainsPerDay}</div></div>
 <div class="stat"><div class="k">${ui.firstDeparture}</div><div class="v">${esc(stats.first)}</div></div>
@@ -488,13 +629,12 @@ ${relatedSection}
 <p>${ui.disclaimer}</p>
 </footer>`;
 
-  return htmlShell({ lang, title, description, path, altPath, ogImagePath, body, jsonLd });
+  return htmlShell({ lang, title, description, paths, ogImagePath, body, jsonLd });
 }
 
 function renderHubPage(pages: RoutePageData[], lang: Lang): string {
   const ui = UI[lang];
-  const path = lang === "zh" ? "/zh/routes/" : "/routes/";
-  const altPath = lang === "zh" ? "/routes/" : "/zh/routes/";
+  const paths = HUB_PATH;
   const byCountry = new Map<Country, RoutePageData[]>();
   for (const page of pages) {
     byCountry.set(page.country, [...(byCountry.get(page.country) || []), page]);
@@ -506,7 +646,7 @@ function renderHubPage(pages: RoutePageData[], lang: Lang): string {
       const label = countryLabel(country, lang);
       return `<h2>${esc(label)} <small>(${ui.routesOnHub(countryPages.length)})</small></h2>
 <ul class="links">
-${countryPages.map((p) => `<li><a href="${lang === "zh" ? p.zhUrlPath : p.urlPath}">${esc(stationName(p.origin, country, lang))} → ${esc(stationName(p.destination, country, lang))}</a></li>`).join("\n")}
+${countryPages.map((p) => `<li><a href="${pagePath(p, lang)}">${esc(stationName(p.origin, country, lang))} → ${esc(stationName(p.destination, country, lang))}</a></li>`).join("\n")}
 </ul>
 <p class="note"><a href="${countryPages[0].countryPath}">${esc(ui.countryApp(label))} →</a></p>`;
     }).join("\n");
@@ -517,7 +657,7 @@ ${countryPages.map((p) => `<li><a href="${lang === "zh" ? p.zhUrlPath : p.urlPat
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: ui.home, item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 2, name: ui.breadcrumbRoutes, item: `${SITE_URL}${path}` },
+        { "@type": "ListItem", position: 2, name: ui.breadcrumbRoutes, item: `${SITE_URL}${paths[lang]}` },
       ],
     },
   ];
@@ -533,8 +673,7 @@ ${sections}
     lang,
     title: `${ui.routesHubTitle} | ${ui.siteName}`,
     description: ui.routesHubDescription,
-    path,
-    altPath,
+    paths,
     body,
     jsonLd,
   });
@@ -559,6 +698,8 @@ function main(): void {
   // from scratch each run. Do not hand-place files under them.
   const generatedRoots = new Set<string>([
     "zh",
+    "ja",
+    "ko",
     "routes",
     "og-routes",
     ...Object.values(COUNTRY_PATHS).map((p) => p.replace(/^\//, "")),
@@ -574,15 +715,16 @@ function main(): void {
 
   for (const page of pages) {
     const siblings = byCountry.get(page.country) || [];
-    writePage(page.urlPath, renderRoutePage(page, siblings, "en"));
-    writePage(page.zhUrlPath, renderRoutePage(page, siblings, "zh"));
-    writeRouteOgImage(page, "en");
-    writeRouteOgImage(page, "zh");
+    for (const lang of ALL_LANGS) {
+      writePage(pagePath(page, lang), renderRoutePage(page, siblings, lang));
+      writeRouteOgImage(page, lang);
+    }
   }
-  writePage("/routes/", renderHubPage(pages, "en"));
-  writePage("/zh/routes/", renderHubPage(pages, "zh"));
+  for (const lang of ALL_LANGS) {
+    writePage(HUB_PATH[lang], renderHubPage(pages, lang));
+  }
 
-  console.log(`Generated ${pages.length} route pages and ${pages.length * 2} social cards under public/.`);
+  console.log(`Generated ${pages.length} route pages × ${ALL_LANGS.length} languages and ${pages.length * ALL_LANGS.length} social cards under public/.`);
 }
 
 main();

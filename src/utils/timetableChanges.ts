@@ -18,9 +18,10 @@ export function timetableFingerprint(results: TransitResult[]): TimetableFingerp
   return { first, last, departures: results.length };
 }
 
-export function describeTimetableChange(previous: TransitResult[], current: TransitResult[], isChinese: boolean): string | undefined {
-  const before = timetableFingerprint(previous);
-  const after = timetableFingerprint(current);
+/** Compares two already-computed fingerprints — e.g. a fingerprint persisted
+ *  from a previous check against one derived from a fresh scrape — without
+ *  needing the original TransitResult[] arrays on hand. */
+export function describeFingerprintChange(before: TimetableFingerprint, after: TimetableFingerprint, isChinese: boolean): string | undefined {
   if (before.last && after.last && before.last !== after.last) {
     return isChinese
       ? `末班車由 ${before.last} 調整為 ${after.last}。`
@@ -38,4 +39,8 @@ export function describeTimetableChange(previous: TransitResult[], current: Tran
       : `Departures changed from ${before.departures} to ${after.departures} (${difference > 0 ? "+" : ""}${difference}).`;
   }
   return undefined;
+}
+
+export function describeTimetableChange(previous: TransitResult[], current: TransitResult[], isChinese: boolean): string | undefined {
+  return describeFingerprintChange(timetableFingerprint(previous), timetableFingerprint(current), isChinese);
 }

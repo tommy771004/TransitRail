@@ -43,6 +43,7 @@ import type {
   SearchResponse,
   SortMode,
   TransitResult,
+  TransitSituation,
 } from "./types";
 
 import { allCurrencies } from "./data/countries";
@@ -360,7 +361,12 @@ export default function App() {
   const [favorites, setFavorites] = useState<FavoriteRoute[]>(() => loadJson("transitrail.favorites", []));
   const [savedTrips, setSavedTrips] = useState<SavedTrip[]>(() => loadJson("transitrail.saved", []));
   const [savedTripsSearch, setSavedTripsSearch] = useState("");
+  const [pushPublicKey, setPushPublicKey] = useState<string | null>(null);
+  const [pushSubscribed, setPushSubscribed] = useState(false);
+  const [pushBusy, setPushBusy] = useState(false);
   const [alerts, setAlerts] = useState<AppAlert[]>(() => loadJson("transitrail.alerts", []));
+  const [situations, setSituations] = useState<TransitSituation[]>([]);
+  const [situationsLoading, setSituationsLoading] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState<TransitResult | null>(null);
   const [seatChoice, setSeatChoice] = useState<NonNullable<SavedTrip["seatPreference"]>>("standard");
   const [stationPickTarget, setStationPickTarget] = useState<"origin" | "destination">("origin");
@@ -569,6 +575,23 @@ export default function App() {
   useEffect(() => saveJson("transitrail.saved", savedTrips), [savedTrips]);
   useEffect(() => saveJson("transitrail.alerts", alerts), [alerts]);
   useEffect(() => {
+    if (view !== "alerts") return;
+    let cancelled = false;
+    setSituationsLoading(true);
+    fetch("/api/transit/situations")
+      .then((response) => response.ok ? response.json() as Promise<{ situations?: TransitSituation[] }> : { situations: [] })
+      .then((payload) => {
+        if (!cancelled) setSituations(Array.isArray(payload.situations) ? payload.situations : []);
+      })
+      .catch(() => {
+        if (!cancelled) setSituations([]);
+      })
+      .finally(() => {
+        if (!cancelled) setSituationsLoading(false);
+      });
+    return () => { cancelled = true; };
+  }, [view]);
+  useEffect(() => {
     localStorage.setItem("transitrail.homeCurrency", homeCurrency);
   }, [homeCurrency]);
   useEffect(() => {
@@ -738,7 +761,7 @@ export default function App() {
   const formatTripPrice = (trip: TransitResult) =>
     formatConvertedPrice(trip.price, trip.currency);
 
-  const pushAlert = (title: string, body: string) => {
+  const pushAlert = (title: string, body: string, country?: Country) => {
     setAlerts((current) => [
       {
         id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
@@ -746,6 +769,7 @@ export default function App() {
         body,
         createdAt: new Date().toISOString(),
         read: false,
+        country,
       },
       ...current,
     ].slice(0, 20));
@@ -828,6 +852,7 @@ export default function App() {
           pushAlert(
             i18n.language.toLowerCase().startsWith("zh") ? "時刻表已更新" : "Timetable updated",
             timetableChange,
+            country,
           );
         }
       }
@@ -1006,6 +1031,118 @@ export default function App() {
         ? `${t("saved.reminder_limit")} ${trip.service}`
         : t("alerts.reminder_removed_body", { service: trip.service, defaultValue: `Reminder for ${trip.service} has been turned off.` })
     );
+  };
+
+  // Web Push: notifies saved routes' timetable changes even when the app is
+  // closed (unlike the departure-time reminder above, which only fires while
+  // this tab is open). Distinct from that reminder — this is server-driven.
+  useEffect(() => {
+    if (!("serviceWorker" in navigator) || !("PushManager" in window)) return;
+    let cancelled = false;
+    fetch("/api/push/vapid-public-key")
+      .then((res) => (res.ok ? res.json() as Promise<{ publicKey: string | null }> : { publicKey: null }))
+      .then((payload) => {
+        if (cancelled) return;
+        setPushPublicKey(payload.publicKey);
+        if (!payload.publicKey) return;
+        return navigator.serviceWorker.ready
+          .then((registration) => registration.pushManager.getSubscription())
+          .then((subscription) => { if (!cancelled) setPushSubscribed(!!subscription); });
+      })
+      .catch(() => { if (!cancelled) setPushPublicKey(null); });
+    return () => { cancelled = true; };
+  }, []);
+
+  const urlBase64ToUint8Array = (base64: string) => {
+    const padding = "=".repeat((4 - (base64.length % 4)) % 4);
+    const base64Safe = (base64 + padding).replace(/-/g, "+").replace(/_/g, "/");
+    const rawData = window.atob(base64Safe);
+    return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
+  };
+
+  const syncPushSubscription = async (subscription: PushSubscription) => {
+    const uniqueRoutes = Array.from(
+      new Map(
+        savedTrips.map((trip) => [`${trip.origin}|${trip.destination}|${trip.country}`, {
+          origin: trip.origin,
+          destination: trip.destination,
+          country: trip.country,
+        }])
+      ).values()
+    );
+    if (uniqueRoutes.length === 0) return;
+    await fetch("/api/push/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ subscription: subscription.toJSON(), routes: uniqueRoutes, language: i18n.language }),
+    });
+  };
+
+  // Keep the server's watch-list in sync whenever the user saves/removes trips,
+  // so a route added after subscribing still gets watched.
+  useEffect(() => {
+    if (!pushSubscribed) return;
+    let cancelled = false;
+    navigator.serviceWorker.ready
+      .then((registration) => registration.pushManager.getSubscription())
+      .then((subscription) => { if (!cancelled && subscription) void syncPushSubscription(subscription); });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [savedTrips, pushSubscribed]);
+
+  const handleEnablePush = async () => {
+    if (!pushPublicKey || pushBusy) return;
+    setPushBusy(true);
+    try {
+      if (Notification.permission === "default") {
+        const permission = await Notification.requestPermission();
+        if (permission !== "granted") {
+          setPushBusy(false);
+          return;
+        }
+      } else if (Notification.permission === "denied") {
+        pushAlert(t("push.blocked_title", { defaultValue: "Notifications blocked" }), t("push.blocked_body", { defaultValue: "Enable notifications for this site in your browser settings first." }));
+        setPushBusy(false);
+        return;
+      }
+
+      const registration = await navigator.serviceWorker.ready;
+      let subscription = await registration.pushManager.getSubscription();
+      if (!subscription) {
+        subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(pushPublicKey),
+        });
+      }
+      await syncPushSubscription(subscription);
+      setPushSubscribed(true);
+      pushAlert(t("push.enabled_title", { defaultValue: "Timetable alerts enabled" }), t("push.enabled_body", { defaultValue: "You'll be notified here if a saved route's schedule changes." }));
+    } catch (error) {
+      console.error("Failed to enable push notifications", error);
+      pushAlert(t("push.failed_title", { defaultValue: "Couldn't enable notifications" }), t("push.failed_body", { defaultValue: "Something went wrong enabling push notifications." }));
+    } finally {
+      setPushBusy(false);
+    }
+  };
+
+  const handleDisablePush = async () => {
+    if (pushBusy) return;
+    setPushBusy(true);
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      const subscription = await registration.pushManager.getSubscription();
+      if (subscription) {
+        await fetch("/api/push/unsubscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ endpoint: subscription.endpoint }),
+        }).catch(() => undefined);
+        await subscription.unsubscribe();
+      }
+      setPushSubscribed(false);
+    } finally {
+      setPushBusy(false);
+    }
   };
 
   const shareTrip = async (trip: SavedTrip) => {
@@ -1194,7 +1331,7 @@ export default function App() {
             {/* Crawlable path from the home page to the prerendered route pages. */}
             <p className="mx-auto max-w-md px-4 pb-28 text-center">
               <a
-                href={i18n.language === "zh-TW" ? "/zh/routes/" : "/routes/"}
+                href={i18n.language === "zh-TW" ? "/zh/routes/" : i18n.language === "ja" ? "/ja/routes/" : i18n.language === "ko" ? "/ko/routes/" : "/routes/"}
                 className="text-xs font-bold text-slate-400 underline-offset-2 hover:underline dark:text-slate-500"
               >
                 {t("nav.route_directory")} →
@@ -1470,6 +1607,35 @@ export default function App() {
               <EmptyState title={t("saved.empty_title")} body={t("saved.empty_body")} />
             ) : (
               <div className="space-y-4">
+                {pushPublicKey ? (
+                  <div className="flex items-center justify-between gap-3 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                    <div className="flex min-w-0 items-center gap-2">
+                      {pushSubscribed ? <Bell className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" /> : <BellOff className="h-4 w-4 shrink-0 text-slate-400" />}
+                      <div className="min-w-0">
+                        <span className="block text-sm font-bold leading-tight text-slate-900 dark:text-white">
+                          {t("push.title", { defaultValue: "Timetable change alerts" })}
+                        </span>
+                        <span className="text-[10px] font-medium leading-tight text-slate-400">
+                          {t("push.subtitle", { defaultValue: "Get notified even when the app is closed" })}
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        triggerHaptic("light");
+                        void (pushSubscribed ? handleDisablePush() : handleEnablePush());
+                      }}
+                      disabled={pushBusy}
+                      className={`shrink-0 rounded-xl px-3 py-1.5 text-xs font-bold transition-all disabled:opacity-50 ${
+                        pushSubscribed
+                          ? "border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                          : "bg-emerald-600 text-white hover:bg-emerald-500"
+                      }`}
+                    >
+                      {pushSubscribed ? t("push.disable", { defaultValue: "Turn off" }) : t("push.enable", { defaultValue: "Enable" })}
+                    </button>
+                  </div>
+                ) : null}
                 <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
@@ -1679,19 +1845,55 @@ export default function App() {
       case "alerts":
         return (
           <UtilityPage title={t("nav.alerts")} icon={<Bell className="w-5 h-5" />}>
-            {alerts.length === 0 ? (
+            <div className="space-y-5">
+              <section>
+                <div className="mb-2 flex items-center justify-between gap-2 px-1">
+                  <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200">{i18n.language.startsWith("zh") ? "營運狀況" : "Service status"}</h2>
+                  {situationsLoading ? <span className="text-[10px] font-medium text-slate-400">{i18n.language.startsWith("zh") ? "更新中…" : "Updating…"}</span> : null}
+                </div>
+                {situations.length === 0 && !situationsLoading ? (
+                  <p className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-xs text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">{i18n.language.startsWith("zh") ? "目前沒有來自已連接營運商的異常通報。" : "No active incidents were returned by connected transit providers."}</p>
+                ) : (
+                  <div className="space-y-2">
+                    {situations.map((situation) => (
+                      <div key={situation.id} className={`rounded-2xl border p-3 ${situation.severity === "major" ? "border-rose-200 bg-rose-50 dark:border-rose-900/60 dark:bg-rose-950/25" : "border-amber-200 bg-amber-50 dark:border-amber-900/60 dark:bg-amber-950/25"}`}>
+                        <p className="text-sm font-bold text-slate-900 dark:text-white">{situation.title}</p>
+                        {situation.description ? <p className="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-300">{situation.description}</p> : null}
+                        <p className="mt-2 text-[10px] font-medium text-slate-500 dark:text-slate-400">{countryFlags[situation.country]} {situation.source}{situation.updatedAt ? ` · ${new Date(situation.updatedAt).toLocaleString()}` : ""}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </section>
+              <section>
+                <h2 className="mb-2 px-1 text-sm font-bold text-slate-800 dark:text-slate-200">{i18n.language.startsWith("zh") ? "我的通知" : "My notifications"}</h2>
+                {alerts.length === 0 ? (
               <EmptyState title={t("alerts.empty_title")} body={t("alerts.empty_body")} />
             ) : (
               <div className="space-y-2">
-                {alerts.map((alert) => (
-                  <div key={alert.id} className="rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">{alert.title}</p>
-                    <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{alert.body}</p>
-                    <p className="mt-2 font-mono text-[11px] text-slate-400">{new Date(alert.createdAt).toLocaleString()}</p>
-                  </div>
-                ))}
+                {alerts.map((alert) => {
+                  const relatedSituation = alert.country
+                    ? situations.find((situation) => situation.country === alert.country)
+                    : undefined;
+                  return (
+                    <div key={alert.id} className="rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+                      <p className="text-sm font-bold text-slate-900 dark:text-white">{alert.title}</p>
+                      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{alert.body}</p>
+                      <p className="mt-2 font-mono text-[11px] text-slate-400">{new Date(alert.createdAt).toLocaleString()}</p>
+                      {relatedSituation ? (
+                        <p className="mt-2 rounded-xl bg-amber-50 px-2.5 py-1.5 text-[11px] font-medium text-amber-800 dark:bg-amber-950/30 dark:text-amber-400">
+                          {i18n.language.startsWith("zh")
+                            ? `⚠️ 這可能與下方的營運狀況有關：${relatedSituation.title}`
+                            : `⚠️ This may be related to the service status below: ${relatedSituation.title}`}
+                        </p>
+                      ) : null}
+                    </div>
+                  );
+                })}
               </div>
             )}
+              </section>
+            </div>
           </UtilityPage>
         );
       default:

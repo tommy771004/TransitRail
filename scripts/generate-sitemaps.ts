@@ -1,8 +1,8 @@
 /**
  * Generate the public sitemap files from the same scrape metadata used by the
  * app. Advertised pages: the home page, country landing pages, and the
- * prerendered route pages emitted by scripts/generate-route-pages.ts (both
- * languages plus the /routes/ hubs). Search-result query strings are
+ * prerendered route pages emitted by scripts/generate-route-pages.ts (all
+ * four languages plus their /routes/ hubs). Search-result query strings are
  * intentionally excluded because the SPA does not execute those searches on
  * page load, so they are not durable canonical content pages.
  *
@@ -61,12 +61,16 @@ function main() {
     return [
       { url: `${SITE_URL}${page.urlPath}`, lastmod },
       { url: `${SITE_URL}${page.zhUrlPath}`, lastmod },
+      { url: `${SITE_URL}${page.jaUrlPath}`, lastmod },
+      { url: `${SITE_URL}${page.koUrlPath}`, lastmod },
     ];
   });
   const routeLatest = routeEntries.map(({ lastmod }) => lastmod).sort().at(-1) ?? latest;
   routeEntries.unshift(
     { url: `${SITE_URL}/routes/`, lastmod: routeLatest },
     { url: `${SITE_URL}/zh/routes/`, lastmod: routeLatest },
+    { url: `${SITE_URL}/ja/routes/`, lastmod: routeLatest },
+    { url: `${SITE_URL}/ko/routes/`, lastmod: routeLatest },
   );
 
   const core = `<?xml version="1.0" encoding="UTF-8"?>

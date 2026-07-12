@@ -146,6 +146,19 @@ export interface AppAlert {
   body: string;
   createdAt: string;
   read: boolean;
+  /** Set when this alert is about a specific country's timetable, so it can be
+   *  cross-referenced against that country's live service status. */
+  country?: Country;
+}
+
+export interface TransitSituation {
+  id: string;
+  country: Country;
+  title: string;
+  description?: string;
+  severity?: "info" | "minor" | "major";
+  updatedAt?: string;
+  source: string;
 }
 
 // --- End of types.ts ---

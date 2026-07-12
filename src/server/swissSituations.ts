@@ -152,22 +152,28 @@ async function getSituations(): Promise<SwissSituation[]> {
   return inflight;
 }
 
+/** Returns all current Swiss unplanned situations for the country-wide alerts wall. */
+export async function getSwissSituations(): Promise<SwissSituation[]> {
+  const now = Date.now();
+  return (await getSituations()).filter((situation) =>
+    (!situation.validFrom || situation.validFrom <= now)
+    && (!situation.validTo || situation.validTo >= now),
+  );
+}
+
 /**
  * Returns the summary of a currently-valid unplanned disruption that affects one of
  * the given route stations, or undefined when the route is clear. Never throws — a
  * feed failure simply yields no warning.
  */
 export async function getSwissRouteWarning(stationNames: string[]): Promise<string | undefined> {
-  const situations = await getSituations();
+  const situations = await getSwissSituations();
   if (situations.length === 0) return undefined;
 
-  const now = Date.now();
   const routeKeys = new Set(stationNames.map(normalize).filter(Boolean));
   if (routeKeys.size === 0) return undefined;
 
   for (const situation of situations) {
-    if (situation.validFrom && situation.validFrom > now) continue;
-    if (situation.validTo && situation.validTo < now) continue;
     if (situation.stopNames.some((name) => routeKeys.has(normalize(name)))) {
       return situation.summary;
     }

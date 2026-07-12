@@ -30,7 +30,7 @@ There is no test framework. `npm run lint` (TypeScript typecheck) is the gate. V
 
 A mobile-first cross-border transit timetable search app: React 19 SPA + a single Express server that also serves the API.
 
-**One server, two deploy targets.** `server.ts` builds and exports an Express `app`. In dev it mounts Vite as middleware (whole app on one port). `api/index.ts` re-exports `app` as a Vercel serverless function (`vercel.json` routes `/api/*` there, everything else to the SPA). The app also runs on Google AI Studio (hence `GEMINI_API_KEY`, `APP_URL`, and the `DISABLE_HMR` handling in `vite.config.ts`).
+**One server, two deploy targets.** `server.ts` builds and exports an Express `app`. In dev it mounts Vite as middleware (whole app on one port). `api/index.ts` re-exports `app` as a Vercel serverless function (`vercel.json` routes `/api/*` there, everything else to the SPA). The app also runs on Google AI Studio (hence `APP_URL` and the `DISABLE_HMR` handling in `vite.config.ts`).
 
 **Search reads only pre-scraped files — it never synthesizes schedules.** `/api/transit/search` calls `findScrapedResults` ([src/data/scraped/index.ts](src/data/scraped/index.ts)), which loads `src/data/scraped/<country>/*.json` into memory once at boot and matches by **lower-cased origin/destination name**. It falls through: exact → file-origin + result-level destination → reverse (swaps direction) → transfer-chaining (origin→X + X→destination). No match returns 404, not fabricated data.
 
