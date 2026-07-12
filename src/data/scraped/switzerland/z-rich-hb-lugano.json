@@ -1,244 +1,10 @@
 {
   "origin": "Zürich HB",
   "destination": "Lugano",
-  "date": "2026-07-12..2026-07-18",
-  "scrapedAt": "2026-07-11T22:17:04.228Z",
+  "date": "2026-07-13..2026-07-19",
+  "scrapedAt": "2026-07-12T22:16:35.737Z",
   "source": "OpenTransportData Swiss curated snapshot fallback (Swiss OJP returned HTTP 403. {\n    \"error\": \"Access to this API has been disallowed\"\n})",
   "results": [
-    {
-      "id": "2026-07-12-ch-ojp-2026-07-07-865-09:06",
-      "country": "switzerland",
-      "operator": "OpenTransportData Swiss",
-      "service": "IC2",
-      "trainType": "rail/highSpeedRail",
-      "durationMinutes": 112,
-      "departureTime": "09:06",
-      "arrivalTime": "10:58",
-      "origin": "Zürich HB",
-      "originLat": 47.37818,
-      "originLng": 8.54021,
-      "destination": "Lugano",
-      "destLat": 46.0055,
-      "destLng": 8.947,
-      "direct": true,
-      "stops": [],
-      "platform": "7",
-      "delayMinutes": 1,
-      "headsign": "Lugano",
-      "realtime": true,
-      "amenities": [
-        "Aussteigeseite: Rechts",
-        "Gratis-Internet mit der App SBB FreeSurf",
-        "Platzreservierung möglich",
-        "Ruhezone in 1. Klasse",
-        "Businesszone in 1. Klasse",
-        "Niederflureinstieg"
-      ],
-      "tags": [
-        "swiss",
-        "ojp2"
-      ],
-      "date": "2026-07-12"
-    },
-    {
-      "id": "2026-07-12-ch-ojp-2026-07-07-15-09:33",
-      "country": "switzerland",
-      "operator": "OpenTransportData Swiss",
-      "service": "EC",
-      "trainType": "rail/international",
-      "durationMinutes": 115,
-      "departureTime": "09:33",
-      "arrivalTime": "11:28",
-      "origin": "Zürich HB",
-      "originLat": 47.37818,
-      "originLng": 8.54021,
-      "destination": "Lugano",
-      "destLat": 46.0055,
-      "destLng": 8.947,
-      "direct": true,
-      "stops": [],
-      "platform": "8",
-      "headsign": "Milano Centrale",
-      "realtime": true,
-      "amenities": [
-        "Aussteigeseite: Rechts",
-        "Platzreservierung möglich",
-        "Gratis-Internet mit der App SBB FreeSurf",
-        "WLAN Hotspot verfügbar",
-        "Businesszone in 1. Klasse",
-        "Ruhezone in 1. Klasse"
-      ],
-      "tags": [
-        "swiss",
-        "ojp2"
-      ],
-      "date": "2026-07-12"
-    },
-    {
-      "id": "2026-07-12-ch-ojp-2026-07-07-2417-10:05",
-      "country": "switzerland",
-      "operator": "OpenTransportData Swiss",
-      "service": "IR46",
-      "trainType": "rail/interregionalRail",
-      "durationMinutes": 109,
-      "departureTime": "10:05",
-      "arrivalTime": "11:58",
-      "origin": "Zürich HB",
-      "originLat": 47.37818,
-      "originLng": 8.54021,
-      "destination": "Lugano",
-      "destLat": 46.0055,
-      "destLng": 8.947,
-      "direct": false,
-      "stops": [],
-      "platform": "8",
-      "delayMinutes": 0,
-      "headsign": "Locarno",
-      "realtime": true,
-      "amenities": [
-        "Aussteigeseite: Rechts",
-        "Platzreservierung möglich",
-        "Gratis-Internet mit der App SBB FreeSurf",
-        "Cateringzone / Automaten",
-        "Niederflureinstieg",
-        "Aussteigeseite: Links"
-      ],
-      "tags": [
-        "swiss",
-        "ojp2"
-      ],
-      "legs": [
-        {
-          "lineName": "IR46",
-          "lineCode": "2417",
-          "mode": "rail/interregionalRail",
-          "origin": "Zürich HB",
-          "destination": "Arth-Goldau",
-          "departureTime": "10:05",
-          "arrivalTime": "10:45",
-          "durationMinutes": 40,
-          "platform": "8",
-          "delayMinutes": 0,
-          "headsign": "Locarno"
-        },
-        {
-          "lineName": "IC21",
-          "lineCode": "667",
-          "mode": "rail/highSpeedRail",
-          "origin": "Arth-Goldau",
-          "destination": "Lugano",
-          "departureTime": "10:49",
-          "arrivalTime": "11:58",
-          "durationMinutes": 69,
-          "platform": "5",
-          "delayMinutes": 0,
-          "headsign": "Lugano"
-        }
-      ],
-      "transferStations": [
-        "Arth-Goldau"
-      ],
-      "date": "2026-07-12"
-    },
-    {
-      "id": "2026-07-12-ch-ojp-2026-07-07-153-10:33",
-      "country": "switzerland",
-      "operator": "OpenTransportData Swiss",
-      "service": "EC",
-      "trainType": "rail/international",
-      "durationMinutes": 115,
-      "departureTime": "10:33",
-      "arrivalTime": "12:28",
-      "origin": "Zürich HB",
-      "originLat": 47.37818,
-      "originLng": 8.54021,
-      "destination": "Lugano",
-      "destLat": 46.0055,
-      "destLng": 8.947,
-      "direct": true,
-      "stops": [],
-      "platform": "7",
-      "headsign": "Como S. Giovanni",
-      "realtime": true,
-      "amenities": [
-        "Restaurant",
-        "Kein Niederflur"
-      ],
-      "tags": [
-        "swiss",
-        "ojp2"
-      ],
-      "date": "2026-07-12"
-    },
-    {
-      "id": "2026-07-12-ch-ojp-2026-07-07-869-11:05",
-      "country": "switzerland",
-      "operator": "OpenTransportData Swiss",
-      "service": "IC2",
-      "trainType": "rail/highSpeedRail",
-      "durationMinutes": 113,
-      "departureTime": "11:05",
-      "arrivalTime": "12:58",
-      "origin": "Zürich HB",
-      "originLat": 47.37818,
-      "originLng": 8.54021,
-      "destination": "Lugano",
-      "destLat": 46.0055,
-      "destLng": 8.947,
-      "direct": true,
-      "stops": [],
-      "platform": "8",
-      "delayMinutes": 0,
-      "headsign": "Lugano",
-      "realtime": true,
-      "amenities": [
-        "Aussteigeseite: Rechts",
-        "Gratis-Internet mit der App SBB FreeSurf",
-        "Platzreservierung möglich",
-        "Ruhezone in 1. Klasse",
-        "Businesszone in 1. Klasse",
-        "Familienzone ohne Spielplatz"
-      ],
-      "tags": [
-        "swiss",
-        "ojp2"
-      ],
-      "date": "2026-07-12"
-    },
-    {
-      "id": "2026-07-12-ch-ojp-2026-07-07-19-11:33",
-      "country": "switzerland",
-      "operator": "OpenTransportData Swiss",
-      "service": "EC",
-      "trainType": "rail/international",
-      "durationMinutes": 115,
-      "departureTime": "11:33",
-      "arrivalTime": "13:28",
-      "origin": "Zürich HB",
-      "originLat": 47.37818,
-      "originLng": 8.54021,
-      "destination": "Lugano",
-      "destLat": 46.0055,
-      "destLng": 8.947,
-      "direct": true,
-      "stops": [],
-      "platform": "9",
-      "headsign": "Milano Centrale",
-      "realtime": true,
-      "amenities": [
-        "Aussteigeseite: Rechts",
-        "Platzreservierung möglich",
-        "WLAN Hotspot verfügbar",
-        "Familienzone ohne Spielplatz",
-        "VELOS: Reservierung obligatorisch",
-        "Restaurant"
-      ],
-      "tags": [
-        "swiss",
-        "ojp2"
-      ],
-      "date": "2026-07-12"
-    },
     {
       "id": "2026-07-13-ch-ojp-2026-07-07-865-09:06",
       "country": "switzerland",
@@ -1642,6 +1408,240 @@
         "ojp2"
       ],
       "date": "2026-07-18"
+    },
+    {
+      "id": "2026-07-19-ch-ojp-2026-07-07-865-09:06",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC2",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 112,
+      "departureTime": "09:06",
+      "arrivalTime": "10:58",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Lugano",
+      "destLat": 46.0055,
+      "destLng": 8.947,
+      "direct": true,
+      "stops": [],
+      "platform": "7",
+      "delayMinutes": 1,
+      "headsign": "Lugano",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Ruhezone in 1. Klasse",
+        "Businesszone in 1. Klasse",
+        "Niederflureinstieg"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-19"
+    },
+    {
+      "id": "2026-07-19-ch-ojp-2026-07-07-15-09:33",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "EC",
+      "trainType": "rail/international",
+      "durationMinutes": 115,
+      "departureTime": "09:33",
+      "arrivalTime": "11:28",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Lugano",
+      "destLat": 46.0055,
+      "destLng": 8.947,
+      "direct": true,
+      "stops": [],
+      "platform": "8",
+      "headsign": "Milano Centrale",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Platzreservierung möglich",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "WLAN Hotspot verfügbar",
+        "Businesszone in 1. Klasse",
+        "Ruhezone in 1. Klasse"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-19"
+    },
+    {
+      "id": "2026-07-19-ch-ojp-2026-07-07-2417-10:05",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IR46",
+      "trainType": "rail/interregionalRail",
+      "durationMinutes": 109,
+      "departureTime": "10:05",
+      "arrivalTime": "11:58",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Lugano",
+      "destLat": 46.0055,
+      "destLng": 8.947,
+      "direct": false,
+      "stops": [],
+      "platform": "8",
+      "delayMinutes": 0,
+      "headsign": "Locarno",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Platzreservierung möglich",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Cateringzone / Automaten",
+        "Niederflureinstieg",
+        "Aussteigeseite: Links"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "legs": [
+        {
+          "lineName": "IR46",
+          "lineCode": "2417",
+          "mode": "rail/interregionalRail",
+          "origin": "Zürich HB",
+          "destination": "Arth-Goldau",
+          "departureTime": "10:05",
+          "arrivalTime": "10:45",
+          "durationMinutes": 40,
+          "platform": "8",
+          "delayMinutes": 0,
+          "headsign": "Locarno"
+        },
+        {
+          "lineName": "IC21",
+          "lineCode": "667",
+          "mode": "rail/highSpeedRail",
+          "origin": "Arth-Goldau",
+          "destination": "Lugano",
+          "departureTime": "10:49",
+          "arrivalTime": "11:58",
+          "durationMinutes": 69,
+          "platform": "5",
+          "delayMinutes": 0,
+          "headsign": "Lugano"
+        }
+      ],
+      "transferStations": [
+        "Arth-Goldau"
+      ],
+      "date": "2026-07-19"
+    },
+    {
+      "id": "2026-07-19-ch-ojp-2026-07-07-153-10:33",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "EC",
+      "trainType": "rail/international",
+      "durationMinutes": 115,
+      "departureTime": "10:33",
+      "arrivalTime": "12:28",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Lugano",
+      "destLat": 46.0055,
+      "destLng": 8.947,
+      "direct": true,
+      "stops": [],
+      "platform": "7",
+      "headsign": "Como S. Giovanni",
+      "realtime": true,
+      "amenities": [
+        "Restaurant",
+        "Kein Niederflur"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-19"
+    },
+    {
+      "id": "2026-07-19-ch-ojp-2026-07-07-869-11:05",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "IC2",
+      "trainType": "rail/highSpeedRail",
+      "durationMinutes": 113,
+      "departureTime": "11:05",
+      "arrivalTime": "12:58",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Lugano",
+      "destLat": 46.0055,
+      "destLng": 8.947,
+      "direct": true,
+      "stops": [],
+      "platform": "8",
+      "delayMinutes": 0,
+      "headsign": "Lugano",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Gratis-Internet mit der App SBB FreeSurf",
+        "Platzreservierung möglich",
+        "Ruhezone in 1. Klasse",
+        "Businesszone in 1. Klasse",
+        "Familienzone ohne Spielplatz"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-19"
+    },
+    {
+      "id": "2026-07-19-ch-ojp-2026-07-07-19-11:33",
+      "country": "switzerland",
+      "operator": "OpenTransportData Swiss",
+      "service": "EC",
+      "trainType": "rail/international",
+      "durationMinutes": 115,
+      "departureTime": "11:33",
+      "arrivalTime": "13:28",
+      "origin": "Zürich HB",
+      "originLat": 47.37818,
+      "originLng": 8.54021,
+      "destination": "Lugano",
+      "destLat": 46.0055,
+      "destLng": 8.947,
+      "direct": true,
+      "stops": [],
+      "platform": "9",
+      "headsign": "Milano Centrale",
+      "realtime": true,
+      "amenities": [
+        "Aussteigeseite: Rechts",
+        "Platzreservierung möglich",
+        "WLAN Hotspot verfügbar",
+        "Familienzone ohne Spielplatz",
+        "VELOS: Reservierung obligatorisch",
+        "Restaurant"
+      ],
+      "tags": [
+        "swiss",
+        "ojp2"
+      ],
+      "date": "2026-07-19"
     }
   ]
 }
