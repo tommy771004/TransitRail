@@ -95,9 +95,15 @@ ${routeEntries.map(({ url, lastmod }) => urlEntry(url, lastmod)).join("\n")}
   write(resolve(OUTPUT_DIR, "core.xml"), core);
   write(resolve(OUTPUT_DIR, "countries.xml"), countrySitemap);
   write(resolve(OUTPUT_DIR, "routes.xml"), routeSitemap);
-  // sitemap.xml is the single canonical entry point; the historical
-  // sitemap-index.xml / sitemap_index.xml aliases 301 to it via vercel.json.
-  write(resolve("public/sitemap.xml"), index);
+  // sitemap.xml is the canonical entry point (robots.txt + GSC).
+  // Historical aliases 301 via vercel.json. On case-sensitive hosts (Vercel
+  // Linux), also write capital-S Sitemap.xml so GSC submissions of that path
+  // get real XML with HTTP 200 — not a redirect/SPA shell ("無法讀取 Sitemap").
+  const indexPath = resolve("public/sitemap.xml");
+  write(indexPath, index);
+  if (process.platform === "linux") {
+    write(resolve("public/Sitemap.xml"), index);
+  }
   console.log(`Generated sitemap index: ${countryEntries.length} country pages, ${routeEntries.length} route page URLs.`);
 }
 
