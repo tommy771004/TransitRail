@@ -1,11 +1,11 @@
 import {
   findMtrJourney,
   findMtrTransferPlan,
-  hongKongMtrLines,
   mtrLineColors,
   mtrTerminalReachesDestination,
 } from "../data/hongKongMtr";
 import type { MtrJourney } from "../data/hongKongMtr";
+import { getHongKongStationName } from "../data/stationIdentity";
 import type { JourneyLeg, SearchResponse, TransitResult } from "../types";
 
 const MTR_NEXT_TRAIN_URL = "https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php";
@@ -59,9 +59,7 @@ async function fetchNextTrainPayload(lineCode: string, stationCode: string): Pro
 
 function stationNameForCode(code?: string) {
   if (!code) return undefined;
-  return hongKongMtrLines
-    .flatMap((line) => line.stations)
-    .find((station) => station.code === code)?.name;
+  return getHongKongStationName(code);
 }
 
 function validTrains(payload: MtrPayload, journey: MtrJourney): MtrTrain[] {

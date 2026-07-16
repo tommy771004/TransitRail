@@ -1,17 +1,10 @@
-import type { TransitResult } from "../../src/types";
+import type { ScrapedRouteData } from "../../src/data/scraped/timetableDay";
+
+export type { ScrapedRouteData } from "../../src/data/scraped/timetableDay";
 
 export interface ScrapedRoute {
   origin: string;
   destination: string;
-}
-
-export interface ScrapedRouteData {
-  origin: string;
-  destination: string;
-  date: string;
-  scrapedAt: string;
-  source: string;
-  results: TransitResult[];
 }
 
 export interface ScraperAdapter {

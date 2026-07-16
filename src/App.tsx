@@ -10,17 +10,14 @@ import { motion, AnimatePresence } from "motion/react";
 import { Header } from "./components/Header";
 import { BottomNav } from "./components/BottomNav";
 import { SearchForm } from "./components/SearchForm";
-import { JapanResultView } from "./components/JapanResultView";
-import { KoreaResultView } from "./components/KoreaResultView";
 import { StationBrowser } from "./components/StationBrowser";
 import { DataWorkflowView } from "./components/DataWorkflowView";
-import { MetroResultView } from "./components/MetroResultView";
-import { LiveRailResultView } from "./components/LiveRailResultView";
 import { FeedbackView } from "./components/FeedbackView";
 import { DiagnosticOverlay } from "./components/DiagnosticOverlay";
 import { ResultSkeleton } from "./components/ResultSkeleton";
 import { TransitLegend } from "./components/TransitLegend";
 import { TransitIcon, formatPlatform } from "./components/TransitIcon";
+import { CountryResultsView } from "./components/CountryResultsView";
 import { generateICS } from "./utils/ics";
 import { stationLabel } from "./utils/stationLabel";
 import { triggerHaptic } from "./utils/haptics";
@@ -47,7 +44,6 @@ import type {
 } from "./types";
 
 import { allCurrencies } from "./data/countries";
-import { MalaysiaCatalogView } from "./components/MalaysiaCatalogView";
 
 const emptySearch: SearchParams = {
   origin: "",
@@ -1351,173 +1347,32 @@ export default function App() {
             </div>
           );
         }
-        if (["japan", "germany", "france", "china"].includes(searchParams.country)) {
-          return (
-            <JapanResultView
-              country={searchParams.country}
-              origin={searchParams.origin}
-              destination={searchParams.destination}
-              date={searchParams.date}
-              time={searchParams.time}
-              error={error}
-              results={visibleResults}
-              sortMode={sortMode}
-              savedIds={savedIds}
-              onSortChange={setSortMode}
-              onModify={() => setView("search")}
-              onSave={toggleSaveTrip}
-              onSelectSeat={openSeatPicker}
-              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
-              formatPrice={formatTripPrice}
-              overview={routeOverview}
-            />
-          );
-        }
-        if (searchParams.country === "korea") {
-          return (
-            <KoreaResultView
-              origin={searchParams.origin}
-              destination={searchParams.destination}
-              date={searchParams.date}
-              time={searchParams.time}
-              error={error}
-              results={visibleResults}
-              filter={koreaFilter}
-              savedIds={savedIds}
-              onFilterChange={setKoreaFilter}
-              onModify={() => setView("search")}
-              onSave={toggleSaveTrip}
-              onSelectSeat={openSeatPicker}
-              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
-              formatPrice={formatTripPrice}
-              overview={routeOverview}
-            />
-          );
-        }
-        if (searchParams.country === "malaysia") {
-          return (
-            <MalaysiaCatalogView
-              origin={searchParams.origin}
-              destination={searchParams.destination}
-              onModify={() => setView("search")}
-            />
-          );
-        }
-        if (["hong_kong", "singapore", "thailand"].includes(searchParams.country)) {
-          return (
-            <MetroResultView
-              country={searchParams.country}
-              origin={searchParams.origin}
-              destination={searchParams.destination}
-              date={searchParams.date}
-              time={searchParams.time}
-              error={error}
-              results={visibleResults}
-              savedIds={savedIds}
-              onModify={() => setView("search")}
-              onSave={toggleSaveTrip}
-              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
-              formatPrice={formatTripPrice}
-              overview={routeOverview}
-            />
-          );
-        }
-        if (searchParams.country === "united_kingdom") {
-          return (
-            <LiveRailResultView
-              market="london"
-              origin={searchParams.origin}
-              destination={searchParams.destination}
-              date={searchParams.date}
-              time={searchParams.time}
-              error={error}
-              results={visibleResults}
-              savedIds={savedIds}
-              onModify={() => setView("search")}
-              onSave={toggleSaveTrip}
-              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
-              formatPrice={formatTripPrice}
-              overview={routeOverview}
-            />
-          );
-        }
-        if (searchParams.country === "belgium") {
-          return (
-            <LiveRailResultView
-              market="belgium"
-              origin={searchParams.origin}
-              destination={searchParams.destination}
-              date={searchParams.date}
-              time={searchParams.time}
-              error={error}
-              results={visibleResults}
-              savedIds={savedIds}
-              onModify={() => setView("search")}
-              onSave={toggleSaveTrip}
-              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
-              formatPrice={formatTripPrice}
-              overview={routeOverview}
-            />
-          );
-        }
-        if (searchParams.country === "norway") {
-          return (
-            <LiveRailResultView
-              market="norway"
-              origin={searchParams.origin}
-              destination={searchParams.destination}
-              date={searchParams.date}
-              time={searchParams.time}
-              error={error}
-              results={visibleResults}
-              savedIds={savedIds}
-              onModify={() => setView("search")}
-              onSave={toggleSaveTrip}
-              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
-              formatPrice={formatTripPrice}
-              overview={routeOverview}
-            />
-          );
-        }
-        if (searchParams.country === "united_states") {
-          return (
-            <LiveRailResultView
-              market="boston"
-              origin={searchParams.origin}
-              destination={searchParams.destination}
-              date={searchParams.date}
-              time={searchParams.time}
-              error={error}
-              results={visibleResults}
-              savedIds={savedIds}
-              onModify={() => setView("search")}
-              onSave={toggleSaveTrip}
-              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
-              formatPrice={formatTripPrice}
-              overview={routeOverview}
-            />
-          );
-        }
-        if (searchParams.country === "switzerland") {
-          return (
-            <LiveRailResultView
-              market="switzerland"
-              origin={searchParams.origin}
-              destination={searchParams.destination}
-              date={searchParams.date}
-              time={searchParams.time}
-              error={error}
-              results={visibleResults}
-              savedIds={savedIds}
-              onModify={() => setView("search")}
-              onSave={toggleSaveTrip}
-              onOpenLegend={(highlight?: string) => { setLegendHighlight(highlight || null); setPreviousView(view); setView("legend"); }}
-              formatPrice={formatTripPrice}
-              overview={routeOverview}
-            />
-          );
-        }
-        return null;
+        return (
+          <CountryResultsView
+            country={searchParams.country}
+            origin={searchParams.origin}
+            destination={searchParams.destination}
+            date={searchParams.date}
+            time={searchParams.time}
+            error={error}
+            results={visibleResults}
+            savedIds={savedIds}
+            sortMode={sortMode}
+            koreaFilter={koreaFilter}
+            onSortChange={setSortMode}
+            onKoreaFilterChange={setKoreaFilter}
+            onModify={() => setView("search")}
+            onSave={toggleSaveTrip}
+            onSelectSeat={openSeatPicker}
+            onOpenLegend={(highlight?: string) => {
+              setLegendHighlight(highlight || null);
+              setPreviousView(view);
+              setView("legend");
+            }}
+            formatPrice={formatTripPrice}
+            overview={routeOverview}
+          />
+        );
       case "legend":
         return (
           <TransitLegend 

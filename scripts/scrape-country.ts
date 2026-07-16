@@ -21,27 +21,10 @@ async function main() {
     return;
   }
 
-  const [{ JapanScraper }, { KoreaScraper }, metro] = await Promise.all([
-    import("./scrapers/japan"),
-    import("./scrapers/korea"),
-    import("./scrapers/metro"),
-  ]);
-  const scraperByCountry = {
-    japan: new JapanScraper(),
-    korea: new KoreaScraper(),
-    china: new metro.ChinaScraper(),
-    singapore: new metro.SingaporeScraper(),
-    thailand: new metro.ThailandScraper(),
-    hong_kong: new metro.HongKongScraper(),
-    united_kingdom: new metro.UnitedKingdomScraper(),
-    united_states: new metro.UnitedStatesScraper(),
-    germany: new metro.GermanyScraper(),
-    france: new metro.FranceScraper(),
-    belgium: new metro.BelgiumScraper(),
-    norway: new metro.NorwayScraper(),
-    switzerland: new metro.SwitzerlandScraper(),
-  };
-  const country = requestedCountry as keyof typeof scraperByCountry | undefined;
+  const { createTimetableScrapers, scraperDisplayNames } = await import("./scrapers/registry");
+  const scrapers = createTimetableScrapers();
+  const scraperByCountry = Object.fromEntries(scrapers.map((s) => [s.country, s]));
+  const country = requestedCountry as string | undefined;
   const date = process.argv[3] || new Date().toISOString().split("T")[0];
 
   if (!country || !scraperByCountry[country]) {
@@ -50,9 +33,9 @@ async function main() {
 
   const scraper = scraperByCountry[country];
   const results = await scraper.runAll(date);
-  syncScrapedMetadata({ [scraper.country]: scraper.name });
+  syncScrapedMetadata(scraperDisplayNames([scraper]));
 
-  const total = results.reduce((acc, route) => acc + route.results.length, 0);
+  const total = results.reduce((acc: number, route: { results: unknown[] }) => acc + route.results.length, 0);
   console.log(`${results.length} routes done, ${total} results saved`);
 }
 

@@ -5,11 +5,11 @@
  * public/catalog/<country>.json so the station menu never depends on the
  * serverless function being healthy.
  *
- * Most countries are deterministic (bundled data); UK/US/Belgium fetch public
- * station catalogs from their timetable providers.
+ * Static station menus come from {@link getStaticMenuStations} so the offline
+ * audit and the live menu cannot drift. UK/US/Belgium still fetch providers.
  */
-import { japanRailLines, japanStations, koreaStations } from "../data/stations";
-import { seoulSubwayLines, seoulSubwayStationNames } from "../data/seoulSubway";
+import { japanRailLines } from "../data/stations";
+import { seoulSubwayLines } from "../data/seoulSubway";
 import {
   singaporeMrtLines,
   thailandTransitLines,
@@ -18,13 +18,12 @@ import {
   franceRailLines,
   switzerlandRailLines,
 } from "../data/metroLines";
-import { hongKongMtrLineCatalog, mtrInterchanges, hongKongStations } from "../data/hongKongMtr";
+import { hongKongMtrLineCatalog, mtrInterchanges } from "../data/hongKongMtr";
+import { getStaticMenuStations } from "../data/stationIdentity";
 import { getTflLines, getTflStations } from "./tfl";
 import { getMbtaLines, getMbtaStations } from "./mbta";
 import { getBelgiumStations } from "./belgium";
-import { norwayFeaturedStations } from "../data/norway";
 import { getMalaysiaStations, MALAYSIA_STATION_CATALOG_SOURCE } from "./malaysia";
-import { newCountryStationLists } from "../data/scraped/stations";
 import type { TransitLine } from "../types";
 
 export const CATALOG_COUNTRIES = [
@@ -77,13 +76,7 @@ export async function getStationsForCountry(
   let stations: string[] = [];
   let source: string | undefined;
 
-  if (country === "japan") {
-    stations = japanStations;
-  } else if (country === "korea") {
-    stations = Array.from(new Set([...koreaStations, ...seoulSubwayStationNames])).sort((a, b) => a.localeCompare(b));
-  } else if (country === "hong_kong") {
-    stations = hongKongStations;
-  } else if (country === "malaysia") {
+  if (country === "malaysia") {
     stations = getMalaysiaStations();
     source = MALAYSIA_STATION_CATALOG_SOURCE;
   } else if (country === "united_kingdom") {
@@ -95,14 +88,15 @@ export async function getStationsForCountry(
   } else if (country === "belgium") {
     stations = await getBelgiumStations();
     source = "https://api.irail.be";
-  } else if (country === "norway") {
-    stations = norwayFeaturedStations;
-    source = "Entur National Stop Register / Geocoder";
-  } else if (newCountryStationLists[country]) {
-    const fromLines = (staticLineSets[country] || []).flatMap((line) => line.stations.map((s) => s.name));
-    stations = Array.from(new Set([...newCountryStationLists[country], ...fromLines])).sort((a, b) => a.localeCompare(b));
   } else {
-    throw new Error("Invalid country");
+    const staticMenu = getStaticMenuStations(country);
+    if (!staticMenu) {
+      throw new Error("Invalid country");
+    }
+    stations = staticMenu;
+    if (country === "norway") {
+      source = "Entur National Stop Register / Geocoder";
+    }
   }
 
   if (typeof q === "string" && q.trim().length > 0) {

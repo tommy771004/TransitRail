@@ -6,48 +6,21 @@
  * never find the scraped route (findScrapedResults matches by name), or a
  * scraped route can never be reached from the menu at all.
  *
+ * Menu membership comes from {@link getStaticMenuStations} — the same pure
+ * registry used by /api/transit/stations for static countries — so this audit
+ * cannot drift from production menus.
+ *
  * Run: npx tsx scripts/audit-station-mapping.ts
  */
 import { readFileSync, readdirSync, existsSync } from "fs";
 import { resolve } from "path";
 
-import { japanStations, koreaStations } from "../src/data/stations";
-import { hongKongStations } from "../src/data/hongKongMtr";
-import { seoulSubwayStationNames } from "../src/data/seoulSubway";
-import { newCountryStationLists } from "../src/data/scraped/stations";
-import { norwayFeaturedStations } from "../src/data/norway";
 import {
-  singaporeMrtLines,
-  thailandTransitLines,
-  chinaRailLines,
-  germanyRailLines,
-  franceRailLines,
-} from "../src/data/metroLines";
-import type { TransitLine } from "../src/types";
+  getStaticMenuStations,
+  missingRouteEndpoints,
+} from "../src/data/stationIdentity";
 
 const DATA_DIR = resolve("src/data/scraped");
-
-// Mirror server.ts getStationsForCountry() for the statically-defined countries.
-// UK, US, and Belgium menus come from provider APIs and are checked separately
-// below: their complete catalog is not available in an offline audit run.
-function menuStations(country: string): string[] | null {
-  if (country === "japan") return japanStations;
-  if (country === "korea") return Array.from(new Set([...koreaStations, ...seoulSubwayStationNames]));
-  if (country === "hong_kong") return hongKongStations;
-  const lineSets: Record<string, TransitLine[]> = {
-    singapore: singaporeMrtLines,
-    thailand: thailandTransitLines,
-    china: chinaRailLines,
-    germany: germanyRailLines,
-    france: franceRailLines,
-  };
-  if (newCountryStationLists[country]) {
-    const fromLines = (lineSets[country] || []).flatMap((line) => line.stations.map((s) => s.name));
-    return Array.from(new Set([...newCountryStationLists[country], ...fromLines]));
-  }
-  if (country === "norway") return norwayFeaturedStations;
-  return null; // UK / US / Belgium: provider-backed station menu
-}
 
 interface ScrapedFile {
   origin: string;
@@ -70,24 +43,19 @@ function scrapedRoutes(country: string): ScrapedFile[] {
 
 const COUNTRIES = [
   "japan", "korea", "singapore", "thailand", "hong_kong",
-  "united_kingdom", "united_states", "germany", "france", "belgium", "norway", "china",
+  "united_kingdom", "united_states", "germany", "france", "belgium", "norway", "china", "switzerland",
 ];
 
 let totalMismatch = 0;
 let totalEmpty = 0;
 
 for (const country of COUNTRIES) {
-  const menu = menuStations(country);
+  const menu = getStaticMenuStations(country);
   const routes = scrapedRoutes(country);
   const problems: string[] = [];
 
-  const menuSet = menu ? new Set(menu.map((s) => s.toLowerCase().trim())) : null;
-  const inMenu = (name: string) => (menuSet ? menuSet.has(name.toLowerCase().trim()) : true);
-
   for (const r of routes) {
-    const missing: string[] = [];
-    if (!inMenu(r.origin)) missing.push(`origin "${r.origin}"`);
-    if (!inMenu(r.destination)) missing.push(`destination "${r.destination}"`);
+    const missing = missingRouteEndpoints(menu, r.origin, r.destination);
     if (missing.length > 0) {
       problems.push(`  ✗ ${r.file}: ${missing.join(", ")} NOT in menu`);
       totalMismatch += missing.length;
@@ -114,3 +82,4 @@ for (const country of COUNTRIES) {
 
 console.log(`\n---\nTotal menu/data name mismatches: ${totalMismatch}`);
 console.log(`Total scraped files with 0 results: ${totalEmpty}`);
+process.exitCode = totalMismatch > 0 ? 1 : 0;

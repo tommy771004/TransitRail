@@ -7,36 +7,18 @@ import path from "path";
 import dotenv from "dotenv";
 import { createHmac, randomUUID } from "node:crypto";
 import { eq } from "drizzle-orm";
-import { hongKongMtrLineCatalog, hongKongStations } from "./src/data/hongKongMtr";
-import { mtrInterchanges } from "./src/data/hongKongMtr";
-import { japanRailLines, japanStations, koreaStations } from "./src/data/stations";
-import { seoulSubwayLines, seoulSubwayStationNames } from "./src/data/seoulSubway";
-import {
-  singaporeMrtLines,
-  thailandTransitLines,
-  chinaRailLines,
-  germanyRailLines,
-  franceRailLines,
-  switzerlandRailLines,
-} from "./src/data/metroLines";
-import { getTflLines, getTflStations, searchTflJourney } from "./src/server/tfl";
-import { getMbtaLines, getMbtaStations, searchMbtaJourney } from "./src/server/mbta";
-import { searchBelgiumJourney } from "./src/server/belgium";
-import { searchNorwayJourney } from "./src/server/norway";
-import { findScrapedResults, getScrapedCountryFreshness, loadScrapedData } from "./src/data/scraped";
+import { findScrapedResults, loadScrapedData } from "./src/data/scraped";
 import { getCbcRates } from "./src/server/cbc";
 import { getExternalExchangeRates } from "./src/server/exchangeRates";
-import type { Country, SearchDataStatus, TransitLine } from "./src/types";
+import type { Country } from "./src/types";
 import { db } from "./src/db";
 import { feedbacks, tnAuditLog, pushSubscriptions, type WatchedRoute } from "./src/db/schema";
-import { newCountryStationLists } from "./src/data/scraped/stations";
 import { getStationsForCountry, getLinesForCountry } from "./src/server/catalog";
-import { searchSwissJourney } from "./src/server/swiss";
-import { enrichTransitResultsWithLineStations } from "./src/utils/metroEnricher";
 import { transferCatalog, getTransferInfo } from "./src/data/transfers";
 import { findNearestKnownStation } from "./src/utils/geoCoordinates";
 import { getTransitSituations } from "./src/server/situations";
 import { countryOptions, providerDateValue } from "./src/data/countries";
+import { runTransitSearch } from "./src/server/transitSearch";
 import { timetableFingerprint } from "./src/utils/timetableChanges";
 
 dotenv.config();
@@ -113,32 +95,6 @@ function readText(value: unknown) {
 
   const trimmed = value.trim();
   return trimmed ? trimmed : undefined;
-}
-
-function describeSearchData(source: string | undefined, country: string | undefined): SearchDataStatus {
-  const checkedAt = new Date().toISOString();
-
-  if (source === "scraped") {
-    return {
-      kind: "snapshot",
-      source: "Pre-scraped timetable snapshot",
-      updatedAt: country ? getScrapedCountryFreshness(country as Country) : undefined,
-    };
-  }
-
-  if (source?.includes("historical ridership station catalog")) {
-    return {
-      kind: "catalog",
-      source,
-      checkedAt,
-    };
-  }
-
-  return {
-    kind: "provider",
-    source: source || "Transit provider",
-    checkedAt,
-  };
 }
 
 function parseInteger(value: unknown) {
@@ -328,77 +284,14 @@ async function logTransitSearch(
 
     const countryValue = typeof country === "string" ? country : undefined;
     const timeValue = typeof time === "string" ? time : undefined;
-    let statusCode = 200;
-    let payload: {
-      error?: string;
-      message?: string;
-      results: any[];
-      source?: string;
-      dataStatus?: SearchDataStatus;
-    };
 
-    if (countryValue === "malaysia") {
-      statusCode = 422;
-      payload = {
-        error: "Timetable unavailable",
-        message: "Malaysia currently provides an official station catalog derived from historical data.gov.my ridership files. Those files do not contain train schedules or real-time arrivals, so no timetable is shown.",
-        results: [],
-        source: "data.gov.my historical ridership station catalog",
-      };
-    } else if (countryValue === "united_kingdom") {
-      const providerResponse = await searchTflJourney(origin, destination, date, timeValue);
-      statusCode = providerResponse.status;
-      payload = providerResponse.body;
-    } else if (countryValue === "united_states") {
-      const providerResponse = await searchMbtaJourney(origin, destination, date);
-      statusCode = providerResponse.status;
-      payload = providerResponse.body;
-    } else if (countryValue === "belgium") {
-      const providerResponse = await searchBelgiumJourney(origin, destination, date, timeValue);
-      statusCode = providerResponse.status;
-      payload = providerResponse.body;
-    } else if (countryValue === "norway") {
-      const providerResponse = await searchNorwayJourney(origin, destination, date, timeValue);
-      statusCode = providerResponse.status;
-      payload = providerResponse.body;
-    } else if (countryValue === "switzerland") {
-      const providerResponse = await searchSwissJourney(origin, destination, date, timeValue);
-      if (providerResponse.status >= 200 && providerResponse.status < 300 && providerResponse.body.results.length > 0) {
-        statusCode = providerResponse.status;
-        payload = providerResponse.body;
-      }
-    }
-
-    let scraped = findScrapedResults(country as any, origin, destination, date);
-    if (!payload && scraped && scraped.length > 0) {
-      if (timeValue && timeValue.match(/^\d{2}:\d{2}$/)) {
-        scraped = scraped.filter(r => r.departureTime >= time);
-      }
-      payload = { results: scraped, source: "scraped" };
-    }
-
-    if (!payload) {
-      statusCode = 404;
-      payload = {
-        error: "No data available",
-        message: `No supported timetable data found for ${origin} → ${destination}. This route may not be covered yet.`,
-        results: [],
-        source: "scraped",
-      };
-    }
-
-    if (payload && payload.results && payload.results.length > 0 && countryValue) {
-      try {
-        const countryLines = await getLinesForCountry(countryValue);
-        if (countryLines && countryLines.length > 0) {
-          payload.results = enrichTransitResultsWithLineStations(payload.results, countryLines, countryValue);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    payload.dataStatus = describeSearchData(payload.source, countryValue);
+    const { statusCode, payload } = await runTransitSearch({
+      origin,
+      destination,
+      date,
+      country: countryValue,
+      time: timeValue,
+    });
 
     await logTransitSearch(req, {
       origin,
@@ -662,58 +555,12 @@ async function logTransitSearch(
 
   app.get("/api/transit/lines", async (req, res) => {
     const { country } = req.query;
-
-    if (country === "japan") {
-      return res.json({ lines: japanRailLines });
-    }
-
-    if (country === "korea") {
-      return res.json({ lines: seoulSubwayLines });
-    }
-
-    if (country === "hong_kong") {
-      const lines: TransitLine[] = hongKongMtrLineCatalog.map((line) => ({
-        id: line.code,
-        name: line.name,
-        color: line.color,
-        stations: line.stations.map((station) => {
-          const others = (mtrInterchanges.get(station.name) || []).filter((code) => code !== line.code);
-          const names = others
-            .map((code) => hongKongMtrLineCatalog.find((entry) => entry.code === code)?.name)
-            .filter((name): name is string => Boolean(name));
-          return {
-            name: station.name,
-            interchanges: names.length > 0 ? names : undefined,
-          };
-        }),
-      }));
-      return res.json({ lines });
-    }
-
-    if (country === "united_kingdom") {
-      try {
-        const lines = await getTflLines();
-        return res.json({ lines, source: "https://api.tfl.gov.uk" });
-      } catch (error) {
-        return res.status(502).json({
-          error: "Provider request failed",
-          message: error instanceof Error ? error.message : "Could not reach TfL.",
-          lines: [],
-        });
-      }
-    }
-
-    if (country === "united_states") {
-      try {
-        const lines = await getMbtaLines();
-        return res.json({ lines, source: "https://api-v3.mbta.com" });
-      } catch (error) {
-        return res.status(502).json({
-          error: "Provider request failed",
-          message: error instanceof Error ? error.message : "Could not reach MBTA.",
-          lines: [],
-        });
-      }
+    if (typeof country !== "string" || !countryOptions.includes(country as Country)) {
+      return res.status(400).json({
+        error: "Invalid country",
+        message: `Country must be one of ${countryOptions.join(", ")}.`,
+        lines: [],
+      });
     }
 
     if (country === "malaysia") {
@@ -724,23 +571,22 @@ async function logTransitSearch(
       });
     }
 
-    const staticLines: Record<string, TransitLine[]> = {
-      singapore: singaporeMrtLines,
-      thailand: thailandTransitLines,
-      china: chinaRailLines,
-      germany: germanyRailLines,
-      france: franceRailLines,
-        switzerland: switzerlandRailLines,
-    };
-    if (typeof country === "string" && staticLines[country]) {
-      return res.json({ lines: staticLines[country] });
+    try {
+      const lines = await getLinesForCountry(country);
+      const source =
+        country === "united_kingdom"
+          ? "https://api.tfl.gov.uk"
+          : country === "united_states"
+            ? "https://api-v3.mbta.com"
+            : undefined;
+      return res.json(source ? { lines, source } : { lines });
+    } catch (error) {
+      return res.status(502).json({
+        error: "Provider request failed",
+        message: error instanceof Error ? error.message : "Could not fetch lines.",
+        lines: [],
+      });
     }
-
-    return res.status(400).json({
-      error: "Invalid country",
-      message: "Country must be one of japan, korea, taiwan, singapore, malaysia, thailand, hong_kong, united_kingdom, united_states, germany, france, switzerland, china.",
-      lines: [],
-    });
   });
 
   app.get("/api/transit/transfers", (req, res) => {

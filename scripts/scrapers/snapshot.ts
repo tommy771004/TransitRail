@@ -2,31 +2,13 @@ import { existsSync, readFileSync, readdirSync } from "fs";
 import { resolve } from "path";
 import { BaseScraper } from "./base";
 import type { ScrapedRoute, ScrapedRouteData } from "./types";
-import type { SearchResponse, TransitResult } from "../../src/types";
+import type { SearchResponse } from "../../src/types";
+// Implementation lives in the pure timetable-day module under test.
+import { canonicalDay } from "../../src/data/scraped/timetableDay";
+import { stationSearchKey } from "../../src/data/stationKey";
+export { canonicalDay };
 
 const DATA_DIR = resolve("src/data/scraped");
-
-const key = (value: string) => value.toLowerCase().trim();
-
-/**
- * Collapse a stored route file back to a single, dateless canonical day of
- * departures. A saved file accumulates one dated copy of the timetable per
- * scrape date; without this, loadSnapshot would hand every one of those dates
- * back to saveRoute, which re-merges them and duplicates the results on every
- * run (the cause of the 64× row explosion seen in older files). Stripping the
- * date lets BaseScraper.withResultDates re-stamp the template with the current
- * scrape date, keeping each day's timetable to one clean copy.
- */
-export function canonicalDay(results: TransitResult[]): TransitResult[] {
-  const byBaseId = new Map<string, TransitResult>();
-  for (const result of results) {
-    const baseId = result.id.replace(/^\d{4}-\d{2}-\d{2}-/, "");
-    if (byBaseId.has(baseId)) continue;
-    const { date: _date, ...rest } = result;
-    byBaseId.set(baseId, { ...rest, id: baseId });
-  }
-  return Array.from(byBaseId.values());
-}
 
 export class SnapshotScraper extends BaseScraper {
   // Reads curated JSON (and ProviderBackedScraper calls a JSON API via fetch);
@@ -59,7 +41,7 @@ export class SnapshotScraper extends BaseScraper {
     for (const file of readdirSync(dir)) {
       if (!file.endsWith(".json") || file === "metadata.json") continue;
       const data = JSON.parse(readFileSync(resolve(dir, file), "utf-8")) as ScrapedRouteData;
-      if (key(data.origin) === key(route.origin) && key(data.destination) === key(route.destination)) {
+      if (stationSearchKey(data.origin) === stationSearchKey(route.origin) && stationSearchKey(data.destination) === stationSearchKey(route.destination)) {
         return { ...data, results: canonicalDay(data.results) };
       }
     }

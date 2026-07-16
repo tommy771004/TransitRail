@@ -36,7 +36,39 @@ export const countryOptions: Country[] = [
   "switzerland",
 ];
 
-export const countryConfig: Record<Country, {
+/** Live timetable provider id used by /api/transit/search. */
+export type ProviderId = "tfl" | "mbta" | "belgium" | "norway" | "swiss";
+
+/** How search obtains timetable results. */
+export type SearchKind =
+  | { kind: "scraped" }
+  | { kind: "provider"; provider: ProviderId }
+  | { kind: "provider_then_scraped"; provider: ProviderId }
+  | { kind: "catalog_only" };
+
+/**
+ * How the nightly scrape job fills this country's data.
+ * - generated: synthetic timetable (Japan)
+ * - snapshot: re-stamp curated JSON
+ * - provider_backed: live provider then snapshot fallback
+ * - catalog_sync: station catalog only (Malaysia)
+ * - none: not on the scrape schedule
+ */
+export type ScrapeStrategy =
+  | "generated"
+  | "snapshot"
+  | "provider_backed"
+  | "catalog_sync"
+  | "none";
+
+export type ResultViewFamily = "japan" | "korea" | "metro" | "live_rail" | "catalog";
+export type LiveRailMarket = "london" | "boston" | "switzerland" | "belgium" | "norway";
+
+/**
+ * Single country table: product chrome + search/scrape/result policy.
+ * Prefer reading policy via {@link getCountryCapability} from countryCapability.ts.
+ */
+export type CountryConfigEntry = {
   labelKey: string;
   provider: string;
   originPlaceholder: string;
@@ -47,7 +79,13 @@ export const countryConfig: Record<Country, {
   /** Provider only serves live "today" data; the date field is locked. */
   liveOnly: boolean;
   timeZone: string;
-}> = {
+  search: SearchKind;
+  scrape: ScrapeStrategy;
+  resultView: ResultViewFamily;
+  liveRailMarket?: LiveRailMarket;
+};
+
+export const countryConfig: Record<Country, CountryConfigEntry> = {
   japan: {
     labelKey: "search.japan",
     provider: "Scraped (Jorudan)",
@@ -58,6 +96,9 @@ export const countryConfig: Record<Country, {
     connected: true,
     liveOnly: false,
     timeZone: "Asia/Tokyo",
+    search: { kind: "scraped" },
+    scrape: "generated",
+    resultView: "japan",
   },
   korea: {
     labelKey: "search.korea",
@@ -69,6 +110,9 @@ export const countryConfig: Record<Country, {
     connected: true,
     liveOnly: false,
     timeZone: "Asia/Seoul",
+    search: { kind: "scraped" },
+    scrape: "snapshot",
+    resultView: "korea",
   },
   singapore: {
     labelKey: "search.singapore",
@@ -80,6 +124,9 @@ export const countryConfig: Record<Country, {
     connected: true,
     liveOnly: false,
     timeZone: "Asia/Singapore",
+    search: { kind: "scraped" },
+    scrape: "snapshot",
+    resultView: "metro",
   },
   malaysia: {
     labelKey: "search.malaysia",
@@ -91,6 +138,9 @@ export const countryConfig: Record<Country, {
     connected: false,
     liveOnly: false,
     timeZone: "Asia/Kuala_Lumpur",
+    search: { kind: "catalog_only" },
+    scrape: "catalog_sync",
+    resultView: "catalog",
   },
   thailand: {
     labelKey: "search.thailand",
@@ -102,6 +152,9 @@ export const countryConfig: Record<Country, {
     connected: true,
     liveOnly: false,
     timeZone: "Asia/Bangkok",
+    search: { kind: "scraped" },
+    scrape: "snapshot",
+    resultView: "metro",
   },
   hong_kong: {
     labelKey: "search.hong_kong",
@@ -113,6 +166,10 @@ export const countryConfig: Record<Country, {
     connected: true,
     liveOnly: false,
     timeZone: "Asia/Hong_Kong",
+    // Live MTR is used only by ProviderBackedScraper at scrape time.
+    search: { kind: "scraped" },
+    scrape: "provider_backed",
+    resultView: "metro",
   },
   united_kingdom: {
     labelKey: "search.united_kingdom",
@@ -130,6 +187,10 @@ export const countryConfig: Record<Country, {
     connected: true,
     liveOnly: false,
     timeZone: "Europe/London",
+    search: { kind: "provider", provider: "tfl" },
+    scrape: "provider_backed",
+    resultView: "live_rail",
+    liveRailMarket: "london",
   },
   united_states: {
     labelKey: "search.united_states",
@@ -148,6 +209,10 @@ export const countryConfig: Record<Country, {
     // MBTA predictions are restricted to the current local service day.
     liveOnly: true,
     timeZone: "America/New_York",
+    search: { kind: "provider", provider: "mbta" },
+    scrape: "provider_backed",
+    resultView: "live_rail",
+    liveRailMarket: "boston",
   },
   germany: {
     labelKey: "search.germany",
@@ -159,6 +224,9 @@ export const countryConfig: Record<Country, {
     connected: true,
     liveOnly: false,
     timeZone: "Europe/Berlin",
+    search: { kind: "scraped" },
+    scrape: "snapshot",
+    resultView: "japan",
   },
   france: {
     labelKey: "search.france",
@@ -170,6 +238,9 @@ export const countryConfig: Record<Country, {
     connected: true,
     liveOnly: false,
     timeZone: "Europe/Paris",
+    search: { kind: "scraped" },
+    scrape: "snapshot",
+    resultView: "japan",
   },
   belgium: {
     labelKey: "search.belgium",
@@ -181,6 +252,10 @@ export const countryConfig: Record<Country, {
     connected: true,
     liveOnly: false,
     timeZone: "Europe/Brussels",
+    search: { kind: "provider", provider: "belgium" },
+    scrape: "provider_backed",
+    resultView: "live_rail",
+    liveRailMarket: "belgium",
   },
   norway: {
     labelKey: "search.norway",
@@ -192,6 +267,10 @@ export const countryConfig: Record<Country, {
     connected: true,
     liveOnly: false,
     timeZone: "Europe/Oslo",
+    search: { kind: "provider", provider: "norway" },
+    scrape: "provider_backed",
+    resultView: "live_rail",
+    liveRailMarket: "norway",
   },
   switzerland: {
     labelKey: "search.switzerland",
@@ -203,6 +282,10 @@ export const countryConfig: Record<Country, {
     connected: true,
     liveOnly: false,
     timeZone: "Europe/Zurich",
+    search: { kind: "provider_then_scraped", provider: "swiss" },
+    scrape: "provider_backed",
+    resultView: "live_rail",
+    liveRailMarket: "switzerland",
   },
   china: {
     labelKey: "search.china",
@@ -214,6 +297,9 @@ export const countryConfig: Record<Country, {
     connected: true,
     liveOnly: false,
     timeZone: "Asia/Shanghai",
+    search: { kind: "scraped" },
+    scrape: "snapshot",
+    resultView: "japan",
   },
 };
 

@@ -20,7 +20,7 @@
       ]
     },
     {
-      "source": "/sitemaps/(.*)",
+      "source": "/sitemaps/(.*)\\.xml",
       "headers": [
         {
           "key": "Content-Type",
@@ -70,6 +70,66 @@
     {
       "source": "/sitemap_index.xml",
       "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/Sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/SITEMAP.XML",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/SiteMap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/Sitemap",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/Sitemap/",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/sitemaps",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/sitemaps/",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/Sitemaps",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/Sitemaps/",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/Sitemaps/core.xml",
+      "destination": "/sitemaps/core.xml",
+      "permanent": true
+    },
+    {
+      "source": "/Sitemaps/countries.xml",
+      "destination": "/sitemaps/countries.xml",
+      "permanent": true
+    },
+    {
+      "source": "/Sitemaps/routes.xml",
+      "destination": "/sitemaps/routes.xml",
       "permanent": true
     }
   ],

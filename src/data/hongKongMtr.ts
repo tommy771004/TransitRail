@@ -1,3 +1,5 @@
+import { stationSearchKey } from "./stationKey";
+
 export interface MtrStation {
   code: string;
   name: string;
@@ -335,9 +337,11 @@ export interface MtrJourney {
 }
 
 export function findMtrJourney(originName: string, destinationName: string): MtrJourney | null {
+  const oKey = stationSearchKey(originName);
+  const dKey = stationSearchKey(destinationName);
   const candidates = hongKongMtrLines.flatMap((line) => {
-    const originIndex = line.stations.findIndex((station) => station.name === originName);
-    const destinationIndex = line.stations.findIndex((station) => station.name === destinationName);
+    const originIndex = line.stations.findIndex((station) => stationSearchKey(station.name) === oKey);
+    const destinationIndex = line.stations.findIndex((station) => stationSearchKey(station.name) === dKey);
     if (originIndex < 0 || destinationIndex < 0 || originIndex === destinationIndex) return [];
     return [{
       line,
