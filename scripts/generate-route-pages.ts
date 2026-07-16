@@ -19,6 +19,7 @@ import { mkdirSync, rmSync, writeFileSync } from "fs";
 import { join, resolve } from "path";
 import i18n from "../src/i18n";
 import { stationOverrides } from "../src/data/stationOverrides";
+import { getStationCoordinates } from "../src/utils/geoCoordinates";
 import { COUNTRY_PATHS, collectRoutePages, type RoutePageData } from "./lib/routePages";
 import type { Country, TransitResult } from "../src/types";
 
@@ -32,6 +33,52 @@ type Lang = "en" | "zh" | "ja" | "ko";
 const ALL_LANGS: Lang[] = ["en", "zh", "ja", "ko"];
 const HREFLANG: Record<Lang, string> = { en: "en", zh: "zh-Hant", ja: "ja", ko: "ko" };
 const HUB_PATH: Record<Lang, string> = { en: "/routes/", zh: "/zh/routes/", ja: "/ja/routes/", ko: "/ko/routes/" };
+
+/** Representative geo for country hub pages (not a claim of exclusive HQ). */
+const COUNTRY_GEO: Record<string, { region: string; lat: number; lng: number; placename: string }> = {
+  japan: { region: "JP", lat: 35.6812, lng: 139.7671, placename: "Tokyo" },
+  korea: { region: "KR", lat: 37.5547, lng: 126.9708, placename: "Seoul" },
+  china: { region: "CN", lat: 31.2492, lng: 121.4557, placename: "Shanghai" },
+  singapore: { region: "SG", lat: 1.2843, lng: 103.8515, placename: "Singapore" },
+  malaysia: { region: "MY", lat: 3.1390, lng: 101.6869, placename: "Kuala Lumpur" },
+  thailand: { region: "TH", lat: 13.7563, lng: 100.5018, placename: "Bangkok" },
+  hong_kong: { region: "HK", lat: 22.2819, lng: 114.1581, placename: "Hong Kong" },
+  united_kingdom: { region: "GB", lat: 51.5074, lng: -0.1278, placename: "London" },
+  united_states: { region: "US-MA", lat: 42.3601, lng: -71.0589, placename: "Boston" },
+  germany: { region: "DE", lat: 52.5251, lng: 13.3694, placename: "Berlin" },
+  france: { region: "FR", lat: 48.8443, lng: 2.3744, placename: "Paris" },
+  belgium: { region: "BE", lat: 50.8455, lng: 4.3571, placename: "Brussels" },
+  norway: { region: "NO", lat: 59.9111, lng: 10.7523, placename: "Oslo" },
+  switzerland: { region: "CH", lat: 47.3782, lng: 8.5402, placename: "Zürich" },
+};
+
+function countryHubPaths(country: Country): Record<Lang, string> {
+  const base = COUNTRY_PATHS[country] || `/${country}`;
+  return {
+    en: `${base}/`,
+    zh: `/zh${base}/`,
+    ja: `/ja${base}/`,
+    ko: `/ko${base}/`,
+  };
+}
+
+function trainStationSchema(englishName: string, country: Country, lang: Lang): Record<string, unknown> {
+  const label = stationName(englishName, country, lang);
+  const coord = getStationCoordinates(englishName);
+  const node: Record<string, unknown> = {
+    "@type": "TrainStation",
+    name: label,
+    ...(label !== englishName ? { alternateName: englishName } : {}),
+  };
+  if (coord) {
+    node.geo = {
+      "@type": "GeoCoordinates",
+      latitude: coord.lat,
+      longitude: coord.lng,
+    };
+  }
+  return node;
+}
 
 const T: Record<Lang, ReturnType<typeof i18n.getFixedT>> = {
   en: i18n.getFixedT("en"),
@@ -91,6 +138,11 @@ const UI = {
       "Browse every origin–destination timetable on Rail Nation: departure times, journey duration, transfers and fares across Asia, Europe and North America.",
     routesOnHub: (n: number) => `${n} routes`,
     countryApp: (c: string) => `Open ${c} in the planner`,
+    countryHubTitle: (c: string) => `${c} train & transit routes`,
+    countryHubDescription: (c: string, n: number) =>
+      `Browse ${n} origin–destination timetable pages for ${c}: departure times, duration, transfers and fares on Rail Nation.`,
+    countryHubIntro: (c: string) =>
+      `Static timetable pages for popular ${c} rail and metro routes. Open any route for the full departure table, or jump into the live planner.`,
     sourceLabel: "Data source",
     snapshotDate: "Timetable snapshot",
     disclaimer:
@@ -145,6 +197,11 @@ const UI = {
       "瀏覽 Rail Nation 全部起訖站時刻表：出發時間、行車時間、轉乘與票價，涵蓋亞洲、歐洲與北美。",
     routesOnHub: (n: number) => `${n} 條路線`,
     countryApp: (c: string) => `在查詢工具中開啟${c}`,
+    countryHubTitle: (c: string) => `${c}列車與大眾運輸路線`,
+    countryHubDescription: (c: string, n: number) =>
+      `瀏覽 ${c} ${n} 條起訖站時刻表頁：出發時間、行車時間、轉乘與票價 — Rail Nation。`,
+    countryHubIntro: (c: string) =>
+      `${c}熱門鐵路與捷運路線的靜態時刻表頁。點選路線可查看完整班次表，或進入即時查詢工具。`,
     sourceLabel: "資料來源",
     snapshotDate: "時刻表快照",
     disclaimer: "時刻與票價為擷取快照，僅供行程規劃參考 — 出發前請以營運商公告為準。",
@@ -198,6 +255,11 @@ const UI = {
       "Rail Nationに掲載されている全ての出発地・到着地の時刻表を検索：発車時刻、所要時間、乗換、運賃をアジア・ヨーロッパ・北米で網羅。",
     routesOnHub: (n: number) => `${n} 路線`,
     countryApp: (c: string) => `アプリで${c}を開く`,
+    countryHubTitle: (c: string) => `${c}の鉄道・交通路線`,
+    countryHubDescription: (c: string, n: number) =>
+      `${c}の出発地・到着地時刻表ページ${n}件：発車時刻、所要時間、乗換、運賃をRail Nationで。`,
+    countryHubIntro: (c: string) =>
+      `${c}の主要路線の静的時刻表ページです。路線を開くと全便一覧を確認でき、アプリのリアルタイム検索にも移動できます。`,
     sourceLabel: "データソース",
     snapshotDate: "時刻表スナップショット",
     disclaimer:
@@ -252,6 +314,11 @@ const UI = {
       "Rail Nation에 등록된 모든 출발지-도착지 시간표를 살펴보세요: 출발 시각, 소요 시간, 환승, 요금까지 아시아・유럽・북미를 아우릅니다.",
     routesOnHub: (n: number) => `${n}개 노선`,
     countryApp: (c: string) => `앱에서 ${c} 열기`,
+    countryHubTitle: (c: string) => `${c} 철도·대중교통 노선`,
+    countryHubDescription: (c: string, n: number) =>
+      `${c} 출발지–도착지 시간표 페이지 ${n}개: 출발 시각, 소요 시간, 환승, 요금 — Rail Nation.`,
+    countryHubIntro: (c: string) =>
+      `${c} 주요 노선의 정적 시간표 페이지입니다. 노선을 열면 전체 운행표를 볼 수 있고, 앱의 실시간 검색으로도 이동할 수 있습니다.`,
     sourceLabel: "데이터 출처",
     snapshotDate: "시간표 스냅샷",
     disclaimer:
@@ -410,15 +477,23 @@ function htmlShell(options: {
   description: string;
   paths: Record<Lang, string>;
   ogImagePath?: string;
+  /** Optional geo meta for country hubs (ISO region + representative place). */
+  geo?: { region: string; lat: number; lng: number; placename: string };
   body: string;
   jsonLd: object[];
 }): string {
-  const { lang, title, description, paths, ogImagePath, body, jsonLd } = options;
+  const { lang, title, description, paths, ogImagePath, geo, body, jsonLd } = options;
   const ui = UI[lang];
   const path = paths[lang];
   const langSwitcher = ALL_LANGS.filter((l) => l !== lang)
     .map((l) => `<a href="${paths[l]}" hreflang="${HREFLANG[l]}">${UI[l].shortLabel}</a>`)
     .join(" · ");
+  const geoTags = geo
+    ? `<meta name="geo.region" content="${esc(geo.region)}">
+<meta name="geo.placename" content="${esc(geo.placename)}">
+<meta name="geo.position" content="${geo.lat};${geo.lng}">
+<meta name="ICBM" content="${geo.lat}, ${geo.lng}">`
+    : "";
   return `<!doctype html>
 <html lang="${ui.langCode}">
 <head>
@@ -429,6 +504,7 @@ function htmlShell(options: {
 <link rel="canonical" href="${SITE_URL}${path}">
 ${ALL_LANGS.map((l) => `<link rel="alternate" hreflang="${HREFLANG[l]}" href="${SITE_URL}${paths[l]}">`).join("\n")}
 <link rel="alternate" hreflang="x-default" href="${SITE_URL}${paths.en}">
+${geoTags}
 <meta property="og:site_name" content="${ui.siteName}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
@@ -587,8 +663,8 @@ ${relatedItems.map(({ page: p, label }) => `<li><a href="${pagePath(p, lang)}">$
           "@type": "TrainTrip",
           provider: { "@type": "Organization", name: r.operator },
           trainName: r.service,
-          departureStation: { "@type": "TrainStation", name: page.origin },
-          arrivalStation: { "@type": "TrainStation", name: page.destination },
+          departureStation: trainStationSchema(page.origin, page.country, lang),
+          arrivalStation: trainStationSchema(page.destination, page.country, lang),
           departureTime: r.departureTime,
           ...(r.arrivalTime ? { arrivalTime: r.arrivalTime } : {}),
           ...(typeof r.price === "number" && r.currency
@@ -632,6 +708,84 @@ ${relatedSection}
   return htmlShell({ lang, title, description, paths, ogImagePath, body, jsonLd });
 }
 
+function renderCountryHubPage(country: Country, countryPages: RoutePageData[], lang: Lang): string {
+  const ui = UI[lang];
+  const label = countryLabel(country, lang);
+  const paths = countryHubPaths(country);
+  const geo = COUNTRY_GEO[country];
+  const title = `${ui.countryHubTitle(label)} | ${ui.siteName}`;
+  const description = ui.countryHubDescription(label, countryPages.length);
+
+  const jsonLd: object[] = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: ui.home, item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: ui.breadcrumbRoutes, item: `${SITE_URL}${HUB_PATH[lang]}` },
+        { "@type": "ListItem", position: 3, name: label, item: `${SITE_URL}${paths[lang]}` },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: ui.countryHubTitle(label),
+      description,
+      url: `${SITE_URL}${paths[lang]}`,
+      inLanguage: ui.langCode,
+      isPartOf: { "@id": `${SITE_URL}/#website` },
+      about: {
+        "@type": "Country",
+        name: label,
+        ...(geo
+          ? {
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: geo.lat,
+                longitude: geo.lng,
+              },
+            }
+          : {}),
+      },
+      mainEntity: {
+        "@type": "ItemList",
+        numberOfItems: countryPages.length,
+        itemListElement: countryPages.map((p, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: `${SITE_URL}${pagePath(p, lang)}`,
+          name: `${stationName(p.origin, country, lang)} → ${stationName(p.destination, country, lang)}`,
+        })),
+      },
+    },
+  ];
+
+  const body = `
+<nav class="crumbs"><a href="/">${ui.home}</a> › <a href="${HUB_PATH[lang]}">${ui.breadcrumbRoutes}</a> › ${esc(label)}</nav>
+<h1>${esc(ui.countryHubTitle(label))}</h1>
+<p>${esc(ui.countryHubIntro(label))}</p>
+<div class="stats">
+<div class="stat"><div class="k">${ui.breadcrumbRoutes}</div><div class="v">${countryPages.length}</div></div>
+${geo ? `<div class="stat"><div class="k">GEO</div><div class="v">${esc(geo.placename)}</div></div>` : ""}
+</div>
+<a class="cta" href="${COUNTRY_PATHS[country]}">${esc(ui.countryApp(label))} →</a>
+<h2>${esc(label)} <small>(${ui.routesOnHub(countryPages.length)})</small></h2>
+<ul class="links">
+${countryPages.map((p) => `<li><a href="${pagePath(p, lang)}">${esc(stationName(p.origin, country, lang))} → ${esc(stationName(p.destination, country, lang))}</a></li>`).join("\n")}
+</ul>
+<footer><p>${ui.disclaimer}</p></footer>`;
+
+  return htmlShell({
+    lang,
+    title,
+    description,
+    paths,
+    geo,
+    body,
+    jsonLd,
+  });
+}
+
 function renderHubPage(pages: RoutePageData[], lang: Lang): string {
   const ui = UI[lang];
   const paths = HUB_PATH;
@@ -644,11 +798,12 @@ function renderHubPage(pages: RoutePageData[], lang: Lang): string {
     .sort(([a], [b]) => (byCountry.get(b)!.length - byCountry.get(a)!.length) || a.localeCompare(b))
     .map(([country, countryPages]) => {
       const label = countryLabel(country, lang);
-      return `<h2>${esc(label)} <small>(${ui.routesOnHub(countryPages.length)})</small></h2>
+      const hub = countryHubPaths(country)[lang];
+      return `<h2><a href="${hub}">${esc(label)}</a> <small>(${ui.routesOnHub(countryPages.length)})</small></h2>
 <ul class="links">
 ${countryPages.map((p) => `<li><a href="${pagePath(p, lang)}">${esc(stationName(p.origin, country, lang))} → ${esc(stationName(p.destination, country, lang))}</a></li>`).join("\n")}
 </ul>
-<p class="note"><a href="${countryPages[0].countryPath}">${esc(ui.countryApp(label))} →</a></p>`;
+<p class="note"><a href="${hub}">${esc(ui.countryHubTitle(label))} →</a></p>`;
     }).join("\n");
 
   const jsonLd: object[] = [
@@ -720,11 +875,21 @@ function main(): void {
       writeRouteOgImage(page, lang);
     }
   }
+  // Static country hubs at /japan/, /zh/japan/, … so sitemap country URLs are not SPA shells.
+  for (const [country, countryPages] of byCountry) {
+    for (const lang of ALL_LANGS) {
+      writePage(countryHubPaths(country)[lang], renderCountryHubPage(country, countryPages, lang));
+    }
+  }
   for (const lang of ALL_LANGS) {
     writePage(HUB_PATH[lang], renderHubPage(pages, lang));
   }
 
-  console.log(`Generated ${pages.length} route pages × ${ALL_LANGS.length} languages and ${pages.length * ALL_LANGS.length} social cards under public/.`);
+  console.log(
+    `Generated ${pages.length} route pages × ${ALL_LANGS.length} languages, ` +
+      `${byCountry.size} country hubs × ${ALL_LANGS.length} languages, ` +
+      `and ${pages.length * ALL_LANGS.length} social cards under public/.`,
+  );
 }
 
 main();

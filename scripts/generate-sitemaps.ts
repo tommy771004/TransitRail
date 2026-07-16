@@ -50,7 +50,8 @@ function main() {
   mkdirSync(OUTPUT_DIR, { recursive: true });
   const countries = readdirSync(SCRAPED_DIR).filter((country) => country in COUNTRY_PATHS).sort();
   const countryEntries = countries.map((country) => ({
-    url: `${SITE_URL}${COUNTRY_PATHS[country]}`,
+    // Trailing slash matches static country hub pages (public/<country>/index.html).
+    url: `${SITE_URL}${COUNTRY_PATHS[country]}/`,
     lastmod: countryLastModified(country),
   }));
   const latest = countryEntries.map(({ lastmod }) => lastmod).sort().at(-1) ?? dateOnly(undefined);

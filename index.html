@@ -17,11 +17,15 @@
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="6KE8Qp5p0dXMp1etepmmhRmw7fG_SRwVuBampfeCL5M" />
 
-    <!-- Geo Meta Tags -->
-    <meta name="geo.region" content="TW" />
-    <meta name="geo.placename" content="Taipei" />
-    <meta name="geo.position" content="25.0330;121.5654" />
-    <meta name="ICBM" content="25.0330, 121.5654" />
+    <!--
+      Multi-market product: do NOT pin geo.region to a single HQ city (was TW/Taipei).
+      Country-level Place / geo live on static country hubs and route pages.
+    -->
+    <link rel="alternate" hreflang="en" href="https://rail-national.vercel.app/" />
+    <link rel="alternate" hreflang="zh-Hant" href="https://rail-national.vercel.app/" />
+    <link rel="alternate" hreflang="ja" href="https://rail-national.vercel.app/" />
+    <link rel="alternate" hreflang="ko" href="https://rail-national.vercel.app/" />
+    <link rel="alternate" hreflang="x-default" href="https://rail-national.vercel.app/" />
 
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
     <meta property="og:type" content="website" />
@@ -35,6 +39,8 @@
     <meta property="og:image:alt" content="Rail Nation — Global Train Route Finder showing search interface with country selection" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="zh_TW" />
+    <meta property="og:locale:alternate" content="ja_JP" />
+    <meta property="og:locale:alternate" content="ko_KR" />
 
     <!-- Twitter / X Cards -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -134,19 +140,22 @@
           },
           "url": "https://rail-national.vercel.app/",
           "areaServed": [
-            { "@type": "Country", "name": "Japan" },
-            { "@type": "Country", "name": "South Korea" },
-            { "@type": "Country", "name": "China" },
-            { "@type": "Country", "name": "Singapore" },
-            { "@type": "Country", "name": "Malaysia" },
-            { "@type": "Country", "name": "Thailand" },
-            { "@type": "Country", "name": "Hong Kong" },
-            { "@type": "Country", "name": "United Kingdom" },
-            { "@type": "Country", "name": "United States" },
-            { "@type": "Country", "name": "Germany" },
-            { "@type": "Country", "name": "France" },
-            { "@type": "Country", "name": "Switzerland" }
+            { "@type": "Country", "name": "Japan", "url": "https://rail-national.vercel.app/japan" },
+            { "@type": "Country", "name": "South Korea", "url": "https://rail-national.vercel.app/korea" },
+            { "@type": "Country", "name": "China", "url": "https://rail-national.vercel.app/china" },
+            { "@type": "Country", "name": "Singapore", "url": "https://rail-national.vercel.app/singapore" },
+            { "@type": "Country", "name": "Malaysia", "url": "https://rail-national.vercel.app/malaysia" },
+            { "@type": "Country", "name": "Thailand", "url": "https://rail-national.vercel.app/thailand" },
+            { "@type": "Country", "name": "Hong Kong", "url": "https://rail-national.vercel.app/hong-kong" },
+            { "@type": "Country", "name": "United Kingdom", "url": "https://rail-national.vercel.app/united-kingdom" },
+            { "@type": "Country", "name": "United States", "url": "https://rail-national.vercel.app/united-states" },
+            { "@type": "Country", "name": "Germany", "url": "https://rail-national.vercel.app/germany" },
+            { "@type": "Country", "name": "France", "url": "https://rail-national.vercel.app/france" },
+            { "@type": "Country", "name": "Belgium", "url": "https://rail-national.vercel.app/belgium" },
+            { "@type": "Country", "name": "Norway", "url": "https://rail-national.vercel.app/norway" },
+            { "@type": "Country", "name": "Switzerland", "url": "https://rail-national.vercel.app/switzerland" }
           ],
+
           "availableChannel": {
             "@type": "ServiceChannel",
             "serviceUrl": "https://rail-national.vercel.app/"
@@ -158,20 +167,20 @@
           "name": "Supported Rail Coverage",
           "numberOfItems": 14,
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "item": { "@type": "Thing", "name": "Japan", "url": "https://rail-national.vercel.app/japan" } },
-            { "@type": "ListItem", "position": 2, "item": { "@type": "Thing", "name": "South Korea", "url": "https://rail-national.vercel.app/korea" } },
-            { "@type": "ListItem", "position": 3, "item": { "@type": "Thing", "name": "China", "url": "https://rail-national.vercel.app/china" } },
-            { "@type": "ListItem", "position": 4, "item": { "@type": "Thing", "name": "Singapore", "url": "https://rail-national.vercel.app/singapore" } },
-            { "@type": "ListItem", "position": 5, "item": { "@type": "Thing", "name": "Malaysia", "url": "https://rail-national.vercel.app/malaysia" } },
-            { "@type": "ListItem", "position": 6, "item": { "@type": "Thing", "name": "Thailand", "url": "https://rail-national.vercel.app/thailand" } },
-            { "@type": "ListItem", "position": 7, "item": { "@type": "Thing", "name": "Hong Kong", "url": "https://rail-national.vercel.app/hong-kong" } },
-            { "@type": "ListItem", "position": 8, "item": { "@type": "Thing", "name": "United Kingdom", "url": "https://rail-national.vercel.app/united-kingdom" } },
-            { "@type": "ListItem", "position": 9, "item": { "@type": "Thing", "name": "United States", "url": "https://rail-national.vercel.app/united-states" } },
-            { "@type": "ListItem", "position": 10, "item": { "@type": "Thing", "name": "Germany", "url": "https://rail-national.vercel.app/germany" } },
-            { "@type": "ListItem", "position": 11, "item": { "@type": "Thing", "name": "France", "url": "https://rail-national.vercel.app/france" } },
-            { "@type": "ListItem", "position": 12, "item": { "@type": "Thing", "name": "Belgium", "url": "https://rail-national.vercel.app/belgium" } },
-            { "@type": "ListItem", "position": 13, "item": { "@type": "Thing", "name": "Norway", "url": "https://rail-national.vercel.app/norway" } },
-            { "@type": "ListItem", "position": 14, "item": { "@type": "Thing", "name": "Switzerland", "url": "https://rail-national.vercel.app/switzerland" } }
+            { "@type": "ListItem", "position": 1, "item": { "@type": "Country", "name": "Japan", "url": "https://rail-national.vercel.app/japan" } },
+            { "@type": "ListItem", "position": 2, "item": { "@type": "Country", "name": "South Korea", "url": "https://rail-national.vercel.app/korea" } },
+            { "@type": "ListItem", "position": 3, "item": { "@type": "Country", "name": "China", "url": "https://rail-national.vercel.app/china" } },
+            { "@type": "ListItem", "position": 4, "item": { "@type": "Country", "name": "Singapore", "url": "https://rail-national.vercel.app/singapore" } },
+            { "@type": "ListItem", "position": 5, "item": { "@type": "Country", "name": "Malaysia", "url": "https://rail-national.vercel.app/malaysia" } },
+            { "@type": "ListItem", "position": 6, "item": { "@type": "Country", "name": "Thailand", "url": "https://rail-national.vercel.app/thailand" } },
+            { "@type": "ListItem", "position": 7, "item": { "@type": "Country", "name": "Hong Kong", "url": "https://rail-national.vercel.app/hong-kong" } },
+            { "@type": "ListItem", "position": 8, "item": { "@type": "Country", "name": "United Kingdom", "url": "https://rail-national.vercel.app/united-kingdom" } },
+            { "@type": "ListItem", "position": 9, "item": { "@type": "Country", "name": "United States", "url": "https://rail-national.vercel.app/united-states" } },
+            { "@type": "ListItem", "position": 10, "item": { "@type": "Country", "name": "Germany", "url": "https://rail-national.vercel.app/germany" } },
+            { "@type": "ListItem", "position": 11, "item": { "@type": "Country", "name": "France", "url": "https://rail-national.vercel.app/france" } },
+            { "@type": "ListItem", "position": 12, "item": { "@type": "Country", "name": "Belgium", "url": "https://rail-national.vercel.app/belgium" } },
+            { "@type": "ListItem", "position": 13, "item": { "@type": "Country", "name": "Norway", "url": "https://rail-national.vercel.app/norway" } },
+            { "@type": "ListItem", "position": 14, "item": { "@type": "Country", "name": "Switzerland", "url": "https://rail-national.vercel.app/switzerland" } }
           ]
         },
         {

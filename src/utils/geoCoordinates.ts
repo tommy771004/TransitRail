@@ -155,11 +155,22 @@ const stationCoords: Record<string, GeoCoord> = {
 };
 
 function findKnownStationCoordinates(stationName: string): GeoCoord | undefined {
-  const normalized = stationName.replace(/ Station| Underground Station| Railway Station/gi, "").trim();
+  // Strip common suffixes and parenthetical codes: "Seoul (SNC)" → "Seoul"
+  const normalized = stationName
+    .replace(/ Station| Underground Station| Railway Station/gi, "")
+    .replace(/\s*\([^)]*\)\s*$/g, "")
+    .trim();
   if (stationCoords[normalized]) return stationCoords[normalized];
 
   const lowerStation = normalized.toLowerCase();
-  return Object.entries(stationCoords).find(([key]) => key.toLowerCase() === lowerStation)?.[1];
+  const exact = Object.entries(stationCoords).find(([key]) => key.toLowerCase() === lowerStation)?.[1];
+  if (exact) return exact;
+
+  // Prefix match for "Paris Gare du Nord" vs "Paris Nord" style aliases
+  return Object.entries(stationCoords).find(([key]) => {
+    const k = key.toLowerCase();
+    return lowerStation.startsWith(k) || k.startsWith(lowerStation);
+  })?.[1];
 }
 
 function distanceInKm(origin: GeoCoord, destination: GeoCoord): number {
