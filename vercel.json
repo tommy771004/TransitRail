@@ -3,51 +3,12 @@
   "functions": {
     "api/index.ts": {
       "includeFiles": "src/data/scraped/**"
+    },
+    "api/sitemap.ts": {
+      "includeFiles": "{src/data/scraped/**,scripts/lib/**}"
     }
   },
   "headers": [
-    {
-      "source": "/sitemap.xml",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/xml; charset=utf-8"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        },
-        {
-          "key": "Content-Disposition",
-          "value": "inline"
-        },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        }
-      ]
-    },
-    {
-      "source": "/Sitemap.xml",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/xml; charset=utf-8"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        },
-        {
-          "key": "Content-Disposition",
-          "value": "inline"
-        },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        }
-      ]
-    },
     {
       "source": "/sitemaps/(.*)\\.xml",
       "headers": [
@@ -152,6 +113,14 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    },
+    {
+      "source": "/Sitemap.xml",
+      "destination": "/api/sitemap"
+    },
     {
       "source": "/api/(.*)",
       "destination": "/api/index.ts"
