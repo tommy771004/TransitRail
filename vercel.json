@@ -5,10 +5,52 @@
       "includeFiles": "src/data/scraped/**"
     },
     "api/sitemap.ts": {
-      "includeFiles": "{src/data/scraped/**,scripts/lib/**}"
+      "includeFiles": "src/data/scraped/**"
     }
   },
   "headers": [
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    },
+    {
+      "source": "/Sitemap.xml",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    },
     {
       "source": "/sitemaps/(.*)\\.xml",
       "headers": [
@@ -85,42 +127,9 @@
       "source": "/sitemaps/",
       "destination": "https://rail-national.vercel.app/sitemap.xml",
       "permanent": true
-    },
-    {
-      "source": "/Sitemaps",
-      "destination": "https://rail-national.vercel.app/sitemap.xml",
-      "permanent": true
-    },
-    {
-      "source": "/Sitemaps/",
-      "destination": "https://rail-national.vercel.app/sitemap.xml",
-      "permanent": true
-    },
-    {
-      "source": "/Sitemaps/core.xml",
-      "destination": "https://rail-national.vercel.app/sitemaps/core.xml",
-      "permanent": true
-    },
-    {
-      "source": "/Sitemaps/countries.xml",
-      "destination": "https://rail-national.vercel.app/sitemaps/countries.xml",
-      "permanent": true
-    },
-    {
-      "source": "/Sitemaps/routes.xml",
-      "destination": "https://rail-national.vercel.app/sitemaps/routes.xml",
-      "permanent": true
     }
   ],
   "rewrites": [
-    {
-      "source": "/sitemap.xml",
-      "destination": "/api/sitemap"
-    },
-    {
-      "source": "/Sitemap.xml",
-      "destination": "/api/sitemap"
-    },
     {
       "source": "/api/(.*)",
       "destination": "/api/index.ts"
