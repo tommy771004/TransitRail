@@ -7,9 +7,14 @@
  */
 import type { IncomingMessage, ServerResponse } from "http";
 import { readdirSync, readFileSync, existsSync } from "fs";
-import { join, resolve } from "path";
+import { join, resolve, dirname } from "path";
+import { fileURLToPath } from "url";
 
 const SITE = (process.env.SITE_URL || "https://rail-national.vercel.app").replace(/\/$/, "");
+// ESM-safe __dirname (Vercel runs this as native ESM → bare __dirname throws).
+const moduleDir = typeof __dirname !== "undefined"
+  ? __dirname
+  : dirname(fileURLToPath(import.meta.url));
 
 const COUNTRY_PATHS: Record<string, string> = {
   japan: "/japan",
@@ -59,7 +64,7 @@ function resolveScrapedDir(): string {
   const candidates = [
     resolve(process.cwd(), "src/data/scraped"),
     resolve(process.cwd(), "data/scraped"),
-    join(__dirname, "..", "src", "data", "scraped"),
+    join(moduleDir, "..", "src", "data", "scraped"),
   ];
   for (const dir of candidates) {
     if (existsSync(dir)) return dir;
