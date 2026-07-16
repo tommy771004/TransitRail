@@ -73,6 +73,21 @@ function main() {
     { url: `${SITE_URL}/ko/routes/`, lastmod: routeLatest },
   );
 
+  const allEntries = [
+    { url: `${SITE_URL}/`, lastmod: latest },
+    ...countryEntries,
+    ...routeEntries,
+  ];
+
+  // Single flat urlset for /sitemap.xml — ~hundreds of URLs, under Google's
+  // 50k limit. Prefer this over a sitemapindex: GSC sometimes reports
+  // "無法讀取 Sitemap" / 0 discovered URLs against nested indexes even when
+  // curl succeeds, and a flat file is simpler for crawlers to process.
+  const flat = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${allEntries.map(({ url, lastmod }) => urlEntry(url, lastmod)).join("\n")}
+</urlset>`;
+
   const core = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urlEntry(`${SITE_URL}/`, latest)}
@@ -85,26 +100,21 @@ ${countryEntries.map(({ url, lastmod }) => urlEntry(url, lastmod)).join("\n")}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${routeEntries.map(({ url, lastmod }) => urlEntry(url, lastmod)).join("\n")}
 </urlset>`;
-  const index = `<?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <sitemap>\n    <loc>${SITE_URL}/sitemaps/core.xml</loc>\n    <lastmod>${latest}</lastmod>\n  </sitemap>
-  <sitemap>\n    <loc>${SITE_URL}/sitemaps/countries.xml</loc>\n    <lastmod>${latest}</lastmod>\n  </sitemap>
-  <sitemap>\n    <loc>${SITE_URL}/sitemaps/routes.xml</loc>\n    <lastmod>${routeLatest}</lastmod>\n  </sitemap>
-</sitemapindex>`;
 
   write(resolve(OUTPUT_DIR, "core.xml"), core);
   write(resolve(OUTPUT_DIR, "countries.xml"), countrySitemap);
   write(resolve(OUTPUT_DIR, "routes.xml"), routeSitemap);
-  // sitemap.xml is the canonical entry point (robots.txt + GSC).
-  // Historical aliases 301 via vercel.json. On case-sensitive hosts (Vercel
-  // Linux), also write capital-S Sitemap.xml so GSC submissions of that path
-  // get real XML with HTTP 200 — not a redirect/SPA shell ("無法讀取 Sitemap").
-  const indexPath = resolve("public/sitemap.xml");
-  write(indexPath, index);
+
+  // Canonical entry for robots.txt + GSC (flat urlset).
+  write(resolve("public/sitemap.xml"), flat);
+  // Case-sensitive hosts (Vercel Linux): identical capital-S path for GSC typos.
   if (process.platform === "linux") {
-    write(resolve("public/Sitemap.xml"), index);
+    write(resolve("public/Sitemap.xml"), flat);
   }
-  console.log(`Generated sitemap index: ${countryEntries.length} country pages, ${routeEntries.length} route page URLs.`);
+  console.log(
+    `Generated flat sitemap.xml: ${allEntries.length} URLs ` +
+      `(1 home + ${countryEntries.length} countries + ${routeEntries.length} route pages).`,
+  );
 }
 
 main();
