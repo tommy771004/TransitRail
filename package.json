@@ -10,6 +10,8 @@
     "catalog": "tsx scripts/generate-station-catalog.ts",
     "routes": "tsx scripts/generate-route-pages.ts",
     "sitemap": "tsx scripts/generate-sitemaps.ts",
+    "sitemap:check": "tsx scripts/prototype-gsc-sitemap-check.ts",
+
     "scrape": "tsx scripts/scrape-all.ts",
     "scrape:metadata": "tsx scripts/sync-scraped-metadata.ts",
     "scrape:japan": "tsx scripts/scrape-country.ts japan",

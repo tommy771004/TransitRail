@@ -35,11 +35,16 @@ function main() {
     write(resolve("public/Sitemap.xml"), flat);
   }
 
+  // Plain-text sitemap (one URL per line) — GSC accepts this format as a
+  // fallback when XML processing is flaky. Max 50k lines; we have ~335.
+  const textBody = `${allEntries.map((e) => e.url).join("\n")}\n`;
+  write(resolve("public/sitemap.txt"), textBody);
+
   mkdirSync(resolve("dist"), { recursive: true });
   write(resolve("dist/sitemap.generated.xml"), flat);
 
   console.log(
-    `Generated public/sitemap.xml: ${allEntries.length} URLs (flat urlset).`,
+    `Generated public/sitemap.xml + sitemap.txt: ${allEntries.length} URLs (flat urlset).`,
   );
 }
 
