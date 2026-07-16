@@ -1,523 +1,10 @@
 {
   "origin": "Oslo S",
   "destination": "Trondheim S",
-  "date": "2026-07-16..2026-07-22",
-  "scrapedAt": "2026-07-15T22:20:18.995Z",
+  "date": "2026-07-17..2026-07-23",
+  "scrapedAt": "2026-07-16T22:20:38.992Z",
   "source": "https://api.entur.io/journey-planner/v3/graphql",
   "results": [
-    {
-      "id": "2026-07-16-no-entur-2026-07-16-1-2026-07-16T08:54:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "R12 + foot + Oslo-Trondheim + foot + R70",
-      "trainType": "R12",
-      "durationMinutes": 227,
-      "departureTime": "08:54",
-      "arrivalTime": "12:41",
-      "origin": "Oslo S",
-      "destination": "Trondheim S",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "R12",
-          "lineCode": "R12",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "08:54",
-          "arrivalTime": "09:27",
-          "durationMinutes": 33
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "09:27",
-          "arrivalTime": "09:30",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Trondheim",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Trondheim lufthavn",
-          "departureTime": "10:40",
-          "arrivalTime": "11:32",
-          "durationMinutes": 53
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Trondheim lufthavn",
-          "destination": "Trondheim lufthavn stasjon",
-          "departureTime": "11:47",
-          "arrivalTime": "11:51",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "R70",
-          "lineCode": "R70",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Trondheim lufthavn stasjon",
-          "destination": "Trondheim S",
-          "departureTime": "12:03",
-          "arrivalTime": "12:41",
-          "durationMinutes": 38
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Trondheim lufthavn",
-        "Trondheim lufthavn stasjon"
-      ],
-      "date": "2026-07-16"
-    },
-    {
-      "id": "2026-07-16-no-entur-2026-07-16-3-2026-07-16T09:24:00+02:00",
-      "country": "norway",
-      "operator": "Flytoget",
-      "service": "FLY1 + foot + Oslo-Trondheim + foot + FB73 + foot",
-      "trainType": "FLY1",
-      "durationMinutes": 211,
-      "departureTime": "09:24",
-      "arrivalTime": "12:55",
-      "origin": "Oslo S",
-      "destination": "Trondheim S",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "FLY1",
-          "lineCode": "FLY1",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "09:24",
-          "arrivalTime": "09:54",
-          "durationMinutes": 30
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "09:54",
-          "arrivalTime": "09:57",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Trondheim",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Trondheim lufthavn",
-          "departureTime": "10:40",
-          "arrivalTime": "11:32",
-          "durationMinutes": 53
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Trondheim lufthavn",
-          "destination": "Trondheim lufthavn",
-          "departureTime": "11:47",
-          "arrivalTime": "11:49",
-          "durationMinutes": 2
-        },
-        {
-          "lineName": "FB73",
-          "lineCode": "FB73",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Trondheim lufthavn",
-          "destination": "Olav Tryggvasons gate",
-          "departureTime": "12:15",
-          "arrivalTime": "12:49",
-          "durationMinutes": 34
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Olav Tryggvasons gate",
-          "destination": "Trondheim S",
-          "departureTime": "12:49",
-          "arrivalTime": "12:55",
-          "durationMinutes": 6
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Trondheim lufthavn",
-        "Trondheim lufthavn",
-        "Olav Tryggvasons gate"
-      ],
-      "date": "2026-07-16"
-    },
-    {
-      "id": "2026-07-16-no-entur-2026-07-16-0-2026-07-16T09:28:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "RE10 + foot + Oslo-Trondheim + foot + R70",
-      "trainType": "RE10",
-      "durationMinutes": 193,
-      "departureTime": "09:28",
-      "arrivalTime": "12:41",
-      "origin": "Oslo S",
-      "destination": "Trondheim S",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "RE10",
-          "lineCode": "RE10",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "09:28",
-          "arrivalTime": "09:57",
-          "durationMinutes": 29
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "09:57",
-          "arrivalTime": "10:00",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Trondheim",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Trondheim lufthavn",
-          "departureTime": "10:40",
-          "arrivalTime": "11:32",
-          "durationMinutes": 53
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Trondheim lufthavn",
-          "destination": "Trondheim lufthavn stasjon",
-          "departureTime": "11:47",
-          "arrivalTime": "11:51",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "R70",
-          "lineCode": "R70",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Trondheim lufthavn stasjon",
-          "destination": "Trondheim S",
-          "departureTime": "12:03",
-          "arrivalTime": "12:41",
-          "durationMinutes": 38
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Trondheim lufthavn",
-        "Trondheim lufthavn stasjon"
-      ],
-      "date": "2026-07-16"
-    },
-    {
-      "id": "2026-07-16-no-entur-2026-07-16-2-2026-07-16T09:28:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "RE10 + foot + Oslo-Trondheim + foot + FB73 + foot",
-      "trainType": "RE10",
-      "durationMinutes": 207,
-      "departureTime": "09:28",
-      "arrivalTime": "12:55",
-      "origin": "Oslo S",
-      "destination": "Trondheim S",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "RE10",
-          "lineCode": "RE10",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "09:28",
-          "arrivalTime": "09:57",
-          "durationMinutes": 29
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "09:57",
-          "arrivalTime": "10:00",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Trondheim",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Trondheim lufthavn",
-          "departureTime": "10:40",
-          "arrivalTime": "11:32",
-          "durationMinutes": 53
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Trondheim lufthavn",
-          "destination": "Trondheim lufthavn",
-          "departureTime": "11:47",
-          "arrivalTime": "11:49",
-          "durationMinutes": 2
-        },
-        {
-          "lineName": "FB73",
-          "lineCode": "FB73",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Trondheim lufthavn",
-          "destination": "Olav Tryggvasons gate",
-          "departureTime": "12:15",
-          "arrivalTime": "12:49",
-          "durationMinutes": 34
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Olav Tryggvasons gate",
-          "destination": "Trondheim S",
-          "departureTime": "12:49",
-          "arrivalTime": "12:55",
-          "durationMinutes": 6
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Trondheim lufthavn",
-        "Trondheim lufthavn",
-        "Olav Tryggvasons gate"
-      ],
-      "date": "2026-07-16"
-    },
-    {
-      "id": "2026-07-16-no-entur-2026-07-16-4-2026-07-16T12:04:00+02:00",
-      "country": "norway",
-      "operator": "Flytoget",
-      "service": "FLY1 + foot + Oslo-Trondheim + foot + FB73 + 311",
-      "trainType": "FLY1",
-      "durationMinutes": 197,
-      "departureTime": "12:04",
-      "arrivalTime": "15:21",
-      "origin": "Oslo S",
-      "destination": "Trondheim S",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "FLY1",
-          "lineCode": "FLY1",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "12:04",
-          "arrivalTime": "12:34",
-          "durationMinutes": 30
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "12:34",
-          "arrivalTime": "12:37",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Trondheim",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Trondheim lufthavn",
-          "departureTime": "13:20",
-          "arrivalTime": "14:15",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Trondheim lufthavn",
-          "destination": "Trondheim lufthavn",
-          "departureTime": "14:30",
-          "arrivalTime": "14:31",
-          "durationMinutes": 2
-        },
-        {
-          "lineName": "FB73",
-          "lineCode": "FB73",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Trondheim lufthavn",
-          "destination": "Gildheim",
-          "departureTime": "14:45",
-          "arrivalTime": "15:09",
-          "durationMinutes": 24
-        },
-        {
-          "lineName": "311",
-          "lineCode": "311",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Gildheim",
-          "destination": "Trondheim S",
-          "departureTime": "15:15",
-          "arrivalTime": "15:21",
-          "durationMinutes": 6
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Trondheim lufthavn",
-        "Trondheim lufthavn",
-        "Gildheim"
-      ],
-      "date": "2026-07-16"
-    },
-    {
-      "id": "2026-07-16-no-entur-2026-07-16-5-2026-07-16T12:04:00+02:00",
-      "country": "norway",
-      "operator": "Flytoget",
-      "service": "FLY1 + foot + Oslo-Trondheim + foot + FB73 + foot",
-      "trainType": "FLY1",
-      "durationMinutes": 201,
-      "departureTime": "12:04",
-      "arrivalTime": "15:25",
-      "origin": "Oslo S",
-      "destination": "Trondheim S",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "FLY1",
-          "lineCode": "FLY1",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "12:04",
-          "arrivalTime": "12:34",
-          "durationMinutes": 30
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "12:34",
-          "arrivalTime": "12:37",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Trondheim",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Trondheim lufthavn",
-          "departureTime": "13:20",
-          "arrivalTime": "14:15",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Trondheim lufthavn",
-          "destination": "Trondheim lufthavn",
-          "departureTime": "14:30",
-          "arrivalTime": "14:31",
-          "durationMinutes": 2
-        },
-        {
-          "lineName": "FB73",
-          "lineCode": "FB73",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Trondheim lufthavn",
-          "destination": "Olav Tryggvasons gate",
-          "departureTime": "14:45",
-          "arrivalTime": "15:19",
-          "durationMinutes": 34
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Olav Tryggvasons gate",
-          "destination": "Trondheim S",
-          "departureTime": "15:19",
-          "arrivalTime": "15:25",
-          "durationMinutes": 6
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Trondheim lufthavn",
-        "Trondheim lufthavn",
-        "Olav Tryggvasons gate"
-      ],
-      "date": "2026-07-16"
-    },
     {
       "id": "2026-07-17-no-entur-2026-07-17-1-2026-07-17T08:54:00+02:00",
       "country": "norway",
@@ -531,7 +18,7 @@
       "destination": "Trondheim S",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -563,8 +50,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Trondheim lufthavn",
           "departureTime": "10:40",
-          "arrivalTime": "11:35",
-          "durationMinutes": 55
+          "arrivalTime": "11:36",
+          "durationMinutes": 56
         },
         {
           "lineName": "foot",
@@ -572,8 +59,8 @@
           "mode": "foot",
           "origin": "Trondheim lufthavn",
           "destination": "Trondheim lufthavn stasjon",
-          "departureTime": "11:50",
-          "arrivalTime": "11:53",
+          "departureTime": "11:51",
+          "arrivalTime": "11:54",
           "durationMinutes": 4
         },
         {
@@ -609,7 +96,7 @@
       "destination": "Trondheim S",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -641,8 +128,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Trondheim lufthavn",
           "departureTime": "10:40",
-          "arrivalTime": "11:35",
-          "durationMinutes": 55
+          "arrivalTime": "11:36",
+          "durationMinutes": 56
         },
         {
           "lineName": "foot",
@@ -650,8 +137,8 @@
           "mode": "foot",
           "origin": "Trondheim lufthavn",
           "destination": "Trondheim lufthavn",
-          "departureTime": "11:50",
-          "arrivalTime": "11:51",
+          "departureTime": "11:51",
+          "arrivalTime": "11:52",
           "durationMinutes": 2
         },
         {
@@ -698,7 +185,7 @@
       "destination": "Trondheim S",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -730,8 +217,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Trondheim lufthavn",
           "departureTime": "10:40",
-          "arrivalTime": "11:35",
-          "durationMinutes": 55
+          "arrivalTime": "11:36",
+          "durationMinutes": 56
         },
         {
           "lineName": "foot",
@@ -739,8 +226,8 @@
           "mode": "foot",
           "origin": "Trondheim lufthavn",
           "destination": "Trondheim lufthavn stasjon",
-          "departureTime": "11:50",
-          "arrivalTime": "11:53",
+          "departureTime": "11:51",
+          "arrivalTime": "11:54",
           "durationMinutes": 4
         },
         {
@@ -776,7 +263,7 @@
       "destination": "Trondheim S",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -808,8 +295,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Trondheim lufthavn",
           "departureTime": "10:40",
-          "arrivalTime": "11:35",
-          "durationMinutes": 55
+          "arrivalTime": "11:36",
+          "durationMinutes": 56
         },
         {
           "lineName": "foot",
@@ -817,8 +304,8 @@
           "mode": "foot",
           "origin": "Trondheim lufthavn",
           "destination": "Trondheim lufthavn",
-          "departureTime": "11:50",
-          "arrivalTime": "11:51",
+          "departureTime": "11:51",
+          "arrivalTime": "11:52",
           "durationMinutes": 2
         },
         {
@@ -865,7 +352,7 @@
       "destination": "Trondheim S",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -966,7 +453,7 @@
       "destination": "Trondheim S",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -2002,6 +1489,95 @@
       "date": "2026-07-19"
     },
     {
+      "id": "2026-07-19-no-entur-2026-07-19-5-2026-07-19T12:19:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "RE11 + foot + Oslo-Trondheim + foot + FB73 + foot",
+      "trainType": "RE11",
+      "durationMinutes": 246,
+      "departureTime": "12:19",
+      "arrivalTime": "16:25",
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "RE11",
+          "lineCode": "RE11",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "12:19",
+          "arrivalTime": "12:49",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "12:49",
+          "arrivalTime": "12:52",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "14:20",
+          "arrivalTime": "15:15",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "15:30",
+          "arrivalTime": "15:31",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "15:45",
+          "arrivalTime": "16:19",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "16:19",
+          "arrivalTime": "16:25",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-07-19"
+    },
+    {
       "id": "2026-07-20-no-entur-2026-07-20-1-2026-07-20T08:54:00+02:00",
       "country": "norway",
       "operator": "Vy",
@@ -2336,13 +1912,103 @@
       "date": "2026-07-20"
     },
     {
-      "id": "2026-07-20-no-entur-2026-07-20-4-2026-07-20T11:28:00+02:00",
+      "id": "2026-07-20-no-entur-2026-07-20-4-2026-07-20T12:04:00+02:00",
       "country": "norway",
-      "operator": "Vy",
-      "service": "RE10 + foot + Oslo-Trondheim + foot + FB73 + foot",
-      "trainType": "RE10",
-      "durationMinutes": 237,
-      "departureTime": "11:28",
+      "operator": "Flytoget",
+      "service": "FLY1 + foot + Oslo-Trondheim + foot + FB73 + 311",
+      "trainType": "FLY1",
+      "durationMinutes": 197,
+      "departureTime": "12:04",
+      "arrivalTime": "15:21",
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "FLY1",
+          "lineCode": "FLY1",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "12:04",
+          "arrivalTime": "12:34",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "12:34",
+          "arrivalTime": "12:37",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:20",
+          "arrivalTime": "14:15",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "14:30",
+          "arrivalTime": "14:31",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "14:45",
+          "arrivalTime": "15:09",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "311",
+          "lineCode": "311",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "15:15",
+          "arrivalTime": "15:21",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-07-20"
+    },
+    {
+      "id": "2026-07-20-no-entur-2026-07-20-5-2026-07-20T12:04:00+02:00",
+      "country": "norway",
+      "operator": "Flytoget",
+      "service": "FLY1 + foot + Oslo-Trondheim + foot + FB73 + foot",
+      "trainType": "FLY1",
+      "durationMinutes": 201,
+      "departureTime": "12:04",
       "arrivalTime": "15:25",
       "origin": "Oslo S",
       "destination": "Trondheim S",
@@ -2352,15 +2018,15 @@
       "lineColor": "#8B1D3D",
       "legs": [
         {
-          "lineName": "RE10",
-          "lineCode": "RE10",
+          "lineName": "FLY1",
+          "lineCode": "FLY1",
           "color": "#8B1D3D",
           "mode": "rail",
           "origin": "Oslo S",
           "destination": "Oslo lufthavn stasjon",
-          "departureTime": "11:28",
-          "arrivalTime": "11:57",
-          "durationMinutes": 29
+          "departureTime": "12:04",
+          "arrivalTime": "12:34",
+          "durationMinutes": 30
         },
         {
           "lineName": "foot",
@@ -2368,8 +2034,8 @@
           "mode": "foot",
           "origin": "Oslo lufthavn stasjon",
           "destination": "Oslo lufthavn",
-          "departureTime": "11:57",
-          "arrivalTime": "12:00",
+          "departureTime": "12:34",
+          "arrivalTime": "12:37",
           "durationMinutes": 4
         },
         {
@@ -2759,13 +2425,103 @@
       "date": "2026-07-21"
     },
     {
-      "id": "2026-07-21-no-entur-2026-07-21-4-2026-07-21T11:28:00+02:00",
+      "id": "2026-07-21-no-entur-2026-07-21-4-2026-07-21T12:04:00+02:00",
       "country": "norway",
-      "operator": "Vy",
-      "service": "RE10 + foot + Oslo-Trondheim + foot + FB73 + foot",
-      "trainType": "RE10",
-      "durationMinutes": 237,
-      "departureTime": "11:28",
+      "operator": "Flytoget",
+      "service": "FLY1 + foot + Oslo-Trondheim + foot + FB73 + 311",
+      "trainType": "FLY1",
+      "durationMinutes": 197,
+      "departureTime": "12:04",
+      "arrivalTime": "15:21",
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "FLY1",
+          "lineCode": "FLY1",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "12:04",
+          "arrivalTime": "12:34",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "12:34",
+          "arrivalTime": "12:37",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:20",
+          "arrivalTime": "14:15",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "14:30",
+          "arrivalTime": "14:31",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "14:45",
+          "arrivalTime": "15:09",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "311",
+          "lineCode": "311",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "15:15",
+          "arrivalTime": "15:21",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-07-21"
+    },
+    {
+      "id": "2026-07-21-no-entur-2026-07-21-5-2026-07-21T12:04:00+02:00",
+      "country": "norway",
+      "operator": "Flytoget",
+      "service": "FLY1 + foot + Oslo-Trondheim + foot + FB73 + foot",
+      "trainType": "FLY1",
+      "durationMinutes": 201,
+      "departureTime": "12:04",
       "arrivalTime": "15:25",
       "origin": "Oslo S",
       "destination": "Trondheim S",
@@ -2775,15 +2531,15 @@
       "lineColor": "#8B1D3D",
       "legs": [
         {
-          "lineName": "RE10",
-          "lineCode": "RE10",
+          "lineName": "FLY1",
+          "lineCode": "FLY1",
           "color": "#8B1D3D",
           "mode": "rail",
           "origin": "Oslo S",
           "destination": "Oslo lufthavn stasjon",
-          "departureTime": "11:28",
-          "arrivalTime": "11:57",
-          "durationMinutes": 29
+          "departureTime": "12:04",
+          "arrivalTime": "12:34",
+          "durationMinutes": 30
         },
         {
           "lineName": "foot",
@@ -2791,8 +2547,8 @@
           "mode": "foot",
           "origin": "Oslo lufthavn stasjon",
           "destination": "Oslo lufthavn",
-          "departureTime": "11:57",
-          "arrivalTime": "12:00",
+          "departureTime": "12:34",
+          "arrivalTime": "12:37",
           "durationMinutes": 4
         },
         {
@@ -3182,7 +2938,520 @@
       "date": "2026-07-22"
     },
     {
-      "id": "2026-07-22-no-entur-2026-07-22-4-2026-07-22T11:28:00+02:00",
+      "id": "2026-07-22-no-entur-2026-07-22-4-2026-07-22T12:04:00+02:00",
+      "country": "norway",
+      "operator": "Flytoget",
+      "service": "FLY1 + foot + Oslo-Trondheim + foot + FB73 + 311",
+      "trainType": "FLY1",
+      "durationMinutes": 197,
+      "departureTime": "12:04",
+      "arrivalTime": "15:21",
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "FLY1",
+          "lineCode": "FLY1",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "12:04",
+          "arrivalTime": "12:34",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "12:34",
+          "arrivalTime": "12:37",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:20",
+          "arrivalTime": "14:15",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "14:30",
+          "arrivalTime": "14:31",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "14:45",
+          "arrivalTime": "15:09",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "311",
+          "lineCode": "311",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "15:15",
+          "arrivalTime": "15:21",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-07-22"
+    },
+    {
+      "id": "2026-07-22-no-entur-2026-07-22-5-2026-07-22T12:04:00+02:00",
+      "country": "norway",
+      "operator": "Flytoget",
+      "service": "FLY1 + foot + Oslo-Trondheim + foot + FB73 + foot",
+      "trainType": "FLY1",
+      "durationMinutes": 201,
+      "departureTime": "12:04",
+      "arrivalTime": "15:25",
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "FLY1",
+          "lineCode": "FLY1",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "12:04",
+          "arrivalTime": "12:34",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "12:34",
+          "arrivalTime": "12:37",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:20",
+          "arrivalTime": "14:15",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "14:30",
+          "arrivalTime": "14:31",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "14:45",
+          "arrivalTime": "15:19",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "15:19",
+          "arrivalTime": "15:25",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-07-22"
+    },
+    {
+      "id": "2026-07-23-no-entur-2026-07-23-1-2026-07-23T08:54:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "R12 + foot + Oslo-Trondheim + foot + R70",
+      "trainType": "R12",
+      "durationMinutes": 227,
+      "departureTime": "08:54",
+      "arrivalTime": "12:41",
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "R12",
+          "lineCode": "R12",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "08:54",
+          "arrivalTime": "09:27",
+          "durationMinutes": 33
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "09:27",
+          "arrivalTime": "09:30",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:40",
+          "arrivalTime": "11:35",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn stasjon",
+          "departureTime": "11:50",
+          "arrivalTime": "11:53",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "R70",
+          "lineCode": "R70",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Trondheim lufthavn stasjon",
+          "destination": "Trondheim S",
+          "departureTime": "12:03",
+          "arrivalTime": "12:41",
+          "durationMinutes": 38
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn stasjon"
+      ],
+      "date": "2026-07-23"
+    },
+    {
+      "id": "2026-07-23-no-entur-2026-07-23-3-2026-07-23T09:24:00+02:00",
+      "country": "norway",
+      "operator": "Flytoget",
+      "service": "FLY1 + foot + Oslo-Trondheim + foot + FB73 + foot",
+      "trainType": "FLY1",
+      "durationMinutes": 211,
+      "departureTime": "09:24",
+      "arrivalTime": "12:55",
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "FLY1",
+          "lineCode": "FLY1",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "09:24",
+          "arrivalTime": "09:54",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "09:54",
+          "arrivalTime": "09:57",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:40",
+          "arrivalTime": "11:35",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "11:50",
+          "arrivalTime": "11:51",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "12:15",
+          "arrivalTime": "12:49",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "12:49",
+          "arrivalTime": "12:55",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-07-23"
+    },
+    {
+      "id": "2026-07-23-no-entur-2026-07-23-0-2026-07-23T09:28:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "RE10 + foot + Oslo-Trondheim + foot + R70",
+      "trainType": "RE10",
+      "durationMinutes": 193,
+      "departureTime": "09:28",
+      "arrivalTime": "12:41",
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "RE10",
+          "lineCode": "RE10",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "09:28",
+          "arrivalTime": "09:57",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "09:57",
+          "arrivalTime": "10:00",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:40",
+          "arrivalTime": "11:35",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn stasjon",
+          "departureTime": "11:50",
+          "arrivalTime": "11:53",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "R70",
+          "lineCode": "R70",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Trondheim lufthavn stasjon",
+          "destination": "Trondheim S",
+          "departureTime": "12:03",
+          "arrivalTime": "12:41",
+          "durationMinutes": 38
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn stasjon"
+      ],
+      "date": "2026-07-23"
+    },
+    {
+      "id": "2026-07-23-no-entur-2026-07-23-2-2026-07-23T09:28:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "RE10 + foot + Oslo-Trondheim + foot + FB73 + foot",
+      "trainType": "RE10",
+      "durationMinutes": 207,
+      "departureTime": "09:28",
+      "arrivalTime": "12:55",
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "RE10",
+          "lineCode": "RE10",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "09:28",
+          "arrivalTime": "09:57",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "09:57",
+          "arrivalTime": "10:00",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:40",
+          "arrivalTime": "11:35",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "11:50",
+          "arrivalTime": "11:51",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "12:15",
+          "arrivalTime": "12:49",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "12:49",
+          "arrivalTime": "12:55",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-07-23"
+    },
+    {
+      "id": "2026-07-23-no-entur-2026-07-23-4-2026-07-23T11:28:00+02:00",
       "country": "norway",
       "operator": "Vy",
       "service": "RE10 + foot + Oslo-Trondheim + foot + FB73 + foot",
@@ -3268,7 +3537,7 @@
         "Trondheim lufthavn",
         "Olav Tryggvasons gate"
       ],
-      "date": "2026-07-22"
+      "date": "2026-07-23"
     }
   ]
 }
