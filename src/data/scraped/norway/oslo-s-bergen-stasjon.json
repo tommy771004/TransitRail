@@ -1,747 +1,10 @@
 {
   "origin": "Oslo S",
   "destination": "Bergen stasjon",
-  "date": "2026-07-18..2026-07-24",
-  "scrapedAt": "2026-07-17T22:16:42.951Z",
+  "date": "2026-07-19..2026-07-25",
+  "scrapedAt": "2026-07-18T22:16:38.152Z",
   "source": "https://api.entur.io/journey-planner/v3/graphql",
   "results": [
-    {
-      "id": "2026-07-18-no-entur-2026-07-18-4-2026-07-18T08:24:00+02:00",
-      "country": "norway",
-      "operator": "Flytoget",
-      "service": "FLY1 + foot + Oslo-Stavanger + Bergen-Stavanger + foot + FB50 + foot",
-      "trainType": "FLY1",
-      "durationMinutes": 335,
-      "departureTime": "08:24",
-      "arrivalTime": "13:59",
-      "origin": "Oslo S",
-      "destination": "Bergen stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "FLY1",
-          "lineCode": "FLY1",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "08:24",
-          "arrivalTime": "08:54",
-          "durationMinutes": 30
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "08:54",
-          "arrivalTime": "08:57",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Stavanger",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Stavanger lufthavn",
-          "departureTime": "09:50",
-          "arrivalTime": "10:44",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "Bergen-Stavanger",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Stavanger lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "12:30",
-          "arrivalTime": "13:10",
-          "durationMinutes": 40
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "13:25",
-          "arrivalTime": "13:27",
-          "durationMinutes": 3
-        },
-        {
-          "lineName": "FB50",
-          "lineCode": "FB50",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen busstasjon",
-          "departureTime": "13:30",
-          "arrivalTime": "13:55",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen busstasjon",
-          "destination": "Bergen stasjon",
-          "departureTime": "13:55",
-          "arrivalTime": "13:59",
-          "durationMinutes": 4
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Stavanger lufthavn",
-        "Bergen lufthavn",
-        "Bergen lufthavn",
-        "Bergen busstasjon"
-      ],
-      "date": "2026-07-18"
-    },
-    {
-      "id": "2026-07-18-no-entur-2026-07-18-1-2026-07-18T08:48:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "RE11 + foot + RE11 + foot + Bergen-Sandefjord + foot + FB50 + foot",
-      "trainType": "RE11",
-      "durationMinutes": 311,
-      "departureTime": "08:48",
-      "arrivalTime": "13:59",
-      "origin": "Oslo S",
-      "destination": "Bergen stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "RE11",
-          "lineCode": "RE11",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Asker stasjon",
-          "departureTime": "08:48",
-          "arrivalTime": "09:08",
-          "durationMinutes": 20
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Asker stasjon",
-          "destination": "Asker stasjon Lensmannslia",
-          "departureTime": "09:08",
-          "arrivalTime": "09:12",
-          "durationMinutes": 5
-        },
-        {
-          "lineName": "RE11",
-          "lineCode": "RE11",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Asker stasjon Lensmannslia",
-          "destination": "Sandefjord lufthavn Torp",
-          "departureTime": "09:19",
-          "arrivalTime": "10:43",
-          "durationMinutes": 84
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Sandefjord lufthavn Torp",
-          "destination": "Sandefjord lufthavn",
-          "departureTime": "10:43",
-          "arrivalTime": "10:43",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "Bergen-Sandefjord",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Sandefjord lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "12:10",
-          "arrivalTime": "13:05",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "13:20",
-          "arrivalTime": "13:22",
-          "durationMinutes": 3
-        },
-        {
-          "lineName": "FB50",
-          "lineCode": "FB50",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen busstasjon",
-          "departureTime": "13:30",
-          "arrivalTime": "13:55",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen busstasjon",
-          "destination": "Bergen stasjon",
-          "departureTime": "13:55",
-          "arrivalTime": "13:59",
-          "durationMinutes": 4
-        }
-      ],
-      "transferStations": [
-        "Asker stasjon",
-        "Asker stasjon Lensmannslia",
-        "Sandefjord lufthavn Torp",
-        "Sandefjord lufthavn",
-        "Bergen lufthavn",
-        "Bergen lufthavn",
-        "Bergen busstasjon"
-      ],
-      "date": "2026-07-18"
-    },
-    {
-      "id": "2026-07-18-no-entur-2026-07-18-3-2026-07-18T08:53:02+02:00",
-      "country": "norway",
-      "operator": "Entur",
-      "service": "foot + NW192 + foot + 4 + foot + Bergen-Sandefjord + foot + FB50 + foot",
-      "durationMinutes": 306,
-      "departureTime": "08:53",
-      "arrivalTime": "13:59",
-      "origin": "Oslo S",
-      "destination": "Bergen stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#4B5563",
-      "legs": [
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo S",
-          "destination": "Oslo bussterminal",
-          "departureTime": "08:53",
-          "arrivalTime": "09:00",
-          "durationMinutes": 7
-        },
-        {
-          "lineName": "NW192",
-          "lineCode": "NW192",
-          "color": "#4B5563",
-          "mode": "coach",
-          "origin": "Oslo bussterminal",
-          "destination": "Fokserød",
-          "departureTime": "09:00",
-          "arrivalTime": "10:25",
-          "durationMinutes": 85
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Fokserød",
-          "destination": "Fokserød",
-          "departureTime": "10:25",
-          "arrivalTime": "10:25",
-          "durationMinutes": 0
-        },
-        {
-          "lineName": "4",
-          "lineCode": "4",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Fokserød",
-          "destination": "Sandefjord lufthavn Torp",
-          "departureTime": "10:30",
-          "arrivalTime": "10:35",
-          "durationMinutes": 5
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Sandefjord lufthavn Torp",
-          "destination": "Sandefjord lufthavn",
-          "departureTime": "10:35",
-          "arrivalTime": "10:35",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "Bergen-Sandefjord",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Sandefjord lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "12:10",
-          "arrivalTime": "13:05",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "13:20",
-          "arrivalTime": "13:22",
-          "durationMinutes": 3
-        },
-        {
-          "lineName": "FB50",
-          "lineCode": "FB50",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen busstasjon",
-          "departureTime": "13:30",
-          "arrivalTime": "13:55",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen busstasjon",
-          "destination": "Bergen stasjon",
-          "departureTime": "13:55",
-          "arrivalTime": "13:59",
-          "durationMinutes": 4
-        }
-      ],
-      "transferStations": [
-        "Oslo bussterminal",
-        "Fokserød",
-        "Fokserød",
-        "Sandefjord lufthavn Torp",
-        "Sandefjord lufthavn",
-        "Bergen lufthavn",
-        "Bergen lufthavn",
-        "Bergen busstasjon"
-      ],
-      "date": "2026-07-18"
-    },
-    {
-      "id": "2026-07-18-no-entur-2026-07-18-2-2026-07-18T08:57:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "R13 + foot + NW192 + foot + 4 + foot + Bergen-Sandefjord + foot + FB50 + foot",
-      "trainType": "R13",
-      "durationMinutes": 302,
-      "departureTime": "08:57",
-      "arrivalTime": "13:59",
-      "origin": "Oslo S",
-      "destination": "Bergen stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "R13",
-          "lineCode": "R13",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Lysaker stasjon",
-          "departureTime": "08:57",
-          "arrivalTime": "09:06",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Lysaker stasjon",
-          "destination": "Lysaker stasjon",
-          "departureTime": "09:06",
-          "arrivalTime": "09:07",
-          "durationMinutes": 2
-        },
-        {
-          "lineName": "NW192",
-          "lineCode": "NW192",
-          "color": "#4B5563",
-          "mode": "coach",
-          "origin": "Lysaker stasjon",
-          "destination": "Fokserød",
-          "departureTime": "09:10",
-          "arrivalTime": "10:25",
-          "durationMinutes": 75
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Fokserød",
-          "destination": "Fokserød",
-          "departureTime": "10:25",
-          "arrivalTime": "10:25",
-          "durationMinutes": 0
-        },
-        {
-          "lineName": "4",
-          "lineCode": "4",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Fokserød",
-          "destination": "Sandefjord lufthavn Torp",
-          "departureTime": "10:30",
-          "arrivalTime": "10:35",
-          "durationMinutes": 5
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Sandefjord lufthavn Torp",
-          "destination": "Sandefjord lufthavn",
-          "departureTime": "10:35",
-          "arrivalTime": "10:35",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "Bergen-Sandefjord",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Sandefjord lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "12:10",
-          "arrivalTime": "13:05",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "13:20",
-          "arrivalTime": "13:22",
-          "durationMinutes": 3
-        },
-        {
-          "lineName": "FB50",
-          "lineCode": "FB50",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen busstasjon",
-          "departureTime": "13:30",
-          "arrivalTime": "13:55",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen busstasjon",
-          "destination": "Bergen stasjon",
-          "departureTime": "13:55",
-          "arrivalTime": "13:59",
-          "durationMinutes": 4
-        }
-      ],
-      "transferStations": [
-        "Lysaker stasjon",
-        "Lysaker stasjon",
-        "Fokserød",
-        "Fokserød",
-        "Sandefjord lufthavn Torp",
-        "Sandefjord lufthavn",
-        "Bergen lufthavn",
-        "Bergen lufthavn",
-        "Bergen busstasjon"
-      ],
-      "date": "2026-07-18"
-    },
-    {
-      "id": "2026-07-18-no-entur-2026-07-18-0-2026-07-18T09:23:55+02:00",
-      "country": "norway",
-      "operator": "Entur",
-      "service": "foot + FX651 + foot + 4 + foot + Bergen-Sandefjord + foot + FB50 + foot",
-      "durationMinutes": 275,
-      "departureTime": "09:23",
-      "arrivalTime": "13:59",
-      "origin": "Oslo S",
-      "destination": "Bergen stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#4B5563",
-      "legs": [
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo S",
-          "destination": "Oslo bussterminal",
-          "departureTime": "09:23",
-          "arrivalTime": "09:30",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "FX651",
-          "lineCode": "FX651",
-          "color": "#4B5563",
-          "mode": "coach",
-          "origin": "Oslo bussterminal",
-          "destination": "Fokserød",
-          "departureTime": "09:30",
-          "arrivalTime": "10:55",
-          "durationMinutes": 85
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Fokserød",
-          "destination": "Fokserød",
-          "departureTime": "10:55",
-          "arrivalTime": "10:55",
-          "durationMinutes": 0
-        },
-        {
-          "lineName": "4",
-          "lineCode": "4",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Fokserød",
-          "destination": "Sandefjord lufthavn Torp",
-          "departureTime": "11:00",
-          "arrivalTime": "11:05",
-          "durationMinutes": 5
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Sandefjord lufthavn Torp",
-          "destination": "Sandefjord lufthavn",
-          "departureTime": "11:05",
-          "arrivalTime": "11:05",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "Bergen-Sandefjord",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Sandefjord lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "12:10",
-          "arrivalTime": "13:05",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "13:20",
-          "arrivalTime": "13:22",
-          "durationMinutes": 3
-        },
-        {
-          "lineName": "FB50",
-          "lineCode": "FB50",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen busstasjon",
-          "departureTime": "13:30",
-          "arrivalTime": "13:55",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen busstasjon",
-          "destination": "Bergen stasjon",
-          "departureTime": "13:55",
-          "arrivalTime": "13:59",
-          "durationMinutes": 4
-        }
-      ],
-      "transferStations": [
-        "Oslo bussterminal",
-        "Fokserød",
-        "Fokserød",
-        "Sandefjord lufthavn Torp",
-        "Sandefjord lufthavn",
-        "Bergen lufthavn",
-        "Bergen lufthavn",
-        "Bergen busstasjon"
-      ],
-      "date": "2026-07-18"
-    },
-    {
-      "id": "2026-07-18-no-entur-2026-07-18-5-2026-07-18T09:23:55+02:00",
-      "country": "norway",
-      "operator": "Entur",
-      "service": "foot + FX651 + foot + 4 + foot + Bergen-Sandefjord + foot + 1 + foot + 1B + foot",
-      "durationMinutes": 285,
-      "departureTime": "09:23",
-      "arrivalTime": "14:09",
-      "origin": "Oslo S",
-      "destination": "Bergen stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#4B5563",
-      "legs": [
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo S",
-          "destination": "Oslo bussterminal",
-          "departureTime": "09:23",
-          "arrivalTime": "09:30",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "FX651",
-          "lineCode": "FX651",
-          "color": "#4B5563",
-          "mode": "coach",
-          "origin": "Oslo bussterminal",
-          "destination": "Fokserød",
-          "departureTime": "09:30",
-          "arrivalTime": "10:55",
-          "durationMinutes": 85
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Fokserød",
-          "destination": "Fokserød",
-          "departureTime": "10:55",
-          "arrivalTime": "10:55",
-          "durationMinutes": 0
-        },
-        {
-          "lineName": "4",
-          "lineCode": "4",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Fokserød",
-          "destination": "Sandefjord lufthavn Torp",
-          "departureTime": "11:00",
-          "arrivalTime": "11:05",
-          "durationMinutes": 5
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Sandefjord lufthavn Torp",
-          "destination": "Sandefjord lufthavn",
-          "departureTime": "11:05",
-          "arrivalTime": "11:05",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "Bergen-Sandefjord",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Sandefjord lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "12:10",
-          "arrivalTime": "13:05",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "13:20",
-          "arrivalTime": "13:22",
-          "durationMinutes": 3
-        },
-        {
-          "lineName": "1",
-          "lineCode": "1",
-          "color": "#0F766E",
-          "mode": "tram",
-          "origin": "Bergen lufthavn",
-          "destination": "Lagunen terminal",
-          "departureTime": "13:31",
-          "arrivalTime": "13:42",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Lagunen terminal",
-          "destination": "Lagunen terminal",
-          "departureTime": "13:42",
-          "arrivalTime": "13:44",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "1B",
-          "lineCode": "1B",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Lagunen terminal",
-          "destination": "Bergen busstasjon",
-          "departureTime": "13:48",
-          "arrivalTime": "14:03",
-          "durationMinutes": 15
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen busstasjon",
-          "destination": "Bergen stasjon",
-          "departureTime": "14:03",
-          "arrivalTime": "14:09",
-          "durationMinutes": 6
-        }
-      ],
-      "transferStations": [
-        "Oslo bussterminal",
-        "Fokserød",
-        "Fokserød",
-        "Sandefjord lufthavn Torp",
-        "Sandefjord lufthavn",
-        "Bergen lufthavn",
-        "Bergen lufthavn",
-        "Lagunen terminal",
-        "Lagunen terminal",
-        "Bergen busstasjon"
-      ],
-      "date": "2026-07-18"
-    },
     {
       "id": "2026-07-19-no-entur-2026-07-19-2-2026-07-19T10:19:00+02:00",
       "country": "norway",
@@ -755,7 +18,7 @@
       "destination": "Bergen stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -844,7 +107,7 @@
       "destination": "Bergen stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -933,7 +196,7 @@
       "destination": "Bergen stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -1045,7 +308,7 @@
       "destination": "Bergen stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -1134,7 +397,7 @@
       "destination": "Bergen stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -1223,7 +486,7 @@
       "destination": "Bergen stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -4313,6 +3576,744 @@
         "Bergen busstasjon"
       ],
       "date": "2026-07-24"
+    },
+    {
+      "id": "2026-07-25-no-entur-2026-07-25-1-2026-07-25T09:23:55+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + FX651 + foot + 4 + foot + Bergen-Sandefjord + foot + FB50 + foot",
+      "durationMinutes": 275,
+      "departureTime": "09:23",
+      "arrivalTime": "13:59",
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo S",
+          "destination": "Oslo bussterminal",
+          "departureTime": "09:23",
+          "arrivalTime": "09:30",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "FX651",
+          "lineCode": "FX651",
+          "color": "#4B5563",
+          "mode": "coach",
+          "origin": "Oslo bussterminal",
+          "destination": "Fokserød",
+          "departureTime": "09:30",
+          "arrivalTime": "10:55",
+          "durationMinutes": 85
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Fokserød",
+          "destination": "Fokserød",
+          "departureTime": "10:55",
+          "arrivalTime": "10:55",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "4",
+          "lineCode": "4",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Fokserød",
+          "destination": "Sandefjord lufthavn Torp",
+          "departureTime": "11:00",
+          "arrivalTime": "11:05",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Sandefjord lufthavn Torp",
+          "destination": "Sandefjord lufthavn",
+          "departureTime": "11:05",
+          "arrivalTime": "11:05",
+          "durationMinutes": 1
+        },
+        {
+          "lineName": "Bergen-Sandefjord",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Sandefjord lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "12:10",
+          "arrivalTime": "13:05",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "13:20",
+          "arrivalTime": "13:22",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "FB50",
+          "lineCode": "FB50",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen busstasjon",
+          "departureTime": "13:30",
+          "arrivalTime": "13:55",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen busstasjon",
+          "destination": "Bergen stasjon",
+          "departureTime": "13:55",
+          "arrivalTime": "13:59",
+          "durationMinutes": 4
+        }
+      ],
+      "transferStations": [
+        "Oslo bussterminal",
+        "Fokserød",
+        "Fokserød",
+        "Sandefjord lufthavn Torp",
+        "Sandefjord lufthavn",
+        "Bergen lufthavn",
+        "Bergen lufthavn",
+        "Bergen busstasjon"
+      ],
+      "date": "2026-07-25"
+    },
+    {
+      "id": "2026-07-25-no-entur-2026-07-25-3-2026-07-25T09:23:55+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + FX651 + foot + 4 + foot + Bergen-Sandefjord + foot + 1 + foot + 1B + foot",
+      "durationMinutes": 285,
+      "departureTime": "09:23",
+      "arrivalTime": "14:09",
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo S",
+          "destination": "Oslo bussterminal",
+          "departureTime": "09:23",
+          "arrivalTime": "09:30",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "FX651",
+          "lineCode": "FX651",
+          "color": "#4B5563",
+          "mode": "coach",
+          "origin": "Oslo bussterminal",
+          "destination": "Fokserød",
+          "departureTime": "09:30",
+          "arrivalTime": "10:55",
+          "durationMinutes": 85
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Fokserød",
+          "destination": "Fokserød",
+          "departureTime": "10:55",
+          "arrivalTime": "10:55",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "4",
+          "lineCode": "4",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Fokserød",
+          "destination": "Sandefjord lufthavn Torp",
+          "departureTime": "11:00",
+          "arrivalTime": "11:05",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Sandefjord lufthavn Torp",
+          "destination": "Sandefjord lufthavn",
+          "departureTime": "11:05",
+          "arrivalTime": "11:05",
+          "durationMinutes": 1
+        },
+        {
+          "lineName": "Bergen-Sandefjord",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Sandefjord lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "12:10",
+          "arrivalTime": "13:05",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "13:20",
+          "arrivalTime": "13:22",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#0F766E",
+          "mode": "tram",
+          "origin": "Bergen lufthavn",
+          "destination": "Lagunen terminal",
+          "departureTime": "13:31",
+          "arrivalTime": "13:42",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Lagunen terminal",
+          "destination": "Lagunen terminal",
+          "departureTime": "13:42",
+          "arrivalTime": "13:44",
+          "durationMinutes": 1
+        },
+        {
+          "lineName": "1B",
+          "lineCode": "1B",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Lagunen terminal",
+          "destination": "Bergen busstasjon",
+          "departureTime": "13:48",
+          "arrivalTime": "14:03",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen busstasjon",
+          "destination": "Bergen stasjon",
+          "departureTime": "14:03",
+          "arrivalTime": "14:09",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Oslo bussterminal",
+        "Fokserød",
+        "Fokserød",
+        "Sandefjord lufthavn Torp",
+        "Sandefjord lufthavn",
+        "Bergen lufthavn",
+        "Bergen lufthavn",
+        "Lagunen terminal",
+        "Lagunen terminal",
+        "Bergen busstasjon"
+      ],
+      "date": "2026-07-25"
+    },
+    {
+      "id": "2026-07-25-no-entur-2026-07-25-0-2026-07-25T09:48:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "RE11 + foot + S174 + foot + Bergen-Sandefjord + foot + FB50 + foot",
+      "trainType": "RE11",
+      "durationMinutes": 251,
+      "departureTime": "09:48",
+      "arrivalTime": "13:59",
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "RE11",
+          "lineCode": "RE11",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Torp stasjon",
+          "departureTime": "09:48",
+          "arrivalTime": "11:19",
+          "durationMinutes": 91
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Torp stasjon",
+          "destination": "Torp stasjon",
+          "departureTime": "11:19",
+          "arrivalTime": "11:19",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "S174",
+          "lineCode": "S174",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Torp stasjon",
+          "destination": "Sandefjord lufthavn Torp",
+          "departureTime": "11:23",
+          "arrivalTime": "11:27",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Sandefjord lufthavn Torp",
+          "destination": "Sandefjord lufthavn",
+          "departureTime": "11:27",
+          "arrivalTime": "11:27",
+          "durationMinutes": 1
+        },
+        {
+          "lineName": "Bergen-Sandefjord",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Sandefjord lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "12:10",
+          "arrivalTime": "13:05",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "13:20",
+          "arrivalTime": "13:22",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "FB50",
+          "lineCode": "FB50",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen busstasjon",
+          "departureTime": "13:30",
+          "arrivalTime": "13:55",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen busstasjon",
+          "destination": "Bergen stasjon",
+          "departureTime": "13:55",
+          "arrivalTime": "13:59",
+          "durationMinutes": 4
+        }
+      ],
+      "transferStations": [
+        "Torp stasjon",
+        "Torp stasjon",
+        "Sandefjord lufthavn Torp",
+        "Sandefjord lufthavn",
+        "Bergen lufthavn",
+        "Bergen lufthavn",
+        "Bergen busstasjon"
+      ],
+      "date": "2026-07-25"
+    },
+    {
+      "id": "2026-07-25-no-entur-2026-07-25-2-2026-07-25T09:48:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "RE11 + foot + S174 + foot + Bergen-Sandefjord + foot + 1 + foot + 1B + foot",
+      "trainType": "RE11",
+      "durationMinutes": 261,
+      "departureTime": "09:48",
+      "arrivalTime": "14:09",
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "RE11",
+          "lineCode": "RE11",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Torp stasjon",
+          "departureTime": "09:48",
+          "arrivalTime": "11:19",
+          "durationMinutes": 91
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Torp stasjon",
+          "destination": "Torp stasjon",
+          "departureTime": "11:19",
+          "arrivalTime": "11:19",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "S174",
+          "lineCode": "S174",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Torp stasjon",
+          "destination": "Sandefjord lufthavn Torp",
+          "departureTime": "11:23",
+          "arrivalTime": "11:27",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Sandefjord lufthavn Torp",
+          "destination": "Sandefjord lufthavn",
+          "departureTime": "11:27",
+          "arrivalTime": "11:27",
+          "durationMinutes": 1
+        },
+        {
+          "lineName": "Bergen-Sandefjord",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Sandefjord lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "12:10",
+          "arrivalTime": "13:05",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "13:20",
+          "arrivalTime": "13:22",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#0F766E",
+          "mode": "tram",
+          "origin": "Bergen lufthavn",
+          "destination": "Lagunen terminal",
+          "departureTime": "13:31",
+          "arrivalTime": "13:42",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Lagunen terminal",
+          "destination": "Lagunen terminal",
+          "departureTime": "13:42",
+          "arrivalTime": "13:44",
+          "durationMinutes": 1
+        },
+        {
+          "lineName": "1B",
+          "lineCode": "1B",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Lagunen terminal",
+          "destination": "Bergen busstasjon",
+          "departureTime": "13:48",
+          "arrivalTime": "14:03",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen busstasjon",
+          "destination": "Bergen stasjon",
+          "departureTime": "14:03",
+          "arrivalTime": "14:09",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Torp stasjon",
+        "Torp stasjon",
+        "Sandefjord lufthavn Torp",
+        "Sandefjord lufthavn",
+        "Bergen lufthavn",
+        "Bergen lufthavn",
+        "Lagunen terminal",
+        "Lagunen terminal",
+        "Bergen busstasjon"
+      ],
+      "date": "2026-07-25"
+    },
+    {
+      "id": "2026-07-25-no-entur-2026-07-25-5-2026-07-25T10:54:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "R12 + foot + Oslo-Bergen + foot + 1 + foot + 1B + foot",
+      "trainType": "R12",
+      "durationMinutes": 205,
+      "departureTime": "10:54",
+      "arrivalTime": "14:19",
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "R12",
+          "lineCode": "R12",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "10:54",
+          "arrivalTime": "11:27",
+          "durationMinutes": 33
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "11:27",
+          "arrivalTime": "11:30",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Bergen",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "12:25",
+          "arrivalTime": "13:20",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "13:35",
+          "arrivalTime": "13:37",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#0F766E",
+          "mode": "tram",
+          "origin": "Bergen lufthavn",
+          "destination": "Lagunen terminal",
+          "departureTime": "13:41",
+          "arrivalTime": "13:52",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Lagunen terminal",
+          "destination": "Lagunen terminal",
+          "departureTime": "13:52",
+          "arrivalTime": "13:54",
+          "durationMinutes": 1
+        },
+        {
+          "lineName": "1B",
+          "lineCode": "1B",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Lagunen terminal",
+          "destination": "Bergen busstasjon",
+          "departureTime": "13:58",
+          "arrivalTime": "14:13",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen busstasjon",
+          "destination": "Bergen stasjon",
+          "departureTime": "14:13",
+          "arrivalTime": "14:19",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Bergen lufthavn",
+        "Bergen lufthavn",
+        "Lagunen terminal",
+        "Lagunen terminal",
+        "Bergen busstasjon"
+      ],
+      "date": "2026-07-25"
+    },
+    {
+      "id": "2026-07-25-no-entur-2026-07-25-4-2026-07-25T11:04:00+02:00",
+      "country": "norway",
+      "operator": "Flytoget",
+      "service": "FLY1 + foot + Oslo-Bergen + foot + 1 + foot + 1B + foot",
+      "trainType": "FLY1",
+      "durationMinutes": 195,
+      "departureTime": "11:04",
+      "arrivalTime": "14:19",
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "FLY1",
+          "lineCode": "FLY1",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "11:04",
+          "arrivalTime": "11:34",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "11:34",
+          "arrivalTime": "11:37",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Bergen",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "12:25",
+          "arrivalTime": "13:20",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "13:35",
+          "arrivalTime": "13:37",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#0F766E",
+          "mode": "tram",
+          "origin": "Bergen lufthavn",
+          "destination": "Lagunen terminal",
+          "departureTime": "13:41",
+          "arrivalTime": "13:52",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Lagunen terminal",
+          "destination": "Lagunen terminal",
+          "departureTime": "13:52",
+          "arrivalTime": "13:54",
+          "durationMinutes": 1
+        },
+        {
+          "lineName": "1B",
+          "lineCode": "1B",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Lagunen terminal",
+          "destination": "Bergen busstasjon",
+          "departureTime": "13:58",
+          "arrivalTime": "14:13",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen busstasjon",
+          "destination": "Bergen stasjon",
+          "departureTime": "14:13",
+          "arrivalTime": "14:19",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Bergen lufthavn",
+        "Bergen lufthavn",
+        "Lagunen terminal",
+        "Lagunen terminal",
+        "Bergen busstasjon"
+      ],
+      "date": "2026-07-25"
     }
   ]
 }
