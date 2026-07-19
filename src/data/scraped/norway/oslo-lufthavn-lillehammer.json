@@ -1,46 +1,10 @@
 {
   "origin": "Oslo lufthavn",
   "destination": "Lillehammer",
-  "date": "2026-07-19..2026-07-25",
-  "scrapedAt": "2026-07-18T22:16:40.795Z",
+  "date": "2026-07-20..2026-07-26",
+  "scrapedAt": "2026-07-19T22:17:40.375Z",
   "source": "https://api.entur.io/journey-planner/v3/graphql",
   "results": [
-    {
-      "id": "2026-07-19-no-entur-2026-07-19-0-2026-07-19T08:25:00+02:00",
-      "country": "norway",
-      "operator": "SJ Nord",
-      "service": "F6",
-      "trainType": "F6",
-      "durationMinutes": 94,
-      "departureTime": "08:25",
-      "arrivalTime": "09:59",
-      "origin": "Oslo lufthavn",
-      "destination": "Lillehammer",
-      "direct": true,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "transferStations": [],
-      "date": "2026-07-19"
-    },
-    {
-      "id": "2026-07-19-no-entur-2026-07-19-1-2026-07-19T09:59:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "RE10",
-      "trainType": "RE10",
-      "durationMinutes": 102,
-      "departureTime": "09:59",
-      "arrivalTime": "11:41",
-      "origin": "Oslo lufthavn",
-      "destination": "Lillehammer",
-      "direct": true,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "transferStations": [],
-      "date": "2026-07-19"
-    },
     {
       "id": "2026-07-20-no-entur-2026-07-20-0-2026-07-20T08:25:00+02:00",
       "country": "norway",
@@ -54,7 +18,7 @@
       "destination": "Lillehammer",
       "direct": true,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "transferStations": [],
       "date": "2026-07-20"
@@ -72,7 +36,7 @@
       "destination": "Lillehammer",
       "direct": true,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "transferStations": [],
       "date": "2026-07-20"
@@ -90,7 +54,7 @@
       "destination": "Lillehammer",
       "direct": true,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "transferStations": [],
       "date": "2026-07-20"
@@ -108,7 +72,7 @@
       "destination": "Lillehammer",
       "direct": true,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "transferStations": [],
       "date": "2026-07-20"
@@ -126,7 +90,7 @@
       "destination": "Lillehammer",
       "direct": true,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "transferStations": [],
       "date": "2026-07-20"
@@ -508,6 +472,42 @@
       "lineColor": "#8B1D3D",
       "transferStations": [],
       "date": "2026-07-25"
+    },
+    {
+      "id": "2026-07-26-no-entur-2026-07-26-0-2026-07-26T08:25:00+02:00",
+      "country": "norway",
+      "operator": "SJ Nord",
+      "service": "F6",
+      "trainType": "F6",
+      "durationMinutes": 94,
+      "departureTime": "08:25",
+      "arrivalTime": "09:59",
+      "origin": "Oslo lufthavn",
+      "destination": "Lillehammer",
+      "direct": true,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "transferStations": [],
+      "date": "2026-07-26"
+    },
+    {
+      "id": "2026-07-26-no-entur-2026-07-26-1-2026-07-26T09:59:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "RE10",
+      "trainType": "RE10",
+      "durationMinutes": 102,
+      "departureTime": "09:59",
+      "arrivalTime": "11:41",
+      "origin": "Oslo lufthavn",
+      "destination": "Lillehammer",
+      "direct": true,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "transferStations": [],
+      "date": "2026-07-26"
     }
   ]
 }
