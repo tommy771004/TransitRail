@@ -384,9 +384,77 @@ export default function App() {
   const [loadingRates, setLoadingRates] = useState<boolean>(false);
   // SEO and Dynamic Metadata Engine
   useEffect(() => {
-    const baseTitle = "Rail National";
+    const baseTitle = "Rail Nation";
+    // SEO microcopy is localized inline (same convention as the UI map in
+    // scripts/generate-route-pages.ts) so the meta description matches
+    // document.lang instead of always being served in English.
+    const seoLang: "en" | "zh" | "ja" | "ko" = (i18n.language || "en").startsWith("zh")
+      ? "zh"
+      : (i18n.language || "en").startsWith("ja")
+        ? "ja"
+        : (i18n.language || "en").startsWith("ko")
+          ? "ko"
+          : "en";
+    const seoText = {
+      en: {
+        default: "International rail routing with official live transit providers and AI planning",
+        search: (c: string) =>
+          `Search live schedules, ticket fares, and routes for train systems in ${c}. Connect with official transit providers including JR, Korail, MTR, TfL, DB, and more.`,
+        results: (o: string, d: string, c: string) =>
+          `Live train timetables from ${o} to ${d} in ${c}. Compare ticket prices, seat options, and transfer details.`,
+        malaysia:
+          "Malaysia station directory sourced from official historical data.gov.my ridership downloads. Timetables and real-time arrivals are not available.",
+        savedTitle: "Favorites & Saved Trips",
+        savedDesc: "View your saved trips, favorite routes, and offline schedule history on Rail Nation.",
+        alertsTitle: "Transit Alerts & Updates",
+        alertsDesc: "Real-time transit service alerts, platform notices, and system diagnostic updates.",
+        feedbackDesc: "Send feedback to Rail Nation.",
+      },
+      zh: {
+        default: "跨境鐵路路線規劃，串接官方即時交通業者資料與 AI 行程規劃",
+        search: (c: string) =>
+          `搜尋${c}鐵路系統的即時時刻表、票價與路線。串接 JR、Korail、MTR、TfL、DB 等官方交通業者資料。`,
+        results: (o: string, d: string, c: string) =>
+          `${c}${o}到${d}的即時列車時刻表。比較票價、座位選項與轉乘資訊。`,
+        malaysia:
+          "馬來西亞車站目錄，資料來自 data.gov.my 官方歷史運量下載。不提供時刻表與即時到站資訊。",
+        savedTitle: "我的最愛與已儲存行程",
+        savedDesc: "在 Rail Nation 檢視您已儲存的行程、常用路線與離線時刻表紀錄。",
+        alertsTitle: "交通警示與服務更新",
+        alertsDesc: "即時交通服務警示、月台公告與系統診斷更新。",
+        feedbackDesc: "向 Rail Nation 提供意見回饋。",
+      },
+      ja: {
+        default: "公式のリアルタイム交通データとAI旅程計画による国際鉄道ルート検索",
+        search: (c: string) =>
+          `${c}の鉄道の時刻表・運賃・ルートを検索。JR、Korail、MTR、TfL、DBなどの公式交通事業者と連携。`,
+        results: (o: string, d: string, c: string) =>
+          `${c}の${o}から${d}までの列車時刻表。運賃、座席オプション、乗換情報を比較できます。`,
+        malaysia:
+          "マレーシアの駅ディレクトリ（data.gov.myの公式過去乗降データに基づく）。時刻表・リアルタイム到着情報は提供されません。",
+        savedTitle: "お気に入りと保存した旅程",
+        savedDesc: "Rail Nationで保存した旅程、お気に入り路線、オフライン時刻表履歴を確認できます。",
+        alertsTitle: "交通アラートと運行情報",
+        alertsDesc: "リアルタイムの交通サービスアラート、ホーム案内、システム診断情報。",
+        feedbackDesc: "Rail Nationへフィードバックを送信します。",
+      },
+      ko: {
+        default: "공식 실시간 교통 데이터와 AI 여정 계획을 활용한 국제 철도 노선 검색",
+        search: (c: string) =>
+          `${c} 철도 시스템의 실시간 시간표, 요금, 노선을 검색하세요. JR, Korail, MTR, TfL, DB 등 공식 교통 사업자와 연결됩니다.`,
+        results: (o: string, d: string, c: string) =>
+          `${c} ${o}에서 ${d}까지 실시간 열차 시간표. 요금, 좌석 옵션, 환승 정보를 비교하세요.`,
+        malaysia:
+          "말레이시아 역 목록(data.gov.my 공식 과거 이용객 데이터 기반). 시간표 및 실시간 도착 정보는 제공되지 않습니다.",
+        savedTitle: "즐겨찾기 및 저장된 여정",
+        savedDesc: "Rail Nation에서 저장한 여정, 즐겨찾는 노선, 오프라인 시간표 기록을 확인하세요.",
+        alertsTitle: "교통 알림 및 서비스 업데이트",
+        alertsDesc: "실시간 교통 서비스 알림, 승강장 공지, 시스템 진단 업데이트.",
+        feedbackDesc: "Rail Nation에 피드백을 보냅니다.",
+      },
+    }[seoLang];
     let title = baseTitle;
-    let description = "International rail routing with official live transit providers and AI planning";
+    let description = seoText.default;
     let schemaJson: any = null;
     const searchLikeParams = view === "results" ? searchParams : draftSearch;
     const canonicalUrl =
@@ -397,7 +465,7 @@ export default function App() {
     if (view === "search") {
       const countryLabel = t(countryConfig[draftSearch.country].labelKey);
       title = `${t("menu.new_search", { defaultValue: "New Search" })} - ${countryLabel} | ${baseTitle}`;
-      description = `Search live schedules, ticket fares, and routes for train systems in ${countryLabel}. Connect with official transit providers including JR, Korail, MTR, TfL, DB, and more.`;
+      description = seoText.search(countryLabel);
       
       schemaJson = {
         "@context": "https://schema.org",
@@ -420,8 +488,8 @@ export default function App() {
       const destinationName = stationLabel(t, searchParams.destination, searchParams.country);
       title = `${originName} ➔ ${destinationName} | ${countryLabel} | ${baseTitle}`;
       description = searchParams.country === "malaysia"
-        ? "Malaysia station directory sourced from official historical data.gov.my ridership downloads. Timetables and real-time arrivals are not available."
-        : `Live train timetables from ${originName} to ${destinationName} in ${countryLabel}. Compare ticket prices, seat options, and transfer details.`;
+        ? seoText.malaysia
+        : seoText.results(originName, destinationName, countryLabel);
       
       schemaJson = searchParams.country === "malaysia" ? null : {
         "@context": "https://schema.org",
@@ -443,14 +511,14 @@ export default function App() {
         "departureTime": searchParams.date
       };
     } else if (view === "saved") {
-      title = `${t("profile.favorites", { defaultValue: "Favorites" })} & Saved Trips | ${baseTitle}`;
-      description = "View your saved trips, favorite routes, and offline schedule history on Rail National.";
+      title = `${seoText.savedTitle} | ${baseTitle}`;
+      description = seoText.savedDesc;
     } else if (view === "alerts") {
-      title = `Transit Alerts & Updates | ${baseTitle}`;
-      description = "Real-time transit service alerts, platform notices, and system diagnostic updates.";
+      title = `${seoText.alertsTitle} | ${baseTitle}`;
+      description = seoText.alertsDesc;
     } else if (view === "feedback") {
       title = `${t("feedback.title", { defaultValue: "Feedback" })} | ${baseTitle}`;
-      description = "Send feedback to Rail National.";
+      description = seoText.feedbackDesc;
     }
 
     // Apply document title
