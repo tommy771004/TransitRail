@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMax meet" fill="#fff">
+  <defs><linearGradient id="fade" x1="0" y1="340" x2="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.5" stop-color="#fff"/><stop offset="0.94" stop-color="#000"/></linearGradient><mask id="fade-top" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="340"><rect width="1200" height="340" fill="url(#fade)"/></mask></defs>
+  <g mask="url(#fade-top)">
+  <!-- Great Wall over hills (left) -->
+  <path d="M120 300 Q220 210 340 258 Q420 290 470 300 Z"/>
+  <path d="M150 262 l14 -10 l14 10 v10 h-28 z M196 244 l14 -10 l14 10 v10 h-28 z M242 236 l14 -10 l14 10 v10 h-28 z M300 250 l16 20 v12 h-16 z"/>
+  <!-- Temple of Heaven (center) -->
+  <g>
+    <path d="M600 60 L560 96 h80 z"/>
+    <rect x="595" y="52" width="10" height="12"/>
+    <path d="M540 96 h120 v10 h-120 z"/>
+    <path d="M600 108 L548 150 h104 z"/>
+    <path d="M528 150 h144 v12 h-144 z"/>
+    <path d="M600 168 L520 220 h160 z"/>
+    <rect x="512" y="220" width="176" height="12"/>
+    <rect x="536" y="232" width="128" height="68"/>
+    <rect x="512" y="296" width="176" height="6"/>
+  </g>
+  <!-- Oriental Pearl Tower (right) -->
+  <g>
+    <rect x="905" y="130" width="10" height="170"/>
+    <rect x="885" y="150" width="10" height="150"/>
+    <rect x="925" y="150" width="10" height="150"/>
+    <circle cx="910" cy="196" r="30"/>
+    <circle cx="910" cy="112" r="20"/>
+    <rect x="906" y="60" width="8" height="40"/>
+    <circle cx="910" cy="56" r="8"/>
+  </g>
+  <!-- distant towers -->
+  <rect x="980" y="200" width="30" height="100"/>
+  <rect x="1018" y="176" width="24" height="124"/>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMax meet" fill="#fff">
+  <defs><linearGradient id="fade" x1="0" y1="340" x2="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.5" stop-color="#fff"/><stop offset="0.94" stop-color="#000"/></linearGradient><mask id="fade-top" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="340"><rect width="1200" height="340" fill="url(#fade)"/></mask></defs>
+  <g mask="url(#fade-top)">
+  <!-- Fjord peaks -->
+  <path d="M0 300 L120 150 L210 240 L300 300 Z"/>
+  <path d="M240 300 L360 120 L470 260 L520 300 Z"/>
+  <path d="M760 300 L860 170 L940 260 L1010 190 L1120 300 Z"/>
+  <path d="M1000 300 L1100 140 L1200 240 L1200 300 Z"/>
+  <!-- Stave church (center hero) -->
+  <g>
+    <rect x="566" y="240" width="68" height="60"/>
+    <path d="M560 240 h80 L600 176 z"/>
+    <rect x="576" y="196" width="48" height="44"/>
+    <path d="M570 196 h60 L600 150 z"/>
+    <rect x="586" y="164" width="28" height="32"/>
+    <path d="M580 164 h40 L600 128 z"/>
+    <rect x="596" y="108" width="8" height="24"/>
+    <path d="M596 108 h8 L600 88 z"/>
+    <!-- side aisle -->
+    <rect x="540" y="264" width="26" height="36"/>
+    <rect x="634" y="264" width="26" height="36"/>
+  </g>
+  <!-- water line -->
+  <rect x="0" y="300" width="1200" height="4"/>
+  <path d="M120 316 q30 -8 60 0 M300 322 q30 -8 60 0 M820 316 q30 -8 60 0" fill="none" stroke="#fff" stroke-width="3" opacity="0.7"/>
+  </g>
+</svg>

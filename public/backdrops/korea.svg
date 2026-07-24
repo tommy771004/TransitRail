@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMax meet" fill="#fff">
+  <defs><linearGradient id="fade" x1="0" y1="340" x2="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.5" stop-color="#fff"/><stop offset="0.94" stop-color="#000"/></linearGradient><mask id="fade-top" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="340"><rect width="1200" height="340" fill="url(#fade)"/></mask></defs>
+  <g mask="url(#fade-top)">
+  <!-- Namsan hill -->
+  <path d="M360 300 Q600 176 840 300 Z"/>
+  <!-- N Seoul Tower (center) -->
+  <g>
+    <rect x="592" y="150" width="16" height="70"/>
+    <path d="M584 150 h32 l-6 -26 h-20 z"/>
+    <rect x="586" y="120" width="28" height="8"/>
+    <rect x="597" y="70" width="6" height="52"/>
+    <rect x="593" y="58" width="14" height="14"/>
+    <rect x="598" y="30" width="4" height="30"/>
+  </g>
+  <!-- Gyeongbokgung palace roof (left) -->
+  <g>
+    <rect x="250" y="256" width="150" height="44"/>
+    <path d="M228 256 Q325 214 422 256 l-10 12 Q325 234 238 268 z"/>
+    <rect x="238" y="248" width="174" height="12"/>
+    <rect x="272" y="268" width="18" height="32"/>
+    <rect x="360" y="268" width="18" height="32"/>
+  </g>
+  <!-- Modern towers (right) -->
+  <rect x="900" y="150" width="34" height="150"/>
+  <path d="M900 150 h34 l-17 -22 z"/>
+  <rect x="946" y="196" width="28" height="104"/>
+  <rect x="984" y="176" width="24" height="124"/>
+  <rect x="300" y="298" width="620" height="4"/>
+  </g>
+</svg>

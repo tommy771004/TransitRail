@@ -114,21 +114,25 @@ body {
   color: #f8fafc;
 }
 
-/* Each country supplies two restrained accent hues for a soft, blurred backdrop. */
-[data-country="japan"] { --country-a: 244, 63, 94; --country-b: 251, 146, 60; }
-[data-country="korea"] { --country-a: 99, 102, 241; --country-b: 56, 189, 248; }
-[data-country="singapore"] { --country-a: 217, 70, 239; --country-b: 244, 114, 182; }
-[data-country="malaysia"] { --country-a: 16, 185, 129; --country-b: 74, 222, 128; }
-[data-country="thailand"] { --country-a: 245, 158, 11; --country-b: 251, 113, 133; }
-[data-country="hong_kong"] { --country-a: 6, 182, 212; --country-b: 45, 212, 191; }
-[data-country="united_kingdom"] { --country-a: 37, 99, 235; --country-b: 56, 189, 248; }
-[data-country="united_states"] { --country-a: 71, 85, 105; --country-b: 14, 165, 233; }
-[data-country="germany"] { --country-a: 220, 38, 38; --country-b: 251, 146, 60; }
-[data-country="france"] { --country-a: 124, 58, 237; --country-b: 59, 130, 246; }
-[data-country="belgium"] { --country-a: 202, 138, 4; --country-b: 239, 68, 68; }
-[data-country="norway"] { --country-a: 190, 24, 93; --country-b: 251, 113, 133; }
-[data-country="switzerland"] { --country-a: 225, 29, 72; --country-b: 239, 68, 68; }
-[data-country="china"] { --country-a: 234, 88, 12; --country-b: 239, 68, 68; }
+/*
+ * Each country supplies two restrained accent hues for a soft, blurred backdrop,
+ * plus a landmark scene (--country-backdrop) drawn as a faint, accent-tinted
+ * silhouette anchored to the bottom of the page (see .country-shell::before).
+ */
+[data-country="japan"] { --country-a: 244, 63, 94; --country-b: 251, 146, 60; --country-backdrop: url("/backdrops/japan.svg"); }
+[data-country="korea"] { --country-a: 99, 102, 241; --country-b: 56, 189, 248; --country-backdrop: url("/backdrops/korea.svg"); }
+[data-country="singapore"] { --country-a: 217, 70, 239; --country-b: 244, 114, 182; --country-backdrop: url("/backdrops/singapore.svg"); }
+[data-country="malaysia"] { --country-a: 16, 185, 129; --country-b: 74, 222, 128; --country-backdrop: url("/backdrops/malaysia.svg"); }
+[data-country="thailand"] { --country-a: 245, 158, 11; --country-b: 251, 113, 133; --country-backdrop: url("/backdrops/thailand.svg"); }
+[data-country="hong_kong"] { --country-a: 6, 182, 212; --country-b: 45, 212, 191; --country-backdrop: url("/backdrops/hong_kong.svg"); }
+[data-country="united_kingdom"] { --country-a: 37, 99, 235; --country-b: 56, 189, 248; --country-backdrop: url("/backdrops/united_kingdom.svg"); }
+[data-country="united_states"] { --country-a: 71, 85, 105; --country-b: 14, 165, 233; --country-backdrop: url("/backdrops/united_states.svg"); }
+[data-country="germany"] { --country-a: 220, 38, 38; --country-b: 251, 146, 60; --country-backdrop: url("/backdrops/germany.svg"); }
+[data-country="france"] { --country-a: 124, 58, 237; --country-b: 59, 130, 246; --country-backdrop: url("/backdrops/france.svg"); }
+[data-country="belgium"] { --country-a: 202, 138, 4; --country-b: 239, 68, 68; --country-backdrop: url("/backdrops/belgium.svg"); }
+[data-country="norway"] { --country-a: 190, 24, 93; --country-b: 251, 113, 133; --country-backdrop: url("/backdrops/norway.svg"); }
+[data-country="switzerland"] { --country-a: 225, 29, 72; --country-b: 239, 68, 68; --country-backdrop: url("/backdrops/switzerland.svg"); }
+[data-country="china"] { --country-a: 234, 88, 12; --country-b: 239, 68, 68; --country-backdrop: url("/backdrops/china.svg"); }
 
 .country-shell {
   background:
@@ -144,6 +148,58 @@ body {
     radial-gradient(42rem 30rem at 96% 16%, rgba(var(--country-b), 0.12), transparent 72%),
     radial-gradient(38rem 30rem at 46% 100%, rgba(var(--country-a), 0.08), transparent 74%),
     linear-gradient(145deg, #060a13 0%, rgba(var(--country-a), 0.11) 52%, #060a13 100%);
+}
+
+/*
+ * Landmark backdrop: the country's signature-scene SVG (--country-backdrop) is
+ * used as a CSS mask so its shapes are filled by the country's own accent hues,
+ * then anchored full-width to the bottom of the viewport. Each SVG bakes in its
+ * own top-to-bottom alpha fade (mask id="fade-top"), so the skyline dissolves
+ * upward into the gradient backdrop with a single mask layer — no mask-composite.
+ * The result reads as a faint, accent-tinted skyline rising from — and blending
+ * into — the page, so it never fights the search UI in the foreground.
+ *
+ * Guarded by @supports: without CSS mask support the pseudo-element is skipped
+ * entirely (rather than showing as a bare gradient bar).
+ */
+@supports ((-webkit-mask-image: url("#")) or (mask-image: url("#"))) {
+  .country-shell::before {
+    content: "";
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: min(100vw, 60rem);
+    height: clamp(150px, 32vh, 300px);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.13;
+    background: linear-gradient(
+      to top,
+      rgba(var(--country-a), 0.9) 0%,
+      rgba(var(--country-b), 0.55) 55%,
+      rgba(var(--country-b), 0.3) 100%
+    );
+    -webkit-mask-image: var(--country-backdrop);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center bottom;
+    -webkit-mask-size: 100% auto;
+    mask-image: var(--country-backdrop);
+    mask-repeat: no-repeat;
+    mask-position: center bottom;
+    mask-size: 100% auto;
+    transition: opacity 0.5s ease;
+  }
+
+  .dark .country-shell::before {
+    opacity: 0.19;
+    background: linear-gradient(
+      to top,
+      rgba(var(--country-a), 1) 0%,
+      rgba(var(--country-b), 0.7) 55%,
+      rgba(var(--country-b), 0.4) 100%
+    );
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

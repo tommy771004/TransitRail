@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMax meet" fill="#fff">
+  <defs><linearGradient id="fade" x1="0" y1="340" x2="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.5" stop-color="#fff"/><stop offset="0.94" stop-color="#000"/></linearGradient><mask id="fade-top" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="340"><rect width="1200" height="340" fill="url(#fade)"/></mask></defs>
+  <g mask="url(#fade-top)">
+  <!-- Tower Bridge (left) -->
+  <g>
+    <rect x="196" y="176" width="34" height="124"/>
+    <rect x="300" y="176" width="34" height="124"/>
+    <path d="M196 176 h34 v-18 l-17 -20 l-17 20 z"/>
+    <path d="M300 176 h34 v-18 l-17 -20 l-17 20 z"/>
+    <rect x="230" y="214" width="70" height="12"/>
+    <path d="M150 260 Q213 224 230 226 M334 226 Q351 224 414 260" stroke="#fff" stroke-width="5" fill="none"/>
+    <rect x="150" y="258" width="264" height="8"/>
+  </g>
+  <!-- Big Ben / Elizabeth Tower (center hero) -->
+  <g>
+    <rect x="586" y="150" width="34" height="150"/>
+    <rect x="582" y="120" width="42" height="32"/>
+    <circle cx="603" cy="136" r="10"/>
+    <path d="M582 120 h42 l-6 -18 h-30 z"/>
+    <path d="M588 102 L603 62 L618 102 Z"/>
+    <rect x="600" y="52" width="6" height="14"/>
+  </g>
+  <!-- London Eye (right) -->
+  <g fill="none" stroke="#fff" stroke-width="5">
+    <circle cx="850" cy="200" r="80"/>
+    <circle cx="850" cy="200" r="60"/>
+    <path d="M850 120 V280 M770 200 H930 M793 143 L907 257 M907 143 L793 257"/>
+  </g>
+  <path d="M850 280 L826 300 h48 z" fill="#fff"/>
+  <rect x="140" y="298" width="800" height="4"/>
+  </g>
+</svg>

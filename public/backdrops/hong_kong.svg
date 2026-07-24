@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMax meet" fill="#fff">
+  <defs><linearGradient id="fade" x1="0" y1="340" x2="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.5" stop-color="#fff"/><stop offset="0.94" stop-color="#000"/></linearGradient><mask id="fade-top" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="340"><rect width="1200" height="340" fill="url(#fade)"/></mask></defs>
+  <g mask="url(#fade-top)">
+  <!-- Peak silhouette behind -->
+  <path d="M0 300 Q180 232 360 268 Q460 288 520 300 Z" opacity="0.85"/>
+  <path d="M1200 300 Q1040 244 900 276 Q840 290 800 300 Z" opacity="0.85"/>
+  <!-- Bank of China Tower (triangular prisms, left-center) -->
+  <path d="M470 300 V120 L494 100 L494 300 Z"/>
+  <path d="M494 100 L494 300 L520 300 L520 140 Z"/>
+  <rect x="490" y="86" width="4" height="20"/>
+  <!-- IFC (center hero, tapering with stepped crown) -->
+  <g>
+    <path d="M576 300 V96 h56 V96 l-10 -16 h-36 z"/>
+    <rect x="576" y="96" width="56" height="204"/>
+    <rect x="590" y="70" width="28" height="14"/>
+    <path d="M590 70 l14 -14 l14 14 z"/>
+  </g>
+  <!-- HSBC / towers (right-center) -->
+  <rect x="660" y="150" width="40" height="150"/>
+  <path d="M666 150 v-16 h6 v16 M688 150 v-16 h6 v16"/>
+  <rect x="716" y="176" width="34" height="124"/>
+  <rect x="640" y="196" width="14" height="104"/>
+  <!-- junk boat with sails -->
+  <path d="M300 296 q34 12 104 0 l-8 10 h-88 z"/>
+  <path d="M330 296 V220 q34 6 34 40 z"/>
+  <path d="M366 296 V210 q28 8 28 46 z"/>
+  <rect x="360" y="298" width="380" height="4"/>
+  </g>
+</svg>
