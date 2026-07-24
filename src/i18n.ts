@@ -2395,15 +2395,62 @@ Object.keys(translations).forEach(key => {
 Object.assign(resources['en'].translation, transferTranslations.en);
 Object.assign(resources['zh-TW'].translation, transferTranslations['zh-TW']);
 
+const SUPPORTED_LANGUAGES = ['zh-TW', 'ja', 'ko', 'en'] as const;
+const LANGUAGE_STORAGE_KEY = 'railnation:lang';
+
+// Pick the startup language: a remembered manual choice wins; otherwise follow
+// the device/browser locale. Any Chinese variant (Traditional/Simplified/HK) maps
+// to zh-TW, Japanese → ja, Korean → ko, and everything else falls back to English.
+function resolveInitialLanguage(): string {
+  try {
+    const saved = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    if (saved && (SUPPORTED_LANGUAGES as readonly string[]).includes(saved)) {
+      return saved;
+    }
+  } catch {
+    // localStorage can be unavailable (private mode / non-browser env); fall through.
+  }
+
+  const candidates =
+    typeof navigator !== 'undefined'
+      ? navigator.languages && navigator.languages.length > 0
+        ? navigator.languages
+        : [navigator.language]
+      : [];
+  for (const raw of candidates) {
+    const lc = (raw || '').toLowerCase();
+    if (lc.startsWith('zh')) return 'zh-TW';
+    if (lc.startsWith('ja')) return 'ja';
+    if (lc.startsWith('ko')) return 'ko';
+  }
+  return 'en';
+}
+
+// Persist only explicit switches (via the header language picker), not the initial
+// auto-detection — so a later change in the device locale is still honoured until
+// the user picks a language themselves.
+let i18nReady = false;
+i18n.on('languageChanged', (lng) => {
+  if (!i18nReady) return;
+  try {
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, lng);
+  } catch {
+    // ignore persistence failures
+  }
+});
+
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'zh-TW',
+    lng: resolveInitialLanguage(),
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false
     }
+  })
+  .finally(() => {
+    i18nReady = true;
   });
 
 export default i18n;
