@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMax meet" fill="#fff">
+  <defs><linearGradient id="fade" x1="0" y1="340" x2="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.5" stop-color="#fff"/><stop offset="0.94" stop-color="#000"/></linearGradient><mask id="fade-top" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="340"><rect width="1200" height="340" fill="url(#fade)"/></mask></defs>
+  <g mask="url(#fade-top)">
+  <!-- Arc de Triomphe (left) -->
+  <path fill-rule="evenodd" d="M238 190 h120 v110 h-120 z M278 302 V250 Q298 222 318 250 V302 Z"/>
+  <rect x="230" y="176" width="136" height="16"/>
+  <rect x="242" y="164" width="112" height="12"/>
+  <!-- Eiffel Tower (center hero) -->
+  <g fill="none" stroke="#fff" stroke-width="7" stroke-linejoin="round">
+    <path d="M556 300 Q588 190 598 120 M644 300 Q612 190 602 120"/>
+    <path d="M566 254 H634 M576 200 H624 M584 150 H616"/>
+    <path d="M600 120 V70"/>
+  </g>
+  <path d="M556 300 Q574 270 600 268 Q626 270 644 300 Z" fill="#fff"/>
+  <rect x="596" y="56" width="8" height="18" fill="#fff"/>
+  <!-- Sacré-Cœur domes (right) -->
+  <g>
+    <path d="M840 300 V214 Q840 168 872 156 Q904 168 904 214 V300 Z"/>
+    <path d="M856 156 Q872 128 888 156 Z"/>
+    <rect x="869" y="120" width="6" height="20"/>
+    <path d="M916 300 V236 Q916 206 934 200 Q952 206 952 236 V300 Z"/>
+    <path d="M926 200 q8 -16 16 0 z"/>
+  </g>
+  <rect x="220" y="298" width="760" height="4"/>
+  </g>
+</svg>

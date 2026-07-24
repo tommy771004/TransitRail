@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMax meet" fill="#fff">
+  <defs><linearGradient id="fade" x1="0" y1="340" x2="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.5" stop-color="#fff"/><stop offset="0.94" stop-color="#000"/></linearGradient><mask id="fade-top" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="340"><rect width="1200" height="340" fill="url(#fade)"/></mask></defs>
+  <g mask="url(#fade-top)">
+  <!-- Atomium (left) -->
+  <g>
+    <g stroke="#fff" stroke-width="6">
+      <path d="M300 130 L340 180 L300 230 L260 180 Z M300 130 L300 60 M260 180 L220 180 M340 180 L380 180 M300 230 L300 300"/>
+    </g>
+    <circle cx="300" cy="60" r="16"/>
+    <circle cx="220" cy="180" r="16"/>
+    <circle cx="380" cy="180" r="16"/>
+    <circle cx="300" cy="130" r="16"/>
+    <circle cx="300" cy="230" r="16"/>
+    <circle cx="300" cy="300" r="16"/>
+  </g>
+  <!-- Brussels Town Hall Gothic spire, Grand-Place (center hero) -->
+  <g>
+    <rect x="560" y="150" width="80" height="150"/>
+    <rect x="576" y="120" width="48" height="30"/>
+    <path d="M576 120 h48 l-24 -36 z"/>
+    <path d="M584 84 L600 40 L616 84 Z"/>
+    <path d="M594 40 L600 18 L606 40 Z"/>
+    <rect x="598" y="10" width="4" height="12"/>
+    <!-- flanking hall roof -->
+    <path d="M520 300 V196 h40 V300 M640 300 V196 h40 V300"/>
+    <path d="M516 196 h48 l-24 -22 z M636 196 h48 l-24 -22 z"/>
+  </g>
+  <!-- Belfry of Bruges (right) -->
+  <g>
+    <rect x="880" y="150" width="46" height="150"/>
+    <rect x="874" y="118" width="58" height="32"/>
+    <path d="M874 118 h58 v-14 h-58 z"/>
+    <path d="M886 104 h34 l-17 -30 z"/>
+  </g>
+  <rect x="500" y="298" width="440" height="4"/>
+  </g>
+</svg>

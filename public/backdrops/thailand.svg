@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMax meet" fill="#fff">
+  <defs><linearGradient id="fade" x1="0" y1="340" x2="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.5" stop-color="#fff"/><stop offset="0.94" stop-color="#000"/></linearGradient><mask id="fade-top" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="340"><rect width="1200" height="340" fill="url(#fade)"/></mask></defs>
+  <g mask="url(#fade-top)">
+  <!-- Wat Arun central prang (center) -->
+  <g>
+    <path d="M600 40 L588 96 h24 z"/>
+    <rect x="596" y="30" width="8" height="14"/>
+    <path d="M600 96 Q574 150 566 214 h68 Q626 150 600 96 Z"/>
+    <path d="M552 214 h96 l-14 26 h-68 z"/>
+    <rect x="560" y="240" width="80" height="60"/>
+    <!-- corner tiers -->
+    <path d="M566 214 l-6 -30 l-6 30 z M634 214 l6 -30 l6 30 z"/>
+  </g>
+  <!-- flanking chedi (left + right) -->
+  <g>
+    <path d="M470 300 V222 Q470 190 486 176 Q502 190 502 222 V300 Z"/>
+    <path d="M486 176 l-8 -30 l8 -16 l8 16 l-8 30"/>
+    <path d="M698 300 V222 Q698 190 714 176 Q730 190 730 222 V300 Z"/>
+    <path d="M714 176 l-8 -30 l8 -16 l8 16 l-8 30"/>
+  </g>
+  <!-- longtail boat -->
+  <path d="M300 296 q40 14 120 0 l-10 12 h-96 z"/>
+  <rect x="340" y="266" width="4" height="30"/>
+  <rect x="520" y="298" width="160" height="4"/>
+  </g>
+</svg>

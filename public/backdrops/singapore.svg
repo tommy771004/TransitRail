@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMax meet" fill="#fff">
+  <defs><linearGradient id="fade" x1="0" y1="340" x2="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.5" stop-color="#fff"/><stop offset="0.94" stop-color="#000"/></linearGradient><mask id="fade-top" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="340"><rect width="1200" height="340" fill="url(#fade)"/></mask></defs>
+  <g mask="url(#fade-top)">
+  <!-- Supertrees (left) -->
+  <g>
+    <path d="M250 300 V150 M250 190 l-34 -22 M250 210 l34 -20 M250 232 l-30 -16 M250 250 l28 -16" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <ellipse cx="250" cy="150" rx="46" ry="16"/>
+    <path d="M330 300 V180 M330 210 l-26 -16 M330 228 l24 -14" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <ellipse cx="330" cy="180" rx="34" ry="12"/>
+  </g>
+  <!-- Marina Bay Sands (center) -->
+  <g>
+    <path d="M470 300 L486 140 L500 140 L510 300 Z"/>
+    <path d="M585 300 L595 132 L609 132 L623 300 Z"/>
+    <path d="M700 300 L690 140 L704 140 L720 300 Z"/>
+    <path d="M456 140 Q600 96 736 140 l0 24 Q600 122 456 164 Z"/>
+    <ellipse cx="470" cy="150" rx="12" ry="6"/>
+  </g>
+  <!-- ArtScience Museum lotus (right) -->
+  <g>
+    <path d="M900 300 Q900 236 862 220 Q900 232 908 200 Q916 232 954 220 Q916 236 916 300 Z"/>
+    <path d="M872 250 Q908 236 944 250 l0 50 h-72 z"/>
+  </g>
+  <rect x="220" y="298" width="760" height="4"/>
+  </g>
+</svg>

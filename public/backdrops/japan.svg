@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMax meet" fill="#fff">
+  <defs><linearGradient id="fade" x1="0" y1="340" x2="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.5" stop-color="#fff"/><stop offset="0.94" stop-color="#000"/></linearGradient><mask id="fade-top" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="340"><rect width="1200" height="340" fill="url(#fade)"/></mask></defs>
+  <g mask="url(#fade-top)">
+  <!-- Mt. Fuji -->
+  <path d="M600 66 L452 300 L748 300 Z"/>
+  <path d="M420 300 L512 178 L560 300 Z"/>
+  <!-- Five-story pagoda (left) -->
+  <g>
+    <rect x="245" y="150" width="6" height="150"/>
+    <rect x="228" y="266" width="40" height="34"/>
+    <path d="M214 268 q34 -22 68 0 l-8 6 q-26 -12 -52 0 z"/>
+    <rect x="232" y="230" width="32" height="30"/>
+    <path d="M220 232 q28 -18 56 0 l-7 6 q-21 -10 -42 0 z"/>
+    <rect x="235" y="196" width="26" height="26"/>
+    <path d="M225 198 q23 -15 46 0 l-6 6 q-17 -8 -34 0 z"/>
+    <rect x="238" y="166" width="20" height="22"/>
+    <path d="M230 168 q18 -12 36 0 l-5 5 q-13 -6 -26 0 z"/>
+    <rect x="245" y="130" width="6" height="28"/>
+    <circle cx="248" cy="126" r="5"/>
+  </g>
+  <!-- Torii gate (right) -->
+  <g>
+    <rect x="912" y="150" width="14" height="150"/>
+    <rect x="974" y="150" width="14" height="150"/>
+    <path d="M888 150 q62 -20 124 0 l0 18 q-62 -16 -124 0 z"/>
+    <rect x="900" y="182" width="100" height="12"/>
+  </g>
+  <!-- Shinkansen streak -->
+  <path d="M300 300 h360 l-26 -22 h-40 l-14 -12 h-240 z" opacity="0.9"/>
+  <rect x="300" y="300" width="900" height="4"/>
+  </g>
+</svg>

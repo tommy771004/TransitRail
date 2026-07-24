@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" preserveAspectRatio="xMidYMax meet" fill="#fff">
+  <defs><linearGradient id="fade" x1="0" y1="340" x2="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"/><stop offset="0.5" stop-color="#fff"/><stop offset="0.94" stop-color="#000"/></linearGradient><mask id="fade-top" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="340"><rect width="1200" height="340" fill="url(#fade)"/></mask></defs>
+  <g mask="url(#fade-top)">
+  <!-- Petronas Twin Towers (center) -->
+  <g>
+    <!-- left tower -->
+    <path d="M520 300 V150 h48 V150 l-24 -18 z"/>
+    <rect x="520" y="150" width="48" height="150"/>
+    <rect x="538" y="96" width="12" height="60"/>
+    <rect x="541" y="70" width="6" height="30"/>
+    <!-- right tower -->
+    <rect x="632" y="150" width="48" height="150"/>
+    <path d="M632 150 l24 -18 l24 18 z"/>
+    <rect x="650" y="96" width="12" height="60"/>
+    <rect x="653" y="70" width="6" height="30"/>
+    <!-- skybridge -->
+    <rect x="568" y="188" width="64" height="8"/>
+    <path d="M584 196 v40 M616 196 v40" stroke="#fff" stroke-width="5"/>
+  </g>
+  <!-- KL Tower / Menara (right) -->
+  <g>
+    <rect x="792" y="150" width="12" height="150"/>
+    <path d="M778 150 q20 -16 40 0 l-4 10 q-16 -12 -32 0 z"/>
+    <ellipse cx="798" cy="142" rx="20" ry="9"/>
+    <rect x="795" y="96" width="6" height="46"/>
+    <rect x="797" y="60" width="3" height="38"/>
+  </g>
+  <rect x="480" y="298" width="420" height="4"/>
+  </g>
+</svg>
