@@ -1,12 +1,15 @@
-import type { TransitResult } from "../types";
+import type { ServiceDayAdvisory, TransitResult } from "../types";
 
 export interface TimetableFingerprint {
   first?: string;
   last?: string;
   departures: number;
+  serviceDate?: string;
+  serviceDayType?: ServiceDayAdvisory["serviceDayType"];
+  coverage?: "supported" | "partial";
 }
 
-export function timetableFingerprint(results: TransitResult[]): TimetableFingerprint {
+export function timetableFingerprint(results: TransitResult[], advisory?: ServiceDayAdvisory): TimetableFingerprint {
   let first: string | undefined;
   let last: string | undefined;
   for (const result of results) {
@@ -15,13 +18,34 @@ export function timetableFingerprint(results: TransitResult[]): TimetableFingerp
     if (!first || departure < first) first = departure;
     if (!last || departure > last) last = departure;
   }
-  return { first, last, departures: results.length };
+  const comparableCoverage = advisory?.coverage === "supported" || advisory?.coverage === "partial"
+    ? advisory.coverage
+    : undefined;
+  const comparableAdvisory = comparableCoverage ? advisory : undefined;
+  return {
+    first: advisory ? comparableAdvisory?.firstDeparture : first,
+    last: advisory ? comparableAdvisory?.lastDeparture : last,
+    departures: results.length,
+    serviceDate: comparableAdvisory?.serviceDate,
+    serviceDayType: comparableAdvisory?.serviceDayType,
+    coverage: comparableCoverage,
+  };
 }
 
 /** Compares two already-computed fingerprints — e.g. a fingerprint persisted
  *  from a previous check against one derived from a fresh scrape — without
  *  needing the original TransitResult[] arrays on hand. */
 export function describeFingerprintChange(before: TimetableFingerprint, after: TimetableFingerprint, isChinese: boolean): string | undefined {
+  if (before.serviceDate && after.serviceDate && before.serviceDate !== after.serviceDate) {
+    return isChinese
+      ? `服務日期由 ${before.serviceDate} 調整為 ${after.serviceDate}。`
+      : `Service date changed from ${before.serviceDate} to ${after.serviceDate}.`;
+  }
+  if (before.serviceDayType && after.serviceDayType && before.serviceDayType !== after.serviceDayType) {
+    return isChinese
+      ? `服務日由 ${before.serviceDayType} 調整為 ${after.serviceDayType}。`
+      : `Service day changed from ${before.serviceDayType} to ${after.serviceDayType}.`;
+  }
   if (before.last && after.last && before.last !== after.last) {
     return isChinese
       ? `末班車由 ${before.last} 調整為 ${after.last}。`

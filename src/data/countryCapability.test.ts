@@ -75,6 +75,19 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
       expect(cap.scrape).toBeTruthy();
       expect(cap.resultView).toBeTruthy();
       expect(typeof cap.liveOnly).toBe("boolean");
+      expect(["supported", "partial", "unavailable"]).toContain(cap.serviceDay.coverage);
+      expect(cap.serviceDay.source.length).toBeGreaterThan(0);
+      expect(cap.serviceDay.scope.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("does not silently promote a market without a qualifying source", () => {
+    expect(getCountryCapability("united_kingdom").serviceDay.coverage).toBe("supported");
+    expect(getCountryCapability("united_states").serviceDay.coverage).toBe("supported");
+    expect(getCountryCapability("france").serviceDay.coverage).toBe("supported");
+    expect(getCountryCapability("thailand").serviceDay.coverage).toBe("partial");
+    for (const country of ["japan", "korea", "singapore", "malaysia", "hong_kong", "germany", "belgium", "norway", "switzerland", "china"] as Country[]) {
+      expect(getCountryCapability(country).serviceDay.coverage).toBe("unavailable");
     }
   });
 

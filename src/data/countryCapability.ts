@@ -9,6 +9,7 @@ import {
   type LiveRailMarket,
   type ProviderId,
   type ResultViewFamily,
+  type ServiceDayCapability,
   type ScrapeStrategy,
   type SearchKind,
 } from "./countries";
@@ -17,6 +18,7 @@ export type {
   LiveRailMarket,
   ProviderId,
   ResultViewFamily,
+  ServiceDayCapability,
   ScrapeStrategy,
   SearchKind,
 };
@@ -28,6 +30,7 @@ export interface CountryCapability {
   resultView: ResultViewFamily;
   liveRailMarket?: LiveRailMarket;
   liveOnly: boolean;
+  serviceDay: ServiceDayCapability;
 }
 
 export function getCountryCapability(country: Country): CountryCapability {
@@ -37,8 +40,9 @@ export function getCountryCapability(country: Country): CountryCapability {
     resultView,
     liveRailMarket,
     liveOnly,
+    serviceDay,
   } = countryConfig[country];
-  return { search, scrape, resultView, liveRailMarket, liveOnly };
+  return { search, scrape, resultView, liveRailMarket, liveOnly, serviceDay };
 }
 
 /** Countries whose scrape job is a timetable scraper (not catalog-only / none). */

@@ -82,6 +82,27 @@ export interface SearchResponse {
   source?: string;
   message?: string;
   dataStatus?: SearchDataStatus;
+  serviceDayAdvisory?: ServiceDayAdvisory;
+}
+
+export type ServiceDayCoverage = "supported" | "partial" | "stale" | "unavailable";
+export type ServiceDayType = "weekday" | "saturday" | "sunday_holiday" | "special";
+export type ServiceRisk = "safe" | "approaching" | "critical" | "missed" | "unavailable";
+
+export interface ServiceDayAdvisory {
+  coverage: ServiceDayCoverage;
+  serviceDate: string;
+  timezone: string;
+  serviceDayType: ServiceDayType;
+  firstDeparture?: string;
+  lastDeparture?: string;
+  risk: ServiceRisk;
+  minutesToLastDeparture?: number;
+  source: string;
+  sourceUrl?: string;
+  checkedAt?: string;
+  updatedAt?: string;
+  note?: string;
 }
 
 export type SearchDataKind = "provider" | "snapshot" | "catalog";
@@ -119,6 +140,8 @@ export interface LinesResponse {
 export interface SavedTrip extends TransitResult {
   savedAt: string;
   date?: string;
+  /** Query time retained for service-boundary change notifications. */
+  advisoryTime?: string;
   /** Local preference only; it never represents a reservation with an operator. */
   seatPreference?: "standard" | "window" | "aisle" | "first";
   reminderEnabled?: boolean;

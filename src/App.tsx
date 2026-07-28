@@ -24,6 +24,7 @@ import { triggerHaptic } from "./utils/haptics";
 import { getAuditHeaders } from "./utils/audit";
 import { describeTimetableChange } from "./utils/timetableChanges";
 import { RouteServiceOverview } from "./components/RouteServiceOverview";
+import { ServiceDayAdvisoryNotice } from "./components/ServiceDayAdvisoryNotice";
 import { get, set } from "idb-keyval";
 import { countryConfig, providerDateValue, countryThemes, countryFlags, countryOptions } from "./data/countries";
 import type {
@@ -38,6 +39,7 @@ import type {
   SearchHistoryItem,
   SearchParams,
   SearchResponse,
+  ServiceDayAdvisory,
   SortMode,
   TransitResult,
   TransitSituation,
@@ -342,6 +344,7 @@ export default function App() {
   const [searchParams, setSearchParams] = useState<SearchParams>(initialSearch);
   const [results, setResults] = useState<TransitResult[]>([]);
   const [searchDataStatus, setSearchDataStatus] = useState<SearchDataStatus | undefined>();
+  const [serviceDayAdvisory, setServiceDayAdvisory] = useState<ServiceDayAdvisory | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [isSearching, setIsSearching] = useState(false);
   const [sortMode, setSortMode] = useState<SortMode>("fastest");
@@ -848,6 +851,7 @@ export default function App() {
     setError(undefined);
     setResults([]);
     setSearchDataStatus(undefined);
+    setServiceDayAdvisory(undefined);
 
     const todayStr = providerDateValue(country);
     const queryParams: any = { ...params };
@@ -894,6 +898,7 @@ export default function App() {
 
       const resultList = Array.isArray(data.results) ? data.results : [];
       setSearchDataStatus(data.dataStatus);
+      setServiceDayAdvisory(data.serviceDayAdvisory);
 
       if (!res.ok) {
         setError(data.message || "Failed to fetch real-time data.");
@@ -910,6 +915,7 @@ export default function App() {
         await set(`transit_search_${query}`, {
           results: resultList,
           dataStatus: data.dataStatus,
+          serviceDayAdvisory: data.serviceDayAdvisory,
           fetchedAt: new Date().toISOString(),
         }).catch(console.error);
         if (timetableChange) {
@@ -939,9 +945,9 @@ export default function App() {
       try {
         const cachedData = await get(`transit_search_${query}`);
         const cached = Array.isArray(cachedData)
-          ? { results: cachedData, dataStatus: undefined, fetchedAt: undefined }
+          ? { results: cachedData, dataStatus: undefined, serviceDayAdvisory: undefined, fetchedAt: undefined }
           : cachedData && typeof cachedData === "object" && Array.isArray((cachedData as { results?: unknown }).results)
-            ? cachedData as { results: TransitResult[]; dataStatus?: SearchDataStatus; fetchedAt?: string }
+            ? cachedData as { results: TransitResult[]; dataStatus?: SearchDataStatus; serviceDayAdvisory?: ServiceDayAdvisory; fetchedAt?: string }
             : undefined;
         if (cached && cached.results.length > 0) {
           setResults(cached.results);
@@ -950,6 +956,7 @@ export default function App() {
             source: "Offline cache (timestamp unavailable)",
             checkedAt: cached.fetchedAt,
           });
+          setServiceDayAdvisory(cached.serviceDayAdvisory);
           pushAlert("Offline Mode", "Showing cached results from a previous search.");
           setIsSearching(false);
           return;
@@ -988,6 +995,7 @@ export default function App() {
         ...trip,
         savedAt: new Date().toISOString(),
         date: searchParams.date || providerDateValue(trip.country),
+        advisoryTime: searchParams.time,
         reminderEnabled: false,
         reminderFired: false,
       },
@@ -1127,10 +1135,12 @@ export default function App() {
   const syncPushSubscription = async (subscription: PushSubscription) => {
     const uniqueRoutes = Array.from(
       new Map(
-        savedTrips.map((trip) => [`${trip.origin}|${trip.destination}|${trip.country}`, {
+        savedTrips.map((trip) => [`${trip.origin}|${trip.destination}|${trip.country}|${trip.date || ""}|${trip.advisoryTime || ""}`, {
           origin: trip.origin,
           destination: trip.destination,
           country: trip.country,
+          serviceDate: trip.date,
+          selectedTime: trip.advisoryTime,
         }])
       ).values()
     );
@@ -1285,6 +1295,7 @@ export default function App() {
           ...trip,
           savedAt: new Date().toISOString(),
           date: searchParams.date || providerDateValue(trip.country),
+          advisoryTime: searchParams.time,
           seatPreference: seatChoice,
           reminderEnabled: false,
           reminderFired: false,
@@ -1846,6 +1857,7 @@ export default function App() {
           {view === "results" && !isSearching ? (
             <div className="pt-14">
               {searchDataStatus ? <SearchDataNotice status={searchDataStatus} language={i18n.language} /> : null}
+              {serviceDayAdvisory ? <ServiceDayAdvisoryNotice advisory={serviceDayAdvisory} /> : null}
               {error || results.length === 0 ? <SearchRecoveryNotice language={i18n.language} onModify={() => setView("search")} /> : null}
               {renderView()}
             </div>

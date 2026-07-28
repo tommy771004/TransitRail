@@ -1,4 +1,4 @@
-import type { Country } from "../types";
+import type { Country, ServiceDayCoverage } from "../types";
 import { norwayFeaturedStations } from "./norway";
 
 export const countryFlags: Record<string, string> = {
@@ -64,6 +64,15 @@ export type ScrapeStrategy =
 export type ResultViewFamily = "japan" | "korea" | "metro" | "live_rail" | "catalog";
 export type LiveRailMarket = "london" | "boston" | "switzerland" | "belgium" | "norway";
 
+/** Static service-day coverage declaration. `stale` is a runtime fallback
+ * state; configuration must declare the source's normal capability explicitly. */
+export type ServiceDayCapability = {
+  coverage: Exclude<ServiceDayCoverage, "stale">;
+  source: string;
+  sourceUrl?: string;
+  scope: string;
+};
+
 /**
  * Single country table: product chrome + search/scrape/result policy.
  * Prefer reading policy via {@link getCountryCapability} from countryCapability.ts.
@@ -83,6 +92,7 @@ export type CountryConfigEntry = {
   scrape: ScrapeStrategy;
   resultView: ResultViewFamily;
   liveRailMarket?: LiveRailMarket;
+  serviceDay: ServiceDayCapability;
 };
 
 export const countryConfig: Record<Country, CountryConfigEntry> = {
@@ -99,6 +109,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "generated",
     resultView: "japan",
+    serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
   },
   korea: {
     labelKey: "search.korea",
@@ -113,6 +124,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "snapshot",
     resultView: "korea",
+    serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
   },
   singapore: {
     labelKey: "search.singapore",
@@ -127,6 +139,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "snapshot",
     resultView: "metro",
+    serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
   },
   malaysia: {
     labelKey: "search.malaysia",
@@ -141,6 +154,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "catalog_only" },
     scrape: "catalog_sync",
     resultView: "catalog",
+    serviceDay: { coverage: "unavailable", source: "Historical ridership catalog has no timetable", scope: "No service-day advisory" },
   },
   thailand: {
     labelKey: "search.thailand",
@@ -155,6 +169,12 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "snapshot",
     resultView: "metro",
+    serviceDay: {
+      coverage: "partial",
+      source: "BEM MRT official HTML",
+      sourceUrl: "https://metro.bemplc.co.th/Fare-Calculation?lang=en",
+      scope: "Blue Line Sukhumvit → Hua Lamphong station-direction first/last values",
+    },
   },
   hong_kong: {
     labelKey: "search.hong_kong",
@@ -170,6 +190,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "provider_backed",
     resultView: "metro",
+    serviceDay: { coverage: "unavailable", source: "MTR next-train source is not a full service-day declaration", scope: "No service-day advisory" },
   },
   united_kingdom: {
     labelKey: "search.united_kingdom",
@@ -191,6 +212,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     scrape: "provider_backed",
     resultView: "live_rail",
     liveRailMarket: "london",
+    serviceDay: { coverage: "supported", source: "TfL Journey API", sourceUrl: "https://api.tfl.gov.uk", scope: "Complete route-aware first/last journeys" },
   },
   united_states: {
     labelKey: "search.united_states",
@@ -213,6 +235,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     scrape: "provider_backed",
     resultView: "live_rail",
     liveRailMarket: "boston",
+    serviceDay: { coverage: "supported", source: "MBTA public API", sourceUrl: "https://api-v3.mbta.com", scope: "Scheduled route first/last journeys for the current service date" },
   },
   germany: {
     labelKey: "search.germany",
@@ -227,6 +250,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "snapshot",
     resultView: "japan",
+    serviceDay: { coverage: "unavailable", source: "Curated DB snapshot has no qualifying full-day declaration", scope: "No service-day advisory" },
   },
   france: {
     labelKey: "search.france",
@@ -241,6 +265,12 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "snapshot",
     resultView: "japan",
+    serviceDay: {
+      coverage: "supported",
+      source: "SNCF Open Data GTFS",
+      sourceUrl: "https://eu.ftp.opendatasoft.com/sncf/plandata/Export_OpenData_SNCF_GTFS_NewTripId.zip",
+      scope: "Complete GTFS route journeys for published service dates",
+    },
   },
   belgium: {
     labelKey: "search.belgium",
@@ -256,6 +286,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     scrape: "provider_backed",
     resultView: "live_rail",
     liveRailMarket: "belgium",
+    serviceDay: { coverage: "unavailable", source: "iRail journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
   },
   norway: {
     labelKey: "search.norway",
@@ -271,6 +302,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     scrape: "provider_backed",
     resultView: "live_rail",
     liveRailMarket: "norway",
+    serviceDay: { coverage: "unavailable", source: "Entur journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
   },
   switzerland: {
     labelKey: "search.switzerland",
@@ -286,6 +318,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     scrape: "provider_backed",
     resultView: "live_rail",
     liveRailMarket: "switzerland",
+    serviceDay: { coverage: "unavailable", source: "OJP journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
   },
   china: {
     labelKey: "search.china",
@@ -300,6 +333,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "snapshot",
     resultView: "japan",
+    serviceDay: { coverage: "unavailable", source: "Curated 12306 snapshot has no qualifying full-day declaration", scope: "No service-day advisory" },
   },
 };
 

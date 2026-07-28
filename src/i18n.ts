@@ -223,6 +223,19 @@ const resources = {
         no_journeys: "No matching London journeys",
         no_journeys_hint: "Try another TfL station pair for travel today."
       },
+      service_day: {
+        title: "Service day",
+        first: "First complete journey",
+        last: "Last complete journey",
+        source: "Source: {{source}}",
+        verify: "Verify",
+        stale: "This is the last known timetable and may be out of date.",
+        partial: "Coverage is partial; confirm the full journey with the operator.",
+        unavailable: "Service-day information is not available for this route.",
+        minutes_remaining: "{{count}} minutes before the last complete journey",
+        type: { weekday: "Weekday", saturday: "Saturday", sunday_holiday: "Sunday / holiday", special: "Special service" },
+        risk: { safe: "Safe margin", approaching: "Approaching last train", critical: "Very close to last train", missed: "After last train", unavailable: "Unavailable" }
+      },
       boston: {
         official_data: "Official MBTA realtime predictions",
         current: "Realtime",
@@ -700,6 +713,19 @@ const resources = {
         minutes: "分鐘",
         no_journeys: "目前沒有符合的倫敦旅程",
         no_journeys_hint: "請改選其他 TfL 車站並查詢今天的行程。"
+      },
+      service_day: {
+        title: "服務日資訊",
+        first: "首班完整旅程",
+        last: "末班完整旅程",
+        source: "資料來源：{{source}}",
+        verify: "查看來源",
+        stale: "這是最後有效的時刻表，可能已過期。",
+        partial: "目前僅部分涵蓋，完整旅程請向業者確認。",
+        unavailable: "此路線目前沒有服務日資訊。",
+        minutes_remaining: "距離末班完整旅程還有 {{count}} 分鐘",
+        type: { weekday: "平日", saturday: "星期六", sunday_holiday: "星期日／假日", special: "特殊服務" },
+        risk: { safe: "時間充裕", approaching: "接近末班車", critical: "非常接近末班車", missed: "已超過末班車", unavailable: "無法提供" }
       },
       boston: {
         official_data: "MBTA 官方即時預測",
@@ -1584,6 +1610,19 @@ const resources = {
         no_journeys: "該当するロンドンのルートがありません",
         no_journeys_hint: "別のTfL駅の組み合わせで本日の検索をお試しください。"
       },
+      service_day: {
+        title: "運行日情報",
+        first: "最初の完全なルート",
+        last: "最後の完全なルート",
+        source: "データソース：{{source}}",
+        verify: "公式情報を確認",
+        stale: "最後に有効だった時刻表を表示しています。最新でない可能性があります。",
+        partial: "一部区間のみ対応しています。完全なルートは運行会社にご確認ください。",
+        unavailable: "このルートの運行日情報は利用できません。",
+        minutes_remaining: "最終ルートまであと{{count}}分",
+        type: { weekday: "平日", saturday: "土曜日", sunday_holiday: "日曜／祝日", special: "特別ダイヤ" },
+        risk: { safe: "余裕あり", approaching: "終電が近づいています", critical: "終電間近", missed: "終電後", unavailable: "利用不可" }
+      },
       boston: {
         official_data: "MBTA公式リアルタイム予測",
         current: "リアルタイム",
@@ -2088,6 +2127,19 @@ const resources = {
         minutes: "분",
         no_journeys: "일치하는 런던 경로가 없습니다",
         no_journeys_hint: "다른 TfL 역 조합으로 오늘 일정을 검색해 보세요."
+      },
+      service_day: {
+        title: "운행일 정보",
+        first: "첫 완전 여정",
+        last: "마지막 완전 여정",
+        source: "출처: {{source}}",
+        verify: "공식 출처 확인",
+        stale: "마지막으로 유효했던 시간표입니다. 최신 정보가 아닐 수 있습니다.",
+        partial: "일부 구간만 지원됩니다. 전체 여정은 운영기관에 확인하세요.",
+        unavailable: "이 경로의 운행일 정보를 이용할 수 없습니다.",
+        minutes_remaining: "마지막 완전 여정까지 {{count}}분",
+        type: { weekday: "평일", saturday: "토요일", sunday_holiday: "일요일／공휴일", special: "특별 운행" },
+        risk: { safe: "여유 있음", approaching: "막차 임박", critical: "막차 매우 임박", missed: "막차 이후", unavailable: "사용 불가" }
       },
       boston: {
         official_data: "MBTA 공식 실시간 예측",

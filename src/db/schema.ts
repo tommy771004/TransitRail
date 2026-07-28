@@ -64,12 +64,18 @@ export interface WatchedRoute {
   origin: string;
   destination: string;
   country: string;
+  /** The service date and query time the user saved, when available. */
+  serviceDate?: string;
+  selectedTime?: string;
   /** Canonical-day timetable snapshot from the last check; compared against the
    *  latest scrape to decide whether to notify. Undefined until the first check runs. */
   fingerprint?: {
     first?: string;
     last?: string;
     departures: number;
+    serviceDate?: string;
+    serviceDayType?: "weekday" | "saturday" | "sunday_holiday" | "special";
+    coverage?: "supported" | "partial";
   };
 }
 

@@ -1,4 +1,11 @@
-import type { SearchResponse, TransitLine, TransitResult } from "../types";
+import type {
+  SearchResponse,
+  ServiceDayAdvisory,
+  ServiceDayType,
+  TransitLine,
+  TransitResult,
+} from "../types";
+import { recordError } from "./errorLog";
 
 const MBTA_API_URL = "https://api-v3.mbta.com";
 const RAIL_ROUTE_TYPES = "0,1,2";
@@ -31,10 +38,15 @@ interface MbtaResource {
     status?: string | null;
     stop_sequence?: number;
     trip_headsign?: string;
+    valid_days?: number[];
+    schedule_type?: string | null;
+    added_dates?: string[];
+    removed_dates?: string[];
   };
   relationships?: {
     parent_station?: MbtaRelationship;
     route?: MbtaRelationship;
+    service?: MbtaRelationship;
     stop?: MbtaRelationship;
     trip?: MbtaRelationship;
   };
@@ -53,6 +65,7 @@ interface MbtaStation {
 
 let stationCache: { expiresAt: number; stations: MbtaStation[] } | null = null;
 let lineCache: { expiresAt: number; lines: TransitLine[] } | null = null;
+const serviceDayCache = new Map<string, { first: ScheduledJourney; last: ScheduledJourney }>();
 
 function mbtaUrl(pathname: string, params: Record<string, string> = {}) {
   const url = new URL(pathname, MBTA_API_URL);
@@ -104,6 +117,18 @@ function dateInBoston() {
   return `${value.year}-${value.month}-${value.day}`;
 }
 
+function currentBostonTimeHHMM() {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    hourCycle: "h23",
+  }).formatToParts(new Date());
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${values.hour}:${values.minute}`;
+}
+
 function timeInBoston(value?: string | null) {
   if (!value) return undefined;
   return new Intl.DateTimeFormat("en-US", {
@@ -118,6 +143,96 @@ function minutesBetween(start?: string | null, end?: string | null) {
   if (!start || !end) return undefined;
   const duration = Math.round((new Date(end).getTime() - new Date(start).getTime()) / 60_000);
   return duration >= 0 ? duration : undefined;
+}
+
+interface ScheduledJourney {
+  result: TransitResult;
+  departureIso: string;
+  arrivalIso: string;
+  scheduleType?: string;
+}
+
+function localDateTimeInBoston(value?: string | null) {
+  if (!value) return null;
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date(value));
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  if (!values.year || !values.month || !values.day || !values.hour || !values.minute) return null;
+  return {
+    date: `${values.year}-${values.month}-${values.day}`,
+    time: `${values.hour}:${values.minute}`,
+  };
+}
+
+function localMinutes(date: string, time: string) {
+  const [year, month, day] = date.split("-").map(Number);
+  const [hour, minute] = time.split(":").map(Number);
+  if (![year, month, day, hour, minute].every(Number.isFinite)) return null;
+  return Date.UTC(year, month - 1, day, hour, minute) / 60_000;
+}
+
+function fallbackServiceDayType(date: string): ServiceDayType {
+  const weekday = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    weekday: "long",
+  }).format(new Date(`${date}T12:00:00Z`));
+  if (weekday === "Saturday") return "saturday";
+  if (weekday === "Sunday") return "sunday_holiday";
+  return "weekday";
+}
+
+function normalizeServiceDayType(scheduleType: string | undefined, date: string): ServiceDayType {
+  const normalized = scheduleType?.toLowerCase();
+  if (normalized?.includes("saturday")) return "saturday";
+  if (normalized?.includes("sunday")) return "sunday_holiday";
+  if (normalized?.includes("weekday")) return "weekday";
+  if (normalized && normalized !== "other") return "special";
+  return fallbackServiceDayType(date);
+}
+
+function buildMbtaAdvisory(
+  date: string,
+  selectedTime: string,
+  first: ScheduledJourney | undefined,
+  last: ScheduledJourney | undefined,
+): ServiceDayAdvisory {
+  const firstLocal = localDateTimeInBoston(first?.departureIso);
+  const lastLocal = localDateTimeInBoston(last?.departureIso);
+  const queryMinutes = localMinutes(date, selectedTime);
+  const lastMinutes = lastLocal ? localMinutes(lastLocal.date, lastLocal.time) : null;
+  const minutesToLastDeparture = queryMinutes !== null && lastMinutes !== null
+    ? lastMinutes - queryMinutes
+    : undefined;
+  const risk = minutesToLastDeparture === undefined
+    ? "unavailable"
+    : minutesToLastDeparture < 0
+      ? "missed"
+      : minutesToLastDeparture <= 15
+        ? "critical"
+        : minutesToLastDeparture <= 60
+          ? "approaching"
+          : "safe";
+
+  return {
+    coverage: first && last ? "supported" : "unavailable",
+    serviceDate: date,
+    timezone: "America/New_York",
+    serviceDayType: normalizeServiceDayType(first?.scheduleType, date),
+    firstDeparture: firstLocal?.time,
+    lastDeparture: lastLocal?.time,
+    risk,
+    minutesToLastDeparture,
+    source: MBTA_API_URL,
+    sourceUrl: MBTA_API_URL,
+    checkedAt: new Date().toISOString(),
+  };
 }
 
 async function loadMbtaStations() {
@@ -237,6 +352,105 @@ function resourceMap(resources: MbtaResource[], type: string) {
   );
 }
 
+async function schedulesForStop(stopId: string, date: string) {
+  return fetchMbtaJson(
+    mbtaUrl("/schedules", {
+      "filter[stop]": stopId,
+      "filter[date]": date,
+      "filter[route_type]": RAIL_ROUTE_TYPES,
+      include: "trip,route,stop",
+      "page[limit]": "1000",
+      sort: "time",
+    }),
+  );
+}
+
+async function servicesForIds(ids: Set<string>) {
+  if (ids.size === 0) return new Map<string, MbtaResource>();
+  const response = await fetchMbtaJson(
+    mbtaUrl("/services", {
+      "filter[id]": Array.from(ids).join(","),
+      "page[limit]": String(ids.size),
+    }),
+  );
+  return resourceMap(response.data || [], "service");
+}
+
+function scheduledJourneysForRoute(
+  originResponse: MbtaResponse,
+  destinationResponse: MbtaResponse,
+  origin: MbtaStation,
+  destination: MbtaStation,
+  date: string,
+  serviceMetadata?: Map<string, MbtaResource>,
+): ScheduledJourney[] {
+  const destinationByTrip = new Map<string, MbtaResource[]>();
+  for (const schedule of destinationResponse.data || []) {
+    const tripId = relationshipId(schedule, "trip");
+    if (!tripId) continue;
+    const schedules = destinationByTrip.get(tripId) || [];
+    schedules.push(schedule);
+    destinationByTrip.set(tripId, schedules);
+  }
+
+  const included = [...(originResponse.included || []), ...(destinationResponse.included || [])];
+  const routes = resourceMap(included, "route");
+  const trips = resourceMap(included, "trip");
+  const services = serviceMetadata || resourceMap(included, "service");
+  const seenTrips = new Set<string>();
+  const journeys: ScheduledJourney[] = [];
+
+  for (const originSchedule of originResponse.data || []) {
+    const tripId = relationshipId(originSchedule, "trip");
+    const destinationSchedules = tripId ? destinationByTrip.get(tripId) : undefined;
+    const destinationSchedule = destinationSchedules?.find((candidate) => (
+      typeof originSchedule.attributes?.stop_sequence === "number" &&
+      typeof candidate.attributes?.stop_sequence === "number" &&
+      candidate.attributes.stop_sequence > originSchedule.attributes.stop_sequence
+    ));
+    if (!tripId || !destinationSchedule || seenTrips.has(tripId)) continue;
+
+    const departureIso = originSchedule.attributes?.departure_time || originSchedule.attributes?.arrival_time;
+    const arrivalIso = destinationSchedule.attributes?.arrival_time || destinationSchedule.attributes?.departure_time;
+    if (!departureIso || !arrivalIso) continue;
+
+    const route = routes.get(relationshipId(originSchedule, "route") || "");
+    const trip = trips.get(tripId);
+    const serviceId = originSchedule.relationships?.service?.data?.id || trip?.relationships?.service?.data?.id;
+    const service = services.get(serviceId || "");
+    const routeName = route?.attributes?.short_name || route?.attributes?.long_name || "MBTA Rail";
+    const departureTime = timeInBoston(departureIso);
+    const arrivalTime = timeInBoston(arrivalIso);
+    if (!departureTime || !arrivalTime) continue;
+
+    seenTrips.add(tripId);
+    journeys.push({
+      departureIso,
+      arrivalIso,
+      scheduleType: service?.attributes?.schedule_type || undefined,
+      result: {
+        id: `us-mbta-schedule-${tripId}-${originSchedule.attributes?.stop_sequence || 0}`,
+        country: "united_states",
+        date,
+        operator: "MBTA",
+        service: routeName,
+        trainType: route?.attributes?.long_name || "Rail",
+        durationMinutes: minutesBetween(departureIso, arrivalIso),
+        departureTime,
+        arrivalTime,
+        origin: origin.name,
+        destination: destination.name,
+        direct: true,
+        stops: [],
+        headsign: originSchedule.attributes?.trip_headsign || trip?.attributes?.headsign,
+        realtime: false,
+      },
+    });
+  }
+
+  return journeys.sort((a, b) => a.departureIso.localeCompare(b.departureIso));
+}
+
 async function predictionsForStop(stopId: string) {
   return fetchMbtaJson(
     mbtaUrl("/predictions", {
@@ -253,19 +467,8 @@ export async function searchMbtaJourney(
   origin: string,
   destination: string,
   date: string,
+  time?: string,
 ): Promise<{ status: number; body: SearchResponse & { error?: string } }> {
-  if (date !== dateInBoston()) {
-    return {
-      status: 400,
-      body: {
-        error: "Live date required",
-        message: "MBTA live prediction search currently supports today's Boston date only.",
-        results: [],
-        source: MBTA_API_URL,
-      },
-    };
-  }
-
   try {
     const [resolvedOrigin, resolvedDestination] = await Promise.all([
       resolveMbtaStation(origin),
@@ -280,6 +483,97 @@ export async function searchMbtaJourney(
           message: "MBTA could not resolve one or both station names.",
           results: [],
           source: MBTA_API_URL,
+        },
+      };
+    }
+
+    let scheduledJourneys: ScheduledJourney[] = [];
+    let serviceDayAdvisory: ServiceDayAdvisory;
+    const serviceDayCacheKey = `${resolvedOrigin.id}->${resolvedDestination.id}:${date}`;
+    const selectedTime = time && /^\d{2}:\d{2}$/.test(time)
+      ? time
+      : date === dateInBoston() ? currentBostonTimeHHMM() : "00:00";
+    try {
+      const [originScheduleResponse, destinationScheduleResponse] = await Promise.all([
+        schedulesForStop(resolvedOrigin.id, date),
+        schedulesForStop(resolvedDestination.id, date),
+      ]);
+      const serviceIds = new Set(
+        [...(originScheduleResponse.included || []), ...(destinationScheduleResponse.included || [])]
+          .filter((resource) => resource.type === "trip")
+          .map((trip) => trip.relationships?.service?.data?.id)
+          .filter((id): id is string => Boolean(id)),
+      );
+      let serviceMetadata = new Map<string, MbtaResource>();
+      if (serviceIds.size > 0) {
+        try {
+          serviceMetadata = await servicesForIds(serviceIds);
+        } catch (error) {
+          void recordError({
+            severity: "warning",
+            module: "mbta",
+            operation: "service-day.metadata",
+            errorCode: "MBTA_SERVICE_METADATA_FAILED",
+            error,
+            country: "united_states",
+            provider: MBTA_API_URL,
+            context: { origin, destination, date },
+          });
+        }
+      }
+      scheduledJourneys = scheduledJourneysForRoute(
+        originScheduleResponse,
+        destinationScheduleResponse,
+        resolvedOrigin,
+        resolvedDestination,
+        date,
+        serviceMetadata,
+      );
+      serviceDayAdvisory = buildMbtaAdvisory(
+        date,
+        selectedTime,
+        scheduledJourneys[0],
+        scheduledJourneys.at(-1),
+      );
+      const first = scheduledJourneys[0];
+      const last = scheduledJourneys.at(-1);
+      if (first && last) {
+        serviceDayCache.set(serviceDayCacheKey, { first, last });
+      }
+    } catch (error) {
+      void recordError({
+        severity: "error",
+        module: "mbta",
+        operation: "service-day.fetch",
+        errorCode: "MBTA_SERVICE_DAY_FAILED",
+        error,
+        country: "united_states",
+        provider: MBTA_API_URL,
+        context: { origin, destination, date },
+      });
+      const cached = serviceDayCache.get(serviceDayCacheKey);
+      serviceDayAdvisory = {
+        ...(cached
+          ? buildMbtaAdvisory(date, selectedTime, cached.first, cached.last)
+          : buildMbtaAdvisory(date, selectedTime, undefined, undefined)),
+        coverage: cached ? "stale" : "unavailable",
+        note: cached
+          ? "The last known service-day timetable is being shown while MBTA is unavailable."
+          : "MBTA service-day information is temporarily unavailable.",
+        checkedAt: new Date().toISOString(),
+      };
+    }
+
+    if (date !== dateInBoston()) {
+      return {
+        status: scheduledJourneys.length > 0 ? 200 : 404,
+        body: {
+          results: scheduledJourneys.map((journey) => journey.result),
+          message: scheduledJourneys.length > 0
+            ? undefined
+            : "MBTA returned no scheduled journeys for this station pair on the selected date.",
+          source: MBTA_API_URL,
+          serviceDayAdvisory,
         },
       };
     }
@@ -372,14 +666,25 @@ export async function searchMbtaJourney(
           ? "MBTA returned no direct realtime predictions for this station pair."
           : undefined,
         source: MBTA_API_URL,
+        serviceDayAdvisory,
       },
     };
   } catch (error) {
+    void recordError({
+      severity: "error",
+      module: "mbta",
+      operation: "journey.fetch",
+      errorCode: "MBTA_JOURNEY_FAILED",
+      error,
+      country: "united_states",
+      provider: MBTA_API_URL,
+      context: { origin, destination, date },
+    });
     return {
       status: 502,
       body: {
         error: "Provider request failed",
-        message: error instanceof Error ? error.message : "Could not reach MBTA.",
+        message: "Transit data is temporarily unavailable. Please try again later.",
         results: [],
         source: MBTA_API_URL,
       },

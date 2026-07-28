@@ -14,6 +14,8 @@ import { searchBelgiumJourney } from "./belgium";
 import { searchNorwayJourney } from "./norway";
 import { searchSwissJourney } from "./swiss";
 import { recordError } from "./errorLog";
+import { getFranceServiceDayAdvisory } from "./franceGtfs";
+import { getThailandServiceDayAdvisory } from "./thailandBem";
 
 export type TransitSearchInput = {
   origin: string;
@@ -48,7 +50,7 @@ async function runProvider(
     case "tfl":
       return searchTflJourney(origin, destination, date, time);
     case "mbta":
-      return searchMbtaJourney(origin, destination, date);
+      return searchMbtaJourney(origin, destination, date, time);
     case "belgium":
       return searchBelgiumJourney(origin, destination, date, time);
     case "norway":
@@ -172,6 +174,27 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
       results: [],
       source: "scraped",
     };
+  }
+
+  // Service-day availability is a separate public contract from journey rows.
+  // Keep it visible for an expected no-service/unknown-route response too;
+  // otherwise an empty result would be indistinguishable from a source failure.
+  if (payload && resolvedCountry === "france") {
+    payload.serviceDayAdvisory = await getFranceServiceDayAdvisory(
+      origin,
+      destination,
+      date,
+      time,
+    );
+  }
+
+  if (payload && resolvedCountry === "thailand") {
+    payload.serviceDayAdvisory = await getThailandServiceDayAdvisory(
+      origin,
+      destination,
+      date,
+      time,
+    );
   }
 
   if (payload.results && payload.results.length > 0 && resolvedCountry) {

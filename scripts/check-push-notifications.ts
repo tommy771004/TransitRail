@@ -17,8 +17,9 @@ import { pushSubscriptions, type WatchedRoute } from "../src/db/schema";
 import { findScrapedResults, loadScrapedData } from "../src/data/scraped";
 import { providerDateValue } from "../src/data/countries";
 import { describeFingerprintChange, timetableFingerprint } from "../src/utils/timetableChanges";
-import type { Country } from "../src/types";
+import type { Country, ServiceDayAdvisory } from "../src/types";
 import { recordError } from "../src/server/errorLog";
+import { serviceDayAdvisoryForWatch } from "../src/server/serviceDayWatch";
 
 async function main() {
   const vapidPublicKey = process.env.VAPID_PUBLIC_KEY;
@@ -46,9 +47,37 @@ async function main() {
     const unchangedRoutes: WatchedRoute[] = [];
 
     for (const route of watchedRoutes) {
-      const today = providerDateValue(route.country as Country);
-      const results = findScrapedResults(route.country as Country, route.origin, route.destination, today);
-      const nextFingerprint = results ? timetableFingerprint(results) : undefined;
+      const serviceDate = route.serviceDate || providerDateValue(route.country as Country);
+      const results = findScrapedResults(route.country as Country, route.origin, route.destination, serviceDate);
+      let advisory: ServiceDayAdvisory | undefined;
+      try {
+        advisory = await serviceDayAdvisoryForWatch({
+          origin: route.origin,
+          destination: route.destination,
+          country: route.country as Country,
+          serviceDate,
+          selectedTime: route.selectedTime,
+        });
+      } catch (error) {
+        await recordError({
+          severity: "warning",
+          module: "push",
+          operation: "notification.advisory",
+          errorCode: "PUSH_ADVISORY_CHECK_FAILED",
+          error,
+          country: route.country,
+          context: { origin: route.origin, destination: route.destination, serviceDate },
+        });
+      }
+
+      // A stale or unavailable source is not a newly published timetable. Keep
+      // the previous baseline so the next healthy run can compare against it.
+      if (advisory && (advisory.coverage === "stale" || advisory.coverage === "unavailable")) {
+        unchangedRoutes.push(route);
+        continue;
+      }
+
+      const nextFingerprint = results ? timetableFingerprint(results, advisory) : undefined;
 
       const message = nextFingerprint && route.fingerprint
         ? describeFingerprintChange(route.fingerprint, nextFingerprint, isChinese)
@@ -69,11 +98,10 @@ async function main() {
 
     if (changedRoutes.length > 0) {
       const title = isChinese ? "時刻表已更新" : "Timetable updated";
-      const body = changedRoutes.length === 1
-        ? `${changedRoutes[0].route.origin} → ${changedRoutes[0].route.destination}: ${changedRoutes[0].message}`
-        : (isChinese
-          ? `${changedRoutes.length} 條收藏路線的時刻表已變動。`
-          : `${changedRoutes.length} of your saved routes changed.`);
+      const changes = changedRoutes.map(({ route, message }) =>
+        `${route.origin} → ${route.destination} (${route.serviceDate || providerDateValue(route.country as Country)}): ${message}`,
+      );
+      const body = changes.join("\n");
 
       try {
         await webpush.sendNotification(

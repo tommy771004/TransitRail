@@ -2,7 +2,15 @@
 // OS support: Linux, macOS, Windows
 // Description: UK Transport for London (TfL) transit provider service supporting future date and time queries
 
-import type { JourneyLeg, SearchResponse, TransitLine, TransitResult } from "../types";
+import type {
+  JourneyLeg,
+  SearchResponse,
+  ServiceDayAdvisory,
+  ServiceDayType,
+  TransitLine,
+  TransitResult,
+} from "../types";
+import { recordError } from "./errorLog";
 
 const TFL_API_URL = "https://api.tfl.gov.uk";
 const TFL_MODES = "tube,dlr,overground,elizabeth-line";
@@ -57,6 +65,7 @@ interface TflJourneyResponse {
 
 let stationCache: { expiresAt: number; stations: string[] } | null = null;
 let lineCache: { expiresAt: number; lines: TransitLine[] } | null = null;
+const serviceDayCache = new Map<string, { first: TflJourney; last: TflJourney }>();
 
 const tflLineColors: Record<string, string> = {
   bakerloo: "#B36305",
@@ -136,6 +145,80 @@ function timeInLondon(value?: string) {
     minute: "2-digit",
     hour12: false,
   }).format(new Date(value));
+}
+
+function localDateTimeInLondon(value?: string) {
+  if (!value) return null;
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/London",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date(value));
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  if (!values.year || !values.month || !values.day || !values.hour || !values.minute) return null;
+  return {
+    date: `${values.year}-${values.month}-${values.day}`,
+    time: `${values.hour}:${values.minute}`,
+  };
+}
+
+function localMinutes(date: string, time: string) {
+  const [year, month, day] = date.split("-").map(Number);
+  const [hour, minute] = time.split(":").map(Number);
+  if (![year, month, day, hour, minute].every(Number.isFinite)) return null;
+  return Date.UTC(year, month - 1, day, hour, minute) / 60_000;
+}
+
+function serviceDayType(date: string): ServiceDayType {
+  const weekday = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/London",
+    weekday: "long",
+  }).format(new Date(`${date}T12:00:00Z`));
+  if (weekday === "Saturday") return "saturday";
+  if (weekday === "Sunday") return "sunday_holiday";
+  return "weekday";
+}
+
+function buildServiceDayAdvisory(
+  date: string,
+  selectedTime: string,
+  firstJourney: TflJourney | undefined,
+  lastJourney: TflJourney | undefined,
+): ServiceDayAdvisory {
+  const first = localDateTimeInLondon(firstJourney?.startDateTime);
+  const last = localDateTimeInLondon(lastJourney?.startDateTime);
+  const queryMinutes = localMinutes(date, selectedTime);
+  const lastMinutes = last ? localMinutes(last.date, last.time) : null;
+  const minutesToLastDeparture = queryMinutes !== null && lastMinutes !== null
+    ? lastMinutes - queryMinutes
+    : undefined;
+  const risk = minutesToLastDeparture === undefined
+    ? "unavailable"
+    : minutesToLastDeparture < 0
+      ? "missed"
+      : minutesToLastDeparture <= 15
+        ? "critical"
+        : minutesToLastDeparture <= 60
+          ? "approaching"
+          : "safe";
+
+  return {
+    coverage: first && last ? "supported" : "unavailable",
+    serviceDate: date,
+    timezone: "Europe/London",
+    serviceDayType: serviceDayType(date),
+    firstDeparture: first?.time,
+    lastDeparture: last?.time,
+    risk,
+    minutesToLastDeparture,
+    source: TFL_API_URL,
+    sourceUrl: TFL_API_URL,
+    checkedAt: new Date().toISOString(),
+  };
 }
 
 function publicTransportLegs(legs: TflLeg[]) {
@@ -274,18 +357,59 @@ export async function searchTflJourney(
       };
     }
 
-    const data = await fetchTflJson<TflJourneyResponse>(
-      tflUrl(
-        `/Journey/JourneyResults/${encodeURIComponent(resolvedOrigin.id)}/to/${encodeURIComponent(resolvedDestination.id)}`,
-        {
-          mode: TFL_MODES,
-          timeIs: "Departing",
-          journeyPreference: "LeastTime",
-          date: tflDate,
-          time: tflTime,
-        },
-      ),
-    );
+    const journeyPath = `/Journey/JourneyResults/${encodeURIComponent(resolvedOrigin.id)}/to/${encodeURIComponent(resolvedDestination.id)}`;
+    const serviceDayCacheKey = `${resolvedOrigin.id}->${resolvedDestination.id}:${date}`;
+    const journeyParams = {
+      mode: TFL_MODES,
+      timeIs: "Departing",
+      journeyPreference: "LeastTime",
+      date: tflDate,
+      time: tflTime,
+    };
+    const data = await fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, journeyParams));
+    let firstData: TflJourneyResponse | undefined;
+    let lastData: TflJourneyResponse | undefined;
+    let serviceDayAdvisory: ServiceDayAdvisory;
+    try {
+      [firstData, lastData] = await Promise.all([
+        fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, { ...journeyParams, adjustment: "TripFirst" })),
+        fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, { ...journeyParams, adjustment: "TripLast" })),
+      ]);
+      const first = firstData.journeys?.[0];
+      const last = lastData.journeys?.[0];
+      if (first && last) {
+        serviceDayCache.set(serviceDayCacheKey, { first, last });
+      }
+      serviceDayAdvisory = buildServiceDayAdvisory(date, `${tflTime.slice(0, 2)}:${tflTime.slice(2)}`, first, last);
+    } catch (error) {
+      void recordError({
+        severity: "error",
+        module: "tfl",
+        operation: "service-day.fetch",
+        errorCode: "TFL_SERVICE_DAY_FAILED",
+        error,
+        country: "united_kingdom",
+        provider: TFL_API_URL,
+        context: { origin, destination, date },
+      });
+      const cached = serviceDayCache.get(serviceDayCacheKey);
+      const fallback = cached
+        ? buildServiceDayAdvisory(
+          date,
+          `${tflTime.slice(0, 2)}:${tflTime.slice(2)}`,
+          cached.first,
+          cached.last,
+        )
+        : buildServiceDayAdvisory(date, `${tflTime.slice(0, 2)}:${tflTime.slice(2)}`, undefined, undefined);
+      serviceDayAdvisory = {
+        ...fallback,
+        coverage: cached ? "stale" : "unavailable",
+        note: cached
+          ? "The last known service-day timetable is being shown while TfL is unavailable."
+          : "TfL service-day information is temporarily unavailable.",
+        checkedAt: new Date().toISOString(),
+      };
+    }
 
     const results: TransitResult[] = (data.journeys || []).slice(0, 5).map((journey, index) => {
       const legs = journey.legs || [];
@@ -372,14 +496,25 @@ export async function searchTflJourney(
         results,
         message: results.length === 0 ? "TfL returned no journeys for this route." : undefined,
         source: TFL_API_URL,
+        serviceDayAdvisory,
       },
     };
   } catch (error) {
+    void recordError({
+      severity: "error",
+      module: "tfl",
+      operation: "journey.fetch",
+      errorCode: "TFL_JOURNEY_FAILED",
+      error,
+      country: "united_kingdom",
+      provider: TFL_API_URL,
+      context: { origin, destination, date },
+    });
     return {
       status: 502,
       body: {
         error: "Provider request failed",
-        message: error instanceof Error ? error.message : "Could not reach TfL.",
+        message: "Transit data is temporarily unavailable. Please try again later.",
         results: [],
         source: TFL_API_URL,
       },

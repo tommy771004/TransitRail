@@ -9,7 +9,7 @@ import { eq } from "drizzle-orm";
 import { findScrapedResults, loadScrapedData } from "./src/data/scraped";
 import { getCbcRates } from "./src/server/cbc";
 import { getExternalExchangeRates } from "./src/server/exchangeRates";
-import type { Country } from "./src/types";
+import type { Country, ServiceDayAdvisory } from "./src/types";
 import { db } from "./src/db";
 import { feedbacks, tnAuditLog, pushSubscriptions, type WatchedRoute } from "./src/db/schema";
 import { getStationsForCountry, getLinesForCountry } from "./src/server/catalog";
@@ -21,6 +21,7 @@ import { runTransitSearch } from "./src/server/transitSearch";
 import { timetableFingerprint } from "./src/utils/timetableChanges";
 import { recordError } from "./src/server/errorLog";
 import { sendTelemetry } from "./src/server/telemetry";
+import { serviceDayAdvisoryForWatch } from "./src/server/serviceDayWatch";
 
 dotenv.config();
 
@@ -768,7 +769,7 @@ async function logTransitSearch(
       }
       const { subscription, routes, language } = req.body as {
         subscription?: { endpoint?: string; keys?: { p256dh?: string; auth?: string } };
-        routes?: Array<{ origin?: string; destination?: string; country?: string }>;
+        routes?: Array<{ origin?: string; destination?: string; country?: string; serviceDate?: string; selectedTime?: string }>;
         language?: string;
       };
       if (!subscription?.endpoint || !subscription.keys?.p256dh || !subscription.keys?.auth) {
@@ -786,13 +787,38 @@ async function logTransitSearch(
         if (!origin || !destination || !country) continue;
         if (!countryOptions.includes(country as Country)) continue;
 
-        const today = providerDateValue(country as Country);
-        const results = findScrapedResults(country as Country, origin, destination, today);
+        const serviceDate = normalizeDate(route.serviceDate) || providerDateValue(country as Country);
+        const selectedTime = route.selectedTime && /^\d{2}:\d{2}$/.test(route.selectedTime)
+          ? route.selectedTime
+          : undefined;
+        const results = findScrapedResults(country as Country, origin, destination, serviceDate);
+        let advisory: ServiceDayAdvisory | undefined;
+        try {
+          advisory = await serviceDayAdvisoryForWatch({
+            origin,
+            destination,
+            country: country as Country,
+            serviceDate,
+            selectedTime,
+          });
+        } catch (error) {
+          await recordError({
+            severity: "warning",
+            module: "push",
+            operation: "subscription.advisory",
+            errorCode: "PUSH_ADVISORY_BASELINE_FAILED",
+            error,
+            country,
+            context: { origin, destination, serviceDate },
+          });
+        }
         cleanRoutes.push({
           origin,
           destination,
           country,
-          fingerprint: results ? timetableFingerprint(results) : undefined,
+          serviceDate,
+          selectedTime,
+          fingerprint: results ? timetableFingerprint(results, advisory) : undefined,
         });
       }
       if (cleanRoutes.length === 0) {
