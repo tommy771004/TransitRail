@@ -16,6 +16,16 @@ const riskStyles = {
 
 export function ServiceDayAdvisoryNotice({ advisory }: ServiceDayAdvisoryNoticeProps) {
   const { t } = useTranslation();
+  const formatTimestamp = (value?: string) => {
+    if (!value) return undefined;
+    const parsed = new Date(value);
+    if (!Number.isFinite(parsed.getTime())) return undefined;
+    return new Intl.DateTimeFormat(undefined, {
+      dateStyle: "medium",
+      timeStyle: "short",
+      timeZone: advisory.timezone,
+    }).format(parsed);
+  };
   const Icon = advisory.risk === "safe"
     ? CheckCircle2
     : advisory.risk === "unavailable"
@@ -78,6 +88,16 @@ export function ServiceDayAdvisoryNotice({ advisory }: ServiceDayAdvisoryNoticeP
               </a>
             ) : null}
           </p>
+          {formatTimestamp(advisory.checkedAt) ? (
+            <p className="text-[10px] font-medium opacity-60">
+              {t("service_day.checked_at", { time: formatTimestamp(advisory.checkedAt) })}
+            </p>
+          ) : null}
+          {formatTimestamp(advisory.updatedAt) ? (
+            <p className="text-[10px] font-medium opacity-60">
+              {t("service_day.updated_at", { time: formatTimestamp(advisory.updatedAt) })}
+            </p>
+          ) : null}
         </div>
       </div>
     </aside>

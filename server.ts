@@ -21,7 +21,7 @@ import { runTransitSearch } from "./src/server/transitSearch";
 import { timetableFingerprint } from "./src/utils/timetableChanges";
 import { recordError } from "./src/server/errorLog";
 import { sendTelemetry } from "./src/server/telemetry";
-import { serviceDayAdvisoryForWatch } from "./src/server/serviceDayWatch";
+import { serviceDayAdvisoryForWatch, unavailableServiceDayAdvisory } from "./src/server/serviceDayWatch";
 
 dotenv.config();
 
@@ -810,6 +810,13 @@ async function logTransitSearch(
             error,
             country,
             context: { origin, destination, serviceDate },
+          });
+          advisory = unavailableServiceDayAdvisory({
+            origin,
+            destination,
+            country: country as Country,
+            serviceDate,
+            selectedTime,
           });
         }
         cleanRoutes.push({

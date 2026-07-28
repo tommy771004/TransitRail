@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "
 import { resolve } from "node:path";
 import type { ServiceDayAdvisory, ServiceDayType } from "../types";
 import { recordError } from "./errorLog";
-import { validateServiceDayAdvisory } from "../data/serviceDayAdvisory";
+import { serviceDayRisk, validateServiceDayAdvisory, withArtifactFreshness, withSelectedQueryRisk } from "../data/serviceDayAdvisory";
 
 export const FRANCE_GTFS_URL = "https://eu.ftp.opendatasoft.com/sncf/plandata/Export_OpenData_SNCF_GTFS_NewTripId.zip";
 const FRANCE_TIMEZONE = "Europe/Paris";
@@ -34,7 +34,6 @@ export type FranceServiceDayArtifact = {
 };
 
 let feedCache: { expiresAt: number; feed: GtfsFeed } | null = null;
-const advisoryCache = new Map<string, ServiceDayAdvisory>();
 let artifactCache: FranceServiceDayArtifact | null | undefined;
 const ARTIFACT_PATH = resolve(process.cwd(), "src/data/service-day/france.json");
 
@@ -259,13 +258,7 @@ function advisoryRisk(date: string, lastDeparture: number, selectedTime?: string
       : localMinutes(now)
     : date > localDate(now) ? 0 : 24 * 60;
   const minutesToLastDeparture = lastDeparture - queryMinutes;
-  const risk = minutesToLastDeparture < 0
-    ? "missed"
-    : minutesToLastDeparture <= 15
-      ? "critical"
-      : minutesToLastDeparture <= 60
-        ? "approaching"
-        : "safe";
+  const risk = serviceDayRisk(minutesToLastDeparture);
   return { risk, minutesToLastDeparture } as const;
 }
 
@@ -373,34 +366,13 @@ export async function getFranceServiceDayAdvisory(
   date: string,
   selectedTime?: string,
 ): Promise<ServiceDayAdvisory> {
-  const cacheKey = `${origin}->${destination}:${date}`;
-  const artifactAdvisory = loadArtifact()?.routes[routeKey(origin, destination)]?.[date];
-  if (artifactAdvisory) return artifactAdvisory;
-  try {
-    const advisory = validateServiceDayAdvisory(calculateAdvisory(await loadFeed(), origin, destination, date, selectedTime));
-    if (advisory.coverage === "supported") advisoryCache.set(cacheKey, advisory);
-    return advisory;
-  } catch (error) {
-    void recordError({
-      severity: "error",
-      module: "france-gtfs",
-      operation: "service-day.fetch",
-      errorCode: "SNCF_GTFS_SERVICE_DAY_FAILED",
-      error,
-      country: "france",
-      provider: FRANCE_GTFS_URL,
-      context: { origin, destination, date },
-    });
-    const cached = advisoryCache.get(cacheKey);
-    return cached
-      ? {
-        ...cached,
-        coverage: "stale",
-        checkedAt: new Date().toISOString(),
-        note: "The last known SNCF service-day timetable is being shown while the official feed is unavailable.",
-      }
-      : buildUnavailable(date, "SNCF service-day information is temporarily unavailable.");
-  }
+  const artifact = loadArtifact();
+  const artifactAdvisory = artifact?.routes[routeKey(origin, destination)]?.[date];
+  if (artifactAdvisory) return withSelectedQueryRisk(withArtifactFreshness(artifactAdvisory, artifact?.retrievedAt), selectedTime);
+  // Journey search is deliberately artifact-only. The scheduled France
+  // scraper owns GTFS retrieval and atomic publication; a missing artifact is
+  // unavailable coverage, not permission to fetch an upstream feed per user.
+  return buildUnavailable(date, "SNCF service-day information is not available from the latest scheduled artifact.");
 }
 
 /** Collect and atomically publish the route/date artifact used by scheduled scrapes. */
@@ -428,14 +400,27 @@ export async function collectFranceServiceDayArtifact(
   artifact.sourceUpdatedAt = feed.sourceUpdatedAt || artifact.sourceUpdatedAt;
   artifact.validFrom = artifact.validFrom < date ? artifact.validFrom : date;
   artifact.validTo = artifact.validTo > date ? artifact.validTo : date;
+  let collectedRoutes = 0;
   for (const route of routes) {
     const key = routeKey(route.origin, route.destination);
     const advisory = validateServiceDayAdvisory(calculateAdvisory(feed, route.origin, route.destination, date));
     if (advisory.coverage !== "supported") {
-      throw new Error(`SNCF GTFS has no complete service for ${route.origin} → ${route.destination} on ${date}.`);
+      await recordError({
+        severity: "warning",
+        module: "france-gtfs",
+        operation: "service-day.route",
+        errorCode: "SNCF_GTFS_ROUTE_UNAVAILABLE",
+        message: `SNCF GTFS has no complete service for ${route.origin} → ${route.destination} on ${date}.`,
+        country: "france",
+        provider: FRANCE_GTFS_URL,
+        context: { origin: route.origin, destination: route.destination, date },
+      });
+      continue;
     }
     artifact.routes[key] = { ...(artifact.routes[key] || {}), [date]: advisory };
+    collectedRoutes += 1;
   }
+  if (collectedRoutes === 0) throw new Error(`SNCF GTFS collected no complete service routes for ${date}.`);
   const tempPath = `${ARTIFACT_PATH}.${process.pid}.tmp`;
   mkdirSync(resolve(ARTIFACT_PATH, ".."), { recursive: true });
   writeFileSync(tempPath, `${JSON.stringify(artifact, null, 2)}\n`, "utf8");
@@ -446,7 +431,6 @@ export async function collectFranceServiceDayArtifact(
 
 export function resetFranceGtfsCache() {
   feedCache = null;
-  advisoryCache.clear();
   artifactCache = undefined;
 }
 

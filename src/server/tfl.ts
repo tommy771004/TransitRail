@@ -10,6 +10,7 @@ import type {
   TransitLine,
   TransitResult,
 } from "../types";
+import { serviceDayRisk } from "../data/serviceDayAdvisory";
 import { recordError } from "./errorLog";
 
 const TFL_API_URL = "https://api.tfl.gov.uk";
@@ -198,13 +199,7 @@ function buildServiceDayAdvisory(
     : undefined;
   const risk = minutesToLastDeparture === undefined
     ? "unavailable"
-    : minutesToLastDeparture < 0
-      ? "missed"
-      : minutesToLastDeparture <= 15
-        ? "critical"
-        : minutesToLastDeparture <= 60
-          ? "approaching"
-          : "safe";
+    : serviceDayRisk(minutesToLastDeparture);
 
   return {
     coverage: first && last ? "supported" : "unavailable",

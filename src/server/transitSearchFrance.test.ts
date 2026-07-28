@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { existsSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { runTransitSearch } from "./transitSearch";
-import { resetFranceGtfsCache, resetFranceGtfsFeedCache } from "./franceGtfs";
+import { collectFranceServiceDayArtifact, resetFranceGtfsCache, resetFranceGtfsFeedCache } from "./franceGtfs";
 
 function zipFixture(files: Record<string, string>): Uint8Array {
   const encoder = new TextEncoder();
@@ -107,16 +108,38 @@ describe("runTransitSearch France GTFS service-day advisory", () => {
   afterEach(() => {
     vi.unstubAllGlobals();
     resetFranceGtfsCache();
+    const artifactPath = new URL("../data/service-day/france.json", import.meta.url);
+    if (existsSync(artifactPath)) unlinkSync(artifactPath);
+  });
+
+  it("does not fetch SNCF from the journey-search request when no artifact exists", async () => {
+    const fetchMock = vi.fn(async () => { throw new Error("search must not fetch SNCF"); });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const result = await runTransitSearch({
+      origin: "Paris Gare de Lyon",
+      destination: "Lyon Part-Dieu",
+      country: "france",
+      date: "2026-08-03",
+    });
+
+    expect(result.payload.serviceDayAdvisory?.coverage).toBe("unavailable");
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it("uses the official GTFS calendar, filters cancelled services, and preserves cross-midnight times", async () => {
-    vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
+    const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
       const url = String(input);
       if (url === "https://eu.ftp.opendatasoft.com/sncf/plandata/Export_OpenData_SNCF_GTFS_NewTripId.zip") {
         return new Response(gtfsFixture, { status: 200, headers: { "content-type": "application/zip" } });
       }
       throw new Error(`Unexpected France fixture request: ${url}`);
-    }));
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await collectFranceServiceDayArtifact([
+      { origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu" },
+    ], "2026-08-03");
 
     const result = await runTransitSearch({
       origin: "Paris Gare de Lyon",
@@ -138,15 +161,12 @@ describe("runTransitSearch France GTFS service-day advisory", () => {
       source: "SNCF Open Data GTFS",
       sourceUrl: "https://eu.ftp.opendatasoft.com/sncf/plandata/Export_OpenData_SNCF_GTFS_NewTripId.zip",
     }));
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
-  it("labels the last known advisory stale when a later feed download fails", async () => {
-    let calls = 0;
-    vi.stubGlobal("fetch", vi.fn(async () => {
-      calls += 1;
-      if (calls === 1) return new Response(gtfsFixture, { status: 200, headers: { "content-type": "application/zip" } });
-      throw new Error("fixture SNCF outage secret");
-    }));
+  it("keeps the last scheduled artifact when a later collection fails", async () => {
+    const fetchMock = vi.fn(async () => new Response(gtfsFixture, { status: 200, headers: { "content-type": "application/zip" } }));
+    vi.stubGlobal("fetch", fetchMock);
 
     const input = {
       origin: "Paris Gare de Lyon",
@@ -155,24 +175,89 @@ describe("runTransitSearch France GTFS service-day advisory", () => {
       date: "2026-08-03",
       time: "22:00",
     };
+    await collectFranceServiceDayArtifact([
+      { origin: input.origin, destination: input.destination },
+    ], input.date);
     const first = await runTransitSearch(input);
     expect(first.payload.serviceDayAdvisory?.coverage).toBe("supported");
 
     resetFranceGtfsFeedCache();
+    vi.stubGlobal("fetch", vi.fn(async () => { throw new Error("fixture SNCF outage secret"); }));
+    await expect(collectFranceServiceDayArtifact([
+      { origin: input.origin, destination: input.destination },
+    ], input.date)).rejects.toThrow();
     const stale = await runTransitSearch(input);
     expect(stale.payload.serviceDayAdvisory).toEqual(expect.objectContaining({
-      coverage: "stale",
+      coverage: "supported",
       firstDeparture: "08:00",
       lastDeparture: "23:50",
     }));
     expect(stale.payload.message).toBeUndefined();
   });
 
+  it("labels an old scheduled artifact stale", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(gtfsFixture, { status: 200, headers: { "content-type": "application/zip" } })));
+    await collectFranceServiceDayArtifact([
+      { origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu" },
+    ], "2026-08-03");
+    const artifactPath = new URL("../data/service-day/france.json", import.meta.url);
+    const artifact = JSON.parse(readFileSync(artifactPath, "utf8")) as { retrievedAt: string };
+    artifact.retrievedAt = "2026-07-25T00:00:00.000Z";
+    writeFileSync(artifactPath, JSON.stringify(artifact));
+    resetFranceGtfsCache();
+
+    const result = await runTransitSearch({
+      origin: "Paris Gare de Lyon",
+      destination: "Lyon Part-Dieu",
+      country: "france",
+      date: "2026-08-03",
+    });
+
+    expect(result.payload.serviceDayAdvisory?.coverage).toBe("stale");
+  });
+
+  it("recomputes risk for the selected query time from the scheduled boundaries", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(gtfsFixture, { status: 200, headers: { "content-type": "application/zip" } })));
+    await collectFranceServiceDayArtifact([
+      { origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu" },
+    ], "2026-08-03");
+
+    const result = await runTransitSearch({
+      origin: "Paris Gare de Lyon",
+      destination: "Lyon Part-Dieu",
+      country: "france",
+      date: "2026-08-03",
+      time: "23:40",
+    });
+
+    expect(result.payload.serviceDayAdvisory).toEqual(expect.objectContaining({
+      risk: "critical",
+      minutesToLastDeparture: 10,
+    }));
+  });
+
+  it("publishes valid routes when another route has no complete service", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(gtfsFixture, { status: 200, headers: { "content-type": "application/zip" } })));
+
+    const artifact = await collectFranceServiceDayArtifact([
+      { origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu" },
+      { origin: "Unknown Station", destination: "Lyon Part-Dieu" },
+    ], "2026-08-03");
+
+    expect(Object.keys(artifact.routes)).toContain("paris gare de lyon->lyon part dieu");
+    expect(Object.keys(artifact.routes)).not.toContain("unknown station->lyon part dieu");
+  });
+
   it("does not publish a partial or malformed archive as service-day coverage", async () => {
-    vi.stubGlobal("fetch", vi.fn(async () => new Response(new Uint8Array([0x01, 0x02]), {
+    const fetchMock = vi.fn(async () => new Response(new Uint8Array([0x01, 0x02]), {
       status: 200,
       headers: { "content-type": "application/zip" },
-    })));
+    }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    await expect(collectFranceServiceDayArtifact([
+      { origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu" },
+    ], "2026-08-03")).rejects.toThrow();
 
     const result = await runTransitSearch({
       origin: "Paris Gare de Lyon",
@@ -185,15 +270,12 @@ describe("runTransitSearch France GTFS service-day advisory", () => {
     expect(result.payload.serviceDayAdvisory?.coverage).toBe("unavailable");
     expect(result.payload.message).toBeUndefined();
     expect(result.payload.serviceDayAdvisory?.note).not.toContain("central directory");
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it("returns an explicit unavailable advisory even when the journey result is empty", async () => {
-    vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
-      if (String(input) === "https://eu.ftp.opendatasoft.com/sncf/plandata/Export_OpenData_SNCF_GTFS_NewTripId.zip") {
-        return new Response(gtfsFixture, { status: 200, headers: { "content-type": "application/zip" } });
-      }
-      throw new Error(`Unexpected France fixture request: ${input}`);
-    }));
+    const fetchMock = vi.fn(async () => { throw new Error("search must not fetch SNCF"); });
+    vi.stubGlobal("fetch", fetchMock);
 
     const result = await runTransitSearch({
       origin: "Unknown Station",
@@ -209,5 +291,6 @@ describe("runTransitSearch France GTFS service-day advisory", () => {
       serviceDate: "2026-08-03",
       risk: "unavailable",
     }));
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

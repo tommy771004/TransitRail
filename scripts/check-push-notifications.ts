@@ -19,7 +19,7 @@ import { providerDateValue } from "../src/data/countries";
 import { describeFingerprintChange, timetableFingerprint } from "../src/utils/timetableChanges";
 import type { Country, ServiceDayAdvisory } from "../src/types";
 import { recordError } from "../src/server/errorLog";
-import { serviceDayAdvisoryForWatch } from "../src/server/serviceDayWatch";
+import { serviceDayAdvisoryForWatch, unavailableServiceDayAdvisory } from "../src/server/serviceDayWatch";
 
 async function main() {
   const vapidPublicKey = process.env.VAPID_PUBLIC_KEY;
@@ -67,6 +67,13 @@ async function main() {
           error,
           country: route.country,
           context: { origin: route.origin, destination: route.destination, serviceDate },
+        });
+        advisory = unavailableServiceDayAdvisory({
+          origin: route.origin,
+          destination: route.destination,
+          country: route.country as Country,
+          serviceDate,
+          selectedTime: route.selectedTime,
         });
       }
 

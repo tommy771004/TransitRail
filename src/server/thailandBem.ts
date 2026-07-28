@@ -2,11 +2,10 @@ import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "
 import { resolve } from "node:path";
 import type { ServiceDayAdvisory, ServiceDayType } from "../types";
 import { recordError } from "./errorLog";
-import { validateServiceDayAdvisory } from "../data/serviceDayAdvisory";
+import { serviceDayRisk, validateServiceDayAdvisory, withArtifactFreshness, withSelectedQueryRisk } from "../data/serviceDayAdvisory";
 
 export const THAILAND_BEM_URL = "https://metro.bemplc.co.th/Fare-Calculation?lang=en";
 const THAILAND_TIMEZONE = "Asia/Bangkok";
-const FEED_CACHE_TTL_MS = 6 * 60 * 60 * 1000;
 const ARTIFACT_PATH = resolve(process.cwd(), "src/data/service-day/thailand.json");
 
 type BemPage = {
@@ -28,9 +27,7 @@ export type ThailandServiceDayArtifact = {
   routes: Record<string, Record<string, ServiceDayAdvisory>>;
 };
 
-let pageCache: { expiresAt: number; html: string; updatedAt?: string } | null = null;
 let artifactCache: ThailandServiceDayArtifact | null | undefined;
-const advisoryCache = new Map<string, ServiceDayAdvisory>();
 
 function decodeEntities(value: string) {
   return value
@@ -121,13 +118,7 @@ function riskFor(date: string, lastDeparture: string, selectedTime?: string) {
       : localMinutes(now)
     : date > today ? 0 : 24 * 60;
   const minutesToLastDeparture = lastMinutes - queryMinutes;
-  const risk = minutesToLastDeparture < 0
-    ? "missed"
-    : minutesToLastDeparture <= 15
-      ? "critical"
-      : minutesToLastDeparture <= 60
-        ? "approaching"
-        : "safe";
+  const risk = serviceDayRisk(minutesToLastDeparture);
   return { risk, minutesToLastDeparture } as const;
 }
 
@@ -214,40 +205,16 @@ function loadArtifact(): ThailandServiceDayArtifact | null {
   }
 }
 
-async function fetchBemHtml() {
-  if (pageCache && pageCache.expiresAt > Date.now()) return pageCache;
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 15_000);
-  try {
-    const response = await fetch(THAILAND_BEM_URL, { signal: controller.signal, headers: { Accept: "text/html", "User-Agent": "TransitRail/1.0" } });
-    if (!response.ok) throw new Error(`BEM returned HTTP ${response.status}.`);
-    const html = await response.text();
-    pageCache = { html, expiresAt: Date.now() + FEED_CACHE_TTL_MS, updatedAt: response.headers.get("last-modified") || undefined };
-    return pageCache;
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
 export async function getThailandServiceDayAdvisory(origin: string, destination: string, date: string, selectedTime?: string): Promise<ServiceDayAdvisory> {
-  const cachedArtifact = loadArtifact()?.routes[routeKey(origin, destination)]?.[date];
-  if (cachedArtifact) return cachedArtifact;
+  const artifact = loadArtifact();
+  const cachedArtifact = artifact?.routes[routeKey(origin, destination)]?.[date];
+  if (cachedArtifact) return withSelectedQueryRisk(withArtifactFreshness(cachedArtifact, artifact?.retrievedAt), selectedTime);
   if (routeKey(origin, destination) !== "sukhumvit->hua lamphong") {
     return unavailable(date, "The official BEM page currently covers only the Blue Line Sukhumvit → Hua Lamphong direction; this route is not covered.");
   }
-  const cacheKey = `${origin}->${destination}:${date}`;
-  try {
-    const page = await fetchBemHtml();
-    const advisory = validateServiceDayAdvisory(advisoryFromHtml(page.html, origin, destination, date, selectedTime, page.updatedAt));
-    if (advisory.coverage !== "unavailable") advisoryCache.set(cacheKey, advisory);
-    return advisory;
-  } catch (error) {
-    void recordError({ severity: "error", module: "thailand-bem", operation: "service-day.fetch", errorCode: "BEM_SERVICE_DAY_FAILED", error, country: "thailand", provider: THAILAND_BEM_URL, context: { origin, destination, date } });
-    const cached = advisoryCache.get(cacheKey);
-    return cached
-      ? { ...cached, coverage: "stale", checkedAt: new Date().toISOString(), note: "The last known BEM first/last timetable is being shown while the official page is unavailable." }
-      : unavailable(date, "BEM first/last train information is temporarily unavailable.");
-  }
+  // Journey search is deliberately artifact-only. Playwright retrieval is
+  // owned by the scheduled Thailand scraper, not by a traveler request.
+  return unavailable(date, "BEM service-day information is not available from the latest scheduled artifact.");
 }
 
 export async function collectThailandServiceDayArtifact(
@@ -290,11 +257,5 @@ export async function collectThailandServiceDayArtifact(
 }
 
 export function resetThailandBemCache() {
-  pageCache = null;
   artifactCache = undefined;
-  advisoryCache.clear();
-}
-
-export function resetThailandBemPageCache() {
-  pageCache = null;
 }

@@ -6,6 +6,7 @@ import type {
   TransitResult,
 } from "../types";
 import { recordError } from "./errorLog";
+import { serviceDayRisk } from "../data/serviceDayAdvisory";
 
 const MBTA_API_URL = "https://api-v3.mbta.com";
 const RAIL_ROUTE_TYPES = "0,1,2";
@@ -212,13 +213,7 @@ function buildMbtaAdvisory(
     : undefined;
   const risk = minutesToLastDeparture === undefined
     ? "unavailable"
-    : minutesToLastDeparture < 0
-      ? "missed"
-      : minutesToLastDeparture <= 15
-        ? "critical"
-        : minutesToLastDeparture <= 60
-          ? "approaching"
-          : "safe";
+    : serviceDayRisk(minutesToLastDeparture);
 
   return {
     coverage: first && last ? "supported" : "unavailable",

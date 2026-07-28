@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { validateServiceDayAdvisory } from "./serviceDayAdvisory";
+import { serviceDayRisk, validateServiceDayAdvisory } from "./serviceDayAdvisory";
 
 const valid = {
   coverage: "supported",
@@ -25,5 +25,13 @@ describe("validateServiceDayAdvisory", () => {
     expect(() => validateServiceDayAdvisory({ ...valid, serviceDate: "2026-02-30" })).toThrow(/service date/);
     expect(() => validateServiceDayAdvisory({ ...valid, firstDeparture: "99:00" })).toThrow(/first departure/);
     expect(() => validateServiceDayAdvisory({ ...valid, sourceUrl: "javascript:alert(1)" })).toThrow(/unsafe/);
+  });
+});
+
+describe("serviceDayRisk", () => {
+  it("uses the supplied configurable thresholds", () => {
+    expect(serviceDayRisk(25, { criticalMinutes: 30, approachingMinutes: 90 })).toBe("critical");
+    expect(serviceDayRisk(60, { criticalMinutes: 30, approachingMinutes: 90 })).toBe("approaching");
+    expect(serviceDayRisk(-1, { criticalMinutes: 30, approachingMinutes: 90 })).toBe("missed");
   });
 });
