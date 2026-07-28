@@ -5,7 +5,7 @@
 import { ArrowLeftRight, CalendarDays, Clock3, DatabaseZap, Star, Search, MapPin, History, ChevronDown, Loader2, Navigation, Pin } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { countryConfig, countryOptions, providerDateValue, countryThemes, countryFlags } from "../data/countries";
+import { countryConfig, countryOptions, providerDateValue, providerDateValues, countryThemes, countryFlags } from "../data/countries";
 import type { Country, SearchHistoryItem, SearchParams, FavoriteRoute } from "../types";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel } from "../utils/stationLabel";
@@ -23,22 +23,7 @@ const getDayLabel = (date: Date, offset: number, t: any) => {
     t("days.fri", { defaultValue: "週五" }),
     t("days.sat", { defaultValue: "週六" }),
   ];
-  return days[date.getDay()];
-};
-
-const generateDates = (start: Date, count: number) => {
-  return Array.from({ length: count }).map((_, i) => {
-    const d = new Date(start);
-    d.setDate(start.getDate() + i);
-    return d;
-  });
-};
-
-const formatDateValue = (date: Date) => {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
+  return days[date.getUTCDay()];
 };
 
 interface SearchFormProps {
@@ -414,15 +399,15 @@ export function SearchForm({
                 </div>
                 
                 <div className="flex gap-2.5 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory hide-scrollbar">
-                  {generateDates(new Date(), 14).map((d, idx) => {
-                    const dateValue = formatDateValue(d);
+                  {providerDateValues(country, 14).map((dateValue, idx) => {
+                    const d = new Date(`${dateValue}T12:00:00Z`);
                     const isSelected = date === dateValue;
                     const monthStr = i18n.language === "zh-TW" 
-                      ? `${String(d.getMonth() + 1).padStart(2, "0")}月`
-                      : d.toLocaleString("en-US", { month: "short" });
+                      ? `${String(d.getUTCMonth() + 1).padStart(2, "0")}月`
+                      : new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "UTC" }).format(d);
                     const dayStr = i18n.language === "zh-TW"
-                      ? `${String(d.getDate()).padStart(2, "0")}日`
-                      : String(d.getDate()).padStart(2, "0");
+                      ? `${String(d.getUTCDate()).padStart(2, "0")}日`
+                      : String(d.getUTCDate()).padStart(2, "0");
                     const label = getDayLabel(d, idx, t);
                     
                     return (
@@ -458,6 +443,9 @@ export function SearchForm({
                     <Clock3 className="h-4 w-4 text-slate-400" />
                     <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                       {t("search.depart_after", { defaultValue: "最早出發時間" })}
+                    </span>
+                    <span className="text-[10px] font-medium normal-case tracking-normal text-slate-400 dark:text-slate-500">
+                      {t("search.market_time", { timeZone: config.timeZone, defaultValue: `${config.timeZone} local time` })}
                     </span>
                   </div>
                   <label className="flex items-center gap-1.5 rounded-lg bg-slate-100 px-2 py-1 font-mono text-[11px] font-bold text-slate-600 dark:bg-slate-800 dark:text-slate-300">

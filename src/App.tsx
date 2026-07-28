@@ -26,7 +26,7 @@ import { describeTimetableChange } from "./utils/timetableChanges";
 import { RouteServiceOverview } from "./components/RouteServiceOverview";
 import { ServiceDayAdvisoryNotice } from "./components/ServiceDayAdvisoryNotice";
 import { get, set } from "idb-keyval";
-import { countryConfig, providerDateValue, countryThemes, countryFlags, countryOptions } from "./data/countries";
+import { countryConfig, providerDateTimeValue, providerDateValue, countryThemes, countryFlags, countryOptions } from "./data/countries";
 import type {
   AppAlert,
   AppView,
@@ -858,10 +858,8 @@ export default function App() {
     if (time && /^\d{2}:\d{2}$/.test(time)) {
       queryParams.time = time;
     } else if (date === todayStr) {
-      const nowInTz = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }));
-      nowInTz.setHours(nowInTz.getHours() - 1);
-      const queryTime = `${String(nowInTz.getHours()).padStart(2, '0')}:${String(nowInTz.getMinutes()).padStart(2, '0')}`;
-      queryParams.time = queryTime;
+      const implicitTime = providerDateTimeValue(country);
+      if (implicitTime.date === date) queryParams.time = implicitTime.time;
     }
     const query = new URLSearchParams(queryParams).toString();
     const url = `/api/transit/search?${query}`;

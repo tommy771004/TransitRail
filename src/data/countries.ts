@@ -363,15 +363,44 @@ export const allCurrencies = [
   "ILS", "CZK", "HUF", "RON",
 ] as const;
 
-export function providerDateValue(country: Country) {
+export function providerDateValue(country: Country, now = new Date()) {
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: countryConfig[country].timeZone,
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-  }).formatToParts(new Date());
+  }).formatToParts(now);
   const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
   return `${values.year}-${values.month}-${values.day}`;
+}
+
+function addDateValueDays(dateValue: string, days: number) {
+  const [year, month, day] = dateValue.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day + days));
+  return [date.getUTCFullYear(), String(date.getUTCMonth() + 1).padStart(2, "0"), String(date.getUTCDate()).padStart(2, "0")].join("-");
+}
+
+/** Consecutive calendar dates in the transit market's local timezone. */
+export function providerDateValues(country: Country, count: number, now = new Date()) {
+  const first = providerDateValue(country, now);
+  return Array.from({ length: Math.max(0, count) }, (_, index) => addDateValueDays(first, index));
+}
+
+/** Current market-local clock, optionally shifted earlier for departure search. */
+export function providerDateTimeValue(country: Country, now = new Date(), offsetMinutes = -60) {
+  const adjusted = new Date(now.getTime() + offsetMinutes * 60_000);
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: countryConfig[country].timeZone,
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    hourCycle: "h23",
+  }).formatToParts(adjusted);
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return {
+    date: providerDateValue(country, adjusted),
+    time: `${values.hour}:${values.minute}`,
+  };
 }
 
 export const countryThemes: Record<Country, {
