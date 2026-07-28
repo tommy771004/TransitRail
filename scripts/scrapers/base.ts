@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import { chromium } from "playwright";
 import type { ScrapedRoute, ScrapedRouteData, ScraperAdapter } from "./types";
+import { recordError } from "../../src/server/errorLog";
 
 const DATA_DIR = resolve("src/data/scraped");
 
@@ -46,12 +47,39 @@ export abstract class BaseScraper implements ScraperAdapter {
         this.saveRoute(data, options);
       } catch (error) {
         console.error(`  ✗ ${route.origin} → ${route.destination} FAILED:`, error instanceof Error ? error.message : error);
+        await recordError({
+          severity: "error",
+          module: "scraper",
+          operation: "route.scrape",
+          errorCode: "SCRAPER_ROUTE_FAILED",
+          error,
+          country: this.country,
+          provider: this.name,
+          context: {
+            origin: route.origin,
+            destination: route.destination,
+            date,
+            usesBrowser: this.usesBrowser,
+          },
+        });
       } finally {
         if (page) await page.close().catch(() => {});
       }
     }
 
     if (browser) await browser.close();
+    if (results.length === 0 && this.routes.length > 0) {
+      await recordError({
+        severity: "critical",
+        module: "scraper",
+        operation: "country.scrape",
+        errorCode: "SCRAPER_COUNTRY_EMPTY",
+        message: `No routes were refreshed for ${this.country}.`,
+        country: this.country,
+        provider: this.name,
+        context: { date, routeCount: this.routes.length },
+      });
+    }
     return results;
   }
 

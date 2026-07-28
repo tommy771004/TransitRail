@@ -11,6 +11,8 @@ import {
   varchar,
   jsonb
 } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import { uniqueIndex } from "drizzle-orm/pg-core";
 
 export const feedbacks = pgTable("feedbacks", {
   id: serial("id").primaryKey(),
@@ -82,3 +84,44 @@ export const pushSubscriptions = pgTable("push_subscriptions", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+export type ErrorLogSeverity = "warning" | "error" | "critical";
+export type ErrorLogStatus = "open" | "resolved" | "ignored";
+
+/**
+ * Server-side operational failures. Repeated open incidents with the same
+ * fingerprint are aggregated once per UTC day; resolved/ignored incidents
+ * remain immutable history and a recurrence opens a new row.
+ */
+export const errorLogs = pgTable(
+  "error_log",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    fingerprint: text("fingerprint").notNull(),
+    occurrenceDate: date("occurrence_date").notNull(),
+    severity: varchar("severity", { length: 20 }).$type<ErrorLogSeverity>().notNull(),
+    status: varchar("status", { length: 20 }).$type<ErrorLogStatus>().notNull().default("open"),
+    module: varchar("module", { length: 120 }).notNull(),
+    operation: varchar("operation", { length: 160 }).notNull(),
+    errorCode: varchar("error_code", { length: 160 }),
+    message: text("message").notNull(),
+    stack: text("stack"),
+    country: varchar("country", { length: 80 }),
+    provider: varchar("provider", { length: 200 }),
+    httpStatus: integer("http_status"),
+    occurrenceCount: integer("occurrence_count").notNull().default(1),
+    firstContext: jsonb("first_context").$type<Record<string, unknown>>(),
+    lastContext: jsonb("last_context").$type<Record<string, unknown>>(),
+    firstOccurredAt: timestamp("first_occurred_at", { withTimezone: true }).notNull(),
+    lastOccurredAt: timestamp("last_occurred_at", { withTimezone: true }).notNull(),
+    resolvedAt: timestamp("resolved_at", { withTimezone: true }),
+    resolutionNote: text("resolution_note"),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("error_log_open_fingerprint_day_uq")
+      .on(table.fingerprint, table.occurrenceDate)
+      .where(sql`${table.status} = 'open'`),
+  ],
+);

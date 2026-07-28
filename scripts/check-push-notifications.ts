@@ -18,6 +18,7 @@ import { findScrapedResults, loadScrapedData } from "../src/data/scraped";
 import { providerDateValue } from "../src/data/countries";
 import { describeFingerprintChange, timetableFingerprint } from "../src/utils/timetableChanges";
 import type { Country } from "../src/types";
+import { recordError } from "../src/server/errorLog";
 
 async function main() {
   const vapidPublicKey = process.env.VAPID_PUBLIC_KEY;
@@ -91,6 +92,16 @@ async function main() {
           subscriptionRemoved = true;
         } else {
           console.warn(`[push] Failed to notify ${subscription.endpoint.slice(0, 40)}...:`, error?.message || error);
+          await recordError({
+            severity: "error",
+            module: "push",
+            operation: "notification.send",
+            errorCode: "PUSH_DELIVERY_FAILED",
+            error,
+            httpStatus: typeof error?.statusCode === "number" ? error.statusCode : undefined,
+            // Never store the subscription endpoint or its encryption keys.
+            context: { watchedRouteCount: watchedRoutes.length, changedRouteCount: changedRoutes.length },
+          });
         }
       }
     }
@@ -116,5 +127,13 @@ async function main() {
 
 main().catch((error) => {
   console.error("[push] Check run failed:", error);
-  process.exitCode = 1;
+  void recordError({
+    severity: "critical",
+    module: "push",
+    operation: "notification-check.run",
+    errorCode: "PUSH_CHECK_FATAL",
+    error,
+  }).finally(() => {
+    process.exitCode = 1;
+  });
 });

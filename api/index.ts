@@ -39,7 +39,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     res.end(
       JSON.stringify({
         error: "Server initialization failed",
-        detail: error instanceof Error ? error.stack || error.message : String(error),
+        message: "The service is temporarily unavailable. Please try again later.",
       }),
     );
   }

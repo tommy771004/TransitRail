@@ -5,7 +5,6 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-import { createHmac, randomUUID } from "node:crypto";
 import { eq } from "drizzle-orm";
 import { findScrapedResults, loadScrapedData } from "./src/data/scraped";
 import { getCbcRates } from "./src/server/cbc";
@@ -20,6 +19,8 @@ import { getTransitSituations } from "./src/server/situations";
 import { countryOptions, providerDateValue } from "./src/data/countries";
 import { runTransitSearch } from "./src/server/transitSearch";
 import { timetableFingerprint } from "./src/utils/timetableChanges";
+import { recordError } from "./src/server/errorLog";
+import { sendTelemetry } from "./src/server/telemetry";
 
 dotenv.config();
 
@@ -27,50 +28,6 @@ const app = express();
 
 loadScrapedData();
 app.use(express.json());
-
-type TelemetryProperties = Record<string, string | number | boolean | null>;
-
-/**
- * Send only server-generated, non-identifying product events to the Admin Console.
- * If the optional telemetry environment variables are absent, TransitRail keeps working.
- */
-async function sendTelemetry(name: string, properties: TelemetryProperties) {
-  const url = process.env.TELEMETRY_INGEST_URL;
-  const project = process.env.TELEMETRY_PROJECT_KEY;
-  const secret = process.env.TELEMETRY_INGEST_KEY;
-  if (!url || !project || !secret) return;
-
-  const rawBody = JSON.stringify({
-    events: [
-      {
-        id: randomUUID(),
-        name,
-        source: "server",
-        occurredAt: new Date().toISOString(),
-        properties,
-      },
-    ],
-  });
-  const timestamp = Math.floor(Date.now() / 1000).toString();
-  const signature = `sha256=${createHmac("sha256", secret).update(`${timestamp}.`).update(rawBody).digest("hex")}`;
-
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-telemetry-project": project,
-        "x-telemetry-timestamp": timestamp,
-        "x-telemetry-signature": signature,
-      },
-      body: rawBody,
-      signal: AbortSignal.timeout(4_000),
-    });
-    if (!response.ok) console.warn(`[telemetry] ${name} rejected: ${response.status}`);
-  } catch (error) {
-    console.warn("[telemetry] delivery failed:", error instanceof Error ? error.message : error);
-  }
-}
 
 function eventGroup(value: string | undefined) {
   if (value?.startsWith("station.")) return "station";
@@ -285,13 +242,55 @@ async function logTransitSearch(
     const countryValue = typeof country === "string" ? country : undefined;
     const timeValue = typeof time === "string" ? time : undefined;
 
-    const { statusCode, payload } = await runTransitSearch({
-      origin,
-      destination,
-      date,
-      country: countryValue,
-      time: timeValue,
-    });
+    let searchResult;
+    try {
+      searchResult = await runTransitSearch({
+        origin,
+        destination,
+        date,
+        country: countryValue,
+        time: timeValue,
+      });
+    } catch (error) {
+      const receipt = await recordError({
+        severity: "error",
+        module: "transit-search",
+        operation: "journey.search",
+        errorCode: "SEARCH_UNEXPECTED_FAILURE",
+        error,
+        country: countryValue,
+        httpStatus: 500,
+        context: { origin, destination, date, time: timeValue },
+      });
+      return res.status(500).json({
+        error: "Search failed",
+        message: "Transit data is temporarily unavailable. Please try again later.",
+        referenceId: receipt.id,
+        results: [],
+      });
+    }
+
+    const { statusCode, payload } = searchResult;
+
+    if (statusCode === 404 || statusCode === 422 || statusCode >= 500) {
+      const receipt = await recordError({
+        severity: statusCode >= 500 ? "error" : "warning",
+        module: "transit-search",
+        operation: "journey.search",
+        errorCode: payload.error,
+        message: payload.message || payload.error || "Transit search returned no usable result.",
+        country: countryValue,
+        provider: payload.source,
+        httpStatus: statusCode,
+        context: { origin, destination, date, time: timeValue },
+      });
+      if (statusCode >= 500) payload.referenceId = receipt.id;
+    }
+
+    // Provider details belong in error_log, never in a browser response.
+    if (statusCode >= 500) {
+      payload.message = "Transit data is temporarily unavailable. Please try again later.";
+    }
 
     await logTransitSearch(req, {
       origin,
@@ -304,6 +303,15 @@ async function logTransitSearch(
       resultCount: payload.results.length,
     }).catch((error) => {
       console.error("[audit] Failed to record transit search:", error);
+      void recordError({
+        severity: "error",
+        module: "audit",
+        operation: "transit-search.insert",
+        errorCode: "AUDIT_INSERT_FAILED",
+        error,
+        country: countryValue,
+        context: { origin, destination, date },
+      });
     });
 
     return res.status(statusCode).json(payload);
@@ -352,6 +360,15 @@ async function logTransitSearch(
       geoAccuracy: parseDecimal(body?.accuracy),
     }).catch((error) => {
       console.error("[audit] Failed to record transit event:", error);
+      void recordError({
+        severity: "error",
+        module: "audit",
+        operation: "transit-action.insert",
+        errorCode: "AUDIT_INSERT_FAILED",
+        error,
+        country: countryValue,
+        context: { event: eventValue },
+      });
     });
     void sendTelemetry("transit.action.recorded", {
       action_group: eventGroup(eventValue),
@@ -367,6 +384,7 @@ async function logTransitSearch(
     const countryValue = typeof country === "string" ? country : undefined;
     const queryValue = typeof q === "string" ? q.trim() || undefined : undefined;
     let statusCode = 200;
+    let providerError: unknown;
     let payload: {
       stations: string[];
       source?: string;
@@ -387,12 +405,26 @@ async function logTransitSearch(
         };
       } else {
         statusCode = 502;
+        providerError = error;
         payload = {
           error: "Provider request failed",
-          message: error instanceof Error ? error.message : "Could not fetch stations.",
+          message: "Station data is temporarily unavailable. Please try again later.",
           stations: [],
         };
       }
+    }
+
+    if (statusCode >= 500) {
+      await recordError({
+        severity: "error",
+        module: "station-catalog",
+        operation: queryValue ? "station.search" : "station.fetch",
+        errorCode: "STATION_PROVIDER_FAILED",
+        error: providerError,
+        country: countryValue,
+        httpStatus: statusCode,
+        context: { query: queryValue },
+      });
     }
 
     await insertAuditLog(req, {
@@ -410,6 +442,15 @@ async function logTransitSearch(
       resultCount: payload.stations.length,
     }).catch((error) => {
       console.error("[audit] Failed to record station catalog access:", error);
+      void recordError({
+        severity: "error",
+        module: "audit",
+        operation: "station-catalog.insert",
+        errorCode: "AUDIT_INSERT_FAILED",
+        error,
+        country: countryValue,
+        context: { query: queryValue },
+      });
     });
     void sendTelemetry("station.catalog.completed", {
       has_country: Boolean(countryValue),
@@ -428,6 +469,7 @@ async function logTransitSearch(
     const longitudeValue = parseDecimal(lng);
     const accuracyValue = parseDecimal(accuracy);
     let statusCode = 200;
+    let lookupError: unknown;
     let payload: {
       station?: string;
       distanceKm?: number;
@@ -459,9 +501,25 @@ async function logTransitSearch(
         }
       } catch (e) {
         console.error(e);
+        lookupError = e;
         statusCode = 500;
         payload = { error: "Failed to determine nearest station" };
       }
+    }
+
+    if (statusCode === 404 || statusCode >= 500) {
+      await recordError({
+        severity: statusCode >= 500 ? "error" : "warning",
+        module: "station-catalog",
+        operation: "station.nearest",
+        errorCode: payload.error,
+        error: lookupError,
+        message: payload.error,
+        country: countryValue,
+        httpStatus: statusCode,
+        // Coordinates are intentionally excluded from error_log.
+        context: { hasCoordinates: latitudeValue !== undefined && longitudeValue !== undefined },
+      });
     }
 
     await insertAuditLog(req, {
@@ -480,6 +538,14 @@ async function logTransitSearch(
       geoAccuracy: accuracyValue,
     }).catch((error) => {
       console.error("[audit] Failed to record nearest-station lookup:", error);
+      void recordError({
+        severity: "error",
+        module: "audit",
+        operation: "station-nearest.insert",
+        errorCode: "AUDIT_INSERT_FAILED",
+        error,
+        country: countryValue,
+      });
     });
     void sendTelemetry("station.nearest.completed", {
       has_country: Boolean(countryValue),
@@ -533,6 +599,15 @@ async function logTransitSearch(
       }
     } catch (e) {
       console.warn("CBC rates unavailable, falling back:", e);
+      await recordError({
+        severity: "warning",
+        module: "exchange-rates",
+        operation: "cbc.fetch",
+        errorCode: "CBC_FALLBACK",
+        error: e,
+        provider: "Central Bank of Taiwan",
+        context: { base },
+      });
     }
 
     const externalRates = await getExternalExchangeRates(base);
@@ -546,6 +621,15 @@ async function logTransitSearch(
     }
 
     console.warn("All exchange-rate providers unavailable; refusing to return stale static rates.");
+    await recordError({
+      severity: "error",
+      module: "exchange-rates",
+      operation: "rates.fetch",
+      errorCode: "ALL_RATE_PROVIDERS_UNAVAILABLE",
+      message: "All exchange-rate providers returned no usable data.",
+      httpStatus: 503,
+      context: { base },
+    });
     res.set({
       "Cache-Control": "no-store",
       "X-Rate-Source": "unavailable",
@@ -581,9 +665,18 @@ async function logTransitSearch(
             : undefined;
       return res.json(source ? { lines, source } : { lines });
     } catch (error) {
+      await recordError({
+        severity: "error",
+        module: "station-catalog",
+        operation: "lines.fetch",
+        errorCode: "LINE_PROVIDER_FAILED",
+        error,
+        country,
+        httpStatus: 502,
+      });
       return res.status(502).json({
         error: "Provider request failed",
-        message: error instanceof Error ? error.message : "Could not fetch lines.",
+        message: "Line data is temporarily unavailable. Please try again later.",
         lines: [],
       });
     }
@@ -645,6 +738,15 @@ async function logTransitSearch(
       res.json({ success: true });
     } catch (error) {
       console.error("Failed to save feedback", error);
+      await recordError({
+        severity: "error",
+        module: "feedback",
+        operation: "feedback.insert",
+        errorCode: "FEEDBACK_INSERT_FAILED",
+        error,
+        httpStatus: 500,
+        context: { hasCategory: Boolean(req.body?.category), hasContent: Boolean(req.body?.content) },
+      });
       res.status(500).json({ error: "Failed to save feedback." });
     }
   });
@@ -720,6 +822,15 @@ async function logTransitSearch(
       res.json({ success: true, watching: cleanRoutes.length });
     } catch (error) {
       console.error("Failed to save push subscription", error);
+      await recordError({
+        severity: "error",
+        module: "push",
+        operation: "subscription.upsert",
+        errorCode: "PUSH_SUBSCRIPTION_SAVE_FAILED",
+        error,
+        httpStatus: 500,
+        context: { routeCount: Array.isArray(req.body?.routes) ? req.body.routes.length : 0 },
+      });
       res.status(500).json({ error: "Failed to save push subscription." });
     }
   });
@@ -737,6 +848,14 @@ async function logTransitSearch(
       res.json({ success: true });
     } catch (error) {
       console.error("Failed to remove push subscription", error);
+      await recordError({
+        severity: "error",
+        module: "push",
+        operation: "subscription.delete",
+        errorCode: "PUSH_SUBSCRIPTION_DELETE_FAILED",
+        error,
+        httpStatus: 500,
+      });
       res.status(500).json({ error: "Failed to remove push subscription." });
     }
   });
@@ -851,6 +970,45 @@ function generateShareCardSvg(trip: ShareCardPayload): string {
   <text x="76" y="585" fill="#ccfbf1" fill-opacity=".8" font-size="18" font-family="system-ui, sans-serif">Confirm times with the operator before travelling.</text>
 </svg>`;
 }
+
+// Final API safety net. Expected malformed JSON is a 400 and stays out of
+// error_log; unexpected server failures receive a private incident record and
+// expose only a safe reference ID to the caller.
+app.use((
+  error: unknown,
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  if (res.headersSent) {
+    next(error);
+    return;
+  }
+
+  const status = typeof (error as { status?: unknown })?.status === "number"
+    ? (error as { status: number }).status
+    : 500;
+  if (status < 500) {
+    res.status(status).json({ error: "Invalid request." });
+    return;
+  }
+
+  void recordError({
+    severity: "error",
+    module: "http",
+    operation: "request.unhandled",
+    errorCode: "UNHANDLED_REQUEST_ERROR",
+    error,
+    httpStatus: status,
+    context: { path: req.path, method: req.method },
+  }).then((receipt) => {
+    res.status(status).json({
+      error: "Internal server error",
+      message: "The service is temporarily unavailable. Please try again later.",
+      referenceId: receipt.id,
+    });
+  });
+});
 
 
 async function startServer() {

@@ -13,6 +13,7 @@ import { searchMbtaJourney } from "./mbta";
 import { searchBelgiumJourney } from "./belgium";
 import { searchNorwayJourney } from "./norway";
 import { searchSwissJourney } from "./swiss";
+import { recordError } from "./errorLog";
 
 export type TransitSearchInput = {
   origin: string;
@@ -25,6 +26,8 @@ export type TransitSearchInput = {
 export type TransitSearchPayload = SearchResponse & {
   error?: string;
   message?: string;
+  /** Safe support reference for a server-side error_log row. */
+  referenceId?: string;
 };
 
 export type TransitSearchResult = {
@@ -183,6 +186,15 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
       }
     } catch (e) {
       console.error(e);
+      await recordError({
+        severity: "warning",
+        module: "transit-search",
+        operation: "results.enrich-lines",
+        errorCode: "RESULT_ENRICHMENT_FAILED",
+        error: e,
+        country: resolvedCountry,
+        context: { origin, destination, date },
+      });
     }
   }
 

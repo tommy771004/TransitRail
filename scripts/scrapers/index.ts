@@ -3,6 +3,7 @@ import { automatedScrapeCountries } from "../../src/data/countryCapability";
 import { syncScrapedMetadata } from "./metadata";
 import { syncMalaysiaStationCatalog } from "./malaysia";
 import { createTimetableScrapers, scraperDisplayNames } from "./registry";
+import { recordError } from "../../src/server/errorLog";
 
 export async function runAllScrapers(dates: string | string[]): Promise<void> {
   const dateList = Array.isArray(dates) ? dates : [dates];
@@ -16,6 +17,15 @@ export async function runAllScrapers(dates: string | string[]): Promise<void> {
     // Keep the last committed catalog when data.gov.my is temporarily unavailable;
     // this must not block timetable refreshes for countries with schedule feeds.
     console.warn(`  Malaysia station catalog refresh failed: ${error instanceof Error ? error.message : error}`);
+    await recordError({
+      severity: "warning",
+      module: "scraper",
+      operation: "malaysia.catalog-sync",
+      errorCode: "MALAYSIA_CATALOG_FALLBACK",
+      error,
+      country: "malaysia",
+      provider: "data.gov.my",
+    });
   }
 
   const scraperNames = scraperDisplayNames(scrapers);
@@ -33,8 +43,24 @@ export async function runAllScrapers(dates: string | string[]): Promise<void> {
       console.log(`\n--- ${scraper.name} (${scraper.country}) ---`);
       console.log(`  Routes to scrape: ${scraper.routes.length}`);
 
-      const results = await scraper.runAll(date, { keepDates: dateList });
-      scraper.saveMetadata(results);
+      let results;
+      try {
+        results = await scraper.runAll(date, { keepDates: dateList });
+        scraper.saveMetadata(results);
+      } catch (error) {
+        await recordError({
+          severity: "critical",
+          module: "scraper",
+          operation: "country.run",
+          errorCode: "SCRAPER_COUNTRY_RUN_FAILED",
+          error,
+          country: scraper.country,
+          provider: scraper.name,
+          context: { date, routeCount: scraper.routes.length },
+        });
+        console.error(`  ${scraper.country} scraper aborted:`, error instanceof Error ? error.message : error);
+        continue;
+      }
 
       const total = results.reduce((acc: number, r: { results: unknown[] }) => acc + r.results.length, 0);
       console.log(`  Done: ${results.length}/${scraper.routes.length} routes, ${total} results saved`);

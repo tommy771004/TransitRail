@@ -1,4 +1,5 @@
 import { runAllScrapers } from "./scrapers";
+import { recordError } from "../src/server/errorLog";
 
 const SCRAPE_WINDOW_DAYS = 7;
 const DEFAULT_TIME_ZONE = "Asia/Taipei";
@@ -47,5 +48,13 @@ async function main() {
 
 main().catch((error) => {
   console.error("Fatal error:", error);
-  process.exit(1);
+  void recordError({
+    severity: "critical",
+    module: "scraper",
+    operation: "scheduled-run",
+    errorCode: "SCRAPE_RUN_FATAL",
+    error,
+  }).finally(() => {
+    process.exit(1);
+  });
 });

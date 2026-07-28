@@ -6,6 +6,7 @@ import type { SearchResponse } from "../../src/types";
 // Implementation lives in the pure timetable-day module under test.
 import { canonicalDay } from "../../src/data/scraped/timetableDay";
 import { stationSearchKey } from "../../src/data/stationKey";
+import { recordError } from "../../src/server/errorLog";
 export { canonicalDay };
 
 const DATA_DIR = resolve("src/data/scraped");
@@ -77,12 +78,26 @@ export class ProviderBackedScraper extends SnapshotScraper {
       };
     }
 
+    await recordError({
+      severity: "warning",
+      module: "scraper",
+      operation: "provider.fallback",
+      errorCode: response.body.error || "PROVIDER_FALLBACK",
+      message: response.body.message || response.body.error || `Provider returned HTTP ${response.status}.`,
+      country: this.country,
+      provider: this.name,
+      httpStatus: response.status,
+      context: { origin: route.origin, destination: route.destination, date },
+    });
+
     const snapshot = this.loadSnapshot(route);
     return {
       ...snapshot,
       date,
       scrapedAt: new Date().toISOString(),
-      source: `${this.name} curated snapshot fallback (${response.body.message || response.body.error || response.status})`,
+      // Provider diagnostics are stored server-side in error_log, not exposed
+      // through timetable source metadata rendered by the app.
+      source: `${this.name} curated snapshot fallback`,
     };
   }
 }
