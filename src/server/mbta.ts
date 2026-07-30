@@ -1,4 +1,5 @@
 import type {
+  JourneyLeg,
   SearchResponse,
   ServiceDayAdvisory,
   ServiceDayType,
@@ -10,6 +11,7 @@ import { serviceDayRisk } from "../data/serviceDayAdvisory";
 
 const MBTA_API_URL = "https://api-v3.mbta.com";
 const RAIL_ROUTE_TYPES = "0,1,2";
+const JOURNEY_ROUTE_TYPES = "0,1,2,3";
 const STATION_CACHE_TTL_MS = 6 * 60 * 60 * 1000;
 
 interface MbtaRelationship {
@@ -67,6 +69,18 @@ interface MbtaStation {
 let stationCache: { expiresAt: number; stations: MbtaStation[] } | null = null;
 let lineCache: { expiresAt: number; lines: TransitLine[] } | null = null;
 const serviceDayCache = new Map<string, { first: ScheduledJourney; last: ScheduledJourney }>();
+const scheduleCache = new Map<string, Promise<MbtaResponse>>();
+const serviceCache = new Map<string, MbtaResource>();
+let cacheFetch: typeof globalThis.fetch | undefined;
+
+function ensureCacheScope() {
+  if (cacheFetch === globalThis.fetch) return;
+  cacheFetch = globalThis.fetch;
+  stationCache = null;
+  lineCache = null;
+  scheduleCache.clear();
+  serviceCache.clear();
+}
 
 function mbtaUrl(pathname: string, params: Record<string, string> = {}) {
   const url = new URL(pathname, MBTA_API_URL);
@@ -231,6 +245,7 @@ function buildMbtaAdvisory(
 }
 
 async function loadMbtaStations() {
+  ensureCacheScope();
   if (stationCache && stationCache.expiresAt > Date.now()) {
     return stationCache.stations;
   }
@@ -276,7 +291,18 @@ const MBTA_STATION_ALIASES: Record<string, string> = {
   "boston logan": "Airport",
 };
 
+// The parent "Airport" stop is the Blue Line station. The route page names
+// Logan's terminal bus service, so use Terminal A as a stable representative
+// stop for the live Silver Line SL1 schedule instead.
+const MBTA_SPECIAL_STATIONS: Record<string, MbtaStation> = {
+  "logan international airport": { id: "17091", name: "Logan International Airport" },
+  "logan airport": { id: "17091", name: "Logan International Airport" },
+  "boston logan": { id: "17091", name: "Logan International Airport" },
+};
+
 async function resolveMbtaStation(query: string) {
+  const special = MBTA_SPECIAL_STATIONS[normalizeStationName(query)];
+  if (special) return special;
   const stations = await loadMbtaStations();
   const aliased = MBTA_STATION_ALIASES[normalizeStationName(query)];
   const normalizedQuery = normalizeStationName(aliased ?? query);
@@ -363,27 +389,51 @@ function resourceMap(resources: MbtaResource[], type: string) {
 }
 
 async function schedulesForStop(stopId: string, date: string) {
-  return fetchMbtaJson(
+  ensureCacheScope();
+  const key = `${stopId}:${date}`;
+  const cached = scheduleCache.get(key);
+  if (cached) return cached;
+
+  const request = fetchMbtaJson(
     mbtaUrl("/schedules", {
       "filter[stop]": stopId,
       "filter[date]": date,
-      "filter[route_type]": RAIL_ROUTE_TYPES,
+      // Include bus schedules for the Silver Line airport leg. The station
+      // catalog remains rail-only, so this does not pollute the picker.
+      "filter[route_type]": JOURNEY_ROUTE_TYPES,
       include: "trip,route,stop",
       "page[limit]": "1000",
       sort: "time",
     }),
   );
+  scheduleCache.set(key, request);
+  try {
+    return await request;
+  } catch (error) {
+    // A transient 429/5xx must not poison the process-wide cache.
+    scheduleCache.delete(key);
+    throw error;
+  }
 }
 
 async function servicesForIds(ids: Set<string>) {
   if (ids.size === 0) return new Map<string, MbtaResource>();
-  const response = await fetchMbtaJson(
-    mbtaUrl("/services", {
-      "filter[id]": Array.from(ids).join(","),
-      "page[limit]": String(ids.size),
-    }),
-  );
-  return resourceMap(response.data || [], "service");
+  const missing = Array.from(ids).filter((id) => !serviceCache.has(id));
+  if (missing.length > 0) {
+    const response = await fetchMbtaJson(
+      mbtaUrl("/services", {
+        "filter[id]": missing.join(","),
+        "page[limit]": String(missing.length),
+      }),
+    );
+    for (const service of response.data || []) {
+      if (service.id) serviceCache.set(service.id, service);
+    }
+  }
+  return new Map(Array.from(ids).flatMap((id) => {
+    const service = serviceCache.get(id);
+    return service ? [[id, service] as const] : [];
+  }));
 }
 
 function scheduledJourneysForRoute(
@@ -461,6 +511,78 @@ function scheduledJourneysForRoute(
   return journeys.sort((a, b) => a.departureIso.localeCompare(b.departureIso));
 }
 
+function transferJourneysForRoute(
+  firstLeg: ScheduledJourney[],
+  secondLeg: ScheduledJourney[],
+  transfer: MbtaStation,
+  date: string,
+): ScheduledJourney[] {
+  const journeys: ScheduledJourney[] = [];
+  let secondIndex = 0;
+
+  for (const first of firstLeg) {
+    const firstArrival = new Date(first.arrivalIso).getTime();
+    while (
+      secondIndex < secondLeg.length &&
+      new Date(secondLeg[secondIndex].departureIso).getTime() < firstArrival + 2 * 60_000
+    ) {
+      secondIndex += 1;
+    }
+    const second = secondLeg[secondIndex];
+    if (!second) break;
+
+    const firstResult = first.result;
+    const secondResult = second.result;
+    const firstLegDetails: JourneyLeg = {
+      lineName: firstResult.service,
+      origin: firstResult.origin,
+      destination: transfer.name,
+      departureTime: firstResult.departureTime,
+      arrivalTime: firstResult.arrivalTime,
+      durationMinutes: minutesBetween(first.departureIso, first.arrivalIso),
+      headsign: firstResult.headsign,
+      mode: firstResult.trainType,
+    };
+    const secondLegDetails: JourneyLeg = {
+      lineName: secondResult.service,
+      origin: transfer.name,
+      destination: secondResult.destination,
+      departureTime: secondResult.departureTime,
+      arrivalTime: secondResult.arrivalTime,
+      durationMinutes: minutesBetween(second.departureIso, second.arrivalIso),
+      headsign: secondResult.headsign,
+      mode: secondResult.trainType,
+    };
+
+    journeys.push({
+      departureIso: first.departureIso,
+      arrivalIso: second.arrivalIso,
+      scheduleType: first.scheduleType || second.scheduleType,
+      result: {
+        id: `us-mbta-transfer-${date}-${journeys.length}`,
+        country: "united_states",
+        date,
+        operator: "MBTA",
+        service: `${firstResult.service} → ${secondResult.service}`,
+        trainType: `${firstResult.trainType || "Rail"} → ${secondResult.trainType || "Bus"}`,
+        durationMinutes: minutesBetween(first.departureIso, second.arrivalIso),
+        departureTime: firstResult.departureTime,
+        arrivalTime: secondResult.arrivalTime,
+        origin: firstResult.origin,
+        destination: secondResult.destination,
+        direct: false,
+        stops: [firstResult.origin, transfer.name, secondResult.destination],
+        headsign: secondResult.headsign,
+        realtime: false,
+        legs: [firstLegDetails, secondLegDetails],
+        transferStations: [transfer.name],
+      },
+    });
+  }
+
+  return journeys;
+}
+
 async function predictionsForStop(stopId: string) {
   return fetchMbtaJson(
     mbtaUrl("/predictions", {
@@ -508,8 +630,21 @@ export async function searchMbtaJourney(
         schedulesForStop(resolvedOrigin.id, date),
         schedulesForStop(resolvedDestination.id, date),
       ]);
+      let transferStation: MbtaStation | null = null;
+      let transferScheduleResponse: MbtaResponse | null = null;
+      if (resolvedOrigin.id === "place-harsq" && resolvedDestination.id === "17091") {
+        transferStation = await resolveMbtaStation("South Station");
+        if (transferStation) {
+          transferScheduleResponse = await schedulesForStop(transferStation.id, date);
+        }
+      }
+      const scheduleResponses = [
+        originScheduleResponse,
+        destinationScheduleResponse,
+        ...(transferScheduleResponse ? [transferScheduleResponse] : []),
+      ];
       const serviceIds = new Set(
-        [...(originScheduleResponse.included || []), ...(destinationScheduleResponse.included || [])]
+        scheduleResponses.flatMap((response) => response.included || [])
           .filter((resource) => resource.type === "trip")
           .map((trip) => trip.relationships?.service?.data?.id)
           .filter((id): id is string => Boolean(id)),
@@ -539,6 +674,25 @@ export async function searchMbtaJourney(
         date,
         serviceMetadata,
       );
+      if (scheduledJourneys.length === 0 && transferStation && transferScheduleResponse) {
+        const firstLeg = scheduledJourneysForRoute(
+          originScheduleResponse,
+          transferScheduleResponse,
+          resolvedOrigin,
+          transferStation,
+          date,
+          serviceMetadata,
+        );
+        const secondLeg = scheduledJourneysForRoute(
+          transferScheduleResponse,
+          destinationScheduleResponse,
+          transferStation,
+          resolvedDestination,
+          date,
+          serviceMetadata,
+        );
+        scheduledJourneys = transferJourneysForRoute(firstLeg, secondLeg, transferStation, date);
+      }
       serviceDayAdvisory = buildMbtaAdvisory(
         date,
         selectedTime,
@@ -582,6 +736,20 @@ export async function searchMbtaJourney(
           message: scheduledJourneys.length > 0
             ? undefined
             : "MBTA returned no scheduled journeys for this station pair on the selected date.",
+          source: MBTA_API_URL,
+          serviceDayAdvisory,
+        },
+      };
+    }
+
+    // The airport itinerary is a scheduled two-leg journey. Predictions are
+    // stop-local and cannot join Red Line and Silver Line trips, so preserve
+    // the live schedule result for this route on today's date as well.
+    if (scheduledJourneys.some((journey) => !journey.result.direct)) {
+      return {
+        status: 200,
+        body: {
+          results: scheduledJourneys.map((journey) => journey.result),
           source: MBTA_API_URL,
           serviceDayAdvisory,
         },

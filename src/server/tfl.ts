@@ -326,8 +326,17 @@ async function resolveTflStation(query: string) {
   if (matches.length === 0 && normalizedQuery && normalizedQuery !== query.toLowerCase()) {
     matches = await searchTflStopPoints(normalizedQuery);
   }
-  const exact = matches.find((match) => normalizeStationName(match.name || "") === normalizedQuery);
-  const selected = exact || matches[0];
+  let exact = matches.find((match) => normalizeStationName(match.name || "") === normalizedQuery);
+  let selected = exact || matches[0];
+
+  // TfL's search returns a HUB* interchange id for some bare station names.
+  // JourneyResults cannot disambiguate those hubs (HTTP 300); retry with the
+  // Tube spelling to obtain the child StopPoint id when one exists.
+  if (selected?.id?.startsWith("HUB") && normalizedQuery) {
+    const specificMatches = await searchTflStopPoints(`${normalizedQuery} Underground Station`);
+    exact = specificMatches.find((match) => normalizeStationName(match.name || "") === normalizedQuery);
+    selected = exact || specificMatches[0] || selected;
+  }
   return selected?.id
     ? { id: selected.id, name: selected.name || query }
     : null;
