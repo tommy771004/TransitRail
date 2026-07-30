@@ -1,7 +1,7 @@
 import { inflateRawSync } from "node:zlib";
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import type { ServiceDayAdvisory, ServiceDayType } from "../types";
+import type { SearchResponse, ServiceDayAdvisory, ServiceDayType, TransitResult } from "../types";
 import { recordError } from "./errorLog";
 import { serviceDayRisk, validateServiceDayAdvisory, withArtifactFreshness, withSelectedQueryRisk } from "../data/serviceDayAdvisory";
 
@@ -11,13 +11,25 @@ const FEED_CACHE_TTL_MS = 6 * 60 * 60 * 1000;
 
 type GtfsStop = { id: string; name: string; parentStation?: string };
 type GtfsTrip = { serviceId: string; headsign?: string; routeId?: string };
+type GtfsRoute = { shortName?: string; longName?: string };
 type GtfsFeed = {
   stops: GtfsStop[];
   trips: Map<string, GtfsTrip>;
+  routes: Map<string, GtfsRoute>;
   stopTimes: string;
   activeDates: Map<string, Map<string, number>>;
   calendar?: string;
   sourceUpdatedAt?: string;
+};
+
+/** One origin→destination leg of a single GTFS trip, in minutes past midnight
+ *  (departure_time may exceed 24:00 for services that run past midnight). */
+type GtfsJourney = {
+  tripId: string;
+  departure: number;
+  arrival: number;
+  headsign?: string;
+  routeId?: string;
 };
 
 export type FranceServiceDayArtifact = {
@@ -188,9 +200,14 @@ async function loadFeed(): Promise<GtfsFeed> {
     byService.set(row.service_id, Number(row.exception_type));
     activeDates.set(row.date, byService);
   });
+  const routes = new Map<string, GtfsRoute>();
+  forEachCsvRow(archive.get("routes.txt") || "", (row) => {
+    if (row.route_id) routes.set(row.route_id, { shortName: row.route_short_name || undefined, longName: row.route_long_name || undefined });
+  });
   const feed = {
     stops,
     trips,
+    routes,
     stopTimes: archive.get("stop_times.txt") || "",
     activeDates,
     calendar: archive.get("calendar.txt"),
@@ -315,11 +332,17 @@ function loadArtifact(): FranceServiceDayArtifact | null {
   }
 }
 
-function calculateAdvisory(feed: GtfsFeed, origin: string, destination: string, date: string, selectedTime?: string): ServiceDayAdvisory {
+/**
+ * Every trip in the feed that calls at the origin and then, later in its stop
+ * sequence, at the destination on the given service date. Shared by the
+ * service-day advisory (which needs only the first and last departure) and the
+ * timetable builder (which needs them all).
+ */
+function collectJourneys(feed: GtfsFeed, origin: string, destination: string, date: string): GtfsJourney[] {
   const active = activeServices(feed, date);
   const originIds = stationStopIds(feed.stops, origin);
   const destinationIds = stationStopIds(feed.stops, destination);
-  const journeys: Array<{ departure: number; arrival: number }> = [];
+  const journeys: GtfsJourney[] = [];
   const byTrip = new Map<string, { origins: Array<{ sequence: number; minutes: number }>; destinations: Array<{ sequence: number; minutes: number }> }>();
   forEachCsvRow(feed.stopTimes, (row) => {
     const trip = feed.trips.get(row.trip_id);
@@ -332,15 +355,28 @@ function calculateAdvisory(feed: GtfsFeed, origin: string, destination: string, 
     if (destinationIds.has(row.stop_id)) current.destinations.push({ sequence, minutes });
     byTrip.set(row.trip_id, current);
   });
-  for (const value of byTrip.values()) {
+  for (const [tripId, value] of byTrip) {
     const origins = value.origins.sort((a, b) => a.sequence - b.sequence);
     const destinations = value.destinations.sort((a, b) => a.sequence - b.sequence);
     const originStop = origins.find((candidate) => destinations.some((destinationStop) => destinationStop.sequence > candidate.sequence));
     const destinationStop = originStop && destinations.find((candidate) => candidate.sequence > originStop.sequence);
-    if (originStop && destinationStop) journeys.push({ departure: originStop.minutes, arrival: destinationStop.minutes });
+    if (originStop && destinationStop) {
+      const trip = feed.trips.get(tripId);
+      journeys.push({
+        tripId,
+        departure: originStop.minutes,
+        arrival: destinationStop.minutes,
+        headsign: trip?.headsign,
+        routeId: trip?.routeId,
+      });
+    }
   }
+  return journeys.sort((a, b) => a.departure - b.departure);
+}
+
+function calculateAdvisory(feed: GtfsFeed, origin: string, destination: string, date: string, selectedTime?: string): ServiceDayAdvisory {
+  const journeys = collectJourneys(feed, origin, destination, date);
   if (journeys.length === 0) return buildUnavailable(date, "SNCF did not publish a service for this station pair on the selected date.", feed);
-  journeys.sort((a, b) => a.departure - b.departure);
   const firstDeparture = journeys[0].departure;
   const lastDeparture = journeys[journeys.length - 1].departure;
   const { risk, minutesToLastDeparture } = advisoryRisk(date, lastDeparture, selectedTime);
@@ -373,6 +409,78 @@ export async function getFranceServiceDayAdvisory(
   // scraper owns GTFS retrieval and atomic publication; a missing artifact is
   // unavailable coverage, not permission to fetch an upstream feed per user.
   return buildUnavailable(date, "SNCF service-day information is not available from the latest scheduled artifact.");
+}
+
+/** GTFS times run past 24:00 for services crossing midnight; the wall clock a
+ *  passenger reads does not. Duration is taken from the raw values, so a
+ *  23:50 → 25:15 trip renders as 23:50 → 01:15 lasting 85 min. */
+function formatClock(minutes: number) {
+  return formatGtfsMinutes(((minutes % 1440) + 1440) % 1440);
+}
+
+function serviceLabel(feed: GtfsFeed, journey: GtfsJourney): string {
+  const route = journey.routeId ? feed.routes.get(journey.routeId) : undefined;
+  return route?.shortName || route?.longName || "TER";
+}
+
+/**
+ * Real departures for a France route on a given date, straight from the SNCF
+ * GTFS calendar — the same feed the service-day advisory already downloads.
+ *
+ * Shaped for ProviderBackedScraper, so a failed download or a date the feed
+ * does not cover falls back to the curated snapshot rather than failing the
+ * scrape. No fare is emitted: SNCF's GTFS ships no fare_attributes, and an
+ * invented price is exactly what this replaces.
+ */
+export async function searchFranceGtfs(
+  origin: string,
+  destination: string,
+  date: string,
+): Promise<{ status: number; body: SearchResponse & { error?: string } }> {
+  let feed: GtfsFeed;
+  try {
+    feed = await loadFeed();
+  } catch (error) {
+    return {
+      status: 502,
+      body: {
+        error: "SNCF_GTFS_UNAVAILABLE",
+        message: error instanceof Error ? error.message : "SNCF GTFS download failed.",
+        results: [],
+        source: FRANCE_GTFS_URL,
+      },
+    };
+  }
+
+  const journeys = collectJourneys(feed, origin, destination, date);
+  if (journeys.length === 0) {
+    return {
+      status: 404,
+      body: {
+        error: "NO_SERVICE",
+        message: `SNCF published no ${origin} → ${destination} service for ${date}.`,
+        results: [],
+        source: "SNCF Open Data GTFS",
+      },
+    };
+  }
+
+  const results: TransitResult[] = journeys.map((journey) => ({
+    id: `fr-${journey.tripId}`,
+    country: "france",
+    operator: "SNCF",
+    service: serviceLabel(feed, journey),
+    departureTime: formatClock(journey.departure),
+    arrivalTime: formatClock(journey.arrival),
+    durationMinutes: journey.arrival - journey.departure,
+    origin,
+    destination,
+    direct: true,
+    stops: [],
+    ...(journey.headsign ? { headsign: journey.headsign } : {}),
+  }));
+
+  return { status: 200, body: { results, source: "SNCF Open Data GTFS" } };
 }
 
 /** Collect and atomically publish the route/date artifact used by scheduled scrapes. */
