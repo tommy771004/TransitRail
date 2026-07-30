@@ -3,7 +3,7 @@
  * - scripts/generate-sitemaps.ts (optional static children + public mirror)
  * - api/sitemap.ts (canonical GSC endpoint — always HTTP 200 application/xml)
  */
-import { readdirSync, readFileSync, existsSync } from "fs";
+import { readFileSync } from "fs";
 import { resolve } from "path";
 import {
   COUNTRY_PATHS,
@@ -85,9 +85,13 @@ export type SitemapEntries = {
 export function collectSitemapEntries(
   scrapedDir = resolve(process.cwd(), "src/data/scraped"),
 ): SitemapEntries {
-  const countries = existsSync(scrapedDir)
-    ? readdirSync(scrapedDir).filter((country) => country in COUNTRY_PATHS).sort()
-    : [];
+  const routePages = collectRoutePages(scrapedDir);
+  // Country hubs come from the routes that actually produced a page, not from
+  // the directory listing. A country can have a scraped/ directory holding only
+  // metadata.json (Malaysia ships a station catalogue, no timetables); the page
+  // generator skips it, so listing its hub would advertise a soft 404 — the SPA
+  // catch-all answers 200 with the wrong page.
+  const countries = [...new Set(routePages.map((page) => String(page.country)))].sort();
   const countryEntries = countries.flatMap((country) => {
     const lastmod = countryLastModified(scrapedDir, country);
     const hubPath = `${COUNTRY_PATHS[country]}/`;
@@ -100,7 +104,6 @@ export function collectSitemapEntries(
   });
   const latest = countryEntries.map(({ lastmod }) => lastmod).sort().at(-1) ?? dateOnly(undefined);
 
-  const routePages = collectRoutePages(scrapedDir);
   const routeEntries = routePages.flatMap((page) => {
     const lastmod = dateOnly(page.scrapedAt || undefined);
     const alternates = alternatesFor(page.urlPath);
