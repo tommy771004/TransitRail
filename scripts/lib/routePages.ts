@@ -11,6 +11,39 @@ import { readdirSync, readFileSync, existsSync } from "fs";
 import { join, resolve } from "path";
 import type { Country, TransitResult } from "../../src/types";
 
+/**
+ * Locales the SEO pages are prerendered in. English is served unprefixed at the
+ * site root; every other locale lives under its own prefix. This list is the
+ * single source of truth — the page generator and the sitemap builder both
+ * iterate it, so a locale can never appear in one and be missing from the other.
+ */
+export const PRERENDER_LOCALES = ["en", "zh", "ja", "ko", "fr", "de"] as const;
+export type PrerenderLocale = (typeof PRERENDER_LOCALES)[number];
+
+const LOCALE_PREFIX: Record<PrerenderLocale, string> = {
+  en: "",
+  zh: "/zh",
+  ja: "/ja",
+  ko: "/ko",
+  fr: "/fr",
+  de: "/de",
+};
+
+/** hreflang value emitted for each prerender locale (page <link> + sitemap). */
+export const HREFLANG: Record<PrerenderLocale, string> = {
+  en: "en",
+  zh: "zh-Hant",
+  ja: "ja",
+  ko: "ko",
+  fr: "fr",
+  de: "de",
+};
+
+/** "/japan/tokyo-to-kyoto/" + "ja" → "/ja/japan/tokyo-to-kyoto/" */
+export function localeUrlPath(urlPath: string, locale: PrerenderLocale): string {
+  return `${LOCALE_PREFIX[locale]}${urlPath}`;
+}
+
 export const COUNTRY_PATHS: Record<string, string> = {
   japan: "/japan",
   korea: "/korea",
@@ -46,20 +79,50 @@ export interface RoutePageData {
   origin: string;
   destination: string;
   slug: string;
-  /** English page path, e.g. "/japan/tokyo-to-kyoto/" */
+  /** Locale-neutral page path, e.g. "/japan/tokyo-to-kyoto/". Prefix with
+   *  localeUrlPath() for the other locales. */
   urlPath: string;
-  /** zh-TW page path, e.g. "/zh/japan/tokyo-to-kyoto/" */
-  zhUrlPath: string;
-  /** Japanese page path, e.g. "/ja/japan/tokyo-to-kyoto/" */
-  jaUrlPath: string;
-  /** Korean page path, e.g. "/ko/japan/tokyo-to-kyoto/" */
-  koUrlPath: string;
   /** The date whose day slice the page renders (empty for dateless snapshots). */
   canonicalDate: string;
   scrapedAt: string;
   source: string;
+  /** True when dayResults is a representative service pattern rather than a real
+   *  timetable — see isIndicativeTimetable(). */
+  indicative: boolean;
   /** Canonical-day departures sorted by departure time. */
   dayResults: TransitResult[];
+}
+
+/** "06:05" → 365. Undefined for anything that is not a HH:MM clock time. */
+export function parseClockMinutes(time: string | undefined): number | undefined {
+  if (!time || !/^\d{1,2}:\d{2}$/.test(time)) return undefined;
+  const [h, m] = time.split(":").map(Number);
+  return h * 60 + m;
+}
+
+/** Sources that serve a curated service pattern rather than a scraped timetable. */
+const CURATED_SOURCE = /curated|snapshot/i;
+
+/**
+ * A curated snapshot is a *representative service pattern*, not a real
+ * timetable: its departures sit on one fixed headway and every train shares a
+ * duration and fare. Presenting those as exact first/last-train facts is wrong
+ * in the one place users check most, so pages render them as a service window
+ * and must not emit them as TrainTrip structured data.
+ *
+ * Detected from the source label, with a uniform-headway check as a backstop in
+ * case a snapshot ships under an unfamiliar source string.
+ */
+export function isIndicativeTimetable(source: string, results: TransitResult[]): boolean {
+  if (CURATED_SOURCE.test(source)) return true;
+  const minutes = results
+    .map((r) => parseClockMinutes(r.departureTime))
+    .filter((m): m is number => m !== undefined)
+    .sort((a, b) => a - b);
+  if (minutes.length < 4) return false;
+  const gaps = new Set<number>();
+  for (let i = 1; i < minutes.length; i += 1) gaps.add(minutes[i] - minutes[i - 1]);
+  return gaps.size === 1;
 }
 
 export function slugifyStation(name: string): string {
@@ -126,6 +189,9 @@ export function collectRoutePages(scrapedDir = resolve("src/data/scraped")): Rou
       }
       seenPaths.add(urlPath);
 
+      const dayResults = [...slice].sort((a, b) =>
+        (a.departureTime || "").localeCompare(b.departureTime || ""),
+      );
       pages.push({
         country: country as Country,
         countryPath,
@@ -133,13 +199,11 @@ export function collectRoutePages(scrapedDir = resolve("src/data/scraped")): Rou
         destination: route.destination,
         slug,
         urlPath,
-        zhUrlPath: `/zh${urlPath}`,
-        jaUrlPath: `/ja${urlPath}`,
-        koUrlPath: `/ko${urlPath}`,
         canonicalDate: date,
         scrapedAt: route.scrapedAt || "",
         source: route.source || "",
-        dayResults: [...slice].sort((a, b) => (a.departureTime || "").localeCompare(b.departureTime || "")),
+        indicative: isIndicativeTimetable(route.source || "", dayResults),
+        dayResults,
       });
     }
   }

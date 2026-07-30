@@ -5,7 +5,13 @@
  */
 import { readdirSync, readFileSync, existsSync } from "fs";
 import { resolve } from "path";
-import { COUNTRY_PATHS, collectRoutePages } from "../../scripts/lib/routePages";
+import {
+  COUNTRY_PATHS,
+  HREFLANG,
+  PRERENDER_LOCALES,
+  collectRoutePages,
+  localeUrlPath,
+} from "../../scripts/lib/routePages";
 
 export const SITE_URL = (process.env.SITE_URL || "https://rail-national.vercel.app").replace(/\/$/, "");
 
@@ -36,14 +42,42 @@ function countryLastModified(scrapedDir: string, country: string) {
   }
 }
 
-function urlEntry(url: string, lastmod: string) {
-  return `  <url>\n    <loc>${xml(url)}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`;
+/**
+ * Every localized variant of a page carries the full alternate set (including
+ * itself) plus x-default, so Google can tie the six locales together from the
+ * sitemap alone rather than having to crawl each page's <link rel="alternate">.
+ */
+function alternatesFor(urlPath: string): SitemapAlternate[] {
+  return [
+    ...PRERENDER_LOCALES.map((locale) => ({
+      hreflang: HREFLANG[locale],
+      href: `${SITE_URL}${localeUrlPath(urlPath, locale)}`,
+    })),
+    { hreflang: "x-default", href: `${SITE_URL}${urlPath}` },
+  ];
 }
 
+function urlEntry(url: string, lastmod: string, alternates?: SitemapAlternate[]) {
+  const links = (alternates || [])
+    .map(
+      ({ hreflang, href }) =>
+        `\n    <xhtml:link rel="alternate" hreflang="${xml(hreflang)}" href="${xml(href)}"/>`,
+    )
+    .join("");
+  return `  <url>\n    <loc>${xml(url)}</loc>\n    <lastmod>${lastmod}</lastmod>${links}\n  </url>`;
+}
+
+const URLSET_OPEN =
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" ' +
+  'xmlns:xhtml="http://www.w3.org/1999/xhtml">';
+
+export type SitemapAlternate = { hreflang: string; href: string };
+export type SitemapEntry = { url: string; lastmod: string; alternates?: SitemapAlternate[] };
+
 export type SitemapEntries = {
-  allEntries: Array<{ url: string; lastmod: string }>;
-  countryEntries: Array<{ url: string; lastmod: string }>;
-  routeEntries: Array<{ url: string; lastmod: string }>;
+  allEntries: SitemapEntry[];
+  countryEntries: SitemapEntry[];
+  routeEntries: SitemapEntry[];
   latest: string;
   routeLatest: string;
 };
@@ -54,28 +88,36 @@ export function collectSitemapEntries(
   const countries = existsSync(scrapedDir)
     ? readdirSync(scrapedDir).filter((country) => country in COUNTRY_PATHS).sort()
     : [];
-  const countryEntries = countries.map((country) => ({
-    url: `${SITE_URL}${COUNTRY_PATHS[country]}/`,
-    lastmod: countryLastModified(scrapedDir, country),
-  }));
+  const countryEntries = countries.flatMap((country) => {
+    const lastmod = countryLastModified(scrapedDir, country);
+    const hubPath = `${COUNTRY_PATHS[country]}/`;
+    const alternates = alternatesFor(hubPath);
+    return PRERENDER_LOCALES.map((locale) => ({
+      url: `${SITE_URL}${localeUrlPath(hubPath, locale)}`,
+      lastmod,
+      alternates,
+    }));
+  });
   const latest = countryEntries.map(({ lastmod }) => lastmod).sort().at(-1) ?? dateOnly(undefined);
 
   const routePages = collectRoutePages(scrapedDir);
   const routeEntries = routePages.flatMap((page) => {
     const lastmod = dateOnly(page.scrapedAt || undefined);
-    return [
-      { url: `${SITE_URL}${page.urlPath}`, lastmod },
-      { url: `${SITE_URL}${page.zhUrlPath}`, lastmod },
-      { url: `${SITE_URL}${page.jaUrlPath}`, lastmod },
-      { url: `${SITE_URL}${page.koUrlPath}`, lastmod },
-    ];
+    const alternates = alternatesFor(page.urlPath);
+    return PRERENDER_LOCALES.map((locale) => ({
+      url: `${SITE_URL}${localeUrlPath(page.urlPath, locale)}`,
+      lastmod,
+      alternates,
+    }));
   });
   const routeLatest = routeEntries.map(({ lastmod }) => lastmod).sort().at(-1) ?? latest;
+  const hubAlternates = alternatesFor("/routes/");
   routeEntries.unshift(
-    { url: `${SITE_URL}/routes/`, lastmod: routeLatest },
-    { url: `${SITE_URL}/zh/routes/`, lastmod: routeLatest },
-    { url: `${SITE_URL}/ja/routes/`, lastmod: routeLatest },
-    { url: `${SITE_URL}/ko/routes/`, lastmod: routeLatest },
+    ...PRERENDER_LOCALES.map((locale) => ({
+      url: `${SITE_URL}${localeUrlPath("/routes/", locale)}`,
+      lastmod: routeLatest,
+      alternates: hubAlternates,
+    })),
   );
 
   const allEntries = [
@@ -91,18 +133,16 @@ export function collectSitemapEntries(
 export function buildFlatSitemapXml(scrapedDir?: string): string {
   const { allEntries } = collectSitemapEntries(scrapedDir);
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${allEntries.map(({ url, lastmod }) => urlEntry(url, lastmod)).join("\n")}
+${URLSET_OPEN}
+${allEntries.map(({ url, lastmod, alternates }) => urlEntry(url, lastmod, alternates)).join("\n")}
 </urlset>
 `;
 }
 
-export function buildPartialUrlset(
-  entries: Array<{ url: string; lastmod: string }>,
-): string {
+export function buildPartialUrlset(entries: SitemapEntry[]): string {
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${entries.map(({ url, lastmod }) => urlEntry(url, lastmod)).join("\n")}
+${URLSET_OPEN}
+${entries.map(({ url, lastmod, alternates }) => urlEntry(url, lastmod, alternates)).join("\n")}
 </urlset>
 `;
 }
