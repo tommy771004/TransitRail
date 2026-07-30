@@ -141,11 +141,22 @@ export function tidyStationName(name: string): string {
     .trim();
 }
 
+/**
+ * Letters NFKD cannot decompose, because the stroke or ligature is part of the
+ * base glyph rather than a combining mark. Without these, `Bod\u00f8` slugged to
+ * `bod` \u2014 the character was silently dropped rather than romanised, which is
+ * both unreadable and wrong for anyone searching "bodo".
+ */
+const UNDECOMPOSABLE: Record<string, string> = {
+  \u00f8: "o", \u00e6: "ae", \u0153: "oe", \u00df: "ss", \u00f0: "d", \u00fe: "th", \u0111: "d", \u0142: "l", \u0127: "h", \u0131: "i",
+};
+
 export function slugifyStation(name: string): string {
   return name
+    .toLowerCase()
+    .replace(/[\u00f8\u00e6\u0153\u00df\u00f0\u00fe\u0111\u0142\u0127\u0131]/g, (char) => UNDECOMPOSABLE[char])
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }

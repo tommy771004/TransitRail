@@ -23,9 +23,23 @@ import {
   PRERENDER_LOCALES,
   collectRoutePages,
   localeUrlPath,
-  slugifyStation,
-  tidyStationName,
 } from "./lib/routePages";
+
+/**
+ * Slug rules exactly as they were published before this branch: the raw,
+ * untidied station name, NFKD-folded, with no transliteration of letters NFKD
+ * cannot decompose. Pinned here on purpose — deriving the legacy slug from the
+ * current slugifyStation() would silently stop producing the old URL the moment
+ * those rules change again, which is the one thing this script must not do.
+ */
+function legacyStationSlug(name: string): string {
+  return name
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
 
 type Redirect = { source: string; destination: string; permanent: boolean };
 
@@ -44,7 +58,7 @@ function isGenerated(redirect: Redirect): boolean {
 function buildRedirects(): Redirect[] {
   const redirects: Redirect[] = [];
   for (const page of collectRoutePages()) {
-    const legacySlug = `${slugifyStation(page.origin)}-to-${slugifyStation(page.destination)}`;
+    const legacySlug = `${legacyStationSlug(page.origin)}-to-${legacyStationSlug(page.destination)}`;
     if (legacySlug === page.slug) continue;
     const legacyPath = `${page.countryPath}/${legacySlug}/`;
     for (const locale of PRERENDER_LOCALES) {
