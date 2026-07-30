@@ -9,7 +9,7 @@ npm run dev              # Full app: Express API + Vite middleware (tsx server.t
 npm run build            # vite build (frontend → dist/) + esbuild bundle server → dist/server.cjs
 npm start                # Run the production bundle (node dist/server.cjs)
 npm run lint             # tsc --noEmit && vitest run — the gate for every change
-npm test                 # vitest run on its own (14 files, 79 tests)
+npm test                 # vitest run on its own (15 files, 86 tests)
 
 # Scrapers (need Chromium: npx playwright install chromium)
 npm run scrape [YYYY-MM-DD]     # Run every country scraper, 7 days forward from date/today

@@ -22,6 +22,7 @@ import { timetableFingerprint } from "./src/utils/timetableChanges";
 import { recordError } from "./src/server/errorLog";
 import { sendTelemetry } from "./src/server/telemetry";
 import { serviceDayAdvisoryForWatch, unavailableServiceDayAdvisory } from "./src/server/serviceDayWatch";
+import { requestOrigin } from "./src/server/requestOrigin";
 
 dotenv.config();
 
@@ -914,7 +915,7 @@ async function logTransitSearch(
     const trip = readShareCardPayload(req.query);
     if (!trip) return res.status(400).type("text/plain").send("Missing journey details.");
 
-    const baseUrl = (process.env.APP_URL || `${req.protocol}://${req.get("host")}`).replace(/\/$/, "");
+    const baseUrl = (process.env.APP_URL || requestOrigin(req)).replace(/\/$/, "");
     const query = new URLSearchParams({
       origin: trip.origin,
       destination: trip.destination,

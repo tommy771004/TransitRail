@@ -9,7 +9,7 @@ npm run dev              # Full app: Express API + Vite middleware (tsx server.t
 npm run build            # vite build (frontend → dist/) + esbuild bundle server → dist/server.cjs
 npm start                # Run the production bundle (node dist/server.cjs)
 npm run lint             # tsc --noEmit && vitest run — the gate for every change
-npm test                 # vitest run on its own (14 files, 79 tests)
+npm test                 # vitest run on its own (15 files, 86 tests)
 
 # Scrapers (need Chromium: npx playwright install chromium)
 npm run scrape [YYYY-MM-DD]     # Run every country scraper, 7 days forward from date/today
@@ -27,7 +27,7 @@ npm run sitemap          # Regenerate sitemap index (core + countries + routes.x
 
 `npm run lint` (typecheck + Vitest) is the gate. Verify data changes by importing `findScrapedResults` from `src/data/scraped` in a `npx tsx -e '...'` snippet.
 
-Known test wart: `src/server/transitSearchFrance.test.ts` deletes the tracked `src/data/service-day/france.json` in setup and never restores it (Thailand does the same), so a test run leaves the working tree dirty — `git checkout -- src/data/service-day/` after. The France file also fails in isolation for the same reason while passing in a full-suite run.
+The France/Thailand advisory suites need "no artifact on disk" as a starting state, but `src/data/service-day/<country>.json` is committed. They go through `serviceDayArtifactFixture()` ([src/server/serviceDayArtifactFixture.ts](src/server/serviceDayArtifactFixture.ts)), which stashes the tracked file for the suite and restores it in `afterAll` — **any new service-day suite must use it too**. Deleting the artifact outright (as these once did) leaves the working tree dirty and makes the suite pass only because an earlier run already removed the file, so a clean checkout fails.
 
 ## Architecture
 
