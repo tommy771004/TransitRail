@@ -196,11 +196,41 @@ export function buildErrorLogEvent(input: ErrorLogInput): ErrorLogEvent {
  * Persist an operational event and mirror a deliberately small, non-identifying
  * envelope to the Admin Console. Logger failures never throw into product code.
  */
+/**
+ * One line per event on stdout, so a run is diagnosable from the job log alone.
+ * Kept terse and single-line because the scrape emits one per fallback route.
+ */
+function logErrorEvent(event: ErrorLogEvent): void {
+  // Suites that exercise provider failure paths induce these deliberately; a
+  // gate whose output is mostly expected errors trains people to ignore it.
+  if (process.env.VITEST) return;
+  const parts = [
+    `[${event.severity}]`,
+    `${event.module}.${event.operation}`,
+    event.errorCode,
+    event.country,
+    event.provider,
+    event.httpStatus !== undefined ? `HTTP ${event.httpStatus}` : undefined,
+    event.message,
+    event.context ? JSON.stringify(event.context) : undefined,
+  ].filter(Boolean);
+  const line = parts.join(" · ");
+  if (event.severity === "warning") console.warn(line);
+  else console.error(line);
+}
+
 export async function recordError(input: ErrorLogInput): Promise<ErrorLogReceipt> {
   const event = buildErrorLogEvent(input);
   let id = event.id;
   let occurrenceCount = 1;
   let stored = false;
+
+  // Always emit the event to stdout, not only when a database is configured.
+  // The scrape workflow sets DATABASE_URL on the push-notification step but not
+  // on `Run scrapers`, so every provider fallback used to be recorded to
+  // nowhere — the one place that knows *why* Hong Kong, Switzerland or a single
+  // TfL route served a snapshot instead of live data was silently discarded.
+  logErrorEvent(event);
 
   if (process.env.DATABASE_URL) {
     try {
