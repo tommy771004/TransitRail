@@ -8,7 +8,8 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 npm run dev              # Full app: Express API + Vite middleware (tsx server.ts) on one port
 npm run build            # vite build (frontend → dist/) + esbuild bundle server → dist/server.cjs
 npm start                # Run the production bundle (node dist/server.cjs)
-npm run lint             # tsc --noEmit — the ONLY automated check; there is no unit-test suite
+npm run lint             # tsc --noEmit && vitest run — the gate for every change
+npm test                 # vitest run on its own (14 files, 79 tests)
 
 # Scrapers (need Chromium: npx playwright install chromium)
 npm run scrape [YYYY-MM-DD]     # Run every country scraper, 7 days forward from date/today
@@ -20,7 +21,7 @@ npx tsx scripts/audit-station-mapping.ts    # Verify scraper route names match t
 npx tsx scripts/seed-curated-snapshots.ts   # De-dupe + (re)seed curated snapshot timetables
 ```
 
-There is no test framework. `npm run lint` (TypeScript typecheck) is the gate. Verify data changes by importing `findScrapedResults` from `src/data/scraped` in a `npx tsx -e '...'` snippet.
+`npm run lint` (typecheck + Vitest) is the gate. Verify data changes by importing `findScrapedResults` from `src/data/scraped` in a `npx tsx -e '...'` snippet.
 
 ## Architecture
 
