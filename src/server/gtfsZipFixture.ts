@@ -133,3 +133,37 @@ export const franceGtfsFixture = zipFixture({
     "route-med,631D,Paris - Marseille,101",
   ].join("\n"),
 });
+
+/** Germany profile fixture: gtfs.de uses German station names and relies on a
+ * normal weekly calendar without requiring calendar_dates additions. */
+export const germanyGtfsFixture = zipFixture({
+  "stops.txt": [
+    "stop_name,parent_station,stop_id,stop_lat,stop_lon,location_type,platform_code",
+    "Berlin Hbf,,berlin,52.52,13.36,,",
+    "München Hbf,,munich,48.14,11.55,,",
+    "Frankfurt(Main)Hbf,,frankfurt,50.10,8.66,,",
+    "Köln Hbf,,cologne,50.94,6.95,,",
+  ].join("\n"),
+  "trips.txt": [
+    "route_id,service_id,trip_id,trip_short_name",
+    "ice-100,weekday,berlin-munich,100",
+    "ice-200,weekday,frankfurt-cologne,200",
+  ].join("\n"),
+  "stop_times.txt": [
+    "trip_id,arrival_time,departure_time,stop_id,stop_sequence",
+    "berlin-munich,23:45:00,23:45:00,berlin,1",
+    "berlin-munich,28:10:00,28:15:00,munich,2",
+    "frankfurt-cologne,07:10:00,07:10:00,frankfurt,1",
+    "frankfurt-cologne,08:20:00,08:20:00,cologne,2",
+  ].join("\n"),
+  "calendar.txt": [
+    "monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date,service_id",
+    "1,1,1,1,1,0,0,20260101,20261231,weekday",
+  ].join("\n"),
+  "calendar_dates.txt": "service_id,exception_type,date",
+  "routes.txt": [
+    "route_long_name,route_short_name,agency_id,route_type,route_id",
+    ",ICE 100,1,2,ice-100",
+    ",ICE 200,1,2,ice-200",
+  ].join("\n"),
+});

@@ -64,7 +64,8 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
       });
     }
     expect(getCountryCapability("japan").scrape).toBe("generated");
-    expect(getCountryCapability("germany").scrape).toBe("snapshot");
+    expect(getCountryCapability("germany").scrape).toBe("provider_backed");
+    expect(getCountryCapability("france").scrape).toBe("provider_backed");
     expect(getCountryCapability("korea").scrape).toBe("snapshot");
   });
 

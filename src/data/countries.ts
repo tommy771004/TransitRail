@@ -239,7 +239,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
   },
   germany: {
     labelKey: "search.germany",
-    provider: "Scraped (DB)",
+    provider: "gtfs.de / DELFI",
     originPlaceholder: "Berlin Hbf",
     destinationPlaceholder: "Munich Hbf",
     featuredStations: ["Berlin Hbf", "Hamburg Hbf", "Munich Hbf", "Frankfurt Hbf", "Cologne Hbf"],
@@ -248,9 +248,9 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     liveOnly: false,
     timeZone: "Europe/Berlin",
     search: { kind: "scraped" },
-    scrape: "snapshot",
+    scrape: "provider_backed",
     resultView: "japan",
-    serviceDay: { coverage: "unavailable", source: "Curated DB snapshot has no qualifying full-day declaration", scope: "No service-day advisory" },
+    serviceDay: { coverage: "unavailable", source: "gtfs.de timetable is not yet published as a service-day advisory artifact", scope: "No service-day advisory" },
   },
   france: {
     labelKey: "search.france",
@@ -263,7 +263,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     liveOnly: false,
     timeZone: "Europe/Paris",
     search: { kind: "scraped" },
-    scrape: "snapshot",
+    scrape: "provider_backed",
     resultView: "japan",
     serviceDay: {
       coverage: "supported",

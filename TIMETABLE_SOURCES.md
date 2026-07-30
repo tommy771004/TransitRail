@@ -23,7 +23,7 @@ disclaimer disappears.
 
 ## Current state
 
-78 route pages, **60 of them still indicative**.
+78 route pages, **56 of them still indicative**.
 
 | Country | Adapter | Pages | Indicative | Timetable source today |
 |---|---|---|---|---|
@@ -37,7 +37,7 @@ disclaimer disappears.
 | japan | `BaseScraper` | 23 | 23 | **generated in code** |
 | korea | `Snapshot` | 9 | 9 | **generated**, re-stamped from committed JSON |
 | china | `Snapshot` | 4 | 4 | **generated** |
-| germany | `Snapshot` | 4 | 4 | **generated** |
+| germany | `ProviderBacked` | 4 | 0 | live — `download.gtfs.de` long-distance rail GTFS |
 | singapore | `Snapshot` | 4 | 4 | **generated** |
 | thailand | `Snapshot` | 4 | 4 | **generated** |
 
@@ -55,11 +55,11 @@ Japan is worse: `JapanScraper.buildTimetable()`
 duration and fare from a `ROUTE_INFO` constant table. That produces the 33- and
 97-departure signatures shared across 37 route files.
 
-No scraper launches Chromium: `usesBrowser` is `false` in both
-[japan.ts](scripts/scrapers/japan.ts) and
-[snapshot.ts](scripts/scrapers/snapshot.ts), and every registry entry is one of
-those two. The workflow's `npx playwright install chromium` step is dead weight
-and can be removed.
+Timetable fetching itself does not launch Chromium: `usesBrowser` is `false` in
+both [japan.ts](scripts/scrapers/japan.ts) and
+[snapshot.ts](scripts/scrapers/snapshot.ts). The workflow still installs
+Chromium because `ThailandScraper.runAll()` uses it separately to refresh the
+BEM service-day advisory.
 
 ---
 
@@ -143,47 +143,42 @@ Two things could change this, neither trivial:
 
 ---
 
-## 4. Still fabricated — 52 routes across 6 countries
+## 4. Still fabricated — 48 routes across 5 countries
 
 Ordered by feasibility. Each entry lists what is missing before code can be
 written; none of it can be verified from the dev sandbox, whose proxy blocks all
 provider hosts (`CONNECT tunnel failed, 403`).
 
-### 4a. Germany (4 routes) — the closest to done
+### Completed: Germany (4 routes)
 
-DB publishes GTFS; `gtfs.de` republishes a national feed. The France work already
-built everything needed except the URL:
+Germany now uses gtfs.de's free long-distance rail feed at
+`https://download.gtfs.de/germany/fv_free/latest.zip`, published from DELFI
+source data under CC BY 4.0. The adapter keeps curated snapshot fallback through
+`ProviderBackedScraper`.
 
-- zip reading, CSV parsing, `calendar` + `calendar_dates` resolution, the
-  `stop_times` walk, cross-midnight handling, and `route_type` labelling all live
-  in [src/server/franceGtfs.ts](src/server/franceGtfs.ts)
-- `ProviderBackedScraper` already gives snapshot fallback for free
-
-**Blocked on:** a confirmed feed URL. Supply one the way the Swiss parameters were
-supplied and this becomes a mechanical port.
-
-**Recommended first step regardless:** extract the GTFS machinery out of
-[franceGtfs.ts](src/server/franceGtfs.ts) into a shared module parameterised by feed URL and timezone. It
-is verifiable offline against the existing fixture, and turns each further GTFS
-country into configuration rather than a new parser. Roughly:
+The France parser was split into shared modules so subsequent GTFS countries are
+configuration rather than copied parsers:
 
 ```
-src/server/gtfs/feed.ts        zip + CSV + calendar (from franceGtfs.ts)
-src/server/gtfs/journeys.ts    collectJourneys() + station matching
+src/server/gtfs/feed.ts        zip + CSV + calendar
+src/server/gtfs/journeys.ts    collectGtfsJourneys() + station matching
 src/server/gtfs/timetable.ts   → TransitResult[], parameterised by operator/brand map
 src/server/franceGtfs.ts       keeps the advisory + France specifics
-src/server/germanyGtfs.ts      new: URL + DB brand map (ICE/IC/RE/RB)
+src/server/germanyGtfs.ts      URL + service labels + German station aliases
 ```
 
-Station matching is the part that will need per-country attention: the France run
-needed filler-word stripping (`Paris Est` vs `Paris Gare de l'Est`) and `St`↔`Saint`
-normalisation. German names carry `Hbf`, which the route list already uses.
+The Germany profile explicitly maps the route list's English names to the feed's
+German names (`Munich`→`München`, `Cologne`→`Köln`,
+`Frankfurt Hbf`→`Frankfurt(Main)Hbf`). Offline fixtures cover weekly calendars,
+cross-midnight service and those aliases; a live integration check on 2026-08-03
+returned departures for all four configured routes.
 
 Files: [scripts/scrapers/routes.ts](scripts/scrapers/routes.ts) (`germanyRoutes`,
 line 77), [scripts/scrapers/metro.ts](scripts/scrapers/metro.ts) (`GermanyScraper`),
-[scripts/scrapers/registry.ts](scripts/scrapers/registry.ts).
+[scripts/scrapers/registry.ts](scripts/scrapers/registry.ts),
+[src/server/germanyGtfs.ts](src/server/germanyGtfs.ts).
 
-### 4b. Korea (9 routes) — largest indicative country after Japan
+### 4a. Korea (9 routes) — largest indicative country after Japan
 
 Korail has an open API through data.go.kr, requiring registration and a service
 key. `KoreaScraper` currently extends `SnapshotScraper` despite CLAUDE.md
@@ -198,7 +193,7 @@ Note the station names carry codes (`Seoul (SNC)`, `Busan (BSN)`) that
 `tidyStationName()` strips for display and slugs — a real adapter will likely need
 its own station id mapping.
 
-### 4c. Singapore (4 routes)
+### 4b. Singapore (4 routes)
 
 LTA DataMall offers train service data behind a free API key. Its value is train
 *disruptions* more than timetables; MRT runs on headways rather than a published
@@ -212,7 +207,7 @@ page is the goal.
 Files: `singaporeRoutes` (line 42), `SingaporeScraper` in
 [scripts/scrapers/metro.ts](scripts/scrapers/metro.ts).
 
-### 4d. Japan (23 routes) — biggest and hardest
+### 4c. Japan (23 routes) — biggest and hardest
 
 No usable free timetable API. The previous Jorudan DOM scraper never produced
 rows and was removed. Options, all costly:
@@ -227,7 +222,7 @@ rows and was removed. Options, all costly:
 Files: [scripts/scrapers/japan.ts](scripts/scrapers/japan.ts) (`ROUTE_INFO`,
 `buildTimetable`).
 
-### 4e. China (4 routes) and Thailand (4 routes)
+### 4d. China (4 routes) and Thailand (4 routes)
 
 12306 has no public API and actively blocks automation. BTS/MRT publish no
 per-departure feed; Thailand already scrapes BEM's HTML for the service-day
@@ -271,7 +266,7 @@ anyone continuing this work:
 | Adapter base, date merge, id stamping | [scripts/scrapers/base.ts](scripts/scrapers/base.ts) |
 | Snapshot + provider-with-fallback | [scripts/scrapers/snapshot.ts](scripts/scrapers/snapshot.ts) |
 | Per-country scraper classes | [scripts/scrapers/metro.ts](scripts/scrapers/metro.ts), [japan.ts](scripts/scrapers/japan.ts), [korea.ts](scripts/scrapers/korea.ts) |
-| Provider adapters | `src/server/{tfl,mbta,swiss,belgium,norway,hongKongMtr,franceGtfs,thailandBem}.ts` |
+| Provider adapters | `src/server/{tfl,mbta,swiss,belgium,norway,hongKongMtr,franceGtfs,germanyGtfs,thailandBem}.ts` |
 | Indicative detection, slugs, locales | [scripts/lib/routePages.ts](scripts/lib/routePages.ts) |
 | Page rendering, titles, schema | [scripts/generate-route-pages.ts](scripts/generate-route-pages.ts) |
 | Sitemap, hreflang alternates | [src/server/sitemapXml.ts](src/server/sitemapXml.ts) |

@@ -1,36 +1,19 @@
-import { inflateRawSync } from "node:zlib";
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import type { SearchResponse, ServiceDayAdvisory, ServiceDayType, TransitResult } from "../types";
+import type { SearchResponse, ServiceDayAdvisory, ServiceDayType } from "../types";
 import { recordError } from "./errorLog";
 import { serviceDayRisk, validateServiceDayAdvisory, withArtifactFreshness, withSelectedQueryRisk } from "../data/serviceDayAdvisory";
+import { createGtfsFeedSource, type GtfsFeed } from "./gtfs/feed";
+import {
+  collectGtfsJourneys,
+  formatGtfsExtendedMinutes,
+  type GtfsJourney,
+  type GtfsStationMatchOptions,
+} from "./gtfs/journeys";
+import { buildGtfsTimetable } from "./gtfs/timetable";
 
 export const FRANCE_GTFS_URL = "https://eu.ftp.opendatasoft.com/sncf/plandata/Export_OpenData_SNCF_GTFS_NewTripId.zip";
 const FRANCE_TIMEZONE = "Europe/Paris";
-const FEED_CACHE_TTL_MS = 6 * 60 * 60 * 1000;
-
-type GtfsStop = { id: string; name: string; parentStation?: string };
-type GtfsTrip = { serviceId: string; headsign?: string; routeId?: string };
-type GtfsRoute = { shortName?: string; longName?: string; routeType?: number };
-type GtfsFeed = {
-  stops: GtfsStop[];
-  trips: Map<string, GtfsTrip>;
-  routes: Map<string, GtfsRoute>;
-  stopTimes: string;
-  activeDates: Map<string, Map<string, number>>;
-  calendar?: string;
-  sourceUpdatedAt?: string;
-};
-
-/** One origin→destination leg of a single GTFS trip, in minutes past midnight
- *  (departure_time may exceed 24:00 for services that run past midnight). */
-type GtfsJourney = {
-  tripId: string;
-  departure: number;
-  arrival: number;
-  headsign?: string;
-  routeId?: string;
-};
 
 export type FranceServiceDayArtifact = {
   schemaVersion: 1;
@@ -45,102 +28,8 @@ export type FranceServiceDayArtifact = {
   routes: Record<string, Record<string, ServiceDayAdvisory>>;
 };
 
-let feedCache: { expiresAt: number; feed: GtfsFeed } | null = null;
 let artifactCache: FranceServiceDayArtifact | null | undefined;
 const ARTIFACT_PATH = resolve(process.cwd(), "src/data/service-day/france.json");
-
-function read16(bytes: Uint8Array, offset: number) {
-  return bytes[offset] | (bytes[offset + 1] << 8);
-}
-
-function read32(bytes: Uint8Array, offset: number) {
-  return (bytes[offset]
-    | (bytes[offset + 1] << 8)
-    | (bytes[offset + 2] << 16)
-    | (bytes[offset + 3] << 24)) >>> 0;
-}
-
-function zipTextEntries(bytes: Uint8Array): Map<string, string> {
-  const entries = new Map<string, string>();
-  let end = -1;
-  for (let offset = bytes.length - 22; offset >= Math.max(0, bytes.length - 65_557); offset -= 1) {
-    if (read32(bytes, offset) === 0x06054b50) {
-      end = offset;
-      break;
-    }
-  }
-  if (end < 0) throw new Error("SNCF GTFS archive has no end-of-central-directory record.");
-
-  const count = read16(bytes, end + 10);
-  const centralOffset = read32(bytes, end + 16);
-  let offset = centralOffset;
-  const decoder = new TextDecoder();
-  for (let index = 0; index < count; index += 1) {
-    if (read32(bytes, offset) !== 0x02014b50) throw new Error("SNCF GTFS archive has an invalid central directory.");
-    const compression = read16(bytes, offset + 10);
-    const compressedSize = read32(bytes, offset + 20);
-    const nameLength = read16(bytes, offset + 28);
-    const extraLength = read16(bytes, offset + 30);
-    const commentLength = read16(bytes, offset + 32);
-    const localOffset = read32(bytes, offset + 42);
-    const name = decoder.decode(bytes.slice(offset + 46, offset + 46 + nameLength));
-    const localNameLength = read16(bytes, localOffset + 26);
-    const localExtraLength = read16(bytes, localOffset + 28);
-    const dataStart = localOffset + 30 + localNameLength + localExtraLength;
-    const compressed = bytes.slice(dataStart, dataStart + compressedSize);
-    const uncompressed = compression === 0
-      ? compressed
-      : compression === 8
-        ? new Uint8Array(inflateRawSync(compressed))
-        : (() => { throw new Error(`Unsupported GTFS ZIP compression method ${compression}.`); })();
-    entries.set(name, decoder.decode(uncompressed));
-    offset += 46 + nameLength + extraLength + commentLength;
-  }
-  return entries;
-}
-
-function csvLine(line: string): string[] {
-  const fields: string[] = [];
-  let field = "";
-  let quoted = false;
-  for (let index = 0; index < line.length; index += 1) {
-    const char = line[index];
-    if (char === '"') {
-      if (quoted && line[index + 1] === '"') {
-        field += '"';
-        index += 1;
-      } else {
-        quoted = !quoted;
-      }
-    } else if (char === "," && !quoted) {
-      fields.push(field);
-      field = "";
-    } else {
-      field += char;
-    }
-  }
-  fields.push(field);
-  return fields;
-}
-
-function forEachCsvRow(text: string, callback: (row: Record<string, string>) => void) {
-  let start = 0;
-  let headers: string[] | undefined;
-  while (start < text.length) {
-    const end = text.indexOf("\n", start);
-    const line = text.slice(start, end < 0 ? text.length : end).replace(/\r$/, "");
-    start = end < 0 ? text.length : end + 1;
-    if (!line) continue;
-    const values = csvLine(line);
-    if (!headers) {
-      headers = values;
-      continue;
-    }
-    const row: Record<string, string> = {};
-    headers.forEach((header, index) => { row[header] = values[index] || ""; });
-    callback(row);
-  }
-}
 
 function normalizeStation(value: string) {
   return value
@@ -153,133 +42,19 @@ function normalizeStation(value: string) {
 
 /** Words that differ between how we name a station and how SNCF does, and carry
  *  no distinguishing information ("Paris Gare de l'Est" vs "Paris Est"). */
-const STATION_FILLER = new Set(["gare", "station", "de", "du", "des", "d", "la", "le", "les", "l", "sncf", "ville"]);
+const FRANCE_STATION_MATCH: GtfsStationMatchOptions = {
+  fillerWords: ["gare", "station", "de", "du", "des", "d", "la", "le", "les", "l", "sncf", "ville"],
+  // The route list abbreviates Marseille St-Charles while SNCF spells out Saint.
+  synonyms: { st: "saint", ste: "sainte", sts: "saints" },
+};
 
-/** French station names abbreviate the same word both ways — the route list says
- *  "Marseille St-Charles", the feed says "Marseille-Saint-Charles". */
-const STATION_SYNONYM: Record<string, string> = { st: "saint", ste: "sainte", sts: "saints" };
+const franceFeedSource = createGtfsFeedSource({
+  url: FRANCE_GTFS_URL,
+  label: "SNCF GTFS",
+});
 
-function stationTokens(value: string): string[] {
-  return normalizeStation(value)
-    .split(" ")
-    .filter((token) => token && !STATION_FILLER.has(token))
-    .map((token) => STATION_SYNONYM[token] ?? token);
-}
-
-function stationStopIds(stops: GtfsStop[], query: string): Set<string> {
-  const queryKey = normalizeStation(query);
-  const exact = stops.filter((stop) => normalizeStation(stop.name) === queryKey);
-  // Substring matching cannot bridge a word-order or filler difference: the feed
-  // calls it "Paris Est" while the route list says "Paris Gare de l'Est", and
-  // neither string contains the other, so the Strasbourg route resolved to no
-  // stops at all and every date fell back. Requiring the query's distinguishing
-  // words to appear in the stop name bridges that without matching a different
-  // station — "Paris Est" does not satisfy a query for "Paris Nord".
-  const queryTokens = stationTokens(query);
-  const tokenSubset = exact.length > 0 || queryTokens.length === 0
-    ? []
-    : stops.filter((stop) => {
-      const tokens = new Set(stationTokens(stop.name));
-      return queryTokens.every((token) => tokens.has(token));
-    });
-  const candidates = exact.length > 0
-    ? exact
-    : tokenSubset.length > 0
-      ? tokenSubset
-      : stops.filter((stop) => {
-        const key = normalizeStation(stop.name);
-        return key.includes(queryKey) || queryKey.includes(key);
-      });
-  const selected = new Set(candidates.map((stop) => stop.id));
-  const selectedParents = new Set(candidates.map((stop) => stop.parentStation).filter(Boolean));
-  for (const stop of stops) {
-    if (selectedParents.has(stop.parentStation) || selectedParents.has(stop.id)) selected.add(stop.id);
-  }
-  return selected;
-}
-
-async function loadFeed(): Promise<GtfsFeed> {
-  if (feedCache && feedCache.expiresAt > Date.now()) return feedCache.feed;
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 20_000);
-  let response: Response;
-  let archiveBytes: ArrayBuffer;
-  try {
-    response = await fetch(FRANCE_GTFS_URL, {
-      signal: controller.signal,
-      headers: { Accept: "application/zip", "User-Agent": "TransitRail/1.0" },
-    });
-    if (!response.ok) throw new Error(`SNCF GTFS returned HTTP ${response.status}.`);
-    archiveBytes = await response.arrayBuffer();
-  } finally {
-    clearTimeout(timeout);
-  }
-  const archive = zipTextEntries(new Uint8Array(archiveBytes));
-  const stops: GtfsStop[] = [];
-  forEachCsvRow(archive.get("stops.txt") || "", (row) => {
-    if (row.stop_id && row.stop_name) stops.push({ id: row.stop_id, name: row.stop_name, parentStation: row.parent_station || undefined });
-  });
-  const trips = new Map<string, GtfsTrip>();
-  forEachCsvRow(archive.get("trips.txt") || "", (row) => {
-    if (row.trip_id && row.service_id) trips.set(row.trip_id, { serviceId: row.service_id, headsign: row.trip_headsign || undefined, routeId: row.route_id || undefined });
-  });
-  const activeDates = new Map<string, Map<string, number>>();
-  forEachCsvRow(archive.get("calendar_dates.txt") || "", (row) => {
-    if (!row.date || !row.service_id) return;
-    const byService = activeDates.get(row.date) || new Map<string, number>();
-    byService.set(row.service_id, Number(row.exception_type));
-    activeDates.set(row.date, byService);
-  });
-  const routes = new Map<string, GtfsRoute>();
-  forEachCsvRow(archive.get("routes.txt") || "", (row) => {
-    if (!row.route_id) return;
-    const routeType = Number(row.route_type);
-    routes.set(row.route_id, {
-      shortName: row.route_short_name || undefined,
-      longName: row.route_long_name || undefined,
-      routeType: Number.isFinite(routeType) ? routeType : undefined,
-    });
-  });
-  const feed = {
-    stops,
-    trips,
-    routes,
-    stopTimes: archive.get("stop_times.txt") || "",
-    activeDates,
-    calendar: archive.get("calendar.txt"),
-    sourceUpdatedAt: response.headers.get("last-modified") || undefined,
-  };
-  feedCache = { feed, expiresAt: Date.now() + FEED_CACHE_TTL_MS };
-  return feed;
-}
-
-function activeServices(feed: GtfsFeed, date: string): Set<string> {
-  const active = new Set<string>();
-  const exceptions = feed.activeDates.get(date.replace(/-/g, ""));
-  exceptions?.forEach((type, serviceId) => {
-    if (type === 1) active.add(serviceId);
-    if (type === 2) active.delete(serviceId);
-  });
-  // Some regional feeds provide a normal calendar in addition to exceptions.
-  if (feed.calendar) {
-    const weekday = new Date(`${date}T12:00:00Z`).getUTCDay();
-    const field = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"][weekday];
-    forEachCsvRow(feed.calendar, (row) => {
-      if (row.start_date <= date && date <= row.end_date && row[field] === "1") active.add(row.service_id);
-    });
-  }
-  exceptions?.forEach((type, serviceId) => { if (type === 2) active.delete(serviceId); });
-  return active;
-}
-
-function gtfsMinutes(value: string): number | undefined {
-  const match = /^(\d+):(\d{2}):(\d{2})$/.exec(value);
-  if (!match) return undefined;
-  return Number(match[1]) * 60 + Number(match[2]);
-}
-
-function formatGtfsMinutes(minutes: number) {
-  return `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
+function loadFeed(): Promise<GtfsFeed> {
+  return franceFeedSource.load();
 }
 
 function serviceDayType(feed: GtfsFeed | undefined, date: string): ServiceDayType {
@@ -368,46 +143,8 @@ function loadArtifact(): FranceServiceDayArtifact | null {
   }
 }
 
-/**
- * Every trip in the feed that calls at the origin and then, later in its stop
- * sequence, at the destination on the given service date. Shared by the
- * service-day advisory (which needs only the first and last departure) and the
- * timetable builder (which needs them all).
- */
 function collectJourneys(feed: GtfsFeed, origin: string, destination: string, date: string): GtfsJourney[] {
-  const active = activeServices(feed, date);
-  const originIds = stationStopIds(feed.stops, origin);
-  const destinationIds = stationStopIds(feed.stops, destination);
-  const journeys: GtfsJourney[] = [];
-  const byTrip = new Map<string, { origins: Array<{ sequence: number; minutes: number }>; destinations: Array<{ sequence: number; minutes: number }> }>();
-  forEachCsvRow(feed.stopTimes, (row) => {
-    const trip = feed.trips.get(row.trip_id);
-    if (!trip || !active.has(trip.serviceId)) return;
-    const minutes = gtfsMinutes(row.departure_time || row.arrival_time);
-    const sequence = Number(row.stop_sequence);
-    if (minutes === undefined || !Number.isFinite(sequence)) return;
-    const current = byTrip.get(row.trip_id) || { origins: [], destinations: [] };
-    if (originIds.has(row.stop_id)) current.origins.push({ sequence, minutes });
-    if (destinationIds.has(row.stop_id)) current.destinations.push({ sequence, minutes });
-    byTrip.set(row.trip_id, current);
-  });
-  for (const [tripId, value] of byTrip) {
-    const origins = value.origins.sort((a, b) => a.sequence - b.sequence);
-    const destinations = value.destinations.sort((a, b) => a.sequence - b.sequence);
-    const originStop = origins.find((candidate) => destinations.some((destinationStop) => destinationStop.sequence > candidate.sequence));
-    const destinationStop = originStop && destinations.find((candidate) => candidate.sequence > originStop.sequence);
-    if (originStop && destinationStop) {
-      const trip = feed.trips.get(tripId);
-      journeys.push({
-        tripId,
-        departure: originStop.minutes,
-        arrival: destinationStop.minutes,
-        headsign: trip?.headsign,
-        routeId: trip?.routeId,
-      });
-    }
-  }
-  return journeys.sort((a, b) => a.departure - b.departure);
+  return collectGtfsJourneys(feed, origin, destination, date, FRANCE_STATION_MATCH);
 }
 
 function calculateAdvisory(feed: GtfsFeed, origin: string, destination: string, date: string, selectedTime?: string): ServiceDayAdvisory {
@@ -421,8 +158,8 @@ function calculateAdvisory(feed: GtfsFeed, origin: string, destination: string, 
     serviceDate: date,
     timezone: FRANCE_TIMEZONE,
     serviceDayType: serviceDayType(feed, date),
-    firstDeparture: formatGtfsMinutes(firstDeparture),
-    lastDeparture: formatGtfsMinutes(lastDeparture),
+    firstDeparture: formatGtfsExtendedMinutes(firstDeparture),
+    lastDeparture: formatGtfsExtendedMinutes(lastDeparture),
     risk,
     minutesToLastDeparture,
     source: "SNCF Open Data GTFS",
@@ -445,13 +182,6 @@ export async function getFranceServiceDayAdvisory(
   // scraper owns GTFS retrieval and atomic publication; a missing artifact is
   // unavailable coverage, not permission to fetch an upstream feed per user.
   return buildUnavailable(date, "SNCF service-day information is not available from the latest scheduled artifact.");
-}
-
-/** GTFS times run past 24:00 for services crossing midnight; the wall clock a
- *  passenger reads does not. Duration is taken from the raw values, so a
- *  23:50 → 25:15 trip renders as 23:50 → 01:15 lasting 85 min. */
-function formatClock(minutes: number) {
-  return formatGtfsMinutes(((minutes % 1440) + 1440) % 1440);
 }
 
 /**
@@ -528,24 +258,21 @@ export async function searchFranceGtfs(
     };
   }
 
-  const results: TransitResult[] = journeys.map((journey) => ({
-    id: `fr-${journey.tripId}`,
+  const results = buildGtfsTimetable(feed, journeys, {
+    idPrefix: "fr",
     country: "france",
     operator: "SNCF",
-    service: serviceLabel(feed, journey),
-    departureTime: formatClock(journey.departure),
-    arrivalTime: formatClock(journey.arrival),
-    durationMinutes: journey.arrival - journey.departure,
     origin,
     destination,
-    direct: true,
-    stops: [],
+    serviceLabel,
     // Only a real headsign, i.e. the destination shown on the train. A numeric
     // trip_headsign is the train number and has already gone into `service`.
-    ...(journey.headsign && !/^\d+$/.test(journey.headsign.trim())
-      ? { headsign: journey.headsign.trim() }
-      : {}),
-  }));
+    headsign: (journey) => (
+      journey.headsign && !/^\d+$/.test(journey.headsign.trim())
+        ? journey.headsign.trim()
+        : undefined
+    ),
+  });
 
   return { status: 200, body: { results, source: "SNCF Open Data GTFS" } };
 }
@@ -605,10 +332,10 @@ export async function collectFranceServiceDayArtifact(
 }
 
 export function resetFranceGtfsCache() {
-  feedCache = null;
+  franceFeedSource.reset();
   artifactCache = undefined;
 }
 
 export function resetFranceGtfsFeedCache() {
-  feedCache = null;
+  franceFeedSource.reset();
 }

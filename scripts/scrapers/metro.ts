@@ -21,6 +21,7 @@ import {
 import { ProviderBackedScraper, SnapshotScraper } from "./snapshot";
 import type { ScrapedRouteData } from "./types";
 import { collectFranceServiceDayArtifact, searchFranceGtfs } from "../../src/server/franceGtfs";
+import { searchGermanyGtfs } from "../../src/server/germanyGtfs";
 import { recordError } from "../../src/server/errorLog";
 import { collectThailandServiceDayArtifact, THAILAND_BEM_URL } from "../../src/server/thailandBem";
 
@@ -102,9 +103,9 @@ export class SwitzerlandScraper extends ProviderBackedScraper {
   }
 }
 
-export class GermanyScraper extends SnapshotScraper {
+export class GermanyScraper extends ProviderBackedScraper {
   constructor() {
-    super("DB", "germany", germanyRoutes);
+    super("gtfs.de", "germany", germanyRoutes, searchGermanyGtfs);
   }
 }
 
