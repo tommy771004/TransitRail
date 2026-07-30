@@ -25,7 +25,7 @@ export type GtfsFeed = {
   stops: GtfsStop[];
   trips: Map<string, GtfsTrip>;
   routes: Map<string, GtfsRoute>;
-  stopTimes: string;
+  stopTimes: string | Uint8Array;
   activeDates: Map<string, Map<string, number>>;
   calendar?: string;
   sourceUpdatedAt?: string;
@@ -56,8 +56,8 @@ function read32(bytes: Uint8Array, offset: number) {
     | (bytes[offset + 3] << 24)) >>> 0;
 }
 
-function zipTextEntries(bytes: Uint8Array, label: string): Map<string, string> {
-  const entries = new Map<string, string>();
+function zipTextEntries(bytes: Uint8Array, label: string): Map<string, string | Uint8Array> {
+  const entries = new Map<string, string | Uint8Array>();
   let end = -1;
   for (let offset = bytes.length - 22; offset >= Math.max(0, bytes.length - 65_557); offset -= 1) {
     if (read32(bytes, offset) === 0x06054b50) {
@@ -91,7 +91,15 @@ function zipTextEntries(bytes: Uint8Array, label: string): Map<string, string> {
       : compression === 8
         ? new Uint8Array(inflateRawSync(compressed))
         : (() => { throw new Error(`Unsupported GTFS ZIP compression method ${compression}.`); })();
-    entries.set(name, decoder.decode(uncompressed));
+    // Switzerland's nationwide feed has a very large stop_times.txt. Keep
+    // that entry as bytes so V8 never has to allocate one >512 MB string; the
+    // CSV iterator below decodes it incrementally.
+    entries.set(
+      name,
+      name === "stop_times.txt" && uncompressed.length > 64 * 1024 * 1024
+        ? uncompressed
+        : decoder.decode(uncompressed),
+    );
     offset += 46 + nameLength + extraLength + commentLength;
   }
   return entries;
@@ -122,25 +130,47 @@ function csvLine(line: string): string[] {
 }
 
 export function forEachGtfsCsvRow(
-  text: string,
+  text: string | Uint8Array,
   callback: (row: Record<string, string>) => void,
 ) {
   let start = 0;
   let headers: string[] | undefined;
-  while (start < text.length) {
-    const end = text.indexOf("\n", start);
-    const line = text.slice(start, end < 0 ? text.length : end).replace(/\r$/, "");
-    start = end < 0 ? text.length : end + 1;
-    if (!line) continue;
-    const values = csvLine(line);
+  const processLine = (line: string) => {
+    const normalized = line.replace(/\r$/, "");
+    if (!normalized) return;
+    const values = csvLine(normalized);
     if (!headers) {
-      headers = values;
-      continue;
+      headers = values.map((header, index) => index === 0 ? header.replace(/^\uFEFF/, "") : header);
+      return;
     }
     const row: Record<string, string> = {};
     headers.forEach((header, index) => { row[header] = values[index] || ""; });
     callback(row);
+  };
+
+  if (typeof text === "string") {
+    while (start < text.length) {
+      const end = text.indexOf("\n", start);
+      processLine(text.slice(start, end < 0 ? text.length : end));
+      start = end < 0 ? text.length : end + 1;
+    }
+    return;
   }
+
+  const decoder = new TextDecoder();
+  let pending = "";
+  const chunkSize = 1024 * 1024;
+  for (let offset = 0; offset < text.length; offset += chunkSize) {
+    pending += decoder.decode(text.slice(offset, Math.min(offset + chunkSize, text.length)), { stream: true });
+    let newline = pending.indexOf("\n");
+    while (newline >= 0) {
+      processLine(pending.slice(0, newline));
+      pending = pending.slice(newline + 1);
+      newline = pending.indexOf("\n");
+    }
+  }
+  pending += decoder.decode();
+  if (pending) processLine(pending);
 }
 
 export function parseGtfsFeed(
@@ -196,13 +226,14 @@ export function parseGtfsFeed(
     });
   });
 
+  const calendar = archive.get("calendar.txt");
   return {
     stops,
     trips,
     routes,
     stopTimes: archive.get("stop_times.txt") || "",
     activeDates,
-    calendar: archive.get("calendar.txt"),
+    calendar: typeof calendar === "string" ? calendar : undefined,
     sourceUpdatedAt: options.sourceUpdatedAt,
   };
 }

@@ -166,3 +166,98 @@ export function collectGtfsJourneys(
   }
   return journeys.sort((a, b) => a.departure - b.departure);
 }
+
+type GtfsRouteQuery = { origin: string; destination: string };
+type TripStopPair = {
+  origins: Array<{ sequence: number; minutes: number }>;
+  destinations: Array<{ sequence: number; minutes: number }>;
+};
+
+function journeysFromTripStops(
+  feed: GtfsFeed,
+  byTrip: Map<string, TripStopPair>,
+  active: Set<string>,
+): GtfsJourney[] {
+  const journeys: GtfsJourney[] = [];
+  for (const [tripId, value] of byTrip) {
+    const trip = feed.trips.get(tripId);
+    if (!trip || !active.has(trip.serviceId)) continue;
+    const origins = value.origins.sort((a, b) => a.sequence - b.sequence);
+    const destinations = value.destinations.sort((a, b) => a.sequence - b.sequence);
+    const originStop = origins.find((candidate) => (
+      destinations.some((destinationStop) => destinationStop.sequence > candidate.sequence)
+    ));
+    const destinationStop = originStop
+      && destinations.find((candidate) => candidate.sequence > originStop.sequence);
+    if (!originStop || !destinationStop) continue;
+    journeys.push({
+      tripId,
+      departure: originStop.minutes,
+      arrival: destinationStop.minutes,
+      headsign: trip.headsign,
+      routeId: trip.routeId,
+      shortName: trip.shortName,
+    });
+  }
+  return journeys.sort((a, b) => a.departure - b.departure);
+}
+
+/**
+ * Collect many route/date queries with one pass over a large stop_times.txt.
+ * Switzerland's nationwide feed is too large to rescan once per route.
+ */
+export function collectGtfsJourneysForDates(
+  feed: GtfsFeed,
+  routes: readonly GtfsRouteQuery[],
+  dates: readonly string[],
+  stationMatch: GtfsStationMatchOptions = {},
+): Map<string, GtfsJourney[]> {
+  const routeStops = routes.map((route) => ({
+    origin: stationStopIds(feed.stops, route.origin, stationMatch),
+    destination: stationStopIds(feed.stops, route.destination, stationMatch),
+  }));
+  const originsByStop = new Map<string, number[]>();
+  const destinationsByStop = new Map<string, number[]>();
+  routeStops.forEach((route, index) => {
+    for (const stopId of route.origin) {
+      originsByStop.set(stopId, [...(originsByStop.get(stopId) || []), index]);
+    }
+    for (const stopId of route.destination) {
+      destinationsByStop.set(stopId, [...(destinationsByStop.get(stopId) || []), index]);
+    }
+  });
+
+  const byRouteTrip = routeStops.map(() => new Map<string, TripStopPair>());
+  forEachGtfsCsvRow(feed.stopTimes, (row) => {
+    const originRoutes = originsByStop.get(row.stop_id) || [];
+    const destinationRoutes = destinationsByStop.get(row.stop_id) || [];
+    if (originRoutes.length === 0 && destinationRoutes.length === 0) return;
+    const trip = feed.trips.get(row.trip_id);
+    if (!trip) return;
+    const sequence = Number(row.stop_sequence);
+    if (!Number.isFinite(sequence)) return;
+
+    const routeIndices = new Set([...originRoutes, ...destinationRoutes]);
+    for (const index of routeIndices) {
+      const current = byRouteTrip[index].get(row.trip_id) || { origins: [], destinations: [] };
+      if (originRoutes.includes(index)) {
+        const departure = gtfsMinutes(row.departure_time || row.arrival_time);
+        if (departure !== undefined) current.origins.push({ sequence, minutes: departure });
+      }
+      if (destinationRoutes.includes(index)) {
+        const arrival = gtfsMinutes(row.arrival_time || row.departure_time);
+        if (arrival !== undefined) current.destinations.push({ sequence, minutes: arrival });
+      }
+      byRouteTrip[index].set(row.trip_id, current);
+    }
+  });
+
+  const result = new Map<string, GtfsJourney[]>();
+  for (const date of dates) {
+    const active = activeGtfsServices(feed, date);
+    byRouteTrip.forEach((byTrip, index) => {
+      result.set(`${index}:${date}`, journeysFromTripStops(feed, byTrip, active));
+    });
+  }
+  return result;
+}

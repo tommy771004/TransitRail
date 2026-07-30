@@ -1,7 +1,7 @@
 import { searchHongKongMtr } from "../../src/server/hongKongMtr";
 import { searchMbtaJourney } from "../../src/server/mbta";
 import { searchTflJourney } from "../../src/server/tfl";
-import { searchSwissJourney } from "../../src/server/swiss";
+import { prepareSwissGtfsBatch, searchSwissGtfs } from "../../src/server/swissGtfs";
 import { searchBelgiumJourney } from "../../src/server/belgium";
 import { searchNorwayJourney } from "../../src/server/norway";
 import { chromium } from "playwright";
@@ -99,7 +99,19 @@ export class UnitedStatesScraper extends ProviderBackedScraper {
 
 export class SwitzerlandScraper extends ProviderBackedScraper {
   constructor() {
-    super("OpenTransportData Swiss", "switzerland", switzerlandRoutes, searchSwissJourney);
+    super("OpenTransportData Swiss GTFS", "switzerland", switzerlandRoutes, searchSwissGtfs);
+  }
+
+  override async runAll(date: string, options: { keepDates?: string[] } = {}) {
+    // The Swiss stop_times.txt is hundreds of MB uncompressed. Prepare every
+    // configured route/date once, then let ProviderBackedScraper persist the
+    // results and retain snapshot fallback semantics if the feed is unavailable.
+    try {
+      await prepareSwissGtfsBatch(this.routes, options.keepDates?.length ? options.keepDates : [date]);
+    } catch (error) {
+      console.warn(`  ${this.country}: GTFS batch preparation failed; using route fallbacks:`, error instanceof Error ? error.message : error);
+    }
+    return super.runAll(date, options);
   }
 }
 

@@ -33,7 +33,7 @@ disclaimer disappears.
 | united_kingdom | `ProviderBacked` | 4 | 1 | live — `api.tfl.gov.uk` (1 route fixed, awaiting scrape) |
 | united_states | `ProviderBacked` | 4 | 1 | live — `api-v3.mbta.com` (1 route fixed, awaiting scrape) |
 | hong_kong | `ProviderBacked` | 4 | 4 | live for **today only**, snapshot for days 1–6 |
-| switzerland | `ProviderBacked` | 5 | 5 | **blocked** — token not subscribed to OJP 2.0 |
+| switzerland | `ProviderBacked` | 5 | 5 → 0 after next scrape | live — official Swiss GTFS Static download; OJP remains optional for realtime |
 | japan | `BaseScraper` | 23 | 23 | **generated in code** |
 | korea | `Snapshot` | 9 | 9 | **generated**, re-stamped from committed JSON |
 | china | `Snapshot` | 4 | 4 | **generated** |
@@ -76,8 +76,8 @@ reason to stdout (`recordError` in [src/server/errorLog.ts](src/server/errorLog.
 | Marseille page returns | `paris-gare-de-lyon-marseille-st-charles` | `St`/`Saint` normalisation |
 | Two routes go live | `paddington-station-liverpool-street-station`, `harvard-logan-international-airport` | TfL suffix retry, MBTA alias |
 
-The fallback log should shrink from four causes to two — Hong Kong's structural
-limit and Switzerland's subscription.
+The fallback log should shrink from four causes to one — Hong Kong's structural
+limit — after the next scheduled scrape.
 
 **Marseille currently has no page.** The live run extracted 1–2 departures a day
 against a real ~15, which tripped the `MIN_DAILY_RESULTS = 3` guard. The fix is
@@ -89,12 +89,24 @@ Files: [src/server/franceGtfs.ts](src/server/franceGtfs.ts),
 
 ---
 
-## 2. Blocked on account access — not a code change
+## 2. Switzerland — static timetable is now available without API access
 
 ### Switzerland (5 routes) — highest return for the least work
 
-The token **is** configured. `searchSwissJourney()` returns 501 without fetching
-when it is absent, and the log shows a real upstream refusal on all five routes:
+The five Swiss routes now use the official nationwide GTFS Static ZIP from the
+[OpenTransportData Swiss timetable catalog](https://data.opentransportdata.swiss/en/dataset/timetable-2026-gtfs2020).
+The public catalog exposes the current download without an API token, so the
+scraper can refresh scheduled departures even when OJP access is not subscribed.
+The [GTFS timetable documentation](https://opentransportdata.swiss/en/cookbook/timetable-cookbook/gtfs/)
+describes the static format and its update cadence:
+
+`src/server/swissGtfs.ts` discovers the newest ZIP from the catalog, streams the
+large `stop_times.txt` entry incrementally, and prepares all configured routes in
+one pass. `ProviderBackedScraper` still retains the existing snapshot fallback if
+the catalog or download is unavailable.
+
+OJP remains useful for realtime and disruption data, but is not required for the
+scheduled timetable:
 
 ```
 Swiss OJP returned HTTP 403. {"error": "Access to this API has been disallowed"}
@@ -107,12 +119,12 @@ Endpoint verified correct: `SWISS_OJP_URL` in `.env.example` is
 `https://api.opentransportdata.swiss/ojp20`, identical to the default in
 [src/server/swiss.ts](src/server/swiss.ts). A wrong URL would 404, not 403.
 
-Only `SWISS_OJP_TOKEN` is read today. `SWISS_OJP_FARE_*`, `SWISS_SIRI_*`,
+Only `SWISS_OJP_TOKEN` is read for OJP today. `SWISS_OJP_FARE_*`, `SWISS_SIRI_*`,
 `SWISS_FORMATION_*` and `SWISS_TRANSPORT_TOKEN` have **zero references** in the
 codebase — they are labelled reserved, and setting them has no effect yet. Each
 is a separate API needing its own subscription.
 
-Files: [src/server/swiss.ts](src/server/swiss.ts),
+Files: [src/server/swissGtfs.ts](src/server/swissGtfs.ts), [src/server/swiss.ts](src/server/swiss.ts),
 [.github/workflows/scrape.yml](.github/workflows/scrape.yml), `.env.example`.
 
 ### Domain
@@ -143,7 +155,7 @@ Two things could change this, neither trivial:
 
 ---
 
-## 4. Still fabricated — 48 routes across 5 countries
+## 4. Still fabricated — 43 routes across 5 countries
 
 Ordered by feasibility. Each entry lists what is missing before code can be
 written; none of it can be verified from the dev sandbox, whose proxy blocks all
@@ -165,6 +177,7 @@ src/server/gtfs/journeys.ts    collectGtfsJourneys() + station matching
 src/server/gtfs/timetable.ts   → TransitResult[], parameterised by operator/brand map
 src/server/franceGtfs.ts       keeps the advisory + France specifics
 src/server/germanyGtfs.ts      URL + service labels + German station aliases
+src/server/swissGtfs.ts         catalog discovery + one-pass nationwide feed scan
 ```
 
 The Germany profile explicitly maps the route list's English names to the feed's
