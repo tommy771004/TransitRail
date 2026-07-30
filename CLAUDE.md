@@ -8,7 +8,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm run dev              # Full app: Express API + Vite middleware (tsx server.ts) on one port
 npm run build            # vite build (frontend → dist/) + esbuild bundle server → dist/server.cjs
 npm start                # Run the production bundle (node dist/server.cjs)
-npm run lint             # tsc --noEmit — the ONLY automated check; there is no unit-test suite
+npm run lint             # tsc --noEmit && vitest run — the gate for every change
+npm test                 # vitest run on its own (15 files, 86 tests)
 
 # Scrapers (need Chromium: npx playwright install chromium)
 npm run scrape [YYYY-MM-DD]     # Run every country scraper, 7 days forward from date/today
@@ -20,11 +21,14 @@ npx tsx scripts/audit-station-mapping.ts    # Verify scraper route names match t
 npx tsx scripts/seed-curated-snapshots.ts   # De-dupe + (re)seed curated snapshot timetables
 
 # SEO artifacts (both also run inside npm run build)
-npm run routes           # Prerender static route pages → public/<country>/<o>-to-<d>/ + /zh/... + /routes/ hubs
+npm run routes           # Prerender static route pages in 6 locales → public/[<locale>/]<country>/<o>-to-<d>/ + /routes/ hubs
 npm run sitemap          # Regenerate sitemap index (core + countries + routes.xml); run AFTER npm run routes
+npm run redirects        # Refresh vercel.json 301s after a slug change; NOT part of the build (see below)
 ```
 
-There is no test framework. `npm run lint` (TypeScript typecheck) is the gate. Verify data changes by importing `findScrapedResults` from `src/data/scraped` in a `npx tsx -e '...'` snippet.
+`npm run lint` (typecheck + Vitest) is the gate. Verify data changes by importing `findScrapedResults` from `src/data/scraped` in a `npx tsx -e '...'` snippet.
+
+The France/Thailand advisory suites need "no artifact on disk" as a starting state, but `src/data/service-day/<country>.json` is committed. They go through `serviceDayArtifactFixture()` ([src/server/serviceDayArtifactFixture.ts](src/server/serviceDayArtifactFixture.ts)), which stashes the tracked file for the suite and restores it in `afterAll` — **any new service-day suite must use it too**. Deleting the artifact outright (as these once did) leaves the working tree dirty and makes the suite pass only because an earlier run already removed the file, so a clean checkout fails.
 
 ## Architecture
 
@@ -48,7 +52,11 @@ A mobile-first cross-border transit timetable search app: React 19 SPA + a singl
 
 **i18n / station labels.** [src/i18n.ts](src/i18n.ts) hardcodes `en` + `zh-TW` resources including a curated `station` name dict (this is where e.g. `"Hong Kong": "香港"` lives — NOT `translations.json`, which is the auto-generated TfL/MBTA name file merged in *without* overwriting curated keys). `stationLabel()` ([src/utils/stationLabel.ts](src/utils/stationLabel.ts)) applies per-country overrides from [stationOverrides.ts](src/data/stationOverrides.ts) first, because the flat dict shares one value across countries and some English names collide (e.g. "Central", "City Hall", "Admiralty").
 
-**Prerendered SEO route pages.** `scripts/generate-route-pages.ts` (build step) emits a static HTML page per scraped route file — EN at `/<country>/<origin>-to-<dest>/`, zh-TW under `/zh/...`, plus `/routes/` hub pages. Route enumeration, slugs, and the thin-content guard (≥3 canonical-day departures) live in [scripts/lib/routePages.ts](scripts/lib/routePages.ts), shared with `generate-sitemaps.ts` so pages and `sitemaps/routes.xml` never disagree. Output dirs are gitignored and wiped on every run — never hand-place files under `public/<country>/`, `public/zh/`, or `public/routes/`. Vercel serves these static files before the SPA catch-all rewrite; in dev, `server.ts` mounts `express.static("public", { index, redirect:false })` ahead of Vite to mirror that.
+**Prerendered SEO route pages.** `scripts/generate-route-pages.ts` (build step) emits a static HTML page per scraped route file in every locale of `PRERENDER_LOCALES` — EN unprefixed at `/<country>/<origin>-to-<dest>/`, the rest under their prefix (`/zh/`, `/ja/`, `/ko/`, `/fr/`, `/de/`) — plus `/routes/` and per-country hub pages. That list, the locale URL prefixes, hreflang values, route enumeration, slugs, and the thin-content guard (≥3 canonical-day departures) all live in [scripts/lib/routePages.ts](scripts/lib/routePages.ts), shared with `generate-sitemaps.ts` so pages and `sitemaps/routes.xml` never disagree — **add a locale there, not in the generator**. Output dirs are gitignored and wiped on every run — never hand-place files under `public/<country>/`, `public/{zh,ja,ko,fr,de}/`, `public/routes/`, or `public/og-routes/`. Vercel serves these static files before the SPA catch-all rewrite; in dev, `server.ts` mounts `express.static("public", { index, redirect:false })` ahead of Vite to mirror that.
+
+**Curated snapshots must not be presented as real timetables.** 63 of 79 route files are `SnapshotScraper` output: a representative service pattern on a fixed headway, with one duration and fare repeated across every departure. `isIndicativeTimetable()` (routePages.ts) flags them onto `RoutePageData.indicative`, and those pages render a service window + frequency instead of first/last-train claims, carry a notice naming the operator to verify with, answer the FAQ as a window, and **emit no `TrainTrip` structured data** — publishing invented departure times as schema.org feeds them to every consumer that trusts it. Only genuinely scraped routes (TfL, MBTA, iRail, Entur) get departure-level schema. Titles go through `buildTitle()`, which fits a 60-half-width budget (`displayWidth()` counts CJK double) so Google does not truncate them; `tidyStationName()` strips operator codes and TfL's network suffix from **both** slugs and display labels (`Seoul (SNC)` → `Seoul`, `Oxford Circus Underground Station` → `Oxford Circus`), while search keys, the station menu and schema `alternateName` keep the raw name — so tidying can never make a station unreachable.
+
+**Changing a slug means committing a redirect.** Vercel resolves `vercel.json` before the build, so Express never sees a stale route URL — it falls through to the SPA catch-all as a soft 404. `npm run redirects` ([scripts/generate-url-redirects.ts](scripts/generate-url-redirects.ts)) derives the legacy slug from the untidied station name and writes a 301 per prerender locale into `vercel.json`. It is deliberately **not** in `npm run build` (a build-time edit would land too late to affect routing) — run it by hand after touching `tidyStationName` or `slugifyStation`, and commit the result. It owns every redirect under a country path and leaves the hand-written `/sitemap*` ones alone.
 
 **Result rendering** branches by country in [App.tsx](src/App.tsx): japan/germany/france/china → `JapanResultView`, korea → `KoreaResultView`, hong_kong/singapore/thailand → `MetroResultView`, uk/us → `LiveRailResultView`. All render the journey timeline (including transfer legs) via [TripDetails.tsx](src/components/TripDetails.tsx), which reads `trip.legs` (multi-leg = `direct:false` + `transferStations`) and computes transfer waits from `leg2.departureTime − leg1.arrivalTime`.
 

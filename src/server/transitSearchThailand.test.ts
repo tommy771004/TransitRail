@@ -1,17 +1,23 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { existsSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import { readFileSync, writeFileSync } from "node:fs";
+import { serviceDayArtifactFixture } from "./serviceDayArtifactFixture";
 import { runTransitSearch } from "./transitSearch";
 import { collectThailandServiceDayArtifact, resetThailandBemCache } from "./thailandBem";
 
 const BEM_URL = "https://metro.bemplc.co.th/Fare-Calculation?lang=en";
 const fixture = readFileSync(new URL("./fixtures/bem-first-last.html", import.meta.url), "utf8");
 
+const artifact = serviceDayArtifactFixture(
+  new URL("../data/service-day/thailand.json", import.meta.url),
+);
+
 describe("runTransitSearch Thailand official HTML advisory", () => {
+  beforeAll(() => artifact.stash());
+  afterAll(() => artifact.restore());
   afterEach(() => {
     vi.unstubAllGlobals();
     resetThailandBemCache();
-    const artifactPath = new URL("../data/service-day/thailand.json", import.meta.url);
-    if (existsSync(artifactPath)) unlinkSync(artifactPath);
+    artifact.clear();
   });
 
   it("does not fetch BEM from the journey-search request when no artifact exists", async () => {

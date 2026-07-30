@@ -125,6 +125,22 @@ export function isIndicativeTimetable(source: string, results: TransitResult[]):
   return gaps.size === 1;
 }
 
+/**
+ * Strips operator baggage that reads as machine output in a URL and in a SERP
+ * breadcrumb: internal codes ("Seoul (SNC)") and the network suffix TfL appends
+ * to every stop ("Oxford Circus Underground Station").
+ *
+ * Applied to slugs and to display names. The raw name is still what search
+ * matching and the station menu key on, so tidying here cannot make a station
+ * unreachable — see scripts/audit-station-mapping.ts.
+ */
+export function tidyStationName(name: string): string {
+  return name
+    .replace(/\s*\([A-Z]{2,4}\)\s*$/, "")
+    .replace(/\s+(?:Underground|Rail|DLR)\s+Station$/i, "")
+    .trim();
+}
+
 export function slugifyStation(name: string): string {
   return name
     .normalize("NFKD")
@@ -178,8 +194,8 @@ export function collectRoutePages(scrapedDir = resolve("src/data/scraped")): Rou
         continue;
       }
 
-      const originSlug = slugifyStation(route.origin);
-      const destinationSlug = slugifyStation(route.destination);
+      const originSlug = slugifyStation(tidyStationName(route.origin));
+      const destinationSlug = slugifyStation(tidyStationName(route.destination));
       if (!originSlug || !destinationSlug) continue;
       const slug = `${originSlug}-to-${destinationSlug}`;
       const urlPath = `${countryPath}/${slug}/`;

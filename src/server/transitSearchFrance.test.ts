@@ -1,5 +1,6 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { existsSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import { readFileSync, writeFileSync } from "node:fs";
+import { serviceDayArtifactFixture } from "./serviceDayArtifactFixture";
 import { runTransitSearch } from "./transitSearch";
 import { collectFranceServiceDayArtifact, resetFranceGtfsCache, resetFranceGtfsFeedCache } from "./franceGtfs";
 
@@ -104,12 +105,17 @@ const gtfsFixture = zipFixture({
   ].join("\n"),
 });
 
+const artifact = serviceDayArtifactFixture(
+  new URL("../data/service-day/france.json", import.meta.url),
+);
+
 describe("runTransitSearch France GTFS service-day advisory", () => {
+  beforeAll(() => artifact.stash());
+  afterAll(() => artifact.restore());
   afterEach(() => {
     vi.unstubAllGlobals();
     resetFranceGtfsCache();
-    const artifactPath = new URL("../data/service-day/france.json", import.meta.url);
-    if (existsSync(artifactPath)) unlinkSync(artifactPath);
+    artifact.clear();
   });
 
   it("does not fetch SNCF from the journey-search request when no artifact exists", async () => {
