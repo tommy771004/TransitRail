@@ -2,7 +2,7 @@
   "origin": "Oslo S",
   "destination": "Stavanger stasjon",
   "date": "2026-07-30..2026-08-05",
-  "scrapedAt": "2026-07-30T12:49:43.117Z",
+  "scrapedAt": "2026-07-30T13:14:49.607Z",
   "source": "https://api.entur.io/journey-planner/v3/graphql",
   "results": [
     {
@@ -429,8 +429,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Stavanger lufthavn",
           "departureTime": "14:55",
-          "arrivalTime": "15:48",
-          "durationMinutes": 54
+          "arrivalTime": "15:45",
+          "durationMinutes": 49
         },
         {
           "lineName": "foot",
@@ -438,8 +438,8 @@
           "mode": "foot",
           "origin": "Stavanger lufthavn",
           "destination": "Stavanger lufthavn",
-          "departureTime": "16:03",
-          "arrivalTime": "16:05",
+          "departureTime": "16:00",
+          "arrivalTime": "16:01",
           "durationMinutes": 1
         },
         {
@@ -477,11 +477,11 @@
       "id": "2026-07-30-no-entur-2026-07-30-5-2026-07-30T12:54:00+02:00",
       "country": "norway",
       "operator": "Vy",
-      "service": "R12 + foot + Oslo-Stavanger + foot + 42 + foot + 7 + foot",
+      "service": "R12 + foot + Oslo-Stavanger + foot + 42 + 4 + foot",
       "trainType": "R12",
-      "durationMinutes": 255,
+      "durationMinutes": 238,
       "departureTime": "12:54",
-      "arrivalTime": "17:08",
+      "arrivalTime": "16:51",
       "origin": "Oslo S",
       "destination": "Stavanger stasjon",
       "direct": false,
@@ -518,8 +518,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Stavanger lufthavn",
           "departureTime": "14:55",
-          "arrivalTime": "15:48",
-          "durationMinutes": 54
+          "arrivalTime": "15:45",
+          "durationMinutes": 49
         },
         {
           "lineName": "foot",
@@ -527,8 +527,8 @@
           "mode": "foot",
           "origin": "Stavanger lufthavn",
           "destination": "Stavanger lufthavn",
-          "departureTime": "16:03",
-          "arrivalTime": "16:05",
+          "departureTime": "16:00",
+          "arrivalTime": "16:01",
           "durationMinutes": 2
         },
         {
@@ -537,31 +537,21 @@
           "color": "#4B5563",
           "mode": "bus",
           "origin": "Stavanger lufthavn",
-          "destination": "Sande terrasse",
-          "departureTime": "16:21",
-          "arrivalTime": "16:31",
-          "durationMinutes": 10
+          "destination": "Tjora",
+          "departureTime": "16:06",
+          "arrivalTime": "16:14",
+          "durationMinutes": 8
         },
         {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Sande terrasse",
-          "destination": "Sande terrasse",
-          "departureTime": "16:31",
-          "arrivalTime": "16:31",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "7",
-          "lineCode": "7",
+          "lineName": "4",
+          "lineCode": "4",
           "color": "#4B5563",
           "mode": "bus",
-          "origin": "Sande terrasse",
+          "origin": "Tjora",
           "destination": "Jernbaneveien",
-          "departureTime": "16:36",
-          "arrivalTime": "17:08",
-          "durationMinutes": 32
+          "departureTime": "16:20",
+          "arrivalTime": "16:51",
+          "durationMinutes": 31
         },
         {
           "lineName": "foot",
@@ -569,8 +559,8 @@
           "mode": "foot",
           "origin": "Jernbaneveien",
           "destination": "Stavanger stasjon",
-          "departureTime": "17:08",
-          "arrivalTime": "17:08",
+          "departureTime": "16:51",
+          "arrivalTime": "16:51",
           "durationMinutes": 1
         }
       ],
@@ -579,8 +569,7 @@
         "Oslo lufthavn",
         "Stavanger lufthavn",
         "Stavanger lufthavn",
-        "Sande terrasse",
-        "Sande terrasse",
+        "Tjora",
         "Jernbaneveien"
       ],
       "date": "2026-07-30"
