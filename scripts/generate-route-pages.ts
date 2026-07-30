@@ -27,6 +27,7 @@ import {
   collectRoutePages,
   localeUrlPath,
   parseClockMinutes,
+  tidyStationName,
   type PrerenderLocale,
   type RoutePageData,
 } from "./lib/routePages";
@@ -726,18 +727,11 @@ function stationName(name: string, country: Country, lang: Lang): string {
   return STATION_DICTS[lang][name] ?? name;
 }
 
-/**
- * Station names carry operator baggage that reads as machine output in a search
- * result: internal codes ("Seoul (SNC)") and the network suffix TfL appends to
- * every stop ("Oxford Circus Underground Station"). Strip both for display —
- * slugs, search keys and schema alternateName keep the raw name, so URLs and
- * station matching are untouched.
- */
+/** Localized station label with operator codes and network suffixes removed —
+ *  the same tidying the slug uses, so a page's URL and its heading agree.
+ *  Search keys and schema alternateName still carry the raw name. */
 function displayStationName(name: string, country: Country, lang: Lang): string {
-  return stationName(name, country, lang)
-    .replace(/\s*\([A-Z]{2,4}\)\s*$/, "")
-    .replace(/\s+(?:Underground|Rail|DLR)\s+Station$/i, "")
-    .trim();
+  return tidyStationName(stationName(name, country, lang));
 }
 
 function countryLabel(country: Country, lang: Lang): string {
