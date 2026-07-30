@@ -262,9 +262,24 @@ async function loadMbtaStations() {
   return stations;
 }
 
+/**
+ * Names the network does not use for a stop it does serve. MBTA calls the Blue
+ * Line stop for Boston Logan simply "Airport" — there is no station containing
+ * "Logan" in its catalogue at all, so "Logan International Airport" resolved to
+ * null and that route fell back to the snapshot on every date. Kept as an alias
+ * rather than renaming the route, because the fuller name is what travellers
+ * search for and it is the route page's title.
+ */
+const MBTA_STATION_ALIASES: Record<string, string> = {
+  "logan international airport": "Airport",
+  "logan airport": "Airport",
+  "boston logan": "Airport",
+};
+
 async function resolveMbtaStation(query: string) {
   const stations = await loadMbtaStations();
-  const normalizedQuery = normalizeStationName(query);
+  const aliased = MBTA_STATION_ALIASES[normalizeStationName(query)];
+  const normalizedQuery = normalizeStationName(aliased ?? query);
   const exact = stations.find((station) => normalizeStationName(station.name) === normalizedQuery);
   if (exact) return exact;
   return stations.find((station) => normalizeStationName(station.name).includes(normalizedQuery)) || null;

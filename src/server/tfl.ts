@@ -123,6 +123,11 @@ function normalizeStationName(value: string) {
   return value
     .toLowerCase()
     .replace(/\s+(underground|rail|dlr|overground)\s+station$/, "")
+    // A bare "Station" suffix too: TfL's own catalogue carries both
+    // "Paddington Station" and "Paddington Underground Station", and they are
+    // the same place. Without this they hash to different keys and the exact
+    // match below never fires.
+    .replace(/\s+station$/, "")
     .replace(/[^a-z0-9]+/g, " ")
     .trim();
 }
@@ -301,12 +306,26 @@ export async function getTflLines(): Promise<TransitLine[]> {
   return catalog;
 }
 
-async function resolveTflStation(query: string) {
+async function searchTflStopPoints(query: string) {
   const data = await fetchTflJson<TflSearchResponse>(
     tflUrl(`/StopPoint/Search/${encodeURIComponent(query)}`, { modes: TFL_MODES }),
   );
-  const matches = (data.matches || []).filter((match) => match.id && match.name);
+  return (data.matches || []).filter((match) => match.id && match.name);
+}
+
+/**
+ * TfL's search matches on words, so a "Station" suffix the network does not use
+ * finds nothing: "Paddington Station" and "Liverpool Street Station" resolved to
+ * null and every date for that route fell back to the snapshot, while the three
+ * routes named "… Underground Station" worked. Retrying without the suffix costs
+ * one request on the paths that were previously dead ends.
+ */
+async function resolveTflStation(query: string) {
   const normalizedQuery = normalizeStationName(query);
+  let matches = await searchTflStopPoints(query);
+  if (matches.length === 0 && normalizedQuery && normalizedQuery !== query.toLowerCase()) {
+    matches = await searchTflStopPoints(normalizedQuery);
+  }
   const exact = matches.find((match) => normalizeStationName(match.name || "") === normalizedQuery);
   const selected = exact || matches[0];
   return selected?.id
