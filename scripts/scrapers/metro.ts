@@ -20,7 +20,7 @@ import {
 } from "./routes";
 import { ProviderBackedScraper, SnapshotScraper } from "./snapshot";
 import type { ScrapedRouteData } from "./types";
-import { collectFranceServiceDayArtifact } from "../../src/server/franceGtfs";
+import { collectFranceServiceDayArtifact, searchFranceGtfs } from "../../src/server/franceGtfs";
 import { recordError } from "../../src/server/errorLog";
 import { collectThailandServiceDayArtifact, THAILAND_BEM_URL } from "../../src/server/thailandBem";
 
@@ -108,9 +108,9 @@ export class GermanyScraper extends SnapshotScraper {
   }
 }
 
-export class FranceScraper extends SnapshotScraper {
+export class FranceScraper extends ProviderBackedScraper {
   constructor() {
-    super("SNCF", "france", franceRoutes);
+    super("SNCF", "france", franceRoutes, searchFranceGtfs);
   }
 
   override async runAll(date: string, options: { keepDates?: string[] } = {}): Promise<ScrapedRouteData[]> {
