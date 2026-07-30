@@ -139,6 +139,18 @@ async function postSwissXml(url: string, xml: string, token: string) {
     });
     const body = await response.text();
     if (!response.ok) {
+      // opentransportdata.swiss grants access per API, not per account: a token
+      // that exists and is spelled correctly still gets "Access to this API has
+      // been disallowed" until OJP 2.0 is added to its subscription. Say so,
+      // because the generic wording sent us looking for a missing token that was
+      // configured all along.
+      if (response.status === 401 || response.status === 403) {
+        throw new Error(
+          `Swiss OJP refused the token (HTTP ${response.status}). SWISS_OJP_TOKEN is set but not ` +
+            `authorised for ${url} — subscribe that key to OJP 2.0 in the opentransportdata.swiss ` +
+            `portal. Response: ${body.slice(0, 160)}`.trim(),
+        );
+      }
       throw new Error(`Swiss OJP returned HTTP ${response.status}. ${body.slice(0, 200)}`.trim());
     }
     return body;
