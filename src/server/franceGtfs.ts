@@ -11,7 +11,7 @@ const FEED_CACHE_TTL_MS = 6 * 60 * 60 * 1000;
 
 type GtfsStop = { id: string; name: string; parentStation?: string };
 type GtfsTrip = { serviceId: string; headsign?: string; routeId?: string };
-type GtfsRoute = { shortName?: string; longName?: string };
+type GtfsRoute = { shortName?: string; longName?: string; routeType?: number };
 type GtfsFeed = {
   stops: GtfsStop[];
   trips: Map<string, GtfsTrip>;
@@ -151,15 +151,45 @@ function normalizeStation(value: string) {
     .trim();
 }
 
+/** Words that differ between how we name a station and how SNCF does, and carry
+ *  no distinguishing information ("Paris Gare de l'Est" vs "Paris Est"). */
+const STATION_FILLER = new Set(["gare", "station", "de", "du", "des", "d", "la", "le", "les", "l", "sncf", "ville"]);
+
+/** French station names abbreviate the same word both ways — the route list says
+ *  "Marseille St-Charles", the feed says "Marseille-Saint-Charles". */
+const STATION_SYNONYM: Record<string, string> = { st: "saint", ste: "sainte", sts: "saints" };
+
+function stationTokens(value: string): string[] {
+  return normalizeStation(value)
+    .split(" ")
+    .filter((token) => token && !STATION_FILLER.has(token))
+    .map((token) => STATION_SYNONYM[token] ?? token);
+}
+
 function stationStopIds(stops: GtfsStop[], query: string): Set<string> {
   const queryKey = normalizeStation(query);
   const exact = stops.filter((stop) => normalizeStation(stop.name) === queryKey);
+  // Substring matching cannot bridge a word-order or filler difference: the feed
+  // calls it "Paris Est" while the route list says "Paris Gare de l'Est", and
+  // neither string contains the other, so the Strasbourg route resolved to no
+  // stops at all and every date fell back. Requiring the query's distinguishing
+  // words to appear in the stop name bridges that without matching a different
+  // station — "Paris Est" does not satisfy a query for "Paris Nord".
+  const queryTokens = stationTokens(query);
+  const tokenSubset = exact.length > 0 || queryTokens.length === 0
+    ? []
+    : stops.filter((stop) => {
+      const tokens = new Set(stationTokens(stop.name));
+      return queryTokens.every((token) => tokens.has(token));
+    });
   const candidates = exact.length > 0
     ? exact
-    : stops.filter((stop) => {
-      const key = normalizeStation(stop.name);
-      return key.includes(queryKey) || queryKey.includes(key);
-    });
+    : tokenSubset.length > 0
+      ? tokenSubset
+      : stops.filter((stop) => {
+        const key = normalizeStation(stop.name);
+        return key.includes(queryKey) || queryKey.includes(key);
+      });
   const selected = new Set(candidates.map((stop) => stop.id));
   const selectedParents = new Set(candidates.map((stop) => stop.parentStation).filter(Boolean));
   for (const stop of stops) {
@@ -202,7 +232,13 @@ async function loadFeed(): Promise<GtfsFeed> {
   });
   const routes = new Map<string, GtfsRoute>();
   forEachCsvRow(archive.get("routes.txt") || "", (row) => {
-    if (row.route_id) routes.set(row.route_id, { shortName: row.route_short_name || undefined, longName: row.route_long_name || undefined });
+    if (!row.route_id) return;
+    const routeType = Number(row.route_type);
+    routes.set(row.route_id, {
+      shortName: row.route_short_name || undefined,
+      longName: row.route_long_name || undefined,
+      routeType: Number.isFinite(routeType) ? routeType : undefined,
+    });
   });
   const feed = {
     stops,
@@ -418,9 +454,36 @@ function formatClock(minutes: number) {
   return formatGtfsMinutes(((minutes % 1440) + 1440) % 1440);
 }
 
+/**
+ * GTFS extended route types → the service brand a French passenger recognises.
+ * Uses only the spec's own classification, not a guess keyed on route ids.
+ */
+const SERVICE_BY_ROUTE_TYPE: Record<number, string> = {
+  2: "Train", 100: "Train", 101: "TGV", 102: "Intercités", 103: "Intercités",
+  105: "Intercités de Nuit", 106: "TER", 107: "Train", 109: "RER", 110: "Train",
+  3: "Autocar", 200: "Autocar", 700: "Autocar", 715: "Autocar", 800: "Autocar",
+};
+
+/**
+ * What to print in the Service column.
+ *
+ * The real feed puts an internal route code in route_short_name ("601A", "K7")
+ * and the train number in trip_headsign ("6607") — the reverse of what the
+ * names suggest, and the reason an earlier version of this page advertised
+ * "trains on 601A, 601B". route_type is the field that actually classifies the
+ * service, so the label is brand + number: "TGV 6607". serviceFamily() in the
+ * page generator strips the trailing number, so the summary groups by brand.
+ */
 function serviceLabel(feed: GtfsFeed, journey: GtfsJourney): string {
   const route = journey.routeId ? feed.routes.get(journey.routeId) : undefined;
-  return route?.shortName || route?.longName || "TER";
+  const brand = route?.routeType !== undefined ? SERVICE_BY_ROUTE_TYPE[route.routeType] : undefined;
+  const trainNumber = journey.headsign && /^\d+$/.test(journey.headsign.trim())
+    ? journey.headsign.trim()
+    : undefined;
+  if (brand && trainNumber) return `${brand} ${trainNumber}`;
+  if (brand) return brand;
+  if (trainNumber) return `Train ${trainNumber}`;
+  return route?.shortName || route?.longName || "Train";
 }
 
 /**
@@ -477,7 +540,11 @@ export async function searchFranceGtfs(
     destination,
     direct: true,
     stops: [],
-    ...(journey.headsign ? { headsign: journey.headsign } : {}),
+    // Only a real headsign, i.e. the destination shown on the train. A numeric
+    // trip_headsign is the train number and has already gone into `service`.
+    ...(journey.headsign && !/^\d+$/.test(journey.headsign.trim())
+      ? { headsign: journey.headsign.trim() }
+      : {}),
   }));
 
   return { status: 200, body: { results, source: "SNCF Open Data GTFS" } };

@@ -76,12 +76,25 @@ export const franceGtfsFixture = zipFixture({
     "point-paris,Paris Gare de Lyon Hall 1 - 2,area-paris",
     "area-lyon,Lyon Part Dieu,",
     "point-lyon,Lyon Part Dieu,area-lyon",
+    // SNCF names these stations the way the operator does, which is not how the
+    // route list names them: "Paris Est", not "Paris Gare de l'Est".
+    "area-paris-est,Paris Est,",
+    "point-paris-est,Paris Est,area-paris-est",
+    "area-strasbourg,Strasbourg-Ville,",
+    "point-strasbourg,Strasbourg-Ville,area-strasbourg",
+    // The feed spells out Saint where the route list abbreviates it to St.
+    "area-marseille,Marseille-Saint-Charles,",
+    "point-marseille,Marseille-Saint-Charles,area-marseille",
   ].join("\n"),
+  // SNCF puts the train number in trip_headsign, not the destination.
   "trips.txt": [
     "route_id,service_id,trip_id,trip_headsign",
-    "route-tgv,weekday,trip-weekday,Lyon Part Dieu",
-    "route-tgv,cancelled,trip-cancelled,Lyon Part Dieu",
-    "route-tgv,holiday-addition,trip-holiday-addition,Lyon Part Dieu",
+    "route-tgv,weekday,trip-weekday,6607",
+    "route-tgv,cancelled,trip-cancelled,6609",
+    "route-tgv,holiday-addition,trip-holiday-addition,6611",
+    "route-ter,weekday,trip-slow,17769",
+    "route-est,weekday,trip-est,2401",
+    "route-med,weekday,trip-med,6171",
   ].join("\n"),
   "stop_times.txt": [
     "trip_id,arrival_time,departure_time,stop_id,stop_sequence",
@@ -91,6 +104,12 @@ export const franceGtfsFixture = zipFixture({
     "trip-cancelled,09:00:00,09:00:00,point-lyon,2",
     "trip-holiday-addition,08:00:00,08:00:00,point-paris,1",
     "trip-holiday-addition,09:55:00,09:55:00,point-lyon,2",
+    "trip-slow,07:34:00,07:34:00,point-paris,1",
+    "trip-slow,12:44:00,12:44:00,point-lyon,2",
+    "trip-est,06:55:00,06:55:00,point-paris-est,1",
+    "trip-est,08:41:00,08:41:00,point-strasbourg,2",
+    "trip-med,07:14:00,07:14:00,point-paris,1",
+    "trip-med,11:20:00,11:20:00,point-marseille,2",
   ].join("\n"),
   "calendar.txt": [
     "service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date",
@@ -104,8 +123,13 @@ export const franceGtfsFixture = zipFixture({
     "cancelled,20260803,2",
     "holiday-addition,20260803,1",
   ].join("\n"),
+  // route_short_name is an internal route code in the real feed ("601A"), not a
+  // brand; route_type is the field that says what kind of service it is.
   "routes.txt": [
-    "route_id,route_short_name,route_long_name",
-    "route-tgv,TGV INOUI,Paris - Lyon",
+    "route_id,route_short_name,route_long_name,route_type",
+    "route-tgv,601A,Paris - Lyon,101",
+    "route-ter,K7,Paris - Dijon - Lyon,106",
+    "route-est,201A,Paris - Strasbourg,101",
+    "route-med,631D,Paris - Marseille,101",
   ].join("\n"),
 });

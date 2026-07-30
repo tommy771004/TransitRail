@@ -62,7 +62,9 @@ describe("runTransitSearch France GTFS service-day advisory", () => {
       serviceDate: "2026-08-03",
       timezone: "Europe/Paris",
       serviceDayType: "special",
-      firstDeparture: "08:00",
+      // The fixture's corridor also carries a slow TER at 07:34, so the
+      // service day genuinely opens earlier than the TGV.
+      firstDeparture: "07:34",
       lastDeparture: "23:50",
       source: "SNCF Open Data GTFS",
       sourceUrl: "https://eu.ftp.opendatasoft.com/sncf/plandata/Export_OpenData_SNCF_GTFS_NewTripId.zip",
@@ -79,7 +81,10 @@ describe("runTransitSearch France GTFS service-day advisory", () => {
       destination: "Lyon Part-Dieu",
       country: "france" as const,
       date: "2026-08-03",
-      time: "22:00",
+      // Inside the real service day: SNCF's last Paris → Lyon TGV is 21:00. The
+      // curated snapshot this replaced invented a 22:00 departure, and asking
+      // for one is what made this assertion pass before.
+      time: "20:00",
     };
     await collectFranceServiceDayArtifact([
       { origin: input.origin, destination: input.destination },
@@ -95,7 +100,9 @@ describe("runTransitSearch France GTFS service-day advisory", () => {
     const stale = await runTransitSearch(input);
     expect(stale.payload.serviceDayAdvisory).toEqual(expect.objectContaining({
       coverage: "supported",
-      firstDeparture: "08:00",
+      // The fixture's corridor also carries a slow TER at 07:34, so the
+      // service day genuinely opens earlier than the TGV.
+      firstDeparture: "07:34",
       lastDeparture: "23:50",
     }));
     expect(stale.payload.message).toBeUndefined();
