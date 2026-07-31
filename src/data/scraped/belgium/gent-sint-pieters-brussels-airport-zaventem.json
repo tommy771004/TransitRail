@@ -1,12 +1,12 @@
 {
   "origin": "Gent-Sint-Pieters",
   "destination": "Brussels Airport-Zaventem",
-  "date": "2026-07-31..2026-08-06",
-  "scrapedAt": "2026-07-30T22:31:11.543Z",
-  "source": "https://api.irail.be",
+  "date": "2026-08-01..2026-08-07",
+  "scrapedAt": "2026-07-31T22:28:33.077Z",
+  "source": "iRail curated snapshot fallback",
   "results": [
     {
-      "id": "2026-07-31-be-irail-0",
+      "id": "2026-08-01-be-irail-0",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 2803",
@@ -31,10 +31,10 @@
       "realtime": true,
       "lineColor": "#0055A4",
       "transferStations": [],
-      "date": "2026-07-31"
+      "date": "2026-08-01"
     },
     {
-      "id": "2026-07-31-be-irail-1",
+      "id": "2026-08-01-be-irail-1",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 404 + IC 2204",
@@ -101,10 +101,10 @@
       "transferStations": [
         "Brussels-South/Brussels-Midi"
       ],
-      "date": "2026-07-31"
+      "date": "2026-08-01"
     },
     {
-      "id": "2026-07-31-be-irail-2",
+      "id": "2026-08-01-be-irail-2",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 504 + IC 3705",
@@ -171,10 +171,10 @@
       "transferStations": [
         "Brussels-South/Brussels-Midi"
       ],
-      "date": "2026-07-31"
+      "date": "2026-08-01"
     },
     {
-      "id": "2026-07-31-be-irail-3",
+      "id": "2026-08-01-be-irail-3",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 2804",
@@ -199,10 +199,10 @@
       "realtime": true,
       "lineColor": "#0055A4",
       "transferStations": [],
-      "date": "2026-07-31"
+      "date": "2026-08-01"
     },
     {
-      "id": "2026-07-31-be-irail-4",
+      "id": "2026-08-01-be-irail-4",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 1505 + IC 2205",
@@ -269,10 +269,10 @@
       "transferStations": [
         "Brussels-South/Brussels-Midi"
       ],
-      "date": "2026-07-31"
+      "date": "2026-08-01"
     },
     {
-      "id": "2026-07-31-be-irail-5",
+      "id": "2026-08-01-be-irail-5",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "P 7006 + IC 3706",
@@ -339,360 +339,110 @@
       "transferStations": [
         "Brussels-South/Brussels-Midi"
       ],
-      "date": "2026-07-31"
-    },
-    {
-      "id": "2026-08-01-be-irail-0",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 504 + IC 3705",
-      "trainType": "IC + IC",
-      "durationMinutes": 67,
-      "departureTime": "05:24",
-      "arrivalTime": "06:31",
-      "origin": "Ghent-Sint-Pieters",
-      "originLat": 51.035896,
-      "originLng": 3.710675,
-      "destination": "Brussels Airport - Zaventem",
-      "destLat": 50.896456,
-      "destLng": 4.482076,
-      "direct": false,
-      "stops": [
-        "Brussels-Central",
-        "Brussels-North"
-      ],
-      "platform": "10",
-      "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 504",
-          "lineCode": "BE.NMBS.IC504",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Ghent-Sint-Pieters",
-          "originLat": 51.035896,
-          "originLng": 3.710675,
-          "destination": "Brussels-South/Brussels-Midi",
-          "destLat": 50.835707,
-          "destLng": 4.336531,
-          "departureTime": "05:24",
-          "arrivalTime": "05:53",
-          "durationMinutes": 29,
-          "platform": "10",
-          "headsign": "Welkenraedt"
-        },
-        {
-          "lineName": "IC 3705",
-          "lineCode": "BE.NMBS.IC3705",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-South/Brussels-Midi",
-          "originLat": 50.835707,
-          "originLng": 4.336531,
-          "destination": "Brussels Airport - Zaventem",
-          "destLat": 50.896456,
-          "destLng": 4.482076,
-          "departureTime": "06:09",
-          "arrivalTime": "06:31",
-          "durationMinutes": 22,
-          "platform": "4",
-          "headsign": "Brussels Airport - Zaventem",
-          "stopCount": 2,
-          "stops": [
-            "Brussels-Central",
-            "Brussels-North"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-South/Brussels-Midi"
-      ],
-      "date": "2026-08-01"
-    },
-    {
-      "id": "2026-08-01-be-irail-1",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 2205",
-      "trainType": "IC",
-      "durationMinutes": 84,
-      "departureTime": "05:39",
-      "arrivalTime": "07:03",
-      "origin": "Ghent-Sint-Pieters",
-      "originLat": 51.035896,
-      "originLng": 3.710675,
-      "destination": "Brussels Airport - Zaventem",
-      "destLat": 50.896456,
-      "destLng": 4.482076,
-      "direct": true,
-      "stops": [
-        "Merelbeke",
-        "Melle",
-        "Wetteren",
-        "Lede",
-        "Aalst",
-        "Denderleeuw",
-        "Brussels-South/Brussels-Midi",
-        "Brussels-Central",
-        "Brussels-North"
-      ],
-      "platform": "8",
-      "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "transferStations": [],
-      "date": "2026-08-01"
-    },
-    {
-      "id": "2026-08-01-be-irail-2",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 1505 + IC 2205",
-      "trainType": "IC + IC",
-      "durationMinutes": 60,
-      "departureTime": "06:03",
-      "arrivalTime": "07:03",
-      "origin": "Ghent-Sint-Pieters",
-      "originLat": 51.035896,
-      "originLng": 3.710675,
-      "destination": "Brussels Airport - Zaventem",
-      "destLat": 50.896456,
-      "destLng": 4.482076,
-      "direct": false,
-      "stops": [
-        "Brussels-Central",
-        "Brussels-North"
-      ],
-      "platform": "10",
-      "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 1505",
-          "lineCode": "BE.NMBS.IC1505",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Ghent-Sint-Pieters",
-          "originLat": 51.035896,
-          "originLng": 3.710675,
-          "destination": "Brussels-South/Brussels-Midi",
-          "destLat": 50.835707,
-          "destLng": 4.336531,
-          "departureTime": "06:03",
-          "arrivalTime": "06:31",
-          "durationMinutes": 28,
-          "platform": "10",
-          "headsign": "Hasselt"
-        },
-        {
-          "lineName": "IC 2205",
-          "lineCode": "BE.NMBS.IC2205",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-South/Brussels-Midi",
-          "originLat": 50.835707,
-          "originLng": 4.336531,
-          "destination": "Brussels Airport - Zaventem",
-          "destLat": 50.896456,
-          "destLng": 4.482076,
-          "departureTime": "06:40",
-          "arrivalTime": "07:03",
-          "durationMinutes": 23,
-          "platform": "4",
-          "headsign": "Brussels Airport - Zaventem",
-          "stopCount": 2,
-          "stops": [
-            "Brussels-Central",
-            "Brussels-North"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-South/Brussels-Midi"
-      ],
-      "date": "2026-08-01"
-    },
-    {
-      "id": "2026-08-01-be-irail-3",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 505 + IC 3706",
-      "trainType": "IC + IC",
-      "durationMinutes": 66,
-      "departureTime": "06:25",
-      "arrivalTime": "07:31",
-      "origin": "Ghent-Sint-Pieters",
-      "originLat": 51.035896,
-      "originLng": 3.710675,
-      "destination": "Brussels Airport - Zaventem",
-      "destLat": 50.896456,
-      "destLng": 4.482076,
-      "direct": false,
-      "stops": [
-        "Brussels-Central",
-        "Brussels-North"
-      ],
-      "platform": "10",
-      "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 505",
-          "lineCode": "BE.NMBS.IC505",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Ghent-Sint-Pieters",
-          "originLat": 51.035896,
-          "originLng": 3.710675,
-          "destination": "Brussels-South/Brussels-Midi",
-          "destLat": 50.835707,
-          "destLng": 4.336531,
-          "departureTime": "06:25",
-          "arrivalTime": "06:53",
-          "durationMinutes": 28,
-          "platform": "10",
-          "headsign": "Welkenraedt"
-        },
-        {
-          "lineName": "IC 3706",
-          "lineCode": "BE.NMBS.IC3706",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-South/Brussels-Midi",
-          "originLat": 50.835707,
-          "originLng": 4.336531,
-          "destination": "Brussels Airport - Zaventem",
-          "destLat": 50.896456,
-          "destLng": 4.482076,
-          "departureTime": "07:09",
-          "arrivalTime": "07:31",
-          "durationMinutes": 22,
-          "platform": "7",
-          "headsign": "Brussels Airport - Zaventem",
-          "stopCount": 2,
-          "stops": [
-            "Brussels-Central",
-            "Brussels-North"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-South/Brussels-Midi"
-      ],
-      "date": "2026-08-01"
-    },
-    {
-      "id": "2026-08-01-be-irail-4",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 2206",
-      "trainType": "IC",
-      "durationMinutes": 84,
-      "departureTime": "06:39",
-      "arrivalTime": "08:03",
-      "origin": "Ghent-Sint-Pieters",
-      "originLat": 51.035896,
-      "originLng": 3.710675,
-      "destination": "Brussels Airport - Zaventem",
-      "destLat": 50.896456,
-      "destLng": 4.482076,
-      "direct": true,
-      "stops": [
-        "Merelbeke",
-        "Melle",
-        "Wetteren",
-        "Lede",
-        "Aalst",
-        "Denderleeuw",
-        "Brussels-South/Brussels-Midi",
-        "Brussels-Central",
-        "Brussels-North"
-      ],
-      "platform": "8",
-      "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "transferStations": [],
-      "date": "2026-08-01"
-    },
-    {
-      "id": "2026-08-01-be-irail-5",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 1506 + IC 2206",
-      "trainType": "IC + IC",
-      "durationMinutes": 60,
-      "departureTime": "07:03",
-      "arrivalTime": "08:03",
-      "origin": "Ghent-Sint-Pieters",
-      "originLat": 51.035896,
-      "originLng": 3.710675,
-      "destination": "Brussels Airport - Zaventem",
-      "destLat": 50.896456,
-      "destLng": 4.482076,
-      "direct": false,
-      "stops": [
-        "Brussels-Central",
-        "Brussels-North"
-      ],
-      "platform": "11",
-      "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 1506",
-          "lineCode": "BE.NMBS.IC1506",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Ghent-Sint-Pieters",
-          "originLat": 51.035896,
-          "originLng": 3.710675,
-          "destination": "Brussels-South/Brussels-Midi",
-          "destLat": 50.835707,
-          "destLng": 4.336531,
-          "departureTime": "07:03",
-          "arrivalTime": "07:31",
-          "durationMinutes": 28,
-          "platform": "11",
-          "headsign": "Hasselt"
-        },
-        {
-          "lineName": "IC 2206",
-          "lineCode": "BE.NMBS.IC2206",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-South/Brussels-Midi",
-          "originLat": 50.835707,
-          "originLng": 4.336531,
-          "destination": "Brussels Airport - Zaventem",
-          "destLat": 50.896456,
-          "destLng": 4.482076,
-          "departureTime": "07:40",
-          "arrivalTime": "08:03",
-          "durationMinutes": 23,
-          "platform": "7",
-          "headsign": "Brussels Airport - Zaventem",
-          "stopCount": 2,
-          "stops": [
-            "Brussels-Central",
-            "Brussels-North"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-South/Brussels-Midi"
-      ],
       "date": "2026-08-01"
     },
     {
       "id": "2026-08-02-be-irail-0",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2803",
+      "trainType": "IC",
+      "durationMinutes": 55,
+      "departureTime": "04:41",
+      "arrivalTime": "05:36",
+      "origin": "Ghent-Sint-Pieters",
+      "originLat": 51.035896,
+      "originLng": 3.710675,
+      "destination": "Brussels Airport - Zaventem",
+      "destLat": 50.896456,
+      "destLng": 4.482076,
+      "direct": true,
+      "stops": [
+        "Brussels-South/Brussels-Midi",
+        "Brussels-Central",
+        "Brussels-North"
+      ],
+      "platform": "10",
+      "headsign": "Liège-Guillemins",
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "transferStations": [],
+      "date": "2026-08-02"
+    },
+    {
+      "id": "2026-08-02-be-irail-1",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 404 + IC 2204",
+      "trainType": "IC + IC",
+      "durationMinutes": 68,
+      "departureTime": "04:55",
+      "arrivalTime": "06:03",
+      "origin": "Ghent-Sint-Pieters",
+      "originLat": 51.035896,
+      "originLng": 3.710675,
+      "destination": "Brussels Airport - Zaventem",
+      "destLat": 50.896456,
+      "destLng": 4.482076,
+      "direct": false,
+      "stops": [
+        "Brussels-Central",
+        "Brussels-North"
+      ],
+      "platform": "9",
+      "headsign": "Brussels Airport - Zaventem",
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 404",
+          "lineCode": "BE.NMBS.IC404",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Ghent-Sint-Pieters",
+          "originLat": 51.035896,
+          "originLng": 3.710675,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "04:55",
+          "arrivalTime": "05:24",
+          "durationMinutes": 29,
+          "platform": "9",
+          "headsign": "Leuven"
+        },
+        {
+          "lineName": "IC 2204",
+          "lineCode": "BE.NMBS.IC2204",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Brussels Airport - Zaventem",
+          "destLat": 50.896456,
+          "destLng": 4.482076,
+          "departureTime": "05:40",
+          "arrivalTime": "06:03",
+          "durationMinutes": 23,
+          "platform": "9",
+          "headsign": "Brussels Airport - Zaventem",
+          "stopCount": 2,
+          "stops": [
+            "Brussels-Central",
+            "Brussels-North"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-08-02"
+    },
+    {
+      "id": "2026-08-02-be-irail-2",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
       "service": "IC 504 + IC 3705",
       "trainType": "IC + IC",
       "durationMinutes": 67,
@@ -711,7 +461,7 @@
       ],
       "platform": "10",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -729,7 +479,7 @@
           "arrivalTime": "05:53",
           "durationMinutes": 29,
           "platform": "10",
-          "headsign": "Welkenraedt"
+          "headsign": "Eupen"
         },
         {
           "lineName": "IC 3705",
@@ -746,110 +496,6 @@
           "arrivalTime": "06:31",
           "durationMinutes": 22,
           "platform": "3",
-          "headsign": "Brussels Airport - Zaventem",
-          "stopCount": 2,
-          "stops": [
-            "Brussels-Central",
-            "Brussels-North"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-South/Brussels-Midi"
-      ],
-      "date": "2026-08-02"
-    },
-    {
-      "id": "2026-08-02-be-irail-1",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 2205",
-      "trainType": "IC",
-      "durationMinutes": 84,
-      "departureTime": "05:39",
-      "arrivalTime": "07:03",
-      "origin": "Ghent-Sint-Pieters",
-      "originLat": 51.035896,
-      "originLng": 3.710675,
-      "destination": "Brussels Airport - Zaventem",
-      "destLat": 50.896456,
-      "destLng": 4.482076,
-      "direct": true,
-      "stops": [
-        "Merelbeke",
-        "Melle",
-        "Wetteren",
-        "Lede",
-        "Aalst",
-        "Denderleeuw",
-        "Brussels-South/Brussels-Midi",
-        "Brussels-Central",
-        "Brussels-North"
-      ],
-      "platform": "8",
-      "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "transferStations": [],
-      "date": "2026-08-02"
-    },
-    {
-      "id": "2026-08-02-be-irail-2",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 1505 + IC 2205",
-      "trainType": "IC + IC",
-      "durationMinutes": 60,
-      "departureTime": "06:03",
-      "arrivalTime": "07:03",
-      "origin": "Ghent-Sint-Pieters",
-      "originLat": 51.035896,
-      "originLng": 3.710675,
-      "destination": "Brussels Airport - Zaventem",
-      "destLat": 50.896456,
-      "destLng": 4.482076,
-      "direct": false,
-      "stops": [
-        "Brussels-Central",
-        "Brussels-North"
-      ],
-      "platform": "10",
-      "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 1505",
-          "lineCode": "BE.NMBS.IC1505",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Ghent-Sint-Pieters",
-          "originLat": 51.035896,
-          "originLng": 3.710675,
-          "destination": "Brussels-South/Brussels-Midi",
-          "destLat": 50.835707,
-          "destLng": 4.336531,
-          "departureTime": "06:03",
-          "arrivalTime": "06:31",
-          "durationMinutes": 28,
-          "platform": "10",
-          "headsign": "Hasselt"
-        },
-        {
-          "lineName": "IC 2205",
-          "lineCode": "BE.NMBS.IC2205",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-South/Brussels-Midi",
-          "originLat": 50.835707,
-          "originLng": 4.336531,
-          "destination": "Brussels Airport - Zaventem",
-          "destLat": 50.896456,
-          "destLng": 4.482076,
-          "departureTime": "06:40",
-          "arrivalTime": "07:03",
-          "durationMinutes": 23,
-          "platform": "4",
           "headsign": "Brussels Airport - Zaventem",
           "stopCount": 2,
           "stops": [
@@ -867,11 +513,39 @@
       "id": "2026-08-02-be-irail-3",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 505 + IC 3706",
+      "service": "IC 2804",
+      "trainType": "IC",
+      "durationMinutes": 55,
+      "departureTime": "05:41",
+      "arrivalTime": "06:36",
+      "origin": "Ghent-Sint-Pieters",
+      "originLat": 51.035896,
+      "originLng": 3.710675,
+      "destination": "Brussels Airport - Zaventem",
+      "destLat": 50.896456,
+      "destLng": 4.482076,
+      "direct": true,
+      "stops": [
+        "Brussels-South/Brussels-Midi",
+        "Brussels-Central",
+        "Brussels-North"
+      ],
+      "platform": "11",
+      "headsign": "Liège-Guillemins",
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "transferStations": [],
+      "date": "2026-08-02"
+    },
+    {
+      "id": "2026-08-02-be-irail-4",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 1505 + IC 2205",
       "trainType": "IC + IC",
-      "durationMinutes": 66,
-      "departureTime": "06:25",
-      "arrivalTime": "07:31",
+      "durationMinutes": 64,
+      "departureTime": "05:59",
+      "arrivalTime": "07:03",
       "origin": "Ghent-Sint-Pieters",
       "originLat": 51.035896,
       "originLng": 3.710675,
@@ -883,14 +557,14 @@
         "Brussels-Central",
         "Brussels-North"
       ],
-      "platform": "10",
+      "platform": "11",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
-          "lineName": "IC 505",
-          "lineCode": "BE.NMBS.IC505",
+          "lineName": "IC 1505",
+          "lineCode": "BE.NMBS.IC1505",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Ghent-Sint-Pieters",
@@ -899,15 +573,15 @@
           "destination": "Brussels-South/Brussels-Midi",
           "destLat": 50.835707,
           "destLng": 4.336531,
-          "departureTime": "06:25",
-          "arrivalTime": "06:53",
+          "departureTime": "05:59",
+          "arrivalTime": "06:27",
           "durationMinutes": 28,
-          "platform": "10",
-          "headsign": "Welkenraedt"
+          "platform": "11",
+          "headsign": "Genk"
         },
         {
-          "lineName": "IC 3706",
-          "lineCode": "BE.NMBS.IC3706",
+          "lineName": "IC 2205",
+          "lineCode": "BE.NMBS.IC2205",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Brussels-South/Brussels-Midi",
@@ -916,10 +590,10 @@
           "destination": "Brussels Airport - Zaventem",
           "destLat": 50.896456,
           "destLng": 4.482076,
-          "departureTime": "07:09",
-          "arrivalTime": "07:31",
-          "durationMinutes": 22,
-          "platform": "3",
+          "departureTime": "06:40",
+          "arrivalTime": "07:03",
+          "durationMinutes": 23,
+          "platform": "8",
           "headsign": "Brussels Airport - Zaventem",
           "stopCount": 2,
           "stops": [
@@ -934,48 +608,14 @@
       "date": "2026-08-02"
     },
     {
-      "id": "2026-08-02-be-irail-4",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 2206",
-      "trainType": "IC",
-      "durationMinutes": 84,
-      "departureTime": "06:39",
-      "arrivalTime": "08:03",
-      "origin": "Ghent-Sint-Pieters",
-      "originLat": 51.035896,
-      "originLng": 3.710675,
-      "destination": "Brussels Airport - Zaventem",
-      "destLat": 50.896456,
-      "destLng": 4.482076,
-      "direct": true,
-      "stops": [
-        "Merelbeke",
-        "Melle",
-        "Wetteren",
-        "Lede",
-        "Aalst",
-        "Denderleeuw",
-        "Brussels-South/Brussels-Midi",
-        "Brussels-Central",
-        "Brussels-North"
-      ],
-      "platform": "8",
-      "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "transferStations": [],
-      "date": "2026-08-02"
-    },
-    {
       "id": "2026-08-02-be-irail-5",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 1506 + IC 2206",
-      "trainType": "IC + IC",
-      "durationMinutes": 60,
-      "departureTime": "07:03",
-      "arrivalTime": "08:03",
+      "service": "P 7006 + IC 3706",
+      "trainType": "P + IC",
+      "durationMinutes": 56,
+      "departureTime": "06:36",
+      "arrivalTime": "07:32",
       "origin": "Ghent-Sint-Pieters",
       "originLat": 51.035896,
       "originLng": 3.710675,
@@ -987,15 +627,15 @@
         "Brussels-Central",
         "Brussels-North"
       ],
-      "platform": "11",
+      "platform": "9",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
-      "lineColor": "#0055A4",
+      "realtime": true,
+      "lineColor": "#4B5563",
       "legs": [
         {
-          "lineName": "IC 1506",
-          "lineCode": "BE.NMBS.IC1506",
-          "color": "#0055A4",
+          "lineName": "P 7006",
+          "lineCode": "BE.NMBS.P7006",
+          "color": "#4B5563",
           "mode": "train",
           "origin": "Ghent-Sint-Pieters",
           "originLat": 51.035896,
@@ -1003,15 +643,15 @@
           "destination": "Brussels-South/Brussels-Midi",
           "destLat": 50.835707,
           "destLng": 4.336531,
-          "departureTime": "07:03",
-          "arrivalTime": "07:31",
+          "departureTime": "06:36",
+          "arrivalTime": "07:04",
           "durationMinutes": 28,
-          "platform": "11",
-          "headsign": "Hasselt"
+          "platform": "9",
+          "headsign": "Schaarbeek/Schaerbeek"
         },
         {
-          "lineName": "IC 2206",
-          "lineCode": "BE.NMBS.IC2206",
+          "lineName": "IC 3706",
+          "lineCode": "BE.NMBS.IC3706",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Brussels-South/Brussels-Midi",
@@ -1020,10 +660,10 @@
           "destination": "Brussels Airport - Zaventem",
           "destLat": 50.896456,
           "destLng": 4.482076,
-          "departureTime": "07:40",
-          "arrivalTime": "08:03",
+          "departureTime": "07:09",
+          "arrivalTime": "07:32",
           "durationMinutes": 23,
-          "platform": "7",
+          "platform": "3",
           "headsign": "Brussels Airport - Zaventem",
           "stopCount": 2,
           "stops": [
@@ -1060,7 +700,7 @@
       ],
       "platform": "10",
       "headsign": "Liège-Guillemins",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "transferStations": [],
       "date": "2026-08-03"
@@ -1087,7 +727,7 @@
       ],
       "platform": "9",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -1157,7 +797,7 @@
       ],
       "platform": "10",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -1175,7 +815,7 @@
           "arrivalTime": "05:53",
           "durationMinutes": 29,
           "platform": "10",
-          "headsign": "Welkenraedt"
+          "headsign": "Eupen"
         },
         {
           "lineName": "IC 3705",
@@ -1228,7 +868,7 @@
       ],
       "platform": "11",
       "headsign": "Liège-Guillemins",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "transferStations": [],
       "date": "2026-08-03"
@@ -1255,7 +895,7 @@
       ],
       "platform": "11",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -1325,7 +965,7 @@
       ],
       "platform": "9",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#4B5563",
       "legs": [
         {
@@ -1396,7 +1036,7 @@
       ],
       "platform": "10",
       "headsign": "Liège-Guillemins",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "transferStations": [],
       "date": "2026-08-04"
@@ -1423,7 +1063,7 @@
       ],
       "platform": "9",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -1493,7 +1133,7 @@
       ],
       "platform": "10",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -1511,7 +1151,7 @@
           "arrivalTime": "05:53",
           "durationMinutes": 29,
           "platform": "10",
-          "headsign": "Welkenraedt"
+          "headsign": "Eupen"
         },
         {
           "lineName": "IC 3705",
@@ -1564,7 +1204,7 @@
       ],
       "platform": "11",
       "headsign": "Liège-Guillemins",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "transferStations": [],
       "date": "2026-08-04"
@@ -1591,7 +1231,7 @@
       ],
       "platform": "11",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -1661,7 +1301,7 @@
       ],
       "platform": "9",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#4B5563",
       "legs": [
         {
@@ -1732,7 +1372,7 @@
       ],
       "platform": "10",
       "headsign": "Liège-Guillemins",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "transferStations": [],
       "date": "2026-08-05"
@@ -1759,7 +1399,7 @@
       ],
       "platform": "9",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -1829,7 +1469,7 @@
       ],
       "platform": "10",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -1847,7 +1487,7 @@
           "arrivalTime": "05:53",
           "durationMinutes": 29,
           "platform": "10",
-          "headsign": "Welkenraedt"
+          "headsign": "Eupen"
         },
         {
           "lineName": "IC 3705",
@@ -1900,7 +1540,7 @@
       ],
       "platform": "11",
       "headsign": "Liège-Guillemins",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "transferStations": [],
       "date": "2026-08-05"
@@ -1927,7 +1567,7 @@
       ],
       "platform": "11",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -1997,7 +1637,7 @@
       ],
       "platform": "9",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#4B5563",
       "legs": [
         {
@@ -2068,7 +1708,7 @@
       ],
       "platform": "10",
       "headsign": "Liège-Guillemins",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "transferStations": [],
       "date": "2026-08-06"
@@ -2095,7 +1735,7 @@
       ],
       "platform": "9",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -2165,7 +1805,7 @@
       ],
       "platform": "10",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -2183,7 +1823,7 @@
           "arrivalTime": "05:53",
           "durationMinutes": 29,
           "platform": "10",
-          "headsign": "Welkenraedt"
+          "headsign": "Eupen"
         },
         {
           "lineName": "IC 3705",
@@ -2199,7 +1839,7 @@
           "departureTime": "06:09",
           "arrivalTime": "06:31",
           "durationMinutes": 22,
-          "platform": "4",
+          "platform": "3",
           "headsign": "Brussels Airport - Zaventem",
           "stopCount": 2,
           "stops": [
@@ -2236,7 +1876,7 @@
       ],
       "platform": "11",
       "headsign": "Liège-Guillemins",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "transferStations": [],
       "date": "2026-08-06"
@@ -2263,7 +1903,7 @@
       ],
       "platform": "11",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -2297,7 +1937,7 @@
           "departureTime": "06:40",
           "arrivalTime": "07:03",
           "durationMinutes": 23,
-          "platform": "3",
+          "platform": "8",
           "headsign": "Brussels Airport - Zaventem",
           "stopCount": 2,
           "stops": [
@@ -2333,7 +1973,7 @@
       ],
       "platform": "9",
       "headsign": "Brussels Airport - Zaventem",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#4B5563",
       "legs": [
         {
@@ -2380,6 +2020,342 @@
         "Brussels-South/Brussels-Midi"
       ],
       "date": "2026-08-06"
+    },
+    {
+      "id": "2026-08-07-be-irail-0",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2803",
+      "trainType": "IC",
+      "durationMinutes": 55,
+      "departureTime": "04:41",
+      "arrivalTime": "05:36",
+      "origin": "Ghent-Sint-Pieters",
+      "originLat": 51.035896,
+      "originLng": 3.710675,
+      "destination": "Brussels Airport - Zaventem",
+      "destLat": 50.896456,
+      "destLng": 4.482076,
+      "direct": true,
+      "stops": [
+        "Brussels-South/Brussels-Midi",
+        "Brussels-Central",
+        "Brussels-North"
+      ],
+      "platform": "10",
+      "headsign": "Liège-Guillemins",
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "transferStations": [],
+      "date": "2026-08-07"
+    },
+    {
+      "id": "2026-08-07-be-irail-1",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 404 + IC 2204",
+      "trainType": "IC + IC",
+      "durationMinutes": 68,
+      "departureTime": "04:55",
+      "arrivalTime": "06:03",
+      "origin": "Ghent-Sint-Pieters",
+      "originLat": 51.035896,
+      "originLng": 3.710675,
+      "destination": "Brussels Airport - Zaventem",
+      "destLat": 50.896456,
+      "destLng": 4.482076,
+      "direct": false,
+      "stops": [
+        "Brussels-Central",
+        "Brussels-North"
+      ],
+      "platform": "9",
+      "headsign": "Brussels Airport - Zaventem",
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 404",
+          "lineCode": "BE.NMBS.IC404",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Ghent-Sint-Pieters",
+          "originLat": 51.035896,
+          "originLng": 3.710675,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "04:55",
+          "arrivalTime": "05:24",
+          "durationMinutes": 29,
+          "platform": "9",
+          "headsign": "Leuven"
+        },
+        {
+          "lineName": "IC 2204",
+          "lineCode": "BE.NMBS.IC2204",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Brussels Airport - Zaventem",
+          "destLat": 50.896456,
+          "destLng": 4.482076,
+          "departureTime": "05:40",
+          "arrivalTime": "06:03",
+          "durationMinutes": 23,
+          "platform": "9",
+          "headsign": "Brussels Airport - Zaventem",
+          "stopCount": 2,
+          "stops": [
+            "Brussels-Central",
+            "Brussels-North"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-08-07"
+    },
+    {
+      "id": "2026-08-07-be-irail-2",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 504 + IC 3705",
+      "trainType": "IC + IC",
+      "durationMinutes": 67,
+      "departureTime": "05:24",
+      "arrivalTime": "06:31",
+      "origin": "Ghent-Sint-Pieters",
+      "originLat": 51.035896,
+      "originLng": 3.710675,
+      "destination": "Brussels Airport - Zaventem",
+      "destLat": 50.896456,
+      "destLng": 4.482076,
+      "direct": false,
+      "stops": [
+        "Brussels-Central",
+        "Brussels-North"
+      ],
+      "platform": "10",
+      "headsign": "Brussels Airport - Zaventem",
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 504",
+          "lineCode": "BE.NMBS.IC504",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Ghent-Sint-Pieters",
+          "originLat": 51.035896,
+          "originLng": 3.710675,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "05:24",
+          "arrivalTime": "05:53",
+          "durationMinutes": 29,
+          "platform": "10",
+          "headsign": "Eupen"
+        },
+        {
+          "lineName": "IC 3705",
+          "lineCode": "BE.NMBS.IC3705",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Brussels Airport - Zaventem",
+          "destLat": 50.896456,
+          "destLng": 4.482076,
+          "departureTime": "06:09",
+          "arrivalTime": "06:31",
+          "durationMinutes": 22,
+          "platform": "3",
+          "headsign": "Brussels Airport - Zaventem",
+          "stopCount": 2,
+          "stops": [
+            "Brussels-Central",
+            "Brussels-North"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-08-07"
+    },
+    {
+      "id": "2026-08-07-be-irail-3",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2804",
+      "trainType": "IC",
+      "durationMinutes": 55,
+      "departureTime": "05:41",
+      "arrivalTime": "06:36",
+      "origin": "Ghent-Sint-Pieters",
+      "originLat": 51.035896,
+      "originLng": 3.710675,
+      "destination": "Brussels Airport - Zaventem",
+      "destLat": 50.896456,
+      "destLng": 4.482076,
+      "direct": true,
+      "stops": [
+        "Brussels-South/Brussels-Midi",
+        "Brussels-Central",
+        "Brussels-North"
+      ],
+      "platform": "11",
+      "headsign": "Liège-Guillemins",
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "transferStations": [],
+      "date": "2026-08-07"
+    },
+    {
+      "id": "2026-08-07-be-irail-4",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 1505 + IC 2205",
+      "trainType": "IC + IC",
+      "durationMinutes": 64,
+      "departureTime": "05:59",
+      "arrivalTime": "07:03",
+      "origin": "Ghent-Sint-Pieters",
+      "originLat": 51.035896,
+      "originLng": 3.710675,
+      "destination": "Brussels Airport - Zaventem",
+      "destLat": 50.896456,
+      "destLng": 4.482076,
+      "direct": false,
+      "stops": [
+        "Brussels-Central",
+        "Brussels-North"
+      ],
+      "platform": "11",
+      "headsign": "Brussels Airport - Zaventem",
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 1505",
+          "lineCode": "BE.NMBS.IC1505",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Ghent-Sint-Pieters",
+          "originLat": 51.035896,
+          "originLng": 3.710675,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "05:59",
+          "arrivalTime": "06:27",
+          "durationMinutes": 28,
+          "platform": "11",
+          "headsign": "Genk"
+        },
+        {
+          "lineName": "IC 2205",
+          "lineCode": "BE.NMBS.IC2205",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Brussels Airport - Zaventem",
+          "destLat": 50.896456,
+          "destLng": 4.482076,
+          "departureTime": "06:40",
+          "arrivalTime": "07:03",
+          "durationMinutes": 23,
+          "platform": "8",
+          "headsign": "Brussels Airport - Zaventem",
+          "stopCount": 2,
+          "stops": [
+            "Brussels-Central",
+            "Brussels-North"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-08-07"
+    },
+    {
+      "id": "2026-08-07-be-irail-5",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "P 7006 + IC 3706",
+      "trainType": "P + IC",
+      "durationMinutes": 56,
+      "departureTime": "06:36",
+      "arrivalTime": "07:32",
+      "origin": "Ghent-Sint-Pieters",
+      "originLat": 51.035896,
+      "originLng": 3.710675,
+      "destination": "Brussels Airport - Zaventem",
+      "destLat": 50.896456,
+      "destLng": 4.482076,
+      "direct": false,
+      "stops": [
+        "Brussels-Central",
+        "Brussels-North"
+      ],
+      "platform": "9",
+      "headsign": "Brussels Airport - Zaventem",
+      "realtime": true,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "P 7006",
+          "lineCode": "BE.NMBS.P7006",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Ghent-Sint-Pieters",
+          "originLat": 51.035896,
+          "originLng": 3.710675,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "06:36",
+          "arrivalTime": "07:04",
+          "durationMinutes": 28,
+          "platform": "9",
+          "headsign": "Schaarbeek/Schaerbeek"
+        },
+        {
+          "lineName": "IC 3706",
+          "lineCode": "BE.NMBS.IC3706",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Brussels Airport - Zaventem",
+          "destLat": 50.896456,
+          "destLng": 4.482076,
+          "departureTime": "07:09",
+          "arrivalTime": "07:32",
+          "durationMinutes": 23,
+          "platform": "3",
+          "headsign": "Brussels Airport - Zaventem",
+          "stopCount": 2,
+          "stops": [
+            "Brussels-Central",
+            "Brussels-North"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-08-07"
     }
   ]
 }
