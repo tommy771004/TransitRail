@@ -145,13 +145,20 @@ function CoverageBlock({ gap, country }: { gap: CoverageGap; country: Country })
       className="rounded-3xl border border-amber-200 bg-amber-50 p-4 text-amber-900 dark:border-amber-800/60 dark:bg-amber-950/40 dark:text-amber-300"
     >
       <p className="text-sm font-bold">
-        {t("result.not_covered_title", "This station has no timetable yet")}
+        {t("result.not_covered_title", {
+          count: uncovered.length,
+          defaultValue_one: "This station has no timetable yet",
+          defaultValue_other: "These stations have no timetable yet",
+        })}
       </p>
       <p className="mt-1 text-sm">
         {t("result.not_covered_body", {
+          count: uncovered.length,
           stations: uncovered.join(t("result.station_separator", "、")),
-          defaultValue:
+          defaultValue_one:
             "{{stations}} appears on the network map, but TransitRail has no timetable data for it yet.",
+          defaultValue_other:
+            "{{stations}} appear on the network map, but TransitRail has no timetable data for them yet.",
         })}
       </p>
       {suggestions.length > 0 && (

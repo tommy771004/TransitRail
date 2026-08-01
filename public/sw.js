@@ -1,4 +1,7 @@
-const STATIC_CACHE = "rail-nation-static-v1";
+// Bumped from v1: that cache served navigations cache-first, which pinned every
+// returning visitor's UI to the first build they ever loaded. Renaming it makes
+// activate() drop the poisoned HTML entry instead of keeping it forever.
+const STATIC_CACHE = "rail-nation-static-v2";
 const SEARCH_CACHE = "rail-nation-search-v1";
 
 self.addEventListener("install", (event) => {
@@ -39,7 +42,10 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (request.mode === "navigate" || /\.(?:js|css|svg|png|webmanifest)$/i.test(url.pathname)) {
+  // Vite's build output is content-hashed, so a hit under /assets/ can never be
+  // stale — the filename changes whenever the contents do. Cache-first is safe
+  // here and nowhere else.
+  if (url.pathname.startsWith("/assets/")) {
     event.respondWith(
       caches.match(request).then((cached) => cached || fetch(request)
         .then((response) => {
@@ -48,8 +54,45 @@ self.addEventListener("fetch", (event) => {
             void caches.open(STATIC_CACHE).then((cache) => cache.put(request, copy));
           }
           return response;
+        })),
+    );
+    return;
+  }
+
+  // Everything else is served network-first, falling back to cache offline.
+  //
+  // The HTML shell names the current hashed bundle, so a cached copy pins the
+  // whole app to an old build: the API keeps returning new fields that the
+  // frozen UI has no code to render. That is how a merged fix could ship and
+  // still show users the old screen. The same applies to the un-hashed public
+  // files (manifest, icons) — none of them change name when they change.
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+            // Key the offline fallback on "/" so any route restores the shell.
+            void caches.open(STATIC_CACHE).then((cache) => cache.put("/", copy));
+          }
+          return response;
         })
-        .catch(() => request.mode === "navigate" ? caches.match("/") : undefined)),
+        .catch(async () => (await caches.match("/")) || Response.error()),
+    );
+    return;
+  }
+
+  if (/\.(?:js|css|svg|png|webmanifest)$/i.test(url.pathname)) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+            void caches.open(STATIC_CACHE).then((cache) => cache.put(request, copy));
+          }
+          return response;
+        })
+        .catch(async () => (await caches.match(request)) || Response.error()),
     );
   }
 });
