@@ -109,7 +109,9 @@ const resources = {
         location_permission_denied: "Location access denied or failed.",
         direct_route: "Direct",
         transfer: "Transfer",
-        transfers: "Transfers"
+        transfers: "Transfers",
+        no_timetable: "No timetable",
+        no_timetable_hint: "This station is on the network map, but TransitRail has no timetable data for it yet."
       },
       workflow: {
         title: "Data workflow",
@@ -147,6 +149,10 @@ const resources = {
         non_stop: "Non-stop",
         select_seat: "Seat preference",
         unable_to_fetch: "Unable to fetch real-time data",
+        not_covered_title: "This station has no timetable yet",
+        not_covered_body: "{{stations}} appears on the network map, but TransitRail has no timetable data for it yet.",
+        not_covered_suggestions: "Stations with timetable data:",
+        station_separator: ", ",
         no_results: "No real-time results yet",
         no_results_hint: "Connect the transit provider API key or try another route.",
         stops: "stops",
@@ -603,7 +609,9 @@ const resources = {
         location_permission_denied: "拒絕提供位置存取權限，或定位失敗。",
         direct_route: "直達",
         transfer: "轉乘",
-        transfers: "次轉乘"
+        transfers: "次轉乘",
+        no_timetable: "無時刻表",
+        no_timetable_hint: "此站在路網圖上，但 TransitRail 尚未收錄其時刻表資料。"
       },
       workflow: {
         title: "資料流程",
@@ -641,6 +649,10 @@ const resources = {
         non_stop: "直達",
         select_seat: "座位偏好",
         unable_to_fetch: "無法取得即時資料",
+        not_covered_title: "此站尚未收錄時刻表",
+        not_covered_body: "{{stations}} 在路網圖上，但 TransitRail 尚未收錄該站的時刻表資料。",
+        not_covered_suggestions: "已收錄時刻表的車站：",
+        station_separator: "、",
         no_results: "目前沒有即時結果",
         no_results_hint: "請設定交通 API key，或改查其他路線。",
         stops: "站",
@@ -1502,7 +1514,9 @@ const resources = {
         location_permission_denied: "位置情報へのアクセスが拒否されたか、取得に失敗しました。",
         direct_route: "直通",
         transfer: "乗換",
-        transfers: "回乗換"
+        transfers: "回乗換",
+        no_timetable: "時刻表なし",
+        no_timetable_hint: "この駅は路線図には含まれますが、TransitRailにはまだ時刻表データがありません。"
       },
       workflow: {
         title: "データフロー",
@@ -1540,6 +1554,10 @@ const resources = {
         non_stop: "直通",
         select_seat: "座席の希望",
         unable_to_fetch: "リアルタイムデータを取得できません",
+        not_covered_title: "この駅の時刻表は未収録です",
+        not_covered_body: "{{stations}} は路線図に含まれますが、TransitRailにはまだこの駅の時刻表データがありません。",
+        not_covered_suggestions: "時刻表データがある駅：",
+        station_separator: "、",
         no_results: "現在、リアルタイムの検索結果はありません",
         no_results_hint: "交通機関のAPIキーを設定するか、別の路線をお試しください。",
         stops: "駅",
@@ -2023,7 +2041,9 @@ const resources = {
         location_permission_denied: "위치 접근 권한이 거부되었거나 위치 확인에 실패했습니다.",
         direct_route: "직통",
         transfer: "환승",
-        transfers: "회 환승"
+        transfers: "회 환승",
+        no_timetable: "시간표 없음",
+        no_timetable_hint: "이 역은 노선도에 있지만 TransitRail에 아직 시간표 데이터가 없습니다."
       },
       workflow: {
         title: "데이터 처리 과정",
@@ -2061,6 +2081,10 @@ const resources = {
         non_stop: "직통",
         select_seat: "좌석 선호",
         unable_to_fetch: "실시간 데이터를 가져올 수 없습니다",
+        not_covered_title: "이 역의 시간표가 아직 없습니다",
+        not_covered_body: "{{stations}} 역은 노선도에 있지만 TransitRail에 아직 시간표 데이터가 없습니다.",
+        not_covered_suggestions: "시간표 데이터가 있는 역:",
+        station_separator: ", ",
         no_results: "아직 실시간 검색 결과가 없습니다",
         no_results_hint: "교통 기관 API 키를 설정하거나 다른 노선을 시도해 보세요.",
         stops: "정거장",

@@ -81,6 +81,15 @@ export function loadScrapedData(): void {
   console.log(`[scraped] Loaded ${totalRoutes} routes across ${ALL_COUNTRIES.length} countries`);
 }
 
+/**
+ * Route snapshots loaded for a country (empty when none are committed).
+ * Read-only view of the boot cache — used to derive station coverage.
+ */
+export function getScrapedRoutes(country: Country): readonly ScrapedRouteData[] {
+  if (!loaded) loadScrapedData();
+  return cache[country] || [];
+}
+
 /** Returns the newest route-snapshot timestamp loaded for a country, if known. */
 export function getScrapedCountryFreshness(country: Country): string | undefined {
   if (!loaded) loadScrapedData();

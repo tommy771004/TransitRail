@@ -2,10 +2,16 @@
  * Journey search orchestration: country policy → provider and/or scraped snapshots.
  * Express handlers stay thin HTTP over this module.
  */
-import type { Country, SearchDataStatus, SearchResponse } from "../types";
+import type { Country, CoverageGap, SearchDataStatus, SearchResponse } from "../types";
 import { countryOptions } from "../data/countries";
 import { getCountryCapability, type ProviderId } from "../data/countryCapability";
-import { findScrapedResults, getScrapedCountryFreshness } from "../data/scraped";
+import { findScrapedResults, getScrapedCountryFreshness, getScrapedRoutes } from "../data/scraped";
+import {
+  coverageModeFor,
+  coveredEndpointNames,
+  coveredStationKeys,
+  hasCoverage,
+} from "../data/stationCoverage";
 import { getLinesForCountry } from "./catalog";
 import { enrichTransitResultsWithLineStations } from "../utils/metroEnricher";
 import { searchTflJourney } from "./tfl";
@@ -110,6 +116,47 @@ function tryScraped(
 }
 
 /**
+ * Which requested endpoint has no timetable behind it.
+ *
+ * Only meaningful for `scraped` countries: their picker lists a full line map
+ * while the data covers a few corridors, so a 404 is usually "we never had this
+ * station" rather than "the fetch failed". Returns undefined when both
+ * endpoints are covered — then the pair itself is the gap, not the stations.
+ */
+function findCoverageGap(
+  country: Country | undefined,
+  origin: string,
+  destination: string,
+): CoverageGap | undefined {
+  if (!country || coverageModeFor(country) !== "scraped") return undefined;
+
+  const routes = getScrapedRoutes(country);
+  if (routes.length === 0) return undefined;
+
+  const keys = coveredStationKeys(routes);
+  const uncovered = [origin, destination].filter(
+    (name) => name && !hasCoverage(keys, name, country),
+  );
+  if (uncovered.length === 0) return undefined;
+
+  return { uncovered, suggestions: coveredEndpointNames(routes) };
+}
+
+function noDataMessage(origin: string, destination: string, gap: CoverageGap | undefined): string {
+  if (!gap) {
+    return `No supported timetable data found for ${origin} → ${destination}. This route may not be covered yet.`;
+  }
+  const stations = gap.uncovered.join(" and ");
+  const noun = gap.uncovered.length > 1 ? "stations are" : "station is";
+  return (
+    `No timetable data covers ${stations} — ${
+      gap.uncovered.length > 1 ? "those" : "that"
+    } ${noun} in the station map but not yet in TransitRail's timetables. ` +
+    `Covered stations for this country: ${gap.suggestions.join(", ")}.`
+  );
+}
+
+/**
  * Resolve a journey search. Does not write audit logs — the HTTP edge does that.
  */
 export async function runTransitSearch(input: TransitSearchInput): Promise<TransitSearchResult> {
@@ -168,11 +215,13 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
 
   if (!payload) {
     statusCode = 404;
+    const coverageGap = findCoverageGap(resolvedCountry, origin, destination);
     payload = {
       error: "No data available",
-      message: `No supported timetable data found for ${origin} → ${destination}. This route may not be covered yet.`,
+      message: noDataMessage(origin, destination, coverageGap),
       results: [],
       source: "scraped",
+      coverageGap,
     };
   }
 

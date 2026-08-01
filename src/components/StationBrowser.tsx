@@ -12,6 +12,8 @@ import { countryConfig, countryFlags, countryThemes } from "../data/countries";
 import type { Country, TransitLine } from "../types";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel } from "../utils/stationLabel";
+import { stationSearchKey } from "../data/stationKey";
+import type { StationCoverage } from "../data/stationCoverage";
 import { fuzzyMatch } from "../utils/fuzzy";
 import { getAuditHeaders, postAuditEvent, resolveAuditTimezone } from "../utils/audit";
 
@@ -52,6 +54,7 @@ export function StationBrowser({
 
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [stations, setStations] = useState<string[]>([]);
+  const [coverage, setCoverage] = useState<StationCoverage | undefined>(undefined);
   const [lines, setLines] = useState<TransitLine[]>([]);
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -181,8 +184,11 @@ export function StationBrowser({
         fetch(`/api/transit/lines?country=${country}`).then((r) => r.json().then((d) => ({ ok: r.ok, d }))),
       ]);
       if (!active) return;
-      if (sRes.status === "fulfilled" && sRes.value.ok) setStations(sRes.value.d.stations || []);
-      else { setStations([]); setLoadFailed(true); }
+      if (sRes.status === "fulfilled" && sRes.value.ok) {
+        setStations(sRes.value.d.stations || []);
+        setCoverage(sRes.value.d.coverage);
+      }
+      else { setStations([]); setCoverage(undefined); setLoadFailed(true); }
       if (lRes.status === "fulfilled" && lRes.value.ok) applyLines(lRes.value.d.lines || []);
       else { setLines([]); setLinesFailed(true); }
     };
@@ -198,6 +204,7 @@ export function StationBrowser({
           const data = await res.json();
           if (!active) return;
           setStations(data.stations || []);
+          setCoverage(data.coverage);
           applyLines(data.lines || []);
           return;
         }
@@ -299,6 +306,21 @@ export function StationBrowser({
     }
     return map;
   }, [lines]);
+
+  /**
+   * Stations the picker can offer but search cannot answer for.
+   *
+   * The line map and the timetables are different graphs: Seoul's map has 305
+   * stations, its timetables cover 8. Without this the picker silently hands
+   * users a dead end (Cheongnyangni → Seoul Station). A missing `covered` list
+   * means the country answers arbitrary pairs live, so nothing is marked.
+   */
+  const isUncovered = useMemo(() => {
+    const covered = coverage?.covered;
+    if (!covered) return () => false;
+    const keys = new Set(covered.map(stationSearchKey));
+    return (station: string) => !keys.has(stationSearchKey(station));
+  }, [coverage]);
 
   const filteredStations = useMemo(() => {
     const value = query.trim().toLowerCase();
@@ -476,6 +498,7 @@ export function StationBrowser({
                   target={target}
                   selectedOrigin={selectedOrigin}
                   dependencyMap={dependencyMap}
+                  isUncovered={isUncovered}
                 />
               </div>
             )}
@@ -524,6 +547,7 @@ export function StationBrowser({
                 country={country}
                 onSelectStation={handleSelectStation}
                 accessibilityMap={accessibilityMap}
+                isUncovered={isUncovered}
               />
             </div>
           ) : lines.length === 0 && !linesLoading && !linesFailed ? (
@@ -535,6 +559,7 @@ export function StationBrowser({
                 country={country}
                 onSelectStation={handleSelectStation}
                 accessibilityMap={accessibilityMap}
+                isUncovered={isUncovered}
               />
             </div>
           ) : (
@@ -639,8 +664,9 @@ export function StationBrowser({
                                 <span className={`w-[2px] flex-1 ${index === arr.length - 1 ? "bg-transparent" : "bg-slate-200 dark:bg-slate-800"}`} />
                               </span>
                               <div className="flex-1 min-w-0 flex flex-col group-hover:translate-x-1 transition-transform">
-                                <span className="block truncate text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
+                                <span className={`block truncate text-sm font-bold flex items-center gap-1.5 ${isUncovered(station.name) ? "text-slate-400 dark:text-slate-500" : "text-slate-800 dark:text-slate-100"}`}>
                                   {primaryLabel}
+                                  {isUncovered(station.name) && <NoTimetableBadge />}
                                   {station.localName ? (
                                     <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">{station.localName}</span>
                                   ) : null}
@@ -716,6 +742,22 @@ export function StationBrowser({
   );
 }
 
+/**
+ * Marks a station the picker lists but the timetables do not cover, so the
+ * dead end is visible before the user commits to a search.
+ */
+function NoTimetableBadge() {
+  const { t } = useTranslation();
+  return (
+    <span
+      className="inline-flex shrink-0 items-center gap-1 rounded-md border border-slate-200/60 bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold text-slate-500 dark:border-slate-700/60 dark:bg-slate-800/60 dark:text-slate-400"
+      title={t("stations.no_timetable_hint", "TransitRail has no timetable for this station yet.")}
+    >
+      {t("stations.no_timetable", "No timetable")}
+    </span>
+  );
+}
+
 function StationList({
   isLoading,
   loadFailed,
@@ -726,6 +768,7 @@ function StationList({
   target,
   selectedOrigin,
   dependencyMap,
+  isUncovered,
 }: {
   isLoading: boolean;
   loadFailed: boolean;
@@ -736,6 +779,7 @@ function StationList({
   target?: "origin" | "destination";
   selectedOrigin?: string;
   dependencyMap?: Map<string, Map<string, ConnectionInfo>>;
+  isUncovered?: (station: string) => boolean;
 }) {
   const { t } = useTranslation();
   if (isLoading) {
@@ -780,7 +824,8 @@ function StationList({
     >
       {stations.map((station) => {
         const primaryLabel = stationLabel(t, station, country);
-        
+        const uncovered = isUncovered?.(station) ?? false;
+
         let secondaryLabel: string | null = null;
         if (i18n.language === "zh-TW") {
           if (primaryLabel !== station) {
@@ -804,8 +849,9 @@ function StationList({
               className="w-full flex items-center justify-between px-3.5 py-3 rounded-2xl hover:bg-slate-100/40 dark:hover:bg-slate-800/40 text-left transition-all group"
             >
               <div className="flex flex-col min-w-0 group-hover:translate-x-1 transition-transform">
-                <span className="block truncate text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
+                <span className={`block truncate text-sm font-bold flex items-center gap-1.5 ${uncovered ? "text-slate-400 dark:text-slate-500" : "text-slate-800 dark:text-slate-100"}`}>
                   {primaryLabel}
+                  {uncovered && <NoTimetableBadge />}
                   {accessibilityMap.get(station) && (
                     <span className="inline-flex items-center justify-center p-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded" title={t("stations.accessible", "Wheelchair Accessible")}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="2"/><path d="M19 22l-3-6-4 2"/><path d="M16 16l-4-2-2-6 2-2 4 4"/><circle cx="8" cy="18" r="4"/><path d="M8 22v-8"/></svg>

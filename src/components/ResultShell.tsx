@@ -9,7 +9,7 @@ import { Bookmark, Check, Compass, Edit2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, type MotionProps } from "motion/react";
-import type { Country } from "../types";
+import type { Country, CoverageGap } from "../types";
 import { triggerHaptic } from "../utils/haptics";
 import { WeatherWidget } from "./WeatherWidget";
 import { stationLabel } from "../utils/stationLabel";
@@ -115,6 +115,62 @@ export function renderErrorBlock(title: string, message: string) {
     >
       <p className="text-sm font-bold">{title}</p>
       <p className="mt-1 text-sm">{message}</p>
+    </motion.div>
+  );
+}
+
+/**
+ * A station the picker offers but no timetable covers.
+ *
+ * Deliberately not the red error block: nothing failed to load, the route was
+ * never in the catalog. Painting it as a fetch error told users to retry a
+ * search that can never succeed.
+ */
+export function renderCoverageBlock(gap: CoverageGap, country: Country) {
+  return <CoverageBlock gap={gap} country={country} />;
+}
+
+function CoverageBlock({ gap, country }: { gap: CoverageGap; country: Country }) {
+  const { t } = useTranslation();
+  const uncovered = gap.uncovered.map((name) => stationLabel(t, name, country));
+  const suggestions = gap.suggestions.slice(0, 8).map((name) => stationLabel(t, name, country));
+
+  return (
+    <motion.div
+      key="coverage"
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.96 }}
+      transition={{ duration: 0.3 }}
+      className="rounded-3xl border border-amber-200 bg-amber-50 p-4 text-amber-900 dark:border-amber-800/60 dark:bg-amber-950/40 dark:text-amber-300"
+    >
+      <p className="text-sm font-bold">
+        {t("result.not_covered_title", "This station has no timetable yet")}
+      </p>
+      <p className="mt-1 text-sm">
+        {t("result.not_covered_body", {
+          stations: uncovered.join(t("result.station_separator", "、")),
+          defaultValue:
+            "{{stations}} appears on the network map, but TransitRail has no timetable data for it yet.",
+        })}
+      </p>
+      {suggestions.length > 0 && (
+        <div className="mt-3">
+          <p className="text-xs font-bold opacity-80">
+            {t("result.not_covered_suggestions", "Stations with timetable data:")}
+          </p>
+          <div className="mt-1.5 flex flex-wrap gap-1.5">
+            {suggestions.map((name) => (
+              <span
+                key={name}
+                className="rounded-md border border-amber-300/50 bg-amber-100/60 px-1.5 py-0.5 text-[11px] font-bold dark:border-amber-700/50 dark:bg-amber-900/40"
+              >
+                {name}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }

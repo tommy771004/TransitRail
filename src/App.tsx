@@ -33,6 +33,7 @@ import type {
   Country,
   CurrencyDisplayMode,
   FavoriteRoute,
+  CoverageGap,
   KoreaFilter,
   SavedTrip,
   SearchDataStatus,
@@ -346,6 +347,7 @@ export default function App() {
   const [searchDataStatus, setSearchDataStatus] = useState<SearchDataStatus | undefined>();
   const [serviceDayAdvisory, setServiceDayAdvisory] = useState<ServiceDayAdvisory | undefined>();
   const [error, setError] = useState<string | undefined>();
+  const [coverageGap, setCoverageGap] = useState<CoverageGap | undefined>();
   const [isSearching, setIsSearching] = useState(false);
   const [sortMode, setSortMode] = useState<SortMode>("fastest");
   const [koreaFilter, setKoreaFilter] = useState<KoreaFilter>("all");
@@ -849,6 +851,7 @@ export default function App() {
     setIsSearching(true);
     setView("results");
     setError(undefined);
+    setCoverageGap(undefined);
     setResults([]);
     setSearchDataStatus(undefined);
     setServiceDayAdvisory(undefined);
@@ -900,6 +903,7 @@ export default function App() {
 
       if (!res.ok) {
         setError(data.message || "Failed to fetch real-time data.");
+        setCoverageGap(data.coverageGap);
         pushAlert(t("alerts.search_failed"), data.message || t("alerts.search_failed_body"));
       } else {
         const cachedData = await get(`transit_search_${query}`);
@@ -1432,6 +1436,7 @@ export default function App() {
             date={searchParams.date}
             time={searchParams.time}
             error={error}
+            coverageGap={coverageGap}
             results={visibleResults}
             savedIds={savedIds}
             sortMode={sortMode}

@@ -10,6 +10,7 @@ import { findScrapedResults, loadScrapedData } from "./src/data/scraped";
 import { getCbcRates } from "./src/server/cbc";
 import { getExternalExchangeRates } from "./src/server/exchangeRates";
 import type { Country, ServiceDayAdvisory } from "./src/types";
+import type { StationCoverage } from "./src/data/stationCoverage";
 import { db } from "./src/db";
 import { feedbacks, tnAuditLog, pushSubscriptions, type WatchedRoute } from "./src/db/schema";
 import { getStationsForCountry, getLinesForCountry } from "./src/server/catalog";
@@ -390,13 +391,14 @@ async function logTransitSearch(
     let payload: {
       stations: string[];
       source?: string;
+      coverage?: StationCoverage;
       error?: string;
       message?: string;
     };
 
     try {
-      const { stations, source } = await getStationsForCountry(country as string, q as string);
-      payload = { stations, source };
+      const { stations, source, coverage } = await getStationsForCountry(country as string, q as string);
+      payload = { stations, source, coverage };
     } catch (error) {
       if (error instanceof Error && error.message === "Invalid country") {
         statusCode = 400;

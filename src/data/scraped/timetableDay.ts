@@ -1,5 +1,6 @@
 import type { Country, JourneyLeg, TransitResult } from "../../types";
 import { stationSearchKey } from "../stationKey";
+import { resolveStationAlias } from "../stationAliases";
 
 export interface ScrapedRouteData {
   origin: string;
@@ -327,6 +328,12 @@ export function findInRoutes(
   country?: Country,
 ): TransitResult[] | null {
   if (!routes.length) return null;
+
+  // A station can reach the picker under a different naming system than the
+  // timetables use (Seoul Metro "Seoul Station" vs Korail "Seoul (SNC)").
+  // Resolve to the timetable spelling before keying, including for chaining.
+  origin = resolveStationAlias(country, origin);
+  destination = resolveStationAlias(country, destination);
 
   const oKey = stationSearchKey(origin);
   const dKey = stationSearchKey(destination);

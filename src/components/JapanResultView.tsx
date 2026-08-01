@@ -6,7 +6,7 @@ import { ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
-import type { Country, SortMode, TransitResult } from "../types";
+import type { Country, CoverageGap, SortMode, TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel } from "../utils/stationLabel";
@@ -18,6 +18,7 @@ import {
   formatDuration,
   renderEmptyBlock,
   renderErrorBlock,
+  renderCoverageBlock,
   renderWeatherBlock,
   tripCardClass,
   tripCardMotion,
@@ -30,6 +31,7 @@ interface JapanResultViewProps {
   date: string;
   time?: string;
   error?: string;
+  coverageGap?: CoverageGap;
   results: TransitResult[];
   sortMode: SortMode;
   savedIds: Set<string>;
@@ -95,6 +97,7 @@ export function JapanResultView({
   date,
   time,
   error,
+  coverageGap,
   results,
   sortMode,
   savedIds,
@@ -158,7 +161,7 @@ export function JapanResultView({
       <div className="mx-auto max-w-md space-y-3 px-4 pt-4">
         <AnimatePresence mode="popLayout">
           {!error && results.length > 0 && renderWeatherBlock(destination, date, country)}
-          {error && renderErrorBlock(t("result.unable_to_fetch"), error)}
+          {error && (coverageGap ? renderCoverageBlock(coverageGap, country) : renderErrorBlock(t("result.unable_to_fetch"), error))}
           {!error && results.length === 0 && renderEmptyBlock(t("result.no_results"), t("result.no_results_hint"))}
         </AnimatePresence>
 
