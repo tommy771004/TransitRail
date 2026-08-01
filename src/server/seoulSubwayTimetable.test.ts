@@ -62,6 +62,51 @@ describe("parseDayType / parseLineLabel", () => {
 });
 
 describe("parseSeoulSubwayTimetable", () => {
+  it("parses the current data.go.kr column names and DAY service marker", () => {
+    const timetable = parseSeoulSubwayTimetable(
+      utf8([
+        "고유번호,호선,역사코드,역사명,주중주말,방향,급행여부,열차코드,열차도착시간,열차출발시간,출발역,도착역",
+        "400,1,0150,서울역,DAY,UP,0,K802,05:20:00,05:20:30,구로,동두천",
+        "401,1,0151,시청,DAY,UP,0,K802,05:22:30,05:23:00,구로,동두천",
+        "",
+      ]),
+    );
+
+    expect(timetable.dropped["no 열차번호 column"]).toBeUndefined();
+    expect(timetable.runs).toHaveLength(1);
+    expect(timetable.runs[0]).toMatchObject({
+      trainNo: "K802",
+      dayType: "weekday",
+      direction: "UP",
+    });
+    expect(timetable.runs[0].calls.map((call) => call.station)).toEqual([
+      "Seoul Station",
+      "City Hall",
+    ]);
+  });
+
+  it("orders official rows by call time when the CSV groups stations out of sequence", () => {
+    const timetable = parseSeoulSubwayTimetable(
+      utf8([
+        "호선,역사명,열차코드,주중주말,방향,열차도착시간,열차출발시간",
+        "1,서울역,K226,DAY,UP,23:59:30,24:00:00",
+        "1,시청,K226,DAY,UP,24:02:00,24:02:30",
+        "1,신설동,K226,DAY,UP,24:14:30,24:15:00",
+        "1,청량리,K226,DAY,UP,24:18:30,24:19:00",
+        "1,동묘앞,K226,DAY,UP,24:12:30,24:13:00",
+        "",
+      ]),
+    );
+
+    expect(timetable.runs[0].calls.map((call) => call.station)).toEqual([
+      "Seoul Station",
+      "City Hall",
+      "Dongmyo",
+      "Sinseol-dong",
+      "Cheongnyangni",
+    ]);
+  });
+
   it("groups rows into one run per train number and day type", () => {
     const timetable = parseSeoulSubwayTimetable(TIMETABLE);
     expect(timetable.runs).toHaveLength(3);
@@ -74,6 +119,30 @@ describe("parseSeoulSubwayTimetable", () => {
       "Jonggak",
       "Cheongnyangni",
     ]);
+  });
+
+  it("keeps the same train code on different lines as separate runs", () => {
+    const timetable = parseSeoulSubwayTimetable(
+      utf8([
+        "호선,역사명,열차코드,주중주말,방향,열차도착시간,열차출발시간",
+        "1,서울역,5502,DAY,UP,05:20:00,05:20:30",
+        "1,시청,5502,DAY,UP,05:22:00,05:22:30",
+        "2,시청,5502,DAY,UP,05:40:00,05:40:30",
+        "2,강남,5502,DAY,UP,06:05:00,06:05:30",
+        "",
+      ]),
+    );
+
+    expect(timetable.runs).toHaveLength(2);
+    expect(timetable.runs.map((run) => run.line)).toEqual(["Line 1", "Line 2"]);
+    expect(
+      buildSeoulJourneys(timetable, {
+        origin: "Seoul Station",
+        destination: "Gangnam",
+        date: "2026-08-03",
+        dayType: "weekday",
+      }),
+    ).toEqual([]);
   });
 
   it("resolves Korean names to the English names search matches on", () => {

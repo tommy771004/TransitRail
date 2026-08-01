@@ -1,8 +1,6 @@
 /**
- * Regression cover for the reported dead end: the Korean station picker offers
- * all 305 Seoul Metro stations, but the committed timetables cover a handful of
- * Korail corridors, so `Cheongnyangni → Seoul Station` 404'd with a message
- * that read like a network failure.
+ * Regression cover for the reported dead end. Seoul timetable coverage now
+ * comes from the compact official CSV artifact produced by the daily scraper.
  *
  * Runs against the real committed snapshots — the point is that the shipped
  * data and the shipped menu agree about what search can answer.
@@ -16,34 +14,24 @@ async function search(origin: string, destination: string, country = "korea") {
   return runTransitSearch({ origin, destination, date: DATE, country });
 }
 
-describe("uncovered station search", () => {
-  it("still refuses to invent a timetable for an uncovered station", async () => {
+describe("scheduled Seoul artifact search", () => {
+  it("answers the formerly uncovered corridor from official train runs", async () => {
     const { statusCode, payload } = await search("Cheongnyangni", "Seoul Station");
+    expect(statusCode).toBe(200);
+    expect(payload.results.length).toBeGreaterThan(0);
+    expect(payload.results[0].operator).toBe("Seoul Metro");
+    expect(payload.results[0].price).toBeUndefined();
+  });
+
+  it("does not label artifact-backed metro stations uncovered", async () => {
+    const { payload } = await search("Cheongnyangni", "Gangnam");
+    expect(payload.coverageGap).toBeUndefined();
+  });
+
+  it("still refuses to synthesize a transfer when no single official run serves the pair", async () => {
+    const { statusCode, payload } = await search("Cheongnyangni", "Gangnam");
     expect(statusCode).toBe(404);
     expect(payload.results).toEqual([]);
-  });
-
-  it("names the uncovered station instead of implying a fetch failure", async () => {
-    const { payload } = await search("Cheongnyangni", "Seoul Station");
-    expect(payload.coverageGap?.uncovered).toEqual(["Cheongnyangni"]);
-    expect(payload.message).toContain("Cheongnyangni");
-    expect(payload.message).not.toContain("may not be covered yet");
-  });
-
-  it("offers stations that do have timetables, so the user has a next step", async () => {
-    const { payload } = await search("Cheongnyangni", "Seoul Station");
-    const suggestions = payload.coverageGap?.suggestions ?? [];
-    expect(suggestions).toContain("Seoul (SNC)");
-    expect(suggestions).toContain("Busan (BSN)");
-    // Every suggestion must actually resolve, or the prompt sends users in circles.
-    for (const suggestion of suggestions) {
-      expect(suggestion).not.toBe("Cheongnyangni");
-    }
-  });
-
-  it("reports both endpoints when neither is covered", async () => {
-    const { payload } = await search("Cheongnyangni", "Gangnam");
-    expect(payload.coverageGap?.uncovered).toEqual(["Cheongnyangni", "Gangnam"]);
   });
 
   it("leaves live-provider countries without a coverage gap", async () => {

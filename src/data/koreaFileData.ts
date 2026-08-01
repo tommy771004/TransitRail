@@ -22,9 +22,9 @@ export const COLUMN_HINTS: Record<string, string[]> = {
   departure: ["출발시간", "출발시각", "DEPARTTIME", "DEPART_TIME", "LEFTTIME"],
   direction: ["방향", "상하행", "상하행구분", "INOUT_TAG", "UPDOWN"],
   line: ["호선", "노선", "LINE_NUM", "선명"],
-  dayType: ["요일구분", "평일구분", "WEEK_TAG", "운행요일"],
+  dayType: ["요일구분", "평일구분", "주중주말", "WEEK_TAG", "운행요일"],
   terminus: ["도착역", "출발역", "종착역", "행선지"],
-  trainNo: ["열차번호", "TRAIN_NO", "열차No"],
+  trainNo: ["열차번호", "열차코드", "TRAIN_NO", "열차No"],
 };
 
 /**

@@ -3,6 +3,7 @@ import type { LineStation, TransitLine } from "../types";
 export const japanStations = [
   // 主要新幹線與大城市車站 (Major Shinkansen & City Stations)
   "Tokyo", "Shinagawa", "Shinjuku", "Shibuya", "Ikebukuro", "Ueno", "Akihabara",
+  "Roppongi", "Asakusa", "Nihombashi", "Jimbocho", "Ginza", "Otemachi",
   "Shin-Yokohama", "Yokohama", "Omiya",
   "Nagoya", "Kyoto", "Shin-Osaka", "Osaka", "Umeda", "Namba", "Tennoji",
   "Kobe", "Shin-Kobe", "Sannomiya", "Himeji",
@@ -20,6 +21,36 @@ export const japanStations = [
 // Major stops only, not the full station list of each line. Used as a static
 // directory until the ODPT route adapter provides live station data.
 const japanLineDefs: Array<{ id: string; name: string; color: string; stations: string[] }> = [
+  {
+    id: "toei-oedo",
+    name: "Toei Oedo Line",
+    color: "#B6007A",
+    stations: ["Shinjuku", "Roppongi"],
+  },
+  {
+    id: "toei-asakusa",
+    name: "Toei Asakusa Line",
+    color: "#E85298",
+    stations: ["Asakusa", "Nihombashi"],
+  },
+  {
+    id: "toei-shinjuku",
+    name: "Toei Shinjuku Line",
+    color: "#6CBB5A",
+    stations: ["Jimbocho", "Shinjuku"],
+  },
+  {
+    id: "tokyo-metro-ginza",
+    name: "Tokyo Metro Ginza Line",
+    color: "#F39700",
+    stations: ["Shibuya", "Asakusa"],
+  },
+  {
+    id: "tokyo-metro-marunouchi",
+    name: "Tokyo Metro Marunouchi Line",
+    color: "#E60012",
+    stations: ["Ikebukuro", "Otemachi", "Tokyo", "Ginza"],
+  },
   {
     id: "tokaido-shinkansen",
     name: "Tōkaidō Shinkansen",

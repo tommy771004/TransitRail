@@ -8,6 +8,12 @@
     "Ikebukuro",
     "Ueno",
     "Akihabara",
+    "Roppongi",
+    "Asakusa",
+    "Nihombashi",
+    "Jimbocho",
+    "Ginza",
+    "Otemachi",
     "Shin-Yokohama",
     "Yokohama",
     "Omiya",
@@ -53,6 +59,97 @@
   ],
   "lines": [
     {
+      "id": "toei-oedo",
+      "name": "Toei Oedo Line",
+      "color": "#B6007A",
+      "stations": [
+        {
+          "name": "Shinjuku",
+          "interchanges": [
+            "Toei Shinjuku Line"
+          ]
+        },
+        {
+          "name": "Roppongi"
+        }
+      ]
+    },
+    {
+      "id": "toei-asakusa",
+      "name": "Toei Asakusa Line",
+      "color": "#E85298",
+      "stations": [
+        {
+          "name": "Asakusa",
+          "interchanges": [
+            "Tokyo Metro Ginza Line"
+          ]
+        },
+        {
+          "name": "Nihombashi"
+        }
+      ]
+    },
+    {
+      "id": "toei-shinjuku",
+      "name": "Toei Shinjuku Line",
+      "color": "#6CBB5A",
+      "stations": [
+        {
+          "name": "Jimbocho"
+        },
+        {
+          "name": "Shinjuku",
+          "interchanges": [
+            "Toei Oedo Line"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tokyo-metro-ginza",
+      "name": "Tokyo Metro Ginza Line",
+      "color": "#F39700",
+      "stations": [
+        {
+          "name": "Shibuya"
+        },
+        {
+          "name": "Asakusa",
+          "interchanges": [
+            "Toei Asakusa Line"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tokyo-metro-marunouchi",
+      "name": "Tokyo Metro Marunouchi Line",
+      "color": "#E60012",
+      "stations": [
+        {
+          "name": "Ikebukuro"
+        },
+        {
+          "name": "Otemachi"
+        },
+        {
+          "name": "Tokyo",
+          "interchanges": [
+            "Tōkaidō Shinkansen",
+            "Tōhoku Shinkansen",
+            "Hokuriku Shinkansen",
+            "Jōetsu Shinkansen",
+            "Yamagata Shinkansen",
+            "Akita Shinkansen"
+          ]
+        },
+        {
+          "name": "Ginza"
+        }
+      ]
+    },
+    {
       "id": "tokaido-shinkansen",
       "name": "Tōkaidō Shinkansen",
       "color": "#1153AF",
@@ -60,6 +157,7 @@
         {
           "name": "Tokyo",
           "interchanges": [
+            "Tokyo Metro Marunouchi Line",
             "Tōhoku Shinkansen",
             "Hokuriku Shinkansen",
             "Jōetsu Shinkansen",
@@ -167,6 +265,7 @@
         {
           "name": "Tokyo",
           "interchanges": [
+            "Tokyo Metro Marunouchi Line",
             "Tōkaidō Shinkansen",
             "Hokuriku Shinkansen",
             "Jōetsu Shinkansen",
@@ -234,6 +333,7 @@
         {
           "name": "Tokyo",
           "interchanges": [
+            "Tokyo Metro Marunouchi Line",
             "Tōkaidō Shinkansen",
             "Tōhoku Shinkansen",
             "Jōetsu Shinkansen",
@@ -282,6 +382,7 @@
         {
           "name": "Tokyo",
           "interchanges": [
+            "Tokyo Metro Marunouchi Line",
             "Tōkaidō Shinkansen",
             "Tōhoku Shinkansen",
             "Hokuriku Shinkansen",
@@ -318,6 +419,7 @@
         {
           "name": "Tokyo",
           "interchanges": [
+            "Tokyo Metro Marunouchi Line",
             "Tōkaidō Shinkansen",
             "Tōhoku Shinkansen",
             "Hokuriku Shinkansen",
@@ -363,6 +465,7 @@
         {
           "name": "Tokyo",
           "interchanges": [
+            "Tokyo Metro Marunouchi Line",
             "Tōkaidō Shinkansen",
             "Tōhoku Shinkansen",
             "Hokuriku Shinkansen",
@@ -401,6 +504,10 @@
       "Ikebukuro",
       "Ueno",
       "Akihabara",
+      "Roppongi",
+      "Asakusa",
+      "Nihombashi",
+      "Jimbocho",
       "Nagoya",
       "Kyoto",
       "Shin-Osaka",

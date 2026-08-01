@@ -3,6 +3,12 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import type { TransitResult, Country } from "../../types";
 import { findInRoutes, normalizeResults, type ScrapedRouteData } from "./timetableDay";
+import {
+  decodeSeoulSubwayArtifact,
+  searchSeoulSubwayArtifact,
+  type SeoulSubwayArtifact,
+} from "../seoulSubwayArtifact";
+import { stationSearchKey } from "../stationKey";
 
 export type { ScrapedRouteData } from "./timetableDay";
 export {
@@ -46,7 +52,19 @@ const ALL_COUNTRIES: Country[] = [
 ];
 
 let cache: Record<string, ScrapedRouteData[]> = {};
+let seoulSubwayArtifact: SeoulSubwayArtifact | null = null;
 let loaded = false;
+
+function loadSeoulArtifact(): SeoulSubwayArtifact | null {
+  const path = join(ACTUAL_DATA_DIR, "korea", "seoul-subway-timetable.json.gz");
+  if (!existsSync(path)) return null;
+  try {
+    return decodeSeoulSubwayArtifact(readFileSync(path));
+  } catch (error) {
+    console.warn("[scraped] Failed to parse Korea Seoul subway artifact:", error);
+    return null;
+  }
+}
 
 function loadDir(country: string): ScrapedRouteData[] {
   const data: ScrapedRouteData[] = [];
@@ -77,8 +95,28 @@ export function loadScrapedData(): void {
     cache[country] = loadDir(country);
     totalRoutes += cache[country].length;
   }
+  seoulSubwayArtifact = loadSeoulArtifact();
   loaded = true;
   console.log(`[scraped] Loaded ${totalRoutes} routes across ${ALL_COUNTRIES.length} countries`);
+}
+
+/** All names backed by committed timetable data, including compact artifacts. */
+export function getScrapedCoverageNames(country: Country): string[] {
+  if (!loaded) loadScrapedData();
+  const byKey = new Map<string, string>();
+  const add = (name: string | undefined) => {
+    if (name && !byKey.has(stationSearchKey(name))) byKey.set(stationSearchKey(name), name);
+  };
+  for (const route of cache[country] || []) {
+    add(route.origin);
+    add(route.destination);
+    for (const result of route.results || []) {
+      add(result.origin);
+      add(result.destination);
+    }
+  }
+  if (country === "korea") for (const station of seoulSubwayArtifact?.stations || []) add(station);
+  return [...byKey.values()].sort((a, b) => a.localeCompare(b));
 }
 
 /**
@@ -100,7 +138,13 @@ export function getScrapedCountryFreshness(country: Country): string | undefined
     return latest === undefined || timestamp > latest ? timestamp : latest;
   }, undefined);
 
-  return newest === undefined ? undefined : new Date(newest).toISOString();
+  const artifactTimestamp = country === "korea" && seoulSubwayArtifact
+    ? Date.parse(seoulSubwayArtifact.retrievedAt)
+    : Number.NaN;
+  const combined = Number.isFinite(artifactTimestamp)
+    ? newest === undefined ? artifactTimestamp : Math.max(newest, artifactTimestamp)
+    : newest;
+  return combined === undefined ? undefined : new Date(combined).toISOString();
 }
 
 /**
@@ -114,6 +158,11 @@ export function findScrapedResults(
   date?: string,
 ): TransitResult[] | null {
   if (!loaded) loadScrapedData();
+
+  if (country === "korea" && seoulSubwayArtifact && date) {
+    const metro = searchSeoulSubwayArtifact(seoulSubwayArtifact, { origin, destination, date });
+    if (metro.length > 0) return normalizeResults(metro);
+  }
 
   const countryData = cache[country];
   if (!countryData || countryData.length === 0) return null;

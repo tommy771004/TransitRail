@@ -22,10 +22,11 @@ import { hongKongMtrLineCatalog, mtrInterchanges } from "../data/hongKongMtr";
 import { getStaticMenuStations } from "../data/stationIdentity";
 import {
   coverageModeFor,
-  coveredMenuStations,
+  hasCoverage,
   type StationCoverage,
 } from "../data/stationCoverage";
-import { getScrapedRoutes } from "../data/scraped";
+import { getScrapedCoverageNames } from "../data/scraped";
+import { stationSearchKey } from "../data/stationKey";
 import { countryOptions } from "../data/countries";
 import { getTflLines, getTflStations } from "./tfl";
 import { getMbtaLines, getMbtaStations } from "./mbta";
@@ -90,9 +91,10 @@ export function getStationCoverage(
   if (!countryOptions.includes(country as Country)) return undefined;
   const mode = coverageModeFor(country as Country);
   if (mode !== "scraped") return { mode };
+  const keys = new Set(getScrapedCoverageNames(country as Country).map(stationSearchKey));
   return {
     mode,
-    covered: coveredMenuStations(stations, getScrapedRoutes(country as Country), country as Country),
+    covered: stations.filter((station) => hasCoverage(keys, station, country as Country)),
   };
 }
 

@@ -5,13 +5,16 @@
 import type { Country, CoverageGap, SearchDataStatus, SearchResponse } from "../types";
 import { countryOptions } from "../data/countries";
 import { getCountryCapability, type ProviderId } from "../data/countryCapability";
-import { findScrapedResults, getScrapedCountryFreshness, getScrapedRoutes } from "../data/scraped";
+import {
+  findScrapedResults,
+  getScrapedCountryFreshness,
+  getScrapedCoverageNames,
+} from "../data/scraped";
 import {
   coverageModeFor,
-  coveredEndpointNames,
-  coveredStationKeys,
   hasCoverage,
 } from "../data/stationCoverage";
+import { stationSearchKey } from "../data/stationKey";
 import { getLinesForCountry } from "./catalog";
 import { enrichTransitResultsWithLineStations } from "../utils/metroEnricher";
 import { searchTflJourney } from "./tfl";
@@ -130,16 +133,16 @@ function findCoverageGap(
 ): CoverageGap | undefined {
   if (!country || coverageModeFor(country) !== "scraped") return undefined;
 
-  const routes = getScrapedRoutes(country);
-  if (routes.length === 0) return undefined;
+  const names = getScrapedCoverageNames(country);
+  if (names.length === 0) return undefined;
 
-  const keys = coveredStationKeys(routes);
+  const keys = new Set(names.map(stationSearchKey));
   const uncovered = [origin, destination].filter(
     (name) => name && !hasCoverage(keys, name, country),
   );
   if (uncovered.length === 0) return undefined;
 
-  return { uncovered, suggestions: coveredEndpointNames(routes) };
+  return { uncovered, suggestions: names };
 }
 
 function noDataMessage(origin: string, destination: string, gap: CoverageGap | undefined): string {

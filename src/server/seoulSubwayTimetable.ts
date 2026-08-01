@@ -63,10 +63,10 @@ export function formatClock(minutes: number): string {
  * 일 test would classify every weekday row as Sunday service.
  */
 export function parseDayType(raw: string): ServiceDayType {
-  const value = raw.replace(/\s+/g, "");
-  if (/평일/.test(value)) return "weekday";
-  if (/토/.test(value)) return "saturday";
-  if (/일|휴/.test(value)) return "sunday_holiday";
+  const value = raw.replace(/\s+/g, "").toUpperCase();
+  if (value === "DAY" || /평일/.test(value)) return "weekday";
+  if (value === "SAT" || /토/.test(value)) return "saturday";
+  if (value === "END" || /일|휴/.test(value)) return "sunday_holiday";
   return "special";
 }
 
@@ -133,15 +133,20 @@ export function parseSeoulSubwayTimetable(buffer: Buffer): SeoulTimetable {
       continue;
     }
 
+    const rawLine = cell(row, col.line);
+    const line = parseLineLabel(rawLine);
     const dayType = parseDayType(cell(row, col.dayType));
     const direction = cell(row, col.direction) || undefined;
-    const key = `${trainNo}|${dayType}|${direction ?? ""}`;
+    // Train codes are only unique within a line. The official file reuses
+    // hundreds of codes across lines (for example 5502 on lines 2 and 5), so
+    // omitting the line would splice unrelated calls into a fictitious train.
+    const key = `${rawLine}|${trainNo}|${dayType}|${direction ?? ""}`;
 
     let run = byRun.get(key);
     if (!run) {
       run = {
         trainNo,
-        line: parseLineLabel(cell(row, col.line)),
+        line,
         dayType,
         direction,
         calls: [],
@@ -151,11 +156,36 @@ export function parseSeoulSubwayTimetable(buffer: Buffer): SeoulTimetable {
     run.calls.push({ station, arrival, departure });
   }
 
-  // Rows arrive in call order. Some extracts still write 00:12 for a train that
-  // left at 24:12, which would sort a late call before an early one, so roll
-  // any backwards step forward by a day instead of reordering.
+  // The official CSV groups rows by station rather than by a train's call
+  // sequence. Order each run by its published time. Older extracts sometimes
+  // wrote after-midnight calls as 00:xx instead of 24:xx; when a run spans late
+  // evening and early morning, move those early values into the next service
+  // day before sorting.
   for (const run of byRun.values()) {
-    let previous = -Infinity;
+    const anchors = run.calls
+      .map((call) => call.departure ?? call.arrival)
+      .filter((value): value is number => value !== undefined);
+    const wrapsMidnight = anchors.some((value) => value >= 20 * 60)
+      && anchors.some((value) => value < 3 * 60);
+
+    if (wrapsMidnight) {
+      for (const call of run.calls) {
+        const anchor = call.departure ?? call.arrival;
+        if (anchor === undefined || anchor >= 3 * 60) continue;
+        if (call.arrival !== undefined) call.arrival += 1440;
+        if (call.departure !== undefined) call.departure += 1440;
+      }
+    }
+
+    run.calls.sort((left, right) => {
+      const leftAnchor = left.departure ?? left.arrival ?? Number.POSITIVE_INFINITY;
+      const rightAnchor = right.departure ?? right.arrival ?? Number.POSITIVE_INFINITY;
+      return leftAnchor - rightAnchor;
+    });
+
+    // A malformed mixed extract can still contain one backwards timestamp.
+    // Keep the duration monotonic rather than inventing a different call order.
+    let previous = Number.NEGATIVE_INFINITY;
     for (const call of run.calls) {
       const anchor = call.departure ?? call.arrival;
       if (anchor === undefined) continue;
@@ -216,8 +246,10 @@ export function buildSeoulJourneys(
     if (departs === undefined || arrives === undefined || arrives < departs) continue;
 
     const calls = run.calls.slice(originIndex, destinationIndex + 1);
+    const idPart = (value: string | undefined) =>
+      (value ?? "unknown").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
     results.push({
-      id: `${query.date}-kr-seoul-${run.trainNo}-${originIndex}-${destinationIndex}`,
+      id: `${query.date}-kr-seoul-${idPart(run.line)}-${idPart(run.trainNo)}-${idPart(run.direction)}-${originIndex}-${destinationIndex}`,
       country: "korea",
       date: query.date,
       operator: "Seoul Metro",

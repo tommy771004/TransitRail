@@ -1,6 +1,9 @@
 import { BaseScraper } from "./base";
 import { japanRoutes } from "./routes";
 import type { ScrapedRoute, ScrapedRouteData } from "./types";
+import { findOdptRoute, odptRoutes } from "../../src/data/odptRoutes";
+import { searchOdptTimetable } from "../../src/server/odptTimetable";
+import type { SearchResponse } from "../../src/types";
 
 /**
  * Japan does not have a usable live provider. The previous Jorudan DOM scraper
@@ -54,12 +57,36 @@ const pad = (n: number) => String(n).padStart(2, "0");
 const fmt = (minutes: number) => `${pad(Math.floor((minutes % 1440) / 60))}:${pad(minutes % 60)}`;
 
 export class JapanScraper extends BaseScraper {
-  readonly name = "JR Timetable";
+  readonly name = "JR local data + ODPT";
   readonly country = "japan";
-  readonly routes = japanRoutes;
+  readonly routes = [...japanRoutes, ...odptRoutes];
   protected readonly usesBrowser = false;
 
+  constructor(
+    private readonly odptSearch: (
+      origin: string,
+      destination: string,
+      date: string,
+    ) => Promise<{ status: number; body: SearchResponse & { error?: string } }> = searchOdptTimetable,
+  ) {
+    super();
+  }
+
   async scrape(route: ScrapedRoute, date: string): Promise<ScrapedRouteData> {
+    if (findOdptRoute(route.origin, route.destination)) {
+      const response = await this.odptSearch(route.origin, route.destination, date);
+      if (response.status < 200 || response.status >= 300 || response.body.results.length === 0) {
+        throw new Error(response.body.error || response.body.message || `ODPT HTTP ${response.status}`);
+      }
+      return {
+        origin: route.origin,
+        destination: route.destination,
+        date,
+        scrapedAt: new Date().toISOString(),
+        source: response.body.source || "ODPT timetable",
+        results: response.body.results,
+      };
+    }
     const isLocal = ROUTE_INFO[`${route.origin}-${route.destination}`]?.line?.includes("Line") || false;
     return {
       origin: route.origin,

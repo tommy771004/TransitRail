@@ -63,10 +63,10 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
         resultView: "japan",
       });
     }
-    expect(getCountryCapability("japan").scrape).toBe("generated");
+    expect(getCountryCapability("japan").scrape).toBe("provider_backed");
     expect(getCountryCapability("germany").scrape).toBe("provider_backed");
     expect(getCountryCapability("france").scrape).toBe("provider_backed");
-    expect(getCountryCapability("korea").scrape).toBe("snapshot");
+    expect(getCountryCapability("korea").scrape).toBe("provider_backed");
   });
 
   it("defines capability for every selectable country", () => {

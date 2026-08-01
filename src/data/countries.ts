@@ -98,7 +98,7 @@ export type CountryConfigEntry = {
 export const countryConfig: Record<Country, CountryConfigEntry> = {
   japan: {
     labelKey: "search.japan",
-    provider: "Scraped (Jorudan)",
+    provider: "Scheduled JR + ODPT data",
     originPlaceholder: "Tokyo",
     destinationPlaceholder: "Shin-Osaka",
     featuredStations: ["Tokyo", "Shinagawa", "Kyoto", "Shin-Osaka", "Nagoya"],
@@ -107,13 +107,13 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     liveOnly: false,
     timeZone: "Asia/Tokyo",
     search: { kind: "scraped" },
-    scrape: "generated",
+    scrape: "provider_backed",
     resultView: "japan",
     serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
   },
   korea: {
     labelKey: "search.korea",
-    provider: "Scraped (Korail)",
+    provider: "Scheduled Korail + Seoul Metro data",
     originPlaceholder: "Seoul (SNC)",
     destinationPlaceholder: "Busan (BSN)",
     featuredStations: ["Seoul (SNC)", "Yongsan", "Daejeon", "Dongdaegu", "Busan (BSN)"],
@@ -122,7 +122,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     liveOnly: false,
     timeZone: "Asia/Seoul",
     search: { kind: "scraped" },
-    scrape: "snapshot",
+    scrape: "provider_backed",
     resultView: "korea",
     serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
   },

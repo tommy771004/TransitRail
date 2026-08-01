@@ -9,9 +9,8 @@
  * Both directions are checked, because they fail differently:
  *   scraped -> menu  a route exists that nobody can select (hard failure)
  *   menu -> scraped  a station is selectable that no timetable covers, so the
- *                    search 404s on a trip the line map says is trivial. Korea
- *                    ships 305 menu stations against 8 covered ones, which is
- *                    what made `Cheongnyangni -> Seoul Station` a dead end.
+ *                    search 404s on a trip the line map says is trivial. Compact
+ *                    artifacts count too, so Seoul coverage is not understated.
  * Only the first is an error — the second is inherent to a curated corridor
  * set, so it is reported as coverage, not failed.
  *
@@ -30,13 +29,16 @@ import {
 } from "../src/data/stationIdentity";
 import {
   coverageModeFor,
-  coveredMenuStations,
+  hasCoverage,
   type CoverageMode,
 } from "../src/data/stationCoverage";
+import { getScrapedCoverageNames, loadScrapedData } from "../src/data/scraped";
+import { stationSearchKey } from "../src/data/stationKey";
 import type { ScrapedRouteData } from "../src/data/scraped/timetableDay";
 import type { Country } from "../src/types";
 
 const DATA_DIR = resolve("src/data/scraped");
+loadScrapedData();
 
 interface ScrapedFile extends ScrapedRouteData {
   file: string;
@@ -96,7 +98,8 @@ for (const country of COUNTRIES) {
   // Reverse direction: how much of the menu can search actually answer for?
   const mode = coverageModeFor(country as Country);
   if (menu && mode === "scraped") {
-    const covered = coveredMenuStations(menu, routes, country as Country);
+    const keys = new Set(getScrapedCoverageNames(country as Country).map(stationSearchKey));
+    const covered = menu.filter((station) => hasCoverage(keys, station, country as Country));
     coverageRows.push({ country, menu: menu.length, covered: covered.length, mode });
     const pct = menu.length === 0 ? 0 : (covered.length / menu.length) * 100;
     console.log(
