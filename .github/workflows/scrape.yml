@@ -46,6 +46,9 @@ jobs:
           SWISS_OJP_URL: https://api.opentransportdata.swiss/ojp20
           SWISS_OJP_TOKEN: ${{ secrets.SWISS_OJP_TOKEN }}
           SWISS_OJP_REQUESTOR_REF: TransitRail_prod
+          # Optional. Toei uses the public ODPT endpoint without this secret;
+          # Tokyo Metro routes refresh when the repository secret is present.
+          ODPT_API_KEY: ${{ secrets.ODPT_API_KEY }}
         run: npm run scrape -- ${{ github.event.inputs.date }}
 
       - name: Generate static station catalog

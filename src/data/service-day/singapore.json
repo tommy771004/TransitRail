@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "country": "singapore",
+  "source": "SMRT official station information API",
+  "sourceUrl": "https://journey.smrt.com.sg/",
+  "timezone": "Asia/Singapore",
+  "retrievedAt": "2026-08-01T06:36:12.461Z",
+  "validFrom": "2026-08-03",
+  "validTo": "2026-08-03",
+  "routes": {
+    "jurong east->raffles place": {
+      "2026-08-03": {
+        "coverage": "partial",
+        "serviceDate": "2026-08-03",
+        "timezone": "Asia/Singapore",
+        "serviceDayType": "weekday",
+        "firstDeparture": "05:42",
+        "lastDeparture": "23:42",
+        "risk": "safe",
+        "source": "SMRT official station information API",
+        "sourceUrl": "https://journey.smrt.com.sg/",
+        "checkedAt": "2026-08-01T06:36:12.368Z",
+        "note": "SMRT publishes direction-specific first and last trains, not a complete departure timetable.",
+        "minutesToLastDeparture": 1422
+      }
+    },
+    "woodlands->orchard": {
+      "2026-08-03": {
+        "coverage": "partial",
+        "serviceDate": "2026-08-03",
+        "timezone": "Asia/Singapore",
+        "serviceDayType": "weekday",
+        "firstDeparture": "05:27",
+        "lastDeparture": "23:08",
+        "risk": "safe",
+        "source": "SMRT official station information API",
+        "sourceUrl": "https://journey.smrt.com.sg/",
+        "checkedAt": "2026-08-01T06:36:12.460Z",
+        "note": "SMRT publishes direction-specific first and last trains, not a complete departure timetable.",
+        "minutesToLastDeparture": 1388
+      }
+    }
+  }
+}

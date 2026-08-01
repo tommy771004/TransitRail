@@ -1,4 +1,4 @@
-import { countryOptions } from "../../src/data/countries";
+import { configuredCountryOptions } from "../../src/data/countries";
 import { automatedScrapeCountries } from "../../src/data/countryCapability";
 import { syncScrapedMetadata } from "./metadata";
 import { syncMalaysiaStationCatalog } from "./malaysia";
@@ -30,7 +30,7 @@ export async function runAllScrapers(dates: string | string[]): Promise<void> {
 
   const scraperNames = scraperDisplayNames(scrapers);
   const automated = new Set(automatedScrapeCountries());
-  const dataOnlyCountries = countryOptions.filter((country) => !automated.has(country));
+  const dataOnlyCountries = configuredCountryOptions.filter((country) => !automated.has(country));
 
   if (dataOnlyCountries.length > 0) {
     console.warn(`  Countries without scheduled scraper: ${dataOnlyCountries.join(", ")}`);

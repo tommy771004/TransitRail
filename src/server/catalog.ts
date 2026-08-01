@@ -34,10 +34,7 @@ import { getBelgiumStations } from "./belgium";
 import { getMalaysiaStations, MALAYSIA_STATION_CATALOG_SOURCE } from "./malaysia";
 import type { Country, TransitLine } from "../types";
 
-export const CATALOG_COUNTRIES = [
-  "japan", "korea", "china", "singapore", "thailand",
-  "malaysia", "hong_kong", "united_kingdom", "united_states", "germany", "france", "belgium", "norway", "switzerland",
-] as const;
+export const CATALOG_COUNTRIES = countryOptions;
 
 const staticLineSets: Record<string, TransitLine[]> = {
   singapore: singaporeMrtLines,

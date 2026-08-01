@@ -3,16 +3,14 @@ import { japanRoutes } from "./routes";
 import type { ScrapedRoute, ScrapedRouteData } from "./types";
 import { findOdptRoute, odptRoutes } from "../../src/data/odptRoutes";
 import { searchOdptTimetable } from "../../src/server/odptTimetable";
+import { isJrCentralRoute, searchJrCentralTimetable } from "../../src/server/jrCentralTimetable";
 import type { SearchResponse } from "../../src/types";
 
 /**
- * Japan does not have a usable live provider. The previous Jorudan DOM scraper
- * never produced usable rows — its CSS/table heuristics never matched Jorudan's
- * markup, and even the happy path dropped price (a no-op ternary), duration
- * (never parsed) and arrival time (read from the wrong cell) — so every run
- * silently fell back to a generated timetable. That dead path is removed; the
- * scraper now deterministically builds the curated JR Shinkansen timetable it
- * was always really serving. Durations and fares are reference values per route.
+ * Scheduled Japan downloads use ODPT for configured metro routes and JR
+ * Central's dated journey search for configured Tokaido Shinkansen routes.
+ * Remaining legacy JR/local routes retain their curated data until a suitable
+ * official scheduled source is added.
  */
 interface RouteInfo {
   line: string;
@@ -68,6 +66,11 @@ export class JapanScraper extends BaseScraper {
       destination: string,
       date: string,
     ) => Promise<{ status: number; body: SearchResponse & { error?: string } }> = searchOdptTimetable,
+    private readonly jrCentralSearch: (
+      origin: string,
+      destination: string,
+      date: string,
+    ) => Promise<{ status: number; body: SearchResponse & { error?: string } }> = searchJrCentralTimetable,
   ) {
     super();
   }
@@ -84,6 +87,20 @@ export class JapanScraper extends BaseScraper {
         date,
         scrapedAt: new Date().toISOString(),
         source: response.body.source || "ODPT timetable",
+        results: response.body.results,
+      };
+    }
+    if (isJrCentralRoute(route.origin, route.destination)) {
+      const response = await this.jrCentralSearch(route.origin, route.destination, date);
+      if (response.status < 200 || response.status >= 300 || response.body.results.length === 0) {
+        throw new Error(response.body.error || response.body.message || `JR Central HTTP ${response.status}`);
+      }
+      return {
+        origin: route.origin,
+        destination: route.destination,
+        date,
+        scrapedAt: new Date().toISOString(),
+        source: response.body.source || "JR Central official journey search",
         results: response.body.results,
       };
     }

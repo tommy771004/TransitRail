@@ -104,7 +104,8 @@ function countryFromPath(pathname: string): Country | undefined {
     "/switzerland": "switzerland",
   };
 
-  return pathMap[normalizedPath];
+  const country = pathMap[normalizedPath];
+  return country && countryOptions.includes(country) ? country : undefined;
 }
 
 function buildInitialSearch(defaultCountry: Country): SearchParams {
@@ -316,7 +317,7 @@ export default function App() {
     try {
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
       if (tz.includes("Tokyo")) return "japan";
-      if (tz.includes("Seoul")) return "korea";
+      if (tz.includes("Seoul") && countryOptions.includes("korea")) return "korea";
       if (tz.includes("Singapore")) return "singapore";
       if (tz.includes("Bangkok")) return "thailand";
       if (tz.includes("Hong_Kong")) return "hong_kong";

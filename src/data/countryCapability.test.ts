@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { countryOptions } from "./countries";
+import { configuredCountryOptions, countryOptions } from "./countries";
 import type { Country } from "../types";
 import {
   automatedScrapeCountries,
@@ -8,6 +8,11 @@ import {
 } from "./countryCapability";
 
 describe("getCountryCapability — search / scrape / result view policy", () => {
+  it("keeps Korea out of public country choices while retaining its scheduled scraper", () => {
+    expect(countryOptions).not.toContain("korea");
+    expect(timetableScrapeCountries()).toContain("korea");
+  });
+
   it("Hong Kong: scraped at request time, provider-backed scrape, metro results", () => {
     // Live MTR is used by the nightly scraper only — search reads snapshots.
     expect(getCountryCapability("hong_kong")).toMatchObject({
@@ -87,15 +92,16 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
     expect(getCountryCapability("united_states").serviceDay.coverage).toBe("supported");
     expect(getCountryCapability("france").serviceDay.coverage).toBe("supported");
     expect(getCountryCapability("thailand").serviceDay.coverage).toBe("partial");
-    for (const country of ["japan", "korea", "singapore", "malaysia", "hong_kong", "germany", "belgium", "norway", "switzerland", "china"] as Country[]) {
+    expect(getCountryCapability("singapore").serviceDay.coverage).toBe("partial");
+    for (const country of ["japan", "korea", "malaysia", "hong_kong", "germany", "belgium", "norway", "switzerland", "china"] as Country[]) {
       expect(getCountryCapability(country).serviceDay.coverage).toBe("unavailable");
     }
   });
 
-  it("lists every countryOptions entry as automated scrape or catalog job", () => {
+  it("lists every configured country as an automated scrape or catalog job", () => {
     // No orphan markets: UI countries all have a scrape/catalog strategy.
-    expect(new Set(automatedScrapeCountries()).size).toBe(countryOptions.length);
-    for (const country of countryOptions) {
+    expect(new Set(automatedScrapeCountries()).size).toBe(configuredCountryOptions.length);
+    for (const country of configuredCountryOptions) {
       expect(automatedScrapeCountries()).toContain(country);
     }
   });

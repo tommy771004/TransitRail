@@ -46,7 +46,7 @@ export function TransitLegend({ onBack, highlightLine }: TransitLegendProps) {
         {
           icon: <Train className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />,
           label: t("legend.mode_bullet", { defaultValue: "Shinkansen / Bullet Train (新幹線)" }),
-          desc: t("legend.mode_bullet_desc", { defaultValue: "High-speed rail connections including Japan Shinkansen, Korea KTX/SRT, China High-Speed, Germany ICE, and France TGV." }),
+          desc: t("legend.mode_bullet_desc", { defaultValue: "High-speed rail connections including Japan Shinkansen, China High-Speed, Germany ICE, and France TGV." }),
         },
         {
           icon: <Train className="h-5 w-5 text-blue-500 dark:text-blue-400" />,
@@ -73,7 +73,7 @@ export function TransitLegend({ onBack, highlightLine }: TransitLegendProps) {
         {
           icon: <Sparkles className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />,
           label: t("legend.amenity_first", { defaultValue: "First Class / Premium (商務艙 / 綠色車廂)" }),
-          desc: t("legend.amenity_first_desc", { defaultValue: "Indicates availability of premium service levels (e.g. Green Car, KTX First Class, ICE 1st Class)." }),
+          desc: t("legend.amenity_first_desc", { defaultValue: "Indicates availability of premium service levels (e.g. Green Car or ICE 1st Class)." }),
         },
         {
           icon: <Wifi className="h-5 w-5 text-sky-500 dark:text-sky-400" />,
@@ -127,17 +127,6 @@ export function TransitLegend({ onBack, highlightLine }: TransitLegendProps) {
             { name: t("legend.us_green", { defaultValue: "Green Line" }), color: "#00843D" },
             { name: t("legend.us_blue", { defaultValue: "Blue Line" }), color: "#003DA5" },
             { name: t("legend.us_cr", { defaultValue: "Commuter Rail" }), color: "#80225F" },
-          ],
-        },
-        {
-          region: t("legend.region_kr", { defaultValue: "Seoul Subway & KTX (首爾地鐵與高鐵)" }),
-          lines: [
-            { name: t("legend.kr_ktx", { defaultValue: "KTX / Express (韓國高鐵)" }), color: "#00529B" },
-            { name: t("legend.kr_l1", { defaultValue: "Line 1 (1號線)" }), color: "#0052A4" },
-            { name: t("legend.kr_l2", { defaultValue: "Line 2 (2號線)" }), color: "#00A84D" },
-            { name: t("legend.kr_l3", { defaultValue: "Line 3 (3號線)" }), color: "#EF7C1C" },
-            { name: t("legend.kr_l4", { defaultValue: "Line 4 (4號線)" }), color: "#00A5DE" },
-            { name: t("legend.kr_l9", { defaultValue: "Line 9 (9號線)" }), color: "#BDB092" },
           ],
         },
       ],

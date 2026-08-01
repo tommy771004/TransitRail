@@ -24,6 +24,7 @@ import { collectFranceServiceDayArtifact, searchFranceGtfs } from "../../src/ser
 import { searchGermanyGtfs } from "../../src/server/germanyGtfs";
 import { recordError } from "../../src/server/errorLog";
 import { collectThailandServiceDayArtifact, THAILAND_BEM_URL } from "../../src/server/thailandBem";
+import { collectSingaporeServiceDayArtifact } from "../../src/server/singaporeSmrt";
 
 function dateInThailand(): string {
   const parts = new Intl.DateTimeFormat("en-US", {
@@ -39,6 +40,26 @@ function dateInThailand(): string {
 export class SingaporeScraper extends SnapshotScraper {
   constructor() {
     super("LTA", "singapore", singaporeRoutes);
+  }
+
+  override async runAll(date: string, options: { keepDates?: string[] } = {}): Promise<ScrapedRouteData[]> {
+    const results = await super.runAll(date, options);
+    try {
+      await collectSingaporeServiceDayArtifact(this.routes, date);
+    } catch (error) {
+      console.warn(`  ${this.country}: SMRT service-day artifact refresh skipped:`, error instanceof Error ? error.message : error);
+      await recordError({
+        severity: "error",
+        module: "scraper",
+        operation: "service-day.artifact",
+        errorCode: "SMRT_ARTIFACT_REFRESH_FAILED",
+        error,
+        country: "singapore",
+        provider: "SMRT official station information API",
+        context: { date, routeCount: this.routes.length },
+      });
+    }
+    return results;
   }
 }
 

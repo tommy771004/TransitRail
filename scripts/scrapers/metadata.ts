@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "fs";
 import { resolve } from "path";
-import { countryOptions } from "../../src/data/countries";
+import { configuredCountryOptions } from "../../src/data/countries";
 import type { ScrapedRouteData } from "./types";
 
 const DATA_DIR = resolve("src/data/scraped");
@@ -43,7 +43,7 @@ function loadRouteData(country: string): ScrapedRouteData[] {
 }
 
 export function syncScrapedMetadata(scraperNames: Record<string, string> = {}): MetadataSyncSummary[] {
-  return countryOptions.map((country) => {
+  return configuredCountryOptions.map((country) => {
     const dir = resolve(DATA_DIR, country);
     mkdirSync(dir, { recursive: true });
 

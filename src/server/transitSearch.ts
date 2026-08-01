@@ -3,7 +3,7 @@
  * Express handlers stay thin HTTP over this module.
  */
 import type { Country, CoverageGap, SearchDataStatus, SearchResponse } from "../types";
-import { countryOptions } from "../data/countries";
+import { configuredCountryOptions } from "../data/countries";
 import { getCountryCapability, type ProviderId } from "../data/countryCapability";
 import {
   findScrapedResults,
@@ -25,6 +25,7 @@ import { searchSwissJourney } from "./swiss";
 import { recordError } from "./errorLog";
 import { getFranceServiceDayAdvisory } from "./franceGtfs";
 import { getThailandServiceDayAdvisory } from "./thailandBem";
+import { getSingaporeServiceDayAdvisory } from "./singaporeSmrt";
 
 export type TransitSearchInput = {
   origin: string;
@@ -166,7 +167,7 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
   const { origin, destination, date, time } = input;
   const countryValue = input.country;
   const resolvedCountry =
-    countryValue && countryOptions.includes(countryValue as Country)
+    countryValue && configuredCountryOptions.includes(countryValue as Country)
       ? (countryValue as Country)
       : undefined;
 
@@ -208,7 +209,7 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
     statusCode = 400;
     payload = {
       error: "Invalid country",
-      message: `Country must be one of ${countryOptions.join(", ")}.`,
+      message: `Country must be one of ${configuredCountryOptions.join(", ")}.`,
       results: [],
     };
   } else {
@@ -242,6 +243,15 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
 
   if (payload && resolvedCountry === "thailand") {
     payload.serviceDayAdvisory = await getThailandServiceDayAdvisory(
+      origin,
+      destination,
+      date,
+      time,
+    );
+  }
+
+  if (payload && resolvedCountry === "singapore") {
+    payload.serviceDayAdvisory = await getSingaporeServiceDayAdvisory(
       origin,
       destination,
       date,

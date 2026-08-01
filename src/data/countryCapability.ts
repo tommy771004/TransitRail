@@ -5,7 +5,7 @@
 import type { Country } from "../types";
 import {
   countryConfig,
-  countryOptions,
+  configuredCountryOptions,
   type LiveRailMarket,
   type ProviderId,
   type ResultViewFamily,
@@ -47,7 +47,7 @@ export function getCountryCapability(country: Country): CountryCapability {
 
 /** Countries whose scrape job is a timetable scraper (not catalog-only / none). */
 export function timetableScrapeCountries(): Country[] {
-  return countryOptions.filter((country) => {
+  return configuredCountryOptions.filter((country) => {
     const strategy = countryConfig[country].scrape;
     return strategy === "generated" || strategy === "snapshot" || strategy === "provider_backed";
   });
@@ -55,5 +55,5 @@ export function timetableScrapeCountries(): Country[] {
 
 /** Countries that run any automated data job (timetable scrapers + catalog sync). */
 export function automatedScrapeCountries(): Country[] {
-  return countryOptions.filter((country) => countryConfig[country].scrape !== "none");
+  return configuredCountryOptions.filter((country) => countryConfig[country].scrape !== "none");
 }

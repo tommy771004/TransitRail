@@ -19,7 +19,8 @@ export const countryFlags: Record<string, string> = {
   taiwan: "🇹🇼",
 };
 
-export const countryOptions: Country[] = [
+/** Every configured market, including temporarily hidden ones used by jobs. */
+export const configuredCountryOptions: Country[] = [
   "japan",
   "korea",
   "china",
@@ -35,6 +36,11 @@ export const countryOptions: Country[] = [
   "norway",
   "switzerland",
 ];
+
+/** Markets exposed by the public picker and transit API. */
+export const countryOptions: Country[] = configuredCountryOptions.filter(
+  (country) => country !== "korea",
+);
 
 /** Live timetable provider id used by /api/transit/search. */
 export type ProviderId = "tfl" | "mbta" | "belgium" | "norway" | "swiss";
@@ -139,7 +145,12 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "snapshot",
     resultView: "metro",
-    serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
+    serviceDay: {
+      coverage: "partial",
+      source: "SMRT official station information API",
+      sourceUrl: "https://journey.smrt.com.sg/",
+      scope: "Direction-specific first/last trains for supported SMRT routes",
+    },
   },
   malaysia: {
     labelKey: "search.malaysia",

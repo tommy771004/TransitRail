@@ -245,6 +245,14 @@ async function logTransitSearch(
     const countryValue = typeof country === "string" ? country : undefined;
     const timeValue = typeof time === "string" ? time : undefined;
 
+    if (countryValue && !countryOptions.includes(countryValue as Country)) {
+      return res.status(400).json({
+        error: "Invalid country",
+        message: `Country must be one of ${countryOptions.join(", ")}.`,
+        results: [],
+      });
+    }
+
     let searchResult;
     try {
       searchResult = await runTransitSearch({
@@ -404,7 +412,7 @@ async function logTransitSearch(
         statusCode = 400;
         payload = {
           error: "Invalid country",
-          message: "Country must be one of japan, korea, taiwan, singapore, malaysia, thailand, hong_kong, united_kingdom, united_states, germany, france, switzerland, china.",
+          message: `Country must be one of ${countryOptions.join(", ")}.`,
           stations: [],
         };
       } else {

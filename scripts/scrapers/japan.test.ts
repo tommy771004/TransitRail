@@ -38,11 +38,42 @@ describe("Japan scheduled source routing", () => {
     ).rejects.toThrow(/ODPT_SOURCE_UNAVAILABLE/);
   });
 
-  it("keeps existing JR routes on their current local generator", async () => {
-    const provider = vi.fn();
-    const scraper = new JapanScraper(provider);
+  it("uses JR Central for configured Tokaido Shinkansen routes", async () => {
+    const odptProvider = vi.fn();
+    const result = {
+      id: "2026-08-03-jp-jr-central-nozomi-1-0600",
+      country: "japan" as const,
+      date: "2026-08-03",
+      operator: "JR Central",
+      service: "Nozomi 1",
+      departureTime: "06:00",
+      arrivalTime: "08:22",
+      durationMinutes: 142,
+      origin: "Tokyo",
+      destination: "Shin-Osaka",
+      direct: true,
+      stops: ["Tokyo", "Shin-Osaka"],
+    };
+    const jrProvider = vi.fn(async () => ({
+      status: 200,
+      body: { results: [result], source: "JR Central official journey search" },
+    }));
+    const scraper = new JapanScraper(odptProvider, jrProvider);
     const data = await scraper.scrape({ origin: "Tokyo", destination: "Shin-Osaka" }, "2026-08-03");
-    expect(provider).not.toHaveBeenCalled();
-    expect(data.results.length).toBeGreaterThan(0);
+    expect(odptProvider).not.toHaveBeenCalled();
+    expect(jrProvider).toHaveBeenCalledWith("Tokyo", "Shin-Osaka", "2026-08-03");
+    expect(data.results).toEqual([result]);
+    expect(data.source).toBe("JR Central official journey search");
+  });
+
+  it("does not overwrite a Tokaido route with generated rows when JR Central fails", async () => {
+    const scraper = new JapanScraper(vi.fn(), async () => ({
+      status: 503,
+      body: { results: [], error: "JR_CENTRAL_SOURCE_UNAVAILABLE" },
+    }));
+
+    await expect(
+      scraper.scrape({ origin: "Tokyo", destination: "Shin-Osaka" }, "2026-08-03"),
+    ).rejects.toThrow(/JR_CENTRAL_SOURCE_UNAVAILABLE/);
   });
 });

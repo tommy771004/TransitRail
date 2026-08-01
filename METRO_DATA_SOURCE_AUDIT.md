@@ -16,7 +16,7 @@
 | 韓國 | **有**：首爾地鐵官方 CSV/API；KTX 有 TAGO API（需 key） | 有即時 ETA | 首爾資料不能直接替代目前 9 條 KTX 路線 | 第一優先接首爾 CSV；KTX 另申請 TAGO |
 | 日本 | **有**：Tokyo Metro ODPT JSON（需 token）、Toei public ODPT JSON（免 token）；JR Central 新幹線官方 PDF | 有 | ODPT 適合地鐵；JR PDF 可覆蓋部分現有新幹線路線 | 第二優先；Toei 可先行，Tokyo Metro 需 key |
 | 中國 | 技術上可從 12306 網頁 session 取得高鐵逐車次，但不是公開 API | 北京等城市官網有首末班 | 可覆蓋目前 4 條高鐵，但反爬與維護風險高 | 不建議作正式 provider，除非接受脆弱性 |
-| 新加坡 | 未找到官方逐班 departure/ETA | SMRT 有首末班；LTA 只有事故警報 | 不能替代目前合成逐班資料 | 改成首末班／頻率產品，不應生成假 departures |
+| 新加坡 | 未找到官方逐班 departure/ETA | SMRT 有方向別首末班；LTA 只有事故警報 | 可補強部分現有路線的 service-day 邊界 | 已接排程下載 SMRT artifact；不以首末班推算逐班資料 |
 | 泰國 | 未找到官方完整逐班 departure/ETA | BEM/BTS 有首末班與 headway | 不能替代目前合成逐班資料 | 擴大官方 advisory，維持頻率呈現 |
 
 附圖的分類只描述「目前程式怎麼做」，不能解讀成「外部沒有資料」。至少韓國首爾地鐵、日本東京地鐵，以及部分日本新幹線都有可用的第一方時刻來源。
@@ -58,6 +58,43 @@ sample 端點實測 HTTP 200，市廳站平日上行共 244 筆，回應含 `TRA
 官方資料集：[국토교통부_(TAGO)_열차정보](https://www.data.go.kr/data/15098552/openapi.do)
 
 TAGO 是目前 9 條 KTX/ITX 路線較正確的接點，但需要 data.go.kr service key。本機未配置 key，因此本次不能驗證正式回應。首爾地鐵 CSV 不可拿來替代 KTX 路線。
+
+#### `bus-tago.pages.dev` 實測：可作資料形狀驗證，不宜成為 production 上游
+
+2026-08-01 檢查 [K-Bus TAGO](https://bus-tago.pages.dev/zh) 的瀏覽器程式與同源 API 後，確認它是私人營運的 Next.js/Cloudflare 代理站：訪客不需登入、cookie、API key 或授權標頭，代理站在伺服器端代為呼叫 TAGO。客戶端可見的資料種類彼此分離，不能把巴士或航班誤當成鐵路：
+
+| 類型 | 代理端點 | 實測資料 |
+|---|---|---|
+| KTX／SRT／ITX | `/api/train/cities`、`/api/train/stations`、`/api/train/schedule` | 首爾→釜山回傳 KTX；水西→釜山回傳 SRT，含車次、等級、出發／抵達時間與票價 |
+| 高速巴士 | `/api/terminals`、`/api/destinations`、`/api/schedule`、`/api/arrivals` | 首爾京釜→釜山回傳班次；`arrivals` 另含剩餘時間、公司與目前位置 |
+| 市外巴士 | `/api/intercity/terminals`、`/api/intercity/destinations`、`/api/intercity/schedule` | 東首爾→束草回傳獨立的市外巴士班次 |
+| 航班 | `/api/flight/airports`、`/api/flight/schedules` | 金浦→濟州回傳航空公司、航班與計畫時間；票價欄常為 0 |
+
+鐵路實測請求 `depStationId=NAT010000&arrStationId=NAT014445&date=20260801` 回傳 84 筆，首筆為 KTX 00001，首爾 05:13→釜山 07:50、成人票價 59,800 韓元；`NATH30000`（水西）→`NAT014445` 則回傳 SRT。回應為 JSON、HTTP 200，未設 `Set-Cookie`，快取為 `s-maxage=60`，但沒有 `Access-Control-Allow-Origin`，因此瀏覽器跨網域直接呼叫會受 CORS 阻擋；伺服器端排程雖不受瀏覽器 CORS 限制，仍不應依賴這個代理。
+
+主要阻止條件如下：
+
+- [robots.txt](https://bus-tago.pages.dev/robots.txt) 明確 `Disallow: /api/`、`/route/`、`/train/`，每日排程抓取其代理 API 不符合站方爬取政策。
+- [服務條款](https://bus-tago.pages.dev/terms) 不保證資料準確性、可靠性或不中斷，也未提供下游 API 重用授權或 SLA；[About](https://bus-tago.pages.dev/about) 顯示它不是 TAGO 官方服務。
+- 代理沒有公開配額或 rate-limit 契約，伺服器端 key、錯誤處理與版本也不可見；未找到可核對的公開原始碼 repository。
+- 日期有可重現的混入異常：查 `20260802` 得 167 筆，其中 84 筆仍是 `20260801`；查 `20260803` 得 155 筆，其中 83 筆是 `20260802`。即使試驗性使用，也必須以 `depplandtime` 前 8 碼重新過濾所求日期，不能相信回應已按日期隔離。
+
+**Production 結論：不採用 `bus-tago.pages.dev` 作每日排程上游。** 它可用來確認 TAGO 欄位與站碼，但正式整合應自行申請官方 data.go.kr key，從伺服器端直接呼叫 [國土交通部 TAGO TrainInfo API](https://www.data.go.kr/data/15098552/openapi.do)。官方服務為免費、需 `serviceKey`、支援 JSON/XML，且使用範圍標示無限制；目前頁面列出的開發帳號流量為每日 10,000 次，正式額度可依用途申請調整。
+
+官方 KTX 範例（key 僅放排程環境的 secret）：
+
+```text
+GET https://apis.data.go.kr/1613000/TrainInfo/GetStrtpntAlocFndTrainInfo
+    ?serviceKey={DECODING_KEY}
+    &_type=json
+    &pageNo=1
+    &numOfRows=100
+    &depPlaceId=NAT010000
+    &arrPlaceId=NAT014445
+    &depPlandTime=20260801
+```
+
+官方回應欄位包含 `trainno`、`traingradename`、`depplandtime`、`arrplandtime`、`depplacename`、`arrplacename`、`adultcharge`，與代理站所呈現資料一致。SRT 可將出發站改為水西 `NATH30000`；列車種類應先以官方 `GetVhcleKndList` 取得代碼，再傳 `trainGradeCode`，或在回應端嚴格篩選 `traingradename`。導入時仍須做指定日期過濾、分頁、schema 驗證、重試／退避與本地 snapshot fallback。
 
 ### 日本
 
@@ -130,4 +167,6 @@ BEM 頁實測 HTTP 200、約 172 KB，包含當日 Blue/Purple Line 各站雙方
 - 日本已接入 Toei 免 token ODPT 排程；2026-08-03 的 6 個方向已寫入本地 JSON，`Shinjuku → Roppongi` 查得 212 班。
 - Tokyo Metro 已實作 key gate；未設定 `ODPT_API_KEY` 時不發出必然失敗的請求，也不生成替代班次。
 - 全量 `npm run lint`：34 test files、217 tests 全數通過；`npm run build` 成功；站名 audit 為 0 mismatches。
-- JR Central PDF、SG/TH/CN advisory-only 改造、KTX TAGO／12306 尚未實作；限制與理由保留在上方各節。
+- JR Central 已改用官方日期／OD 行程搜尋 CGI（PDF 實檔是影像頁，無文字層）：排程每小時取一筆 Nozomi 官方結果；2026-08-03 `Tokyo → Shin-Osaka` 實測寫入 16 筆，包含實際車次、出發、抵達、歷時與票價。旅客搜尋只讀本地 JSON。
+- 新加坡已接入 SMRT 官方站點 JSON 的排程 artifact；目前精確覆蓋 `Jurong East → Raffles Place` 與 `Woodlands → Orchard` 的方向別首末班。2026-08-03 離線查詢 `Woodlands → Orchard` 得 05:27–23:08，搜尋期間不連外。
+- 泰國 BEM 排程 artifact 已存在；BTS 與其他 BEM 方向仍待擴充。中國 12306、KTX TAGO 尚未接入，限制與理由保留在上方各節。

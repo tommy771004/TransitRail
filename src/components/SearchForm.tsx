@@ -97,7 +97,8 @@ export function SearchForm({
         let closestCountry: Country = "japan";
         let minDistance = Infinity;
 
-        for (const [c, center] of Object.entries(countryCenters)) {
+        for (const c of countryOptions) {
+          const center = countryCenters[c];
           const dist = Math.pow(latitude - center.lat, 2) + Math.pow(longitude - center.lng, 2);
           if (dist < minDistance) {
             minDistance = dist;
@@ -134,7 +135,7 @@ export function SearchForm({
     { country: "germany", origin: "Berlin Hbf", destination: "Munich Hbf", label: t("hot_routes.berlin_munich", { defaultValue: "柏林 ➔ 慕尼黑" }) },
     { country: "france", origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu", label: t("hot_routes.paris_lyon", { defaultValue: "巴黎 ➔ 里昂" }) },
     { country: "switzerland", origin: "Zürich HB", destination: "Genève", label: t("hot_routes.zurich_geneva", { defaultValue: "蘇黎世 ➔ 日內瓦" }) }
-  ], [t]);
+  ].filter((route) => countryOptions.includes(route.country as Country)), [t]);
 
   const row1 = useMemo(() => hotRoutes.slice(0, 5), [hotRoutes]);
   const row2 = useMemo(() => hotRoutes.slice(5), [hotRoutes]);
@@ -723,7 +724,7 @@ export function SearchForm({
             {t("search.about_title", { defaultValue: "關於全球鐵道查詢" })}
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-            {t("search.about_body", { defaultValue: "TransitRail 是一個免費的跨國鐵道與大眾運輸時刻表查詢工具。本專案整合了全球 10 個國家與地區的主流鐵路與地鐵系統，包括日本（Jorudan）、韓國（Korail）、新加坡（LTA）、泰國（BTS/MRT）、香港（MTR）、英國（TfL 倫敦地鐵）、美國（波士頓 MBTA）、德國（DB）、法國（SNCF）以及中國（12306 鐵路）。無需註冊即可即時查詢站點班次、行車日期、營運商與智慧轉乘資訊，提供極致流暢的跨國自主旅行體驗。" })}
+            {t("search.about_body", { defaultValue: "TransitRail 是一個免費的跨國鐵道與大眾運輸時刻表查詢工具，提供日本、新加坡、泰國、香港、英國、美國、德國、法國、中國等市場的鐵路與地鐵資訊。無需註冊即可查詢站點班次、行車日期、營運商與轉乘資訊。" })}
           </p>
           <p className="mt-3 text-[11px] font-medium text-slate-400 dark:text-slate-500">
             {t("search.data_source_detail", { defaultValue: "班次、票價與即時狀態資料來源：各國大眾運輸系統與第三方 API（如 Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF 等）。" })}

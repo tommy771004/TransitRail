@@ -10,6 +10,7 @@
 import { readdirSync, readFileSync, existsSync } from "fs";
 import { join, resolve } from "path";
 import type { Country, TransitResult } from "../../src/types";
+import { countryOptions } from "../../src/data/countries";
 
 /**
  * Locales the SEO pages are prerendered in. English is served unprefixed at the
@@ -180,7 +181,12 @@ export function collectRoutePages(scrapedDir = resolve("src/data/scraped")): Rou
   const seenPaths = new Set<string>();
   const countries = existsSync(scrapedDir)
     ? readdirSync(scrapedDir, { withFileTypes: true })
-        .filter((entry) => entry.isDirectory() && entry.name in COUNTRY_PATHS)
+        .filter(
+          (entry) =>
+            entry.isDirectory() &&
+            entry.name in COUNTRY_PATHS &&
+            countryOptions.includes(entry.name as Country),
+        )
         .map((entry) => entry.name)
         .sort()
     : [];

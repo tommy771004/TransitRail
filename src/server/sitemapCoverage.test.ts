@@ -43,6 +43,11 @@ describe("sitemap coverage matches the generated pages", () => {
     }
   });
 
+  it("omits temporarily hidden Korea pages from generated SEO coverage", () => {
+    expect(pages.some((page) => page.country === "korea")).toBe(false);
+    expect(allEntries.some((entry) => entry.url.includes("/korea/"))).toBe(false);
+  });
+
   it("covers every generated route page in every locale", () => {
     const listed = new Set(allEntries.map((entry) => entry.url.replace(SITE_URL, "")));
 
