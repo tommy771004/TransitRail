@@ -9,6 +9,8 @@
 
 所有連線測試均為低頻、唯讀 GET；未繞過登入、驗證碼或存取限制。
 
+相關文件：[`METRO_TRANSFER_AND_INTEGRITY_AUDIT.md`](METRO_TRANSFER_AND_INTEGRITY_AUDIT.md) 評估的是**已提交進 repo 的資料有多真、以及跨線轉乘邏輯對不對**；本文評估的是**外部有沒有真實資料可接**。兩者互補不重複。
+
 ## 結論
 
 | 國家 | 真實逐班資料 | 首末班／班距 | 對現有路線的價值 | 建議 |
