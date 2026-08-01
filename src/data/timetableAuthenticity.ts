@@ -182,6 +182,14 @@ function isStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === "string");
 }
 
+function isOptionalString(value: unknown): boolean {
+  return value === undefined || value === null || typeof value === "string";
+}
+
+function isOptionalNumber(value: unknown): boolean {
+  return value === undefined || value === null || (typeof value === "number" && Number.isFinite(value));
+}
+
 function isJourneyLeg(value: unknown): boolean {
   if (!isRecord(value)) return false;
   if (
@@ -190,9 +198,9 @@ function isJourneyLeg(value: unknown): boolean {
     || typeof value.destination !== "string"
   ) return false;
   const optionalStrings = ["lineCode", "color", "mode", "departureTime", "arrivalTime", "platform", "headsign"];
-  if (optionalStrings.some((key) => value[key] !== undefined && typeof value[key] !== "string")) return false;
+  if (optionalStrings.some((key) => !isOptionalString(value[key]))) return false;
   const optionalNumbers = ["originLat", "originLng", "destLat", "destLng", "durationMinutes", "stopCount"];
-  if (optionalNumbers.some((key) => value[key] !== undefined && (typeof value[key] !== "number" || !Number.isFinite(value[key])))) return false;
+  if (optionalNumbers.some((key) => !isOptionalNumber(value[key]))) return false;
   return (value.stops === undefined || isStringArray(value.stops))
     && (value.upcomingDepartures === undefined || isStringArray(value.upcomingDepartures));
 }
@@ -234,7 +242,7 @@ function isTimetableResult(value: unknown): value is TransitResult {
   const arrivalTime = value.arrivalTime;
   const resultDate = value.date;
   if (typeof departureTime !== "string" || parseClockMinutes(departureTime) === undefined) return false;
-  if (arrivalTime !== undefined && (typeof arrivalTime !== "string" || parseClockMinutes(arrivalTime) === undefined)) return false;
+  if (arrivalTime !== undefined && arrivalTime !== null && (typeof arrivalTime !== "string" || parseClockMinutes(arrivalTime) === undefined)) return false;
   if (resultDate !== undefined && typeof resultDate !== "string") return false;
   if (typeof resultDate === "string" && !isIsoCalendarDate(resultDate)) return false;
   if (value.realtime !== undefined && typeof value.realtime !== "boolean") return false;
