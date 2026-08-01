@@ -15,6 +15,11 @@ export { canonicalDay };
 
 const DATA_DIR = resolve("src/data/scraped");
 
+type ProviderSearchResponse = {
+  status: number;
+  body: SearchResponse & { error?: string };
+};
+
 export class SnapshotScraper extends BaseScraper {
   // Reads curated JSON (and ProviderBackedScraper calls a JSON API via fetch);
   // neither drives a browser, so no Chromium launch.
@@ -86,7 +91,7 @@ export class ProviderBackedScraper extends SnapshotScraper {
       origin: string,
       destination: string,
       date: string,
-    ) => Promise<{ status: number; body: SearchResponse & { error?: string } }>,
+    ) => Promise<ProviderSearchResponse>,
   ) {
     super(name, country, routes);
   }
@@ -97,7 +102,13 @@ export class ProviderBackedScraper extends SnapshotScraper {
       return this.snapshotFallback(route, date);
     }
 
-    const response = await this.providerSearch(route.origin, route.destination, date);
+    let response: ProviderSearchResponse | undefined;
+    let providerError: unknown;
+    try {
+      response = await this.providerSearch(route.origin, route.destination, date);
+    } catch (error) {
+      providerError = error;
+    }
     const responseBody = response?.body;
     const providerResults = Array.isArray(responseBody?.results) ? responseBody.results : [];
     if (response?.status >= 200 && response.status < 300 && providerResults.length > 0) {
@@ -116,6 +127,7 @@ export class ProviderBackedScraper extends SnapshotScraper {
       if (fact.snapshot && fact.truthMode !== "unusable" && fact.truthMode !== "stale") {
         return {
           ...providerRoute,
+          results: fact.snapshot.results,
           provenance: fact.provenance === "unknown" ? undefined : fact.provenance,
           authenticity: fact.authenticity,
           truthMode: fact.truthMode,
@@ -130,6 +142,7 @@ export class ProviderBackedScraper extends SnapshotScraper {
       module: "scraper",
       operation: "provider.fallback",
       errorCode: typeof responseBody?.error === "string" ? responseBody.error : "PROVIDER_FALLBACK",
+      error: providerError,
       message: typeof responseBody?.message === "string"
         ? responseBody.message
         : typeof responseBody?.error === "string" ? responseBody.error : `Provider returned HTTP ${response?.status}.`,

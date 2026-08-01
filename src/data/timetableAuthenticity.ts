@@ -197,8 +197,12 @@ function isJourneyLeg(value: unknown): boolean {
     || typeof value.origin !== "string"
     || typeof value.destination !== "string"
   ) return false;
-  const optionalStrings = ["lineCode", "color", "mode", "departureTime", "arrivalTime", "platform", "headsign"];
+  const optionalStrings = ["lineCode", "color", "mode", "platform", "headsign"];
   if (optionalStrings.some((key) => !isOptionalString(value[key]))) return false;
+  for (const key of ["departureTime", "arrivalTime"]) {
+    const time = value[key];
+    if (time !== undefined && time !== null && (typeof time !== "string" || parseClockMinutes(time) === undefined)) return false;
+  }
   const optionalNumbers = ["originLat", "originLng", "destLat", "destLng", "durationMinutes", "stopCount"];
   if (optionalNumbers.some((key) => !isOptionalNumber(value[key]))) return false;
   return (value.stops === undefined || isStringArray(value.stops))
@@ -246,6 +250,14 @@ function isTimetableResult(value: unknown): value is TransitResult {
   if (resultDate !== undefined && typeof resultDate !== "string") return false;
   if (typeof resultDate === "string" && !isIsoCalendarDate(resultDate)) return false;
   if (value.realtime !== undefined && typeof value.realtime !== "boolean") return false;
+  const optionalStrings = ["trainType", "currency", "platform", "headsign", "warning", "lineColor"];
+  if (optionalStrings.some((key) => !isOptionalString(value[key]))) return false;
+  const optionalNumbers = ["durationMinutes", "originLat", "originLng", "destLat", "destLng", "price", "delayMinutes"];
+  if (optionalNumbers.some((key) => !isOptionalNumber(value[key]))) return false;
+  if (value.seatClass !== undefined && value.seatClass !== null
+    && value.seatClass !== "reserved" && value.seatClass !== "economy" && value.seatClass !== "first") return false;
+  if (value.amenities !== undefined && !isStringArray(value.amenities)) return false;
+  if (value.tags !== undefined && !isStringArray(value.tags)) return false;
   if (value.legs !== undefined && (!Array.isArray(value.legs) || !value.legs.every(isJourneyLeg))) return false;
   if (value.transferStations !== undefined && !isStringArray(value.transferStations)) return false;
   if (
@@ -275,6 +287,7 @@ function isTimetableSnapshot(value: unknown): value is TimetableSnapshot {
 export function isCompleteTimetableSnapshot(value: TimetableSnapshot): value is CompleteTimetableSnapshot {
   return typeof value.date === "string"
     && typeof value.scrapedAt === "string"
+    && Number.isFinite(Date.parse(value.scrapedAt))
     && typeof value.source === "string"
     && value.source.trim().length > 0;
 }
@@ -296,12 +309,17 @@ export function normalizeTimetableSource(
     return unusableSourceFact(serviceDay);
   }
   const snapshot = value;
+  if (snapshot.scrapedAt !== undefined && !Number.isFinite(Date.parse(snapshot.scrapedAt))) {
+    return unusableSourceFact(serviceDay);
+  }
   const exactRows = serviceDay ? timetableSliceForDate(snapshot, serviceDay) : snapshot.results;
   const canonicalRows = serviceDay
     ? snapshot.results.filter((result) => !(result.date || "").trim())
     : [];
   const provenance = normalizedProvenance(snapshot);
-  const useCanonical = exactRows.length === 0 && canonicalRows.length > 0 && provenance === "curated";
+  const useCanonical = exactRows.length === 0
+    && canonicalRows.length > 0
+    && (provenance === "curated" || provenance === "llm-advisory");
   const selectedRows = useCanonical ? canonicalRows : exactRows;
   const selectedSnapshot = { ...snapshot, results: selectedRows };
   const classifiedAuthenticity = classifyTimetable(

@@ -63,6 +63,25 @@ describe("provider-backed source normalization", () => {
     expect(data.results[0]).toMatchObject({ date, realtime: true });
   });
 
+  it("persists only the requested service-day rows", async () => {
+    const date = providerDateValue("united_kingdom");
+    const scraper = new TestProviderBackedScraper(async () => ({
+      status: 200,
+      body: {
+        source: "https://api.tfl.gov.uk",
+        results: [
+          result({ id: "today", date }),
+          result({ id: "other-day", date: "2025-01-01" }),
+        ],
+      },
+    }));
+
+    const data = await scraper.scrape(route, date);
+
+    expect(data.results).toHaveLength(1);
+    expect(data.results[0].date).toBe(date);
+  });
+
   it("falls back when the provider returns stale realtime rows", async () => {
     const date = providerDateValue("united_kingdom");
     const scraper = new TestProviderBackedScraper(async () => ({
@@ -105,6 +124,18 @@ describe("provider-backed source normalization", () => {
         results: [result({ id: "provider-without-source" })],
       },
     }));
+
+    const data = await scraper.scrape(route, date);
+
+    expect(data.source).toBe("Test provider curated snapshot fallback");
+    expect(data.provenance).toBe("curated");
+  });
+
+  it("falls back when the provider request rejects", async () => {
+    const date = providerDateValue("united_kingdom");
+    const scraper = new TestProviderBackedScraper(async () => {
+      throw new Error("provider offline");
+    });
 
     const data = await scraper.scrape(route, date);
 

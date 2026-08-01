@@ -58,6 +58,21 @@ describe("timetable authenticity", () => {
     });
   });
 
+  it("keeps a dateless LLM canonical snapshot indicative", () => {
+    const canonicalRows = [
+      result({ id: "llm-canonical-0", date: undefined, departureTime: "08:00", provenance: "llm-advisory" }),
+    ];
+
+    expect(normalizeTimetableSource({
+      ...snapshot("llm-advisory", canonicalRows),
+      provenance: "llm-advisory",
+    }, "2026-08-02")).toMatchObject({
+      provenance: "llm-advisory",
+      authenticity: "indicative",
+      truthMode: "indicative",
+    });
+  });
+
   it("returns an unusable source fact for malformed input", () => {
     expect(normalizeTimetableSource({
       origin: "Origin",
@@ -221,6 +236,28 @@ describe("timetable authenticity", () => {
       truthMode: "unusable",
       issue: "malformed",
     });
+  });
+
+  it("fails closed for invalid nested leg times", () => {
+    expect(normalizeTimetableSource(
+      snapshot("official timetable", [result({
+        direct: false,
+        legs: [{
+          lineName: "Line A",
+          origin: "Origin",
+          destination: "Destination",
+          departureTime: "99:99",
+        }],
+      })]),
+      "2026-08-01",
+    )).toMatchObject({ truthMode: "unusable", issue: "malformed" });
+  });
+
+  it("fails closed for invalid source timestamps", () => {
+    expect(normalizeTimetableSource({
+      ...snapshot("official timetable", [result()]),
+      scrapedAt: "not-a-timestamp",
+    }, "2026-08-01")).toMatchObject({ truthMode: "unusable", issue: "malformed" });
   });
 
   it("parses only clock values", () => {
