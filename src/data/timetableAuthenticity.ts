@@ -22,6 +22,8 @@ export interface TimetableAuthenticityOptions {
   /** Local provider date used when a realtime source is today-only. */
   today?: string;
   realtimeTodayOnly?: boolean;
+  /** Adapter-owned route country used to reject cross-country provider rows. */
+  expectedCountry?: Country;
 }
 
 export type TimetableTruthMode = "verified" | "indicative" | "stale" | "unusable";
@@ -57,7 +59,22 @@ export function parseClockMinutes(time: string | undefined): number | undefined 
 
 const CURATED_SOURCE = /curated|snapshot/i;
 const LLM_ADVISORY_SOURCE = /\b(?:llm|openrouter|ai)[-_ ]?(?:advisory|generated|gap(?:-| )?fill)?\b/i;
-const OFFICIAL_SOURCE = /^(?:official\b|https:\/\/(?:api\.tfl\.gov\.uk|api-v3\.mbta\.com|api\.entur\.io|www\.mtr\.com\.hk)(?:\/|$)|(?:odpt|jr\s+central|sncf\s+open\s+data|gtfs\.de|opentransportdata\s+swiss)\b)/i;
+const OFFICIAL_SOURCE_LABELS = new Set([
+  "official timetable",
+  "ODPT Toei timetable (CC BY 4.0)",
+  "JR Central official journey search",
+  "SNCF Open Data GTFS",
+  "gtfs.de Long Distance Rail Germany",
+  "OpenTransportData Swiss GTFS Static",
+  "Seoul Metro official timetable CSV",
+]);
+const OFFICIAL_SOURCE_URLS = new Set([
+  "https://api.tfl.gov.uk",
+  "https://api-v3.mbta.com",
+  "https://api.entur.io/journey-planner/v3/graphql",
+  "https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php",
+  "https://api.irail.be",
+]);
 const COUNTRY_VALUES = new Set<Country>([
   "japan", "korea", "hong_kong", "united_kingdom", "united_states", "singapore",
   "malaysia", "thailand", "germany", "france", "china", "switzerland", "belgium", "norway",
@@ -168,7 +185,8 @@ function normalizedProvenance(snapshot: TimetableSnapshot, rows = snapshot.resul
     || rows.some((result) => result.provenance === "curated")
     || CURATED_SOURCE.test(snapshot.source || "")
   ) return "curated";
-  if (snapshot.provenance === "official" || OFFICIAL_SOURCE.test(snapshot.source || "")) return "official";
+  const source = snapshot.source?.trim() || "";
+  if (OFFICIAL_SOURCE_LABELS.has(source) || OFFICIAL_SOURCE_URLS.has(source)) return "official";
   return "unknown";
 }
 
@@ -318,6 +336,9 @@ export function normalizeTimetableSource(
     return unusableSourceFact(serviceDay);
   }
   const snapshot = value;
+  if (options.expectedCountry && snapshot.results.some((result) => result.country !== options.expectedCountry)) {
+    return unusableSourceFact(serviceDay);
+  }
   if (snapshot.scrapedAt !== undefined && !Number.isFinite(Date.parse(snapshot.scrapedAt))) {
     return unusableSourceFact(serviceDay);
   }

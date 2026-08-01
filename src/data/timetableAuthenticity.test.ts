@@ -151,7 +151,7 @@ describe("timetable authenticity", () => {
       realtime: true,
     });
     expect(normalizeTimetableSource(
-      snapshot("https://www.mtr.com.hk/nexttrain", [live]),
+      snapshot("https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php", [live]),
       "2026-08-01",
       { realtimeTodayOnly: true, today: "2026-08-01" },
     )).toMatchObject({
@@ -249,6 +249,14 @@ describe("timetable authenticity", () => {
     expect(normalizeTimetableSource(
       snapshot("official timetable", [result({ country: "atlantis" as TransitResult["country"] })]),
       "2026-08-01",
+    )).toMatchObject({ truthMode: "unusable", issue: "malformed" });
+  });
+
+  it("rejects a provider row from the wrong country when the adapter supplies context", () => {
+    expect(normalizeTimetableSource(
+      snapshot("https://api.tfl.gov.uk", [result({ country: "japan" })]),
+      "2026-08-01",
+      { expectedCountry: "united_kingdom" },
     )).toMatchObject({ truthMode: "unusable", issue: "malformed" });
   });
 
@@ -358,7 +366,7 @@ describe("timetable authenticity", () => {
       realtime: true,
     })];
 
-    expect(classifyTimetable(snapshot("https://www.mtr.com.hk/nexttrain", rows), "2026-08-01", {
+    expect(classifyTimetable(snapshot("https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php", rows), "2026-08-01", {
       realtimeTodayOnly: true,
       today: "2026-08-01",
     })).toBe("realtime");

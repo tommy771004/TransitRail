@@ -89,7 +89,9 @@ function loadDir(country: string): ScrapedRouteData[] {
       if (!file.endsWith(".json") || file === "metadata.json") continue;
       try {
         const content = readFileSync(join(dirPath, file), "utf-8");
-        const fact = normalizeTimetableSource(JSON.parse(content) as unknown);
+        const fact = normalizeTimetableSource(JSON.parse(content) as unknown, undefined, {
+          expectedCountry: country as Country,
+        });
         if (!fact.snapshot || fact.truthMode === "unusable" || !isCompleteTimetableSnapshot(fact.snapshot)) {
           console.warn(`[scraped] Skipping unusable ${country}/${file}: ${fact.issue || "unknown"}`);
           continue;
@@ -201,7 +203,18 @@ export function findScrapedResults(
 
   if (country === "korea" && seoulSubwayArtifact && date) {
     const metro = searchSeoulSubwayArtifact(seoulSubwayArtifact, { origin, destination, date });
-    if (metro.length > 0) return normalizeResults(metro);
+    if (metro.length > 0) {
+      const fact = normalizeTimetableSource({
+        origin,
+        destination,
+        date,
+        scrapedAt: seoulSubwayArtifact.retrievedAt,
+        source: seoulSubwayArtifact.source,
+        provenance: "official",
+        results: metro,
+      }, date, { expectedCountry: "korea" });
+      if (fact.truthMode === "verified" && fact.snapshot) return normalizeResults(fact.snapshot.results);
+    }
   }
 
   const countryData = searchableRoutesForDate(cache[country] || [], country, date);

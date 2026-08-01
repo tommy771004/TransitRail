@@ -59,6 +59,8 @@ export class SnapshotScraper extends BaseScraper {
       try {
         const fact = normalizeTimetableSource(
           JSON.parse(readFileSync(resolve(dir, file), "utf-8")) as unknown,
+          undefined,
+          { expectedCountry: this.country },
         );
         if (!fact.snapshot || fact.truthMode === "unusable" || !isCompleteTimetableSnapshot(fact.snapshot)) continue;
         const data = {
@@ -117,7 +119,7 @@ export class ProviderBackedScraper extends SnapshotScraper {
         destination: route.destination,
         source: typeof responseBody.source === "string" ? responseBody.source : "",
         results: providerResults,
-      });
+      }, undefined, { expectedCountry: this.country });
       if (rawProviderFact.issue === "malformed") {
         await recordError({
           severity: "warning",
@@ -143,6 +145,7 @@ export class ProviderBackedScraper extends SnapshotScraper {
       const fact = normalizeTimetableSource(providerRoute, date, {
         realtimeTodayOnly: true,
         today: providerDateValue(this.country),
+        expectedCountry: this.country,
       });
       if (fact.snapshot && fact.truthMode !== "unusable" && fact.truthMode !== "stale") {
         return {
