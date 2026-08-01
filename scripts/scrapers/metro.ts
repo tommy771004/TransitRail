@@ -1,6 +1,6 @@
 import { searchHongKongMtr } from "../../src/server/hongKongMtr";
 import { searchMbtaJourney } from "../../src/server/mbta";
-import { searchTflJourney } from "../../src/server/tfl";
+import { searchTflServiceDay } from "../../src/server/tfl";
 import { prepareSwissGtfsBatch, searchSwissGtfs } from "../../src/server/swissGtfs";
 import { searchBelgiumJourney } from "../../src/server/belgium";
 import { searchNorwayJourney } from "../../src/server/norway";
@@ -25,6 +25,7 @@ import { searchGermanyGtfs } from "../../src/server/germanyGtfs";
 import { recordError } from "../../src/server/errorLog";
 import { collectThailandServiceDayArtifact, THAILAND_BEM_URL } from "../../src/server/thailandBem";
 import { collectSingaporeServiceDayArtifact } from "../../src/server/singaporeSmrt";
+import { collectHongKongServiceDayArtifact } from "../../src/server/hongKongServiceHours";
 
 function dateInThailand(): string {
   const parts = new Intl.DateTimeFormat("en-US", {
@@ -104,11 +105,37 @@ export class HongKongScraper extends ProviderBackedScraper {
   constructor() {
     super("MTR", "hong_kong", hongKongRoutes, searchHongKongMtr);
   }
+
+  /**
+   * MTR publishes no departure timetable, so future dates get no departure
+   * rows at all (see ProviderBackedScraper). The official first/last train per
+   * direction is real and does cover future dates, so collect that instead —
+   * it is what lets a future service day say anything true.
+   */
+  override async runAll(date: string, options: { keepDates?: string[] } = {}): Promise<ScrapedRouteData[]> {
+    const results = await super.runAll(date, options);
+    try {
+      await collectHongKongServiceDayArtifact(this.routes, date);
+    } catch (error) {
+      console.warn(`  ${this.country}: MTR service-day artifact refresh skipped:`, error instanceof Error ? error.message : error);
+      await recordError({
+        severity: "error",
+        module: "scraper",
+        operation: "service-day.artifact",
+        errorCode: "MTR_ARTIFACT_REFRESH_FAILED",
+        error,
+        country: "hong_kong",
+        provider: "MTR official service hours",
+        context: { date, routeCount: this.routes.length },
+      });
+    }
+    return results;
+  }
 }
 
 export class UnitedKingdomScraper extends ProviderBackedScraper {
   constructor() {
-    super("TfL", "united_kingdom", unitedKingdomRoutes, searchTflJourney);
+    super("TfL", "united_kingdom", unitedKingdomRoutes, searchTflServiceDay);
   }
 }
 

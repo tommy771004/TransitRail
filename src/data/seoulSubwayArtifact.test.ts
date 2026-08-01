@@ -35,6 +35,18 @@ const timetable: SeoulTimetable = {
       ],
     },
     {
+      // Departs the interchange long BEFORE the Line 2 feeder arrives at 490.
+      // Reachability must not let this early train veto the 494 one below.
+      trainNo: "K100",
+      line: "Line 1",
+      dayType: "weekday",
+      direction: "DOWN",
+      calls: [
+        { station: "City Hall", arrival: 400, departure: 400 },
+        { station: "Seoul Station", arrival: 411, departure: 411 },
+      ],
+    },
+    {
       trainNo: "K102",
       line: "Line 1",
       dayType: "weekday",
@@ -138,6 +150,26 @@ describe("Seoul subway compact artifact", () => {
       arrivalTime: "08:25",
     });
     expect(seoulArtifactReachableNames(artifact, "Gangnam", "2026-08-03")).toContain("Seoul Station");
+  });
+
+  it("offers a destination whose only usable connection is a later train", () => {
+    const artifact = buildSeoulSubwayArtifact(timetable, {
+      retrievedAt: "2026-08-01T00:00:00.000Z",
+      sourceSha256: "late-connection-fixture",
+    });
+
+    // Line 1 leaves the interchange at both 400 (too early to connect) and 494
+    // (usable). Reducing the line to its earliest departure would drop the pair
+    // and hide Seoul Station from the picker while search still answered it.
+    expect(seoulArtifactReachableNames(artifact, "Gangnam", "2026-08-03"))
+      .toContain("Seoul Station");
+
+    // The menu must never offer what search cannot answer.
+    for (const destination of seoulArtifactReachableNames(artifact, "Gangnam", "2026-08-03")) {
+      expect(
+        searchSeoulSubwayArtifact(artifact, { origin: "Gangnam", destination, date: "2026-08-03" }),
+      ).not.toHaveLength(0);
+    }
   });
 
   it("uses the requested service-day type for cross-line reachability", () => {

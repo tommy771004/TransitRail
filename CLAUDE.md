@@ -9,7 +9,7 @@ npm run dev              # Full app: Express API + Vite middleware (tsx server.t
 npm run build            # vite build (frontend → dist/) + esbuild bundle server → dist/server.cjs
 npm start                # Run the production bundle (node dist/server.cjs)
 npm run lint             # tsc --noEmit && vitest run — the gate for every change
-npm test                 # vitest run on its own (15 files, 86 tests)
+npm test                 # vitest run on its own (every *.test.ts under src/, scripts/, api/)
 
 # Scrapers (need Chromium: npx playwright install chromium)
 npm run scrape [YYYY-MM-DD]     # Run every country scraper, 7 days forward from date/today
@@ -17,8 +17,9 @@ npm run scrape:<country>        # One country, e.g. npm run scrape:japan
 npm run scrape:metadata         # Regenerate every src/data/scraped/<country>/metadata.json from files
 
 # Maintenance scripts (run with npx tsx)
-npx tsx scripts/audit-station-mapping.ts    # Verify scraper route names match the station menu (0 = clean)
-npx tsx scripts/seed-curated-snapshots.ts   # De-dupe + (re)seed curated snapshot timetables
+npx tsx scripts/audit-station-mapping.ts        # Verify scraper route names match the station menu (0 = clean)
+npx tsx scripts/seed-curated-snapshots.ts       # De-dupe + (re)seed curated snapshot timetables
+npx tsx scripts/audit-timetable-authenticity.ts # Print the authenticity class of every committed route/date slice
 
 # SEO artifacts (both also run inside npm run build)
 npm run routes           # Prerender static route pages in 6 locales → public/[<locale>/]<country>/<o>-to-<d>/ + /routes/ hubs
@@ -41,9 +42,14 @@ A mobile-first cross-border transit timetable search app: React 19 SPA + a singl
 **The station menu and the scraped data are separate sources that must agree.** The picker ([StationBrowser.tsx](src/components/StationBrowser.tsx)) fetches `/api/transit/stations` and `/api/transit/lines`. `getStationsForCountry` in `server.ts` builds menus from static data (`src/data/stations.ts`, `hongKongMtr.ts`, `metroLines.ts`, `seoulSubway.ts`, `scraped/stations.ts`) for most countries, and **live from the TfL/MBTA APIs** for UK/US. Because search matches by name, a station in the menu that doesn't exactly match a scraped route's name is unreachable — run `scripts/audit-station-mapping.ts` after changing route names in [scripts/scrapers/routes.ts](scripts/scrapers/routes.ts) or any station list.
 
 **Daily scrape pipeline** (`.github/workflows/scrape.yml`, 22:00 UTC = 06:00 Taiwan) runs `npm run scrape`, which scrapes 7 days forward and auto-commits the JSON. `scripts/scrapers/` has three adapter kinds (see [index.ts](scripts/scrapers/index.ts) / [metro.ts](scripts/scrapers/metro.ts)):
-- **`BaseScraper`** (Playwright) — Japan, Korea scrape provider sites directly.
-- **`SnapshotScraper`** — SG/TH/CN/DE/FR have no live provider; they serve curated JSON snapshots.
-- **`ProviderBackedScraper`** — HK/UK/US try a live adapter (`src/server/{hongKongMtr,tfl,mbta}.ts`) and fall back to the snapshot. HK MTR resolves live "next train" via station **codes** in `hongKongMtr.ts` (`findMtrJourney` matches by station name → code, so names must match exactly).
+- **`BaseScraper`** (Playwright) — the base class the others extend; it owns `saveRoute` and the per-date merge. No country runs a bare Playwright scrape any more.
+- **`SnapshotScraper`** — SG/TH/CN have no live provider; they serve curated JSON snapshots.
+- **`ProviderBackedScraper`** — everyone else (JP/KR/HK/UK/US/DE/FR/BE/NO/CH) tries a live adapter under `src/server/` and falls back to the snapshot. HK MTR resolves live "next train" via station **codes** in `hongKongMtr.ts` (`findMtrJourney` matches by station name → code, so names must match exactly).
+- Malaysia is `catalog_sync`: station names only, no timetable, so it runs no timetable scraper at all.
+
+**Whether a provider can answer a future date is the thing that matters**, and it is not the same question as whether it is live. Hong Kong's MTR feed answers "the next four trains" and nothing about any other date, so `liveOnly: true` and future dates get **no departure rows at all** — the official first/last per direction goes to `src/data/service-day/hong_kong.json` instead, which is what a future service day can honestly say. London's TfL journey planner does answer future dates from the published schedule, so it is `liveOnly: false` over 7 days and `searchTflServiceDay` samples the operating day (one query returns only the journeys near one time, which is why a single call per date used to look like a live snapshot stamped on seven dates). Do not copy one market's shape onto the other.
+
+The authoritative per-country mapping is the single `countryConfig` table in [src/data/countries.ts](src/data/countries.ts) (`scrape` + `search` fields) — read it rather than trusting this summary, and update this summary when you change it.
 
 **Scraped-file invariants** (subtle; violating them corrupts data):
 - Each route file accumulates **one dated copy of the timetable per scrape date**; the frontend filters results by exact `date`. `BaseScraper.saveRoute` merges by replacing the current date's slice.

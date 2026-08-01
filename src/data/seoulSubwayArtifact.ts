@@ -281,24 +281,29 @@ function reachabilityForDay(
   type EndpointLineTimes = Map<number, Map<string, number>>;
   const arrivalsByTransfer = new Map<number, EndpointLineTimes>();
   const departuresByTransfer = new Map<number, EndpointLineTimes>();
-  const addEarliest = (
+  const keepExtreme = (
     table: Map<number, EndpointLineTimes>,
     transfer: number,
     endpoint: number,
     line: string,
     time: number,
+    better: (candidate: number, incumbent: number) => boolean,
   ) => {
     const byEndpoint = table.get(transfer) || new Map<number, Map<string, number>>();
     const byLine = byEndpoint.get(endpoint) || new Map<string, number>();
     const previous = byLine.get(line);
-    if (previous === undefined || time < previous) byLine.set(line, time);
+    if (previous === undefined || better(time, previous)) byLine.set(line, time);
     byEndpoint.set(endpoint, byLine);
     table.set(transfer, byEndpoint);
   };
 
-  // Reduce the train-pair search to earliest arrival/departure per line. If
-  // the earliest pair cannot clear the station floor, no later pair on those
-  // same line directions can improve it.
+  // Reduce the train-pair search to one candidate per line, chosen so that the
+  // pair kept is the one most likely to connect: the EARLIEST arrival and the
+  // LATEST departure. For a fixed pair of lines, if that pair cannot clear the
+  // station floor then no other pair can, so this is exactly "does any pair
+  // connect" — the same existence test crossLineJourneys applies, which has no
+  // upper bound on the wait. Keeping the earliest departure instead would let a
+  // train that leaves before the earliest arrival veto every later one.
   for (const run of runs) {
     for (let transferIndex = 0; transferIndex < run.calls.length; transferIndex += 1) {
       const transfer = run.calls[transferIndex][0];
@@ -306,7 +311,14 @@ function reachabilityForDay(
       if (transferIndex > 0 && arrival !== null) {
         for (let originIndex = 0; originIndex < transferIndex; originIndex += 1) {
           if (callTime(run.calls[originIndex], false) !== null) {
-            addEarliest(arrivalsByTransfer, transfer, run.calls[originIndex][0], run.line, arrival);
+            keepExtreme(
+              arrivalsByTransfer,
+              transfer,
+              run.calls[originIndex][0],
+              run.line,
+              arrival,
+              (candidate, incumbent) => candidate < incumbent,
+            );
           }
         }
       }
@@ -315,7 +327,14 @@ function reachabilityForDay(
       if (transferIndex < run.calls.length - 1 && departure !== null) {
         for (let destinationIndex = transferIndex + 1; destinationIndex < run.calls.length; destinationIndex += 1) {
           if (callTime(run.calls[destinationIndex], true) !== null) {
-            addEarliest(departuresByTransfer, transfer, run.calls[destinationIndex][0], run.line, departure);
+            keepExtreme(
+              departuresByTransfer,
+              transfer,
+              run.calls[destinationIndex][0],
+              run.line,
+              departure,
+              (candidate, incumbent) => candidate > incumbent,
+            );
           }
         }
       }

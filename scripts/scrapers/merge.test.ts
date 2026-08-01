@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { TransitResult } from "../../src/types";
-import { dedupeScrapedResults, isSparseLiveSlice, replaceDateSlice } from "./merge";
+import { dedupeScrapedResults, describingRoute, isSparseLiveSlice, replaceDateSlice } from "./merge";
 
 function result(index: number, partial: Partial<TransitResult> = {}): TransitResult {
   return {
@@ -46,6 +46,35 @@ describe("scraper date-slice merge", () => {
     expect(replaceDateSlice(existing, incoming)).toMatchObject({
       preservedExisting: false,
       results: incoming,
+    });
+  });
+
+  describe("describingRoute", () => {
+    const existing = { source: "https://rt.data.gov.hk/…", results: [result(1)] };
+
+    it("keeps the existing metadata when the incoming slice has no rows", () => {
+      // A live-only market writes an empty day for every date it cannot speak
+      // for. Letting that slice relabel the file rewrote its source, which then
+      // failed the load-time provenance check and discarded today's real rows.
+      const empty = { source: "MTR live provider", results: [] };
+      expect(describingRoute(existing, empty, 4)).toBe(existing);
+    });
+
+    it("uses the incoming metadata when the incoming slice has rows", () => {
+      const incoming = { source: "MTR live provider", results: [result(2)] };
+      expect(describingRoute(existing, incoming, 4)).toBe(incoming);
+    });
+
+    it("uses the incoming metadata when nothing survived the merge", () => {
+      // An empty file should describe itself, not keep a stale label for rows
+      // that are no longer there.
+      const empty = { source: "MTR live provider", results: [] };
+      expect(describingRoute(existing, empty, 0)).toBe(empty);
+    });
+
+    it("uses the incoming metadata when there is no existing file", () => {
+      const empty = { source: "MTR live provider", results: [] };
+      expect(describingRoute(undefined, empty, 0)).toBe(empty);
     });
   });
 });

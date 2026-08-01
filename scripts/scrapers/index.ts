@@ -1,6 +1,5 @@
 import { configuredCountryOptions, providerDateValue } from "../../src/data/countries";
-import { automatedScrapeCountries } from "../../src/data/countryCapability";
-import { getCountryCapability } from "../../src/data/countryCapability";
+import { automatedScrapeCountries, getCountryCapability } from "../../src/data/countryCapability";
 import { syncScrapedMetadata } from "./metadata";
 import { syncMalaysiaStationCatalog } from "./malaysia";
 import { createTimetableScrapers, scraperDisplayNames } from "./registry";

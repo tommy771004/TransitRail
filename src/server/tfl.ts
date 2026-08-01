@@ -99,23 +99,44 @@ function tflUrl(pathname: string, params: Record<string, string> = {}) {
   return url;
 }
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * Anonymous TfL access is rate limited, and a service-day sweep issues one
+ * request per sampled hour. Back off and retry on 429 rather than dropping the
+ * sample: a half-collected day is worse than a slow one, because the gaps look
+ * like missing service instead of a throttled scrape. Set `TFL_APP_KEY` to lift
+ * the limit and make this path rare.
+ */
+const TFL_RATE_LIMIT_RETRIES = 3;
+
 async function fetchTflJson<T>(url: URL): Promise<T> {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10_000);
-  try {
-    const response = await fetch(url, {
-      signal: controller.signal,
-      headers: {
-        Accept: "application/json",
-        "User-Agent": "TransitRail/1.0",
-      },
-    });
-    if (!response.ok) {
-      throw new Error(`TfL returned HTTP ${response.status}.`);
+  for (let attempt = 0; ; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10_000);
+    try {
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "TransitRail/1.0",
+        },
+      });
+      if (response.status === 429 && attempt < TFL_RATE_LIMIT_RETRIES) {
+        const retryAfter = Number(response.headers.get("retry-after"));
+        clearTimeout(timeout);
+        await sleep(Number.isFinite(retryAfter) && retryAfter > 0
+          ? retryAfter * 1000
+          : 2_000 * 2 ** attempt);
+        continue;
+      }
+      if (!response.ok) {
+        throw new Error(`TfL returned HTTP ${response.status}.`);
+      }
+      return await response.json() as T;
+    } finally {
+      clearTimeout(timeout);
     }
-    return await response.json() as T;
-  } finally {
-    clearTimeout(timeout);
   }
 }
 
@@ -143,18 +164,26 @@ function dateInLondon() {
   return `${value.year}-${value.month}-${value.day}`;
 }
 
-function timeInLondon(value?: string) {
-  if (!value) return "--:--";
-  return new Intl.DateTimeFormat("en-GB", {
-    timeZone: "Europe/London",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(new Date(value));
-}
+/**
+ * TfL timestamps are already London local and carry NO timezone designator
+ * ("2026-08-05T09:00:00"). `new Date()` reads such a string in the *process's*
+ * zone, so converting it to Europe/London shifted every departure by the gap
+ * between the server's zone and London's — an hour late on a UTC host through
+ * British Summer Time, seven hours early on an Asia/Taipei laptop. The wall
+ * clock in the string is the answer; read it, do not convert it.
+ */
+const LONDON_LOCAL = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/;
 
-function localDateTimeInLondon(value?: string) {
+export function londonParts(value?: string): { date: string; time: string } | null {
   if (!value) return null;
+  const local = value.match(LONDON_LOCAL);
+  // Zone-less: the string is London wall-clock time already.
+  if (local && !/(?:Z|[+-]\d{2}:?\d{2})$/.test(value)) {
+    return { date: `${local[1]}-${local[2]}-${local[3]}`, time: `${local[4]}:${local[5]}` };
+  }
+  // Zoned (or unparseable as local): convert properly.
+  const parsed = new Date(value);
+  if (!Number.isFinite(parsed.getTime())) return null;
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: "Europe/London",
     year: "numeric",
@@ -163,13 +192,21 @@ function localDateTimeInLondon(value?: string) {
     hour: "2-digit",
     minute: "2-digit",
     hourCycle: "h23",
-  }).formatToParts(new Date(value));
+  }).formatToParts(parsed);
   const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
   if (!values.year || !values.month || !values.day || !values.hour || !values.minute) return null;
   return {
     date: `${values.year}-${values.month}-${values.day}`,
     time: `${values.hour}:${values.minute}`,
   };
+}
+
+function timeInLondon(value?: string) {
+  return londonParts(value)?.time ?? "--:--";
+}
+
+function localDateTimeInLondon(value?: string) {
+  return londonParts(value);
 }
 
 function localMinutes(date: string, time: string) {
@@ -505,7 +542,11 @@ export async function searchTflJourney(
         direct: transitLegs.length <= 1,
         stops: Array.from(new Set(intermediateStops)),
         headsign: transitLegs.at(-1)?.instruction?.summary,
-        realtime: true,
+        // The journey planner answers future dates from the published schedule.
+        // Only a journey on today's London service day can be a live arrival;
+        // flagging the rest realtime made real scheduled data classify as a
+        // stale live snapshot and get thrown away.
+        realtime: londonParts(journey.startDateTime)?.date === dateInLondon(),
         warning: warnings[0],
         lineColor: firstLineId ? tflLineColors[firstLineId] : undefined,
         legs: legDetails.length > 1 ? legDetails : undefined,
@@ -546,3 +587,59 @@ export async function searchTflJourney(
 }
 
 // --- End of tfl.ts ---
+
+/**
+ * Times of day sampled to build a service day from the journey planner.
+ *
+ * The planner answers "journeys near this time", so one query returns a handful
+ * of departures within a few minutes. Sweeping the operating day turns that into
+ * a real, if incomplete, picture of the service — every row is a genuine
+ * published departure, and nothing between the samples is invented.
+ */
+const SERVICE_DAY_SAMPLE_TIMES = [
+  "05:30", "07:00", "08:30", "10:00", "12:00",
+  "14:00", "16:00", "17:30", "19:00", "21:00", "23:00",
+];
+
+/**
+ * One service day for a route, assembled from several journey-planner queries.
+ *
+ * A single query gave three departures for a whole day, which is why the daily
+ * scrape used to look like a live snapshot stamped on seven dates. Sampling
+ * across the day keeps every row real while covering the hours a passenger
+ * might actually travel.
+ */
+export async function searchTflServiceDay(
+  origin: string,
+  destination: string,
+  date: string,
+): Promise<{ status: number; body: SearchResponse & { error?: string } }> {
+  const byId = new Map<string, SearchResponse["results"][number]>();
+  let last: { status: number; body: SearchResponse & { error?: string } } | undefined;
+
+  for (const [index, time] of SERVICE_DAY_SAMPLE_TIMES.entries()) {
+    // Pace the sweep so anonymous access stays under TfL's limit; the retry in
+    // fetchTflJson is the safety net, not the plan.
+    if (index > 0 && !process.env.TFL_APP_KEY) await sleep(1_200);
+    const response = await searchTflJourney(origin, destination, date, time);
+    last = response;
+    for (const result of response.body.results || []) {
+      if (!byId.has(result.id)) byId.set(result.id, result);
+    }
+  }
+
+  // Every sample failed: hand back the last failure so the caller's existing
+  // provider-fallback path reports it rather than seeing a silent empty day.
+  if (byId.size === 0) {
+    return last ?? {
+      status: 502,
+      body: { error: "Provider request failed", results: [], source: TFL_API_URL },
+    };
+  }
+
+  const results = [...byId.values()].sort((a, b) => a.departureTime.localeCompare(b.departureTime));
+  return {
+    status: 200,
+    body: { ...last!.body, results, source: TFL_API_URL },
+  };
+}

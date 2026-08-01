@@ -37,8 +37,20 @@ export const configuredCountryOptions: Country[] = [
   "switzerland",
 ];
 
+/**
+ * Markets configured but deliberately withheld from the public picker — a
+ * market mid-migration, or one whose data is not fit to show yet.
+ *
+ * Empty is the normal state. It exists so that hiding a market is one edit here
+ * rather than a hand-maintained second list: {@link countryOptions} is derived,
+ * so the "configured" and "public" sets can never silently drift apart.
+ */
+export const hiddenCountryOptions = new Set<Country>();
+
 /** Markets exposed by the public picker and transit API. */
-export const countryOptions: Country[] = [...configuredCountryOptions];
+export const countryOptions: Country[] = configuredCountryOptions.filter(
+  (country) => !hiddenCountryOptions.has(country),
+);
 
 /** Live timetable provider id used by /api/transit/search. */
 export type ProviderId = "tfl" | "mbta" | "belgium" | "norway" | "swiss";
@@ -227,8 +239,12 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     ],
     promptName: "英國倫敦",
     connected: true,
-    liveOnly: true,
-    dateRangeDays: 1,
+    // The TfL journey planner answers future dates from the published schedule,
+    // so London is not a today-only market: each date returns its own real
+    // journeys. Only the daily scrape used to make it look otherwise, by asking
+    // for "departures from now" once per date.
+    liveOnly: false,
+    dateRangeDays: 7,
     dateRangeEnforced: true,
     timeZone: "Europe/London",
     search: { kind: "provider", provider: "tfl" },

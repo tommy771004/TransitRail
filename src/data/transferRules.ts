@@ -70,8 +70,12 @@ const stationMinimums: Partial<Record<Country, Record<string, number>>> = {
 export function getMinimumTransferMinutes(country: Country | undefined, station: string): number {
   const canonical = resolveStationAlias(country, station);
   const key = stationSearchKey(canonical);
-  return stationMinimums[country || "japan"]?.[key]
-    ?? countryDefaults[country || "japan"]
+  // An unknown country gets the documented floor, never another market's rules:
+  // borrowing Japan's table here silently applied Japanese interchange minimums
+  // to callers that had no country at all.
+  if (country === undefined) return DEFAULT_MIN_TRANSFER_MINUTES;
+  return stationMinimums[country]?.[key]
+    ?? countryDefaults[country]
     ?? DEFAULT_MIN_TRANSFER_MINUTES;
 }
 

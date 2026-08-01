@@ -3,7 +3,7 @@ import { resolve } from "path";
 import { chromium } from "playwright";
 import type { ScrapedRoute, ScrapedRouteData, ScraperAdapter } from "./types";
 import { recordError } from "../../src/server/errorLog";
-import { dedupeScrapedResults, replaceDateSlice } from "./merge";
+import { dedupeScrapedResults, describingRoute, replaceDateSlice } from "./merge";
 import type { Country } from "../../src/types";
 
 const DATA_DIR = resolve("src/data/scraped");
@@ -111,11 +111,13 @@ export abstract class BaseScraper implements ScraperAdapter {
     const dates = Array.from(new Set(mergedResults.map((result) => result.date).filter(Boolean))).sort();
     const dateLabel = dates.length > 1 ? `${dates[0]}..${dates[dates.length - 1]}` : (dates[0] || data.date);
 
+    const describedBy = describingRoute(existing ?? undefined, data, mergedResults.length);
+
     writeFileSync(
       path,
       JSON.stringify({
-        ...data,
-        source: replacement.preservedExisting && existing?.source ? existing.source : data.source,
+        ...describedBy,
+        source: replacement.preservedExisting && existing?.source ? existing.source : describedBy.source,
         date: dateLabel,
         scrapedAt: new Date().toISOString(),
         results: mergedResults,

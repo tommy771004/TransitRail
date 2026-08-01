@@ -1,23 +1,24 @@
 /** Print the shared authenticity classification for every committed route/date slice. */
 import { existsSync, readFileSync } from "node:fs";
-import { configuredCountryOptions, providerDateValue } from "../src/data/countries";
-import { getCountryCapability } from "../src/data/countryCapability";
+import { configuredCountryOptions } from "../src/data/countries";
 import { getScrapedRoutes } from "../src/data/scraped";
-import { classifyTimetable, type TimetableSnapshot } from "../src/data/timetableAuthenticity";
+import {
+  authenticityOptionsFor,
+  classifyTimetable,
+  type TimetableSnapshot,
+} from "../src/data/timetableAuthenticity";
 import { decodeSeoulSubwayArtifact } from "../src/data/seoulSubwayArtifact";
 import { SEOUL_SUBWAY_ARTIFACT_PATH } from "../src/server/seoulSubwayCsv";
 
 for (const country of configuredCountryOptions) {
   if (country === "malaysia") continue;
   const routes = getScrapedRoutes(country);
+  const options = authenticityOptionsFor(country);
   for (const route of routes) {
     const dates = [...new Set(route.results.map((result) => result.date).filter(Boolean))].sort();
     const routeDates = dates.length > 0 ? dates : [undefined];
     for (const date of routeDates) {
-      const capability = getCountryCapability(country);
-      const authenticity = classifyTimetable(route, date, capability.liveOnly
-        ? { realtimeTodayOnly: true, today: providerDateValue(country) }
-        : {});
+      const authenticity = classifyTimetable(route, date, options);
       console.log([
         country,
         `${route.origin} → ${route.destination}`,
