@@ -40,7 +40,7 @@ export class SnapshotScraper extends BaseScraper {
       date,
       scrapedAt: new Date().toISOString(),
       source: `${this.name} curated snapshot`,
-      provenance: "curated",
+      provenance: snapshot.provenance === "llm-advisory" ? "llm-advisory" : "curated",
       authenticity: "indicative",
       truthMode: "indicative",
       sourceServiceDay: undefined,
@@ -164,7 +164,7 @@ export class ProviderBackedScraper extends SnapshotScraper {
       // Provider diagnostics are stored server-side in error_log, not exposed
       // through timetable source metadata rendered by the app.
       source: `${this.name} curated snapshot fallback`,
-      provenance: "curated",
+      provenance: snapshot.provenance === "llm-advisory" ? "llm-advisory" : "curated",
       authenticity: "indicative",
       truthMode: "indicative",
       sourceServiceDay: undefined,

@@ -33,7 +33,7 @@ class TestProviderBackedScraper extends ProviderBackedScraper {
     super("Test provider", "united_kingdom", [route], providerSearch);
   }
 
-  protected override loadSnapshot(): ScrapedRouteData {
+  protected override loadSnapshot(route: ScrapedRoute): ScrapedRouteData {
     return {
       ...route,
       date: "2026-08-01",
@@ -41,6 +41,15 @@ class TestProviderBackedScraper extends ProviderBackedScraper {
       source: "official timetable",
       provenance: "official",
       results: [result()],
+    };
+  }
+}
+
+class LlmProviderBackedScraper extends TestProviderBackedScraper {
+  protected override loadSnapshot(route: ScrapedRoute): ScrapedRouteData {
+    return {
+      ...super.loadSnapshot(route),
+      provenance: "llm-advisory",
     };
   }
 }
@@ -141,5 +150,18 @@ describe("provider-backed source normalization", () => {
 
     expect(data.source).toBe("Test provider curated snapshot fallback");
     expect(data.provenance).toBe("curated");
+  });
+
+  it("preserves LLM advisory provenance through a curated fallback", async () => {
+    const date = providerDateValue("united_kingdom");
+    const scraper = new LlmProviderBackedScraper(async () => ({
+      status: 503,
+      body: { results: [], error: "offline" },
+    }));
+
+    const data = await scraper.scrape(route, date);
+
+    expect(data.provenance).toBe("llm-advisory");
+    expect(data.truthMode).toBe("indicative");
   });
 });

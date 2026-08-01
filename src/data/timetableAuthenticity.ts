@@ -57,6 +57,7 @@ export function parseClockMinutes(time: string | undefined): number | undefined 
 
 const CURATED_SOURCE = /curated|snapshot/i;
 const LLM_ADVISORY_SOURCE = /\b(?:llm|openrouter|ai)[-_ ]?(?:advisory|generated|gap(?:-| )?fill)?\b/i;
+const OFFICIAL_SOURCE = /\b(?:official|odpt|gtfs|sncf|korail|entur|mtr|tfl|mbta|irail|12306|lta|jr\s+central|opentransportdata)\b|\bapi(?:[-.]|$)/i;
 
 /**
  * A curated snapshot is a representative service pattern, not a real
@@ -163,7 +164,7 @@ function normalizedProvenance(snapshot: TimetableSnapshot): NormalizedTimetableP
     || snapshot.results.some((result) => result.provenance === "curated")
     || CURATED_SOURCE.test(snapshot.source || "")
   ) return "curated";
-  if (snapshot.provenance === "official" || (snapshot.source || "").trim()) return "official";
+  if (snapshot.provenance === "official" || OFFICIAL_SOURCE.test(snapshot.source || "")) return "official";
   return "unknown";
 }
 
@@ -203,10 +204,13 @@ function isJourneyLeg(value: unknown): boolean {
     const time = value[key];
     if (time !== undefined && time !== null && (typeof time !== "string" || parseClockMinutes(time) === undefined)) return false;
   }
-  const optionalNumbers = ["originLat", "originLng", "destLat", "destLng", "durationMinutes", "stopCount"];
+  const optionalNumbers = ["originLat", "originLng", "destLat", "destLng", "durationMinutes", "stopCount", "delayMinutes"];
   if (optionalNumbers.some((key) => !isOptionalNumber(value[key]))) return false;
+  const upcomingDepartures = value.upcomingDepartures;
   return (value.stops === undefined || isStringArray(value.stops))
-    && (value.upcomingDepartures === undefined || isStringArray(value.upcomingDepartures));
+    && (upcomingDepartures === undefined || upcomingDepartures === null
+      || (Array.isArray(upcomingDepartures)
+        && upcomingDepartures.every((time) => typeof time === "string" && parseClockMinutes(time) !== undefined)));
 }
 
 function unusableSourceFact(
@@ -322,6 +326,7 @@ export function normalizeTimetableSource(
     && (provenance === "curated" || provenance === "llm-advisory");
   const selectedRows = useCanonical ? canonicalRows : exactRows;
   const selectedSnapshot = { ...snapshot, results: selectedRows };
+  const isDatelessCanonical = selectedRows.length > 0 && selectedRows.every((result) => !result.date);
   const classifiedAuthenticity = classifyTimetable(
     selectedSnapshot,
     useCanonical ? undefined : serviceDay,
@@ -329,6 +334,7 @@ export function normalizeTimetableSource(
   );
   const authenticity = provenance === "unknown" && selectedRows.length > 0
     ? "none"
+    : isDatelessCanonical ? "indicative"
     : classifiedAuthenticity;
   const sourceDates = [...new Set(selectedRows.map((result) => (result.date || "").trim()).filter(Boolean))];
 

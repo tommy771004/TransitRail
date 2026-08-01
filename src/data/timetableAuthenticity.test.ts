@@ -210,6 +210,13 @@ describe("timetable authenticity", () => {
     });
   });
 
+  it("does not infer official provenance from an unknown source label", () => {
+    expect(normalizeTimetableSource(
+      snapshot("mystery provider", [result()]),
+      "2026-08-01",
+    )).toMatchObject({ provenance: "unknown", truthMode: "unusable", issue: "unknown_provenance" });
+  });
+
   it("fails closed for invalid semantic row values", () => {
     expect(normalizeTimetableSource(
       snapshot("official timetable", [result({
@@ -247,6 +254,22 @@ describe("timetable authenticity", () => {
           origin: "Origin",
           destination: "Destination",
           departureTime: "99:99",
+        }],
+      })]),
+      "2026-08-01",
+    )).toMatchObject({ truthMode: "unusable", issue: "malformed" });
+  });
+
+  it("fails closed for invalid nested delay and upcoming times", () => {
+    expect(normalizeTimetableSource(
+      snapshot("official timetable", [result({
+        direct: false,
+        legs: [{
+          lineName: "Line A",
+          origin: "Origin",
+          destination: "Destination",
+          delayMinutes: "late" as unknown as number,
+          upcomingDepartures: ["not-a-time"],
         }],
       })]),
       "2026-08-01",
