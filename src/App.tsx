@@ -344,7 +344,6 @@ export default function App() {
   const activeTheme = countryThemes[activeCountry] || countryThemes.japan;
   const [searchParams, setSearchParams] = useState<SearchParams>(initialSearch);
   const [results, setResults] = useState<TransitResult[]>([]);
-  const [searchDataStatus, setSearchDataStatus] = useState<SearchDataStatus | undefined>();
   const [serviceDayAdvisory, setServiceDayAdvisory] = useState<ServiceDayAdvisory | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [coverageGap, setCoverageGap] = useState<CoverageGap | undefined>();
@@ -853,7 +852,6 @@ export default function App() {
     setError(undefined);
     setCoverageGap(undefined);
     setResults([]);
-    setSearchDataStatus(undefined);
     setServiceDayAdvisory(undefined);
 
     const todayStr = providerDateValue(country);
@@ -898,7 +896,6 @@ export default function App() {
       }
 
       const resultList = Array.isArray(data.results) ? data.results : [];
-      setSearchDataStatus(data.dataStatus);
       setServiceDayAdvisory(data.serviceDayAdvisory);
 
       if (!res.ok) {
@@ -953,11 +950,6 @@ export default function App() {
             : undefined;
         if (cached && cached.results.length > 0) {
           setResults(cached.results);
-          setSearchDataStatus(cached.dataStatus || {
-            kind: "snapshot",
-            source: "Offline cache (timestamp unavailable)",
-            checkedAt: cached.fetchedAt,
-          });
           setServiceDayAdvisory(cached.serviceDayAdvisory);
           pushAlert("Offline Mode", "Showing cached results from a previous search.");
           setIsSearching(false);
@@ -1859,9 +1851,7 @@ export default function App() {
         >
           {view === "results" && !isSearching ? (
             <div className="pt-14">
-              {searchDataStatus ? <SearchDataNotice status={searchDataStatus} language={i18n.language} /> : null}
               {serviceDayAdvisory ? <ServiceDayAdvisoryNotice advisory={serviceDayAdvisory} /> : null}
-              {error || results.length === 0 ? <SearchRecoveryNotice language={i18n.language} onModify={() => setView("search")} /> : null}
               {renderView()}
             </div>
           ) : renderView()}
@@ -2134,52 +2124,6 @@ export default function App() {
         )}
       </AnimatePresence>
     </div>
-  );
-}
-
-function SearchDataNotice({ status, language }: { status: SearchDataStatus; language: string }) {
-  const isChinese = language === "zh-TW";
-  const isOfflineCache = status.source.startsWith("Offline cache");
-  const copy = {
-    provider: isChinese ? "營運商資料服務" : "Transit provider data",
-    snapshot: isChinese ? "預先擷取的時刻快照" : "Pre-scraped timetable snapshot",
-    catalog: isChinese ? "站點目錄資料，非時刻表" : "Station catalog, not a timetable",
-  }[status.kind];
-  const detail = isOfflineCache
-    ? isChinese ? "這是之前搜尋的離線快取，可能已過期；恢復連線後請重新查詢。" : "This is a previous offline cache and may be stale; search again after reconnecting."
-    : status.kind === "snapshot"
-      ? isChinese ? "非即時資料；請在出發前向營運商確認。" : "Not live data; confirm with the operator before travel."
-      : status.kind === "catalog"
-        ? isChinese ? "此地區尚未提供可查詢的時刻表。" : "Timetable search is not available for this region."
-        : isChinese ? "營運商回應時間如下；實際班次仍以營運商為準。" : "Shown at the time of the provider response; confirm service details with the operator.";
-  const timestamp = status.updatedAt || status.checkedAt;
-
-  return (
-    <aside className="mx-auto max-w-md px-4 pt-3 text-slate-700 dark:text-slate-300" aria-live="polite">
-      <div className="rounded-2xl border border-slate-200 bg-white/85 px-3.5 py-3 text-xs dark:border-slate-800 dark:bg-slate-900/80">
-        <p className="font-bold">{isOfflineCache ? (isChinese ? "離線快取結果" : "Offline cached result") : copy}</p>
-        <p className="mt-1 leading-relaxed opacity-80">{detail}</p>
-        {timestamp ? <p className="mt-1.5 font-mono text-[10px] opacity-65">{isChinese ? "資料時間" : "Data time"}: {new Date(timestamp).toLocaleString(isChinese ? "zh-TW" : "en-US")}</p> : null}
-      </div>
-    </aside>
-  );
-}
-
-function SearchRecoveryNotice({ language, onModify }: { language: string; onModify: () => void }) {
-  const isChinese = language === "zh-TW";
-
-  return (
-    <aside className="mx-auto max-w-md px-4 pt-3" aria-live="polite">
-      <div className="rounded-2xl border border-sky-200 bg-sky-50/90 px-3.5 py-3 text-xs text-sky-950 dark:border-sky-900/70 dark:bg-sky-950/30 dark:text-sky-100">
-        <p className="font-bold">{isChinese ? "找不到可用班次" : "No supported timetable found"}</p>
-        <p className="mt-1 leading-relaxed opacity-80">
-          {isChinese ? "可嘗試不同日期或出發時間、改選附近站點，或交換起訖站後重新查詢。" : "Try another date or departure time, a nearby station, or reverse the origin and destination before searching again."}
-        </p>
-        <button type="button" onClick={onModify} className="mt-2 rounded-lg bg-sky-700 px-3 py-1.5 font-bold text-white hover:bg-sky-600 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400">
-          {isChinese ? "修改搜尋條件" : "Modify search"}
-        </button>
-      </div>
-    </aside>
   );
 }
 
