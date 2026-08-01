@@ -836,6 +836,21 @@ export async function searchMbtaJourney(
       if (results.length >= 8) break;
     }
 
+    if (results.length === 0 && scheduledJourneys.length > 0) {
+      // MBTA publishes no predictions outside service hours (and none during a
+      // prediction outage), but the schedules fetched above are real MBTA data
+      // for this same date. Returning [] here discarded them and pushed the
+      // scraper onto a curated snapshot, which is strictly worse data.
+      return {
+        status: 200,
+        body: {
+          results: scheduledJourneys.map((journey) => journey.result),
+          source: MBTA_API_URL,
+          serviceDayAdvisory,
+        },
+      };
+    }
+
     return {
       status: 200,
       body: {

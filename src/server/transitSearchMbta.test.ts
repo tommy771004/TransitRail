@@ -96,6 +96,7 @@ function installMbtaFixtures(
   failSchedules = false,
   failPredictions = false,
   scheduleType = "Weekday",
+  emptyPredictions = false,
 ) {
   vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
     const url = new URL(String(input));
@@ -133,6 +134,10 @@ function installMbtaFixtures(
     if (url.pathname === "/predictions") {
       if (failPredictions) {
         return new Response(JSON.stringify({ errors: [{ detail: "fixture MBTA secret" }] }), { status: 503 });
+      }
+      // What MBTA actually serves outside service hours: HTTP 200, no rows.
+      if (emptyPredictions) {
+        return new Response(JSON.stringify({ data: [], included: [] }), { status: 200 });
       }
       const stopId = url.searchParams.get("filter[stop]");
       const serviceDate = new Intl.DateTimeFormat("en-CA", {
@@ -271,6 +276,38 @@ describe("runTransitSearch MBTA service-day advisory", () => {
       minutesToLastDeparture: 45,
     }));
     expect(result.payload.message).toBeUndefined();
+  });
+
+  it("falls back to today's schedules when MBTA has no predictions to give", async () => {
+    // The 22:00 UTC scrape can land outside Boston service hours, when MBTA
+    // answers 200 with zero predictions. The schedules for that same date are
+    // real data and must be returned rather than dropped, which previously
+    // pushed the scraper onto a curated snapshot.
+    installMbtaFixtures(false, false, "Weekday", true);
+    const today = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "America/New_York",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(new Date());
+
+    const result = await runTransitSearch({
+      origin: "Ashmont",
+      destination: "JFK/UMass",
+      country: "united_states",
+      date: today,
+      time: "22:00",
+    });
+
+    expect(result.statusCode).toBe(200);
+    expect(result.payload.results).toHaveLength(2);
+    expect(result.payload.results.every((entry) => entry.realtime !== true)).toBe(true);
+    expect(result.payload.message).toBeUndefined();
+    expect(result.payload.serviceDayAdvisory).toEqual(expect.objectContaining({
+      coverage: "supported",
+      firstDeparture: "08:00",
+      lastDeparture: "22:45",
+    }));
   });
 
   it("returns a safe generic error when MBTA predictions fail", async () => {

@@ -165,20 +165,32 @@ function legsForConnection(connection: IrailConnection) {
   return legs;
 }
 
-export async function getBelgiumStations() {
-  if (stationCache && stationCache.expiresAt > Date.now()) {
-    return Array.from(new Set(stationCache.stations.map((station) => station.name?.trim()).filter((name): name is string => Boolean(name))))
-      .sort((a, b) => a.localeCompare(b));
-  }
-  const data = await fetchIRailJson<IrailStationsResponse>(
-    iRailUrl("/stations/", { format: "json", lang: "en" }),
-  );
-  const rawStations = data.station || [];
-  stationCache = { expiresAt: Date.now() + STATION_CACHE_TTL_MS, stations: rawStations };
-  return Array.from(new Set(rawStations
+function stationNames(stations: IrailStation[]) {
+  return Array.from(new Set(stations
     .map((station) => station.name?.trim())
     .filter((name): name is string => Boolean(name))))
     .sort((a, b) => a.localeCompare(b));
+}
+
+export async function getBelgiumStations() {
+  if (stationCache && stationCache.expiresAt > Date.now()) {
+    return stationNames(stationCache.stations);
+  }
+  try {
+    const data = await fetchIRailJson<IrailStationsResponse>(
+      iRailUrl("/stations/", { format: "json", lang: "en" }),
+    );
+    const rawStations = data.station || [];
+    stationCache = { expiresAt: Date.now() + STATION_CACHE_TTL_MS, stations: rawStations };
+    return stationNames(rawStations);
+  } catch (error) {
+    // iRail answers 504 for minutes at a time. Belgian station ids barely
+    // change, so an expired cache still resolves every name correctly; without
+    // this, an outage additionally costs us station resolution and turns a
+    // recoverable connections failure into "Station not found".
+    if (stationCache) return stationNames(stationCache.stations);
+    throw error;
+  }
 }
 
 async function resolveBelgiumStation(query: string) {
