@@ -1,7 +1,31 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { JapanScraper } from "./japan";
 
 describe("Japan scheduled source routing", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("does not schedule token-gated Tokyo Metro routes when ODPT_API_KEY is missing", () => {
+    vi.stubEnv("ODPT_API_KEY", "");
+    const scraper = new JapanScraper();
+
+    expect(scraper.routes).toHaveLength(29);
+    expect(scraper.routes).toContainEqual({
+      origin: "Shinjuku",
+      destination: "Roppongi",
+      operator: "Toei",
+      railway: "odpt.Railway:Toei.Oedo",
+      lineName: "Toei Oedo Line",
+      lineColor: "#b6007a",
+      originStation: "odpt.Station:Toei.Oedo.Shinjuku",
+      destinationStation: "odpt.Station:Toei.Oedo.Roppongi",
+    });
+    expect(scraper.routes).not.toContainEqual(
+      expect.objectContaining({ operator: "TokyoMetro" }),
+    );
+  });
+
   it("uses ODPT for configured subway routes and preserves official results", async () => {
     const result = {
       id: "2026-08-03-jp-odpt-test",

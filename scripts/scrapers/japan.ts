@@ -57,8 +57,9 @@ const fmt = (minutes: number) => `${pad(Math.floor((minutes % 1440) / 60))}:${pa
 export class JapanScraper extends BaseScraper {
   readonly name = "JR local data + ODPT";
   readonly country = "japan";
-  readonly routes = [...japanRoutes, ...odptRoutes];
+  readonly routes: ScrapedRoute[];
   protected readonly usesBrowser = false;
+  private readonly skippedTokyoMetroRouteCount: number;
 
   constructor(
     private readonly odptSearch: (
@@ -73,6 +74,24 @@ export class JapanScraper extends BaseScraper {
     ) => Promise<{ status: number; body: SearchResponse & { error?: string } }> = searchJrCentralTimetable,
   ) {
     super();
+    const hasTokyoMetroKey = Boolean(process.env.ODPT_API_KEY?.trim());
+    const enabledOdptRoutes = odptRoutes.filter(
+      (route) => route.operator !== "TokyoMetro" || hasTokyoMetroKey,
+    );
+    this.routes = [...japanRoutes, ...enabledOdptRoutes];
+    this.skippedTokyoMetroRouteCount = odptRoutes.length - enabledOdptRoutes.length;
+  }
+
+  override async runAll(
+    date: string,
+    options: { keepDates?: string[] } = {},
+  ): Promise<ScrapedRouteData[]> {
+    if (this.skippedTokyoMetroRouteCount > 0) {
+      console.log(
+        `  japan: ODPT_API_KEY not set; skipping ${this.skippedTokyoMetroRouteCount} Tokyo Metro routes (Toei public routes remain enabled).`,
+      );
+    }
+    return super.runAll(date, options);
   }
 
   async scrape(route: ScrapedRoute, date: string): Promise<ScrapedRouteData> {
