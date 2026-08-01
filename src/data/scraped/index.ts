@@ -90,7 +90,7 @@ function loadDir(country: string): ScrapedRouteData[] {
       try {
         const content = readFileSync(join(dirPath, file), "utf-8");
         const fact = normalizeTimetableSource(JSON.parse(content) as unknown);
-        if (!fact.snapshot || fact.issue === "malformed" || fact.issue === "empty") {
+        if (!fact.snapshot || fact.truthMode === "unusable") {
           console.warn(`[scraped] Skipping unusable ${country}/${file}: ${fact.issue || "unknown"}`);
           continue;
         }

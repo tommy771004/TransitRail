@@ -37,7 +37,7 @@ export interface TimetableSourceFact {
   sourceServiceDay?: string;
   authenticity: TimetableAuthenticity;
   truthMode: TimetableTruthMode;
-  issue?: "malformed" | "empty" | "service_day_mismatch" | "stale_realtime";
+  issue?: "malformed" | "empty" | "service_day_mismatch" | "stale_realtime" | "unknown_provenance";
 }
 
 /** "06:05" → 365. Undefined for anything that is not a HH:MM clock time. */
@@ -105,6 +105,7 @@ export function isStaleRealtimeResult(
   if (result.realtime !== true) return false;
   if (options.realtimeTodayOnly && options.today && options.today !== date) return true;
   const embeddedDate = embeddedTimestampDate(result.id);
+  if (options.realtimeTodayOnly && options.today === date && !embeddedDate) return false;
   return embeddedDate !== date;
 }
 
@@ -126,6 +127,9 @@ export function classifyTimetable(
   // An advisory transfer value is never promoted to scraped/realtime merely
   // because its surrounding rows happen to carry an official-looking flag.
   if (snapshot.provenance === "llm-advisory" || rows.some((row) => row.provenance === "llm-advisory")) {
+    return "indicative";
+  }
+  if (snapshot.provenance === "curated" || rows.some((row) => row.provenance === "curated")) {
     return "indicative";
   }
 
@@ -167,6 +171,19 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object";
 }
 
+function unusableSourceFact(
+  serviceDay: string | undefined,
+  issue: TimetableSourceFact["issue"] = "malformed",
+): TimetableSourceFact {
+  return {
+    provenance: "unknown",
+    serviceDay,
+    authenticity: "none",
+    truthMode: "unusable",
+    issue,
+  };
+}
+
 function isIsoCalendarDate(value: string): boolean {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
   const parsed = new Date(`${value}T12:00:00Z`);
@@ -187,7 +204,13 @@ function isTimetableResult(value: unknown): value is TransitResult {
     || !Array.isArray(value.stops)
     || value.stops.some((stop) => typeof stop !== "string")
   ) return false;
-  if (value.date !== undefined && typeof value.date !== "string") return false;
+  const departureTime = value.departureTime;
+  const arrivalTime = value.arrivalTime;
+  const resultDate = value.date;
+  if (typeof departureTime !== "string" || parseClockMinutes(departureTime) === undefined) return false;
+  if (arrivalTime !== undefined && (typeof arrivalTime !== "string" || parseClockMinutes(arrivalTime) === undefined)) return false;
+  if (resultDate !== undefined && typeof resultDate !== "string") return false;
+  if (typeof resultDate === "string" && !isIsoCalendarDate(resultDate)) return false;
   if (value.realtime !== undefined && typeof value.realtime !== "boolean") return false;
   if (
     value.provenance !== undefined
@@ -224,22 +247,10 @@ export function normalizeTimetableSource(
 ): TimetableSourceFact {
   const serviceDay = date?.trim() || undefined;
   if (serviceDay && !isIsoCalendarDate(serviceDay)) {
-    return {
-      provenance: "unknown",
-      serviceDay,
-      authenticity: "none",
-      truthMode: "unusable",
-      issue: "malformed",
-    };
+    return unusableSourceFact(serviceDay);
   }
   if (!isTimetableSnapshot(value)) {
-    return {
-      provenance: "unknown",
-      serviceDay,
-      authenticity: "none",
-      truthMode: "unusable",
-      issue: "malformed",
-    };
+    return unusableSourceFact(serviceDay);
   }
   const snapshot = value;
   const exactRows = serviceDay ? timetableSliceForDate(snapshot, serviceDay) : snapshot.results;
@@ -250,11 +261,14 @@ export function normalizeTimetableSource(
   const useCanonical = exactRows.length === 0 && canonicalRows.length > 0 && provenance === "curated";
   const selectedRows = useCanonical ? canonicalRows : exactRows;
   const selectedSnapshot = { ...snapshot, results: selectedRows };
-  const authenticity = classifyTimetable(
+  const classifiedAuthenticity = classifyTimetable(
     selectedSnapshot,
     useCanonical ? undefined : serviceDay,
     options,
   );
+  const authenticity = provenance === "unknown" && selectedRows.length > 0
+    ? "none"
+    : classifiedAuthenticity;
   const sourceDates = [...new Set(selectedRows.map((result) => (result.date || "").trim()).filter(Boolean))];
 
   return {
@@ -264,8 +278,10 @@ export function normalizeTimetableSource(
     sourceServiceDay: sourceDates.length === 1 ? sourceDates[0] : undefined,
     authenticity,
     truthMode: truthModeFor(authenticity),
-    issue: authenticity === "none"
-      ? snapshot.results.length === 0 ? "empty" : "service_day_mismatch"
-      : authenticity === "stale_realtime" ? "stale_realtime" : undefined,
+    issue: provenance === "unknown" && selectedRows.length > 0
+      ? "unknown_provenance"
+      : authenticity === "none"
+        ? snapshot.results.length === 0 ? "empty" : "service_day_mismatch"
+        : authenticity === "stale_realtime" ? "stale_realtime" : undefined,
   };
 }

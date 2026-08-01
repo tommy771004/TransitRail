@@ -47,16 +47,20 @@ export class SnapshotScraper extends BaseScraper {
 
     for (const file of readdirSync(dir)) {
       if (!file.endsWith(".json") || file === "metadata.json") continue;
-      const fact = normalizeTimetableSource(
-        JSON.parse(readFileSync(resolve(dir, file), "utf-8")) as unknown,
-      );
-      if (!fact.snapshot || fact.issue === "malformed" || fact.issue === "empty") continue;
-      const data = {
-        ...fact.snapshot,
-        provenance: fact.provenance === "unknown" ? undefined : fact.provenance,
-      } as ScrapedRouteData;
-      if (stationSearchKey(data.origin) === stationSearchKey(route.origin) && stationSearchKey(data.destination) === stationSearchKey(route.destination)) {
-        return { ...data, results: canonicalDay(data.results) };
+      try {
+        const fact = normalizeTimetableSource(
+          JSON.parse(readFileSync(resolve(dir, file), "utf-8")) as unknown,
+        );
+        if (!fact.snapshot || fact.truthMode === "unusable") continue;
+        const data = {
+          ...fact.snapshot,
+          provenance: fact.provenance === "unknown" ? undefined : fact.provenance,
+        } as ScrapedRouteData;
+        if (stationSearchKey(data.origin) === stationSearchKey(route.origin) && stationSearchKey(data.destination) === stationSearchKey(route.destination)) {
+          return { ...data, results: canonicalDay(data.results) };
+        }
+      } catch {
+        continue;
       }
     }
 
@@ -86,16 +90,19 @@ export class ProviderBackedScraper extends SnapshotScraper {
 
     const response = await this.providerSearch(route.origin, route.destination, date);
     if (response.status >= 200 && response.status < 300 && response.body.results.length > 0) {
-      const providerRoute: ScrapedRouteData = {
+      const providerRoute = this.withResultDates({
         origin: route.origin,
         destination: route.destination,
         date,
         scrapedAt: new Date().toISOString(),
         source: response.body.source || this.name,
         results: response.body.results,
-      };
-      const fact = normalizeTimetableSource(providerRoute, date);
-      if (fact.snapshot && fact.issue !== "malformed" && fact.issue !== "empty" && fact.issue !== "service_day_mismatch") {
+      });
+      const fact = normalizeTimetableSource(providerRoute, date, {
+        realtimeTodayOnly: true,
+        today: providerDateValue(this.country),
+      });
+      if (fact.snapshot && fact.truthMode !== "unusable" && fact.truthMode !== "stale") {
         return {
           ...providerRoute,
           provenance: fact.provenance === "unknown" ? undefined : fact.provenance,

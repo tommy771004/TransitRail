@@ -130,6 +130,23 @@ describe("timetable authenticity", () => {
     });
   });
 
+  it("accepts a current live source whose provider id has no date", () => {
+    const live = result({
+      id: "hk-TWL-ADM-08:37:00-0",
+      realtime: true,
+    });
+    expect(normalizeTimetableSource(
+      snapshot("https://www.mtr.com.hk/nexttrain", [live]),
+      "2026-08-01",
+      { realtimeTodayOnly: true, today: "2026-08-01" },
+    )).toMatchObject({
+      provenance: "official",
+      sourceServiceDay: "2026-08-01",
+      authenticity: "realtime",
+      truthMode: "verified",
+    });
+  });
+
   it("describes a copied live source as stale", () => {
     const copied = result({
       id: "2026-08-02-uk-tfl-2026-08-01T08:37:00-0",
@@ -153,6 +170,43 @@ describe("timetable authenticity", () => {
       .toMatchObject({ truthMode: "unusable", issue: "empty" });
     expect(normalizeTimetableSource(snapshot("official timetable", [result()]), "2026-08-02"))
       .toMatchObject({ truthMode: "unusable", issue: "service_day_mismatch" });
+  });
+
+  it("uses explicit curated provenance even when the source label is generic", () => {
+    expect(normalizeTimetableSource({
+      ...snapshot("official timetable", [result()]),
+      provenance: "curated",
+    }, "2026-08-01")).toMatchObject({
+      provenance: "curated",
+      authenticity: "indicative",
+      truthMode: "indicative",
+    });
+  });
+
+  it("fails closed when provenance is absent", () => {
+    expect(normalizeTimetableSource({
+      ...snapshot(undefined as unknown as string, [result()]),
+      source: undefined,
+    }, "2026-08-01")).toMatchObject({
+      provenance: "unknown",
+      authenticity: "none",
+      truthMode: "unusable",
+      issue: "unknown_provenance",
+    });
+  });
+
+  it("fails closed for invalid semantic row values", () => {
+    expect(normalizeTimetableSource(
+      snapshot("official timetable", [result({
+        date: "2026-02-30",
+        departureTime: "not-a-time",
+      })]),
+      "2026-08-01",
+    )).toMatchObject({
+      authenticity: "none",
+      truthMode: "unusable",
+      issue: "malformed",
+    });
   });
 
   it("parses only clock values", () => {

@@ -133,7 +133,7 @@ export abstract class BaseScraper implements ScraperAdapter {
     }
   }
 
-  private withResultDates(data: ScrapedRouteData): ScrapedRouteData {
+  protected withResultDates(data: ScrapedRouteData): ScrapedRouteData {
     return {
       ...data,
       results: data.results.map((result) => {
