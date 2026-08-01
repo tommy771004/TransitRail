@@ -83,6 +83,19 @@ export interface SearchResponse {
   message?: string;
   dataStatus?: SearchDataStatus;
   serviceDayAdvisory?: ServiceDayAdvisory;
+  coverageGap?: CoverageGap;
+}
+
+/**
+ * Why a search found nothing: the station picker offers a country's whole line
+ * map, but timetables only cover some of it. Present so the UI can say which
+ * end of the trip is missing instead of implying a fetch failure.
+ */
+export interface CoverageGap {
+  /** Requested endpoints with no timetable data (may be one or both). */
+  uncovered: string[];
+  /** Stations in this country that do have data, for a "try these" prompt. */
+  suggestions: string[];
 }
 
 export type ServiceDayCoverage = "supported" | "partial" | "stale" | "unavailable";

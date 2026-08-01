@@ -20,11 +20,18 @@ import {
 } from "../data/metroLines";
 import { hongKongMtrLineCatalog, mtrInterchanges } from "../data/hongKongMtr";
 import { getStaticMenuStations } from "../data/stationIdentity";
+import {
+  coverageModeFor,
+  coveredMenuStations,
+  type StationCoverage,
+} from "../data/stationCoverage";
+import { getScrapedRoutes } from "../data/scraped";
+import { countryOptions } from "../data/countries";
 import { getTflLines, getTflStations } from "./tfl";
 import { getMbtaLines, getMbtaStations } from "./mbta";
 import { getBelgiumStations } from "./belgium";
 import { getMalaysiaStations, MALAYSIA_STATION_CATALOG_SOURCE } from "./malaysia";
-import type { TransitLine } from "../types";
+import type { Country, TransitLine } from "../types";
 
 export const CATALOG_COUNTRIES = [
   "japan", "korea", "china", "singapore", "thailand",
@@ -69,10 +76,30 @@ export async function getLinesForCountry(country: string): Promise<TransitLine[]
   return [];
 }
 
+/**
+ * Which of `stations` search can actually answer for.
+ *
+ * Only `scraped` countries have a finite, enumerable set — the picker there
+ * offers a whole line map while the timetables cover a handful of corridors,
+ * so the menu alone over-promises. Live-provider menus stay unbounded.
+ */
+export function getStationCoverage(
+  country: string,
+  stations: readonly string[],
+): StationCoverage | undefined {
+  if (!countryOptions.includes(country as Country)) return undefined;
+  const mode = coverageModeFor(country as Country);
+  if (mode !== "scraped") return { mode };
+  return {
+    mode,
+    covered: coveredMenuStations(stations, getScrapedRoutes(country as Country), country as Country),
+  };
+}
+
 export async function getStationsForCountry(
   country: string,
   q?: string,
-): Promise<{ stations: string[]; source?: string }> {
+): Promise<{ stations: string[]; source?: string; coverage?: StationCoverage }> {
   let stations: string[] = [];
   let source: string | undefined;
 
@@ -99,21 +126,29 @@ export async function getStationsForCountry(
     }
   }
 
+  // Coverage is computed against the whole menu, before `q` narrows it, so the
+  // covered set stays a stable lookup table rather than shifting per keystroke.
+  const coverage = getStationCoverage(country, stations);
+
   if (typeof q === "string" && q.trim().length > 0) {
     const queryVal = q.trim().toLowerCase();
     stations = stations.filter((station) => station.toLowerCase().includes(queryVal));
   }
 
-  return { stations, source };
+  return { stations, source, coverage };
 }
 
 /** Combined catalog for one country — what a static public/catalog/<c>.json holds. */
-export async function buildCatalog(
-  country: string,
-): Promise<{ country: string; stations: string[]; lines: TransitLine[]; source?: string }> {
-  const [{ stations, source }, lines] = await Promise.all([
+export async function buildCatalog(country: string): Promise<{
+  country: string;
+  stations: string[];
+  lines: TransitLine[];
+  source?: string;
+  coverage?: StationCoverage;
+}> {
+  const [{ stations, source, coverage }, lines] = await Promise.all([
     getStationsForCountry(country),
     getLinesForCountry(country),
   ]);
-  return { country, stations, lines, source };
+  return { country, stations, lines, source, coverage };
 }

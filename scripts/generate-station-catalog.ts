@@ -27,7 +27,13 @@ async function main() {
         continue;
       }
       writeFileSync(path, JSON.stringify(catalog, null, 2) + "\n", "utf-8");
-      console.log(`  ✓ ${country}: ${catalog.stations.length} stations, ${catalog.lines.length} lines`);
+      const covered = catalog.coverage?.covered;
+      const coverageNote = covered
+        ? `, ${covered.length} with timetable data`
+        : "";
+      console.log(
+        `  ✓ ${country}: ${catalog.stations.length} stations, ${catalog.lines.length} lines${coverageNote}`,
+      );
       ok += 1;
     } catch (error) {
       console.warn(`  ✗ ${country}: ${error instanceof Error ? error.message : error} — ${existsSync(path) ? "keeping existing file" : "NO existing file!"}`);

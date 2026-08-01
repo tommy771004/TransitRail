@@ -6,7 +6,7 @@ import { AlertTriangle, Utensils, Wifi, Zap } from "lucide-react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
-import type { KoreaFilter, TransitResult } from "../types";
+import type { CoverageGap, KoreaFilter, TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel } from "../utils/stationLabel";
@@ -18,6 +18,7 @@ import {
   formatDuration,
   renderEmptyBlock,
   renderErrorBlock,
+  renderCoverageBlock,
   renderWeatherBlock,
   tripCardClass,
   tripCardMotion,
@@ -29,6 +30,7 @@ interface KoreaResultViewProps {
   date: string;
   time?: string;
   error?: string;
+  coverageGap?: CoverageGap;
   results: TransitResult[];
   filter: KoreaFilter;
   savedIds: Set<string>;
@@ -54,6 +56,7 @@ export function KoreaResultView({
   date,
   time,
   error,
+  coverageGap,
   results,
   filter,
   savedIds,
@@ -117,7 +120,7 @@ export function KoreaResultView({
       <div className="mx-auto max-w-md space-y-3 px-4 pt-4">
         <AnimatePresence mode="popLayout">
           {!error && results.length > 0 && renderWeatherBlock(destination, date, "korea")}
-          {error && renderErrorBlock(t("result.unable_to_fetch"), error)}
+          {error && (coverageGap ? renderCoverageBlock(coverageGap, "korea") : renderErrorBlock(t("result.unable_to_fetch"), error))}
           {!error && results.length === 0 && renderEmptyBlock(t("result.no_results"), t("result.no_results_hint"))}
         </AnimatePresence>
 

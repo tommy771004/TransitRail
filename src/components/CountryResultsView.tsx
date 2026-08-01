@@ -1,6 +1,6 @@
 // Renders the country-appropriate results chrome from countryConfig policy.
 import type { ReactNode } from "react";
-import type { Country, KoreaFilter, SortMode, TransitResult } from "../types";
+import type { Country, CoverageGap, KoreaFilter, SortMode, TransitResult } from "../types";
 import { getCountryCapability } from "../data/countryCapability";
 import { JapanResultView } from "./JapanResultView";
 import { KoreaResultView } from "./KoreaResultView";
@@ -15,6 +15,8 @@ export type CountryResultsViewProps = {
   date: string;
   time?: string;
   error?: string;
+  /** Set when the miss is a catalog gap rather than a failed fetch. */
+  coverageGap?: CoverageGap;
   results: TransitResult[];
   savedIds: Set<string>;
   sortMode: SortMode;
@@ -37,6 +39,7 @@ export function CountryResultsView(props: CountryResultsViewProps) {
     date: props.date,
     time: props.time,
     error: props.error,
+    coverageGap: props.coverageGap,
     results: props.results,
     savedIds: props.savedIds,
     onModify: props.onModify,
