@@ -2,14 +2,33 @@
  * Journey search orchestration: country policy → provider and/or scraped snapshots.
  * Express handlers stay thin HTTP over this module.
  */
-import type { Country, CoverageGap, NoResultReason, SearchDataStatus, SearchResponse } from "../types";
-import { configuredCountryOptions, isSearchDateAllowed } from "../data/countries";
+import type {
+  Country,
+  CoverageGap,
+  NoResultReason,
+  SearchDataStatus,
+  SearchResponse,
+  TimetableProvenance,
+} from "../types";
+import { configuredCountryOptions } from "../data/countries";
 import { getCountryCapability, type ProviderId } from "../data/countryCapability";
 import {
   findScrapedResults,
+  findScrapedSearchability,
+  getScrapedRoutes,
   getScrapedCountryFreshness,
   getScrapedCoverageNames,
 } from "../data/scraped";
+import {
+  decideSearchability,
+  decideRouteContextSearchability,
+  toNoResultReason,
+  type SearchabilityDecision,
+} from "../data/searchabilityPolicy";
+import {
+  normalizeTimetableSource,
+  providerResponseAuthenticityOptions,
+} from "../data/timetableAuthenticity";
 import {
   coverageModeFor,
   hasCoverage,
@@ -101,22 +120,114 @@ function filterByTime(results: NonNullable<ReturnType<typeof findScrapedResults>
   return results.filter((r) => r.departureTime >= time);
 }
 
+function tagResults(
+  results: SearchResponse["results"],
+  decision: SearchabilityDecision,
+): SearchResponse["results"] {
+  return results.map((result) => ({
+    ...result,
+    provenance: decision.provenance === "unknown" ? undefined : decision.provenance,
+    truthMode: decision.truthMode,
+  }));
+}
+
+function providerPayloadWithPolicy(
+  country: Country,
+  origin: string,
+  destination: string,
+  date: string,
+  body: SearchResponse & { error?: string; message?: string },
+): { payload: TransitSearchPayload; decision: SearchabilityDecision } {
+  // Provider adapters return the requested service day as a query argument;
+  // attaching it to rows records source context without inventing a departure.
+  const results = body.results.map((result) => ({ ...result, date: result.date || date }));
+  const source = {
+    origin,
+    destination,
+    date,
+    source: body.source,
+    provenance: "official" as TimetableProvenance,
+    results,
+  };
+  const sourceFact = normalizeTimetableSource(
+    source,
+    date,
+    providerResponseAuthenticityOptions(country),
+  );
+  const decision = decideSearchability({
+    country,
+    serviceDay: date,
+    origin,
+    destination,
+    sourceFact,
+  });
+  return {
+    decision,
+    payload: {
+      ...body,
+      results: decision.searchable ? tagResults(results, decision) : [],
+      provenance: decision.provenance,
+      truthMode: decision.truthMode,
+      ...(decision.searchable || !decision.reason
+        ? {}
+        : {
+            noResultReason: toNoResultReason(decision.reason),
+            message: noDataMessage(origin, destination, undefined, toNoResultReason(decision.reason), country),
+          }),
+    },
+  };
+}
+
+function providerFailurePayload(
+  country: Country,
+  origin: string,
+  destination: string,
+  response: ProviderResponse,
+): TransitSearchPayload {
+  const reason: NoResultReason = response.body.noResultReason
+    || (response.status >= 500 || response.status === 501 ? "no_verified_data" : "unsupported_route");
+  return {
+    ...response.body,
+    results: [],
+    truthMode: "unusable",
+    provenance: "unknown",
+    noResultReason: reason,
+    message: response.body.message || noDataMessage(origin, destination, undefined, reason, country),
+    officialSourceUrl: officialTimetableUrls[country],
+  };
+}
+
 function tryScraped(
   country: Country | undefined,
   origin: string,
   destination: string,
   date: string,
   time?: string,
+  indicativeFallback = false,
 ): TransitSearchPayload | undefined {
   if (!country) {
     // Unknown country string: cannot type as Country — return nothing.
     return undefined;
   }
-  let scraped = findScrapedResults(country, origin, destination, date);
-  if (!scraped || scraped.length === 0) return undefined;
-  scraped = filterByTime(scraped, time);
-  if (scraped.length === 0) return undefined;
-  return { results: scraped, source: "scraped" };
+  const found = findScrapedSearchability(country, origin, destination, date);
+  if (!found || found.results.length === 0) return undefined;
+  const scraped = filterByTime(found.results, time);
+  if (scraped.length === 0) {
+    return {
+      results: [],
+      source: "scraped",
+      provenance: found.decision.provenance,
+      truthMode: found.decision.truthMode,
+      noResultReason: "no_service",
+    };
+  }
+  return {
+    results: scraped,
+    source: "scraped",
+    provenance: found.decision.provenance,
+    truthMode: found.decision.truthMode,
+    ...(indicativeFallback && found.decision.truthMode === "indicative" ? { fallback: "indicative" as const } : {}),
+  };
 }
 
 /**
@@ -159,7 +270,10 @@ function noDataMessage(
   country?: Country,
 ): string {
   if (reason === "future_date_unavailable") {
-    return getCountryCapability(country || "japan").liveOnly
+    // Only name the today-only rule when this country actually has it. Without a
+    // country we cannot know, so fall through to the generic range wording
+    // rather than borrowing another market's capability flag.
+    return country !== undefined && getCountryCapability(country).liveOnly
       ? "This data source is available only for the current local service day. Choose today to search it."
       : "This timetable is available only within its published service-date range. Choose a date in that range to search it.";
   }
@@ -182,10 +296,6 @@ function noDataMessage(
   );
 }
 
-function dateRangeIsEnforced(country: Country): boolean {
-  return getCountryCapability(country).dateRangeEnforced;
-}
-
 function noResultReasonFor(
   country: Country | undefined,
   origin: string,
@@ -195,20 +305,36 @@ function noResultReasonFor(
   providerNoService = false,
 ): NoResultReason {
   if (providerNoService) return "no_service";
-  if (country && dateRangeIsEnforced(country) && !isSearchDateAllowed(country, date)) {
+  const dateDecision = country
+    ? decideSearchability({ country, serviceDay: date })
+    : undefined;
+  if (dateDecision?.reason === "unsupported_date") {
     return "future_date_unavailable";
   }
   if (country && getCountryCapability(country).search.kind === "catalog_only") {
     return "no_verified_data";
   }
   if (country && coverageModeFor(country) === "scraped") {
-    const datedNames = getScrapedCoverageNames(country, date);
-    const allNames = getScrapedCoverageNames(country);
-    if (gap?.uncovered.length || allNames.length === 0) return "no_verified_data";
-    if (findScrapedResults(country, origin, destination)?.length) return "no_service";
-    if (datedNames.length === 0) return "no_service";
+    const decision = noResultPolicyDecision(country, origin, destination, date);
+    if (decision.reason) return toNoResultReason(decision.reason);
+    if (gap?.uncovered.length) return "no_verified_data";
   }
   return "unsupported_route";
+}
+
+function noResultPolicyDecision(
+  country: Country | undefined,
+  origin: string,
+  destination: string,
+  date: string,
+): SearchabilityDecision | undefined {
+  if (!country || coverageModeFor(country) !== "scraped") return undefined;
+  return decideRouteContextSearchability(getScrapedRoutes(country), {
+    country,
+    serviceDay: date,
+    origin,
+    destination,
+  });
 }
 
 /**
@@ -226,13 +352,19 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
   let payload: TransitSearchPayload | undefined;
   let providerNoService = false;
 
-  if (resolvedCountry && dateRangeIsEnforced(resolvedCountry) && !isSearchDateAllowed(resolvedCountry, date)) {
+  const requestedDateDecision = resolvedCountry
+    ? decideSearchability({ country: resolvedCountry, serviceDay: date })
+    : undefined;
+
+  if (requestedDateDecision?.reason === "unsupported_date") {
     statusCode = 422;
     payload = {
       error: "Date unavailable",
       message: noDataMessage(origin, destination, undefined, "future_date_unavailable", resolvedCountry),
       results: [],
       noResultReason: "future_date_unavailable",
+      truthMode: "unusable",
+      provenance: "unknown",
       officialSourceUrl: officialTimetableUrls[resolvedCountry],
     };
   } else if (resolvedCountry) {
@@ -246,12 +378,16 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
           "Malaysia currently provides an official station catalog derived from historical data.gov.my ridership files. Those files do not contain train schedules or real-time arrivals, so no timetable is shown.",
         results: [],
         source: "data.gov.my historical ridership station catalog",
+        truthMode: "unusable",
+        provenance: "unknown",
       };
     } else if (search.kind === "provider" || search.kind === "provider_then_scraped") {
       const providerResponse = await runProvider(search.provider, origin, destination, date, time);
       if (search.kind === "provider") {
         statusCode = providerResponse.status;
-        payload = providerResponse.body;
+        payload = providerResponse.status >= 200 && providerResponse.status < 300
+          ? providerPayloadWithPolicy(resolvedCountry, origin, destination, date, providerResponse.body).payload
+          : providerFailurePayload(resolvedCountry, origin, destination, providerResponse);
         providerNoService = providerResponse.status >= 200
           && providerResponse.status < 300
           && providerResponse.body.results.length === 0;
@@ -260,13 +396,23 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
         providerResponse.status < 300 &&
         providerResponse.body.results.length > 0
       ) {
-        statusCode = providerResponse.status;
-        payload = providerResponse.body;
+        const governed = providerPayloadWithPolicy(resolvedCountry, origin, destination, date, providerResponse.body);
+        if (governed.decision.searchable) {
+          statusCode = providerResponse.status;
+          payload = governed.payload;
+        }
       }
     }
 
     if (!payload && (search.kind === "scraped" || search.kind === "provider_then_scraped")) {
-      payload = tryScraped(resolvedCountry, origin, destination, date, time);
+      payload = tryScraped(
+        resolvedCountry,
+        origin,
+        destination,
+        date,
+        time,
+        search.kind === "provider_then_scraped",
+      );
     }
   } else if (countryValue) {
     // Non-option country string: refuse rather than cast to Country.
@@ -282,8 +428,9 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
   }
 
   if (!payload) {
-      statusCode = 404;
+    statusCode = 404;
     const coverageGap = findCoverageGap(resolvedCountry, origin, destination, date);
+    const policyDecision = noResultPolicyDecision(resolvedCountry, origin, destination, date);
     const noResultReason = noResultReasonFor(
       resolvedCountry,
       origin,
@@ -297,6 +444,8 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
       message: noDataMessage(origin, destination, coverageGap, noResultReason, resolvedCountry),
       results: [],
       source: "scraped",
+      truthMode: policyDecision?.truthMode || "unusable",
+      provenance: policyDecision?.provenance || "unknown",
       coverageGap,
       noResultReason,
       officialSourceUrl: resolvedCountry ? officialTimetableUrls[resolvedCountry] : undefined,

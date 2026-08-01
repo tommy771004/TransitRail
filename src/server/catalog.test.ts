@@ -20,4 +20,13 @@ describe("station and line catalog integrity scope", () => {
     expect(stations.stations).toContain("Beijing South");
     expect(stations.stations).toContain("Shanghai Hongqiao");
   });
+
+  it("carries the Seoul artifact's verified policy fact into station and line discovery", async () => {
+    const lines = await getLinesForCountry("korea", "2026-08-01");
+    const stations = await getStationsForCountry("korea", undefined, "2026-08-01");
+
+    expect(lines.length).toBeGreaterThan(0);
+    expect(stations.coverage).toMatchObject({ truthMode: "verified", provenance: "official" });
+    expect(stations.stations).toContain("Seoul Station");
+  });
 });

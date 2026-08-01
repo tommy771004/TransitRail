@@ -10,6 +10,8 @@ export type CurrencyDisplayMode = "original" | "converted" | "both";
 
 /** Provenance attached when a snapshot contains a non-official advisory value. */
 export type TimetableProvenance = "official" | "curated" | "llm-advisory";
+/** Truth level carried from the shared searchability policy to every output. */
+export type TimetableTruthMode = "verified" | "indicative" | "stale" | "unusable";
 
 export type SortMode = "fastest" | "earliest" | "cheapest";
 
@@ -76,6 +78,7 @@ export interface TransitResult {
   warning?: string;
   tags?: string[];
   provenance?: TimetableProvenance;
+  truthMode?: TimetableTruthMode;
   lineColor?: string;
   legs?: JourneyLeg[];
   transferStations?: string[];
@@ -84,6 +87,10 @@ export interface TransitResult {
 export interface SearchResponse {
   results: TransitResult[];
   source?: string;
+  provenance?: TimetableProvenance | "unknown";
+  truthMode?: TimetableTruthMode;
+  /** Present only when a preferred source failed and policy allowed a snapshot. */
+  fallback?: "indicative";
   message?: string;
   dataStatus?: SearchDataStatus;
   serviceDayAdvisory?: ServiceDayAdvisory;
@@ -160,6 +167,8 @@ export interface LinesResponse {
   lines: TransitLine[];
   source?: string;
   message?: string;
+  provenance?: TimetableProvenance | "unknown";
+  truthMode?: TimetableTruthMode;
 }
 
 export interface SavedTrip extends TransitResult {

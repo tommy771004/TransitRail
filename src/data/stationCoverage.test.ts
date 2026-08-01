@@ -23,7 +23,8 @@ function route(
     destination,
     date: "2026-08-01",
     scrapedAt: "2026-08-01T00:00:00.000Z",
-    source: "test",
+    source: "official timetable",
+    provenance: "official",
     results: resultDestinations.map((dest, index) => ({
       id: `2026-08-01-r${index}`,
       country: "korea",
@@ -79,6 +80,7 @@ describe("coveredStationKeys", () => {
   it("excludes indicative fixed-headway snapshots from searchable coverage", () => {
     const indicative = route("Siam", "Mo Chit", ["Mo Chit"]);
     indicative.source = "BTS/MRT curated snapshot";
+    indicative.provenance = "curated";
     indicative.results = Array.from({ length: 4 }, (_, index) => ({
       ...indicative.results[0],
       id: `2026-08-01-indicative-${index}`,

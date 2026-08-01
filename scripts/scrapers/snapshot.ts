@@ -6,7 +6,13 @@ import type { SearchResponse } from "../../src/types";
 import type { Country } from "../../src/types";
 import { getCountryCapability } from "../../src/data/countryCapability";
 import { providerDateValue } from "../../src/data/countries";
-import { isCompleteTimetableSnapshot, normalizeTimetableSource } from "../../src/data/timetableAuthenticity";
+import {
+  applySourceFact,
+  authenticityOptionsFor,
+  isCompleteTimetableSnapshot,
+  normalizeTimetableSource,
+  providerResponseAuthenticityOptions,
+} from "../../src/data/timetableAuthenticity";
 // Implementation lives in the pure timetable-day module under test.
 import { canonicalDay } from "../../src/data/scraped/timetableDay";
 import { stationSearchKey } from "../../src/data/stationKey";
@@ -35,17 +41,25 @@ export class SnapshotScraper extends BaseScraper {
 
   async scrape(route: ScrapedRoute, date: string): Promise<ScrapedRouteData> {
     const snapshot = this.loadSnapshot(route);
-    return {
+    return this.withPolicyFact({
       ...snapshot,
       date,
       scrapedAt: new Date().toISOString(),
       source: `${this.name} curated snapshot`,
       provenance: snapshot.provenance === "llm-advisory" ? "llm-advisory" : "curated",
-      authenticity: "indicative",
-      truthMode: "indicative",
-      sourceServiceDay: undefined,
-      sourceIssue: undefined,
-    };
+    }, date);
+  }
+
+  /** Normalize adapter output; the shared policy owns its truth mode. */
+  protected withPolicyFact(data: ScrapedRouteData, date: string): ScrapedRouteData {
+    const fact = normalizeTimetableSource(
+      data,
+      date,
+      authenticityOptionsFor(this.country),
+    );
+    return fact.snapshot
+      ? applySourceFact({ ...data, results: fact.snapshot.results }, fact)
+      : applySourceFact(data, fact);
   }
 
   protected loadSnapshot(route: ScrapedRoute): ScrapedRouteData {
@@ -63,14 +77,7 @@ export class SnapshotScraper extends BaseScraper {
           { expectedCountry: this.country },
         );
         if (!fact.snapshot || fact.truthMode === "unusable" || !isCompleteTimetableSnapshot(fact.snapshot)) continue;
-        const data = {
-          ...fact.snapshot,
-          provenance: fact.provenance === "unknown" ? undefined : fact.provenance,
-          authenticity: fact.authenticity,
-          truthMode: fact.truthMode,
-          sourceServiceDay: fact.sourceServiceDay,
-          sourceIssue: fact.issue,
-        };
+        const data = applySourceFact(fact.snapshot, fact);
         if (stationSearchKey(data.origin) === stationSearchKey(route.origin) && stationSearchKey(data.destination) === stationSearchKey(route.destination)) {
           return { ...data, results: canonicalDay(data.results) };
         }
@@ -101,7 +108,13 @@ export class ProviderBackedScraper extends SnapshotScraper {
   override async scrape(route: ScrapedRoute, date: string): Promise<ScrapedRouteData> {
     const capability = getCountryCapability(this.country);
     if (capability.liveOnly && date !== providerDateValue(this.country)) {
-      return this.snapshotFallback(route, date);
+      // A live-only market knows nothing about another service day. Falling
+      // back to the curated snapshot here wrote a full day of representative
+      // departures that could never be served — the strict gate and the
+      // today-only date range both reject them — so it only put invented times
+      // on disk. Emit an empty day instead and let the service-day artifact
+      // carry what is genuinely known about future dates.
+      return this.emptyDay(route, date);
     }
 
     let response: ProviderSearchResponse | undefined;
@@ -142,21 +155,13 @@ export class ProviderBackedScraper extends SnapshotScraper {
         source: typeof responseBody.source === "string" ? responseBody.source : "",
         results: providerResults,
       });
-      const fact = normalizeTimetableSource(providerRoute, date, {
-        realtimeTodayOnly: true,
-        today: providerDateValue(this.country),
-        expectedCountry: this.country,
-      });
+      const fact = normalizeTimetableSource(
+        providerRoute,
+        date,
+        providerResponseAuthenticityOptions(this.country),
+      );
       if (fact.snapshot && fact.truthMode !== "unusable" && fact.truthMode !== "stale") {
-        return {
-          ...providerRoute,
-          results: fact.snapshot.results,
-          provenance: fact.provenance === "unknown" ? undefined : fact.provenance,
-          authenticity: fact.authenticity,
-          truthMode: fact.truthMode,
-          sourceServiceDay: fact.sourceServiceDay,
-          sourceIssue: fact.issue,
-        };
+        return applySourceFact({ ...providerRoute, results: fact.snapshot.results }, fact);
       }
     }
 
@@ -178,9 +183,26 @@ export class ProviderBackedScraper extends SnapshotScraper {
     return this.snapshotFallback(route, date);
   }
 
+  /**
+   * A service day this provider cannot speak for. Carries the route identity
+   * and no departures, so the day reads as "we do not know" rather than as a
+   * timetable somebody could act on.
+   */
+  private emptyDay(route: ScrapedRoute, date: string): ScrapedRouteData {
+    return this.withPolicyFact({
+      origin: route.origin,
+      destination: route.destination,
+      date,
+      scrapedAt: new Date().toISOString(),
+      source: `${this.name} live provider`,
+      provenance: "official",
+      results: [],
+    }, date);
+  }
+
   private snapshotFallback(route: ScrapedRoute, date: string): ScrapedRouteData {
     const snapshot = this.loadSnapshot(route);
-    return {
+    return this.withPolicyFact({
       ...snapshot,
       date,
       scrapedAt: new Date().toISOString(),
@@ -188,16 +210,12 @@ export class ProviderBackedScraper extends SnapshotScraper {
       // through timetable source metadata rendered by the app.
       source: `${this.name} curated snapshot fallback`,
       provenance: snapshot.provenance === "llm-advisory" ? "llm-advisory" : "curated",
-      authenticity: "indicative",
-      truthMode: "indicative",
-      sourceServiceDay: undefined,
-      sourceIssue: undefined,
       // A curated fallback is never a live arrival. Clear a legacy realtime
       // flag so the shared authenticity oracle cannot overstate it.
       results: snapshot.results.map((result) => ({
         ...result,
         realtime: false,
       })),
-    };
+    }, date);
   }
 }

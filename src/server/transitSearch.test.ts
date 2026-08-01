@@ -234,5 +234,10 @@ describe("runTransitSearch service-day advisory", () => {
     expect(result.statusCode).toBe(502);
     expect(result.payload.message).toBe("Transit data is temporarily unavailable. Please try again later.");
     expect(result.payload.message).not.toContain("fixture provider secret");
+    expect(result.payload).toMatchObject({
+      noResultReason: "no_verified_data",
+      truthMode: "unusable",
+      provenance: "unknown",
+    });
   });
 });

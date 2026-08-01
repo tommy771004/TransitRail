@@ -687,11 +687,12 @@ async function logTransitSearch(
           : country === "united_states"
             ? "https://api-v3.mbta.com"
             : undefined;
+      const stationCatalog = await getStationsForCountry(country, undefined, dateValue);
+      const coverage = stationCatalog.coverage;
       let message: string | undefined;
       let coverageSource: string | undefined;
       if (lines.length === 0) {
-        const coverage = (await getStationsForCountry(country, undefined, dateValue)).coverage;
-        message = coverage?.message;
+        message = coverage?.message || "No searchable lines are available for the selected service day.";
         coverageSource = coverage?.sourceUrl;
       }
       return res.json({
@@ -699,6 +700,8 @@ async function logTransitSearch(
         ...(source ? { source } : {}),
         ...(coverageSource && !source ? { source: coverageSource } : {}),
         ...(message ? { message } : {}),
+        ...(coverage?.provenance ? { provenance: coverage.provenance } : {}),
+        ...(coverage?.truthMode ? { truthMode: coverage.truthMode } : {}),
       });
     } catch (error) {
       await recordError({

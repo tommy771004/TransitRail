@@ -13,18 +13,19 @@
  * makes the gap describable, so the picker can mark the dead stations and the
  * no-data response can name the one that is missing.
  */
-import type { Country } from "../types";
+import type { Country, TimetableProvenance, TimetableTruthMode } from "../types";
 import { stationSearchKey } from "./stationKey";
 import { resolveStationAlias } from "./stationAliases";
 import { getCountryCapability } from "./countryCapability";
-import { providerDateValue } from "./countries";
 import {
-  classifyTimetable,
-  isVerifiableTimetable,
-  timetableSliceForDate,
-  type TimetableAuthenticityOptions,
-} from "./timetableAuthenticity";
-import { findInRoutes, type ScrapedRouteData } from "./scraped/timetableDay";
+  searchableRoutesForContext,
+  usesStrictCatalogGate,
+} from "./searchabilityPolicy";
+import type { SearchabilityRejectionReason } from "./searchabilityPolicy";
+import type { ScrapedRouteData } from "./scraped/timetableDay";
+
+export { usesStrictTimetableGate } from "./searchabilityPolicy";
+export { usesStrictCatalogGate } from "./searchabilityPolicy";
 
 /**
  * How a country's searchable stations are bounded.
@@ -54,6 +55,9 @@ export interface StationCoverage {
   };
   message?: string;
   sourceUrl?: string;
+  provenance?: TimetableProvenance | "unknown";
+  truthMode?: TimetableTruthMode;
+  reason?: SearchabilityRejectionReason;
 }
 
 /**
@@ -63,44 +67,18 @@ export interface StationCoverage {
  * mixed Japan/Korea stay strict so the verified metro catalogs do not expose
  * their synthetic/curated rail snapshots as metro coverage.
  */
-const INTERCITY_AUTHENTICITY_EXEMPT_COUNTRIES = new Set<Country>([
-  "china",
-  "germany",
-  "france",
-  "belgium",
-  "norway",
-  "switzerland",
-]);
-
-export function usesStrictTimetableGate(country?: Country): boolean {
-  return country !== undefined && !INTERCITY_AUTHENTICITY_EXEMPT_COUNTRIES.has(country);
-}
-
-function authenticityOptions(country?: Country): TimetableAuthenticityOptions {
-  if (!country || !getCountryCapability(country).liveOnly) return {};
-  return {
-    realtimeTodayOnly: true,
-    today: providerDateValue(country),
-  };
-}
-
 /** Route slices that are safe to expose as searchable timetable data. */
 export function verifiableRoutesForDate(
   routes: readonly ScrapedRouteData[],
   country?: Country,
   date?: string,
 ): ScrapedRouteData[] {
-  const options = authenticityOptions(country);
-  return routes.flatMap((route) => {
-    const rows = timetableSliceForDate(route, date);
-    const authenticity = classifyTimetable(
-      { ...route, results: rows },
-      date,
-      options,
-    );
-    if (!isVerifiableTimetable(authenticity)) return [];
-    return [{ ...route, results: rows }];
-  });
+  if (!country) return routes.map((route) => ({ ...route }));
+  return searchableRoutesForContext(routes, {
+    country,
+    serviceDay: date,
+    allowIndicativeFallback: false,
+  }).routes.filter((route) => route.truthMode === "verified");
 }
 
 /**
@@ -113,13 +91,15 @@ export function searchableRoutesForDate(
   country?: Country,
   date?: string,
 ): ScrapedRouteData[] {
-  if (usesStrictTimetableGate(country)) {
-    return verifiableRoutesForDate(routes, country, date);
+  if (!country) {
+    return routes.flatMap((route) => {
+      const rows = date
+        ? route.results.filter((result) => (result.date || "").trim() === date.trim())
+        : route.results;
+      return rows.length > 0 ? [{ ...route, results: rows }] : [];
+    });
   }
-  return routes.flatMap((route) => {
-    const rows = timetableSliceForDate(route, date);
-    return rows.length > 0 ? [{ ...route, results: rows }] : [];
-  });
+  return searchableRoutesForContext(routes, { country, serviceDay: date }).routes;
 }
 
 export function coverageModeFor(country: Country): CoverageMode {
@@ -234,11 +214,11 @@ export function reachableDestinations(
   country: Country,
   date: string,
 ): string[] {
-  const verified = searchableRoutesForDate(routes, country, date);
-  const candidates = coveredEndpointNames(verified, country, date);
-  return candidates
-    .filter((destination) => stationSearchKey(resolveStationAlias(country, destination)) !== stationSearchKey(resolveStationAlias(country, origin)))
-    .filter((destination) => findInRoutes(verified, origin, destination, date, country)?.length);
+  return searchableRoutesForContext(routes, {
+    country,
+    serviceDay: date,
+    origin,
+  }).reachableDestinations;
 }
 
 /** True when `name` can be used as a journey endpoint under `coverage`. */

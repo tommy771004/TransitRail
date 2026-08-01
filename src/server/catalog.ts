@@ -23,12 +23,13 @@ import { getStaticMenuStations } from "../data/stationIdentity";
 import {
   coverageModeFor,
   hasCoverage,
-  usesStrictTimetableGate,
+  usesStrictCatalogGate,
   type StationCoverage,
 } from "../data/stationCoverage";
 import {
   getScrapedCoverageNames,
   getScrapedReachableStations,
+  getScrapedSearchabilitySummary,
 } from "../data/scraped";
 import { stationSearchKey } from "../data/stationKey";
 import { resolveStationAlias } from "../data/stationAliases";
@@ -79,12 +80,6 @@ function japanIntercityStationKeys(): Set<string> {
   );
 }
 
-function shouldFilterCatalogByAuthenticity(country: string): boolean {
-  // Japan is mixed: hide its unsupported metro directory above, but preserve
-  // the existing Shinkansen catalog until long-distance data gets its own audit.
-  return usesStrictTimetableGate(country as Country) && country !== "japan";
-}
-
 function hongKongLines(): TransitLine[] {
   return hongKongMtrLineCatalog.map((line) => ({
     id: line.code,
@@ -106,19 +101,38 @@ function filterLinesByVerifiedCoverage(
   lines: TransitLine[],
   date?: string,
 ): TransitLine[] {
-  if (!shouldFilterCatalogByAuthenticity(country)) return lines;
+  if (!usesStrictCatalogGate(country as Country)) return lines;
+  const resolvedCountry = country as Country;
   const covered = new Set(
-    getScrapedCoverageNames(country as Country, date)
-      .map((station) => stationSearchKey(resolveStationAlias(country as Country, station))),
+    getScrapedCoverageNames(resolvedCountry, date)
+      .map((station) => stationSearchKey(resolveStationAlias(resolvedCountry, station))),
   );
+  const summary = getScrapedSearchabilitySummary(resolvedCountry, date);
+  if (!summary.searchable) return [];
+
   const filtered = lines
     .map((line) => ({
       ...line,
       stations: line.stations.filter((station) => covered.has(
-        stationSearchKey(resolveStationAlias(country as Country, station.name)),
+        stationSearchKey(resolveStationAlias(resolvedCountry, station.name)),
       )),
     }))
-    .filter((line) => line.stations.length >= 2);
+    .filter((line) => {
+      if (line.stations.length < 2) return false;
+      // A date-conditioned line must have a reachable pair on that same day,
+      // not merely two names that happen to occur somewhere in the catalog.
+      // With no selected day, retain the existing bounded catalog behavior.
+      if (!date) return true;
+      const lineKeys = new Set(line.stations.map((station) =>
+        stationSearchKey(resolveStationAlias(resolvedCountry, station.name))));
+      return line.stations.some((origin) => getScrapedReachableStations(
+        resolvedCountry,
+        origin.name,
+        date,
+      ).some((destination) => lineKeys.has(
+        stationSearchKey(resolveStationAlias(resolvedCountry, destination)),
+      )));
+    });
   return filtered;
 }
 
@@ -136,7 +150,7 @@ export async function getLinesForCountry(country: string, date?: string): Promis
     lines = [];
   }
 
-  if (shouldFilterCatalogByAuthenticity(country)) {
+  if (usesStrictCatalogGate(country as Country)) {
     return filterLinesByVerifiedCoverage(country, lines, date);
   }
   return lines;
@@ -157,7 +171,7 @@ export function getStationCoverage(
 ): StationCoverage | undefined {
   if (!countryOptions.includes(country as Country)) return undefined;
   const mode = coverageModeFor(country as Country);
-  if (mode !== "scraped" || !shouldFilterCatalogByAuthenticity(country)) {
+  if (mode !== "scraped" || !usesStrictCatalogGate(country as Country)) {
     return { mode, dateRange: searchDateRange(country as Country) };
   }
   const resolvedCountry = country as Country;
@@ -223,9 +237,19 @@ export async function getStationsForCountry(
 
   // Coverage is computed against the whole menu, before `q` narrows it, so the
   // covered set stays a stable lookup table rather than shifting per keystroke.
-  const coverage = getStationCoverage(country, stations, date, origin);
+  let coverage = getStationCoverage(country, stations, date, origin);
 
-  if (coverage?.mode === "scraped" && shouldFilterCatalogByAuthenticity(country)) {
+  if (coverage?.mode === "scraped" && usesStrictCatalogGate(country as Country)) {
+    const summary = getScrapedSearchabilitySummary(country as Country, date);
+    coverage = {
+      ...coverage,
+      provenance: summary.provenance,
+      truthMode: summary.truthMode,
+      reason: summary.reason,
+    };
+  }
+
+  if (coverage?.mode === "scraped" && usesStrictCatalogGate(country as Country)) {
     if (origin && date) {
       const destinationKeys = new Set(
         (coverage.destinations || [])

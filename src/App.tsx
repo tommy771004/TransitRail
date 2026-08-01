@@ -42,6 +42,8 @@ import type {
   SearchResponse,
   ServiceDayAdvisory,
   SortMode,
+  TimetableProvenance,
+  TimetableTruthMode,
   TransitResult,
   TransitSituation,
 } from "./types";
@@ -346,6 +348,9 @@ export default function App() {
   const [searchParams, setSearchParams] = useState<SearchParams>(initialSearch);
   const [results, setResults] = useState<TransitResult[]>([]);
   const [serviceDayAdvisory, setServiceDayAdvisory] = useState<ServiceDayAdvisory | undefined>();
+  const [truthMode, setTruthMode] = useState<TimetableTruthMode | undefined>();
+  const [provenance, setProvenance] = useState<TimetableProvenance | "unknown" | undefined>();
+  const [indicativeFallback, setIndicativeFallback] = useState(false);
   const [error, setError] = useState<string | undefined>();
   const [coverageGap, setCoverageGap] = useState<CoverageGap | undefined>();
   const [officialSourceUrl, setOfficialSourceUrl] = useState<string | undefined>();
@@ -856,6 +861,9 @@ export default function App() {
     setOfficialSourceUrl(undefined);
     setResults([]);
     setServiceDayAdvisory(undefined);
+    setTruthMode(undefined);
+    setProvenance(undefined);
+    setIndicativeFallback(false);
 
     const todayStr = providerDateValue(country);
     const queryParams: any = { ...params };
@@ -900,6 +908,9 @@ export default function App() {
 
       const resultList = Array.isArray(data.results) ? data.results : [];
       setServiceDayAdvisory(data.serviceDayAdvisory);
+      setTruthMode(data.truthMode);
+      setProvenance(data.provenance);
+      setIndicativeFallback(data.fallback === "indicative");
 
       if (!res.ok) {
         const reason = data.noResultReason as SearchResponse["noResultReason"] | undefined;
@@ -923,6 +934,9 @@ export default function App() {
           results: resultList,
           dataStatus: data.dataStatus,
           serviceDayAdvisory: data.serviceDayAdvisory,
+          truthMode: data.truthMode,
+          provenance: data.provenance,
+          fallback: data.fallback,
           fetchedAt: new Date().toISOString(),
         }).catch(console.error);
         if (timetableChange) {
@@ -952,13 +966,32 @@ export default function App() {
       try {
         const cachedData = await get(`transit_search_${query}`);
         const cached = Array.isArray(cachedData)
-          ? { results: cachedData, dataStatus: undefined, serviceDayAdvisory: undefined, fetchedAt: undefined }
+          ? {
+              results: cachedData,
+              dataStatus: undefined,
+              serviceDayAdvisory: undefined,
+              truthMode: undefined,
+              provenance: undefined,
+              fallback: undefined,
+              fetchedAt: undefined,
+            }
           : cachedData && typeof cachedData === "object" && Array.isArray((cachedData as { results?: unknown }).results)
-            ? cachedData as { results: TransitResult[]; dataStatus?: SearchDataStatus; serviceDayAdvisory?: ServiceDayAdvisory; fetchedAt?: string }
+            ? cachedData as {
+                results: TransitResult[];
+                dataStatus?: SearchDataStatus;
+                serviceDayAdvisory?: ServiceDayAdvisory;
+                truthMode?: TimetableTruthMode;
+                provenance?: TimetableProvenance | "unknown";
+                fallback?: "indicative";
+                fetchedAt?: string;
+              }
             : undefined;
         if (cached && cached.results.length > 0) {
           setResults(cached.results);
           setServiceDayAdvisory(cached.serviceDayAdvisory);
+          setTruthMode(cached.truthMode || cached.results.find((result) => result.truthMode)?.truthMode);
+          setProvenance(cached.provenance);
+          setIndicativeFallback(cached.fallback === "indicative");
           pushAlert("Offline Mode", "Showing cached results from a previous search.");
           setIsSearching(false);
           return;
@@ -1438,6 +1471,9 @@ export default function App() {
             error={error}
             officialSourceUrl={officialSourceUrl}
             coverageGap={coverageGap}
+            truthMode={truthMode}
+            provenance={provenance}
+            indicativeFallback={indicativeFallback}
             results={visibleResults}
             savedIds={savedIds}
             sortMode={sortMode}

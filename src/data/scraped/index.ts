@@ -14,10 +14,20 @@ import {
 import { stationSearchKey } from "../stationKey";
 import {
   coveredEndpointNames,
-  reachableDestinations,
-  searchableRoutesForDate,
 } from "../stationCoverage";
-import { isCompleteTimetableSnapshot, normalizeTimetableSource } from "../timetableAuthenticity";
+import {
+  applySourceFact,
+  authenticityOptionsFor,
+  isCompleteTimetableSnapshot,
+  normalizeTimetableSource,
+} from "../timetableAuthenticity";
+import {
+  decideCoverageSearchability,
+  decideSearchability,
+  searchableRoutesForContext,
+  summarizeSearchability,
+  type SearchabilityDecision,
+} from "../searchabilityPolicy";
 
 export type { ScrapedRouteData } from "./timetableDay";
 export {
@@ -27,6 +37,11 @@ export {
   normalizeResults,
   normalizeTransferLegTimes,
 } from "./timetableDay";
+
+export interface ScrapedSearchabilityResult {
+  results: TransitResult[];
+  decision: SearchabilityDecision;
+}
 
 // Resolve the data directory relative to this file, regardless of CJS or ESM.
 function resolveDataDir(): string {
@@ -77,6 +92,17 @@ function loadSeoulArtifact(): SeoulSubwayArtifact | null {
   }
 }
 
+function seoulArtifactDecision(date?: string): SearchabilityDecision | undefined {
+  if (!seoulSubwayArtifact) return undefined;
+  return decideCoverageSearchability({
+    country: "korea",
+    serviceDay: date,
+    provenance: "official",
+    sourceServiceDay: date,
+    hasCoverage: seoulArtifactCoverageNames(seoulSubwayArtifact, date).length > 0,
+  });
+}
+
 function loadDir(country: string): ScrapedRouteData[] {
   const data: ScrapedRouteData[] = [];
   try {
@@ -89,21 +115,20 @@ function loadDir(country: string): ScrapedRouteData[] {
       if (!file.endsWith(".json") || file === "metadata.json") continue;
       try {
         const content = readFileSync(join(dirPath, file), "utf-8");
-        const fact = normalizeTimetableSource(JSON.parse(content) as unknown, undefined, {
-          expectedCountry: country as Country,
-        });
+        // Classify with the country's own policy, not just its identity. Passing
+        // only `expectedCountry` let a handful of live rows for today stamp the
+        // whole file `realtime`/`verified`, even when every other date in it was
+        // a curated slice that per-date classification calls `indicative`.
+        const fact = normalizeTimetableSource(
+          JSON.parse(content) as unknown,
+          undefined,
+          authenticityOptionsFor(country as Country),
+        );
         if (!fact.snapshot || fact.truthMode === "unusable" || !isCompleteTimetableSnapshot(fact.snapshot)) {
           console.warn(`[scraped] Skipping unusable ${country}/${file}: ${fact.issue || "unknown"}`);
           continue;
         }
-        data.push({
-          ...fact.snapshot,
-          provenance: fact.provenance === "unknown" ? undefined : fact.provenance,
-          authenticity: fact.authenticity,
-          truthMode: fact.truthMode,
-          sourceServiceDay: fact.sourceServiceDay,
-          sourceIssue: fact.issue,
-        });
+        data.push(applySourceFact(fact.snapshot, fact));
       } catch (e) {
         console.warn(`[scraped] Failed to parse ${country}/${file}:`, e);
       }
@@ -158,16 +183,16 @@ export function getScrapedReachableStations(
   date: string,
 ): string[] {
   if (!loaded) loadScrapedData();
-  const reachable = new Map<string, string>();
-  for (const station of reachableDestinations(cache[country] || [], origin, country, date)) {
-    reachable.set(stationSearchKey(station), station);
-  }
-  if (country === "korea" && seoulSubwayArtifact) {
-    for (const station of seoulArtifactReachableNames(seoulSubwayArtifact, origin, date)) {
-      reachable.set(stationSearchKey(station), station);
-    }
-  }
-  return [...reachable.values()].sort((a, b) => a.localeCompare(b));
+  const artifactDecision = country === "korea" ? seoulArtifactDecision(date) : undefined;
+  const selection = searchableRoutesForContext(cache[country] || [], {
+    country,
+    serviceDay: date,
+    origin,
+    additionalReachableDestinations: artifactDecision?.searchable && seoulSubwayArtifact
+      ? seoulArtifactReachableNames(seoulSubwayArtifact, origin, date)
+      : undefined,
+  });
+  return selection.reachableDestinations;
 }
 
 /** Returns the newest route-snapshot timestamp loaded for a country, if known. */
@@ -189,6 +214,19 @@ export function getScrapedCountryFreshness(country: Country): string | undefined
   return combined === undefined ? undefined : new Date(combined).toISOString();
 }
 
+/** Shared provenance/truth summary for station and line discovery. */
+export function getScrapedSearchabilitySummary(country: Country, date?: string) {
+  if (!loaded) loadScrapedData();
+  const selection = searchableRoutesForContext(cache[country] || [], {
+    country,
+    serviceDay: date,
+  });
+  const decisions = [...selection.decisions];
+  const artifactDecision = country === "korea" ? seoulArtifactDecision(date) : undefined;
+  if (artifactDecision) decisions.push(artifactDecision);
+  return summarizeSearchability(decisions);
+}
+
 /**
  * Load country snapshots and find timetable results.
  * Matching/chaining lives in {@link findInRoutes}; this adapter owns I/O + display normalize.
@@ -199,6 +237,34 @@ export function findScrapedResults(
   destination: string,
   date?: string,
 ): TransitResult[] | null {
+  return findScrapedSearchability(country, origin, destination, date)?.results || null;
+}
+
+function decisionForFoundResults(
+  decisions: SearchabilityDecision[],
+  found: TransitResult[],
+): SearchabilityDecision | undefined {
+  const matching = decisions.filter((decision) => decision.sourceFact?.snapshot?.results.some((row) => (
+    found.some((result) => result.id === row.id)
+  )));
+  const fallback = matching.length > 0 ? matching : decisions.filter((decision) => decision.searchable);
+  if (fallback.length === 0) return undefined;
+  const indicative = fallback.some((decision) => decision.truthMode === "indicative");
+  const provenance = new Set(fallback.map((decision) => decision.provenance));
+  return {
+    ...fallback[0],
+    truthMode: indicative ? "indicative" : fallback[0].truthMode,
+    provenance: provenance.size === 1 ? fallback[0].provenance : "unknown",
+  };
+}
+
+/** Search the committed route graph and retain the policy decision for output. */
+export function findScrapedSearchability(
+  country: Country,
+  origin: string,
+  destination: string,
+  date?: string,
+): ScrapedSearchabilityResult | null {
   if (!loaded) loadScrapedData();
 
   if (country === "korea" && seoulSubwayArtifact && date) {
@@ -213,15 +279,44 @@ export function findScrapedResults(
         provenance: "official",
         results: metro,
       }, date, { expectedCountry: "korea" });
-      if (fact.truthMode === "verified" && fact.snapshot) return normalizeResults(fact.snapshot.results);
+      const decision = decideSearchability({
+        country,
+        serviceDay: date,
+        origin,
+        destination,
+        sourceFact: fact,
+      });
+      if (decision.searchable && fact.snapshot) {
+        return {
+          decision,
+          results: normalizeResults(fact.snapshot.results).map((result) => ({
+            ...result,
+            provenance: decision.provenance === "unknown" ? undefined : decision.provenance,
+            truthMode: decision.truthMode,
+          })),
+        };
+      }
     }
   }
 
-  const countryData = searchableRoutesForDate(cache[country] || [], country, date);
-  if (countryData.length === 0) return null;
+  const selection = searchableRoutesForContext(cache[country] || [], {
+    country,
+    serviceDay: date,
+  });
+  if (selection.routes.length === 0) return null;
 
-  const found = findInRoutes(countryData, origin, destination, date, country);
+  const found = findInRoutes(selection.routes, origin, destination, date, country)
+    || findInRoutes(selection.routes, origin, destination, undefined, country);
   if (!found) return null;
 
-  return normalizeResults(found);
+  const decision = decisionForFoundResults(selection.decisions, found);
+  if (!decision?.searchable) return null;
+  return {
+    decision,
+    results: normalizeResults(found).map((result) => ({
+      ...result,
+      provenance: decision.provenance === "unknown" ? undefined : decision.provenance,
+      truthMode: decision.truthMode,
+    })),
+  };
 }

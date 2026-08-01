@@ -1,4 +1,8 @@
-import type { Country, TimetableProvenance, TransitResult } from "../types";
+import type { Country, TimetableProvenance, TimetableTruthMode, TransitResult } from "../types";
+import { providerDateValue } from "./countries";
+import { getCountryCapability } from "./countryCapability";
+
+export type { TimetableTruthMode } from "../types";
 
 export type TimetableAuthenticity =
   | "scraped"
@@ -26,7 +30,36 @@ export interface TimetableAuthenticityOptions {
   expectedCountry?: Country;
 }
 
-export type TimetableTruthMode = "verified" | "indicative" | "stale" | "unusable";
+/**
+ * Options for classifying a **live provider response**, which is always about
+ * now whatever the market: a response read today cannot describe another date.
+ * Adapters use this rather than {@link authenticityOptionsFor}, because that one
+ * relaxes the today-only rule for markets whose committed data is scheduled.
+ */
+export function providerResponseAuthenticityOptions(
+  country: Country,
+  now?: Date,
+): TimetableAuthenticityOptions {
+  return {
+    realtimeTodayOnly: true,
+    today: providerDateValue(country, now),
+    expectedCountry: country,
+  };
+}
+
+/**
+ * Options implied by a country's own policy, for classifying **committed data**.
+ * A live-only market's rows are valid for the provider's today and no other
+ * date; elsewhere the only constraint is that the rows belong to this country.
+ */
+export function authenticityOptionsFor(
+  country: Country,
+  now?: Date,
+): TimetableAuthenticityOptions {
+  if (!getCountryCapability(country).liveOnly) return { expectedCountry: country };
+  return providerResponseAuthenticityOptions(country, now);
+}
+
 export type NormalizedTimetableProvenance = TimetableProvenance | "unknown";
 export type TimetableSourceIssue = "malformed" | "empty" | "service_day_mismatch" | "stale_realtime" | "unknown_provenance";
 
@@ -137,6 +170,10 @@ export function isStaleRealtimeResult(
   if (options.realtimeTodayOnly && options.today && options.today !== date) return true;
   const embeddedDate = embeddedTimestampDate(result.id);
   if (options.realtimeTodayOnly && options.today === date && !embeddedDate) return false;
+  // Some official providers expose the requested service day as a field but
+  // do not embed a timestamp in the prediction id. An explicit matching row
+  // date is sufficient; an undated row remains fail-closed below.
+  if (!embeddedDate) return result.date !== date;
   return embeddedDate !== date;
 }
 
@@ -147,11 +184,43 @@ export function isVerifiableTimetable(
   return authenticity === "scraped" || authenticity === "realtime";
 }
 
+/**
+ * How much a class is willing to claim, weakest first. Used to summarize a file
+ * that spans several service days: the summary may never claim more than its
+ * weakest day does.
+ */
+const AUTHENTICITY_CONFIDENCE: TimetableAuthenticity[] = [
+  "stale_realtime",
+  "indicative",
+  "realtime",
+  "scraped",
+];
+
 export function classifyTimetable(
   snapshot: TimetableSnapshot,
   date?: string,
   options: TimetableAuthenticityOptions = {},
 ): TimetableAuthenticity {
+  // A whole-file verdict over several service days is only honest if it is the
+  // weakest of them. Classifying every row at once let four live rows valid for
+  // today label a file as `realtime` when its other six days were curated —
+  // and anything reading the file-level label then believed all seven.
+  if (date === undefined) {
+    const dates = [...new Set(snapshot.results.map((row) => row.date).filter(Boolean))];
+    if (dates.length > 1) {
+      let weakest: TimetableAuthenticity | undefined;
+      for (const day of dates) {
+        const dayClass = classifyTimetable(snapshot, day, options);
+        if (dayClass === "none") continue;
+        if (
+          weakest === undefined
+          || AUTHENTICITY_CONFIDENCE.indexOf(dayClass) < AUTHENTICITY_CONFIDENCE.indexOf(weakest)
+        ) weakest = dayClass;
+      }
+      if (weakest !== undefined) return weakest;
+    }
+  }
+
   const rows = timetableSliceForDate(snapshot, date);
   if (rows.length === 0) return "none";
 
@@ -193,7 +262,7 @@ function normalizedProvenance(snapshot: TimetableSnapshot, rows = snapshot.resul
   return "unknown";
 }
 
-function truthModeFor(authenticity: TimetableAuthenticity): TimetableTruthMode {
+export function truthModeFor(authenticity: TimetableAuthenticity): TimetableTruthMode {
   if (authenticity === "scraped" || authenticity === "realtime") return "verified";
   if (authenticity === "indicative") return "indicative";
   if (authenticity === "stale_realtime") return "stale";
@@ -314,6 +383,34 @@ function isTimetableSnapshot(value: unknown): value is TimetableSnapshot {
   return Array.isArray(value.results) && value.results.every(isTimetableResult);
 }
 
+/**
+ * Stamp a route with the provenance verdict its source fact carries.
+ *
+ * Every consumer of {@link normalizeTimetableSource} needs the same five fields
+ * copied onto whatever it hands back, including the `"unknown"` → `undefined`
+ * narrowing that keeps an unrecognised provenance off the wire. Keeping that in
+ * one place stops the copies from drifting apart field by field.
+ */
+export function applySourceFact<T extends object>(
+  route: T,
+  fact: TimetableSourceFact,
+): T & {
+  provenance: TimetableProvenance | undefined;
+  authenticity: TimetableAuthenticity;
+  truthMode: TimetableTruthMode;
+  sourceServiceDay: string | undefined;
+  sourceIssue: TimetableSourceIssue | undefined;
+} {
+  return {
+    ...route,
+    provenance: fact.provenance === "unknown" ? undefined : fact.provenance,
+    authenticity: fact.authenticity,
+    truthMode: fact.truthMode,
+    sourceServiceDay: fact.sourceServiceDay,
+    sourceIssue: fact.issue,
+  };
+}
+
 export function isCompleteTimetableSnapshot(value: TimetableSnapshot): value is CompleteTimetableSnapshot {
   return typeof value.date === "string"
     && typeof value.scrapedAt === "string"
@@ -353,7 +450,10 @@ export function normalizeTimetableSource(
   const provenance = normalizedProvenance(snapshot, candidateRows);
   const useCanonical = exactRows.length === 0
     && canonicalRows.length > 0
-    && (provenance === "curated" || provenance === "llm-advisory");
+    // A dateless snapshot is representative regardless of the operator label.
+    // Known official provenance may describe where it came from, but it cannot
+    // substantiate the passenger's requested service day without dated rows.
+    && provenance !== "unknown";
   const selectedRows = useCanonical ? canonicalRows : exactRows;
   const selectedSnapshot = { ...snapshot, results: selectedRows };
   const isDatelessCanonical = selectedRows.length > 0 && selectedRows.every((result) => !result.date);

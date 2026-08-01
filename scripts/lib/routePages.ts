@@ -12,13 +12,12 @@ import { join, resolve } from "path";
 import type { Country, TransitResult } from "../../src/types";
 import { countryOptions } from "../../src/data/countries";
 import {
-  classifyTimetable,
-  isIndicativeTimetable,
-  isVerifiableTimetable,
   parseClockMinutes,
 } from "../../src/data/timetableAuthenticity";
-import { getCountryCapability } from "../../src/data/countryCapability";
-import { providerDateValue } from "../../src/data/countries";
+import {
+  permitsIndicativeRoutePublication,
+  routeSearchability,
+} from "../../src/data/searchabilityPolicy";
 
 export { isIndicativeTimetable, parseClockMinutes } from "../../src/data/timetableAuthenticity";
 
@@ -80,8 +79,6 @@ const MIN_DAILY_RESULTS = 3;
  * pages. Intercity and high-speed route pages remain on their existing SEO
  * contract; their data-quality review is explicitly out of scope here.
  */
-const AUTHENTICITY_FILTER_COUNTRIES = new Set<Country>(["singapore", "thailand"]);
-
 interface ScrapedRouteFile {
   origin: string;
   destination: string;
@@ -108,6 +105,8 @@ export interface RoutePageData {
   /** True when dayResults is a representative service pattern rather than a real
    *  timetable — see isIndicativeTimetable(). */
   indicative: boolean;
+  truthMode: "verified" | "indicative";
+  provenance: "official" | "curated" | "llm-advisory" | "unknown";
   /** Canonical-day departures sorted by departure time. */
   dayResults: TransitResult[];
 }
@@ -156,30 +155,31 @@ export function slugifyStation(name: string): string {
 function canonicalDaySlice(
   route: ScrapedRouteFile,
   country: Country,
-): { date: string; slice: TransitResult[] } | null {
+): { date: string; slice: TransitResult[]; decision: ReturnType<typeof routeSearchability> } | null {
   const results = route.results;
   const dates = [...new Set(results.map((r) => (r.date || "").trim()).filter(Boolean))].sort();
-  if (dates.length === 0) {
-    if (!AUTHENTICITY_FILTER_COUNTRIES.has(country)) return { date: "", slice: results };
-    const authenticity = classifyTimetable(route, undefined);
-    return isVerifiableTimetable(authenticity) ? { date: "", slice: results } : null;
-  }
+  const candidates = dates.length > 0
+    ? [...dates].reverse().map((date) => ({ date, slice: results.filter((r) => (r.date || "").trim() === date) }))
+    : [{ date: "", slice: results }];
 
-  if (!AUTHENTICITY_FILTER_COUNTRIES.has(country)) {
-    const date = dates[dates.length - 1];
-    return { date, slice: results.filter((r) => (r.date || "").trim() === date) };
-  }
-
-  const capability = getCountryCapability(country);
-  const options = capability.liveOnly
-    ? { realtimeTodayOnly: true, today: providerDateValue(country) }
-    : {};
-  // Prefer the newest slice that is actually usable. A stale live snapshot in
-  // the latest stored date must not hide an older, valid static page.
-  for (const date of [...dates].reverse()) {
-    const slice = results.filter((r) => (r.date || "").trim() === date);
-    const authenticity = classifyTimetable({ ...route, results: slice }, date, options);
-    if (isVerifiableTimetable(authenticity)) return { date, slice };
+  for (const candidate of candidates) {
+    const decision = routeSearchability(
+      { ...route, results: candidate.slice },
+      country,
+      candidate.date || undefined,
+      // Publication may expose general indicative information. It must still
+      // carry the indicative truth mode and avoid date-specific schema claims.
+      undefined,
+      true,
+    );
+    if (!decision.searchable) continue;
+    if (decision.truthMode !== "verified" && decision.truthMode !== "indicative") continue;
+    if (decision.truthMode === "indicative" && !permitsIndicativeRoutePublication(country)) return null;
+    return {
+      date: decision.truthMode === "verified" ? candidate.date : "",
+      slice: candidate.slice,
+      decision,
+    };
   }
   return null;
 }
@@ -218,7 +218,7 @@ export function collectRoutePages(scrapedDir = resolve("src/data/scraped")): Rou
         console.warn(`[route-pages] Skipping unverifiable route ${country}/${file}`);
         continue;
       }
-      const { date, slice } = canonical;
+      const { date, slice, decision } = canonical;
       if (slice.length < MIN_DAILY_RESULTS) {
         console.warn(`[route-pages] Skipping thin route ${country}/${file} (${slice.length} departures)`);
         continue;
@@ -238,6 +238,10 @@ export function collectRoutePages(scrapedDir = resolve("src/data/scraped")): Rou
       const dayResults = [...slice].sort((a, b) =>
         (a.departureTime || "").localeCompare(b.departureTime || ""),
       );
+      const publicationTruthMode = decision.truthMode === "verified" ? "verified" : "indicative";
+      const publicationResults = publicationTruthMode === "indicative"
+        ? dayResults.map(({ date: _serviceDay, ...result }) => result)
+        : dayResults;
       pages.push({
         country: country as Country,
         countryPath,
@@ -248,8 +252,10 @@ export function collectRoutePages(scrapedDir = resolve("src/data/scraped")): Rou
         canonicalDate: date,
         scrapedAt: route.scrapedAt || "",
         source: route.source || "",
-        indicative: isIndicativeTimetable(route.source || "", dayResults),
-        dayResults,
+        indicative: publicationTruthMode === "indicative",
+        truthMode: publicationTruthMode,
+        provenance: decision.provenance,
+        dayResults: publicationResults,
       });
     }
   }
