@@ -125,6 +125,19 @@ describe("provider-backed source normalization", () => {
     expect(data.provenance).toBe("curated");
   });
 
+  it("falls back before date stamping when a provider row is null", async () => {
+    const date = providerDateValue("united_kingdom");
+    const scraper = new TestProviderBackedScraper(async () => ({
+      status: 200,
+      body: { results: [null] } as unknown as SearchResponse,
+    }));
+
+    const data = await scraper.scrape(route, date);
+
+    expect(data.source).toBe("Test provider curated snapshot fallback");
+    expect(data.provenance).toBe("curated");
+  });
+
   it("does not promote a provider response that omits its source", async () => {
     const date = providerDateValue("united_kingdom");
     const scraper = new TestProviderBackedScraper(async () => ({

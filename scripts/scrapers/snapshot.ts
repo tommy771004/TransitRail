@@ -112,6 +112,26 @@ export class ProviderBackedScraper extends SnapshotScraper {
     const responseBody = response?.body;
     const providerResults = Array.isArray(responseBody?.results) ? responseBody.results : [];
     if (response?.status >= 200 && response.status < 300 && providerResults.length > 0) {
+      const rawProviderFact = normalizeTimetableSource({
+        origin: route.origin,
+        destination: route.destination,
+        source: typeof responseBody.source === "string" ? responseBody.source : "",
+        results: providerResults,
+      });
+      if (rawProviderFact.issue === "malformed") {
+        await recordError({
+          severity: "warning",
+          module: "scraper",
+          operation: "provider.fallback",
+          errorCode: "PROVIDER_MALFORMED_RESPONSE",
+          message: "Provider returned malformed timetable rows.",
+          country: this.country,
+          provider: this.name,
+          httpStatus: response.status,
+          context: { origin: route.origin, destination: route.destination, date },
+        });
+        return this.snapshotFallback(route, date);
+      }
       const providerRoute = this.withResultDates({
         origin: route.origin,
         destination: route.destination,

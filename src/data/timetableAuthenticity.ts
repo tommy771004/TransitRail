@@ -1,4 +1,4 @@
-import type { TimetableProvenance, TransitResult } from "../types";
+import type { Country, TimetableProvenance, TransitResult } from "../types";
 
 export type TimetableAuthenticity =
   | "scraped"
@@ -57,7 +57,11 @@ export function parseClockMinutes(time: string | undefined): number | undefined 
 
 const CURATED_SOURCE = /curated|snapshot/i;
 const LLM_ADVISORY_SOURCE = /\b(?:llm|openrouter|ai)[-_ ]?(?:advisory|generated|gap(?:-| )?fill)?\b/i;
-const OFFICIAL_SOURCE = /\b(?:official|odpt|gtfs|sncf|korail|entur|mtr|tfl|mbta|irail|12306|lta|jr\s+central|opentransportdata)\b|\bapi(?:[-.]|$)/i;
+const OFFICIAL_SOURCE = /^(?:official\b|https:\/\/(?:api\.tfl\.gov\.uk|api-v3\.mbta\.com|api\.entur\.io|www\.mtr\.com\.hk)(?:\/|$)|(?:odpt|jr\s+central|sncf\s+open\s+data|gtfs\.de|opentransportdata\s+swiss)\b)/i;
+const COUNTRY_VALUES = new Set<Country>([
+  "japan", "korea", "hong_kong", "united_kingdom", "united_states", "singapore",
+  "malaysia", "thailand", "germany", "france", "china", "switzerland", "belgium", "norway",
+]);
 
 /**
  * A curated snapshot is a representative service pattern, not a real
@@ -153,15 +157,15 @@ export function classifyTimetable(
   return "scraped";
 }
 
-function normalizedProvenance(snapshot: TimetableSnapshot): NormalizedTimetableProvenance {
+function normalizedProvenance(snapshot: TimetableSnapshot, rows = snapshot.results): NormalizedTimetableProvenance {
   if (
     snapshot.provenance === "llm-advisory"
-    || snapshot.results.some((result) => result.provenance === "llm-advisory")
+    || rows.some((result) => result.provenance === "llm-advisory")
     || LLM_ADVISORY_SOURCE.test(snapshot.source || "")
   ) return "llm-advisory";
   if (
     snapshot.provenance === "curated"
-    || snapshot.results.some((result) => result.provenance === "curated")
+    || rows.some((result) => result.provenance === "curated")
     || CURATED_SOURCE.test(snapshot.source || "")
   ) return "curated";
   if (snapshot.provenance === "official" || OFFICIAL_SOURCE.test(snapshot.source || "")) return "official";
@@ -237,6 +241,7 @@ function isTimetableResult(value: unknown): value is TransitResult {
   if (
     typeof value.id !== "string"
     || typeof value.country !== "string"
+    || !COUNTRY_VALUES.has(value.country as Country)
     || typeof value.operator !== "string"
     || typeof value.service !== "string"
     || typeof value.departureTime !== "string"
@@ -320,7 +325,8 @@ export function normalizeTimetableSource(
   const canonicalRows = serviceDay
     ? snapshot.results.filter((result) => !(result.date || "").trim())
     : [];
-  const provenance = normalizedProvenance(snapshot);
+  const candidateRows = serviceDay && exactRows.length === 0 ? canonicalRows : exactRows;
+  const provenance = normalizedProvenance(snapshot, candidateRows);
   const useCanonical = exactRows.length === 0
     && canonicalRows.length > 0
     && (provenance === "curated" || provenance === "llm-advisory");

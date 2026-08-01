@@ -215,6 +215,20 @@ describe("timetable authenticity", () => {
       snapshot("mystery provider", [result()]),
       "2026-08-01",
     )).toMatchObject({ provenance: "unknown", truthMode: "unusable", issue: "unknown_provenance" });
+    expect(normalizeTimetableSource(
+      snapshot("https://api.example.invalid", [result()]),
+      "2026-08-01",
+    )).toMatchObject({ provenance: "unknown", truthMode: "unusable", issue: "unknown_provenance" });
+  });
+
+  it("scopes row-level advisory provenance to the requested service day", () => {
+    expect(normalizeTimetableSource(
+      snapshot("official timetable", [
+        result({ id: "official-today", date: "2026-08-01" }),
+        result({ id: "llm-other-day", date: "2026-08-02", provenance: "llm-advisory" }),
+      ]),
+      "2026-08-01",
+    )).toMatchObject({ provenance: "official", truthMode: "verified", authenticity: "scraped" });
   });
 
   it("fails closed for invalid semantic row values", () => {
@@ -229,6 +243,13 @@ describe("timetable authenticity", () => {
       truthMode: "unusable",
       issue: "malformed",
     });
+  });
+
+  it("fails closed for an invalid country value", () => {
+    expect(normalizeTimetableSource(
+      snapshot("official timetable", [result({ country: "atlantis" as TransitResult["country"] })]),
+      "2026-08-01",
+    )).toMatchObject({ truthMode: "unusable", issue: "malformed" });
   });
 
   it("fails closed for malformed transfer legs", () => {
