@@ -6,6 +6,7 @@ import type { SearchResponse } from "../../src/types";
 import type { Country } from "../../src/types";
 import { getCountryCapability } from "../../src/data/countryCapability";
 import { providerDateValue } from "../../src/data/countries";
+import { normalizeTimetableSource } from "../../src/data/timetableAuthenticity";
 // Implementation lives in the pure timetable-day module under test.
 import { canonicalDay } from "../../src/data/scraped/timetableDay";
 import { stationSearchKey } from "../../src/data/stationKey";
@@ -28,11 +29,13 @@ export class SnapshotScraper extends BaseScraper {
   }
 
   async scrape(route: ScrapedRoute, date: string): Promise<ScrapedRouteData> {
+    const snapshot = this.loadSnapshot(route);
     return {
-      ...this.loadSnapshot(route),
+      ...snapshot,
       date,
       scrapedAt: new Date().toISOString(),
       source: `${this.name} curated snapshot`,
+      provenance: snapshot.provenance || "curated",
     };
   }
 
@@ -44,7 +47,14 @@ export class SnapshotScraper extends BaseScraper {
 
     for (const file of readdirSync(dir)) {
       if (!file.endsWith(".json") || file === "metadata.json") continue;
-      const data = JSON.parse(readFileSync(resolve(dir, file), "utf-8")) as ScrapedRouteData;
+      const fact = normalizeTimetableSource(
+        JSON.parse(readFileSync(resolve(dir, file), "utf-8")) as unknown,
+      );
+      if (!fact.snapshot || fact.issue === "malformed" || fact.issue === "empty") continue;
+      const data = {
+        ...fact.snapshot,
+        provenance: fact.provenance === "unknown" ? undefined : fact.provenance,
+      } as ScrapedRouteData;
       if (stationSearchKey(data.origin) === stationSearchKey(route.origin) && stationSearchKey(data.destination) === stationSearchKey(route.destination)) {
         return { ...data, results: canonicalDay(data.results) };
       }
@@ -76,7 +86,7 @@ export class ProviderBackedScraper extends SnapshotScraper {
 
     const response = await this.providerSearch(route.origin, route.destination, date);
     if (response.status >= 200 && response.status < 300 && response.body.results.length > 0) {
-      return {
+      const providerRoute: ScrapedRouteData = {
         origin: route.origin,
         destination: route.destination,
         date,
@@ -84,6 +94,13 @@ export class ProviderBackedScraper extends SnapshotScraper {
         source: response.body.source || this.name,
         results: response.body.results,
       };
+      const fact = normalizeTimetableSource(providerRoute, date);
+      if (fact.snapshot && fact.issue !== "malformed" && fact.issue !== "empty" && fact.issue !== "service_day_mismatch") {
+        return {
+          ...providerRoute,
+          provenance: fact.provenance === "unknown" ? undefined : fact.provenance,
+        };
+      }
     }
 
     await recordError({
@@ -110,6 +127,7 @@ export class ProviderBackedScraper extends SnapshotScraper {
       // Provider diagnostics are stored server-side in error_log, not exposed
       // through timetable source metadata rendered by the app.
       source: `${this.name} curated snapshot fallback`,
+      provenance: snapshot.provenance || "curated",
       // A curated fallback is never a live arrival. Clear a legacy realtime
       // flag so the shared authenticity oracle cannot overstate it.
       results: snapshot.results.map((result) => ({

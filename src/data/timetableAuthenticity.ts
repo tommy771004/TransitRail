@@ -24,6 +24,22 @@ export interface TimetableAuthenticityOptions {
   realtimeTodayOnly?: boolean;
 }
 
+export type TimetableTruthMode = "verified" | "indicative" | "stale" | "unusable";
+export type NormalizedTimetableProvenance = TimetableProvenance | "unknown";
+
+/** Source facts consumed by the Searchability policy without re-reading raw metadata. */
+export interface TimetableSourceFact {
+  snapshot?: TimetableSnapshot;
+  provenance: NormalizedTimetableProvenance;
+  /** Passenger-requested service day, when one was supplied. */
+  serviceDay?: string;
+  /** Exact service day represented by the selected rows; absent for a canonical snapshot. */
+  sourceServiceDay?: string;
+  authenticity: TimetableAuthenticity;
+  truthMode: TimetableTruthMode;
+  issue?: "malformed" | "empty" | "service_day_mismatch" | "stale_realtime";
+}
+
 /** "06:05" → 365. Undefined for anything that is not a HH:MM clock time. */
 export function parseClockMinutes(time: string | undefined): number | undefined {
   if (!time || !/^\d{1,2}:\d{2}$/.test(time)) return undefined;
@@ -123,4 +139,133 @@ export function classifyTimetable(
 
   if (isIndicativeTimetable(snapshot.source || "", rows)) return "indicative";
   return "scraped";
+}
+
+function normalizedProvenance(snapshot: TimetableSnapshot): NormalizedTimetableProvenance {
+  if (
+    snapshot.provenance === "llm-advisory"
+    || snapshot.results.some((result) => result.provenance === "llm-advisory")
+    || LLM_ADVISORY_SOURCE.test(snapshot.source || "")
+  ) return "llm-advisory";
+  if (
+    snapshot.provenance === "curated"
+    || snapshot.results.some((result) => result.provenance === "curated")
+    || CURATED_SOURCE.test(snapshot.source || "")
+  ) return "curated";
+  if (snapshot.provenance === "official" || (snapshot.source || "").trim()) return "official";
+  return "unknown";
+}
+
+function truthModeFor(authenticity: TimetableAuthenticity): TimetableTruthMode {
+  if (authenticity === "scraped" || authenticity === "realtime") return "verified";
+  if (authenticity === "indicative") return "indicative";
+  if (authenticity === "stale_realtime") return "stale";
+  return "unusable";
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object";
+}
+
+function isIsoCalendarDate(value: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const parsed = new Date(`${value}T12:00:00Z`);
+  return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+}
+
+function isTimetableResult(value: unknown): value is TransitResult {
+  if (!isRecord(value)) return false;
+  if (
+    typeof value.id !== "string"
+    || typeof value.country !== "string"
+    || typeof value.operator !== "string"
+    || typeof value.service !== "string"
+    || typeof value.departureTime !== "string"
+    || typeof value.origin !== "string"
+    || typeof value.destination !== "string"
+    || typeof value.direct !== "boolean"
+    || !Array.isArray(value.stops)
+    || value.stops.some((stop) => typeof stop !== "string")
+  ) return false;
+  if (value.date !== undefined && typeof value.date !== "string") return false;
+  if (value.realtime !== undefined && typeof value.realtime !== "boolean") return false;
+  if (
+    value.provenance !== undefined
+    && value.provenance !== "official"
+    && value.provenance !== "curated"
+    && value.provenance !== "llm-advisory"
+  ) return false;
+  return true;
+}
+
+function isTimetableSnapshot(value: unknown): value is TimetableSnapshot {
+  if (!isRecord(value)) return false;
+  if (typeof value.origin !== "string" || typeof value.destination !== "string") return false;
+  if (value.source !== undefined && typeof value.source !== "string") return false;
+  if (value.date !== undefined && typeof value.date !== "string") return false;
+  if (value.scrapedAt !== undefined && typeof value.scrapedAt !== "string") return false;
+  if (
+    value.provenance !== undefined
+    && value.provenance !== "official"
+    && value.provenance !== "curated"
+    && value.provenance !== "llm-advisory"
+  ) return false;
+  return Array.isArray(value.results) && value.results.every(isTimetableResult);
+}
+
+/**
+ * Normalize one route source into facts without promoting a dateless canonical
+ * snapshot into an exact service-day timetable.
+ */
+export function normalizeTimetableSource(
+  value: unknown,
+  date?: string,
+  options: TimetableAuthenticityOptions = {},
+): TimetableSourceFact {
+  const serviceDay = date?.trim() || undefined;
+  if (serviceDay && !isIsoCalendarDate(serviceDay)) {
+    return {
+      provenance: "unknown",
+      serviceDay,
+      authenticity: "none",
+      truthMode: "unusable",
+      issue: "malformed",
+    };
+  }
+  if (!isTimetableSnapshot(value)) {
+    return {
+      provenance: "unknown",
+      serviceDay,
+      authenticity: "none",
+      truthMode: "unusable",
+      issue: "malformed",
+    };
+  }
+  const snapshot = value;
+  const exactRows = serviceDay ? timetableSliceForDate(snapshot, serviceDay) : snapshot.results;
+  const canonicalRows = serviceDay
+    ? snapshot.results.filter((result) => !(result.date || "").trim())
+    : [];
+  const provenance = normalizedProvenance(snapshot);
+  const useCanonical = exactRows.length === 0 && canonicalRows.length > 0 && provenance === "curated";
+  const selectedRows = useCanonical ? canonicalRows : exactRows;
+  const selectedSnapshot = { ...snapshot, results: selectedRows };
+  const authenticity = classifyTimetable(
+    selectedSnapshot,
+    useCanonical ? undefined : serviceDay,
+    options,
+  );
+  const sourceDates = [...new Set(selectedRows.map((result) => (result.date || "").trim()).filter(Boolean))];
+
+  return {
+    snapshot: selectedSnapshot,
+    provenance,
+    serviceDay,
+    sourceServiceDay: sourceDates.length === 1 ? sourceDates[0] : undefined,
+    authenticity,
+    truthMode: truthModeFor(authenticity),
+    issue: authenticity === "none"
+      ? snapshot.results.length === 0 ? "empty" : "service_day_mismatch"
+      : authenticity === "stale_realtime" ? "stale_realtime" : undefined,
+  };
 }

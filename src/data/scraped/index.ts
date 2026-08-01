@@ -17,6 +17,7 @@ import {
   reachableDestinations,
   searchableRoutesForDate,
 } from "../stationCoverage";
+import { normalizeTimetableSource } from "../timetableAuthenticity";
 
 export type { ScrapedRouteData } from "./timetableDay";
 export {
@@ -88,7 +89,15 @@ function loadDir(country: string): ScrapedRouteData[] {
       if (!file.endsWith(".json") || file === "metadata.json") continue;
       try {
         const content = readFileSync(join(dirPath, file), "utf-8");
-        data.push(JSON.parse(content));
+        const fact = normalizeTimetableSource(JSON.parse(content) as unknown);
+        if (!fact.snapshot || fact.issue === "malformed" || fact.issue === "empty") {
+          console.warn(`[scraped] Skipping unusable ${country}/${file}: ${fact.issue || "unknown"}`);
+          continue;
+        }
+        data.push({
+          ...fact.snapshot,
+          provenance: fact.provenance === "unknown" ? undefined : fact.provenance,
+        } as ScrapedRouteData);
       } catch (e) {
         console.warn(`[scraped] Failed to parse ${country}/${file}:`, e);
       }

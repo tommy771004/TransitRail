@@ -3,6 +3,7 @@ import type { TransitResult } from "../types";
 import {
   classifyTimetable,
   isIndicativeTimetable,
+  normalizeTimetableSource,
   parseClockMinutes,
   type TimetableSnapshot,
 } from "./timetableAuthenticity";
@@ -39,6 +40,121 @@ function snapshot(
 }
 
 describe("timetable authenticity", () => {
+  it("keeps a canonical snapshot indicative for a requested service day", () => {
+    const canonicalRows = [
+      result({ id: "canonical-0", date: undefined, departureTime: "08:00" }),
+      result({ id: "canonical-1", date: undefined, departureTime: "08:17" }),
+    ];
+
+    expect(normalizeTimetableSource(
+      snapshot("operator curated snapshot", canonicalRows),
+      "2026-08-02",
+    )).toMatchObject({
+      provenance: "curated",
+      serviceDay: "2026-08-02",
+      sourceServiceDay: undefined,
+      authenticity: "indicative",
+      truthMode: "indicative",
+    });
+  });
+
+  it("returns an unusable source fact for malformed input", () => {
+    expect(normalizeTimetableSource({
+      origin: "Origin",
+      destination: "Destination",
+      source: "official timetable",
+      results: "not-an-array",
+    } as unknown as TimetableSnapshot, "2026-08-01")).toEqual({
+      provenance: "unknown",
+      serviceDay: "2026-08-01",
+      authenticity: "none",
+      truthMode: "unusable",
+      issue: "malformed",
+    });
+  });
+
+  it("fails closed when a timetable row is malformed", () => {
+    expect(normalizeTimetableSource({
+      origin: "Origin",
+      destination: "Destination",
+      source: "official timetable",
+      results: [{ id: "missing-required-fields", date: "2026-08-01" }],
+    }, "2026-08-01")).toMatchObject({
+      provenance: "unknown",
+      authenticity: "none",
+      truthMode: "unusable",
+      issue: "malformed",
+    });
+  });
+
+  it("fails closed when the requested service day is not a calendar date", () => {
+    expect(normalizeTimetableSource(
+      snapshot("official timetable", [result()]),
+      "2026-02-30",
+    )).toMatchObject({
+      provenance: "unknown",
+      serviceDay: "2026-02-30",
+      authenticity: "none",
+      truthMode: "unusable",
+      issue: "malformed",
+    });
+  });
+
+  it("describes an exact scheduled source as verified", () => {
+    expect(normalizeTimetableSource(
+      snapshot("official timetable", [result()]),
+      "2026-08-01",
+    )).toMatchObject({
+      provenance: "official",
+      serviceDay: "2026-08-01",
+      sourceServiceDay: "2026-08-01",
+      authenticity: "scraped",
+      truthMode: "verified",
+      issue: undefined,
+    });
+  });
+
+  it("describes a current live source as verified", () => {
+    const live = result({
+      id: "2026-08-01-uk-tfl-2026-08-01T08:37:00-0",
+      realtime: true,
+    });
+    expect(normalizeTimetableSource(
+      snapshot("https://api.tfl.gov.uk", [live]),
+      "2026-08-01",
+    )).toMatchObject({
+      provenance: "official",
+      sourceServiceDay: "2026-08-01",
+      authenticity: "realtime",
+      truthMode: "verified",
+    });
+  });
+
+  it("describes a copied live source as stale", () => {
+    const copied = result({
+      id: "2026-08-02-uk-tfl-2026-08-01T08:37:00-0",
+      date: "2026-08-02",
+      realtime: true,
+    });
+    expect(normalizeTimetableSource(
+      snapshot("https://api.tfl.gov.uk", [copied]),
+      "2026-08-02",
+    )).toMatchObject({
+      provenance: "official",
+      sourceServiceDay: "2026-08-02",
+      authenticity: "stale_realtime",
+      truthMode: "stale",
+      issue: "stale_realtime",
+    });
+  });
+
+  it("distinguishes an empty source from a service-day mismatch", () => {
+    expect(normalizeTimetableSource(snapshot("official timetable", []), "2026-08-01"))
+      .toMatchObject({ truthMode: "unusable", issue: "empty" });
+    expect(normalizeTimetableSource(snapshot("official timetable", [result()]), "2026-08-02"))
+      .toMatchObject({ truthMode: "unusable", issue: "service_day_mismatch" });
+  });
+
   it("parses only clock values", () => {
     expect(parseClockMinutes("06:05")).toBe(365);
     expect(parseClockMinutes("25:05")).toBe(1505);
