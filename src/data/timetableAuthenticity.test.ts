@@ -209,6 +209,20 @@ describe("timetable authenticity", () => {
     });
   });
 
+  it("fails closed for malformed transfer legs", () => {
+    expect(normalizeTimetableSource(
+      snapshot("official timetable", [result({
+        direct: false,
+        legs: {} as TransitResult["legs"],
+      })]),
+      "2026-08-01",
+    )).toMatchObject({
+      authenticity: "none",
+      truthMode: "unusable",
+      issue: "malformed",
+    });
+  });
+
   it("parses only clock values", () => {
     expect(parseClockMinutes("06:05")).toBe(365);
     expect(parseClockMinutes("25:05")).toBe(1505);

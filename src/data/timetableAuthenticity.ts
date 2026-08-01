@@ -26,6 +26,7 @@ export interface TimetableAuthenticityOptions {
 
 export type TimetableTruthMode = "verified" | "indicative" | "stale" | "unusable";
 export type NormalizedTimetableProvenance = TimetableProvenance | "unknown";
+export type TimetableSourceIssue = "malformed" | "empty" | "service_day_mismatch" | "stale_realtime" | "unknown_provenance";
 
 /** Source facts consumed by the Searchability policy without re-reading raw metadata. */
 export interface TimetableSourceFact {
@@ -37,7 +38,13 @@ export interface TimetableSourceFact {
   sourceServiceDay?: string;
   authenticity: TimetableAuthenticity;
   truthMode: TimetableTruthMode;
-  issue?: "malformed" | "empty" | "service_day_mismatch" | "stale_realtime" | "unknown_provenance";
+  issue?: TimetableSourceIssue;
+}
+
+export interface CompleteTimetableSnapshot extends TimetableSnapshot {
+  date: string;
+  scrapedAt: string;
+  source: string;
 }
 
 /** "06:05" → 365. Undefined for anything that is not a HH:MM clock time. */
@@ -171,6 +178,25 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object";
 }
 
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === "string");
+}
+
+function isJourneyLeg(value: unknown): boolean {
+  if (!isRecord(value)) return false;
+  if (
+    typeof value.lineName !== "string"
+    || typeof value.origin !== "string"
+    || typeof value.destination !== "string"
+  ) return false;
+  const optionalStrings = ["lineCode", "color", "mode", "departureTime", "arrivalTime", "platform", "headsign"];
+  if (optionalStrings.some((key) => value[key] !== undefined && typeof value[key] !== "string")) return false;
+  const optionalNumbers = ["originLat", "originLng", "destLat", "destLng", "durationMinutes", "stopCount"];
+  if (optionalNumbers.some((key) => value[key] !== undefined && (typeof value[key] !== "number" || !Number.isFinite(value[key])))) return false;
+  return (value.stops === undefined || isStringArray(value.stops))
+    && (value.upcomingDepartures === undefined || isStringArray(value.upcomingDepartures));
+}
+
 function unusableSourceFact(
   serviceDay: string | undefined,
   issue: TimetableSourceFact["issue"] = "malformed",
@@ -212,6 +238,8 @@ function isTimetableResult(value: unknown): value is TransitResult {
   if (resultDate !== undefined && typeof resultDate !== "string") return false;
   if (typeof resultDate === "string" && !isIsoCalendarDate(resultDate)) return false;
   if (value.realtime !== undefined && typeof value.realtime !== "boolean") return false;
+  if (value.legs !== undefined && (!Array.isArray(value.legs) || !value.legs.every(isJourneyLeg))) return false;
+  if (value.transferStations !== undefined && !isStringArray(value.transferStations)) return false;
   if (
     value.provenance !== undefined
     && value.provenance !== "official"
@@ -234,6 +262,13 @@ function isTimetableSnapshot(value: unknown): value is TimetableSnapshot {
     && value.provenance !== "llm-advisory"
   ) return false;
   return Array.isArray(value.results) && value.results.every(isTimetableResult);
+}
+
+export function isCompleteTimetableSnapshot(value: TimetableSnapshot): value is CompleteTimetableSnapshot {
+  return typeof value.date === "string"
+    && typeof value.scrapedAt === "string"
+    && typeof value.source === "string"
+    && value.source.trim().length > 0;
 }
 
 /**

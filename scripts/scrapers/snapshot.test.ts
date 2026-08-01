@@ -38,8 +38,8 @@ class TestProviderBackedScraper extends ProviderBackedScraper {
       ...route,
       date: "2026-08-01",
       scrapedAt: "2026-08-01T08:00:00.000Z",
-      source: "curated fallback",
-      provenance: "curated",
+      source: "official timetable",
+      provenance: "official",
       results: [result()],
     };
   }
@@ -80,6 +80,35 @@ describe("provider-backed source normalization", () => {
 
     expect(data.source).toBe("Test provider curated snapshot fallback");
     expect(data.provenance).toBe("curated");
+    expect(data.truthMode).toBe("indicative");
     expect(data.results[0].realtime).toBe(false);
+  });
+
+  it("falls back when the provider body is malformed", async () => {
+    const date = providerDateValue("united_kingdom");
+    const scraper = new TestProviderBackedScraper(async () => ({
+      status: 200,
+      body: { results: "not-an-array" } as unknown as SearchResponse,
+    }));
+
+    const data = await scraper.scrape(route, date);
+
+    expect(data.source).toBe("Test provider curated snapshot fallback");
+    expect(data.provenance).toBe("curated");
+  });
+
+  it("does not promote a provider response that omits its source", async () => {
+    const date = providerDateValue("united_kingdom");
+    const scraper = new TestProviderBackedScraper(async () => ({
+      status: 200,
+      body: {
+        results: [result({ id: "provider-without-source" })],
+      },
+    }));
+
+    const data = await scraper.scrape(route, date);
+
+    expect(data.source).toBe("Test provider curated snapshot fallback");
+    expect(data.provenance).toBe("curated");
   });
 });

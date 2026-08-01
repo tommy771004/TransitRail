@@ -1,4 +1,5 @@
 import type { Country, JourneyLeg, TimetableProvenance, TransitResult } from "../../types";
+import type { TimetableAuthenticity, TimetableSourceIssue, TimetableTruthMode } from "../timetableAuthenticity";
 import { stationSearchKey } from "../stationKey";
 import { resolveStationAlias } from "../stationAliases";
 import {
@@ -14,6 +15,10 @@ export interface ScrapedRouteData {
   scrapedAt: string;
   source: string;
   provenance?: TimetableProvenance;
+  authenticity?: TimetableAuthenticity;
+  truthMode?: TimetableTruthMode;
+  sourceServiceDay?: string;
+  sourceIssue?: TimetableSourceIssue;
   results: TransitResult[];
 }
 

@@ -6,7 +6,7 @@ import type { SearchResponse } from "../../src/types";
 import type { Country } from "../../src/types";
 import { getCountryCapability } from "../../src/data/countryCapability";
 import { providerDateValue } from "../../src/data/countries";
-import { normalizeTimetableSource } from "../../src/data/timetableAuthenticity";
+import { isCompleteTimetableSnapshot, normalizeTimetableSource } from "../../src/data/timetableAuthenticity";
 // Implementation lives in the pure timetable-day module under test.
 import { canonicalDay } from "../../src/data/scraped/timetableDay";
 import { stationSearchKey } from "../../src/data/stationKey";
@@ -35,7 +35,11 @@ export class SnapshotScraper extends BaseScraper {
       date,
       scrapedAt: new Date().toISOString(),
       source: `${this.name} curated snapshot`,
-      provenance: snapshot.provenance || "curated",
+      provenance: "curated",
+      authenticity: "indicative",
+      truthMode: "indicative",
+      sourceServiceDay: undefined,
+      sourceIssue: undefined,
     };
   }
 
@@ -51,15 +55,20 @@ export class SnapshotScraper extends BaseScraper {
         const fact = normalizeTimetableSource(
           JSON.parse(readFileSync(resolve(dir, file), "utf-8")) as unknown,
         );
-        if (!fact.snapshot || fact.truthMode === "unusable") continue;
+        if (!fact.snapshot || fact.truthMode === "unusable" || !isCompleteTimetableSnapshot(fact.snapshot)) continue;
         const data = {
           ...fact.snapshot,
           provenance: fact.provenance === "unknown" ? undefined : fact.provenance,
-        } as ScrapedRouteData;
+          authenticity: fact.authenticity,
+          truthMode: fact.truthMode,
+          sourceServiceDay: fact.sourceServiceDay,
+          sourceIssue: fact.issue,
+        };
         if (stationSearchKey(data.origin) === stationSearchKey(route.origin) && stationSearchKey(data.destination) === stationSearchKey(route.destination)) {
           return { ...data, results: canonicalDay(data.results) };
         }
-      } catch {
+      } catch (error) {
+        console.warn(`[snapshot] Failed to parse ${this.country}/${file}:`, error);
         continue;
       }
     }
@@ -89,14 +98,16 @@ export class ProviderBackedScraper extends SnapshotScraper {
     }
 
     const response = await this.providerSearch(route.origin, route.destination, date);
-    if (response.status >= 200 && response.status < 300 && response.body.results.length > 0) {
+    const responseBody = response?.body;
+    const providerResults = Array.isArray(responseBody?.results) ? responseBody.results : [];
+    if (response?.status >= 200 && response.status < 300 && providerResults.length > 0) {
       const providerRoute = this.withResultDates({
         origin: route.origin,
         destination: route.destination,
         date,
         scrapedAt: new Date().toISOString(),
-        source: response.body.source || this.name,
-        results: response.body.results,
+        source: typeof responseBody.source === "string" ? responseBody.source : "",
+        results: providerResults,
       });
       const fact = normalizeTimetableSource(providerRoute, date, {
         realtimeTodayOnly: true,
@@ -106,6 +117,10 @@ export class ProviderBackedScraper extends SnapshotScraper {
         return {
           ...providerRoute,
           provenance: fact.provenance === "unknown" ? undefined : fact.provenance,
+          authenticity: fact.authenticity,
+          truthMode: fact.truthMode,
+          sourceServiceDay: fact.sourceServiceDay,
+          sourceIssue: fact.issue,
         };
       }
     }
@@ -114,11 +129,13 @@ export class ProviderBackedScraper extends SnapshotScraper {
       severity: "warning",
       module: "scraper",
       operation: "provider.fallback",
-      errorCode: response.body.error || "PROVIDER_FALLBACK",
-      message: response.body.message || response.body.error || `Provider returned HTTP ${response.status}.`,
+      errorCode: typeof responseBody?.error === "string" ? responseBody.error : "PROVIDER_FALLBACK",
+      message: typeof responseBody?.message === "string"
+        ? responseBody.message
+        : typeof responseBody?.error === "string" ? responseBody.error : `Provider returned HTTP ${response?.status}.`,
       country: this.country,
       provider: this.name,
-      httpStatus: response.status,
+      httpStatus: response?.status,
       context: { origin: route.origin, destination: route.destination, date },
     });
 
@@ -134,7 +151,11 @@ export class ProviderBackedScraper extends SnapshotScraper {
       // Provider diagnostics are stored server-side in error_log, not exposed
       // through timetable source metadata rendered by the app.
       source: `${this.name} curated snapshot fallback`,
-      provenance: snapshot.provenance || "curated",
+      provenance: "curated",
+      authenticity: "indicative",
+      truthMode: "indicative",
+      sourceServiceDay: undefined,
+      sourceIssue: undefined,
       // A curated fallback is never a live arrival. Clear a legacy realtime
       // flag so the shared authenticity oracle cannot overstate it.
       results: snapshot.results.map((result) => ({
