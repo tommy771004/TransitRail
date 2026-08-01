@@ -61,6 +61,8 @@ const CURATED_SOURCE = /curated|snapshot/i;
 const LLM_ADVISORY_SOURCE = /\b(?:llm|openrouter|ai)[-_ ]?(?:advisory|generated|gap(?:-| )?fill)?\b/i;
 const OFFICIAL_SOURCE_LABELS = new Set([
   "official timetable",
+  "ODPT timetable",
+  "ODPT Tokyo Metro timetable",
   "ODPT Toei timetable (CC BY 4.0)",
   "JR Central official journey search",
   "SNCF Open Data GTFS",

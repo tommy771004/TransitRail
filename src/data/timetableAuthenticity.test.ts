@@ -129,6 +129,22 @@ describe("timetable authenticity", () => {
     });
   });
 
+  it.each([
+    "ODPT timetable",
+    "ODPT Tokyo Metro timetable",
+  ])("keeps the Japan ODPT source label verified: %s", (source) => {
+    expect(normalizeTimetableSource(
+      snapshot(source, [result()]),
+      "2026-08-01",
+      { expectedCountry: "japan" },
+    )).toMatchObject({
+      provenance: "official",
+      authenticity: "scraped",
+      truthMode: "verified",
+      issue: undefined,
+    });
+  });
+
   it("describes a current live source as verified", () => {
     const live = result({
       id: "2026-08-01-uk-tfl-2026-08-01T08:37:00-0",
