@@ -170,6 +170,7 @@ export function classifyTimetable(
     return "realtime";
   }
 
+  if (snapshot.provenance === "official") return "scraped";
   if (isIndicativeTimetable(snapshot.source || "", rows)) return "indicative";
   return "scraped";
 }

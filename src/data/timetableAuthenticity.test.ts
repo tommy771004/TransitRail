@@ -343,6 +343,16 @@ describe("timetable authenticity", () => {
     expect(classifyTimetable(snapshot("official timetable", rows), "2026-08-01")).toBe("scraped");
   });
 
+  it("does not downgrade an explicitly official source by the fixed-headway backstop", () => {
+    const rows = [0, 10, 20, 30].map((offset, index) =>
+      result({ id: `artifact-${index}`, departureTime: `08:${String(offset).padStart(2, "0")}` }),
+    );
+    expect(classifyTimetable({
+      ...snapshot("Seoul Metro official timetable CSV", rows),
+      provenance: "official",
+    }, "2026-08-01")).toBe("scraped");
+  });
+
   it("classifies a current realtime snapshot as realtime", () => {
     const rows = [result({
       id: "2026-08-01-uk-tfl-2026-08-01T08:37:00-0",
