@@ -241,14 +241,56 @@ async function probeSeoul(key: string) {
   }
 }
 
+/**
+ * ODsay is a commercial provider, not a government portal, so it is the one
+ * candidate whose signup plausibly works without Korean identity verification —
+ * which blocks data.seoul.go.kr outright for a foreign applicant. The repo
+ * already reserves ODSAY_API_KEY.
+ */
+async function probeOdsay(key: string) {
+  heading("ODsay LAB — lab.odsay.com (commercial fallback)");
+
+  // Keys can contain +, / and =; they must be encoded exactly once.
+  const query = new URLSearchParams({ apiKey: key, lang: "0", CID: "1000" });
+  const url = `https://api.odsay.com/v1/api/subwayStationInfo?${query}`;
+
+  try {
+    const { status, body } = await getText(url);
+    if (status !== 200) {
+      bad(`HTTP ${status}: ${body.slice(0, 200)}`);
+      return;
+    }
+    const parsed = JSON.parse(body) as Json;
+    // Errors arrive as { error: [{ code, message }] } or { error: { … } }.
+    if (parsed.error) {
+      const err = Array.isArray(parsed.error) ? parsed.error[0] : parsed.error;
+      bad(`${String((err as Json).code)}: ${String((err as Json).message)}`);
+      info("code 500 usually means the key is not yet active or the domain is unregistered.");
+      return;
+    }
+    const result = (parsed.result ?? {}) as Json;
+    const stations = (result.station as Json[] | undefined) ?? [];
+    ok(`subwayStationInfo — key authenticates, ${stations.length} stations on CID 1000`);
+    if (stations[0]) info(`fields: ${Object.keys(stations[0]).join(", ")}`);
+    info("Next: ODsay's route search returns journeys, not a station timetable —");
+    info("check whether it can answer 'departures on a given date' before adopting.");
+  } catch (e) {
+    bad(`request failed: ${e instanceof Error ? e.message : e}`);
+  }
+}
+
 async function main() {
   const tagoKey = process.env.KOREA_TAGO_SERVICE_KEY?.trim();
   const seoulKey = process.env.SEOUL_OPENAPI_KEY?.trim();
+  const odsayKey = process.env.ODSAY_API_KEY?.trim();
 
-  if (!tagoKey && !seoulKey) {
+  if (!tagoKey && !seoulKey && !odsayKey) {
     console.log("No Korean provider keys configured.\n");
     console.log("  KOREA_TAGO_SERVICE_KEY  intercity rail  (data.go.kr)");
-    console.log("  SEOUL_OPENAPI_KEY       Seoul Metro     (data.seoul.go.kr)\n");
+    console.log("  SEOUL_OPENAPI_KEY       Seoul Metro     (data.seoul.go.kr — foreign signup is blocked)");
+    console.log("  ODSAY_API_KEY           commercial      (lab.odsay.com)\n");
+    console.log("No key at all? The 파일데이터 route needs none — download the CSV and run:");
+    console.log("  npx tsx scripts/inspect-korea-filedata.ts <file.csv>\n");
     console.log("Registration walkthrough: docs/korea-api-registration.md");
     process.exitCode = 1;
     return;
@@ -259,6 +301,9 @@ async function main() {
 
   if (seoulKey) await probeSeoul(seoulKey);
   else console.log("\n(skipping Seoul — SEOUL_OPENAPI_KEY not set)");
+
+  if (odsayKey) await probeOdsay(odsayKey);
+  else console.log("\n(skipping ODsay — ODSAY_API_KEY not set)");
 
   heading("What to do with this output");
   console.log(`  Record the field names above in docs/korea-api-registration.md, then map them
