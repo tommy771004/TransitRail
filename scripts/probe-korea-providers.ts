@@ -20,6 +20,8 @@
  * Env: KOREA_TAGO_SERVICE_KEY, SEOUL_OPENAPI_KEY (see docs/korea-api-registration.md)
  */
 import "dotenv/config";
+import { readFileSync } from "fs";
+import { resolve } from "path";
 
 const TAGO_BASE = process.env.KOREA_TAGO_BASE_URL || "https://apis.data.go.kr/1613000/TrainInfoService";
 const SEOUL_BASE = process.env.SEOUL_OPENAPI_BASE_URL || "http://openapi.seoul.go.kr:8088";
@@ -203,48 +205,39 @@ async function probeSeoul(key: string) {
     };
   };
 
-  // 1. Station lookup — proves the key works and gives the codes the
-  //    timetable service is keyed on.
-  const codes = new Map<string, string>();
-  for (const name of TARGET_METRO) {
-    try {
-      const { total, rows } = await call("SearchInfoBySubwayNameService", 1, 5, name);
-      if (rows.length === 0) {
-        bad(`${name}: no station row (total=${total})`);
-        continue;
-      }
-      ok(`${name}: ${rows.length} row(s), total=${total}`);
-      info(`  fields: ${Object.keys(rows[0]).join(", ")}`);
-      const code = rows[0].STATION_CD ?? rows[0].FR_CODE;
-      if (code) codes.set(name, String(code));
-      info(`  ${JSON.stringify(rows[0])}`);
-    } catch (e) {
-      bad(`${name}: ${e instanceof Error ? e.message : e}`);
-      if (codes.size === 0 && name === TARGET_METRO[0]) {
-        info("First lookup failed — check SEOUL_OPENAPI_KEY before reading further.");
-        return;
-      }
-    }
-  }
+  // The station codes this API is keyed on are already committed in
+  // src/data/seoulSubwayStations.json (STATION_CD + FR_CODE for all 326 rows),
+  // so no lookup round-trip or code-mapping table is needed — go straight at
+  // the timetable, which is the only thing in doubt.
+  const stations = JSON.parse(
+    readFileSync(resolve("src/data/seoulSubwayStations.json"), "utf-8"),
+  ) as Array<{ STATION_CD: string; STATION_NM: string; FR_CODE: string; LINE_NUM: string }>;
 
-  // 2. The timetable itself: this is what decides whether real Seoul Metro
-  //    departures are reachable, or only realtime arrivals.
-  const [firstName, firstCode] = codes.entries().next().value ?? [];
-  if (!firstCode) {
-    bad("No station code resolved — cannot probe the timetable service.");
-    return;
-  }
-  try {
-    // filters: 전철역코드 / 요일구분(1=평일 2=토요일 3=휴일) / 상하행(1=상행 2=하행)
-    const { total, rows } = await call("SearchSTNTimeTableByFRCodeService", 1, 5, firstCode, "1", "1");
-    ok(`SearchSTNTimeTableByFRCodeService(${firstName}, 평일, 상행) — ${rows.length} of ${total}`);
-    if (rows[0]) {
-      info(`  fields: ${Object.keys(rows[0]).join(", ")}`);
-      info(`  sample: ${JSON.stringify(rows[0])}`);
+  for (const name of TARGET_METRO) {
+    const local = stations.filter((s) => s.STATION_NM === name);
+    if (local.length === 0) {
+      bad(`${name}: not in seoulSubwayStations.json`);
+      continue;
     }
-  } catch (e) {
-    bad(`SearchSTNTimeTableByFRCodeService failed: ${e instanceof Error ? e.message : e}`);
-    info("If this is a permission error the key may need this dataset activated separately.");
+    const station = local[0];
+    info(`${name} (${station.LINE_NUM}) STATION_CD=${station.STATION_CD} FR_CODE=${station.FR_CODE}`);
+
+    // filters: 역코드 / 요일구분(1=평일 2=토요일 3=휴일) / 상하행(1=상행 2=하행)
+    for (const [label, code] of [["FR_CODE", station.FR_CODE], ["STATION_CD", station.STATION_CD]] as const) {
+      try {
+        const { total, rows } = await call("SearchSTNTimeTableByFRCodeService", 1, 5, code, "1", "1");
+        if (rows.length === 0) {
+          bad(`  ${label}=${code}: 0 rows (total=${total}) — wrong code type for this service`);
+          continue;
+        }
+        ok(`  ${label}=${code}: ${rows.length} of ${total} departures`);
+        info(`    fields: ${Object.keys(rows[0]).join(", ")}`);
+        info(`    sample: ${JSON.stringify(rows[0])}`);
+        break; // whichever code type works, that is the one the adapter uses
+      } catch (e) {
+        bad(`  ${label}=${code}: ${e instanceof Error ? e.message : e}`);
+      }
+    }
   }
 }
 
