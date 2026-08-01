@@ -13,6 +13,7 @@ import type { Country, CoverageGap } from "../types";
 import { triggerHaptic } from "../utils/haptics";
 import { WeatherWidget } from "./WeatherWidget";
 import { stationLabel } from "../utils/stationLabel";
+import i18n from "../i18n";
 
 export const formatDuration = (minutes?: number) => {
   if (minutes === undefined) return null;
@@ -93,7 +94,7 @@ export function renderWeatherBlock(destination: string, date: string, country: C
   return (
     <motion.div
       key="weather"
-      initial={{ opacity: 0, y: -12 }}
+      initial={false}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -12 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
@@ -103,11 +104,11 @@ export function renderWeatherBlock(destination: string, date: string, country: C
   );
 }
 
-export function renderErrorBlock(title: string, message: string) {
+export function renderErrorBlock(title: string, message: string, sourceUrl?: string) {
   return (
     <motion.div
       key="error"
-      initial={{ opacity: 0, scale: 0.96 }}
+      initial={false}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.3 }}
@@ -115,6 +116,16 @@ export function renderErrorBlock(title: string, message: string) {
     >
       <p className="text-sm font-bold">{title}</p>
       <p className="mt-1 text-sm">{message}</p>
+      {sourceUrl && (
+        <a
+          href={sourceUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-3 inline-block text-xs font-semibold underline underline-offset-2"
+        >
+          {i18n.t("stations.official_source", { defaultValue: "Open the operator timetable" })}
+        </a>
+      )}
     </motion.div>
   );
 }
@@ -138,7 +149,7 @@ function CoverageBlock({ gap, country }: { gap: CoverageGap; country: Country })
   return (
     <motion.div
       key="coverage"
-      initial={{ opacity: 0, scale: 0.96 }}
+      initial={false}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.3 }}
@@ -186,7 +197,7 @@ export function renderEmptyBlock(title: string, hint: string) {
   return (
     <motion.div
       key="empty"
-      initial={{ opacity: 0, scale: 0.96 }}
+      initial={false}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.3 }}

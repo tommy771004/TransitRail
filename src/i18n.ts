@@ -81,6 +81,12 @@ const resources = {
         time_any_hint: "No time restriction — compare all available departures",
         depart_after_hint: "Showing departures from {{time}} onward",
         search_timetable: "Search timetable",
+        no_result: {
+          unsupported_route: "This route is not available in the selected network.",
+          future_date_unavailable: "This source is available only for today's local service day.",
+          no_verified_data: "No verified timetable data is available for this country or date.",
+          no_service: "This route has no departures on the selected service day.",
+        },
       },
       stations: {
         title: "Station catalog",
@@ -111,7 +117,8 @@ const resources = {
         transfer: "Transfer",
         transfers: "Transfers",
         no_timetable: "No timetable",
-        no_timetable_hint: "This station is on the network map, but TransitRail has no timetable data for it yet."
+        no_timetable_hint: "This station is on the network map, but TransitRail has no timetable data for it yet.",
+        official_source: "Open the operator timetable"
       },
       workflow: {
         title: "Data workflow",
@@ -583,6 +590,12 @@ const resources = {
         time_any_hint: "不限制出發時間，方便比較所有可用班次",
         depart_after_hint: "僅顯示 {{time}} 起的班次",
         search_timetable: "查詢時刻表",
+        no_result: {
+          unsupported_route: "這個路線組合不在目前支援的路網內。",
+          future_date_unavailable: "這個資料來源只提供當地今天的班次，請改選今天。",
+          no_verified_data: "這個國家或日期目前沒有可驗證的時刻表資料。",
+          no_service: "這條路線在所選服務日沒有班次。",
+        },
       },
       stations: {
         title: "主要車站目錄",
@@ -613,7 +626,8 @@ const resources = {
         transfer: "轉乘",
         transfers: "次轉乘",
         no_timetable: "無時刻表",
-        no_timetable_hint: "此站在路網圖上，但 TransitRail 尚未收錄其時刻表資料。"
+        no_timetable_hint: "此站在路網圖上，但 TransitRail 尚未收錄其時刻表資料。",
+        official_source: "開啟業者官方時刻表"
       },
       workflow: {
         title: "資料流程",
@@ -1487,7 +1501,13 @@ const resources = {
         time_evening: "夕方",
         time_any_hint: "出発時刻を指定せず、利用可能な全ての便を比較します",
         depart_after_hint: "{{time}}以降の便のみ表示",
-        search_timetable: "時刻表を検索"
+        search_timetable: "時刻表を検索",
+        no_result: {
+          unsupported_route: "この路線の組み合わせは現在のネットワークでは利用できません。",
+          future_date_unavailable: "この情報源は現地の当日サービス日のみ対応しています。今日を選択してください。",
+          no_verified_data: "この国または日付には確認済みの時刻表データがありません。",
+          no_service: "選択した運行日にこの路線の出発便はありません。",
+        }
       },
       stations: {
         title: "駅一覧",
@@ -1518,7 +1538,8 @@ const resources = {
         transfer: "乗換",
         transfers: "回乗換",
         no_timetable: "時刻表なし",
-        no_timetable_hint: "この駅は路線図には含まれますが、TransitRailにはまだ時刻表データがありません。"
+        no_timetable_hint: "この駅は路線図には含まれますが、TransitRailにはまだ時刻表データがありません。",
+        official_source: "運行事業者の時刻表を開く"
       },
       workflow: {
         title: "データフロー",
@@ -2014,7 +2035,13 @@ const resources = {
         time_evening: "저녁",
         time_any_hint: "출발 시각 제한 없이 이용 가능한 모든 편을 비교합니다",
         depart_after_hint: "{{time}} 이후 출발편만 표시",
-        search_timetable: "시간표 검색"
+        search_timetable: "시간표 검색",
+        no_result: {
+          unsupported_route: "선택한 노선 조합은 현재 네트워크에서 지원되지 않습니다.",
+          future_date_unavailable: "이 데이터는 현지 당일 운행만 제공합니다. 오늘을 선택하세요.",
+          no_verified_data: "이 국가 또는 날짜에는 검증된 시간표 데이터가 없습니다.",
+          no_service: "선택한 운행일에는 이 노선의 출발편이 없습니다.",
+        }
       },
       stations: {
         title: "역 목록",
@@ -2045,7 +2072,8 @@ const resources = {
         transfer: "환승",
         transfers: "회 환승",
         no_timetable: "시간표 없음",
-        no_timetable_hint: "이 역은 노선도에 있지만 TransitRail에 아직 시간표 데이터가 없습니다."
+        no_timetable_hint: "이 역은 노선도에 있지만 TransitRail에 아직 시간표 데이터가 없습니다.",
+        official_source: "운영사 시간표 열기"
       },
       workflow: {
         title: "데이터 처리 과정",

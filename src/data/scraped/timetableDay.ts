@@ -1,6 +1,11 @@
-import type { Country, JourneyLeg, TransitResult } from "../../types";
+import type { Country, JourneyLeg, TimetableProvenance, TransitResult } from "../../types";
 import { stationSearchKey } from "../stationKey";
 import { resolveStationAlias } from "../stationAliases";
+import {
+  aggregateTransferFare,
+  getMinimumTransferMinutes,
+  sameOperatorFareWarning,
+} from "../transferRules";
 
 export interface ScrapedRouteData {
   origin: string;
@@ -8,6 +13,7 @@ export interface ScrapedRouteData {
   date: string;
   scrapedAt: string;
   source: string;
+  provenance?: TimetableProvenance;
   results: TransitResult[];
 }
 
@@ -147,6 +153,12 @@ function reverseResult(result: TransitResult): TransitResult {
     // Reverse timetable cannot safely reuse direction-specific fields.
     platform: undefined,
     headsign: undefined,
+    realtime: false,
+    warning: [
+      result.warning,
+      "Reverse timetable times are estimated from the opposite direction; confirm with the operator.",
+    ].filter(Boolean).join(" "),
+    tags: Array.from(new Set([...(result.tags || []), "reverse"])),
     legs: reversedLegs.length > 0 ? reversedLegs : undefined,
     transferStations: result.transferStations
       ? [...result.transferStations].reverse()
@@ -161,9 +173,109 @@ interface RouteEdge {
   reversed: boolean;
 }
 
-function resultsForEdge(edge: RouteEdge, date?: string): TransitResult[] {
-  const results = resultsForDate(edge.route, date);
-  return edge.reversed ? results.map(reverseResult) : results;
+function stationKeyFor(country: Country | undefined, name: string): string {
+  return stationSearchKey(resolveStationAlias(country, name));
+}
+
+function resultStopPath(
+  route: ScrapedRouteData,
+  result: TransitResult,
+  country?: Country,
+): string[] {
+  const origin = result.origin || route.origin;
+  const destination = result.destination || route.destination;
+  const raw = result.stops?.length > 0 ? result.stops : [origin, destination];
+  const points = [origin, ...raw, destination];
+  const path: string[] = [];
+  for (const point of points) {
+    if (!point) continue;
+    if (path.length === 0 || stationKeyFor(country, path[path.length - 1]) !== stationKeyFor(country, point)) {
+      path.push(point);
+    }
+  }
+  return path.length >= 2 ? path : [origin, destination];
+}
+
+function routeSegments(route: ScrapedRouteData, date?: string, country?: Country): Array<[string, string]> {
+  const segments = new Map<string, [string, string]>();
+  const addPath = (path: string[]) => {
+    for (let index = 0; index < path.length - 1; index += 1) {
+      const from = path[index];
+      const to = path[index + 1];
+      const key = `${stationKeyFor(country, from)}→${stationKeyFor(country, to)}`;
+      if (stationKeyFor(country, from) !== stationKeyFor(country, to)) {
+        segments.set(key, [from, to]);
+      }
+    }
+  };
+
+  addPath([route.origin, route.destination]);
+  for (const result of resultsForDate(route, date)) {
+    addPath(resultStopPath(route, result, country));
+  }
+  return Array.from(segments.values());
+}
+
+function segmentResult(
+  result: TransitResult,
+  route: ScrapedRouteData,
+  edge: RouteEdge,
+  country?: Country,
+): TransitResult | null {
+  const oriented = edge.reversed ? reverseResult(result) : result;
+  const path = resultStopPath(route, oriented, country);
+  const fromKey = stationKeyFor(country, edge.from);
+  const toKey = stationKeyFor(country, edge.to);
+  const fromIndex = path.findIndex((station) => stationKeyFor(country, station) === fromKey);
+  const toIndex = path.findIndex(
+    (station, index) => index > fromIndex && stationKeyFor(country, station) === toKey,
+  );
+  if (fromIndex < 0 || toIndex < 0 || toIndex <= fromIndex) return null;
+
+  const fullPath = path.slice(fromIndex, toIndex + 1);
+  const isFullResult = fromIndex === 0 && toIndex === path.length - 1;
+  if (isFullResult) return oriented;
+
+  // An intermediate stop is a valid graph node, but a route-level departure
+  // and arrival do not tell us when the train reached that stop. Only expose a
+  // partial edge when the source supplied an explicit leg for it; proportional
+  // interpolation would turn an unknown time into fabricated timetable data.
+  const segmentLeg = oriented.legs?.find((leg) => (
+    stationKeyFor(country, leg.origin) === fromKey
+    && stationKeyFor(country, leg.destination) === toKey
+    && Boolean(leg.departureTime)
+    && Boolean(leg.arrivalTime)
+  ));
+  if (!segmentLeg?.departureTime || !segmentLeg.arrivalTime) return null;
+  const departureMinutes = parseTime(segmentLeg.departureTime);
+  const arrivalMinutes = parseTime(segmentLeg.arrivalTime);
+  const durationMinutes = segmentLeg.durationMinutes
+    ?? (Number.isFinite(departureMinutes) && Number.isFinite(arrivalMinutes)
+      ? arrivalMinutes - departureMinutes + (arrivalMinutes < departureMinutes ? 1440 : 0)
+      : undefined);
+
+  return {
+    ...oriented,
+    id: `${oriented.id}-segment-${fromIndex}-${toIndex}`,
+    origin: fullPath[0],
+    destination: fullPath[fullPath.length - 1],
+    service: segmentLeg.lineName || oriented.service,
+    departureTime: segmentLeg.departureTime,
+    arrivalTime: segmentLeg.arrivalTime,
+    durationMinutes,
+    price: fromIndex === 0 ? oriented.price : undefined,
+    platform: segmentLeg.platform,
+    headsign: segmentLeg.headsign,
+    direct: true,
+    stops: fullPath,
+    legs: undefined,
+    transferStations: undefined,
+  };
+}
+
+function resultsForEdge(edge: RouteEdge, date?: string, country?: Country): TransitResult[] {
+  return resultsForDate(edge.route, date)
+    .flatMap((result) => segmentResult(result, edge.route, edge, country) || []);
 }
 
 function findRoutePaths(
@@ -171,18 +283,19 @@ function findRoutePaths(
   origin: string,
   destination: string,
   date?: string,
+  country?: Country,
 ): RouteEdge[][] {
   const edges: RouteEdge[] = routes
     .filter((route) => resultsForDate(route, date).length > 0)
-    .flatMap((route) => [
-      { route, from: route.origin, to: route.destination, reversed: false },
-      { route, from: route.destination, to: route.origin, reversed: true },
-    ]);
-  const target = stationSearchKey(destination);
+    .flatMap((route) => routeSegments(route, date, country).flatMap(([from, to]) => [
+      { route, from, to, reversed: false },
+      { route, from: to, to: from, reversed: true },
+    ]));
+  const target = stationKeyFor(country, destination);
   const queue: Array<{ station: string; path: RouteEdge[]; visited: Set<string> }> = [{
     station: origin,
     path: [],
-    visited: new Set([stationSearchKey(origin)]),
+    visited: new Set([stationKeyFor(country, origin)]),
   }];
   const found: RouteEdge[][] = [];
   let shortestLength = Number.POSITIVE_INFINITY;
@@ -192,9 +305,9 @@ function findRoutePaths(
     if (current.path.length >= Math.min(shortestLength, 5)) continue;
 
     for (const edge of edges) {
-      if (stationSearchKey(edge.from) !== stationSearchKey(current.station) || current.visited.has(stationSearchKey(edge.to))) continue;
+      if (stationKeyFor(country, edge.from) !== stationKeyFor(country, current.station) || current.visited.has(stationKeyFor(country, edge.to))) continue;
       const path = [...current.path, edge];
-      if (stationSearchKey(edge.to) === target) {
+      if (stationKeyFor(country, edge.to) === target) {
         shortestLength = path.length;
         found.push(path);
         continue;
@@ -203,7 +316,7 @@ function findRoutePaths(
         queue.push({
           station: edge.to,
           path,
-          visited: new Set([...current.visited, stationSearchKey(edge.to)]),
+          visited: new Set([...current.visited, stationKeyFor(country, edge.to)]),
         });
       }
     }
@@ -236,9 +349,9 @@ function chainResults(
   const chainResultsList: TransitResult[] = [];
   let chainId = 0;
 
-  for (const path of findRoutePaths(routes, origin, destination, date)) {
+  for (const path of findRoutePaths(routes, origin, destination, date, country)) {
     type PartialChain = { results: TransitResult[]; legs: JourneyLeg[] };
-    let partials: PartialChain[] = resultsForEdge(path[0], date)
+    let partials: PartialChain[] = resultsForEdge(path[0], date, country)
       .filter((result) => result.departureTime && result.arrivalTime)
       .slice(0, 100)
       .map((result) => ({
@@ -247,7 +360,7 @@ function chainResults(
       }));
 
     for (const edge of path.slice(1)) {
-      const nextResults = resultsForEdge(edge, date)
+      const nextResults = resultsForEdge(edge, date, country)
         .filter((result) => result.departureTime && result.arrivalTime)
         .sort((a, b) => a.departureTime.localeCompare(b.departureTime));
       const extended: PartialChain[] = [];
@@ -261,7 +374,14 @@ function chainResults(
             const wait = departure - previousArrival + (departure < previousArrival ? 1440 : 0);
             return { result, wait };
           })
-          .filter(({ wait }) => wait >= 2 && wait <= 120)
+          .filter(({ wait }) => {
+            const transferStation = previous.destination;
+            const minimum = getMinimumTransferMinutes(
+              country ?? previous.country,
+              transferStation,
+            );
+            return wait >= minimum && wait <= 120;
+          })
           .slice(0, 2);
 
         for (const { result } of connections) {
@@ -286,6 +406,7 @@ function chainResults(
       const transferStations = partial.results.slice(0, -1).map((result) => result.destination);
 
       const resolvedCountry = country ?? first.country;
+      const fareWarning = sameOperatorFareWarning(partial.results);
       chainResultsList.push({
         id: country ? `chain-${country}-${chainId++}` : `chain-${chainId++}`,
         country: resolvedCountry,
@@ -295,10 +416,10 @@ function chainResults(
         departureTime: first.departureTime,
         arrivalTime: last.arrivalTime,
         durationMinutes: totalDuration,
-        price: partial.results.every((result) => result.price != null)
-          ? partial.results.reduce((sum, result) => sum + result.price!, 0)
+        price: aggregateTransferFare(partial.results),
+        currency: partial.results.every((result) => result.currency === first.currency)
+          ? first.currency
           : undefined,
-        currency: first.currency,
         origin: first.origin,
         destination: last.destination,
         direct: false,
@@ -306,6 +427,7 @@ function chainResults(
         legs: partial.legs,
         transferStations,
         tags: ["chain"],
+        warning: fareWarning,
       });
     }
   }
@@ -335,11 +457,13 @@ export function findInRoutes(
   origin = resolveStationAlias(country, origin);
   destination = resolveStationAlias(country, destination);
 
-  const oKey = stationSearchKey(origin);
-  const dKey = stationSearchKey(destination);
+  const oKey = stationKeyFor(country, origin);
+  const dKey = stationKeyFor(country, destination);
 
   const exact = routes.find(
-    (r) => stationSearchKey(r.origin) === oKey && stationSearchKey(r.destination) === dKey && resultsForDate(r, date).length > 0,
+    (r) => stationKeyFor(country, r.origin) === oKey
+      && stationKeyFor(country, r.destination) === dKey
+      && resultsForDate(r, date).length > 0,
   );
   if (exact) {
     const results = resultsForDate(exact, date);
@@ -349,19 +473,35 @@ export function findInRoutes(
   // File origin matches, but destination is only on individual results
   // (mixed-destination snapshot files).
   const resultMatch = routes.find(
-    (r) => stationSearchKey(r.origin) === oKey && resultsForDate(r, date).some((res) => stationSearchKey(res.destination) === dKey),
+    (r) => stationKeyFor(country, r.origin) === oKey
+      && resultsForDate(r, date).some((res) => stationKeyFor(country, res.destination) === dKey),
   );
   if (resultMatch) {
-    const results = resultsForDate(resultMatch, date).filter((r) => stationSearchKey(r.destination) === dKey);
+    const results = resultsForDate(resultMatch, date)
+      .filter((r) => stationKeyFor(country, r.destination) === dKey);
     return country ? results.map((r) => (r.country ? r : { ...r, country })) : results;
   }
 
   const reverse = routes.find(
-    (r) => stationSearchKey(r.origin) === dKey && stationSearchKey(r.destination) === oKey && resultsForDate(r, date).length > 0,
+    (r) => stationKeyFor(country, r.origin) === dKey
+      && stationKeyFor(country, r.destination) === oKey
+      && resultsForDate(r, date).length > 0,
   );
   if (reverse) {
     const results = resultsForDate(reverse, date).map(reverseResult);
     return country ? results.map((r) => (r.country ? r : { ...r, country })) : results;
+  }
+
+  const graphPaths = findRoutePaths(routes, origin, destination, date, country);
+  if (graphPaths.some((path) => path.length === 1)) {
+    const directSegments = graphPaths
+      .filter((path) => path.length === 1)
+      .flatMap((path) => resultsForEdge(path[0], date, country));
+    if (directSegments.length > 0) {
+      return country
+        ? directSegments.map((result) => (result.country ? result : { ...result, country }))
+        : directSegments;
+    }
   }
 
   const chained = chainResults(routes, origin, destination, date, country);

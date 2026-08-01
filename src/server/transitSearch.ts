@@ -2,8 +2,8 @@
  * Journey search orchestration: country policy → provider and/or scraped snapshots.
  * Express handlers stay thin HTTP over this module.
  */
-import type { Country, CoverageGap, SearchDataStatus, SearchResponse } from "../types";
-import { configuredCountryOptions } from "../data/countries";
+import type { Country, CoverageGap, NoResultReason, SearchDataStatus, SearchResponse } from "../types";
+import { configuredCountryOptions, isSearchDateAllowed } from "../data/countries";
 import { getCountryCapability, type ProviderId } from "../data/countryCapability";
 import {
   findScrapedResults,
@@ -15,7 +15,7 @@ import {
   hasCoverage,
 } from "../data/stationCoverage";
 import { stationSearchKey } from "../data/stationKey";
-import { getLinesForCountry } from "./catalog";
+import { getLinesForCountry, officialTimetableUrls } from "./catalog";
 import { enrichTransitResultsWithLineStations } from "../utils/metroEnricher";
 import { searchTflJourney } from "./tfl";
 import { searchMbtaJourney } from "./mbta";
@@ -131,22 +131,44 @@ function findCoverageGap(
   country: Country | undefined,
   origin: string,
   destination: string,
+  date?: string,
 ): CoverageGap | undefined {
   if (!country || coverageModeFor(country) !== "scraped") return undefined;
 
-  const names = getScrapedCoverageNames(country);
-  if (names.length === 0) return undefined;
+  // A date with no rows does not mean the endpoints disappeared from the
+  // network. Fall back to all dated slices so the response can distinguish an
+  // uncovered station from a covered route with no service on this day.
+  const names = getScrapedCoverageNames(country, date);
+  const coverageNames = names.length > 0 ? names : getScrapedCoverageNames(country);
+  if (coverageNames.length === 0) return undefined;
 
-  const keys = new Set(names.map(stationSearchKey));
+  const keys = new Set(coverageNames.map(stationSearchKey));
   const uncovered = [origin, destination].filter(
     (name) => name && !hasCoverage(keys, name, country),
   );
   if (uncovered.length === 0) return undefined;
 
-  return { uncovered, suggestions: names };
+  return { uncovered, suggestions: coverageNames };
 }
 
-function noDataMessage(origin: string, destination: string, gap: CoverageGap | undefined): string {
+function noDataMessage(
+  origin: string,
+  destination: string,
+  gap: CoverageGap | undefined,
+  reason?: NoResultReason,
+  country?: Country,
+): string {
+  if (reason === "future_date_unavailable") {
+    return getCountryCapability(country || "japan").liveOnly
+      ? "This data source is available only for the current local service day. Choose today to search it."
+      : "This timetable is available only within its published service-date range. Choose a date in that range to search it.";
+  }
+  if (reason === "no_verified_data") {
+    return "No verified timetable data is available for this country or date. Check the operator's official timetable.";
+  }
+  if (reason === "no_service") {
+    return `The route exists, but no departures are published for ${origin} → ${destination} on this service day.`;
+  }
   if (!gap) {
     return `No supported timetable data found for ${origin} → ${destination}. This route may not be covered yet.`;
   }
@@ -158,6 +180,35 @@ function noDataMessage(origin: string, destination: string, gap: CoverageGap | u
     } ${noun} in the station map but not yet in TransitRail's timetables. ` +
     `Covered stations for this country: ${gap.suggestions.join(", ")}.`
   );
+}
+
+function dateRangeIsEnforced(country: Country): boolean {
+  return getCountryCapability(country).dateRangeEnforced;
+}
+
+function noResultReasonFor(
+  country: Country | undefined,
+  origin: string,
+  destination: string,
+  date: string,
+  gap: CoverageGap | undefined,
+  providerNoService = false,
+): NoResultReason {
+  if (providerNoService) return "no_service";
+  if (country && dateRangeIsEnforced(country) && !isSearchDateAllowed(country, date)) {
+    return "future_date_unavailable";
+  }
+  if (country && getCountryCapability(country).search.kind === "catalog_only") {
+    return "no_verified_data";
+  }
+  if (country && coverageModeFor(country) === "scraped") {
+    const datedNames = getScrapedCoverageNames(country, date);
+    const allNames = getScrapedCoverageNames(country);
+    if (gap?.uncovered.length || allNames.length === 0) return "no_verified_data";
+    if (findScrapedResults(country, origin, destination)?.length) return "no_service";
+    if (datedNames.length === 0) return "no_service";
+  }
+  return "unsupported_route";
 }
 
 /**
@@ -173,8 +224,18 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
 
   let statusCode = 200;
   let payload: TransitSearchPayload | undefined;
+  let providerNoService = false;
 
-  if (resolvedCountry) {
+  if (resolvedCountry && dateRangeIsEnforced(resolvedCountry) && !isSearchDateAllowed(resolvedCountry, date)) {
+    statusCode = 422;
+    payload = {
+      error: "Date unavailable",
+      message: noDataMessage(origin, destination, undefined, "future_date_unavailable", resolvedCountry),
+      results: [],
+      noResultReason: "future_date_unavailable",
+      officialSourceUrl: officialTimetableUrls[resolvedCountry],
+    };
+  } else if (resolvedCountry) {
     const { search } = getCountryCapability(resolvedCountry);
 
     if (search.kind === "catalog_only") {
@@ -191,6 +252,9 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
       if (search.kind === "provider") {
         statusCode = providerResponse.status;
         payload = providerResponse.body;
+        providerNoService = providerResponse.status >= 200
+          && providerResponse.status < 300
+          && providerResponse.body.results.length === 0;
       } else if (
         providerResponse.status >= 200 &&
         providerResponse.status < 300 &&
@@ -218,15 +282,41 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
   }
 
   if (!payload) {
-    statusCode = 404;
-    const coverageGap = findCoverageGap(resolvedCountry, origin, destination);
+      statusCode = 404;
+    const coverageGap = findCoverageGap(resolvedCountry, origin, destination, date);
+    const noResultReason = noResultReasonFor(
+      resolvedCountry,
+      origin,
+      destination,
+      date,
+      coverageGap,
+      providerNoService,
+    );
     payload = {
       error: "No data available",
-      message: noDataMessage(origin, destination, coverageGap),
+      message: noDataMessage(origin, destination, coverageGap, noResultReason, resolvedCountry),
       results: [],
       source: "scraped",
       coverageGap,
+      noResultReason,
+      officialSourceUrl: resolvedCountry ? officialTimetableUrls[resolvedCountry] : undefined,
     };
+  }
+
+  if (payload.results.length === 0 && resolvedCountry && !payload.noResultReason) {
+    const coverageGap = payload.coverageGap || findCoverageGap(resolvedCountry, origin, destination, date);
+    const noResultReason = noResultReasonFor(
+      resolvedCountry,
+      origin,
+      destination,
+      date,
+      coverageGap,
+      providerNoService,
+    );
+    payload.noResultReason = noResultReason;
+    payload.coverageGap = coverageGap;
+    payload.officialSourceUrl = payload.officialSourceUrl || officialTimetableUrls[resolvedCountry];
+    payload.message = payload.message || noDataMessage(origin, destination, coverageGap, noResultReason, resolvedCountry);
   }
 
   // Service-day availability is a separate public contract from journey rows.

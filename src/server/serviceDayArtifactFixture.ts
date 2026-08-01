@@ -15,8 +15,11 @@
  */
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 
-export function serviceDayArtifactFixture(artifactUrl: URL) {
-  let tracked: string | undefined;
+export function serviceDayArtifactFixture(artifactUrl: URL, options: { binary?: boolean } = {}) {
+  let tracked: string | Buffer | undefined;
+  const readTracked = () => options.binary
+    ? readFileSync(artifactUrl)
+    : readFileSync(artifactUrl, "utf8");
   const remove = () => {
     if (existsSync(artifactUrl)) unlinkSync(artifactUrl);
   };
@@ -24,7 +27,7 @@ export function serviceDayArtifactFixture(artifactUrl: URL) {
   return {
     /** Stash the committed artifact, then start the suite from a clean slate. */
     stash() {
-      tracked = existsSync(artifactUrl) ? readFileSync(artifactUrl, "utf8") : undefined;
+      tracked = existsSync(artifactUrl) ? readTracked() : undefined;
       remove();
     },
     /** Drop whatever the last test wrote, so tests stay independent. */
@@ -33,6 +36,10 @@ export function serviceDayArtifactFixture(artifactUrl: URL) {
     restore() {
       remove();
       if (tracked !== undefined) writeFileSync(artifactUrl, tracked);
+    },
+    /** Write fixture contents after `stash()` has removed the tracked copy. */
+    write(contents: string | Buffer) {
+      writeFileSync(artifactUrl, contents);
     },
   };
 }

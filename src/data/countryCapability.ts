@@ -30,6 +30,8 @@ export interface CountryCapability {
   resultView: ResultViewFamily;
   liveRailMarket?: LiveRailMarket;
   liveOnly: boolean;
+  dateRangeDays: number;
+  dateRangeEnforced: boolean;
   serviceDay: ServiceDayCapability;
 }
 
@@ -40,9 +42,20 @@ export function getCountryCapability(country: Country): CountryCapability {
     resultView,
     liveRailMarket,
     liveOnly,
+    dateRangeDays,
+    dateRangeEnforced = false,
     serviceDay,
   } = countryConfig[country];
-  return { search, scrape, resultView, liveRailMarket, liveOnly, serviceDay };
+  return {
+    search,
+    scrape,
+    resultView,
+    liveRailMarket,
+    liveOnly,
+    dateRangeDays,
+    dateRangeEnforced,
+    serviceDay,
+  };
 }
 
 /** Countries whose scrape job is a timetable scraper (not catalog-only / none). */

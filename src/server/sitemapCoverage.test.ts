@@ -43,9 +43,13 @@ describe("sitemap coverage matches the generated pages", () => {
     }
   });
 
-  it("omits temporarily hidden Korea pages from generated SEO coverage", () => {
-    expect(pages.some((page) => page.country === "korea")).toBe(false);
-    expect(allEntries.some((entry) => entry.url.includes("/korea/"))).toBe(false);
+  it("removes only representative Singapore and Thailand route pages", () => {
+    expect(pages.some((page) => page.country === "singapore")).toBe(false);
+    expect(pages.some((page) => page.country === "thailand")).toBe(false);
+    expect(pages.some((page) => page.country === "korea")).toBe(true);
+    expect(pages.some((page) => page.country === "china")).toBe(true);
+    expect(allEntries.some((entry) => entry.url.includes("/singapore/"))).toBe(false);
+    expect(allEntries.some((entry) => entry.url.includes("/thailand/"))).toBe(false);
   });
 
   it("covers every generated route page in every locale", () => {

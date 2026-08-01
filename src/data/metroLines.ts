@@ -1,4 +1,6 @@
-import type { LineStation, TransitLine } from "../types";
+import type { Country, LineStation, TransitLine } from "../types";
+import { resolveStationAlias } from "./stationAliases";
+import { stationSearchKey } from "./stationKey";
 
 /**
  * Static line directories for countries without a live line provider. Metro
@@ -16,14 +18,15 @@ interface LineDef {
   stations: StationDef[];
 }
 
-function buildLines(defs: LineDef[]): TransitLine[] {
+function buildLines(defs: LineDef[], country?: Country): TransitLine[] {
   const linesByStation = new Map<string, string[]>();
   for (const line of defs) {
     for (const stationDef of line.stations) {
       const station = typeof stationDef === "string" ? stationDef : stationDef.name;
-      const names = linesByStation.get(station) || [];
+      const key = stationSearchKey(resolveStationAlias(country, station));
+      const names = linesByStation.get(key) || [];
       if (!names.includes(line.name)) names.push(line.name);
-      linesByStation.set(station, names);
+      linesByStation.set(key, names);
     }
   }
   return defs.map((line) => ({
@@ -34,7 +37,8 @@ function buildLines(defs: LineDef[]): TransitLine[] {
       const isStr = typeof stationDef === "string";
       const station = isStr ? stationDef : stationDef.name;
       const accessible = isStr ? undefined : stationDef.accessible;
-      const transfers = (linesByStation.get(station) || []).filter((name) => name !== line.name);
+      const key = stationSearchKey(resolveStationAlias(country, station));
+      const transfers = (linesByStation.get(key) || []).filter((name) => name !== line.name);
       return { 
         name: station, 
         interchanges: transfers.length > 0 ? transfers : undefined,
@@ -128,7 +132,7 @@ const singaporeLineDefs: LineDef[] = [
   },
 ];
 
-export const singaporeMrtLines = buildLines(singaporeLineDefs);
+export const singaporeMrtLines = buildLines(singaporeLineDefs, "singapore");
 
 // ---------------------------------------------------------------------------
 // Bangkok BTS / MRT / ARL — all open stations.
@@ -201,7 +205,7 @@ const thailandLineDefs: LineDef[] = [
   },
 ];
 
-export const thailandTransitLines = buildLines(thailandLineDefs);
+export const thailandTransitLines = buildLines(thailandLineDefs, "thailand");
 
 // ---------------------------------------------------------------------------
 // China HSR — major stops on the main corridors.
@@ -250,7 +254,7 @@ const chinaLineDefs: LineDef[] = [
   },
 ];
 
-export const chinaRailLines = buildLines(chinaLineDefs);
+export const chinaRailLines = buildLines(chinaLineDefs, "china");
 
 // ---------------------------------------------------------------------------
 // Germany ICE — major corridors (DB).
@@ -300,7 +304,7 @@ const germanyLineDefs: LineDef[] = [
   },
 ];
 
-export const germanyRailLines = buildLines(germanyLineDefs);
+export const germanyRailLines = buildLines(germanyLineDefs, "germany");
 
 // ---------------------------------------------------------------------------
 // France TGV — major LGV corridors (SNCF).
@@ -335,7 +339,7 @@ const franceLineDefs: LineDef[] = [
   },
 ];
 
-export const franceRailLines = buildLines(franceLineDefs);
+export const franceRailLines = buildLines(franceLineDefs, "france");
 
 // ---------------------------------------------------------------------------
 // Switzerland intercity rail — major SBB corridors.
@@ -385,4 +389,4 @@ const switzerlandLineDefs: LineDef[] = [
   },
 ];
 
-export const switzerlandRailLines = buildLines(switzerlandLineDefs);
+export const switzerlandRailLines = buildLines(switzerlandLineDefs, "switzerland");

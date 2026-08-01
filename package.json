@@ -12,6 +12,7 @@
     "sitemap": "tsx scripts/generate-sitemaps.ts",
     "redirects": "tsx scripts/generate-url-redirects.ts",
     "sitemap:check": "tsx scripts/prototype-gsc-sitemap-check.ts",
+    "audit:authenticity": "tsx scripts/audit-timetable-authenticity.ts",
     "scrape": "tsx scripts/scrape-all.ts",
     "scrape:metadata": "tsx scripts/sync-scraped-metadata.ts",
     "scrape:japan": "tsx scripts/scrape-country.ts japan",

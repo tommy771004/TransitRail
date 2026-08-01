@@ -3,102 +3,27 @@
   "stations": [
     "Admiralty",
     "Airport",
-    "AsiaWorld-Expo",
-    "Austin",
-    "Causeway Bay",
     "Central",
-    "Chai Wan",
-    "Che Kung Temple",
     "Cheung Sha Wan",
-    "Choi Hung",
-    "City One",
-    "Diamond Hill",
-    "Disneyland Resort",
     "East Tsim Sha Tsui",
-    "Exhibition Centre",
-    "Fanling",
-    "Fo Tan",
-    "Fortress Hill",
-    "Hang Hau",
-    "Heng Fa Chuen",
-    "Heng On",
-    "Hin Keng",
-    "HKU",
-    "Ho Man Tin",
     "Hong Kong",
-    "Hung Hom",
     "Jordan",
-    "Kai Tak",
-    "Kam Sheung Road",
-    "Kennedy Town",
     "Kowloon",
-    "Kowloon Bay",
-    "Kowloon Tong",
     "Kwai Fong",
     "Kwai Hing",
-    "Kwun Tong",
     "Lai Chi Kok",
     "Lai King",
-    "Lam Tin",
-    "Lei Tung",
-    "Lo Wu",
-    "LOHAS Park",
-    "Lok Fu",
-    "Lok Ma Chau",
-    "Long Ping",
-    "Ma On Shan",
     "Mei Foo",
     "Mong Kok",
-    "Mong Kok East",
-    "Nam Cheong",
-    "Ngau Tau Kok",
-    "North Point",
-    "Ocean Park",
-    "Olympic",
-    "Po Lam",
     "Prince Edward",
-    "Quarry Bay",
-    "Racecourse",
-    "Sai Wan Ho",
-    "Sai Ying Pun",
-    "Sha Tin",
-    "Sha Tin Wai",
     "Sham Shui Po",
-    "Shau Kei Wan",
-    "Shek Kip Mei",
-    "Shek Mun",
-    "Sheung Shui",
-    "Sheung Wan",
-    "Siu Hong",
-    "South Horizons",
-    "Sung Wong Toi",
     "Sunny Bay",
-    "Tai Koo",
-    "Tai Po Market",
-    "Tai Shui Hang",
-    "Tai Wai",
-    "Tai Wo",
     "Tai Wo Hau",
-    "Tin Hau",
-    "Tin Shui Wai",
-    "Tiu Keng Leng",
-    "To Kwa Wan",
-    "Tseung Kwan O",
     "Tsim Sha Tsui",
     "Tsing Yi",
     "Tsuen Wan",
-    "Tsuen Wan West",
-    "Tuen Mun",
     "Tung Chung",
-    "University",
-    "Wan Chai",
-    "Whampoa",
-    "Wong Chuk Hang",
-    "Wong Tai Sin",
-    "Wu Kai Sha",
-    "Yau Ma Tei",
-    "Yau Tong",
-    "Yuen Long"
+    "Yau Ma Tei"
   ],
   "lines": [
     {
@@ -109,7 +34,9 @@
         {
           "name": "Hong Kong",
           "interchanges": [
-            "Tung Chung Line"
+            "Tung Chung Line",
+            "Tsuen Wan Line",
+            "Island Line"
           ]
         },
         {
@@ -126,9 +53,6 @@
         },
         {
           "name": "Airport"
-        },
-        {
-          "name": "AsiaWorld-Expo"
         }
       ]
     },
@@ -140,22 +64,15 @@
         {
           "name": "Hong Kong",
           "interchanges": [
-            "Airport Express"
+            "Airport Express",
+            "Tsuen Wan Line",
+            "Island Line"
           ]
         },
         {
           "name": "Kowloon",
           "interchanges": [
             "Airport Express"
-          ]
-        },
-        {
-          "name": "Olympic"
-        },
-        {
-          "name": "Nam Cheong",
-          "interchanges": [
-            "Tuen Ma Line"
           ]
         },
         {
@@ -187,75 +104,9 @@
       "color": "#9C2E00",
       "stations": [
         {
-          "name": "Wu Kai Sha"
-        },
-        {
-          "name": "Ma On Shan"
-        },
-        {
-          "name": "Heng On"
-        },
-        {
-          "name": "Tai Shui Hang"
-        },
-        {
-          "name": "Shek Mun"
-        },
-        {
-          "name": "City One"
-        },
-        {
-          "name": "Sha Tin Wai"
-        },
-        {
-          "name": "Che Kung Temple"
-        },
-        {
-          "name": "Tai Wai",
+          "name": "East Tsim Sha Tsui",
           "interchanges": [
-            "East Rail Line"
-          ]
-        },
-        {
-          "name": "Hin Keng"
-        },
-        {
-          "name": "Diamond Hill",
-          "interchanges": [
-            "Kwun Tong Line"
-          ]
-        },
-        {
-          "name": "Kai Tak"
-        },
-        {
-          "name": "Sung Wong Toi"
-        },
-        {
-          "name": "To Kwa Wan"
-        },
-        {
-          "name": "Ho Man Tin",
-          "interchanges": [
-            "Kwun Tong Line"
-          ]
-        },
-        {
-          "name": "Hung Hom",
-          "interchanges": [
-            "East Rail Line"
-          ]
-        },
-        {
-          "name": "East Tsim Sha Tsui"
-        },
-        {
-          "name": "Austin"
-        },
-        {
-          "name": "Nam Cheong",
-          "interchanges": [
-            "Tung Chung Line"
+            "Tsuen Wan Line"
           ]
         },
         {
@@ -263,166 +114,6 @@
           "interchanges": [
             "Tsuen Wan Line"
           ]
-        },
-        {
-          "name": "Tsuen Wan West"
-        },
-        {
-          "name": "Kam Sheung Road"
-        },
-        {
-          "name": "Yuen Long"
-        },
-        {
-          "name": "Long Ping"
-        },
-        {
-          "name": "Tin Shui Wai"
-        },
-        {
-          "name": "Siu Hong"
-        },
-        {
-          "name": "Tuen Mun"
-        }
-      ]
-    },
-    {
-      "id": "TKL",
-      "name": "Tseung Kwan O Line",
-      "color": "#7E3C93",
-      "stations": [
-        {
-          "name": "North Point",
-          "interchanges": [
-            "Island Line"
-          ]
-        },
-        {
-          "name": "Quarry Bay",
-          "interchanges": [
-            "Island Line"
-          ]
-        },
-        {
-          "name": "Yau Tong",
-          "interchanges": [
-            "Kwun Tong Line"
-          ]
-        },
-        {
-          "name": "Tiu Keng Leng",
-          "interchanges": [
-            "Kwun Tong Line"
-          ]
-        },
-        {
-          "name": "Tseung Kwan O"
-        },
-        {
-          "name": "Hang Hau"
-        },
-        {
-          "name": "Po Lam"
-        },
-        {
-          "name": "LOHAS Park"
-        }
-      ]
-    },
-    {
-      "id": "EAL",
-      "name": "East Rail Line",
-      "color": "#5EB7E8",
-      "stations": [
-        {
-          "name": "Admiralty",
-          "interchanges": [
-            "South Island Line",
-            "Tsuen Wan Line",
-            "Island Line"
-          ]
-        },
-        {
-          "name": "Exhibition Centre"
-        },
-        {
-          "name": "Hung Hom",
-          "interchanges": [
-            "Tuen Ma Line"
-          ]
-        },
-        {
-          "name": "Mong Kok East"
-        },
-        {
-          "name": "Kowloon Tong",
-          "interchanges": [
-            "Kwun Tong Line"
-          ]
-        },
-        {
-          "name": "Tai Wai",
-          "interchanges": [
-            "Tuen Ma Line"
-          ]
-        },
-        {
-          "name": "Sha Tin"
-        },
-        {
-          "name": "Fo Tan"
-        },
-        {
-          "name": "University"
-        },
-        {
-          "name": "Tai Po Market"
-        },
-        {
-          "name": "Tai Wo"
-        },
-        {
-          "name": "Fanling"
-        },
-        {
-          "name": "Sheung Shui"
-        },
-        {
-          "name": "Lo Wu"
-        },
-        {
-          "name": "Lok Ma Chau"
-        },
-        {
-          "name": "Racecourse"
-        }
-      ]
-    },
-    {
-      "id": "SIL",
-      "name": "South Island Line",
-      "color": "#CBD300",
-      "stations": [
-        {
-          "name": "Admiralty",
-          "interchanges": [
-            "East Rail Line",
-            "Tsuen Wan Line",
-            "Island Line"
-          ]
-        },
-        {
-          "name": "Ocean Park"
-        },
-        {
-          "name": "Wong Chuk Hang"
-        },
-        {
-          "name": "Lei Tung"
-        },
-        {
-          "name": "South Horizons"
         }
       ]
     },
@@ -434,6 +125,8 @@
         {
           "name": "Central",
           "interchanges": [
+            "Airport Express",
+            "Tung Chung Line",
             "Island Line"
           ]
         },
@@ -446,7 +139,10 @@
           ]
         },
         {
-          "name": "Tsim Sha Tsui"
+          "name": "Tsim Sha Tsui",
+          "interchanges": [
+            "Tuen Ma Line"
+          ]
         },
         {
           "name": "Jordan"
@@ -510,20 +206,10 @@
       "color": "#0075C2",
       "stations": [
         {
-          "name": "Kennedy Town"
-        },
-        {
-          "name": "HKU"
-        },
-        {
-          "name": "Sai Ying Pun"
-        },
-        {
-          "name": "Sheung Wan"
-        },
-        {
           "name": "Central",
           "interchanges": [
+            "Airport Express",
+            "Tung Chung Line",
             "Tsuen Wan Line"
           ]
         },
@@ -534,45 +220,6 @@
             "South Island Line",
             "Tsuen Wan Line"
           ]
-        },
-        {
-          "name": "Wan Chai"
-        },
-        {
-          "name": "Causeway Bay"
-        },
-        {
-          "name": "Tin Hau"
-        },
-        {
-          "name": "Fortress Hill"
-        },
-        {
-          "name": "North Point",
-          "interchanges": [
-            "Tseung Kwan O Line"
-          ]
-        },
-        {
-          "name": "Quarry Bay",
-          "interchanges": [
-            "Tseung Kwan O Line"
-          ]
-        },
-        {
-          "name": "Tai Koo"
-        },
-        {
-          "name": "Sai Wan Ho"
-        },
-        {
-          "name": "Shau Kei Wan"
-        },
-        {
-          "name": "Heng Fa Chuen"
-        },
-        {
-          "name": "Chai Wan"
         }
       ]
     },
@@ -581,15 +228,6 @@
       "name": "Kwun Tong Line",
       "color": "#00A040",
       "stations": [
-        {
-          "name": "Whampoa"
-        },
-        {
-          "name": "Ho Man Tin",
-          "interchanges": [
-            "Tuen Ma Line"
-          ]
-        },
         {
           "name": "Yau Ma Tei",
           "interchanges": [
@@ -607,70 +245,6 @@
           "interchanges": [
             "Tsuen Wan Line"
           ]
-        },
-        {
-          "name": "Shek Kip Mei"
-        },
-        {
-          "name": "Kowloon Tong",
-          "interchanges": [
-            "East Rail Line"
-          ]
-        },
-        {
-          "name": "Lok Fu"
-        },
-        {
-          "name": "Wong Tai Sin"
-        },
-        {
-          "name": "Diamond Hill",
-          "interchanges": [
-            "Tuen Ma Line"
-          ]
-        },
-        {
-          "name": "Choi Hung"
-        },
-        {
-          "name": "Kowloon Bay"
-        },
-        {
-          "name": "Ngau Tau Kok"
-        },
-        {
-          "name": "Kwun Tong"
-        },
-        {
-          "name": "Lam Tin"
-        },
-        {
-          "name": "Yau Tong",
-          "interchanges": [
-            "Tseung Kwan O Line"
-          ]
-        },
-        {
-          "name": "Tiu Keng Leng",
-          "interchanges": [
-            "Tseung Kwan O Line"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "DRL",
-      "name": "Disneyland Resort Line",
-      "color": "#EB6EA5",
-      "stations": [
-        {
-          "name": "Sunny Bay",
-          "interchanges": [
-            "Tung Chung Line"
-          ]
-        },
-        {
-          "name": "Disneyland Resort"
         }
       ]
     }
@@ -681,11 +255,32 @@
       "Admiralty",
       "Airport",
       "Central",
+      "Cheung Sha Wan",
+      "East Tsim Sha Tsui",
       "Hong Kong",
+      "Jordan",
+      "Kowloon",
+      "Kwai Fong",
+      "Kwai Hing",
+      "Lai Chi Kok",
+      "Lai King",
+      "Mei Foo",
+      "Mong Kok",
+      "Prince Edward",
+      "Sham Shui Po",
       "Sunny Bay",
+      "Tai Wo Hau",
       "Tsim Sha Tsui",
+      "Tsing Yi",
       "Tsuen Wan",
-      "Tung Chung"
-    ]
+      "Tung Chung",
+      "Yau Ma Tei"
+    ],
+    "dateRange": {
+      "start": "2026-08-01",
+      "end": "2026-08-01",
+      "days": 1,
+      "liveOnly": true
+    }
   }
 }

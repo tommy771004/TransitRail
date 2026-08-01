@@ -400,7 +400,7 @@ export function SearchForm({
                 </div>
                 
                 <div className="flex gap-2.5 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory hide-scrollbar">
-                  {providerDateValues(country, 14).map((dateValue, idx) => {
+                  {providerDateValues(country, config.dateRangeDays).map((dateValue, idx) => {
                     const d = new Date(`${dateValue}T12:00:00Z`);
                     const isSelected = date === dateValue;
                     const monthStr = i18n.language === "zh-TW" 

@@ -8,18 +8,18 @@ import {
 } from "./countryCapability";
 
 describe("getCountryCapability — search / scrape / result view policy", () => {
-  it("keeps Korea out of public country choices while retaining its scheduled scraper", () => {
-    expect(countryOptions).not.toContain("korea");
+  it("keeps Korea public while retaining its scheduled scraper", () => {
+    expect(countryOptions).toContain("korea");
     expect(timetableScrapeCountries()).toContain("korea");
   });
 
   it("Hong Kong: scraped at request time, provider-backed scrape, metro results", () => {
-    // Live MTR is used by the nightly scraper only — search reads snapshots.
+    // Search exposes only the current local service day for MTR data.
     expect(getCountryCapability("hong_kong")).toMatchObject({
       search: { kind: "scraped" },
       scrape: "provider_backed",
       resultView: "metro",
-      liveOnly: false,
+      liveOnly: true,
     });
   });
 
@@ -29,7 +29,7 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
       scrape: "provider_backed",
       resultView: "live_rail",
       liveRailMarket: "london",
-      liveOnly: false,
+      liveOnly: true,
     });
   });
 
@@ -51,13 +51,14 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
     });
   });
 
-  it("United States: live MBTA, date locked to today", () => {
+  it("United States: live MBTA, seven-day scheduled range", () => {
     expect(getCountryCapability("united_states")).toMatchObject({
       search: { kind: "provider", provider: "mbta" },
       scrape: "provider_backed",
       resultView: "live_rail",
       liveRailMarket: "boston",
-      liveOnly: true,
+      liveOnly: false,
+      dateRangeDays: 7,
     });
   });
 

@@ -1,5 +1,8 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { runTransitSearch } from "./transitSearch";
+
+const TODAY = "2026-07-29";
+const SATURDAY = "2026-08-01";
 
 function journey(startDateTime: string, arrivalDateTime: string) {
   return {
@@ -22,9 +25,11 @@ function journey(startDateTime: string, arrivalDateTime: string) {
 }
 
 function installLondonFixtures(
-  lastStart = "2026-07-29T22:45:00Z",
+  lastStart: string | undefined = undefined,
   failServiceDay = false,
   failJourney = false,
+  serviceDate = TODAY,
+  emptyJourney = false,
 ) {
   vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
     const url = new URL(String(input));
@@ -48,11 +53,11 @@ function installLondonFixtures(
         return new Response(JSON.stringify({ error: "fixture provider secret" }), { status: 503 });
       }
       const selected = adjustment === "TripFirst"
-        ? journey("2026-07-29T04:30:00Z", "2026-07-29T04:50:00Z")
+        ? journey(`${serviceDate}T04:30:00Z`, `${serviceDate}T04:50:00Z`)
         : adjustment === "TripLast"
-          ? journey(lastStart, "2026-07-29T23:05:00Z")
-          : journey("2026-07-29T08:00:00Z", "2026-07-29T08:20:00Z");
-      return new Response(JSON.stringify({ journeys: [selected] }), { status: 200 });
+          ? journey(lastStart || `${serviceDate}T22:45:00Z`, `${serviceDate}T23:05:00Z`)
+          : journey(`${serviceDate}T08:00:00Z`, `${serviceDate}T08:20:00Z`);
+      return new Response(JSON.stringify({ journeys: emptyJourney && !adjustment ? [] : [selected] }), { status: 200 });
     }
 
     if (url.pathname.startsWith("/Line/Mode/")) {
@@ -64,7 +69,13 @@ function installLondonFixtures(
 }
 
 describe("runTransitSearch service-day advisory", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(`${TODAY}T12:00:00Z`));
+  });
+
   afterEach(() => {
+    vi.useRealTimers();
     vi.unstubAllGlobals();
   });
 
@@ -75,7 +86,7 @@ describe("runTransitSearch service-day advisory", () => {
       origin: "Green Park",
       destination: "Oxford Circus",
       country: "united_kingdom",
-      date: "2026-07-29",
+      date: TODAY,
       time: "22:30",
     });
 
@@ -83,7 +94,7 @@ describe("runTransitSearch service-day advisory", () => {
     expect(result.payload.results).toHaveLength(1);
     expect(result.payload.serviceDayAdvisory).toEqual(expect.objectContaining({
       coverage: "supported",
-      serviceDate: "2026-07-29",
+      serviceDate: TODAY,
       timezone: "Europe/London",
       serviceDayType: "weekday",
       firstDeparture: "05:30",
@@ -94,6 +105,22 @@ describe("runTransitSearch service-day advisory", () => {
     }));
   });
 
+  it("labels an otherwise valid provider route with no journeys as no-service", async () => {
+    installLondonFixtures(undefined, false, false, TODAY, true);
+
+    const result = await runTransitSearch({
+      origin: "Green Park",
+      destination: "Oxford Circus",
+      country: "united_kingdom",
+      date: TODAY,
+      time: "22:30",
+    });
+
+    expect(result.statusCode).toBe(200);
+    expect(result.payload.results).toEqual([]);
+    expect(result.payload.noResultReason).toBe("no_service");
+  });
+
   it("marks a search within fifteen minutes of the final journey as critical", async () => {
     installLondonFixtures();
 
@@ -101,7 +128,7 @@ describe("runTransitSearch service-day advisory", () => {
       origin: "Green Park",
       destination: "Oxford Circus",
       country: "united_kingdom",
-      date: "2026-07-29",
+      date: TODAY,
       time: "23:30",
     });
 
@@ -118,12 +145,12 @@ describe("runTransitSearch service-day advisory", () => {
       origin: "Green Park",
       destination: "Oxford Circus",
       country: "united_kingdom",
-      date: "2026-07-29",
+      date: TODAY,
       time: "23:45",
     });
 
     expect(result.payload.serviceDayAdvisory).toEqual(expect.objectContaining({
-      serviceDate: "2026-07-29",
+      serviceDate: TODAY,
       lastDeparture: "00:30",
       minutesToLastDeparture: 45,
       risk: "approaching",
@@ -131,13 +158,14 @@ describe("runTransitSearch service-day advisory", () => {
   });
 
   it("classifies Saturday service in the transit market timezone", async () => {
-    installLondonFixtures();
+    vi.setSystemTime(new Date(`${SATURDAY}T12:00:00Z`));
+    installLondonFixtures(undefined, false, false, SATURDAY);
 
     const result = await runTransitSearch({
       origin: "Green Park",
       destination: "Oxford Circus",
       country: "united_kingdom",
-      date: "2026-08-01",
+      date: SATURDAY,
       time: "10:00",
     });
 
@@ -151,16 +179,16 @@ describe("runTransitSearch service-day advisory", () => {
       origin: "Green Park",
       destination: "Oxford Circus",
       country: "united_kingdom",
-      date: "2026-08-02",
+      date: TODAY,
       time: "22:30",
     });
 
     expect(result.statusCode).toBe(200);
     expect(result.payload.results).toHaveLength(1);
     expect(result.payload.serviceDayAdvisory).toEqual(expect.objectContaining({
-      coverage: "unavailable",
-      risk: "unavailable",
-      serviceDate: "2026-08-02",
+      coverage: "stale",
+      risk: "safe",
+      serviceDate: TODAY,
     }));
     expect(result.payload.message).toBeUndefined();
   });
@@ -171,7 +199,7 @@ describe("runTransitSearch service-day advisory", () => {
       origin: "Green Park",
       destination: "Oxford Circus",
       country: "united_kingdom",
-      date: "2026-07-29",
+      date: TODAY,
       time: "22:30",
     });
 
@@ -180,7 +208,7 @@ describe("runTransitSearch service-day advisory", () => {
       origin: "Green Park",
       destination: "Oxford Circus",
       country: "united_kingdom",
-      date: "2026-07-29",
+      date: TODAY,
       time: "22:30",
     });
 
@@ -199,7 +227,7 @@ describe("runTransitSearch service-day advisory", () => {
       origin: "Green Park",
       destination: "Oxford Circus",
       country: "united_kingdom",
-      date: "2026-09-01",
+      date: TODAY,
       time: "10:00",
     });
 

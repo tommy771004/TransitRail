@@ -15,7 +15,7 @@
 import "dotenv/config"; // load OPENROUTER_API_KEY (+ ALLOW_PAID_FALLBACK) from .env for the LLM cross-check
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "fs";
 import { resolve } from "path";
-import type { Country, TransitLine, TransitResult } from "../src/types";
+import type { Country, TimetableProvenance, TransitLine, TransitResult } from "../src/types";
 import { planJourney, type PlannerLine } from "./lib/transferPlanner";
 import { llmResolveTransfer } from "./lib/llmTransfer";
 import {
@@ -181,7 +181,7 @@ interface Resolution {
     leg2: { line: string; stops: string[]; min: number };
     transferMin: number;
   };
-  source: "topology-direct" | "topology-transfer" | "curated-transfer" | "llm-confirmed" | "assumed-direct";
+  source: "topology-direct" | "topology-transfer" | "curated-transfer" | "llm-advisory" | "assumed-direct";
   note?: string;
 }
 
@@ -208,8 +208,8 @@ async function resolveRouting(seed: Seed): Promise<Resolution> {
     let note: string | undefined;
     const llm = await llmResolveTransfer(seed.country, seed.origin, seed.destination, stationList(seed.country), seed.durationMin);
     if (llm && same(llm.interchange, c.interchange)) {
-      source = "llm-confirmed";
-      note = `LLM confirmed interchange ${c.interchange}`;
+      source = "llm-advisory";
+      note = `LLM advisory matched the curated interchange ${c.interchange}; the curated value remains authoritative`;
     } else if (llm) {
       note = `LLM proposed ${llm.interchange} via ${llm.leg1Line}→${llm.leg2Line} (differs from curated ${c.interchange}) — kept curated; free-model routing is unreliable here, review before trusting`;
     } else if (topo && topo.direct) {
@@ -285,6 +285,7 @@ function generate(seed: Seed, res: Resolution): TransitResult[] {
         stops: res.stops,
         date,
       };
+      if (res.source === "llm-advisory") result.provenance = "llm-advisory";
       if (variant?.seatClass) result.seatClass = variant.seatClass;
       if (tr) {
         const leg1Arr = m + tr.leg1.min;
@@ -315,6 +316,7 @@ interface RouteFile {
   date: string;
   scrapedAt: string;
   source: string;
+  provenance?: TimetableProvenance;
   results: TransitResult[];
 }
 
@@ -366,6 +368,9 @@ for (const country of COUNTRIES) {
         ...data,
         date: seeded ? DATE_LABEL : data.date,
         scrapedAt: seeded ? new Date().toISOString() : data.scrapedAt,
+        provenance: seeded && resolutions.get(seed!.code)?.source === "llm-advisory"
+          ? "llm-advisory"
+          : data.provenance,
         results,
       };
       writeFileSync(path, JSON.stringify(updated, null, 2) + "\n", "utf-8");
@@ -412,7 +417,7 @@ for (const seed of SEEDS) {
   const r = resolutions.get(seed.code)!;
   const shape = r.direct ? "direct" : `transfer@${r.transfer!.interchange}`;
   console.log(`  [${r.source}] ${seed.country} ${seed.origin}→${seed.destination}: ${shape}${r.note ? ` — ${r.note}` : ""}`);
-  if (!r.direct && (r.source === "curated-transfer" || r.source === "llm-confirmed")) gaps.push(`${seed.country} ${seed.origin}→${seed.destination}`);
+  if (!r.direct && (r.source === "curated-transfer" || r.source === "llm-advisory")) gaps.push(`${seed.country} ${seed.origin}→${seed.destination}`);
 }
 if (gaps.length > 0 && !process.env.OPENROUTER_API_KEY) {
   console.log(`\n${gaps.length} transfer route(s) fell back to curated interchanges (topology could not resolve them).`);

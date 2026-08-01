@@ -391,9 +391,11 @@ async function logTransitSearch(
   });
 
   app.get("/api/transit/stations", async (req, res) => {
-    const { country, q } = req.query;
+    const { country, q, date, origin } = req.query;
     const countryValue = typeof country === "string" ? country : undefined;
     const queryValue = typeof q === "string" ? q.trim() || undefined : undefined;
+    const dateValue = typeof date === "string" ? date.trim() || undefined : undefined;
+    const originValue = typeof origin === "string" ? origin.trim() || undefined : undefined;
     let statusCode = 200;
     let providerError: unknown;
     let payload: {
@@ -405,8 +407,15 @@ async function logTransitSearch(
     };
 
     try {
-      const { stations, source, coverage } = await getStationsForCountry(country as string, q as string);
+      const { stations, source, coverage } = await getStationsForCountry(
+        country as string,
+        queryValue,
+        dateValue,
+        originValue,
+      );
       payload = { stations, source, coverage };
+      if (coverage?.message) payload.message = coverage.message;
+      if (coverage?.sourceUrl && !payload.source) payload.source = coverage.sourceUrl;
     } catch (error) {
       if (error instanceof Error && error.message === "Invalid country") {
         statusCode = 400;
@@ -435,7 +444,7 @@ async function logTransitSearch(
         error: providerError,
         country: countryValue,
         httpStatus: statusCode,
-        context: { query: queryValue },
+        context: { query: queryValue, date: dateValue, origin: originValue },
       });
     }
 
@@ -467,6 +476,8 @@ async function logTransitSearch(
     void sendTelemetry("station.catalog.completed", {
       has_country: Boolean(countryValue),
       has_query: Boolean(queryValue),
+      has_date: Boolean(dateValue),
+      has_origin: Boolean(originValue),
       result_count: payload.stations.length,
       status_code: statusCode,
     });
@@ -650,7 +661,8 @@ async function logTransitSearch(
   });
 
   app.get("/api/transit/lines", async (req, res) => {
-    const { country } = req.query;
+    const { country, date } = req.query;
+    const dateValue = typeof date === "string" ? date.trim() || undefined : undefined;
     if (typeof country !== "string" || !countryOptions.includes(country as Country)) {
       return res.status(400).json({
         error: "Invalid country",
@@ -668,14 +680,26 @@ async function logTransitSearch(
     }
 
     try {
-      const lines = await getLinesForCountry(country);
+      const lines = await getLinesForCountry(country, dateValue);
       const source =
         country === "united_kingdom"
           ? "https://api.tfl.gov.uk"
           : country === "united_states"
             ? "https://api-v3.mbta.com"
             : undefined;
-      return res.json(source ? { lines, source } : { lines });
+      let message: string | undefined;
+      let coverageSource: string | undefined;
+      if (lines.length === 0) {
+        const coverage = (await getStationsForCountry(country, undefined, dateValue)).coverage;
+        message = coverage?.message;
+        coverageSource = coverage?.sourceUrl;
+      }
+      return res.json({
+        lines,
+        ...(source ? { source } : {}),
+        ...(coverageSource && !source ? { source: coverageSource } : {}),
+        ...(message ? { message } : {}),
+      });
     } catch (error) {
       await recordError({
         severity: "error",

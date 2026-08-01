@@ -51,8 +51,9 @@ describe("runTransitSearch Thailand official HTML advisory", () => {
       time: "23:00",
     });
 
-    expect(result.statusCode).toBe(200);
-    expect(result.payload.results.length).toBeGreaterThan(0);
+    expect(result.statusCode).toBe(404);
+    expect(result.payload.results).toEqual([]);
+    expect(result.payload.noResultReason).toBe("no_verified_data");
     expect(result.payload.serviceDayAdvisory).toEqual(expect.objectContaining({
       coverage: "partial",
       serviceDate: "2026-08-03",
@@ -92,7 +93,8 @@ describe("runTransitSearch Thailand official HTML advisory", () => {
       firstDeparture: "06:02",
       lastDeparture: "23:42",
     }));
-    expect(stale.payload.message).toBeUndefined();
+    expect(stale.payload.message).toContain("No verified timetable data");
+    expect(stale.payload.noResultReason).toBe("no_verified_data");
   });
 
   it("labels an old scheduled artifact stale", async () => {
@@ -147,7 +149,8 @@ describe("runTransitSearch Thailand official HTML advisory", () => {
       date: "2026-08-03",
     });
     expect(changed.payload.serviceDayAdvisory?.coverage).toBe("unavailable");
-    expect(changed.payload.message).toBeUndefined();
+    expect(changed.payload.message).toContain("No verified timetable data");
+    expect(changed.payload.noResultReason).toBe("no_verified_data");
 
     const wrongDate = await runTransitSearch({
       origin: "Sukhumvit",

@@ -1,5 +1,6 @@
-import { configuredCountryOptions } from "../../src/data/countries";
+import { configuredCountryOptions, providerDateValue } from "../../src/data/countries";
 import { automatedScrapeCountries } from "../../src/data/countryCapability";
+import { getCountryCapability } from "../../src/data/countryCapability";
 import { syncScrapedMetadata } from "./metadata";
 import { syncMalaysiaStationCatalog } from "./malaysia";
 import { createTimetableScrapers, scraperDisplayNames } from "./registry";
@@ -40,12 +41,19 @@ export async function runAllScrapers(dates: string | string[]): Promise<void> {
     console.log(`\n=== Scrape date ${date} ===`);
 
     for (const scraper of scrapers) {
+      const capability = getCountryCapability(scraper.country);
+      const today = providerDateValue(scraper.country);
+      if (capability.liveOnly && date !== today) {
+        console.log(`  ${scraper.country}: skip ${date}; live source is limited to ${today}.`);
+        continue;
+      }
       console.log(`\n--- ${scraper.name} (${scraper.country}) ---`);
       console.log(`  Routes to scrape: ${scraper.routes.length}`);
 
       let results;
       try {
-        results = await scraper.runAll(date, { keepDates: dateList });
+        const keepDates = capability.liveOnly ? [today] : dateList;
+        results = await scraper.runAll(date, { keepDates });
         scraper.saveMetadata(results);
       } catch (error) {
         await recordError({

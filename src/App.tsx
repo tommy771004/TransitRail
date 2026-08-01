@@ -348,6 +348,7 @@ export default function App() {
   const [serviceDayAdvisory, setServiceDayAdvisory] = useState<ServiceDayAdvisory | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [coverageGap, setCoverageGap] = useState<CoverageGap | undefined>();
+  const [officialSourceUrl, setOfficialSourceUrl] = useState<string | undefined>();
   const [isSearching, setIsSearching] = useState(false);
   const [sortMode, setSortMode] = useState<SortMode>("fastest");
   const [koreaFilter, setKoreaFilter] = useState<KoreaFilter>("all");
@@ -852,6 +853,7 @@ export default function App() {
     setView("results");
     setError(undefined);
     setCoverageGap(undefined);
+    setOfficialSourceUrl(undefined);
     setResults([]);
     setServiceDayAdvisory(undefined);
 
@@ -900,8 +902,13 @@ export default function App() {
       setServiceDayAdvisory(data.serviceDayAdvisory);
 
       if (!res.ok) {
-        setError(data.message || "Failed to fetch real-time data.");
+        const reason = data.noResultReason as SearchResponse["noResultReason"] | undefined;
+        const localizedReason = reason
+          ? t(`search.no_result.${reason}`, { defaultValue: data.message || "No timetable data found." })
+          : undefined;
+        setError(localizedReason || data.message || "Failed to fetch real-time data.");
         setCoverageGap(data.coverageGap);
+        setOfficialSourceUrl(data.officialSourceUrl);
         pushAlert(t("alerts.search_failed"), data.message || t("alerts.search_failed_body"));
       } else {
         const cachedData = await get(`transit_search_${query}`);
@@ -1429,6 +1436,7 @@ export default function App() {
             date={searchParams.date}
             time={searchParams.time}
             error={error}
+            officialSourceUrl={officialSourceUrl}
             coverageGap={coverageGap}
             results={visibleResults}
             savedIds={savedIds}
@@ -1871,6 +1879,7 @@ export default function App() {
             onSelectStation={selectStation}
             scrollToLineId={stationPickTarget === "destination" ? originLineId : undefined}
             selectedOrigin={draftSearch.origin}
+            selectedDate={draftSearch.date}
           />
         )}
       </AnimatePresence>

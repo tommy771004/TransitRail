@@ -8,6 +8,9 @@ export type AppView = "search" | "results" | "stations" | "history" | "saved" | 
 
 export type CurrencyDisplayMode = "original" | "converted" | "both";
 
+/** Provenance attached when a snapshot contains a non-official advisory value. */
+export type TimetableProvenance = "official" | "curated" | "llm-advisory";
+
 export type SortMode = "fastest" | "earliest" | "cheapest";
 
 export type KoreaFilter = "all" | "cheapest" | "direct" | "first_class";
@@ -72,6 +75,7 @@ export interface TransitResult {
   amenities?: string[];
   warning?: string;
   tags?: string[];
+  provenance?: TimetableProvenance;
   lineColor?: string;
   legs?: JourneyLeg[];
   transferStations?: string[];
@@ -84,7 +88,15 @@ export interface SearchResponse {
   dataStatus?: SearchDataStatus;
   serviceDayAdvisory?: ServiceDayAdvisory;
   coverageGap?: CoverageGap;
+  noResultReason?: NoResultReason;
+  officialSourceUrl?: string;
 }
+
+export type NoResultReason =
+  | "unsupported_route"
+  | "future_date_unavailable"
+  | "no_verified_data"
+  | "no_service";
 
 /**
  * Why a search found nothing: the station picker offers a country's whole line

@@ -29,6 +29,7 @@ interface LiveRailResultViewProps {
   date: string;
   time?: string;
   error?: string;
+  officialSourceUrl?: string;
   coverageGap?: CoverageGap;
   results: TransitResult[];
   savedIds: Set<string>;
@@ -55,6 +56,7 @@ export function LiveRailResultView({
   date,
   time,
   error,
+  officialSourceUrl,
   coverageGap,
   results,
   savedIds,
@@ -103,7 +105,7 @@ export function LiveRailResultView({
           {!error && results.length > 0 && renderWeatherBlock(destination, date, country)}
 
           {error ? (
-            coverageGap ? renderCoverageBlock(coverageGap, country) : renderErrorBlock(t("result.unable_to_fetch"), error)
+            coverageGap ? renderCoverageBlock(coverageGap, country) : renderErrorBlock(t("result.unable_to_fetch"), error, officialSourceUrl)
           ) : results.length === 0 ? (
             renderEmptyBlock(t(`${copyKey}.no_journeys`), t(`${copyKey}.no_journeys_hint`))
           ) : (

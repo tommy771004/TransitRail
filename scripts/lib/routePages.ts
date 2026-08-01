@@ -11,6 +11,16 @@ import { readdirSync, readFileSync, existsSync } from "fs";
 import { join, resolve } from "path";
 import type { Country, TransitResult } from "../../src/types";
 import { countryOptions } from "../../src/data/countries";
+import {
+  classifyTimetable,
+  isIndicativeTimetable,
+  isVerifiableTimetable,
+  parseClockMinutes,
+} from "../../src/data/timetableAuthenticity";
+import { getCountryCapability } from "../../src/data/countryCapability";
+import { providerDateValue } from "../../src/data/countries";
+
+export { isIndicativeTimetable, parseClockMinutes } from "../../src/data/timetableAuthenticity";
 
 /**
  * Locales the SEO pages are prerendered in. English is served unprefixed at the
@@ -65,12 +75,20 @@ export const COUNTRY_PATHS: Record<string, string> = {
 /** Pages with fewer canonical-day departures than this are skipped as thin. */
 const MIN_DAILY_RESULTS = 3;
 
+/**
+ * This spec removes only the eight representative Singapore/Thailand metro
+ * pages. Intercity and high-speed route pages remain on their existing SEO
+ * contract; their data-quality review is explicitly out of scope here.
+ */
+const AUTHENTICITY_FILTER_COUNTRIES = new Set<Country>(["singapore", "thailand"]);
+
 interface ScrapedRouteFile {
   origin: string;
   destination: string;
   date: string;
   scrapedAt: string;
   source: string;
+  provenance?: "official" | "curated" | "llm-advisory";
   results: TransitResult[];
 }
 
@@ -92,38 +110,6 @@ export interface RoutePageData {
   indicative: boolean;
   /** Canonical-day departures sorted by departure time. */
   dayResults: TransitResult[];
-}
-
-/** "06:05" → 365. Undefined for anything that is not a HH:MM clock time. */
-export function parseClockMinutes(time: string | undefined): number | undefined {
-  if (!time || !/^\d{1,2}:\d{2}$/.test(time)) return undefined;
-  const [h, m] = time.split(":").map(Number);
-  return h * 60 + m;
-}
-
-/** Sources that serve a curated service pattern rather than a scraped timetable. */
-const CURATED_SOURCE = /curated|snapshot/i;
-
-/**
- * A curated snapshot is a *representative service pattern*, not a real
- * timetable: its departures sit on one fixed headway and every train shares a
- * duration and fare. Presenting those as exact first/last-train facts is wrong
- * in the one place users check most, so pages render them as a service window
- * and must not emit them as TrainTrip structured data.
- *
- * Detected from the source label, with a uniform-headway check as a backstop in
- * case a snapshot ships under an unfamiliar source string.
- */
-export function isIndicativeTimetable(source: string, results: TransitResult[]): boolean {
-  if (CURATED_SOURCE.test(source)) return true;
-  const minutes = results
-    .map((r) => parseClockMinutes(r.departureTime))
-    .filter((m): m is number => m !== undefined)
-    .sort((a, b) => a - b);
-  if (minutes.length < 4) return false;
-  const gaps = new Set<number>();
-  for (let i = 1; i < minutes.length; i += 1) gaps.add(minutes[i] - minutes[i - 1]);
-  return gaps.size === 1;
 }
 
 /**
@@ -167,13 +153,35 @@ export function slugifyStation(name: string): string {
  * the latest stored date (the freshest scrape's "today"); dateless results
  * (curated snapshots collapsed to a canonical day) are all kept.
  */
-function canonicalDaySlice(results: TransitResult[]): { date: string; slice: TransitResult[] } {
+function canonicalDaySlice(
+  route: ScrapedRouteFile,
+  country: Country,
+): { date: string; slice: TransitResult[] } | null {
+  const results = route.results;
   const dates = [...new Set(results.map((r) => (r.date || "").trim()).filter(Boolean))].sort();
   if (dates.length === 0) {
-    return { date: "", slice: results };
+    if (!AUTHENTICITY_FILTER_COUNTRIES.has(country)) return { date: "", slice: results };
+    const authenticity = classifyTimetable(route, undefined);
+    return isVerifiableTimetable(authenticity) ? { date: "", slice: results } : null;
   }
-  const date = dates[dates.length - 1];
-  return { date, slice: results.filter((r) => (r.date || "").trim() === date) };
+
+  if (!AUTHENTICITY_FILTER_COUNTRIES.has(country)) {
+    const date = dates[dates.length - 1];
+    return { date, slice: results.filter((r) => (r.date || "").trim() === date) };
+  }
+
+  const capability = getCountryCapability(country);
+  const options = capability.liveOnly
+    ? { realtimeTodayOnly: true, today: providerDateValue(country) }
+    : {};
+  // Prefer the newest slice that is actually usable. A stale live snapshot in
+  // the latest stored date must not hide an older, valid static page.
+  for (const date of [...dates].reverse()) {
+    const slice = results.filter((r) => (r.date || "").trim() === date);
+    const authenticity = classifyTimetable({ ...route, results: slice }, date, options);
+    if (isVerifiableTimetable(authenticity)) return { date, slice };
+  }
+  return null;
 }
 
 export function collectRoutePages(scrapedDir = resolve("src/data/scraped")): RoutePageData[] {
@@ -205,7 +213,12 @@ export function collectRoutePages(scrapedDir = resolve("src/data/scraped")): Rou
       }
       if (!route.origin || !route.destination || !Array.isArray(route.results)) continue;
 
-      const { date, slice } = canonicalDaySlice(route.results);
+      const canonical = canonicalDaySlice(route, country as Country);
+      if (!canonical) {
+        console.warn(`[route-pages] Skipping unverifiable route ${country}/${file}`);
+        continue;
+      }
+      const { date, slice } = canonical;
       if (slice.length < MIN_DAILY_RESULTS) {
         console.warn(`[route-pages] Skipping thin route ${country}/${file} (${slice.length} departures)`);
         continue;

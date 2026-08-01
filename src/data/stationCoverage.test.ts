@@ -6,6 +6,8 @@ import {
   coveredStationKeys,
   hasCoverage,
   isStationCovered,
+  reachableDestinations,
+  searchableRoutesForDate,
   uncoveredMenuStations,
 } from "./stationCoverage";
 import { resolveStationAlias, aliasesForStation } from "./stationAliases";
@@ -14,7 +16,7 @@ import type { ScrapedRouteData } from "./scraped/timetableDay";
 function route(
   origin: string,
   destination: string,
-  resultDestinations: string[] = [],
+  resultDestinations: string[] = [destination],
 ): ScrapedRouteData {
   return {
     origin,
@@ -73,6 +75,50 @@ describe("coveredStationKeys", () => {
     const keys = coveredStationKeys([route("  ToKyO ", "Kyoto")]);
     expect(keys.has("tokyo")).toBe(true);
   });
+
+  it("excludes indicative fixed-headway snapshots from searchable coverage", () => {
+    const indicative = route("Siam", "Mo Chit", ["Mo Chit"]);
+    indicative.source = "BTS/MRT curated snapshot";
+    indicative.results = Array.from({ length: 4 }, (_, index) => ({
+      ...indicative.results[0],
+      id: `2026-08-01-indicative-${index}`,
+      departureTime: `0${8 + index}:00`,
+      arrivalTime: `0${8 + index}:12`,
+      date: "2026-08-01",
+    }));
+
+    expect(coveredStationKeys([indicative], "thailand", "2026-08-01").size).toBe(0);
+  });
+
+  it("excludes realtime rows whose embedded timestamp belongs to another date", () => {
+    const stale = route("London", "Oxford");
+    stale.source = "https://api.tfl.gov.uk";
+    stale.results = [{
+      ...stale.results[0],
+      id: "2026-08-02-tfl-2026-08-02T08:00:00-0",
+      date: "2026-08-02",
+      realtime: true,
+    }];
+
+    expect(coveredStationKeys([stale], "united_kingdom", "2026-08-02").size).toBe(0);
+  });
+
+  it("does not apply the metro gate to out-of-scope intercity snapshots", () => {
+    const intercity = route("Beijing South", "Shanghai Hongqiao");
+    intercity.source = "12306 curated snapshot";
+    intercity.results = Array.from({ length: 4 }, (_, index) => ({
+      ...intercity.results[0],
+      id: `2026-08-01-intercity-${index}`,
+      departureTime: `0${8 + index}:00`,
+      arrivalTime: `0${10 + index}:00`,
+      date: "2026-08-01",
+    }));
+
+    expect(searchableRoutesForDate([intercity], "china", "2026-08-01")).toHaveLength(1);
+    expect(coveredStationKeys([intercity], "china", "2026-08-01")).toEqual(
+      new Set(["beijing south", "shanghai hongqiao"]),
+    );
+  });
 });
 
 describe("coveredMenuStations / uncoveredMenuStations", () => {
@@ -112,6 +158,39 @@ describe("coveredEndpointNames", () => {
       route("seoul (snc)", "Daejeon"),
     ]);
     expect(names).toEqual(["Busan (BSN)", "Daejeon", "Seoul (SNC)"]);
+  });
+});
+
+describe("reachableDestinations", () => {
+  it("uses real intermediate stops and transfer chains for an origin-conditioned menu", () => {
+    const first = route("A", "C", ["C"]);
+    first.results[0].stops = ["A", "B", "C"];
+    first.results[0].legs = [
+      {
+        lineName: "Line A",
+        origin: "A",
+        destination: "B",
+        departureTime: "08:00",
+        arrivalTime: "08:30",
+      },
+      {
+        lineName: "Line A",
+        origin: "B",
+        destination: "C",
+        departureTime: "08:30",
+        arrivalTime: "09:00",
+      },
+    ];
+    const second = route("B", "D", ["D"]);
+    second.results[0].departureTime = "09:40";
+    const routes = [first, second];
+
+    expect(reachableDestinations(routes, "A", "japan", "2026-08-01")).toEqual(["B", "C", "D"]);
+  });
+
+  it("does not expose a station that the dated graph cannot reach", () => {
+    const routes = [route("A", "B")];
+    expect(reachableDestinations(routes, "A", "japan", "2026-08-02")).toEqual([]);
   });
 });
 
@@ -161,6 +240,18 @@ describe("resolveStationAlias", () => {
     expect(resolveStationAlias("japan", "Seoul Station")).toBe("Seoul Station");
     expect(resolveStationAlias(undefined, "Seoul Station")).toBe("Seoul Station");
   });
+
+  it("normalizes the known Bangkok interchange spellings", () => {
+    expect(resolveStationAlias("thailand", "Asok")).toBe("Sukhumvit");
+    expect(resolveStationAlias("thailand", "Si Lom")).toBe("Sala Daeng");
+    expect(resolveStationAlias("thailand", "Chatuchak Park")).toBe("Mo Chit");
+    expect(resolveStationAlias("thailand", "Phahon Yothin")).toBe("Ha Yaek Lat Phrao");
+  });
+
+  it("normalizes the MTR interchange spellings", () => {
+    expect(resolveStationAlias("hong_kong", "Hong Kong")).toBe("Central");
+    expect(resolveStationAlias("hong_kong", "East Tsim Sha Tsui")).toBe("Tsim Sha Tsui");
+  });
 });
 
 describe("aliasesForStation", () => {
@@ -171,5 +262,9 @@ describe("aliasesForStation", () => {
   it("returns nothing for a station with no aliases", () => {
     expect(aliasesForStation("korea", "Daejeon")).toEqual([]);
     expect(aliasesForStation("japan", "Tokyo")).toEqual([]);
+  });
+
+  it("does not list the canonical spelling as its own alias", () => {
+    expect(aliasesForStation("thailand", "Sukhumvit")).toEqual(["asok"]);
   });
 });

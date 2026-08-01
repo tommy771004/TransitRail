@@ -1,4 +1,5 @@
 import { stationSearchKey } from "./stationKey";
+import { resolveStationAlias } from "./stationAliases";
 
 export interface MtrStation {
   code: string;
@@ -98,17 +99,6 @@ export const hongKongMtrLines: MtrLine[] = [
       ["TKO", "Tseung Kwan O"],
       ["HAH", "Hang Hau"],
       ["POA", "Po Lam"],
-    ]),
-  },
-  {
-    code: "TKL",
-    name: "Tseung Kwan O Line",
-    stations: stations([
-      ["NOP", "North Point"],
-      ["QUB", "Quarry Bay"],
-      ["YAT", "Yau Tong"],
-      ["TIK", "Tiu Keng Leng"],
-      ["TKO", "Tseung Kwan O"],
       ["LHP", "LOHAS Park"],
     ]),
   },
@@ -124,45 +114,6 @@ export const hongKongMtrLines: MtrLine[] = [
       ["TAW", "Tai Wai"],
       ["SHT", "Sha Tin"],
       ["FOT", "Fo Tan"],
-      ["UNI", "University"],
-      ["TAP", "Tai Po Market"],
-      ["TWO", "Tai Wo"],
-      ["FAN", "Fanling"],
-      ["SHS", "Sheung Shui"],
-      ["LOW", "Lo Wu"],
-    ]),
-  },
-  {
-    code: "EAL",
-    name: "East Rail Line",
-    stations: stations([
-      ["ADM", "Admiralty"],
-      ["EXC", "Exhibition Centre"],
-      ["HUH", "Hung Hom"],
-      ["MKK", "Mong Kok East"],
-      ["KOT", "Kowloon Tong"],
-      ["TAW", "Tai Wai"],
-      ["SHT", "Sha Tin"],
-      ["FOT", "Fo Tan"],
-      ["UNI", "University"],
-      ["TAP", "Tai Po Market"],
-      ["TWO", "Tai Wo"],
-      ["FAN", "Fanling"],
-      ["SHS", "Sheung Shui"],
-      ["LMC", "Lok Ma Chau"],
-    ]),
-  },
-  {
-    code: "EAL",
-    name: "East Rail Line via Racecourse",
-    stations: stations([
-      ["ADM", "Admiralty"],
-      ["EXC", "Exhibition Centre"],
-      ["HUH", "Hung Hom"],
-      ["MKK", "Mong Kok East"],
-      ["KOT", "Kowloon Tong"],
-      ["TAW", "Tai Wai"],
-      ["SHT", "Sha Tin"],
       ["RAC", "Racecourse"],
       ["UNI", "University"],
       ["TAP", "Tai Po Market"],
@@ -170,25 +121,6 @@ export const hongKongMtrLines: MtrLine[] = [
       ["FAN", "Fanling"],
       ["SHS", "Sheung Shui"],
       ["LOW", "Lo Wu"],
-    ]),
-  },
-  {
-    code: "EAL",
-    name: "East Rail Line via Racecourse",
-    stations: stations([
-      ["ADM", "Admiralty"],
-      ["EXC", "Exhibition Centre"],
-      ["HUH", "Hung Hom"],
-      ["MKK", "Mong Kok East"],
-      ["KOT", "Kowloon Tong"],
-      ["TAW", "Tai Wai"],
-      ["SHT", "Sha Tin"],
-      ["RAC", "Racecourse"],
-      ["UNI", "University"],
-      ["TAP", "Tai Po Market"],
-      ["TWO", "Tai Wo"],
-      ["FAN", "Fanling"],
-      ["SHS", "Sheung Shui"],
       ["LMC", "Lok Ma Chau"],
     ]),
   },
@@ -286,9 +218,9 @@ export const hongKongStations = Array.from(
 ).sort((a, b) => a.localeCompare(b));
 
 /**
- * One entry per line code, with branch variants merged in service order.
- * `hongKongMtrLines` keeps one entry per branch for routing; this catalog is
- * for display (station lists and interchange lookups).
+ * One entry per line code, with branch stations merged in service order.
+ * The source line table intentionally has one canonical entry per code so
+ * interchange derivation cannot count the same physical line repeatedly.
  */
 export interface MtrLineCatalogEntry {
   code: string;
@@ -319,9 +251,10 @@ export const mtrInterchanges: Map<string, string[]> = (() => {
   const map = new Map<string, string[]>();
   for (const line of hongKongMtrLineCatalog) {
     for (const station of line.stations) {
-      const codes = map.get(station.name) || [];
+      const key = stationSearchKey(resolveStationAlias("hong_kong", station.name));
+      const codes = map.get(key) || [];
       if (!codes.includes(line.code)) codes.push(line.code);
-      map.set(station.name, codes);
+      map.set(key, codes);
     }
   }
   return map;
@@ -337,11 +270,15 @@ export interface MtrJourney {
 }
 
 export function findMtrJourney(originName: string, destinationName: string): MtrJourney | null {
-  const oKey = stationSearchKey(originName);
-  const dKey = stationSearchKey(destinationName);
+  const oKey = stationSearchKey(resolveStationAlias("hong_kong", originName));
+  const dKey = stationSearchKey(resolveStationAlias("hong_kong", destinationName));
   const candidates = hongKongMtrLines.flatMap((line) => {
-    const originIndex = line.stations.findIndex((station) => stationSearchKey(station.name) === oKey);
-    const destinationIndex = line.stations.findIndex((station) => stationSearchKey(station.name) === dKey);
+    const originIndex = line.stations.findIndex((station) => (
+      stationSearchKey(resolveStationAlias("hong_kong", station.name)) === oKey
+    ));
+    const destinationIndex = line.stations.findIndex((station) => (
+      stationSearchKey(resolveStationAlias("hong_kong", station.name)) === dKey
+    ));
     if (originIndex < 0 || destinationIndex < 0 || originIndex === destinationIndex) return [];
     return [{
       line,
@@ -379,13 +316,29 @@ export function findMtrTransferPlan(
   destinationName: string,
 ): MtrTransferPlan | null {
   const plans: MtrTransferPlan[] = [];
+  const originKey = stationSearchKey(resolveStationAlias("hong_kong", originName));
+  const destinationKey = stationSearchKey(resolveStationAlias("hong_kong", destinationName));
   for (const [station, codes] of mtrInterchanges) {
-    if (codes.length < 2 || station === originName || station === destinationName) continue;
-    const firstLeg = findMtrJourney(originName, station);
-    if (!firstLeg) continue;
-    const secondLeg = findMtrJourney(station, destinationName);
-    if (!secondLeg || secondLeg.line.code === firstLeg.line.code) continue;
-    plans.push({ interchange: station, firstLeg, secondLeg });
+    if (codes.length < 2 || station === originKey || station === destinationKey) continue;
+    const lineStation = (code: string) => hongKongMtrLineCatalog
+      .find((entry) => entry.code === code)
+      ?.stations.find((candidate) => (
+        stationSearchKey(resolveStationAlias("hong_kong", candidate.name)) === station
+      ))?.name;
+    for (const firstCode of codes) {
+      const firstInterchange = lineStation(firstCode);
+      if (!firstInterchange) continue;
+      const firstLeg = findMtrJourney(originName, firstInterchange);
+      if (!firstLeg) continue;
+      for (const secondCode of codes) {
+        if (secondCode === firstCode) continue;
+        const secondInterchange = lineStation(secondCode);
+        if (!secondInterchange) continue;
+        const secondLeg = findMtrJourney(secondInterchange, destinationName);
+        if (!secondLeg || secondLeg.line.code === firstLeg.line.code) continue;
+        plans.push({ interchange: firstInterchange, firstLeg, secondLeg });
+      }
+    }
   }
 
   plans.sort((a, b) => {

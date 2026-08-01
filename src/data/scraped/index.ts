@@ -6,9 +6,17 @@ import { findInRoutes, normalizeResults, type ScrapedRouteData } from "./timetab
 import {
   decodeSeoulSubwayArtifact,
   searchSeoulSubwayArtifact,
+  seoulArtifactCoverageNames,
+  seoulArtifactReachableNames,
+  precomputeSeoulReachability,
   type SeoulSubwayArtifact,
 } from "../seoulSubwayArtifact";
 import { stationSearchKey } from "../stationKey";
+import {
+  coveredEndpointNames,
+  reachableDestinations,
+  searchableRoutesForDate,
+} from "../stationCoverage";
 
 export type { ScrapedRouteData } from "./timetableDay";
 export {
@@ -59,7 +67,9 @@ function loadSeoulArtifact(): SeoulSubwayArtifact | null {
   const path = join(ACTUAL_DATA_DIR, "korea", "seoul-subway-timetable.json.gz");
   if (!existsSync(path)) return null;
   try {
-    return decodeSeoulSubwayArtifact(readFileSync(path));
+    const artifact = decodeSeoulSubwayArtifact(readFileSync(path));
+    precomputeSeoulReachability(artifact);
+    return artifact;
   } catch (error) {
     console.warn("[scraped] Failed to parse Korea Seoul subway artifact:", error);
     return null;
@@ -101,22 +111,20 @@ export function loadScrapedData(): void {
 }
 
 /** All names backed by committed timetable data, including compact artifacts. */
-export function getScrapedCoverageNames(country: Country): string[] {
+export function getScrapedCoverageNames(country: Country, date?: string): string[] {
   if (!loaded) loadScrapedData();
-  const byKey = new Map<string, string>();
-  const add = (name: string | undefined) => {
-    if (name && !byKey.has(stationSearchKey(name))) byKey.set(stationSearchKey(name), name);
-  };
-  for (const route of cache[country] || []) {
-    add(route.origin);
-    add(route.destination);
-    for (const result of route.results || []) {
-      add(result.origin);
-      add(result.destination);
+  const names = coveredEndpointNames(cache[country] || [], country, date);
+  if (country === "korea" && seoulSubwayArtifact) {
+    const byKey = new Map(names.map((name) => [stationSearchKey(name), name]));
+    for (const station of seoulArtifactCoverageNames(seoulSubwayArtifact, date)) {
+      if (!byKey.has(stationSearchKey(station))) byKey.set(stationSearchKey(station), station);
+      if (stationSearchKey(station) === "seoul station") {
+        byKey.set("seoul (snc)", "Seoul (SNC)");
+      }
     }
+    return [...byKey.values()].sort((a, b) => a.localeCompare(b));
   }
-  if (country === "korea") for (const station of seoulSubwayArtifact?.stations || []) add(station);
-  return [...byKey.values()].sort((a, b) => a.localeCompare(b));
+  return names;
 }
 
 /**
@@ -126,6 +134,25 @@ export function getScrapedCoverageNames(country: Country): string[] {
 export function getScrapedRoutes(country: Country): readonly ScrapedRouteData[] {
   if (!loaded) loadScrapedData();
   return cache[country] || [];
+}
+
+/** Date-conditioned destinations exposed by the same search implementation. */
+export function getScrapedReachableStations(
+  country: Country,
+  origin: string,
+  date: string,
+): string[] {
+  if (!loaded) loadScrapedData();
+  const reachable = new Map<string, string>();
+  for (const station of reachableDestinations(cache[country] || [], origin, country, date)) {
+    reachable.set(stationSearchKey(station), station);
+  }
+  if (country === "korea" && seoulSubwayArtifact) {
+    for (const station of seoulArtifactReachableNames(seoulSubwayArtifact, origin, date)) {
+      reachable.set(stationSearchKey(station), station);
+    }
+  }
+  return [...reachable.values()].sort((a, b) => a.localeCompare(b));
 }
 
 /** Returns the newest route-snapshot timestamp loaded for a country, if known. */
@@ -164,8 +191,8 @@ export function findScrapedResults(
     if (metro.length > 0) return normalizeResults(metro);
   }
 
-  const countryData = cache[country];
-  if (!countryData || countryData.length === 0) return null;
+  const countryData = searchableRoutesForDate(cache[country] || [], country, date);
+  if (countryData.length === 0) return null;
 
   const found = findInRoutes(countryData, origin, destination, date, country);
   if (!found) return null;

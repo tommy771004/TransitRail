@@ -38,9 +38,7 @@ export const configuredCountryOptions: Country[] = [
 ];
 
 /** Markets exposed by the public picker and transit API. */
-export const countryOptions: Country[] = configuredCountryOptions.filter(
-  (country) => country !== "korea",
-);
+export const countryOptions: Country[] = [...configuredCountryOptions];
 
 /** Live timetable provider id used by /api/transit/search. */
 export type ProviderId = "tfl" | "mbta" | "belgium" | "norway" | "swiss";
@@ -93,6 +91,10 @@ export type CountryConfigEntry = {
   connected: boolean;
   /** Provider only serves live "today" data; the date field is locked. */
   liveOnly: boolean;
+  /** Number of consecutive local service dates the picker may offer. */
+  dateRangeDays: number;
+  /** Reject dates outside the published range at the search edge. */
+  dateRangeEnforced?: boolean;
   timeZone: string;
   search: SearchKind;
   scrape: ScrapeStrategy;
@@ -111,6 +113,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "日本",
     connected: true,
     liveOnly: false,
+    dateRangeDays: 14,
     timeZone: "Asia/Tokyo",
     search: { kind: "scraped" },
     scrape: "provider_backed",
@@ -126,6 +129,8 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "韓國",
     connected: true,
     liveOnly: false,
+    dateRangeDays: 7,
+    dateRangeEnforced: true,
     timeZone: "Asia/Seoul",
     search: { kind: "scraped" },
     scrape: "provider_backed",
@@ -141,6 +146,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "新加坡",
     connected: true,
     liveOnly: false,
+    dateRangeDays: 14,
     timeZone: "Asia/Singapore",
     search: { kind: "scraped" },
     scrape: "snapshot",
@@ -161,6 +167,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "馬來西亞",
     connected: false,
     liveOnly: false,
+    dateRangeDays: 1,
     timeZone: "Asia/Kuala_Lumpur",
     search: { kind: "catalog_only" },
     scrape: "catalog_sync",
@@ -176,6 +183,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "泰國",
     connected: true,
     liveOnly: false,
+    dateRangeDays: 14,
     timeZone: "Asia/Bangkok",
     search: { kind: "scraped" },
     scrape: "snapshot",
@@ -195,7 +203,9 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     featuredStations: ["Central", "Admiralty", "Tsim Sha Tsui", "Mong Kok", "Causeway Bay"],
     promptName: "香港",
     connected: true,
-    liveOnly: false,
+    liveOnly: true,
+    dateRangeDays: 1,
+    dateRangeEnforced: true,
     timeZone: "Asia/Hong_Kong",
     // Live MTR is used only by ProviderBackedScraper at scrape time.
     search: { kind: "scraped" },
@@ -217,7 +227,9 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     ],
     promptName: "英國倫敦",
     connected: true,
-    liveOnly: false,
+    liveOnly: true,
+    dateRangeDays: 1,
+    dateRangeEnforced: true,
     timeZone: "Europe/London",
     search: { kind: "provider", provider: "tfl" },
     scrape: "provider_backed",
@@ -240,7 +252,9 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "美國波士頓",
     connected: true,
     // MBTA predictions are restricted to the current local service day.
-    liveOnly: true,
+    liveOnly: false,
+    dateRangeDays: 7,
+    dateRangeEnforced: true,
     timeZone: "America/New_York",
     search: { kind: "provider", provider: "mbta" },
     scrape: "provider_backed",
@@ -257,6 +271,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "德國",
     connected: true,
     liveOnly: false,
+    dateRangeDays: 14,
     timeZone: "Europe/Berlin",
     search: { kind: "scraped" },
     scrape: "provider_backed",
@@ -272,6 +287,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "法國",
     connected: true,
     liveOnly: false,
+    dateRangeDays: 14,
     timeZone: "Europe/Paris",
     search: { kind: "scraped" },
     scrape: "provider_backed",
@@ -292,6 +308,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "比利時",
     connected: true,
     liveOnly: false,
+    dateRangeDays: 14,
     timeZone: "Europe/Brussels",
     search: { kind: "provider", provider: "belgium" },
     scrape: "provider_backed",
@@ -308,6 +325,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "挪威",
     connected: true,
     liveOnly: false,
+    dateRangeDays: 14,
     timeZone: "Europe/Oslo",
     search: { kind: "provider", provider: "norway" },
     scrape: "provider_backed",
@@ -324,6 +342,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "瑞士",
     connected: true,
     liveOnly: false,
+    dateRangeDays: 14,
     timeZone: "Europe/Zurich",
     search: { kind: "provider_then_scraped", provider: "swiss" },
     scrape: "provider_backed",
@@ -340,6 +359,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "中國",
     connected: true,
     liveOnly: false,
+    dateRangeDays: 14,
     timeZone: "Asia/Shanghai",
     search: { kind: "scraped" },
     scrape: "snapshot",
@@ -395,6 +415,29 @@ function addDateValueDays(dateValue: string, days: number) {
 export function providerDateValues(country: Country, count: number, now = new Date()) {
   const first = providerDateValue(country, now);
   return Array.from({ length: Math.max(0, count) }, (_, index) => addDateValueDays(first, index));
+}
+
+export interface SearchDateRange {
+  start: string;
+  end: string;
+  days: number;
+  liveOnly: boolean;
+}
+
+/** Public date contract shared by the picker, station API, and search edge. */
+export function searchDateRange(country: Country, now = new Date()): SearchDateRange {
+  const dates = providerDateValues(country, countryConfig[country].dateRangeDays, now);
+  return {
+    start: dates[0],
+    end: dates[dates.length - 1],
+    days: dates.length,
+    liveOnly: countryConfig[country].liveOnly,
+  };
+}
+
+export function isSearchDateAllowed(country: Country, date: string, now = new Date()): boolean {
+  const range = searchDateRange(country, now);
+  return date >= range.start && date <= range.end;
 }
 
 /** Current market-local clock, optionally shifted earlier for departure search. */

@@ -25,6 +25,19 @@ const aliasesByCountry: Partial<Record<Country, Record<string, string>>> = {
     // Busan Metro Line 1 label for the same terminus (부산역).
     "busan station": "Busan (BSN)",
   },
+  thailand: {
+    // BTS/MRT names for the same interchange complex.
+    asok: "Sukhumvit",
+    "si lom": "Sala Daeng",
+    "chatuchak park": "Mo Chit",
+    "phahon yothin": "Ha Yaek Lat Phrao",
+  },
+  hong_kong: {
+    // MTR interchange complexes are labelled differently by line and by data
+    // provider, but are one walkable station choice in the picker.
+    "hong kong": "Central",
+    "east tsim sha tsui": "Tsim Sha Tsui",
+  },
 };
 
 /**

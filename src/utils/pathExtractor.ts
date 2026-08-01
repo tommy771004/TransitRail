@@ -9,6 +9,8 @@ import {
 import { japanRailLines } from "../data/stations";
 import { seoulSubwayLines } from "../data/seoulSubway";
 import { hongKongMtrLineCatalog, mtrInterchanges } from "../data/hongKongMtr";
+import { resolveStationAlias } from "../data/stationAliases";
+import { stationSearchKey } from "../data/stationKey";
 import type { TransitLine, LineStation } from "../types";
 
 function getHongKongLines(): TransitLine[] {
@@ -17,7 +19,8 @@ function getHongKongLines(): TransitLine[] {
     name: line.name,
     color: line.color,
     stations: line.stations.map((station) => {
-      const others = (mtrInterchanges.get(station.name) || []).filter((code) => code !== line.code);
+      const key = stationSearchKey(resolveStationAlias("hong_kong", station.name));
+      const others = (mtrInterchanges.get(key) || []).filter((code) => code !== line.code);
       const names = others
         .map((code) => hongKongMtrLineCatalog.find((entry) => entry.code === code)?.name)
         .filter((name): name is string => Boolean(name));

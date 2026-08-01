@@ -8,6 +8,7 @@ import type {
 } from "../types";
 import { recordError } from "./errorLog";
 import { serviceDayRisk } from "../data/serviceDayAdvisory";
+import { getMinimumTransferMinutes, sameOperatorFareWarning } from "../data/transferRules";
 
 const MBTA_API_URL = "https://api-v3.mbta.com";
 const RAIL_ROUTE_TYPES = "0,1,2";
@@ -58,6 +59,7 @@ interface MbtaResource {
 interface MbtaResponse {
   data?: MbtaResource[];
   included?: MbtaResource[];
+  links?: { next?: string | null };
 }
 
 interface MbtaStation {
@@ -394,8 +396,8 @@ async function schedulesForStop(stopId: string, date: string) {
   const cached = scheduleCache.get(key);
   if (cached) return cached;
 
-  const request = fetchMbtaJson(
-    mbtaUrl("/schedules", {
+  const request = (async (): Promise<MbtaResponse> => {
+    let next: URL | undefined = mbtaUrl("/schedules", {
       "filter[stop]": stopId,
       "filter[date]": date,
       // Include bus schedules for the Silver Line airport leg. The station
@@ -404,8 +406,22 @@ async function schedulesForStop(stopId: string, date: string) {
       include: "trip,route,stop",
       "page[limit]": "1000",
       sort: "time",
-    }),
-  );
+    });
+    const data: MbtaResource[] = [];
+    const includedByKey = new Map<string, MbtaResource>();
+    let pages = 0;
+    while (next && pages < 20) {
+      const response = await fetchMbtaJson(next);
+      data.push(...(response.data || []));
+      for (const resource of response.included || []) {
+        if (resource.id && resource.type) includedByKey.set(`${resource.type}:${resource.id}`, resource);
+      }
+      const nextLink = response.links?.next;
+      next = nextLink ? new URL(nextLink, MBTA_API_URL) : undefined;
+      pages += 1;
+    }
+    return { data, included: [...includedByKey.values()] };
+  })();
   scheduleCache.set(key, request);
   try {
     return await request;
@@ -519,12 +535,14 @@ function transferJourneysForRoute(
 ): ScheduledJourney[] {
   const journeys: ScheduledJourney[] = [];
   let secondIndex = 0;
+  const minimumTransferMinutes = getMinimumTransferMinutes("united_states", transfer.name);
 
   for (const first of firstLeg) {
     const firstArrival = new Date(first.arrivalIso).getTime();
     while (
       secondIndex < secondLeg.length &&
-      new Date(secondLeg[secondIndex].departureIso).getTime() < firstArrival + 2 * 60_000
+      new Date(secondLeg[secondIndex].departureIso).getTime()
+        < firstArrival + minimumTransferMinutes * 60_000
     ) {
       secondIndex += 1;
     }
@@ -576,6 +594,7 @@ function transferJourneysForRoute(
         realtime: false,
         legs: [firstLegDetails, secondLegDetails],
         transferStations: [transfer.name],
+        warning: sameOperatorFareWarning([firstResult, secondResult]),
       },
     });
   }

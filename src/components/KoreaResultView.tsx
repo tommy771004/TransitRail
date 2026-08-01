@@ -30,6 +30,7 @@ interface KoreaResultViewProps {
   date: string;
   time?: string;
   error?: string;
+  officialSourceUrl?: string;
   coverageGap?: CoverageGap;
   results: TransitResult[];
   filter: KoreaFilter;
@@ -56,6 +57,7 @@ export function KoreaResultView({
   date,
   time,
   error,
+  officialSourceUrl,
   coverageGap,
   results,
   filter,
@@ -120,7 +122,7 @@ export function KoreaResultView({
       <div className="mx-auto max-w-md space-y-3 px-4 pt-4">
         <AnimatePresence mode="popLayout">
           {!error && results.length > 0 && renderWeatherBlock(destination, date, "korea")}
-          {error && (coverageGap ? renderCoverageBlock(coverageGap, "korea") : renderErrorBlock(t("result.unable_to_fetch"), error))}
+          {error && (coverageGap ? renderCoverageBlock(coverageGap, "korea") : renderErrorBlock(t("result.unable_to_fetch"), error, officialSourceUrl))}
           {!error && results.length === 0 && renderEmptyBlock(t("result.no_results"), t("result.no_results_hint"))}
         </AnimatePresence>
 

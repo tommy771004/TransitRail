@@ -24,6 +24,7 @@ interface StationBrowserProps {
   onSelectStation: (station: string, autoFillDest?: string, lineId?: string) => void;
   scrollToLineId?: string;
   selectedOrigin?: string;
+  selectedDate?: string;
 }
 
 const lineNoteKeys: Partial<Record<Country, string>> = {
@@ -40,6 +41,7 @@ export function StationBrowser({
   onSelectStation,
   scrollToLineId,
   selectedOrigin,
+  selectedDate,
 }: StationBrowserProps) {
   const { t } = useTranslation();
   const theme = countryThemes[country] || countryThemes.japan;
@@ -169,19 +171,23 @@ export function StationBrowser({
 
     const applyLines = (fetchedLines: TransitLine[]) => {
       setLines(fetchedLines);
+      setLinesFailed(false);
       if (fetchedLines.length > 0) {
         setSelectedCategory(scrollToLineId || fetchedLines[0].id);
-      } else {
-        setLinesFailed(true);
       }
     };
 
     const loadFromApi = async () => {
+      const stationParams = new URLSearchParams({ country });
+      if (selectedDate) stationParams.set("date", selectedDate);
+      if (target === "destination" && selectedOrigin) stationParams.set("origin", selectedOrigin);
+      const lineParams = new URLSearchParams({ country });
+      if (selectedDate) lineParams.set("date", selectedDate);
       const [sRes, lRes] = await Promise.allSettled([
-        fetch(`/api/transit/stations?country=${country}`, {
+        fetch(`/api/transit/stations?${stationParams.toString()}`, {
           headers: buildAuditHeaders(),
         }).then((r) => r.json().then((d) => ({ ok: r.ok, d }))),
-        fetch(`/api/transit/lines?country=${country}`).then((r) => r.json().then((d) => ({ ok: r.ok, d }))),
+        fetch(`/api/transit/lines?${lineParams.toString()}`).then((r) => r.json().then((d) => ({ ok: r.ok, d }))),
       ]);
       if (!active) return;
       if (sRes.status === "fulfilled" && sRes.value.ok) {
@@ -198,24 +204,10 @@ export function StationBrowser({
       setLinesLoading(true);
       setLoadFailed(false);
       setLinesFailed(false);
-      try {
-        const res = await fetch(`/catalog/${country}.json`);
-        if (res.ok) {
-          const data = await res.json();
-          if (!active) return;
-          setStations(data.stations || []);
-          setCoverage(data.coverage);
-          applyLines(data.lines || []);
-          return;
-        }
-        await loadFromApi();
-      } catch {
-        await loadFromApi();
-      } finally {
-        if (active) {
-          setIsLoading(false);
-          setLinesLoading(false);
-        }
+      await loadFromApi();
+      if (active) {
+        setIsLoading(false);
+        setLinesLoading(false);
       }
     };
 
@@ -223,7 +215,7 @@ export function StationBrowser({
     return () => {
       active = false;
     };
-  }, [country]);
+  }, [country, selectedDate, selectedOrigin, target, scrollToLineId]);
 
   const [isInputFocused, setIsInputFocused] = useState(false);
 
@@ -232,17 +224,14 @@ export function StationBrowser({
   }, [lines]);
 
   const visibleLines = useMemo(() => {
-    if (target === "destination" && selectedOrigin && dependencyMap.size > 0) {
-      const allowed = dependencyMap.get(selectedOrigin);
-      // Static route diagrams only cover parts of several national station
-      // catalogs. A missing graph node means "unknown", not "unreachable".
-      if (!allowed) return lines;
-      return lines.filter(line => 
-        line.stations.some(s => s.name !== selectedOrigin && allowed.has(s.name))
-      );
-    }
-    return lines;
-  }, [lines, target, selectedOrigin, dependencyMap]);
+    const stationKeys = new Set(stations.map((station) => stationSearchKey(station)));
+    return lines
+      .map((line) => ({
+        ...line,
+        stations: line.stations.filter((station) => stationKeys.has(stationSearchKey(station.name))),
+      }))
+      .filter((line) => line.stations.length > 0);
+  }, [lines, stations]);
 
   useEffect(() => {
     if (visibleLines.length > 0) {
@@ -255,13 +244,9 @@ export function StationBrowser({
   const stationsToRender = useMemo(() => {
     const line = lines.find((l) => l.id === selectedCategory);
     if (!line) return [];
-    if (target === "destination" && selectedOrigin) {
-      const allowed = dependencyMap.get(selectedOrigin);
-      if (!allowed) return line.stations;
-      return line.stations.filter(s => s.name !== selectedOrigin && allowed.has(s.name));
-    }
-    return line.stations;
-  }, [lines, selectedCategory, target, selectedOrigin, dependencyMap]);
+    const stationKeys = new Set(stations.map((station) => stationSearchKey(station)));
+    return line.stations.filter((station) => stationKeys.has(stationSearchKey(station.name)));
+  }, [lines, selectedCategory, stations]);
 
   const lineColorByName = useMemo(() => {
     const map = new Map<string, string | undefined>();
@@ -325,12 +310,6 @@ export function StationBrowser({
   const filteredStations = useMemo(() => {
     const value = query.trim().toLowerCase();
     let baseStations = stations;
-    if (target === "destination" && selectedOrigin) {
-      const allowed = dependencyMap.get(selectedOrigin);
-      if (allowed) {
-        baseStations = stations.filter(s => allowed.has(s));
-      }
-    }
     if (!value) return baseStations;
     
     const tZh = i18n.getFixedT("zh-TW", "translation");
@@ -346,18 +325,13 @@ export function StationBrowser({
              fuzzyMatch(value, zhLabel) || 
              (localName && fuzzyMatch(value, localName));
     });
-  }, [query, stations, t, country, localNameMap, target, selectedOrigin, dependencyMap]);
+  }, [query, stations, t, country, localNameMap]);
 
   const featured = useMemo(() => {
     const origFeatured = countryConfig[country].featuredStations;
-    if (target === "destination" && selectedOrigin) {
-      const allowed = dependencyMap.get(selectedOrigin);
-      if (allowed) {
-        return origFeatured.filter(s => allowed.has(s));
-      }
-    }
-    return origFeatured;
-  }, [country, target, selectedOrigin, dependencyMap]);
+    const stationKeys = new Set(stations.map((station) => stationSearchKey(station)));
+    return origFeatured.filter((station) => stationKeys.has(stationSearchKey(station)));
+  }, [country, stations]);
 
   const noteKey = lineNoteKeys[country];
 
@@ -407,7 +381,7 @@ export function StationBrowser({
 
   return (
     <motion.div 
-      initial="hidden"
+      initial="visible"
       animate="visible"
       exit="hidden"
       variants={backdropVariants}
@@ -488,6 +462,8 @@ export function StationBrowser({
                 <StationList
                   isLoading={isLoading}
                   loadFailed={loadFailed}
+                  emptyMessage={coverage?.message}
+                  sourceUrl={coverage?.sourceUrl}
                   stations={filteredStations}
                   country={country}
                   onSelectStation={(st) => {
@@ -543,6 +519,8 @@ export function StationBrowser({
               <StationList
                 isLoading={isLoading}
                 loadFailed={loadFailed}
+                emptyMessage={coverage?.message}
+                sourceUrl={coverage?.sourceUrl}
                 stations={filteredStations}
                 country={country}
                 onSelectStation={handleSelectStation}
@@ -555,6 +533,8 @@ export function StationBrowser({
               <StationList
                 isLoading={isLoading}
                 loadFailed={loadFailed}
+                emptyMessage={coverage?.message}
+                sourceUrl={coverage?.sourceUrl}
                 stations={filteredStations}
                 country={country}
                 onSelectStation={handleSelectStation}
@@ -625,7 +605,7 @@ export function StationBrowser({
                     )}
                     <motion.ul 
                       variants={containerVariants}
-                      initial="hidden"
+                      initial="visible"
                       animate="visible"
                       className="space-y-1"
                     >
@@ -761,6 +741,8 @@ function NoTimetableBadge() {
 function StationList({
   isLoading,
   loadFailed,
+  emptyMessage,
+  sourceUrl,
   stations,
   country,
   onSelectStation,
@@ -772,6 +754,8 @@ function StationList({
 }: {
   isLoading: boolean;
   loadFailed: boolean;
+  emptyMessage?: string;
+  sourceUrl?: string;
   stations: string[];
   country: Country;
   onSelectStation: (station: string) => void;
@@ -800,7 +784,19 @@ function StationList({
   if (stations.length === 0) {
     return (
       <div className="py-12 text-center">
-        <p className="text-xs font-bold text-slate-400 dark:text-slate-500">{t("stations.none")}</p>
+        <p className="text-xs font-bold text-slate-500 dark:text-slate-400">
+          {emptyMessage || t("stations.none")}
+        </p>
+        {sourceUrl && (
+          <a
+            href={sourceUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-3 inline-block text-xs font-semibold text-emerald-700 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300"
+          >
+            {t("stations.official_source", "Open the operator timetable")}
+          </a>
+        )}
       </div>
     );
   }
@@ -818,7 +814,7 @@ function StationList({
   return (
     <motion.ul 
       variants={listVariants}
-      initial="hidden"
+      initial="visible"
       animate="visible"
       className="space-y-1"
     >

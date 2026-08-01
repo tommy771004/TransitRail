@@ -31,6 +31,7 @@ interface JapanResultViewProps {
   date: string;
   time?: string;
   error?: string;
+  officialSourceUrl?: string;
   coverageGap?: CoverageGap;
   results: TransitResult[];
   sortMode: SortMode;
@@ -97,6 +98,7 @@ export function JapanResultView({
   date,
   time,
   error,
+  officialSourceUrl,
   coverageGap,
   results,
   sortMode,
@@ -161,7 +163,7 @@ export function JapanResultView({
       <div className="mx-auto max-w-md space-y-3 px-4 pt-4">
         <AnimatePresence mode="popLayout">
           {!error && results.length > 0 && renderWeatherBlock(destination, date, country)}
-          {error && (coverageGap ? renderCoverageBlock(coverageGap, country) : renderErrorBlock(t("result.unable_to_fetch"), error))}
+          {error && (coverageGap ? renderCoverageBlock(coverageGap, country) : renderErrorBlock(t("result.unable_to_fetch"), error, officialSourceUrl))}
           {!error && results.length === 0 && renderEmptyBlock(t("result.no_results"), t("result.no_results_hint"))}
         </AnimatePresence>
 

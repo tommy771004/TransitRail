@@ -127,6 +127,7 @@ describe("findInRoutes — reverse match", () => {
           arrivalTime: "10:16",
           platform: "14",
           headsign: "Shin-Osaka",
+          realtime: true,
         }),
       ]),
     ];
@@ -139,6 +140,9 @@ describe("findInRoutes — reverse match", () => {
     expect(found![0].stops).toEqual(["Kyoto", "Tokyo"]);
     expect(found![0].platform).toBeUndefined();
     expect(found![0].headsign).toBeUndefined();
+    expect(found![0].realtime).toBe(false);
+    expect(found![0].tags).toContain("reverse");
+    expect(found![0].warning).toContain("estimated from the opposite direction");
     expect(found![0].id).toBe("rev-2026-07-10-hikari-1");
   });
 
@@ -218,7 +222,7 @@ describe("findInRoutes — reverse match", () => {
 });
 
 describe("findInRoutes — transfer chain", () => {
-  it("chains two route edges and keeps only connections with wait between 2 and 120 minutes", () => {
+  it("chains two route edges and enforces the station minimum transfer floor", () => {
     const routes = [
       route(
         [
@@ -231,6 +235,7 @@ describe("findInRoutes — transfer chain", () => {
             arrivalTime: "09:40",
             durationMinutes: 100,
             stops: ["Tokyo", "Nagoya"],
+            price: 10,
           }),
         ],
         "Tokyo",
@@ -259,6 +264,7 @@ describe("findInRoutes — transfer chain", () => {
             arrivalTime: "10:40",
             durationMinutes: 50,
             stops: ["Nagoya", "Kyoto"],
+            price: 12,
           }),
           // wait = 140 min — too long
           trip({
@@ -290,6 +296,8 @@ describe("findInRoutes — transfer chain", () => {
     expect(chain.arrivalTime).toBe("10:40");
     expect(chain.transferStations).toEqual(["Nagoya"]);
     expect(chain.durationMinutes).toBe(160);
+    expect(chain.price).toBeUndefined();
+    expect(chain.warning).toContain("within one operator");
     expect(chain.legs).toHaveLength(2);
     expect(chain.legs![0]).toMatchObject({
       origin: "Tokyo",
@@ -361,6 +369,131 @@ describe("findInRoutes — transfer chain", () => {
     // 22:00 → 01:10 wraps past midnight: 190 minutes
     expect(found![0].durationMinutes).toBe(190);
     expect(found![0].legs![1].departureTime).toBe("00:20");
+  });
+
+  it("uses intermediate stops as transfer nodes instead of only file endpoints", () => {
+    const routes = [
+      route(
+        [
+          trip({
+            id: "2026-07-10-line-a",
+            date: "2026-07-10",
+            origin: "A",
+            destination: "C",
+            departureTime: "08:00",
+            arrivalTime: "09:00",
+            durationMinutes: 60,
+            stops: ["A", "B", "C"],
+            legs: [
+              {
+                lineName: "Line A",
+                origin: "A",
+                destination: "B",
+                departureTime: "08:00",
+                arrivalTime: "08:30",
+                durationMinutes: 30,
+              },
+              {
+                lineName: "Line A",
+                origin: "B",
+                destination: "C",
+                departureTime: "08:30",
+                arrivalTime: "09:00",
+                durationMinutes: 30,
+              },
+            ],
+          }),
+        ],
+        "A",
+        "C",
+      ),
+      route(
+        [
+          trip({
+            id: "2026-07-10-line-b",
+            date: "2026-07-10",
+            origin: "B",
+            destination: "D",
+            departureTime: "09:40",
+            arrivalTime: "10:30",
+            durationMinutes: 50,
+            stops: ["B", "D"],
+          }),
+        ],
+        "B",
+        "D",
+      ),
+    ];
+
+    const found = findInRoutes(routes, "A", "D", "2026-07-10", "japan");
+
+    expect(found).toHaveLength(1);
+    expect(found![0]).toMatchObject({
+      origin: "A",
+      destination: "D",
+      direct: false,
+      transferStations: ["B"],
+    });
+    expect(found![0].legs).toEqual([
+      expect.objectContaining({ origin: "A", destination: "B", arrivalTime: "08:30" }),
+      expect.objectContaining({ origin: "B", destination: "D", departureTime: "09:40" }),
+    ]);
+  });
+
+  it("does not invent intermediate timestamps when the source has none", () => {
+    const routes = [
+      route([
+        trip({
+          id: "2026-07-10-no-stop-times",
+          date: "2026-07-10",
+          origin: "A",
+          destination: "C",
+          departureTime: "08:00",
+          arrivalTime: "09:00",
+          durationMinutes: 60,
+          stops: ["A", "B", "C"],
+        }),
+      ], "A", "C"),
+      route([
+        trip({
+          id: "2026-07-10-second-leg",
+          date: "2026-07-10",
+          origin: "B",
+          destination: "D",
+          departureTime: "09:40",
+          arrivalTime: "10:30",
+          stops: ["B", "D"],
+        }),
+      ], "B", "D"),
+    ];
+
+    expect(findInRoutes(routes, "A", "D", "2026-07-10", "japan")).toBeNull();
+  });
+
+  it("matches route endpoints through known same-station aliases", () => {
+    const routes = [
+      route(
+        [
+          trip({
+            id: "2026-07-10-sukhumvit",
+            date: "2026-07-10",
+            country: "thailand",
+            origin: "Sukhumvit",
+            destination: "Hua Lamphong",
+            departureTime: "08:00",
+            arrivalTime: "08:20",
+            stops: ["Sukhumvit", "Hua Lamphong"],
+          }),
+        ],
+        "Sukhumvit",
+        "Hua Lamphong",
+      ),
+    ];
+
+    const found = findInRoutes(routes, "Asok", "Hua Lamphong", "2026-07-10", "thailand");
+
+    expect(found).toHaveLength(1);
+    expect(found![0].origin).toBe("Sukhumvit");
   });
 });
 

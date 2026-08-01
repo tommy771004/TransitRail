@@ -3,6 +3,8 @@ import { resolve } from "path";
 import { chromium } from "playwright";
 import type { ScrapedRoute, ScrapedRouteData, ScraperAdapter } from "./types";
 import { recordError } from "../../src/server/errorLog";
+import { dedupeScrapedResults, replaceDateSlice } from "./merge";
+import type { Country } from "../../src/types";
 
 const DATA_DIR = resolve("src/data/scraped");
 
@@ -20,7 +22,7 @@ function stationSlug(name: string): string {
 
 export abstract class BaseScraper implements ScraperAdapter {
   abstract readonly name: string;
-  abstract readonly country: string;
+  abstract readonly country: Country;
   abstract readonly routes: ScrapedRoute[];
 
   abstract scrape(route: ScrapedRoute, date: string, page: any): Promise<ScrapedRouteData>;
@@ -91,11 +93,16 @@ export abstract class BaseScraper implements ScraperAdapter {
     const existing = this.readRoute(path);
     const keepDates = options.keepDates ? new Set(options.keepDates) : null;
 
-    const previousResults = existing
-      ? this.withResultDates(existing).results.filter((result) => result.date !== data.date)
+    const existingWithDates = existing ? this.withResultDates(existing) : undefined;
+    const existingDateResults = existingWithDates?.results.filter((result) => result.date === data.date) || [];
+    const replacement = replaceDateSlice(existingDateResults, data.results);
+    const previousResults = existingWithDates
+      ? existingWithDates.results.filter((result) => result.date !== data.date)
       : [];
-    const mergedResults = [...previousResults, ...data.results]
-      .filter((result) => !keepDates || (result.date ? keepDates.has(result.date) : false))
+    const mergedResults = dedupeScrapedResults(
+      [...previousResults, ...replacement.results]
+        .filter((result) => !keepDates || (result.date ? keepDates.has(result.date) : false)),
+    )
       .sort((a, b) => {
         const dateCompare = (a.date || "").localeCompare(b.date || "");
         if (dateCompare !== 0) return dateCompare;
@@ -108,6 +115,7 @@ export abstract class BaseScraper implements ScraperAdapter {
       path,
       JSON.stringify({
         ...data,
+        source: replacement.preservedExisting && existing?.source ? existing.source : data.source,
         date: dateLabel,
         scrapedAt: new Date().toISOString(),
         results: mergedResults,

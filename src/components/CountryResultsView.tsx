@@ -15,6 +15,7 @@ export type CountryResultsViewProps = {
   date: string;
   time?: string;
   error?: string;
+  officialSourceUrl?: string;
   /** Set when the miss is a catalog gap rather than a failed fetch. */
   coverageGap?: CoverageGap;
   results: TransitResult[];
@@ -39,6 +40,7 @@ export function CountryResultsView(props: CountryResultsViewProps) {
     date: props.date,
     time: props.time,
     error: props.error,
+    officialSourceUrl: props.officialSourceUrl,
     coverageGap: props.coverageGap,
     results: props.results,
     savedIds: props.savedIds,

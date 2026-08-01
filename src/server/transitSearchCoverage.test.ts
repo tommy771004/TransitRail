@@ -28,10 +28,11 @@ describe("scheduled Seoul artifact search", () => {
     expect(payload.coverageGap).toBeUndefined();
   });
 
-  it("still refuses to synthesize a transfer when no single official run serves the pair", async () => {
+  it("answers a cross-line pair through one official transfer", async () => {
     const { statusCode, payload } = await search("Cheongnyangni", "Gangnam");
-    expect(statusCode).toBe(404);
-    expect(payload.results).toEqual([]);
+    expect(statusCode).toBe(200);
+    expect(payload.results.some((result) => !result.direct)).toBe(true);
+    expect(payload.results.find((result) => !result.direct)?.transferStations?.length).toBe(1);
   });
 
   it("leaves live-provider countries without a coverage gap", async () => {
@@ -42,27 +43,27 @@ describe("scheduled Seoul artifact search", () => {
   });
 });
 
-describe("same-station aliases", () => {
-  it("resolves the Seoul Metro label to the Korail timetable", async () => {
-    // Was a 404 before: the menu says "Seoul Station", the data says "Seoul (SNC)".
+describe("unverified intercity snapshots stay hidden", () => {
+  it("does not expose a Korail snapshot through the Seoul Metro menu", async () => {
     const { statusCode, payload } = await search("Seoul Station", "Busan (BSN)");
-    expect(statusCode).toBe(200);
-    expect(payload.results.length).toBeGreaterThan(0);
+    expect(statusCode).toBe(404);
+    expect(payload.noResultReason).toBe("no_verified_data");
+    expect(payload.officialSourceUrl).toContain("seoulmetro.co.kr");
   });
 
-  it("works in both directions and on either endpoint", async () => {
+  it("does not expose unverified intercity endpoints in either direction", async () => {
     const forward = await search("Seoul Station", "Gangneung");
     const reverse = await search("Busan Station", "Seoul Station");
-    expect(forward.statusCode).toBe(200);
-    expect(reverse.statusCode).toBe(200);
-    expect(forward.payload.results.length).toBeGreaterThan(0);
-    expect(reverse.payload.results.length).toBeGreaterThan(0);
+    expect(forward.statusCode).toBe(404);
+    expect(reverse.statusCode).toBe(404);
+    expect(forward.payload.noResultReason).toBe("no_verified_data");
+    expect(reverse.payload.noResultReason).toBe("no_verified_data");
   });
 
-  it("accepts the operator-code-stripped names used on prerendered route pages", async () => {
+  it("does not let operator-code aliases bypass the authenticity filter", async () => {
     const { statusCode, payload } = await search("Seoul", "Busan");
-    expect(statusCode).toBe(200);
-    expect(payload.results.length).toBeGreaterThan(0);
+    expect(statusCode).toBe(404);
+    expect(payload.noResultReason).toBe("no_verified_data");
   });
 
   it("does not alias a station onto an unrelated one", async () => {
@@ -73,16 +74,16 @@ describe("same-station aliases", () => {
   });
 });
 
-describe("covered corridors still work", () => {
-  it("answers the canonical Korail pairs unchanged", async () => {
+describe("covered corridors stay limited to official Seoul Metro data", () => {
+  it("does not fall back to the canonical Korail pairs", async () => {
     for (const [origin, destination] of [
       ["Seoul (SNC)", "Busan (BSN)"],
       ["Yongsan", "Mokpo"],
       ["Daejeon", "Busan (BSN)"],
     ]) {
       const { statusCode, payload } = await search(origin, destination);
-      expect(statusCode, `${origin} → ${destination}`).toBe(200);
-      expect(payload.results.length, `${origin} → ${destination}`).toBeGreaterThan(0);
+      expect(statusCode, `${origin} → ${destination}`).toBe(404);
+      expect(payload.noResultReason, `${origin} → ${destination}`).toBe("no_verified_data");
     }
   });
 });

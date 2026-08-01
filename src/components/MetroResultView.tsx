@@ -42,6 +42,7 @@ interface MetroResultViewProps {
   date: string;
   time?: string;
   error?: string;
+  officialSourceUrl?: string;
   coverageGap?: CoverageGap;
   results: TransitResult[];
   savedIds: Set<string>;
@@ -59,6 +60,7 @@ export function MetroResultView({
   date,
   time,
   error,
+  officialSourceUrl,
   coverageGap,
   results,
   savedIds,
@@ -94,7 +96,7 @@ export function MetroResultView({
           {!error && results.length > 0 && renderWeatherBlock(destination, date, country)}
 
           {error ? (
-            coverageGap ? renderCoverageBlock(coverageGap, country) : renderErrorBlock(t("result.unable_to_fetch"), error)
+            coverageGap ? renderCoverageBlock(coverageGap, country) : renderErrorBlock(t("result.unable_to_fetch"), error, officialSourceUrl)
           ) : results.length === 0 ? (
             renderEmptyBlock(t("metro.no_departures"), t("metro.no_departures_hint"))
           ) : (

@@ -3,6 +3,9 @@ import { resolve } from "path";
 import { BaseScraper } from "./base";
 import type { ScrapedRoute, ScrapedRouteData } from "./types";
 import type { SearchResponse } from "../../src/types";
+import type { Country } from "../../src/types";
+import { getCountryCapability } from "../../src/data/countryCapability";
+import { providerDateValue } from "../../src/data/countries";
 // Implementation lives in the pure timetable-day module under test.
 import { canonicalDay } from "../../src/data/scraped/timetableDay";
 import { stationSearchKey } from "../../src/data/stationKey";
@@ -18,7 +21,7 @@ export class SnapshotScraper extends BaseScraper {
 
   constructor(
     readonly name: string,
-    readonly country: string,
+    readonly country: Country,
     readonly routes: ScrapedRoute[],
   ) {
     super();
@@ -54,7 +57,7 @@ export class SnapshotScraper extends BaseScraper {
 export class ProviderBackedScraper extends SnapshotScraper {
   constructor(
     name: string,
-    country: string,
+    country: Country,
     routes: ScrapedRoute[],
     private readonly providerSearch: (
       origin: string,
@@ -66,6 +69,11 @@ export class ProviderBackedScraper extends SnapshotScraper {
   }
 
   override async scrape(route: ScrapedRoute, date: string): Promise<ScrapedRouteData> {
+    const capability = getCountryCapability(this.country);
+    if (capability.liveOnly && date !== providerDateValue(this.country)) {
+      return this.snapshotFallback(route, date);
+    }
+
     const response = await this.providerSearch(route.origin, route.destination, date);
     if (response.status >= 200 && response.status < 300 && response.body.results.length > 0) {
       return {
@@ -90,6 +98,10 @@ export class ProviderBackedScraper extends SnapshotScraper {
       context: { origin: route.origin, destination: route.destination, date },
     });
 
+    return this.snapshotFallback(route, date);
+  }
+
+  private snapshotFallback(route: ScrapedRoute, date: string): ScrapedRouteData {
     const snapshot = this.loadSnapshot(route);
     return {
       ...snapshot,
@@ -98,6 +110,12 @@ export class ProviderBackedScraper extends SnapshotScraper {
       // Provider diagnostics are stored server-side in error_log, not exposed
       // through timetable source metadata rendered by the app.
       source: `${this.name} curated snapshot fallback`,
+      // A curated fallback is never a live arrival. Clear a legacy realtime
+      // flag so the shared authenticity oracle cannot overstate it.
+      results: snapshot.results.map((result) => ({
+        ...result,
+        realtime: false,
+      })),
     };
   }
 }
