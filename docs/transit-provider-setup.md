@@ -7,7 +7,7 @@
 | 國家／地區 | 資料來源 | 憑證 | 專案狀態 | 可提供內容 |
 | --- | --- | --- | --- | --- |
 | 日本 | ODPT | API key | 等待 route adapter | 鐵路、車站、時刻與部分動態資料，依營運商授權而異 |
-| 韓國 | ODsay | API key | 等待 route adapter | 地鐵路線搜尋、KTX／列車資訊；部分即時資訊需再接韓國公共資料 API |
+| 韓國 | ODsay／TAGO／首爾開放資料 | API key | 目前為策展快照，覆蓋 9/305 站 | 見 [韓國申請流程](korea-api-registration.md)：TAGO 補城際站，首爾開放資料補地鐵站 |
 | 香港 | MTR Next Train | 不需要 | 已完成 | 支援路線的即時下一班列車、月台、終點與延誤狀態 |
 | 新加坡 | LTA DataMall | AccountKey | 規劃中 | 列車服務警示、車站擁擠度、設施維護；不是逐站下一班時刻 |
 | 馬來西亞 | data.gov.my | 多數公開下載不需金鑰 | 資料評估 | Rapid Rail／KTMB 統計與下載檔；目前不應當成即時班次 |
@@ -91,6 +91,10 @@
 10. ODsay 的部分即時到站資料需要再申請 [韓國公共資料入口](https://www.data.go.kr/) 的地區 API，不能假設 ODsay key 本身涵蓋所有即時資訊。
 
 目前專案尚未加入站名地理編碼與 ODsay route adapter，因此會明確回傳未完成狀態。
+
+> **韓國覆蓋率問題**：`KoreaScraper` 是 `SnapshotScraper`（Korail 封鎖自動化瀏覽器，CODE : -8003），9 條路線寫死在 `koreaRoutes`，每日排程只重蓋日期、不會增加覆蓋。
+> 要真正擴充需改接官方開放資料 —— 完整申請與驗證流程見 [docs/korea-api-registration.md](korea-api-registration.md)，
+> 探測腳本為 `npx tsx scripts/probe-korea-providers.ts`。
 
 ## 新加坡：LTA DataMall
 
