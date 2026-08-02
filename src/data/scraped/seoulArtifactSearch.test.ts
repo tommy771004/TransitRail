@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import type { SeoulTimetable } from "../../server/seoulSubwayTimetable";
 import { serviceDayArtifactFixture } from "../../server/serviceDayArtifactFixture";
-import { buildSeoulSubwayArtifact, encodeSeoulSubwayArtifact } from "../seoulSubwayArtifact";
+import { buildKoreanSubwayArtifact, encodeKoreanSubwayArtifact } from "../koreanSubwayArtifact";
 import {
   findScrapedResults,
   getScrapedCoverageNames,
@@ -49,7 +49,7 @@ const artifactFixture = serviceDayArtifactFixture(
 beforeAll(() => {
   artifactFixture.stash();
   artifactFixture.write(
-    encodeSeoulSubwayArtifact(buildSeoulSubwayArtifact(timetable, {
+    encodeKoreanSubwayArtifact(buildKoreanSubwayArtifact(timetable, {
       retrievedAt: "2026-08-01T00:00:00.000Z",
       sourceSha256: "fixture",
     })),

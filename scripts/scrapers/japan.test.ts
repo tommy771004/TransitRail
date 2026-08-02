@@ -1,5 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { JapanScraper } from "./japan";
+import { japanRoutes } from "./routes";
+import { odptRoutes } from "../../src/data/odptRoutes";
 
 describe("Japan scheduled source routing", () => {
   afterEach(() => {
@@ -10,7 +12,11 @@ describe("Japan scheduled source routing", () => {
     vi.stubEnv("ODPT_API_KEY", "");
     const scraper = new JapanScraper();
 
-    expect(scraper.routes).toHaveLength(29);
+    // Derived, not a magic number: a hardcoded count breaks every time a route
+    // is added, which says nothing about the token gate this test exists for.
+    const toeiRoutes = odptRoutes.filter((route) => route.operator === "Toei");
+    expect(scraper.routes).toHaveLength(japanRoutes.length + toeiRoutes.length);
+    for (const route of toeiRoutes) expect(scraper.routes).toContainEqual(route);
     expect(scraper.routes).toContainEqual({
       origin: "Shinjuku",
       destination: "Roppongi",

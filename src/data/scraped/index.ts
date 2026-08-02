@@ -4,13 +4,13 @@ import { fileURLToPath } from "url";
 import type { TransitResult, Country } from "../../types";
 import { findInRoutes, normalizeResults, type ScrapedRouteData } from "./timetableDay";
 import {
-  decodeSeoulSubwayArtifact,
-  searchSeoulSubwayArtifact,
-  seoulArtifactCoverageNames,
-  seoulArtifactReachableNames,
-  precomputeSeoulReachability,
-  type SeoulSubwayArtifact,
-} from "../seoulSubwayArtifact";
+  decodeKoreanSubwayArtifact,
+  searchKoreanSubwayArtifact,
+  koreanArtifactCoverageNames,
+  koreanArtifactReachableNames,
+  precomputeKoreanReachability,
+  type KoreanSubwayArtifact,
+} from "../koreanSubwayArtifact";
 import { stationSearchKey } from "../stationKey";
 import {
   coveredEndpointNames,
@@ -77,30 +77,48 @@ const ALL_COUNTRIES: Country[] = [
 ];
 
 let cache: Record<string, ScrapedRouteData[]> = {};
-let seoulSubwayArtifact: SeoulSubwayArtifact | null = null;
+/**
+ * Compact Korean subway artifacts, in load order.
+ *
+ * Seoul and Incheon are separate networks published by separate operators, but
+ * they share the artifact shape and both file under `korea`. Holding them as a
+ * list rather than one Seoul variable is what lets a second network land
+ * without every call site growing a special case — and a network whose file is
+ * missing or unreadable simply does not join the list.
+ */
+const KOREAN_ARTIFACT_FILES = [
+  "seoul-subway-timetable.json.gz",
+  "incheon-subway-timetable.json.gz",
+] as const;
+
+let koreanArtifacts: KoreanSubwayArtifact[] = [];
 let loaded = false;
 
-function loadSeoulArtifact(): SeoulSubwayArtifact | null {
-  const path = join(ACTUAL_DATA_DIR, "korea", "seoul-subway-timetable.json.gz");
-  if (!existsSync(path)) return null;
-  try {
-    const artifact = decodeSeoulSubwayArtifact(readFileSync(path));
-    precomputeSeoulReachability(artifact);
-    return artifact;
-  } catch (error) {
-    console.warn("[scraped] Failed to parse Korea Seoul subway artifact:", error);
-    return null;
+function loadKoreanArtifacts(): KoreanSubwayArtifact[] {
+  const artifacts: KoreanSubwayArtifact[] = [];
+  for (const file of KOREAN_ARTIFACT_FILES) {
+    const path = join(ACTUAL_DATA_DIR, "korea", file);
+    if (!existsSync(path)) continue;
+    try {
+      const artifact = decodeKoreanSubwayArtifact(readFileSync(path));
+      precomputeKoreanReachability(artifact);
+      artifacts.push(artifact);
+    } catch (error) {
+      console.warn(`[scraped] Failed to parse Korea artifact ${file}:`, error);
+    }
   }
+  return artifacts;
 }
 
-function seoulArtifactDecision(date?: string): SearchabilityDecision | undefined {
-  if (!seoulSubwayArtifact) return undefined;
+function koreanArtifactDecision(date?: string): SearchabilityDecision | undefined {
+  if (koreanArtifacts.length === 0) return undefined;
   return decideCoverageSearchability({
     country: "korea",
     serviceDay: date,
     provenance: "official",
     sourceServiceDay: date,
-    hasCoverage: seoulArtifactCoverageNames(seoulSubwayArtifact, date).length > 0,
+    hasCoverage: koreanArtifacts.some((artifact) =>
+      koreanArtifactCoverageNames(artifact, date).length > 0),
   });
 }
 
@@ -146,7 +164,7 @@ export function loadScrapedData(): void {
     cache[country] = loadDir(country);
     totalRoutes += cache[country].length;
   }
-  seoulSubwayArtifact = loadSeoulArtifact();
+  koreanArtifacts = loadKoreanArtifacts();
   loaded = true;
   console.log(`[scraped] Loaded ${totalRoutes} routes across ${ALL_COUNTRIES.length} countries`);
 }
@@ -155,9 +173,10 @@ export function loadScrapedData(): void {
 export function getScrapedCoverageNames(country: Country, date?: string): string[] {
   if (!loaded) loadScrapedData();
   const names = coveredEndpointNames(cache[country] || [], country, date);
-  if (country === "korea" && seoulSubwayArtifact) {
+  if (country === "korea" && koreanArtifacts.length > 0) {
     const byKey = new Map(names.map((name) => [stationSearchKey(name), name]));
-    for (const station of seoulArtifactCoverageNames(seoulSubwayArtifact, date)) {
+    for (const station of koreanArtifacts.flatMap((artifact) =>
+      koreanArtifactCoverageNames(artifact, date))) {
       if (!byKey.has(stationSearchKey(station))) byKey.set(stationSearchKey(station), station);
       if (stationSearchKey(station) === "seoul station") {
         byKey.set("seoul (snc)", "Seoul (SNC)");
@@ -184,13 +203,13 @@ export function getScrapedReachableStations(
   date: string,
 ): string[] {
   if (!loaded) loadScrapedData();
-  const artifactDecision = country === "korea" ? seoulArtifactDecision(date) : undefined;
+  const artifactDecision = country === "korea" ? koreanArtifactDecision(date) : undefined;
   const selection = searchableRoutesForContext(cache[country] || [], {
     country,
     serviceDay: date,
     origin,
-    additionalReachableDestinations: artifactDecision?.searchable && seoulSubwayArtifact
-      ? seoulArtifactReachableNames(seoulSubwayArtifact, origin, date)
+    additionalReachableDestinations: artifactDecision?.searchable
+      ? koreanArtifacts.flatMap((artifact) => koreanArtifactReachableNames(artifact, origin, date))
       : undefined,
   });
   return selection.reachableDestinations;
@@ -206,8 +225,8 @@ export function getScrapedCountryFreshness(country: Country): string | undefined
     return latest === undefined || timestamp > latest ? timestamp : latest;
   }, undefined);
 
-  const artifactTimestamp = country === "korea" && seoulSubwayArtifact
-    ? Date.parse(seoulSubwayArtifact.retrievedAt)
+  const artifactTimestamp = country === "korea" && koreanArtifacts.length > 0
+    ? Math.max(...koreanArtifacts.map((artifact) => Date.parse(artifact.retrievedAt)))
     : Number.NaN;
   const combined = Number.isFinite(artifactTimestamp)
     ? newest === undefined ? artifactTimestamp : Math.max(newest, artifactTimestamp)
@@ -223,7 +242,7 @@ export function getScrapedSearchabilitySummary(country: Country, date?: string) 
     serviceDay: date,
   });
   const decisions = [...selection.decisions];
-  const artifactDecision = country === "korea" ? seoulArtifactDecision(date) : undefined;
+  const artifactDecision = country === "korea" ? koreanArtifactDecision(date) : undefined;
   if (artifactDecision) decisions.push(artifactDecision);
   return summarizeSearchability(decisions);
 }
@@ -268,15 +287,20 @@ export function findScrapedSearchability(
 ): ScrapedSearchabilityResult | null {
   if (!loaded) loadScrapedData();
 
-  if (country === "korea" && seoulSubwayArtifact && date) {
-    const metro = searchSeoulSubwayArtifact(seoulSubwayArtifact, { origin, destination, date });
-    if (metro.length > 0) {
+  // Ask each network in turn and take the first that can answer. A pair that
+  // spans two networks is not answerable from either artifact alone — there is
+  // no shared timetable to join them on, so no result is the honest outcome
+  // rather than a journey stitched from two feeds that never quote a transfer.
+  if (country === "korea" && date) {
+    for (const artifact of koreanArtifacts) {
+      const metro = searchKoreanSubwayArtifact(artifact, { origin, destination, date });
+      if (metro.length === 0) continue;
       const fact = normalizeTimetableSource({
         origin,
         destination,
         date,
-        scrapedAt: seoulSubwayArtifact.retrievedAt,
-        source: seoulSubwayArtifact.source,
+        scrapedAt: artifact.retrievedAt,
+        source: artifact.source,
         provenance: "official",
         results: metro,
       }, date, { expectedCountry: "korea" });

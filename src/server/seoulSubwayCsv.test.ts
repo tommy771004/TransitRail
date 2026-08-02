@@ -2,7 +2,7 @@ import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import { decodeSeoulSubwayArtifact } from "../data/seoulSubwayArtifact";
+import { decodeKoreanSubwayArtifact } from "../data/koreanSubwayArtifact";
 import { collectSeoulSubwayArtifact, createSeoulSubwayCsvProvider } from "./seoulSubwayCsv";
 
 const OFFICIAL_CSV = [
@@ -67,7 +67,7 @@ describe("Seoul subway official CSV provider", () => {
       minimumStations: 2,
     });
 
-    const artifact = decodeSeoulSubwayArtifact(readFileSync(artifactPath));
+    const artifact = decodeKoreanSubwayArtifact(readFileSync(artifactPath));
     expect(artifact.runs).toHaveLength(1);
     expect(artifact.stations).toEqual(["Seoul Station", "City Hall"]);
 

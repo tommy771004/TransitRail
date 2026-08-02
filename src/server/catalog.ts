@@ -26,8 +26,11 @@ import {
   usesStrictCatalogGate,
   type StationCoverage,
 } from "../data/stationCoverage";
+import { authenticityOptionsFor, classifyTimetable, isVerifiableTimetable } from "../data/timetableAuthenticity";
 import {
+  findScrapedResults,
   getScrapedCoverageNames,
+  getScrapedRoutes,
   getScrapedReachableStations,
   getScrapedSearchabilitySummary,
 } from "../data/scraped";
@@ -81,6 +84,22 @@ function japanIntercityStationKeys(): Set<string> {
   );
 }
 
+/**
+ * Japan's metro is admitted line by line, as each one gets real data.
+ *
+ * Every Tokyo subway line used to be a fixed-headway generation, so the menu
+ * dropped all of them wholesale. The four Toei lines come from the ODPT public
+ * feed and classify as `scraped`, and a station users cannot pick is a station
+ * the timetable cannot serve — so admit what a verified timetable can answer
+ * for, and leave the rest hidden until their source arrives.
+ */
+function japanVerifiedMetroKeys(date?: string): Set<string> {
+  return new Set(
+    getScrapedCoverageNames("japan", date)
+      .map((station) => stationSearchKey(resolveStationAlias("japan", station))),
+  );
+}
+
 function hongKongLines(): TransitLine[] {
   return hongKongMtrLineCatalog.map((line) => ({
     id: line.code,
@@ -97,20 +116,6 @@ function hongKongLines(): TransitLine[] {
   }));
 }
 
-/**
- * The date range to actually offer: the market's contract, trimmed to the days
- * its committed data can answer.
- *
- * `searchDateRange` states the policy — how far forward this market may be
- * searched — and it moves with the clock every day. The data only moves when
- * the daily scrape runs, so between midnight and the scrape the last policy day
- * has nothing behind it and the picker invites a date that returns "no service".
- *
- * Trimming here rather than in `countries.ts` keeps the policy table free of
- * data access: the contract is a fact about the market, the trim is a fact
- * about today's inventory. Live-provider markets are never trimmed — they
- * answer arbitrary dates without any committed rows.
- */
 function offeredDateRange(country: Country): SearchDateRange {
   const range = searchDateRange(country);
   // `provider_then_scraped` is trimmed too: its guaranteed answer is the
@@ -137,6 +142,86 @@ function offeredDateRange(country: Country): SearchDateRange {
 
   const days = Math.round((Date.parse(`${end}T00:00:00Z`) - Date.parse(`${range.start}T00:00:00Z`)) / 86_400_000) + 1;
   return { ...range, end, days };
+}
+
+/**
+ * Whether a line is backed by timetable data of its own.
+ *
+ * Two signals have to agree, because neither alone is right:
+ *
+ * - A reachable pair with both ends on the line. Necessary, but not
+ *   sufficient: Tokyo Metro Ginza contains Asakusa and Nihombashi while the
+ *   journey between them is served by Toei Asakusa, so the pair test alone
+ *   admits a line whose own timetable is still generated.
+ * - The route's own `service` label. Sufficient for metro, where the label is
+ *   the line name — but useless for intercity, where it is a train name
+ *   ("Nozomi 101") that matches no line.
+ *
+ * So: require a reachable verified pair on the line, and reject it when the
+ * route that serves it names a *different* line. A train name names no line and
+ * passes, which is what lets Tōkaidō Shinkansen through while San'yō — whose
+ * only rows are generated — stays hidden.
+ */
+function lineHasOwnTimetable(
+  country: Country,
+  line: TransitLine,
+  date: string,
+  otherLineNames: ReadonlySet<string>,
+  verifiedServiceNames: ReadonlySet<string>,
+): boolean {
+  // A verified row that names this line settles it. Needed on its own for
+  // live-provider markets, where journeys run point to point across the
+  // network: the Elizabeth line has real data, but Heathrow → Oxford Circus
+  // ends on a different line, so no pair test would ever admit it.
+  if (verifiedServiceNames.has(line.name)) return true;
+
+  const onLine = new Set(line.stations.map((station) =>
+    stationSearchKey(resolveStationAlias(country, station.name))));
+
+  for (const station of line.stations) {
+    for (const destination of getScrapedReachableStations(country, station.name, date)) {
+      if (!onLine.has(stationSearchKey(resolveStationAlias(country, destination)))) continue;
+      const found = findScrapedResults(country, station.name, destination, date);
+      if (!found?.length) continue;
+      // `service` may join legs with " → " on a chained result; any segment
+      // naming another line means that line is doing the work, not this one.
+      const namesAnotherLine = found.some((result) => (result.service ?? "")
+        .split("→")
+        .map((segment) => segment.trim())
+        .some((segment) => otherLineNames.has(segment)));
+      if (!namesAnotherLine) return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Drop lines the committed data cannot answer for.
+ *
+ * A line in the picker that no timetable can serve is the same defect as an
+ * unreachable station: it invites a selection that must fail. Applied to every
+ * market, not only the strict-gate ones — an intercity line whose rows are all
+ * generated is no more answerable than a metro one.
+ */
+function filterLinesToAnswerable(country: Country, lines: TransitLine[], date?: string): TransitLine[] {
+  // With no service day there is nothing to evaluate against; leave the
+  // catalogue whole rather than guessing which day the caller meant.
+  if (!date) return lines;
+
+  const verifiedServiceNames = new Set<string>();
+  for (const route of getScrapedRoutes(country)) {
+    for (const result of route.results) {
+      if (result.date !== date || !result.service) continue;
+      if (!isVerifiableTimetable(classifyTimetable(route, date, authenticityOptionsFor(country)))) continue;
+      for (const segment of result.service.split("→")) verifiedServiceNames.add(segment.trim());
+    }
+  }
+
+  const allNames = new Set(lines.map((line) => line.name));
+  return lines.filter((line) => {
+    const others = new Set([...allNames].filter((name) => name !== line.name));
+    return lineHasOwnTimetable(country, line, date, others, verifiedServiceNames);
+  });
 }
 
 function filterLinesByVerifiedCoverage(
@@ -181,7 +266,7 @@ function filterLinesByVerifiedCoverage(
 
 export async function getLinesForCountry(country: string, date?: string): Promise<TransitLine[]> {
   let lines: TransitLine[];
-  if (country === "japan") lines = japanRailLines.filter((line) => !isJapanMetroLine(line));
+  if (country === "japan") lines = japanRailLines;
   else if (country === "korea") lines = seoulSubwayLines;
   else if (country === "hong_kong") lines = hongKongLines();
   else if (staticLineSets[country]) lines = staticLineSets[country];
@@ -194,9 +279,9 @@ export async function getLinesForCountry(country: string, date?: string): Promis
   }
 
   if (usesStrictCatalogGate(country as Country)) {
-    return filterLinesByVerifiedCoverage(country, lines, date);
+    lines = filterLinesByVerifiedCoverage(country, lines, date);
   }
-  return lines;
+  return filterLinesToAnswerable(country as Country, lines, date);
 }
 
 /**
@@ -271,7 +356,26 @@ export async function getStationsForCountry(
     stations = staticMenu;
     if (country === "japan") {
       const intercityKeys = japanIntercityStationKeys();
-      stations = stations.filter((station) => intercityKeys.has(stationSearchKey(station)));
+      const verifiedKeys = japanVerifiedMetroKeys(date);
+      stations = stations.filter((station) => {
+        const key = stationSearchKey(station);
+        return intercityKeys.has(key) || verifiedKeys.has(key);
+      });
+    }
+    if (country === "korea") {
+      // Korea files two separate networks: Seoul Metro and Incheon Transit.
+      // The static menu is built from the Seoul station list plus Korail, so a
+      // second operator's stations are searchable but unpickable until they are
+      // unioned in here. Adding whatever the committed artifacts can answer for
+      // keeps the menu and the data one set, and a third network needs no edit.
+      const menuKeys = new Set(stations.map((station) => stationSearchKey(station)));
+      for (const station of getScrapedCoverageNames("korea", date)) {
+        if (!menuKeys.has(stationSearchKey(station))) {
+          menuKeys.add(stationSearchKey(station));
+          stations = [...stations, station];
+        }
+      }
+      stations = [...stations].sort((left, right) => left.localeCompare(right));
     }
     if (country === "norway") {
       source = "Entur National Stop Register / Geocoder";

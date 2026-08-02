@@ -7,7 +7,7 @@ import {
   classifyTimetable,
   type TimetableSnapshot,
 } from "../src/data/timetableAuthenticity";
-import { decodeSeoulSubwayArtifact } from "../src/data/seoulSubwayArtifact";
+import { decodeKoreanSubwayArtifact } from "../src/data/koreanSubwayArtifact";
 import { SEOUL_SUBWAY_ARTIFACT_PATH } from "../src/server/seoulSubwayCsv";
 
 for (const country of configuredCountryOptions) {
@@ -31,7 +31,7 @@ for (const country of configuredCountryOptions) {
 
 if (existsSync(SEOUL_SUBWAY_ARTIFACT_PATH)) {
   try {
-    const artifact = decodeSeoulSubwayArtifact(readFileSync(SEOUL_SUBWAY_ARTIFACT_PATH));
+    const artifact = decodeKoreanSubwayArtifact(readFileSync(SEOUL_SUBWAY_ARTIFACT_PATH));
     const snapshot: TimetableSnapshot = {
       origin: "Seoul Metro artifact",
       destination: "Seoul Metro artifact",

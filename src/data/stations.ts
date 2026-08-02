@@ -80,6 +80,21 @@ const japanLineDefs: Array<{ id: string; name: string; color: string; stations: 
     ],
   },
   {
+    // Station order taken from the ODPT timetable feed itself (the longest run),
+    // which is the same source the timetable adapter reads.
+    id: "toei-mita",
+    name: "Toei Mita Line",
+    color: "#0079C2",
+    stations: [
+      "Nishi-takashimadaira", "Shin-takashimadaira", "Takashimadaira", "Nishidai",
+      "Hasune", "Shimura-sanchome", "Shimura-sakaue", "Motohasunuma",
+      "Itabashi-honcho", "Itabashi-kuyakushomae", "Shin-itabashi", "Nishi-sugamo",
+      "Sugamo", "Sengoku", "Hakusan", "Kasuga", "Suidobashi", "Jimbocho",
+      "Otemachi", "Hibiya", "Uchisaiwaicho", "Onarimon", "Shibakoen", "Mita",
+      "Shirokane-takanawa", "Shirokanedai", "Meguro",
+    ],
+  },
+  {
     // Main line only; the Honancho branch (Honancho-Nakano-fujimicho-
     // Nakano-shimbashi, joining at Nakano-sakaue) is a separate ordered run.
     id: "tokyo-metro-marunouchi",

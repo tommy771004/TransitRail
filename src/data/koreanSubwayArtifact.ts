@@ -9,7 +9,7 @@ import {
 } from "../server/seoulSubwayTimetable";
 import { stationSearchKey } from "./stationKey";
 
-export const SEOUL_SUBWAY_ARTIFACT_SCHEMA_VERSION = 1 as const;
+export const KOREAN_SUBWAY_ARTIFACT_SCHEMA_VERSION = 1 as const;
 
 type ArtifactCall = [stationIndex: number, arrival: number | null, departure: number | null];
 type ArtifactRun = [
@@ -20,25 +20,42 @@ type ArtifactRun = [
   calls: ArtifactCall[],
 ];
 
-export interface SeoulSubwayArtifact {
-  schemaVersion: typeof SEOUL_SUBWAY_ARTIFACT_SCHEMA_VERSION;
+/**
+ * Official Korean subway timetable feeds this artifact may carry.
+ *
+ * A closed set, not a free string: the label is what the authenticity oracle
+ * reads to decide the data is official, so an unrecognised source must fail
+ * validation rather than quietly present itself as verified. Add a feed here
+ * only once its licence and machine-readable source are confirmed.
+ */
+export const KOREAN_SUBWAY_ARTIFACT_SOURCES = [
+  "Seoul Metro official timetable CSV",
+  "Incheon Transit Corporation official timetable CSV",
+] as const;
+
+export type KoreanSubwayArtifactSource = typeof KOREAN_SUBWAY_ARTIFACT_SOURCES[number];
+
+export interface KoreanSubwayArtifact {
+  schemaVersion: typeof KOREAN_SUBWAY_ARTIFACT_SCHEMA_VERSION;
   country: "korea";
-  source: "Seoul Metro official timetable CSV";
+  source: KoreanSubwayArtifactSource;
   retrievedAt: string;
   sourceSha256: string;
   stations: string[];
   runs: ArtifactRun[];
 }
 
-export interface SeoulSubwayArtifactMetadata {
+export interface KoreanSubwayArtifactMetadata {
   retrievedAt: string;
   sourceSha256: string;
+  /** Which official feed produced these runs. Defaults to the Seoul CSV. */
+  source?: KoreanSubwayArtifactSource;
 }
 
-export function buildSeoulSubwayArtifact(
+export function buildKoreanSubwayArtifact(
   timetable: SeoulTimetable,
-  metadata: SeoulSubwayArtifactMetadata,
-): SeoulSubwayArtifact {
+  metadata: KoreanSubwayArtifactMetadata,
+): KoreanSubwayArtifact {
   const stations: string[] = [];
   const stationIndexes = new Map<string, number>();
   const stationIndex = (station: string) => {
@@ -51,9 +68,9 @@ export function buildSeoulSubwayArtifact(
   };
 
   return {
-    schemaVersion: SEOUL_SUBWAY_ARTIFACT_SCHEMA_VERSION,
+    schemaVersion: KOREAN_SUBWAY_ARTIFACT_SCHEMA_VERSION,
     country: "korea",
-    source: "Seoul Metro official timetable CSV",
+    source: metadata.source ?? "Seoul Metro official timetable CSV",
     retrievedAt: metadata.retrievedAt,
     sourceSha256: metadata.sourceSha256,
     stations,
@@ -78,70 +95,74 @@ function isServiceDayType(value: unknown): value is ServiceDayType {
     || value === "special";
 }
 
-export function validateSeoulSubwayArtifact(value: unknown): SeoulSubwayArtifact {
-  if (!value || typeof value !== "object") throw new Error("Seoul artifact is not an object.");
-  const artifact = value as Partial<SeoulSubwayArtifact>;
-  if (artifact.schemaVersion !== SEOUL_SUBWAY_ARTIFACT_SCHEMA_VERSION) {
-    throw new Error("Seoul artifact schema version is incompatible.");
+export function validateKoreanSubwayArtifact(value: unknown): KoreanSubwayArtifact {
+  if (!value || typeof value !== "object") throw new Error("Korean subway artifact is not an object.");
+  const artifact = value as Partial<KoreanSubwayArtifact>;
+  if (artifact.schemaVersion !== KOREAN_SUBWAY_ARTIFACT_SCHEMA_VERSION) {
+    throw new Error("Korean subway artifact schema version is incompatible.");
   }
-  if (artifact.country !== "korea" || artifact.source !== "Seoul Metro official timetable CSV") {
-    throw new Error("Seoul artifact identity is invalid.");
+  if (
+    artifact.country !== "korea"
+    || typeof artifact.source !== "string"
+    || !(KOREAN_SUBWAY_ARTIFACT_SOURCES as readonly string[]).includes(artifact.source)
+  ) {
+    throw new Error("Korean subway artifact identity is invalid.");
   }
   if (typeof artifact.retrievedAt !== "string" || !Number.isFinite(Date.parse(artifact.retrievedAt))) {
-    throw new Error("Seoul artifact retrievedAt is invalid.");
+    throw new Error("Korean subway artifact retrievedAt is invalid.");
   }
   if (typeof artifact.sourceSha256 !== "string" || artifact.sourceSha256.length === 0) {
-    throw new Error("Seoul artifact source hash is missing.");
+    throw new Error("Korean subway artifact source hash is missing.");
   }
   if (!Array.isArray(artifact.stations) || artifact.stations.length === 0) {
-    throw new Error("Seoul artifact station dictionary is empty.");
+    throw new Error("Korean subway artifact station dictionary is empty.");
   }
   if (artifact.stations.some((station) => typeof station !== "string" || station.length === 0)) {
-    throw new Error("Seoul artifact station dictionary is invalid.");
+    throw new Error("Korean subway artifact station dictionary is invalid.");
   }
   if (new Set(artifact.stations).size !== artifact.stations.length) {
-    throw new Error("Seoul artifact station dictionary contains duplicates.");
+    throw new Error("Korean subway artifact station dictionary contains duplicates.");
   }
   if (!Array.isArray(artifact.runs) || artifact.runs.length === 0) {
-    throw new Error("Seoul artifact has no train runs.");
+    throw new Error("Korean subway artifact has no train runs.");
   }
 
   for (const run of artifact.runs) {
-    if (!Array.isArray(run) || run.length !== 5) throw new Error("Seoul artifact run is invalid.");
+    if (!Array.isArray(run) || run.length !== 5) throw new Error("Korean subway artifact run is invalid.");
     const [line, trainNo, dayType, direction, calls] = run;
     if (typeof line !== "string" || typeof trainNo !== "string" || !isServiceDayType(dayType)) {
-      throw new Error("Seoul artifact run identity is invalid.");
+      throw new Error("Korean subway artifact run identity is invalid.");
     }
     if (direction !== null && typeof direction !== "string") {
-      throw new Error("Seoul artifact direction is invalid.");
+      throw new Error("Korean subway artifact direction is invalid.");
     }
-    if (!Array.isArray(calls) || calls.length < 2) throw new Error("Seoul artifact run has too few calls.");
+    if (!Array.isArray(calls) || calls.length < 2) throw new Error("Korean subway artifact run has too few calls.");
     for (const call of calls) {
-      if (!Array.isArray(call) || call.length !== 3) throw new Error("Seoul artifact call is invalid.");
+      if (!Array.isArray(call) || call.length !== 3) throw new Error("Korean subway artifact call is invalid.");
       const [index, arrival, departure] = call;
       if (!Number.isInteger(index) || index < 0 || index >= artifact.stations.length) {
-        throw new Error("Seoul artifact call has an invalid station index.");
+        throw new Error("Korean subway artifact call has an invalid station index.");
       }
       for (const time of [arrival, departure]) {
         if (time !== null && (!Number.isFinite(time) || time < 0)) {
-          throw new Error("Seoul artifact call has an invalid time.");
+          throw new Error("Korean subway artifact call has an invalid time.");
         }
       }
-      if (arrival === null && departure === null) throw new Error("Seoul artifact call has no time.");
+      if (arrival === null && departure === null) throw new Error("Korean subway artifact call has no time.");
     }
   }
 
-  return artifact as SeoulSubwayArtifact;
+  return artifact as KoreanSubwayArtifact;
 }
 
-export function encodeSeoulSubwayArtifact(artifact: SeoulSubwayArtifact): Buffer {
-  validateSeoulSubwayArtifact(artifact);
+export function encodeKoreanSubwayArtifact(artifact: KoreanSubwayArtifact): Buffer {
+  validateKoreanSubwayArtifact(artifact);
   return gzipSync(Buffer.from(JSON.stringify(artifact)), { level: 9 });
 }
 
-export function decodeSeoulSubwayArtifact(buffer: Buffer): SeoulSubwayArtifact {
+export function decodeKoreanSubwayArtifact(buffer: Buffer): KoreanSubwayArtifact {
   const parsed = JSON.parse(gunzipSync(buffer).toString("utf8")) as unknown;
-  return validateSeoulSubwayArtifact(parsed);
+  return validateKoreanSubwayArtifact(parsed);
 }
 
 function isValidIsoCalendarDate(value: string): boolean {
@@ -157,12 +178,12 @@ function artifactStationKey(name: string): string {
   return key;
 }
 
-function artifactStationIndex(artifact: SeoulSubwayArtifact, name: string): number {
+function artifactStationIndex(artifact: KoreanSubwayArtifact, name: string): number {
   const key = artifactStationKey(name);
   return artifact.stations.findIndex((station) => stationSearchKey(station) === key);
 }
 
-export function seoulServiceDayType(date: string): ServiceDayType {
+export function koreanServiceDayType(date: string): ServiceDayType {
   if (!isValidIsoCalendarDate(date)) {
     throw new RangeError(`Invalid Seoul service date: ${date}`);
   }
@@ -176,12 +197,12 @@ export function seoulServiceDayType(date: string): ServiceDayType {
 }
 
 /** Stations that have at least one official run on the requested service day. */
-export function seoulArtifactCoverageNames(
-  artifact: SeoulSubwayArtifact,
+export function koreanArtifactCoverageNames(
+  artifact: KoreanSubwayArtifact,
   date?: string,
 ): string[] {
   if (date && !isValidIsoCalendarDate(date)) return [];
-  const dayType = date ? seoulServiceDayType(date) : undefined;
+  const dayType = date ? koreanServiceDayType(date) : undefined;
   const indexes = new Set<number>();
   for (const [, , runDayType, , calls] of artifact.runs) {
     if (dayType && runDayType !== dayType) continue;
@@ -202,7 +223,7 @@ interface ArtifactRunView {
 
 const reachabilityCache = new Map<string, Map<number, Set<number>>>();
 
-function runsForDay(artifact: SeoulSubwayArtifact, dayType: ServiceDayType): ArtifactRunView[] {
+function runsForDay(artifact: KoreanSubwayArtifact, dayType: ServiceDayType): ArtifactRunView[] {
   return artifact.runs
     .filter(([, , runDayType]) => runDayType === dayType)
     .map(([line, trainNo, runDayType, direction, calls]) => ({
@@ -242,7 +263,7 @@ function cloneReachability(source: Map<number, Set<number>>): Map<number, Set<nu
 }
 
 function directReachability(
-  artifact: SeoulSubwayArtifact,
+  artifact: KoreanSubwayArtifact,
   dayType: ServiceDayType,
 ): Map<number, Set<number>> {
   const reachable = new Map<number, Set<number>>();
@@ -269,7 +290,7 @@ function directReachability(
  * than comparing every pair of trains in the 12k-run artifact.
  */
 function reachabilityForDay(
-  artifact: SeoulSubwayArtifact,
+  artifact: KoreanSubwayArtifact,
   dayType: ServiceDayType,
 ): Map<number, Set<number>> {
   const cacheKey = `${artifact.sourceSha256}:${dayType}`;
@@ -369,21 +390,21 @@ function reachabilityForDay(
 const SEOUL_SERVICE_DAY_TYPES: ServiceDayType[] = ["weekday", "saturday", "sunday_holiday"];
 
 /** Warm all public service-day reachability sets once when the artifact loads. */
-export function precomputeSeoulReachability(artifact: SeoulSubwayArtifact): void {
+export function precomputeKoreanReachability(artifact: KoreanSubwayArtifact): void {
   for (const dayType of SEOUL_SERVICE_DAY_TYPES) {
     reachabilityForDay(artifact, dayType);
   }
 }
 
-export function seoulArtifactReachableNames(
-  artifact: SeoulSubwayArtifact,
+export function koreanArtifactReachableNames(
+  artifact: KoreanSubwayArtifact,
   origin: string,
   date: string,
 ): string[] {
   if (!isValidIsoCalendarDate(date)) return [];
   const originIndex = artifactStationIndex(artifact, origin);
   if (originIndex < 0) return [];
-  const reachable = reachabilityForDay(artifact, seoulServiceDayType(date)).get(originIndex) || new Set<number>();
+  const reachable = reachabilityForDay(artifact, koreanServiceDayType(date)).get(originIndex) || new Set<number>();
   return [...reachable].map((index) => artifact.stations[index]).filter(Boolean);
 }
 
@@ -395,7 +416,7 @@ function segmentResult(
   run: ArtifactRunView,
   fromIndex: number,
   toIndex: number,
-  artifact: SeoulSubwayArtifact,
+  artifact: KoreanSubwayArtifact,
   date: string,
 ): TransitResult | null {
   if (fromIndex < 0 || toIndex <= fromIndex) return null;
@@ -424,7 +445,7 @@ function segmentResult(
 }
 
 function crossLineJourneys(
-  artifact: SeoulSubwayArtifact,
+  artifact: KoreanSubwayArtifact,
   originIndex: number,
   destinationIndex: number,
   date: string,
@@ -511,8 +532,8 @@ function crossLineJourneys(
   }).slice(0, 200);
 }
 
-export function searchSeoulSubwayArtifact(
-  artifact: SeoulSubwayArtifact,
+export function searchKoreanSubwayArtifact(
+  artifact: KoreanSubwayArtifact,
   query: SeoulJourneyQuery,
 ): TransitResult[] {
   if (!isValidIsoCalendarDate(query.date)) return [];
@@ -520,7 +541,7 @@ export function searchSeoulSubwayArtifact(
   const destinationIndex = artifactStationIndex(artifact, query.destination);
   if (originIndex < 0 || destinationIndex < 0) return [];
 
-  const dayType = query.dayType ?? seoulServiceDayType(query.date);
+  const dayType = query.dayType ?? koreanServiceDayType(query.date);
   const runs: SeoulTimetable["runs"] = [];
   for (const [line, trainNo, runDayType, direction, calls] of artifact.runs) {
     if (runDayType !== dayType) continue;

@@ -3,11 +3,11 @@ import { existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileS
 import { dirname, resolve } from "node:path";
 import type { SearchResponse, ServiceDayType } from "../types";
 import {
-  buildSeoulSubwayArtifact,
-  decodeSeoulSubwayArtifact,
-  encodeSeoulSubwayArtifact,
-  type SeoulSubwayArtifact,
-} from "../data/seoulSubwayArtifact";
+  buildKoreanSubwayArtifact,
+  decodeKoreanSubwayArtifact,
+  encodeKoreanSubwayArtifact,
+  type KoreanSubwayArtifact,
+} from "../data/koreanSubwayArtifact";
 import {
   buildSeoulJourneys,
   parseSeoulSubwayTimetable,
@@ -94,14 +94,14 @@ async function downloadCsv(options: SeoulSubwayArtifactCollectorOptions): Promis
 /** Scheduled-only collector. Journey requests never call this function. */
 export async function collectSeoulSubwayArtifact(
   options: SeoulSubwayArtifactCollectorOptions = {},
-): Promise<SeoulSubwayArtifact> {
+): Promise<KoreanSubwayArtifact> {
   const artifactPath = options.artifactPath ?? SEOUL_SUBWAY_ARTIFACT_PATH;
   const csv = await downloadCsv(options);
   const sourceSha256 = createHash("sha256").update(csv).digest("hex");
 
   if (existsSync(artifactPath)) {
     try {
-      const existing = decodeSeoulSubwayArtifact(readFileSync(artifactPath));
+      const existing = decodeKoreanSubwayArtifact(readFileSync(artifactPath));
       if (existing.sourceSha256 === sourceSha256) return existing;
     } catch {
       // Replace an invalid old artifact only after the new source validates.
@@ -118,12 +118,12 @@ export async function collectSeoulSubwayArtifact(
     );
   }
 
-  const artifact = buildSeoulSubwayArtifact(timetable, {
+  const artifact = buildKoreanSubwayArtifact(timetable, {
     retrievedAt: new Date().toISOString(),
     sourceSha256,
   });
-  const encoded = encodeSeoulSubwayArtifact(artifact);
-  decodeSeoulSubwayArtifact(encoded);
+  const encoded = encodeKoreanSubwayArtifact(artifact);
+  decodeKoreanSubwayArtifact(encoded);
 
   mkdirSync(dirname(artifactPath), { recursive: true });
   const temporaryPath = `${artifactPath}.${process.pid}.tmp`;

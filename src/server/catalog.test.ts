@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getLinesForCountry, getStationsForCountry } from "./catalog";
+import { getScrapedCoverageNames, getScrapedRoutes } from "../data/scraped";
 
 const DATE = "2026-08-01";
 
@@ -47,13 +48,20 @@ describe("station and line catalog integrity scope", () => {
     // The policy window moves with the clock every day; the data only moves
     // when the scrape runs. A day after the last scrape, the final policy day
     // has nothing behind it — the picker must not offer it.
+    //
+    // Derived from the committed data rather than pinned to a date: the scrape
+    // legitimately extends the window, and a hardcoded end date fails on that
+    // without saying anything about the trim this test exists for.
     vi.setSystemTime(new Date("2026-08-02T04:00:00.000Z"));
     const stations = await getStationsForCountry("japan", undefined, undefined);
     const range = stations.coverage?.dateRange;
+    const lastAnswerable = [...new Set(
+      getScrapedRoutes("japan").flatMap((route) => route.results.map((result) => result.date)),
+    )].filter((date): date is string => Boolean(date)).sort().at(-1);
 
     expect(range?.start).toBe("2026-08-02");
-    expect(range?.end).toBe("2026-08-07");
-    expect(range?.days).toBe(6);
+    expect(range?.end).toBe(lastAnswerable);
+    expect(getScrapedCoverageNames("japan", range?.end).length).toBeGreaterThan(0);
   });
 
   it("trims a provider-then-scraped market to what its snapshots guarantee", async () => {

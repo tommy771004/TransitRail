@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
 import type { SeoulTimetable } from "../server/seoulSubwayTimetable";
 import {
-  buildSeoulSubwayArtifact,
-  decodeSeoulSubwayArtifact,
-  encodeSeoulSubwayArtifact,
-  seoulArtifactCoverageNames,
-  seoulArtifactReachableNames,
-  seoulServiceDayType,
-  searchSeoulSubwayArtifact,
-} from "./seoulSubwayArtifact";
+  buildKoreanSubwayArtifact,
+  decodeKoreanSubwayArtifact,
+  encodeKoreanSubwayArtifact,
+  koreanArtifactCoverageNames,
+  koreanArtifactReachableNames,
+  koreanServiceDayType,
+  searchKoreanSubwayArtifact,
+} from "./koreanSubwayArtifact";
 
 const timetable: SeoulTimetable = {
   encoding: "utf-8",
@@ -71,15 +71,15 @@ const timetable: SeoulTimetable = {
 
 describe("Seoul subway compact artifact", () => {
   it("fails closed for malformed service dates", () => {
-    const artifact = buildSeoulSubwayArtifact(timetable, {
+    const artifact = buildKoreanSubwayArtifact(timetable, {
       retrievedAt: "2026-08-01T00:00:00.000Z",
       sourceSha256: "abc123",
     });
 
-    expect(seoulArtifactCoverageNames(artifact, "not-a-date")).toEqual([]);
-    expect(seoulArtifactReachableNames(artifact, "Seoul Station", "not-a-date")).toEqual([]);
-    expect(() => seoulServiceDayType("not-a-date")).toThrow("Invalid Seoul service date");
-    expect(searchSeoulSubwayArtifact(artifact, {
+    expect(koreanArtifactCoverageNames(artifact, "not-a-date")).toEqual([]);
+    expect(koreanArtifactReachableNames(artifact, "Seoul Station", "not-a-date")).toEqual([]);
+    expect(() => koreanServiceDayType("not-a-date")).toThrow("Invalid Seoul service date");
+    expect(searchKoreanSubwayArtifact(artifact, {
       origin: "Seoul Station",
       destination: "City Hall",
       date: "not-a-date",
@@ -87,14 +87,14 @@ describe("Seoul subway compact artifact", () => {
   });
 
   it("round-trips gzip data and searches real run calls", () => {
-    const artifact = buildSeoulSubwayArtifact(timetable, {
+    const artifact = buildKoreanSubwayArtifact(timetable, {
       retrievedAt: "2026-08-01T00:00:00.000Z",
       sourceSha256: "abc123",
     });
-    const decoded = decodeSeoulSubwayArtifact(encodeSeoulSubwayArtifact(artifact));
+    const decoded = decodeKoreanSubwayArtifact(encodeKoreanSubwayArtifact(artifact));
 
     expect(decoded.stations).toEqual(["Seoul Station", "City Hall", "Gangnam"]);
-    const results = searchSeoulSubwayArtifact(decoded, {
+    const results = searchKoreanSubwayArtifact(decoded, {
       origin: "Seoul Station",
       destination: "City Hall",
       date: "2026-08-03",
@@ -107,26 +107,63 @@ describe("Seoul subway compact artifact", () => {
     });
   });
 
-  it("fails closed for truncated or incompatible artifacts", () => {
-    expect(() => decodeSeoulSubwayArtifact(Buffer.from("not gzip"))).toThrow();
+  it("carries a second official Korean feed under the same artifact", () => {
+    // The artifact is the shared shape for Korean subway feeds, not a Seoul
+    // one: Incheon publishes a different CSV layout but the same runs.
+    const artifact = buildKoreanSubwayArtifact(timetable, {
+      retrievedAt: "2026-08-01T00:00:00.000Z",
+      sourceSha256: "incheon-fixture",
+      source: "Incheon Transit Corporation official timetable CSV",
+    });
 
-    const artifact = buildSeoulSubwayArtifact(timetable, {
+    expect(artifact.source).toBe("Incheon Transit Corporation official timetable CSV");
+    expect(decodeKoreanSubwayArtifact(encodeKoreanSubwayArtifact(artifact)).source)
+      .toBe("Incheon Transit Corporation official timetable CSV");
+  });
+
+  it("defaults to the Seoul feed when no source is given", () => {
+    const artifact = buildKoreanSubwayArtifact(timetable, {
+      retrievedAt: "2026-08-01T00:00:00.000Z",
+      sourceSha256: "default-fixture",
+    });
+    expect(artifact.source).toBe("Seoul Metro official timetable CSV");
+  });
+
+  it("rejects a source outside the confirmed feed list", () => {
+    // The label is what the authenticity oracle reads to call this official, so
+    // an unrecognised feed must fail validation rather than present itself as
+    // verified data.
+    const artifact = buildKoreanSubwayArtifact(timetable, {
+      retrievedAt: "2026-08-01T00:00:00.000Z",
+      sourceSha256: "unknown-fixture",
+    });
+    expect(() =>
+      decodeKoreanSubwayArtifact(
+        encodeKoreanSubwayArtifact({ ...artifact, source: "Some blog's timetable" } as never),
+      ),
+    ).toThrow(/identity is invalid/i);
+  });
+
+  it("fails closed for truncated or incompatible artifacts", () => {
+    expect(() => decodeKoreanSubwayArtifact(Buffer.from("not gzip"))).toThrow();
+
+    const artifact = buildKoreanSubwayArtifact(timetable, {
       retrievedAt: "2026-08-01T00:00:00.000Z",
       sourceSha256: "abc123",
     });
     expect(() =>
-      decodeSeoulSubwayArtifact(
-        encodeSeoulSubwayArtifact({ ...artifact, schemaVersion: 99 } as never),
+      decodeKoreanSubwayArtifact(
+        encodeKoreanSubwayArtifact({ ...artifact, schemaVersion: 99 } as never),
       ),
     ).toThrow(/schema/i);
   });
 
   it("builds one-transfer journeys from official runs on different lines", () => {
-    const artifact = buildSeoulSubwayArtifact(timetable, {
+    const artifact = buildKoreanSubwayArtifact(timetable, {
       retrievedAt: "2026-08-01T00:00:00.000Z",
       sourceSha256: "cross-line-fixture",
     });
-    const results = searchSeoulSubwayArtifact(artifact, {
+    const results = searchKoreanSubwayArtifact(artifact, {
       origin: "Gangnam",
       destination: "Seoul Station",
       date: "2026-08-03",
@@ -149,11 +186,11 @@ describe("Seoul subway compact artifact", () => {
       departureTime: "08:14",
       arrivalTime: "08:25",
     });
-    expect(seoulArtifactReachableNames(artifact, "Gangnam", "2026-08-03")).toContain("Seoul Station");
+    expect(koreanArtifactReachableNames(artifact, "Gangnam", "2026-08-03")).toContain("Seoul Station");
   });
 
   it("offers a destination whose only usable connection is a later train", () => {
-    const artifact = buildSeoulSubwayArtifact(timetable, {
+    const artifact = buildKoreanSubwayArtifact(timetable, {
       retrievedAt: "2026-08-01T00:00:00.000Z",
       sourceSha256: "late-connection-fixture",
     });
@@ -161,23 +198,23 @@ describe("Seoul subway compact artifact", () => {
     // Line 1 leaves the interchange at both 400 (too early to connect) and 494
     // (usable). Reducing the line to its earliest departure would drop the pair
     // and hide Seoul Station from the picker while search still answered it.
-    expect(seoulArtifactReachableNames(artifact, "Gangnam", "2026-08-03"))
+    expect(koreanArtifactReachableNames(artifact, "Gangnam", "2026-08-03"))
       .toContain("Seoul Station");
 
     // The menu must never offer what search cannot answer.
-    for (const destination of seoulArtifactReachableNames(artifact, "Gangnam", "2026-08-03")) {
+    for (const destination of koreanArtifactReachableNames(artifact, "Gangnam", "2026-08-03")) {
       expect(
-        searchSeoulSubwayArtifact(artifact, { origin: "Gangnam", destination, date: "2026-08-03" }),
+        searchKoreanSubwayArtifact(artifact, { origin: "Gangnam", destination, date: "2026-08-03" }),
       ).not.toHaveLength(0);
     }
   });
 
   it("uses the requested service-day type for cross-line reachability", () => {
-    const artifact = buildSeoulSubwayArtifact(timetable, {
+    const artifact = buildKoreanSubwayArtifact(timetable, {
       retrievedAt: "2026-08-01T00:00:00.000Z",
       sourceSha256: "service-day-fixture",
     });
-    expect(searchSeoulSubwayArtifact(artifact, {
+    expect(searchKoreanSubwayArtifact(artifact, {
       origin: "Gangnam",
       destination: "Seoul Station",
       date: "2026-08-08", // Saturday: only the first leg exists in the fixture.

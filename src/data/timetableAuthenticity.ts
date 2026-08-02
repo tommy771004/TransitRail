@@ -102,6 +102,7 @@ const OFFICIAL_SOURCE_LABELS = new Set([
   "gtfs.de Long Distance Rail Germany",
   "OpenTransportData Swiss GTFS Static",
   "Seoul Metro official timetable CSV",
+  "Incheon Transit Corporation official timetable CSV",
 ]);
 const OFFICIAL_SOURCE_URLS = new Set([
   "https://api.tfl.gov.uk",

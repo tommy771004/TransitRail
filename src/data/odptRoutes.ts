@@ -68,6 +68,19 @@ export const odptRoutes: OdptRoute[] = [
     lineColor: "#e60012",
     stations: [["Otemachi", "odpt.Station:TokyoMetro.Marunouchi.Otemachi"], ["Ikebukuro", "odpt.Station:TokyoMetro.Marunouchi.Ikebukuro"]],
   }),
+  ...bothDirections({
+    // Toei lines answer on api-public.odpt.org without a consumer key, so this
+    // route produces real scheduled departures today. The seven remaining Tokyo
+    // Metro lines (Hibiya, Tozai, Chiyoda, Yurakucho, Hanzomon, Namboku,
+    // Fukutoshin) return an empty array on that endpoint and need ODPT_API_KEY;
+    // they are deliberately not configured until a key exists, because a route
+    // with no usable source would only fall back to a synthetic snapshot.
+    operator: "Toei",
+    railway: "odpt.Railway:Toei.Mita",
+    lineName: "Toei Mita Line",
+    lineColor: "#0079c2",
+    stations: [["Jimbocho", "odpt.Station:Toei.Mita.Jimbocho"], ["Otemachi", "odpt.Station:Toei.Mita.Otemachi"]],
+  }),
 ];
 
 export function findOdptRoute(origin: string, destination: string): OdptRoute | undefined {
