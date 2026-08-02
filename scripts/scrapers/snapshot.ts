@@ -126,7 +126,8 @@ export class ProviderBackedScraper extends SnapshotScraper {
     }
     const responseBody = response?.body;
     const providerResults = Array.isArray(responseBody?.results) ? responseBody.results : [];
-    if (response?.status >= 200 && response.status < 300 && providerResults.length > 0) {
+    const status = response?.status ?? 0;
+    if (responseBody && status >= 200 && status < 300 && providerResults.length > 0) {
       const rawProviderFact = normalizeTimetableSource({
         origin: route.origin,
         destination: route.destination,
@@ -142,7 +143,7 @@ export class ProviderBackedScraper extends SnapshotScraper {
           message: "Provider returned malformed timetable rows.",
           country: this.country,
           provider: this.name,
-          httpStatus: response.status,
+          httpStatus: response?.status,
           context: { origin: route.origin, destination: route.destination, date },
         });
         return this.snapshotFallback(route, date);

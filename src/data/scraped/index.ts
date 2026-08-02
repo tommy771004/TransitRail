@@ -24,6 +24,7 @@ import {
 import {
   decideCoverageSearchability,
   decideSearchability,
+  tagResultsWithDecision,
   searchableRoutesForContext,
   summarizeSearchability,
   type SearchabilityDecision,
@@ -289,11 +290,7 @@ export function findScrapedSearchability(
       if (decision.searchable && fact.snapshot) {
         return {
           decision,
-          results: normalizeResults(fact.snapshot.results).map((result) => ({
-            ...result,
-            provenance: decision.provenance === "unknown" ? undefined : decision.provenance,
-            truthMode: decision.truthMode,
-          })),
+          results: tagResultsWithDecision(normalizeResults(fact.snapshot.results), decision),
         };
       }
     }
@@ -313,10 +310,6 @@ export function findScrapedSearchability(
   if (!decision?.searchable) return null;
   return {
     decision,
-    results: normalizeResults(found).map((result) => ({
-      ...result,
-      provenance: decision.provenance === "unknown" ? undefined : decision.provenance,
-      truthMode: decision.truthMode,
-    })),
+    results: tagResultsWithDecision(normalizeResults(found), decision),
   };
 }

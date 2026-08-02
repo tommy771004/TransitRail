@@ -1,4 +1,4 @@
-import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { readFileSync, writeFileSync } from "node:fs";
 import { serviceDayArtifactFixture } from "./serviceDayArtifactFixture";
 import { franceGtfsFixture as gtfsFixture } from "./gtfsZipFixture";
@@ -12,7 +12,16 @@ const artifact = serviceDayArtifactFixture(
 describe("runTransitSearch France GTFS service-day advisory", () => {
   beforeAll(() => artifact.stash());
   afterAll(() => artifact.restore());
+  // Pin the clock to the service day these fixtures use. Search only answers
+  // dates inside the current window, so without this the suite passes only
+  // until the calendar moves past that date.
+  beforeEach(() => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    vi.setSystemTime(new Date("2026-08-03T04:00:00.000Z"));
+  });
+
   afterEach(() => {
+    vi.useRealTimers();
     vi.unstubAllGlobals();
     resetFranceGtfsCache();
     artifact.clear();

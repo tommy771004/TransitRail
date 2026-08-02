@@ -90,9 +90,18 @@ function mbtaUrl(pathname: string, params: Record<string, string> = {}) {
   return url;
 }
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * Keyless MBTA access is rate limited, and a 7-day scrape issues many requests
+ * per route. A 429 that is not retried falls back to the curated snapshot, and
+ * that fallback then relabels the whole route file as `curated` — six days of
+ * genuine schedules filed as representative data because of one throttled
+ * request. Retry instead. Set `MBTA_API_KEY` to make this path rare.
+ */
+const MBTA_RATE_LIMIT_RETRIES = 3;
+
 async function fetchMbtaJson(url: URL): Promise<MbtaResponse> {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10_000);
   const headers: Record<string, string> = {
     Accept: "application/vnd.api+json",
     "User-Agent": "TransitRail/1.0",
@@ -101,17 +110,26 @@ async function fetchMbtaJson(url: URL): Promise<MbtaResponse> {
     headers["x-api-key"] = process.env.MBTA_API_KEY;
   }
 
-  try {
-    const response = await fetch(url, {
-      signal: controller.signal,
-      headers,
-    });
-    if (!response.ok) {
-      throw new Error(`MBTA returned HTTP ${response.status}.`);
+  for (let attempt = 0; ; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10_000);
+    try {
+      const response = await fetch(url, { signal: controller.signal, headers });
+      if (response.status === 429 && attempt < MBTA_RATE_LIMIT_RETRIES) {
+        const retryAfter = Number(response.headers.get("retry-after"));
+        clearTimeout(timeout);
+        await sleep(Number.isFinite(retryAfter) && retryAfter > 0
+          ? retryAfter * 1000
+          : 2_000 * 2 ** attempt);
+        continue;
+      }
+      if (!response.ok) {
+        throw new Error(`MBTA returned HTTP ${response.status}.`);
+      }
+      return await response.json() as MbtaResponse;
+    } finally {
+      clearTimeout(timeout);
     }
-    return await response.json() as MbtaResponse;
-  } finally {
-    clearTimeout(timeout);
   }
 }
 
@@ -577,7 +595,11 @@ function transferJourneysForRoute(
       arrivalIso: second.arrivalIso,
       scheduleType: first.scheduleType || second.scheduleType,
       result: {
-        id: `us-mbta-transfer-${date}-${journeys.length}`,
+        // Identify the journey by the trip it actually is, not by where it
+        // landed in this run's array. The index moved whenever a rate-limited
+        // request returned fewer journeys, so the same departure came back with
+        // a new id every scrape and accumulated instead of replacing.
+        id: `us-mbta-transfer-${first.departureIso}-${second.arrivalIso}`,
         country: "united_states",
         date,
         operator: "MBTA",

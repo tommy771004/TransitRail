@@ -21,6 +21,7 @@ import {
 } from "../data/scraped";
 import {
   decideSearchability,
+  tagResultsWithDecision,
   decideRouteContextSearchability,
   toNoResultReason,
   type SearchabilityDecision,
@@ -51,6 +52,22 @@ export type TransitSearchInput = {
   destination: string;
   date: string;
   country?: string;
+  time?: string;
+};
+
+/**
+ * A search request once its country string has been validated.
+ *
+ * The country/origin/destination/date group travelled through five helpers as
+ * separate parameters — four adjacent strings, where swapping two is a silent
+ * bug the compiler cannot see. Bundling them removes that class and keeps the
+ * pieces that always move together in one place.
+ */
+type ResolvedQuery = {
+  country: Country;
+  origin: string;
+  destination: string;
+  date: string;
   time?: string;
 };
 
@@ -120,24 +137,11 @@ function filterByTime(results: NonNullable<ReturnType<typeof findScrapedResults>
   return results.filter((r) => r.departureTime >= time);
 }
 
-function tagResults(
-  results: SearchResponse["results"],
-  decision: SearchabilityDecision,
-): SearchResponse["results"] {
-  return results.map((result) => ({
-    ...result,
-    provenance: decision.provenance === "unknown" ? undefined : decision.provenance,
-    truthMode: decision.truthMode,
-  }));
-}
-
 function providerPayloadWithPolicy(
-  country: Country,
-  origin: string,
-  destination: string,
-  date: string,
+  query: ResolvedQuery,
   body: SearchResponse & { error?: string; message?: string },
 ): { payload: TransitSearchPayload; decision: SearchabilityDecision } {
+  const { country, origin, destination, date } = query;
   // Provider adapters return the requested service day as a query argument;
   // attaching it to rows records source context without inventing a departure.
   const results = body.results.map((result) => ({ ...result, date: result.date || date }));
@@ -165,7 +169,7 @@ function providerPayloadWithPolicy(
     decision,
     payload: {
       ...body,
-      results: decision.searchable ? tagResults(results, decision) : [],
+      results: decision.searchable ? tagResultsWithDecision(results, decision) : [],
       provenance: decision.provenance,
       truthMode: decision.truthMode,
       ...(decision.searchable || !decision.reason
@@ -179,11 +183,10 @@ function providerPayloadWithPolicy(
 }
 
 function providerFailurePayload(
-  country: Country,
-  origin: string,
-  destination: string,
+  query: ResolvedQuery,
   response: ProviderResponse,
 ): TransitSearchPayload {
+  const { country, origin, destination } = query;
   const reason: NoResultReason = response.body.noResultReason
     || (response.status >= 500 || response.status === 501 ? "no_verified_data" : "unsupported_route");
   return {
@@ -198,17 +201,10 @@ function providerFailurePayload(
 }
 
 function tryScraped(
-  country: Country | undefined,
-  origin: string,
-  destination: string,
-  date: string,
-  time?: string,
+  query: ResolvedQuery,
   indicativeFallback = false,
 ): TransitSearchPayload | undefined {
-  if (!country) {
-    // Unknown country string: cannot type as Country — return nothing.
-    return undefined;
-  }
+  const { country, origin, destination, date, time } = query;
   const found = findScrapedSearchability(country, origin, destination, date);
   if (!found || found.results.length === 0) return undefined;
   const scraped = filterByTime(found.results, time);
@@ -369,6 +365,10 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
     };
   } else if (resolvedCountry) {
     const { search } = getCountryCapability(resolvedCountry);
+    // Non-optional inside this branch. `strictNullChecks` is off in this repo,
+    // so passing the outer optional here would compile even when it is
+    // undefined — state the guarantee instead of assuming it.
+    const resolvedQuery: ResolvedQuery = { country: resolvedCountry, origin, destination, date, time };
 
     if (search.kind === "catalog_only") {
       statusCode = 422;
@@ -386,8 +386,8 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
       if (search.kind === "provider") {
         statusCode = providerResponse.status;
         payload = providerResponse.status >= 200 && providerResponse.status < 300
-          ? providerPayloadWithPolicy(resolvedCountry, origin, destination, date, providerResponse.body).payload
-          : providerFailurePayload(resolvedCountry, origin, destination, providerResponse);
+          ? providerPayloadWithPolicy(resolvedQuery, providerResponse.body).payload
+          : providerFailurePayload(resolvedQuery, providerResponse);
         providerNoService = providerResponse.status >= 200
           && providerResponse.status < 300
           && providerResponse.body.results.length === 0;
@@ -396,7 +396,7 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
         providerResponse.status < 300 &&
         providerResponse.body.results.length > 0
       ) {
-        const governed = providerPayloadWithPolicy(resolvedCountry, origin, destination, date, providerResponse.body);
+        const governed = providerPayloadWithPolicy(resolvedQuery, providerResponse.body);
         if (governed.decision.searchable) {
           statusCode = providerResponse.status;
           payload = governed.payload;
@@ -405,14 +405,7 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
     }
 
     if (!payload && (search.kind === "scraped" || search.kind === "provider_then_scraped")) {
-      payload = tryScraped(
-        resolvedCountry,
-        origin,
-        destination,
-        date,
-        time,
-        search.kind === "provider_then_scraped",
-      );
+      payload = tryScraped(resolvedQuery, search.kind === "provider_then_scraped");
     }
   } else if (countryValue) {
     // Non-option country string: refuse rather than cast to Country.

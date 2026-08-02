@@ -238,15 +238,25 @@ describe("runTransitSearch MBTA service-day advisory", () => {
   it("uses the operator's Saturday schedule type for a selected date", async () => {
     installMbtaFixtures(false, false, "Saturday");
 
-    const result = await runTransitSearch({
-      origin: "Ashmont",
-      destination: "JFK/UMass",
-      country: "united_states",
-      date: "2026-08-01",
-      time: "10:00",
-    });
+    // 2026-08-01 is a Saturday, but search only answers dates inside the
+    // current window — so the clock has to be pinned alongside the date, or
+    // this passes only while that Saturday is still in range. The rest of the
+    // suite derives its date from the clock and is unaffected.
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    vi.setSystemTime(new Date("2026-08-01T04:00:00.000Z"));
+    try {
+      const result = await runTransitSearch({
+        origin: "Ashmont",
+        destination: "JFK/UMass",
+        country: "united_states",
+        date: "2026-08-01",
+        time: "10:00",
+      });
 
-    expect(result.payload.serviceDayAdvisory?.serviceDayType).toBe("saturday");
+      expect(result.payload.serviceDayAdvisory?.serviceDayType).toBe("saturday");
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("keeps today's realtime results and marks the last good advisory stale", async () => {

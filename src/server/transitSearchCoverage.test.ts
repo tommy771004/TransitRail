@@ -5,10 +5,23 @@
  * Runs against the real committed snapshots — the point is that the shipped
  * data and the shipped menu agree about what search can answer.
  */
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { runTransitSearch } from "./transitSearch";
 
 const DATE = "2026-08-01";
+
+// Search only answers dates inside the current window, so a suite pinned to a
+// fixed service day has to pin the clock with it. Without this the whole file
+// starts returning 422 the morning after DATE — the assertions never changed,
+// the calendar did.
+beforeEach(() => {
+  vi.useFakeTimers({ shouldAdvanceTime: true });
+  vi.setSystemTime(new Date(`${DATE}T04:00:00.000Z`));
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
 
 async function search(origin: string, destination: string, country = "korea") {
   return runTransitSearch({ origin, destination, date: DATE, country });

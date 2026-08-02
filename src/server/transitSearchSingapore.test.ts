@@ -1,4 +1,4 @@
-import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { serviceDayArtifactFixture } from "./serviceDayArtifactFixture";
 import { collectSingaporeServiceDayArtifact, resetSingaporeSmrtCache } from "./singaporeSmrt";
 import { runTransitSearch } from "./transitSearch";
@@ -16,6 +16,14 @@ const payload = {
 describe("Singapore scheduled SMRT advisory integration", () => {
   beforeAll(() => artifact.stash());
   afterAll(() => artifact.restore());
+  // Pin the clock to the service day these fixtures use. Search only answers
+  // dates inside the current window, so without this the suite passes only
+  // until the calendar moves past that date.
+  beforeEach(() => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    vi.setSystemTime(new Date("2026-08-03T04:00:00.000Z"));
+  });
+
   afterEach(() => { artifact.clear(); resetSingaporeSmrtCache(); vi.unstubAllGlobals(); });
 
   it("serves the scheduled artifact without fetching SMRT during traveler search", async () => {

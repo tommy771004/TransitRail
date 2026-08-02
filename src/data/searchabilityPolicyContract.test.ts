@@ -1,7 +1,7 @@
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "fs";
 import { join } from "path";
 import { tmpdir } from "os";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   SEARCHABILITY_FIXTURE_DATE,
   SEARCHABILITY_FIXTURE_NOW,
@@ -24,7 +24,16 @@ import { collectRoutePages } from "../../scripts/lib/routePages";
 
 const temporaryDirectories: string[] = [];
 
+// The fixtures pin a service day, and some paths reach the real clock rather
+// than the injected `now`. Pin the clock too, or the suite rots the next
+// morning when the fixture date falls outside the current window.
+beforeEach(() => {
+  vi.useFakeTimers({ shouldAdvanceTime: true });
+  vi.setSystemTime(SEARCHABILITY_FIXTURE_NOW);
+});
+
 afterEach(() => {
+  vi.useRealTimers();
   for (const directory of temporaryDirectories.splice(0)) {
     rmSync(directory, { recursive: true, force: true });
   }

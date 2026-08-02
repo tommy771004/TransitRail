@@ -10,10 +10,12 @@
 import type {
   Country,
   NoResultReason,
+  TimetableProvenance,
   TransitResult,
 } from "../types";
 import {
   configuredCountryOptions,
+  countryConfig,
   isSearchDateAllowed,
 } from "./countries";
 import { getCountryCapability } from "./countryCapability";
@@ -93,39 +95,42 @@ export interface SearchabilitySummary {
 }
 
 /**
- * Long-distance/intercity markets retain their existing permissive contract
- * until their source audit is migrated. Metro and mixed markets use the
- * strict authenticity gate.
+ * Which authenticity gates a market is on.
+ *
+ * The per-country facts live in `countryConfig` so this module reads policy
+ * rather than restating it. They were previously two Sets here with opposite
+ * polarity, which is how Japan, Korea, HK, UK and US ended up classified
+ * differently depending on which one a caller happened to consult.
  */
-export const INTERCITY_AUTHENTICITY_EXEMPT_COUNTRIES = new Set<Country>([
-  "china",
-  "germany",
-  "france",
-  "belgium",
-  "norway",
-  "switzerland",
-]);
-
 /**
- * The metro SEO cleanup has an explicit scope: indicative Singapore and Thai
- * route slugs are removed, while general intercity/HSR route information keeps
- * its existing publication contract until that source audit is complete.
+ * Stamp results with the verdict the policy reached for them.
+ *
+ * Every path that returns rows to a caller has to carry the same two fields,
+ * including the `"unknown"` → `undefined` narrowing that keeps an unrecognised
+ * provenance off the wire. Three copies of this shape had drifted apart across
+ * the journey and snapshot paths; keep it in one place next to the decision.
  */
-export const INDICATIVE_ROUTE_PUBLICATION_FILTER_COUNTRIES = new Set<Country>([
-  "singapore",
-  "thailand",
-]);
-
-export function usesStrictTimetableGate(country?: Country): boolean {
-  return country !== undefined && !INTERCITY_AUTHENTICITY_EXEMPT_COUNTRIES.has(country);
+export function tagResultsWithDecision<T extends object>(
+  results: readonly T[],
+  decision: Pick<SearchabilityDecision, "provenance" | "truthMode">,
+): Array<T & { provenance: TimetableProvenance | undefined; truthMode: TimetableTruthMode }> {
+  return results.map((result) => ({
+    ...result,
+    provenance: decision.provenance === "unknown" ? undefined : decision.provenance,
+    truthMode: decision.truthMode,
+  }));
 }
 
-/**
- * Catalogs have one mixed-market exception: Japan's intercity menu remains
- * published while the metro route gate is audited separately.
- */
+function gatesFor(country: Country) {
+  return countryConfig[country].authenticityGates;
+}
+
+export function usesStrictTimetableGate(country?: Country): boolean {
+  return country !== undefined && gatesFor(country).timetable;
+}
+
 export function usesStrictCatalogGate(country?: Country): boolean {
-  return usesStrictTimetableGate(country) && country !== "japan";
+  return country !== undefined && gatesFor(country).catalog;
 }
 
 /** Country/source fallback permission is declared at the policy seam. */
@@ -134,7 +139,7 @@ export function permitsIndicativeFallback(country: Country): boolean {
 }
 
 export function permitsIndicativeRoutePublication(country: Country): boolean {
-  return !INDICATIVE_ROUTE_PUBLICATION_FILTER_COUNTRIES.has(country);
+  return !gatesFor(country).routePages;
 }
 
 function equivalentStation(country: Country, left: string | undefined, right: string | undefined): boolean {

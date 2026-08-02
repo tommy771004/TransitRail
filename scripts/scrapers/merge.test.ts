@@ -76,5 +76,22 @@ describe("scraper date-slice merge", () => {
       const empty = { source: "MTR live provider", results: [] };
       expect(describingRoute(undefined, empty, 0)).toBe(empty);
     });
+
+    it("does not let one fallback day relabel a file of real provider data", () => {
+      // A single rate-limited date falls back to the curated snapshot. Letting
+      // it describe the file filed six days of genuine MBTA schedules as
+      // `curated`, so the file lied about data it really had.
+      const real = { source: "https://api-v3.mbta.com", provenance: "official", results: [result(1)] };
+      const fallback = { source: "MBTA curated snapshot fallback", provenance: "curated", results: [result(2)] };
+      expect(describingRoute(real, fallback, 315)).toBe(real);
+    });
+
+    it("accepts a stronger description replacing a weaker one", () => {
+      // The reverse must still work, or a file could never recover once a
+      // fallback had touched it.
+      const fallback = { source: "MBTA curated snapshot fallback", provenance: "curated", results: [result(1)] };
+      const real = { source: "https://api-v3.mbta.com", provenance: "official", results: [result(2)] };
+      expect(describingRoute(fallback, real, 315)).toBe(real);
+    });
   });
 });

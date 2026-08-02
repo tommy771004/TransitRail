@@ -19,6 +19,20 @@ export const countryFlags: Record<string, string> = {
   taiwan: "🇹🇼",
 };
 
+/**
+ * How many service days the daily scrape commits, and therefore how far a
+ * snapshot-backed market can be searched.
+ *
+ * The picker's date range and the scrape window are the same fact seen from two
+ * ends, so they share one constant. When they were written separately the
+ * picker offered 14 days against 7 days of data, and the second week returned
+ * "no service" for dates the user had just been invited to choose.
+ *
+ * A market whose provider answers arbitrary dates live is not bound by this —
+ * its range is a provider capability, not a data inventory.
+ */
+export const SCRAPE_WINDOW_DAYS = 7;
+
 /** Every configured market, including temporarily hidden ones used by jobs. */
 export const configuredCountryOptions: Country[] = [
   "japan",
@@ -110,6 +124,19 @@ export type CountryConfigEntry = {
   timeZone: string;
   search: SearchKind;
   scrape: ScrapeStrategy;
+  /**
+   * Which authenticity gates this market has been migrated onto.
+   *
+   * Migration state, not permanent policy: a market moves to `true` once its
+   * source audit lands. Declared here so the per-country mapping stays in this
+   * one table — it previously lived as two opposite-polarity Sets in different
+   * modules that disagreed about Japan, Korea, HK, UK and US.
+   *
+   * - `timetable`: journey search rejects unverified rows
+   * - `catalog`: station and line menus are filtered to verified data
+   * - `routePages`: indicative routes are not published as SEO pages
+   */
+  authenticityGates: { timetable: boolean; catalog: boolean; routePages: boolean };
   resultView: ResultViewFamily;
   liveRailMarket?: LiveRailMarket;
   serviceDay: ServiceDayCapability;
@@ -125,10 +152,11 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "日本",
     connected: true,
     liveOnly: false,
-    dateRangeDays: 14,
+    dateRangeDays: SCRAPE_WINDOW_DAYS,
     timeZone: "Asia/Tokyo",
     search: { kind: "scraped" },
     scrape: "provider_backed",
+    authenticityGates: { timetable: true, catalog: false, routePages: false },
     resultView: "japan",
     serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
   },
@@ -146,6 +174,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     timeZone: "Asia/Seoul",
     search: { kind: "scraped" },
     scrape: "provider_backed",
+    authenticityGates: { timetable: true, catalog: true, routePages: false },
     resultView: "korea",
     serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
   },
@@ -158,10 +187,11 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "新加坡",
     connected: true,
     liveOnly: false,
-    dateRangeDays: 14,
+    dateRangeDays: SCRAPE_WINDOW_DAYS,
     timeZone: "Asia/Singapore",
     search: { kind: "scraped" },
     scrape: "snapshot",
+    authenticityGates: { timetable: true, catalog: true, routePages: true },
     resultView: "metro",
     serviceDay: {
       coverage: "partial",
@@ -183,6 +213,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     timeZone: "Asia/Kuala_Lumpur",
     search: { kind: "catalog_only" },
     scrape: "catalog_sync",
+    authenticityGates: { timetable: true, catalog: true, routePages: false },
     resultView: "catalog",
     serviceDay: { coverage: "unavailable", source: "Historical ridership catalog has no timetable", scope: "No service-day advisory" },
   },
@@ -195,10 +226,11 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "泰國",
     connected: true,
     liveOnly: false,
-    dateRangeDays: 14,
+    dateRangeDays: SCRAPE_WINDOW_DAYS,
     timeZone: "Asia/Bangkok",
     search: { kind: "scraped" },
     scrape: "snapshot",
+    authenticityGates: { timetable: true, catalog: true, routePages: true },
     resultView: "metro",
     serviceDay: {
       coverage: "partial",
@@ -222,6 +254,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     // Live MTR is used only by ProviderBackedScraper at scrape time.
     search: { kind: "scraped" },
     scrape: "provider_backed",
+    authenticityGates: { timetable: true, catalog: true, routePages: false },
     resultView: "metro",
     serviceDay: { coverage: "unavailable", source: "MTR next-train source is not a full service-day declaration", scope: "No service-day advisory" },
   },
@@ -249,6 +282,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     timeZone: "Europe/London",
     search: { kind: "provider", provider: "tfl" },
     scrape: "provider_backed",
+    authenticityGates: { timetable: true, catalog: true, routePages: false },
     resultView: "live_rail",
     liveRailMarket: "london",
     serviceDay: { coverage: "supported", source: "TfL Journey API", sourceUrl: "https://api.tfl.gov.uk", scope: "Complete route-aware first/last journeys" },
@@ -274,6 +308,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     timeZone: "America/New_York",
     search: { kind: "provider", provider: "mbta" },
     scrape: "provider_backed",
+    authenticityGates: { timetable: true, catalog: true, routePages: false },
     resultView: "live_rail",
     liveRailMarket: "boston",
     serviceDay: { coverage: "supported", source: "MBTA public API", sourceUrl: "https://api-v3.mbta.com", scope: "Scheduled route first/last journeys for the current service date" },
@@ -287,10 +322,11 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "德國",
     connected: true,
     liveOnly: false,
-    dateRangeDays: 14,
+    dateRangeDays: SCRAPE_WINDOW_DAYS,
     timeZone: "Europe/Berlin",
     search: { kind: "scraped" },
     scrape: "provider_backed",
+    authenticityGates: { timetable: false, catalog: false, routePages: false },
     resultView: "japan",
     serviceDay: { coverage: "unavailable", source: "gtfs.de timetable is not yet published as a service-day advisory artifact", scope: "No service-day advisory" },
   },
@@ -303,10 +339,11 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "法國",
     connected: true,
     liveOnly: false,
-    dateRangeDays: 14,
+    dateRangeDays: SCRAPE_WINDOW_DAYS,
     timeZone: "Europe/Paris",
     search: { kind: "scraped" },
     scrape: "provider_backed",
+    authenticityGates: { timetable: false, catalog: false, routePages: false },
     resultView: "japan",
     serviceDay: {
       coverage: "supported",
@@ -328,6 +365,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     timeZone: "Europe/Brussels",
     search: { kind: "provider", provider: "belgium" },
     scrape: "provider_backed",
+    authenticityGates: { timetable: false, catalog: false, routePages: false },
     resultView: "live_rail",
     liveRailMarket: "belgium",
     serviceDay: { coverage: "unavailable", source: "iRail journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
@@ -345,6 +383,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     timeZone: "Europe/Oslo",
     search: { kind: "provider", provider: "norway" },
     scrape: "provider_backed",
+    authenticityGates: { timetable: false, catalog: false, routePages: false },
     resultView: "live_rail",
     liveRailMarket: "norway",
     serviceDay: { coverage: "unavailable", source: "Entur journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
@@ -362,6 +401,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     timeZone: "Europe/Zurich",
     search: { kind: "provider_then_scraped", provider: "swiss" },
     scrape: "provider_backed",
+    authenticityGates: { timetable: false, catalog: false, routePages: false },
     resultView: "live_rail",
     liveRailMarket: "switzerland",
     serviceDay: { coverage: "unavailable", source: "OJP journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
@@ -375,10 +415,11 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "中國",
     connected: true,
     liveOnly: false,
-    dateRangeDays: 14,
+    dateRangeDays: SCRAPE_WINDOW_DAYS,
     timeZone: "Asia/Shanghai",
     search: { kind: "scraped" },
     scrape: "snapshot",
+    authenticityGates: { timetable: false, catalog: false, routePages: false },
     resultView: "japan",
     serviceDay: { coverage: "unavailable", source: "Curated 12306 snapshot has no qualifying full-day declaration", scope: "No service-day advisory" },
   },
@@ -421,7 +462,8 @@ export function providerDateValue(country: Country, now = new Date()) {
   return `${values.year}-${values.month}-${values.day}`;
 }
 
-function addDateValueDays(dateValue: string, days: number) {
+/** Shift a market-local `YYYY-MM-DD` value by whole days. */
+export function addDateValueDays(dateValue: string, days: number) {
   const [year, month, day] = dateValue.split("-").map(Number);
   const date = new Date(Date.UTC(year, month - 1, day + days));
   return [date.getUTCFullYear(), String(date.getUTCMonth() + 1).padStart(2, "0"), String(date.getUTCDate()).padStart(2, "0")].join("-");

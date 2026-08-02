@@ -18,11 +18,13 @@
 
 **Blocked by:** 01
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] 判定器可對 (路線快照, 日期) 回傳上述五種分類之一
-- [ ] `stale_realtime` 能正確辨識倫敦與香港路線檔中日期與內嵌時間戳不符的切片
-- [ ] 維護腳本可列出全部路線檔的分類結果
-- [ ] 腳本輸出與稽核報告一致：首爾與波士頓為真實、倫敦未來日期為 `stale_realtime`、新加坡與曼谷全部為 `indicative`
-- [ ] 測試涵蓋五種分類的邊界（固定班距、混合班距、即時、日期不符的即時、空切片）
-- [ ] `npm run lint` 綠燈
+**驗證（2026-08-02）：** 五分類齊備；scripts/audit-timetable-authenticity.ts 可列出全部切片（indicative 308 / scraped 249 / realtime 11 / stale_realtime 4）。
+
+- [x] 判定器可對 (路線快照, 日期) 回傳上述五種分類之一
+- [x] `stale_realtime` 能正確辨識倫敦與香港路線檔中日期與內嵌時間戳不符的切片
+- [x] 維護腳本可列出全部路線檔的分類結果
+- [x] 腳本輸出與稽核報告一致：首爾與波士頓為真實、倫敦未來日期為 `stale_realtime`、新加坡與曼谷全部為 `indicative`
+- [x] 測試涵蓋五種分類的邊界（固定班距、混合班距、即時、日期不符的即時、空切片）
+- [x] `npm run lint` 綠燈

@@ -35,15 +35,27 @@ describe("market-local date and time values", () => {
     });
   });
 
-  it("locks TfL and MTR to today", () => {
+  it("locks MTR to today, because its feed answers no other date", () => {
+    // The MTR feed reports the next few trains and nothing about any other
+    // service day, so there is no honest future date to offer.
     const instant = new Date("2026-07-28T00:30:00.000Z");
-    expect(searchDateRange("united_kingdom", instant)).toMatchObject({
+    expect(searchDateRange("hong_kong", instant)).toMatchObject({
       start: "2026-07-28",
       end: "2026-07-28",
       days: 1,
       liveOnly: true,
     });
-    expect(searchDateRange("hong_kong", instant).days).toBe(1);
+  });
+
+  it("gives TfL a seven-day window, because its planner answers future dates", () => {
+    // London is live at request time but not today-only: the journey planner
+    // answers a future date from the published schedule.
+    const instant = new Date("2026-07-28T00:30:00.000Z");
+    expect(searchDateRange("united_kingdom", instant)).toMatchObject({
+      start: "2026-07-28",
+      days: 7,
+      liveOnly: false,
+    });
   });
 
   it("keeps Seoul and MBTA on a seven-day window", () => {

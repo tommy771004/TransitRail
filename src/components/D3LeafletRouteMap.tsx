@@ -39,7 +39,8 @@ export function D3LeafletRouteMap({ trip }: D3LeafletRouteMapProps) {
     let missingCoordinates = false;
 
     if (trip.legs && trip.legs.length > 0) {
-      trip.legs.forEach((leg, legIdx) => {
+      const legs = trip.legs;
+      legs.forEach((leg, legIdx) => {
         let legStops = leg.stops;
         if (!legStops || legStops.length < 2) {
           const pathData = extractPathBetweenStations(
@@ -56,7 +57,7 @@ export function D3LeafletRouteMap({ trip }: D3LeafletRouteMapProps) {
 
         legStops.forEach((stopName, stopIdx) => {
           const isFirstLeg = legIdx === 0;
-          const isLastLeg = legIdx === trip.legs.length - 1;
+          const isLastLeg = legIdx === legs.length - 1;
           const isFirstStop = stopIdx === 0;
           const isLastStop = stopIdx === legStops.length - 1;
 

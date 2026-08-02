@@ -174,6 +174,45 @@ export function SearchForm({
   const date = config.liveOnly ? providerDateValue(country) : (params.date || providerDateValue(country));
   const theme = countryThemes[country] || countryThemes.japan;
 
+  /**
+   * How many days the picker may offer.
+   *
+   * `config.dateRangeDays` is the market's contract and it moves with the clock
+   * every day, while the committed data only moves when the scrape runs — so
+   * the last contracted day can have nothing behind it. The station API reports
+   * the range it can actually answer; prefer that, and fall back to the
+   * contract whenever it is unavailable so a failed request can never shorten
+   * the picker on its own.
+   */
+  const [answerableDays, setAnswerableDays] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    let active = true;
+    setAnswerableDays(undefined);
+    fetch(`/api/transit/stations?country=${encodeURIComponent(country)}`)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((body) => {
+        const days = body?.coverage?.dateRange?.days;
+        if (active && typeof days === "number" && days > 0) setAnswerableDays(days);
+      })
+      .catch(() => { /* keep the contract length; the picker must still work offline */ });
+    return () => { active = false; };
+  }, [country]);
+
+  const offeredDays = Math.min(answerableDays ?? config.dateRangeDays, config.dateRangeDays);
+  const offeredDates = useMemo(
+    () => providerDateValues(country, offeredDays),
+    [country, offeredDays],
+  );
+
+  // A day that just fell out of the offered range must not stay selected.
+  useEffect(() => {
+    if (config.liveOnly || !params.date) return;
+    if (!offeredDates.includes(params.date)) {
+      onChange({ ...params, date: offeredDates[0] });
+    }
+  }, [offeredDates, params.date, config.liveOnly]);
+
   const frequentRoutes = useMemo(() => {
     const routes = recentHistory.filter(h => h.country === country);
     const frequencies = new Map<string, { origin: string; destination: string; count: number }>();
@@ -400,7 +439,7 @@ export function SearchForm({
                 </div>
                 
                 <div className="flex gap-2.5 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory hide-scrollbar">
-                  {providerDateValues(country, config.dateRangeDays).map((dateValue, idx) => {
+                  {offeredDates.map((dateValue, idx) => {
                     const d = new Date(`${dateValue}T12:00:00Z`);
                     const isSelected = date === dateValue;
                     const monthStr = i18n.language === "zh-TW" 

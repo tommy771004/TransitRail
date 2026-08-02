@@ -33,7 +33,7 @@ import {
 } from "../data/scraped";
 import { stationSearchKey } from "../data/stationKey";
 import { resolveStationAlias } from "../data/stationAliases";
-import { countryOptions, searchDateRange } from "../data/countries";
+import { addDateValueDays, countryOptions, searchDateRange, type SearchDateRange } from "../data/countries";
 import { getTflLines, getTflStations } from "./tfl";
 import { getMbtaLines, getMbtaStations } from "./mbta";
 import { getBelgiumStations } from "./belgium";
@@ -94,6 +94,37 @@ function hongKongLines(): TransitLine[] {
       return { name: station.name, interchanges: names.length > 0 ? names : undefined };
     }),
   }));
+}
+
+/**
+ * The date range to actually offer: the market's contract, trimmed to the days
+ * its committed data can answer.
+ *
+ * `searchDateRange` states the policy — how far forward this market may be
+ * searched — and it moves with the clock every day. The data only moves when
+ * the daily scrape runs, so between midnight and the scrape the last policy day
+ * has nothing behind it and the picker invites a date that returns "no service".
+ *
+ * Trimming here rather than in `countries.ts` keeps the policy table free of
+ * data access: the contract is a fact about the market, the trim is a fact
+ * about today's inventory. Live-provider markets are never trimmed — they
+ * answer arbitrary dates without any committed rows.
+ */
+function offeredDateRange(country: Country): SearchDateRange {
+  const range = searchDateRange(country);
+  if (coverageModeFor(country) !== "scraped") return range;
+
+  // Walk back from the last policy day to the newest one that verifies. Uses
+  // the same coverage call the menu does, so "has data" cannot mean one thing
+  // here and another there.
+  let end = range.end;
+  while (end >= range.start && getScrapedCoverageNames(country, end).length === 0) {
+    end = addDateValueDays(end, -1);
+  }
+  if (end < range.start) return { ...range, end: range.start, days: 1 };
+
+  const days = Math.round((Date.parse(`${end}T00:00:00Z`) - Date.parse(`${range.start}T00:00:00Z`)) / 86_400_000) + 1;
+  return { ...range, end, days };
 }
 
 function filterLinesByVerifiedCoverage(
@@ -172,7 +203,7 @@ export function getStationCoverage(
   if (!countryOptions.includes(country as Country)) return undefined;
   const mode = coverageModeFor(country as Country);
   if (mode !== "scraped" || !usesStrictCatalogGate(country as Country)) {
-    return { mode, dateRange: searchDateRange(country as Country) };
+    return { mode, dateRange: offeredDateRange(country as Country) };
   }
   const resolvedCountry = country as Country;
   const names = getScrapedCoverageNames(resolvedCountry, date);
@@ -181,9 +212,9 @@ export function getStationCoverage(
     mode,
     covered: stations.filter((station) => hasCoverage(keys, station, resolvedCountry)),
     date,
-    dateRange: searchDateRange(resolvedCountry),
+    dateRange: offeredDateRange(resolvedCountry),
   };
-  if (coverage.covered.length === 0) {
+  if ((coverage.covered ?? []).length === 0) {
     coverage.message = date
       ? "No verified timetable data is available for this country on the selected date."
       : "No verified timetable data is currently available for this country.";

@@ -24,12 +24,14 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
   });
 
   it("United Kingdom: live provider at request time, no scrape fallback, live_rail london", () => {
+    // Live at request time, but not today-only: unlike the MTR feed, the TfL
+    // journey planner answers a future date from the published schedule.
     expect(getCountryCapability("united_kingdom")).toMatchObject({
       search: { kind: "provider", provider: "tfl" },
       scrape: "provider_backed",
       resultView: "live_rail",
       liveRailMarket: "london",
-      liveOnly: true,
+      liveOnly: false,
     });
   });
 

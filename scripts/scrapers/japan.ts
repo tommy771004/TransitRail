@@ -1,3 +1,4 @@
+import type { TransitResult } from "../../src/types";
 import { BaseScraper } from "./base";
 import { japanRoutes } from "./routes";
 import type { ScrapedRoute, ScrapedRouteData } from "./types";
@@ -138,7 +139,7 @@ export class JapanScraper extends BaseScraper {
     const info = ROUTE_INFO[`${route.origin}-${route.destination}`]
       ?? { line: "Shinkansen", durationMinutes: 120, price: 10000 };
 
-    const results = [];
+    const results: TransitResult[] = [];
     let i = 0;
     const isLocal = info.line.includes("Line") || info.line.includes("Rapid");
     const currentHeadway = isLocal ? 10 : HEADWAY; // 10 minute headway for local commuter trains

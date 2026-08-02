@@ -118,6 +118,13 @@ export function coverageModeFor(country: Country): CoverageMode {
  * destination count, because {@link findInRoutes} matches on either (a
  * mixed-destination snapshot file resolves via the result level). Transfer
  * chaining only ever links endpoints already in this set, so it adds no names.
+ *
+ * Intermediate `stops` are deliberately NOT endpoints. A train calling at a
+ * station does not make that station searchable — `findInRoutes` matches
+ * origin/destination and never reads `stops`, so counting them here would offer
+ * names the picker can hand to a search that must answer nothing. Japan has 11
+ * such stations today (Kuramae, Asakusabashi, …) and China 3. If they should
+ * become searchable, the fix is in the matcher, not in this set.
  */
 export function coveredStationKeys(
   routes: readonly ScrapedRouteData[],
@@ -134,7 +141,6 @@ export function coveredStationKeys(
     for (const result of route.results || []) {
       add(result.origin);
       add(result.destination);
-      for (const stop of result.stops || []) add(stop);
     }
   }
   return keys;

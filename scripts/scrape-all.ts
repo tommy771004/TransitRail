@@ -1,7 +1,7 @@
 import { runAllScrapers } from "./scrapers";
+import { SCRAPE_WINDOW_DAYS } from "../src/data/countries";
 import { recordError } from "../src/server/errorLog";
 
-const SCRAPE_WINDOW_DAYS = 7;
 const DEFAULT_TIME_ZONE = "Asia/Taipei";
 
 function dateInTimeZone(timeZone: string): string {

@@ -8,12 +8,14 @@
 
 **Blocked by:** None — can start immediately.
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] 轉乘鏈接建圖時，路線班次的中途停站可作為換乘節點（不再只有路線檔的起訖點）
-- [ ] 建立換乘站別名對照，至少涵蓋：Asok↔Sukhumvit、Sala Daeng↔Si Lom、Mo Chit↔Chatuchak Park、Ha Yaek Lat Phrao↔Phahon Yothin、Central↔Hong Kong、Tsim Sha Tsui↔East Tsim Sha Tsui
-- [ ] 線路拓撲的換乘推導改為經別名解析，曼谷推導出的換乘站數由 4 增加至涵蓋上列各點
-- [ ] 修正港鐵拓撲的重複線：合併 `East Rail Line` 與 `East Rail Line via Racecourse`，去除重複的 `Tseung Kwan O Line`
-- [ ] 港鐵推導出的換乘站由 31 降為 21，且不再包含沙田、大學、粉嶺、羅湖等同線變體造成的假換乘
-- [ ] 新增測試涵蓋「中途停站作為換乘點」與「異名換乘」兩種情境
-- [ ] `npm run lint` 綠燈
+**驗證（2026-08-02）：** 港鐵線 14→10（重複線已合併）；曼谷換乘站 4→12，含 Asok↔Sukhumvit、Mo Chit↔Chatuchak Park、Sala Daeng↔Si Lom、Ha Yaek Lat Phrao↔Phahon Yothin；findRoutePaths 納入 stops。
+
+- [x] 轉乘鏈接建圖時，路線班次的中途停站可作為換乘節點（不再只有路線檔的起訖點）
+- [x] 建立換乘站別名對照，至少涵蓋：Asok↔Sukhumvit、Sala Daeng↔Si Lom、Mo Chit↔Chatuchak Park、Ha Yaek Lat Phrao↔Phahon Yothin、Central↔Hong Kong、Tsim Sha Tsui↔East Tsim Sha Tsui
+- [x] 線路拓撲的換乘推導改為經別名解析，曼谷推導出的換乘站數由 4 增加至涵蓋上列各點
+- [x] 修正港鐵拓撲的重複線：合併 `East Rail Line` 與 `East Rail Line via Racecourse`，去除重複的 `Tseung Kwan O Line`
+- [x] 港鐵推導出的換乘站由 31 降為 21，且不再包含沙田、大學、粉嶺、羅湖等同線變體造成的假換乘
+- [x] 新增測試涵蓋「中途停站作為換乘點」與「異名換乘」兩種情境
+- [x] `npm run lint` 綠燈

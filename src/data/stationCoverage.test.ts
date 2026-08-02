@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   coverageModeFor,
   coveredEndpointNames,
@@ -42,6 +42,18 @@ function route(
   };
 }
 
+// The realtime-staleness rule compares a row's date against today, so a fixture
+// written as "tomorrow" silently becomes "today" once the calendar catches up.
+// Pin the clock so a date this suite calls another day stays another day.
+beforeEach(() => {
+  vi.useFakeTimers({ shouldAdvanceTime: true });
+  vi.setSystemTime(new Date("2026-08-01T04:00:00.000Z"));
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
+
 describe("coverageModeFor", () => {
   it("bounds snapshot countries by their committed route files", () => {
     expect(coverageModeFor("korea")).toBe("scraped");
@@ -72,6 +84,19 @@ describe("coveredStationKeys", () => {
     expect(keys.has("daejeon")).toBe(true);
   });
 
+  it("does not count a station a train merely calls at", () => {
+    // findInRoutes never reads `stops`, so a called-at station is not an
+    // endpoint. Counting it here would put a name in the picker that search is
+    // guaranteed to answer nothing for.
+    const calling = route("Seoul (SNC)", "Busan (BSN)");
+    calling.results[0].stops = ["Seoul (SNC)", "Daejeon", "Busan (BSN)"];
+
+    const keys = coveredStationKeys([calling]);
+    expect(keys.has("seoul (snc)")).toBe(true);
+    expect(keys.has("busan (bsn)")).toBe(true);
+    expect(keys.has("daejeon")).toBe(false);
+  });
+
   it("keys case-insensitively", () => {
     const keys = coveredStationKeys([route("  ToKyO ", "Kyoto")]);
     expect(keys.has("tokyo")).toBe(true);
@@ -93,16 +118,36 @@ describe("coveredStationKeys", () => {
   });
 
   it("excludes realtime rows whose embedded timestamp belongs to another date", () => {
+    // The id carries the provider timestamp the row was really captured at.
+    // When it disagrees with the service day the row claims, the row is a live
+    // capture restamped onto another date and cannot be trusted for that day.
     const stale = route("London", "Oxford");
     stale.source = "https://api.tfl.gov.uk";
     stale.results = [{
       ...stale.results[0],
-      id: "2026-08-02-tfl-2026-08-02T08:00:00-0",
+      id: "2026-08-02-tfl-2026-08-01T08:00:00-0",
       date: "2026-08-02",
       realtime: true,
     }];
 
     expect(coveredStationKeys([stale], "united_kingdom", "2026-08-02").size).toBe(0);
+  });
+
+  it("excludes a today-only market's realtime rows dated to another day", () => {
+    // Separate rule, and it applies per market: the MTR feed speaks only for
+    // the current service day, so even a self-consistent row for another date
+    // is not something it can vouch for. London is deliberately not covered by
+    // this — its planner does answer future dates.
+    const stale = route("Central", "Tsuen Wan");
+    stale.source = "https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php";
+    stale.results = [{
+      ...stale.results[0],
+      id: "2026-08-02-hk-TWL-CEN-2026-08-02 08:00:00-0",
+      date: "2026-08-02",
+      realtime: true,
+    }];
+
+    expect(coveredStationKeys([stale], "hong_kong", "2026-08-02").size).toBe(0);
   });
 
   it("does not apply the metro gate to out-of-scope intercity snapshots", () => {

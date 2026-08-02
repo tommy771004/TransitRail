@@ -6,9 +6,11 @@
 
 **Blocked by:** None — can start immediately.
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] 判定器與其輔助函式移至 `src/data/` 下的新模組，`scripts/lib/routePages.ts` 改為 import 它
-- [ ] 既有針對該判定器的測試一併移至新模組旁，並持續通過
-- [ ] `npm run routes` 產出的頁面內容與搬移前逐字相同（以搬移前後的產出目錄比對驗證）
-- [ ] `npm run lint` 綠燈
+**驗證（2026-08-02）：** 判定器在 src/data/timetableAuthenticity.ts，scripts/lib/routePages.ts 引用同一份。
+
+- [x] 判定器與其輔助函式移至 `src/data/` 下的新模組，`scripts/lib/routePages.ts` 改為 import 它
+- [x] 既有針對該判定器的測試一併移至新模組旁，並持續通過
+- [x] `npm run routes` 產出的頁面內容與搬移前逐字相同（以搬移前後的產出目錄比對驗證）
+- [x] `npm run lint` 綠燈

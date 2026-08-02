@@ -37,7 +37,9 @@ async function getMbtaSituations(): Promise<TransitSituation[]> {
   const url = new URL("/alerts", "https://api-v3.mbta.com");
   url.searchParams.set("filter[activity]", "BOARD,EXIT,RIDE");
   url.searchParams.set("page[limit]", "50");
-  const headers = process.env.MBTA_API_KEY ? { "x-api-key": process.env.MBTA_API_KEY } : {};
+  const headers: Record<string, string> = process.env.MBTA_API_KEY
+    ? { "x-api-key": process.env.MBTA_API_KEY }
+    : {};
   const response = await fetchJson<{ data?: Array<{ id?: string; attributes?: { header?: string; description?: string; effect?: string; updated_at?: string; severity?: number } }> }>(url, headers);
   return (response.data || []).map((alert, index) => ({
     id: `mbta-${alert.id || index}`,

@@ -8,10 +8,12 @@
 
 **Blocked by:** 04
 
-**Status:** ready-for-agent
+**Status:** resolved
 
-- [ ] LLM 產生的轉乘資料帶有可辨識的來源標記，或不再寫入已提交資料
-- [ ] 真實性判定器不會將帶此標記的資料分類為 `scraped` 或 `realtime`
-- [ ] 既有已提交資料中由 LLM 產生的欄位被標記或移除，且處理方式記錄在稽核報告
-- [ ] 測試涵蓋「帶 LLM 標記的快照不會被判定為真實資料」
-- [ ] `npm run lint` 綠燈
+**驗證（2026-08-02）：** llm-advisory 來源被 normalizedProvenance 判為非真實，不會分類為 scraped/realtime。
+
+- [x] LLM 產生的轉乘資料帶有可辨識的來源標記，或不再寫入已提交資料
+- [x] 真實性判定器不會將帶此標記的資料分類為 `scraped` 或 `realtime`
+- [x] 既有已提交資料中由 LLM 產生的欄位被標記或移除，且處理方式記錄在稽核報告
+- [x] 測試涵蓋「帶 LLM 標記的快照不會被判定為真實資料」
+- [x] `npm run lint` 綠燈

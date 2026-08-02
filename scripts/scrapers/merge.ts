@@ -47,21 +47,41 @@ export function isSparseLiveSlice(
   return incoming.length * SPARSE_LIVE_SLICE_RATIO < existing.length;
 }
 
+/** How much a provenance claims, weakest first. */
+const PROVENANCE_STRENGTH = ["unknown", "llm-advisory", "curated", "official"];
+
+function provenanceRank(value: string | undefined): number {
+  const index = PROVENANCE_STRENGTH.indexOf(value ?? "unknown");
+  return index < 0 ? 0 : index;
+}
+
 /**
  * Which route's metadata should describe the merged file.
  *
- * A slice that contributed no rows must not relabel the file. A live-only
- * market emits an empty day for every date its provider cannot speak for, and
- * letting that slice win rewrote the file's source and provenance — which then
- * failed the load-time provenance check and threw away the real rows the file
- * still held for today.
+ * One file holds several service days, but carries a single source and
+ * provenance — so the last slice written decides what the whole file claims.
+ * Two ways that goes wrong, both seen in practice:
+ *
+ * - An empty slice relabels the file. A live-only market emits one for every
+ *   date its provider cannot speak for; letting it win rewrote the source and
+ *   then failed the load-time provenance check, discarding the real rows the
+ *   file still held for today.
+ * - A weaker slice relabels the file. One rate-limited date falls back to the
+ *   curated snapshot, and six days of genuine provider schedules are suddenly
+ *   filed as `curated` — the file lies about data it really has.
+ *
+ * Keep the stronger description in both cases. The complete fix is per-row
+ * provenance so a mixed file can describe itself honestly; until then, never
+ * let one bad day speak for the good ones.
  */
-export function describingRoute<T extends { results: readonly unknown[] }>(
+export function describingRoute<T extends { results: readonly unknown[]; provenance?: string }>(
   existing: T | undefined,
   incoming: T,
   mergedRowCount: number,
 ): T {
-  return incoming.results.length === 0 && mergedRowCount > 0 && existing ? existing : incoming;
+  if (!existing || mergedRowCount === 0) return incoming;
+  if (incoming.results.length === 0) return existing;
+  return provenanceRank(incoming.provenance) < provenanceRank(existing.provenance) ? existing : incoming;
 }
 
 export function replaceDateSlice(
