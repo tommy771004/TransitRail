@@ -2506,8 +2506,12 @@ Object.assign(stationDict, seoulSubwayTranslationsZhTW);
 Object.entries(translations).forEach(([key, value]) => {
   if (!(key in stationDict)) stationDict[key] = value;
 });
+// The literal resource object gives `station` a fixed key set; the generated
+// TfL/MBTA names are added at runtime, so index it through the same widened
+// record shape already used for zh-TW.
+const enStationDict = resources['en'].translation.station as Record<string, string>;
 Object.keys(translations).forEach(key => {
-  resources['en'].translation.station[key] = key;
+  enStationDict[key] = key;
 });
 
 Object.assign(resources['en'].translation, transferTranslations.en);

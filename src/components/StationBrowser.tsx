@@ -7,7 +7,7 @@ import { ArrowLeft, ChevronDown, Search, X, MapPin, Loader2, Navigation } from "
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "../i18n";
-import { motion, AnimatePresence, useDragControls } from "motion/react";
+import { motion, AnimatePresence, useDragControls, type Variants } from "motion/react";
 import { countryConfig, countryFlags, countryThemes } from "../data/countries";
 import type { Country, TransitLine } from "../types";
 import { triggerHaptic } from "../utils/haptics";
@@ -335,7 +335,7 @@ export function StationBrowser({
 
   const noteKey = lineNoteKeys[country];
 
-  const backdropVariants = {
+  const backdropVariants: Variants = {
     hidden: { 
       opacity: 0,
       transition: { duration: 0.25, ease: "easeOut" }
@@ -346,7 +346,7 @@ export function StationBrowser({
     }
   };
 
-  const sheetVariants = {
+  const sheetVariants: Variants = {
     hidden: { 
       y: "100%", 
       opacity: 0.95,
@@ -374,7 +374,7 @@ export function StationBrowser({
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 12 },
     visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 25 } }
   };
@@ -806,7 +806,7 @@ function StationList({
     visible: { opacity: 1, transition: { staggerChildren: 0.02 } }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 10 },
     visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 350, damping: 25 } }
   };

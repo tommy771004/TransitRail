@@ -963,15 +963,753 @@
     "Woolwich Arsenal DLR Station",
     "Woolwich Station"
   ],
-  "lines": [],
+  "lines": [
+    {
+      "id": "bakerloo",
+      "name": "Bakerloo",
+      "color": "#B36305",
+      "stations": [
+        {
+          "name": "Baker Street Underground Station",
+          "interchanges": [
+            "Circle",
+            "Hammersmith & City",
+            "Jubilee",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Edgware Road (Bakerloo) Underground Station"
+        },
+        {
+          "name": "Marylebone Underground Station"
+        },
+        {
+          "name": "Oxford Circus Underground Station",
+          "interchanges": [
+            "Central",
+            "Victoria"
+          ]
+        },
+        {
+          "name": "Paddington Underground Station",
+          "interchanges": [
+            "Circle",
+            "District"
+          ]
+        },
+        {
+          "name": "Piccadilly Circus Underground Station",
+          "interchanges": [
+            "Piccadilly"
+          ]
+        },
+        {
+          "name": "Regent's Park Underground Station"
+        }
+      ]
+    },
+    {
+      "id": "central",
+      "name": "Central",
+      "color": "#E32017",
+      "stations": [
+        {
+          "name": "Bond Street Underground Station",
+          "interchanges": [
+            "Jubilee"
+          ]
+        },
+        {
+          "name": "Bank Underground Station",
+          "interchanges": [
+            "Northern",
+            "Waterloo & City"
+          ]
+        },
+        {
+          "name": "Chancery Lane Underground Station"
+        },
+        {
+          "name": "East Acton Underground Station"
+        },
+        {
+          "name": "Holborn Underground Station",
+          "interchanges": [
+            "Piccadilly"
+          ]
+        },
+        {
+          "name": "Holland Park Underground Station"
+        },
+        {
+          "name": "Lancaster Gate Underground Station"
+        },
+        {
+          "name": "Liverpool Street Underground Station",
+          "interchanges": [
+            "Circle",
+            "Hammersmith & City",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Marble Arch Underground Station"
+        },
+        {
+          "name": "North Acton Underground Station"
+        },
+        {
+          "name": "Notting Hill Gate Underground Station",
+          "interchanges": [
+            "Circle",
+            "District"
+          ]
+        },
+        {
+          "name": "Oxford Circus Underground Station",
+          "interchanges": [
+            "Bakerloo",
+            "Victoria"
+          ]
+        },
+        {
+          "name": "Queensway Underground Station"
+        },
+        {
+          "name": "Shepherd's Bush (Central) Underground Station"
+        },
+        {
+          "name": "St. Paul's Underground Station"
+        },
+        {
+          "name": "Tottenham Court Road Underground Station",
+          "interchanges": [
+            "Northern"
+          ]
+        },
+        {
+          "name": "White City Underground Station"
+        },
+        {
+          "name": "West Acton Underground Station"
+        }
+      ]
+    },
+    {
+      "id": "circle",
+      "name": "Circle",
+      "color": "#FFD300",
+      "stations": [
+        {
+          "name": "Barbican Underground Station",
+          "interchanges": [
+            "Hammersmith & City",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Baker Street Underground Station",
+          "interchanges": [
+            "Bakerloo",
+            "Hammersmith & City",
+            "Jubilee",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Edgware Road (Circle Line) Underground Station",
+          "interchanges": [
+            "District",
+            "Hammersmith & City"
+          ]
+        },
+        {
+          "name": "Euston Square Underground Station",
+          "interchanges": [
+            "Hammersmith & City",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Farringdon Underground Station",
+          "interchanges": [
+            "Hammersmith & City",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Great Portland Street Underground Station",
+          "interchanges": [
+            "Hammersmith & City",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Gloucester Road Underground Station",
+          "interchanges": [
+            "District",
+            "Piccadilly"
+          ]
+        },
+        {
+          "name": "King's Cross St. Pancras Underground Station",
+          "interchanges": [
+            "Hammersmith & City",
+            "Metropolitan",
+            "Northern",
+            "Piccadilly",
+            "Victoria"
+          ]
+        },
+        {
+          "name": "Liverpool Street Underground Station",
+          "interchanges": [
+            "Central",
+            "Hammersmith & City",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Moorgate Underground Station",
+          "interchanges": [
+            "Hammersmith & City",
+            "Metropolitan",
+            "Northern"
+          ]
+        },
+        {
+          "name": "Notting Hill Gate Underground Station",
+          "interchanges": [
+            "Central",
+            "District"
+          ]
+        },
+        {
+          "name": "Paddington Underground Station",
+          "interchanges": [
+            "Bakerloo",
+            "District"
+          ]
+        },
+        {
+          "name": "South Kensington Underground Station",
+          "interchanges": [
+            "District",
+            "Piccadilly"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "district",
+      "name": "District",
+      "color": "#00782A",
+      "stations": [
+        {
+          "name": "Acton Town Underground Station",
+          "interchanges": [
+            "Piccadilly"
+          ]
+        },
+        {
+          "name": "Barons Court Underground Station",
+          "interchanges": [
+            "Piccadilly"
+          ]
+        },
+        {
+          "name": "Earl's Court Underground Station",
+          "interchanges": [
+            "Piccadilly"
+          ]
+        },
+        {
+          "name": "Edgware Road (Circle Line) Underground Station",
+          "interchanges": [
+            "Circle",
+            "Hammersmith & City"
+          ]
+        },
+        {
+          "name": "Gloucester Road Underground Station",
+          "interchanges": [
+            "Circle",
+            "Piccadilly"
+          ]
+        },
+        {
+          "name": "Hammersmith (Dist&Picc Line) Underground Station",
+          "interchanges": [
+            "Piccadilly"
+          ]
+        },
+        {
+          "name": "Notting Hill Gate Underground Station",
+          "interchanges": [
+            "Central",
+            "Circle"
+          ]
+        },
+        {
+          "name": "Paddington Underground Station",
+          "interchanges": [
+            "Bakerloo",
+            "Circle"
+          ]
+        },
+        {
+          "name": "South Kensington Underground Station",
+          "interchanges": [
+            "Circle",
+            "Piccadilly"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "elizabeth",
+      "name": "Elizabeth line",
+      "color": "#6950A1",
+      "stations": [
+        {
+          "name": "Acton Main Line Rail Station"
+        },
+        {
+          "name": "Bond Street"
+        },
+        {
+          "name": "Ealing Broadway Rail Station"
+        },
+        {
+          "name": "Farringdon"
+        },
+        {
+          "name": "Hanwell Rail Station"
+        },
+        {
+          "name": "Hayes & Harlington Rail Station"
+        },
+        {
+          "name": "London Paddington Rail Station"
+        },
+        {
+          "name": "Southall Rail Station"
+        },
+        {
+          "name": "Tottenham Court Road"
+        },
+        {
+          "name": "West Ealing Rail Station"
+        }
+      ]
+    },
+    {
+      "id": "hammersmith-city",
+      "name": "Hammersmith & City",
+      "color": "#F3A9BB",
+      "stations": [
+        {
+          "name": "Barbican Underground Station",
+          "interchanges": [
+            "Circle",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Baker Street Underground Station",
+          "interchanges": [
+            "Bakerloo",
+            "Circle",
+            "Jubilee",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Edgware Road (Circle Line) Underground Station",
+          "interchanges": [
+            "Circle",
+            "District"
+          ]
+        },
+        {
+          "name": "Euston Square Underground Station",
+          "interchanges": [
+            "Circle",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Farringdon Underground Station",
+          "interchanges": [
+            "Circle",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Great Portland Street Underground Station",
+          "interchanges": [
+            "Circle",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "King's Cross St. Pancras Underground Station",
+          "interchanges": [
+            "Circle",
+            "Metropolitan",
+            "Northern",
+            "Piccadilly",
+            "Victoria"
+          ]
+        },
+        {
+          "name": "Liverpool Street Underground Station",
+          "interchanges": [
+            "Central",
+            "Circle",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Moorgate Underground Station",
+          "interchanges": [
+            "Circle",
+            "Metropolitan",
+            "Northern"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jubilee",
+      "name": "Jubilee",
+      "color": "#A0A5A9",
+      "stations": [
+        {
+          "name": "Bond Street Underground Station",
+          "interchanges": [
+            "Central"
+          ]
+        },
+        {
+          "name": "Baker Street Underground Station",
+          "interchanges": [
+            "Bakerloo",
+            "Circle",
+            "Hammersmith & City",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Green Park Underground Station",
+          "interchanges": [
+            "Piccadilly",
+            "Victoria"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "metropolitan",
+      "name": "Metropolitan",
+      "color": "#9B0056",
+      "stations": [
+        {
+          "name": "Barbican Underground Station",
+          "interchanges": [
+            "Circle",
+            "Hammersmith & City"
+          ]
+        },
+        {
+          "name": "Baker Street Underground Station",
+          "interchanges": [
+            "Bakerloo",
+            "Circle",
+            "Hammersmith & City",
+            "Jubilee"
+          ]
+        },
+        {
+          "name": "Euston Square Underground Station",
+          "interchanges": [
+            "Circle",
+            "Hammersmith & City"
+          ]
+        },
+        {
+          "name": "Farringdon Underground Station",
+          "interchanges": [
+            "Circle",
+            "Hammersmith & City"
+          ]
+        },
+        {
+          "name": "Great Portland Street Underground Station",
+          "interchanges": [
+            "Circle",
+            "Hammersmith & City"
+          ]
+        },
+        {
+          "name": "King's Cross St. Pancras Underground Station",
+          "interchanges": [
+            "Circle",
+            "Hammersmith & City",
+            "Northern",
+            "Piccadilly",
+            "Victoria"
+          ]
+        },
+        {
+          "name": "Liverpool Street Underground Station",
+          "interchanges": [
+            "Central",
+            "Circle",
+            "Hammersmith & City"
+          ]
+        },
+        {
+          "name": "Moorgate Underground Station",
+          "interchanges": [
+            "Circle",
+            "Hammersmith & City",
+            "Northern"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "northern",
+      "name": "Northern",
+      "color": "#000000",
+      "stations": [
+        {
+          "name": "Bank Underground Station",
+          "interchanges": [
+            "Central",
+            "Waterloo & City"
+          ]
+        },
+        {
+          "name": "Camden Town Underground Station"
+        },
+        {
+          "name": "Euston Underground Station",
+          "interchanges": [
+            "Victoria"
+          ]
+        },
+        {
+          "name": "Goodge Street Underground Station"
+        },
+        {
+          "name": "King's Cross St. Pancras Underground Station",
+          "interchanges": [
+            "Circle",
+            "Hammersmith & City",
+            "Metropolitan",
+            "Piccadilly",
+            "Victoria"
+          ]
+        },
+        {
+          "name": "Leicester Square Underground Station",
+          "interchanges": [
+            "Piccadilly"
+          ]
+        },
+        {
+          "name": "Moorgate Underground Station",
+          "interchanges": [
+            "Circle",
+            "Hammersmith & City",
+            "Metropolitan"
+          ]
+        },
+        {
+          "name": "Mornington Crescent Underground Station"
+        },
+        {
+          "name": "Tottenham Court Road Underground Station",
+          "interchanges": [
+            "Central"
+          ]
+        },
+        {
+          "name": "Warren Street Underground Station",
+          "interchanges": [
+            "Victoria"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "piccadilly",
+      "name": "Piccadilly",
+      "color": "#003688",
+      "stations": [
+        {
+          "name": "Acton Town Underground Station",
+          "interchanges": [
+            "District"
+          ]
+        },
+        {
+          "name": "Boston Manor Underground Station"
+        },
+        {
+          "name": "Barons Court Underground Station",
+          "interchanges": [
+            "District"
+          ]
+        },
+        {
+          "name": "Earl's Court Underground Station",
+          "interchanges": [
+            "District"
+          ]
+        },
+        {
+          "name": "Green Park Underground Station",
+          "interchanges": [
+            "Jubilee",
+            "Victoria"
+          ]
+        },
+        {
+          "name": "Gloucester Road Underground Station",
+          "interchanges": [
+            "Circle",
+            "District"
+          ]
+        },
+        {
+          "name": "Holborn Underground Station",
+          "interchanges": [
+            "Central"
+          ]
+        },
+        {
+          "name": "Hatton Cross Underground Station"
+        },
+        {
+          "name": "Hyde Park Corner Underground Station"
+        },
+        {
+          "name": "Heathrow Terminals 2 & 3 Underground Station"
+        },
+        {
+          "name": "Hammersmith (Dist&Picc Line) Underground Station",
+          "interchanges": [
+            "District"
+          ]
+        },
+        {
+          "name": "Hounslow Central Underground Station"
+        },
+        {
+          "name": "Hounslow East Underground Station"
+        },
+        {
+          "name": "Hounslow West Underground Station"
+        },
+        {
+          "name": "Knightsbridge Underground Station"
+        },
+        {
+          "name": "King's Cross St. Pancras Underground Station",
+          "interchanges": [
+            "Circle",
+            "Hammersmith & City",
+            "Metropolitan",
+            "Northern",
+            "Victoria"
+          ]
+        },
+        {
+          "name": "Leicester Square Underground Station",
+          "interchanges": [
+            "Northern"
+          ]
+        },
+        {
+          "name": "Northfields Underground Station"
+        },
+        {
+          "name": "Osterley Underground Station"
+        },
+        {
+          "name": "Piccadilly Circus Underground Station",
+          "interchanges": [
+            "Bakerloo"
+          ]
+        },
+        {
+          "name": "South Ealing Underground Station"
+        },
+        {
+          "name": "South Kensington Underground Station",
+          "interchanges": [
+            "Circle",
+            "District"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "victoria",
+      "name": "Victoria",
+      "color": "#0098D4",
+      "stations": [
+        {
+          "name": "Euston Underground Station",
+          "interchanges": [
+            "Northern"
+          ]
+        },
+        {
+          "name": "Green Park Underground Station",
+          "interchanges": [
+            "Jubilee",
+            "Piccadilly"
+          ]
+        },
+        {
+          "name": "King's Cross St. Pancras Underground Station",
+          "interchanges": [
+            "Circle",
+            "Hammersmith & City",
+            "Metropolitan",
+            "Northern",
+            "Piccadilly"
+          ]
+        },
+        {
+          "name": "Oxford Circus Underground Station",
+          "interchanges": [
+            "Bakerloo",
+            "Central"
+          ]
+        },
+        {
+          "name": "Warren Street Underground Station",
+          "interchanges": [
+            "Northern"
+          ]
+        }
+      ]
+    }
+  ],
   "source": "https://api.tfl.gov.uk",
   "coverage": {
     "mode": "provider",
     "dateRange": {
-      "start": "2026-08-01",
-      "end": "2026-08-01",
-      "days": 1,
-      "liveOnly": true
+      "start": "2026-08-02",
+      "end": "2026-08-08",
+      "days": 7,
+      "liveOnly": false
     }
   }
 }

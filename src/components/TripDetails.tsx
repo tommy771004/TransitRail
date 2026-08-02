@@ -57,7 +57,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
   const [selectedTransferInfo, setSelectedTransferInfo] = useState<TransferInfo | null>(null);
   const [arrivalReminderState, setArrivalReminderState] = useState<"idle" | "watching" | "alerted" | "unavailable">("idle");
   const [arrivalDistanceKm, setArrivalDistanceKm] = useState<number | undefined>();
-  const arrivalWatchId = useRef<number | undefined>();
+  const arrivalWatchId = useRef<number | undefined>(undefined);
 
   const displayLegs: JourneyLeg[] = trip.legs && trip.legs.length > 0 ? trip.legs : [
     {
