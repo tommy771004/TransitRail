@@ -312,7 +312,7 @@ function noResultReasonFor(
   }
   if (country && coverageModeFor(country) === "scraped") {
     const decision = noResultPolicyDecision(country, origin, destination, date);
-    if (decision.reason) return toNoResultReason(decision.reason);
+    if (decision?.reason) return toNoResultReason(decision.reason);
     if (gap?.uncovered.length) return "no_verified_data";
   }
   return "unsupported_route";
@@ -352,7 +352,7 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
     ? decideSearchability({ country: resolvedCountry, serviceDay: date })
     : undefined;
 
-  if (requestedDateDecision?.reason === "unsupported_date") {
+  if (resolvedCountry && requestedDateDecision?.reason === "unsupported_date") {
     statusCode = 422;
     payload = {
       error: "Date unavailable",
