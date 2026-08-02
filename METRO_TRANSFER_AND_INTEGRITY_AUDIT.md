@@ -172,7 +172,7 @@ if (from < 0 || !calls.some((call, index) => index > from && call[0] === destina
 
 `buildLines`（`src/data/metroLines.ts:19`）以「站名完全相同」推導換乘。`transferPlanner.ts` 的註解已自承此限制。實測後果：
 
-**曼谷**——repo 只推導出 4 個換乘站（Phaya Thai、Siam、Bang Wa、Tao Poon），全部是兩系統同名的情況。維基確認的真實換乘點中，以下**全部漏失**，因為 BTS 與 MRT 對同一轉乘點使用不同名稱：
+**曼谷**——repo 原先只推導出 4 個換乘站（Phaya Thai、Siam、Bang Wa、Tao Poon），全部是兩系統同名的情況。維基確認的真實換乘點中，以下原本**全部漏失**，因為 BTS 與 MRT 對同一轉乘點使用不同名稱：
 
 | BTS 站名 | MRT／ARL 站名 | repo |
 | --- | --- | --- |
@@ -180,8 +180,10 @@ if (from < 0 || !calls.some((call, index) => index > from && call[0] === destina
 | Sala Daeng | Si Lom | ❌ 漏失 |
 | Mo Chit | Chatuchak Park | ❌ 漏失 |
 | Ha Yaek Lat Phrao | Phahon Yothin | ❌ 漏失 |
-| Samrong | （MRT Yellow） | ❌ 線本身不存在 |
-| Wat Phra Sri Mahathat | （MRT Pink） | ❌ 線本身不存在 |
+| Samrong | （MRT Yellow） | ✅ **已修**（2026-08-02 補上 MRT Yellow 線） |
+| Wat Phra Sri Mahathat | （MRT Pink） | ✅ **已修**（2026-08-02 補上 MRT Pink 線） |
+
+> **修訂（2026-08-02）：** 別名對照已建立（`stationAliases.ts`），`buildLines` 經別名解析推導換乘；MRT Pink 與 Yellow 兩條線的完整站序也已補入。曼谷現為 **7 線／176 站／17 換乘站**（原 5 線／119 站／4 換乘站），上表所有漏失皆已解決。泰國目前仍在嚴格門檻下隱藏，因此這些換乘要等接上真實時刻表後才對使用者可見。
 
 諷刺的是，`thailand/mo-chit-hua-lamphong.json` 這個 **curated 檔案裡寫對了** Mo Chit→Chatuchak Park 的轉乘，但線路拓撲推不出來。真實世界的知識被寫進了資料，卻沒有進入拓撲。
 
@@ -207,9 +209,13 @@ if (from < 0 || !calls.some((call, index) => index > from && call[0] === destina
 | 都營淺草線 | `["Asakusa", "Nihombashi"]` | 20 |
 | 都營新宿線 | `["Jimbocho", "Shinjuku"]` | 21 |
 
-東京地下鐵實際為 **13 條線、286 站**。repo 有 5 條線、10 個站點條目，覆蓋率約 **3.5%**。
+東京地下鐵實際為 **13 條線、286 站**。repo 原有 5 條線、10 個站點條目，覆蓋率約 3.5%。
 
-由於換乘靠站名共現推導，而每條線只有端點，真實換乘站（赤坂見附、上野、大手町、日本橋…）幾乎全部漏失，反而會推導出端點碰巧同名的假換乘。這些線出現在路線圖上具有誤導性。
+由於換乘靠站名共現推導，而每條線只有端點，真實換乘站（赤坂見附、上野、大手町、日本橋…）原本幾乎全部漏失。
+
+> **修訂（2026-08-02）：** 這 5 條線的完整站序已補入，站點條目 12 → **123**，推導出的換乘站 0 → **13**（赤坂見附、日本橋、新橋、藏前、新宿三丁目、大門、森下、本鄉三丁目、中野坂上、青山一丁目、淺草、銀座、新宿）。仍缺 8 條線（日比谷、東西、千代田、有樂町、半藏門、南北、副都心、三田），需接 ODPT 或補完站序。日本地鐵線目前經 `isJapanMetroLine` 隱藏，這些換乘要等地鐵時刻表到位後才可見。
+>
+> 兩個模型限制已在程式碼註解記錄：大江戶線是「6」字形（支線＋環線），以直通運轉順序表示，環線閉合的那一段未呈現；丸之內線只收主線，方南町支線未含。
 
 ### 2.6 轉乘鏈接的其他缺陷
 

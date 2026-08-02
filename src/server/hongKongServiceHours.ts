@@ -12,7 +12,8 @@
  * - MTR publishes ONE first/last pair per direction; it does not vary by
  *   weekday/Saturday/Sunday the way the SMRT feed does. `serviceDayType` still
  *   records which kind of day was requested, but the times are not day-typed.
- * - Train frequency is published on a separate page and is not collected here.
+ * - Train frequency comes from a separate published page and is attached as the
+ *   operator's own bands (peak/off-peak, ranges), not reduced to one number.
  */
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -28,11 +29,12 @@ type Fetcher = (input: string | URL | Request, init?: RequestInit) => Promise<Re
 
 const SOURCE = "MTR official service hours";
 const SOURCE_URL = "https://www.mtr.com.hk/en/customer/services/service_hours_search.php";
+const FREQUENCY_URL = "https://www.mtr.com.hk/en/customer/services/train_service_index.html";
 const TIMEZONE = "Asia/Hong_Kong";
 const ARTIFACT_PATH = resolve(process.cwd(), "src/data/service-day/hong_kong.json");
 
 const NOTE = "MTR publishes one first/last train per direction, not a departure timetable "
-  + "and not a separate set per service day. Check mtr.com.hk for train frequency.";
+  + "and not a separate set per service day. Frequency is the operator's published headway.";
 
 /**
  * Where each committed route's first/last lives on the MTR page.
@@ -50,11 +52,70 @@ const NOTE = "MTR publishes one first/last train per direction, not a departure 
  * carries only the Tung Chung Line section, with no Airport Express times to
  * read. It resolves to `unavailable` rather than borrowing another line's.
  */
-const ROUTES: Record<string, { stationId: number; line: string; terminusIds: number[] }> = {
-  "central->tsuen wan": { stationId: 1, line: "TWL", terminusIds: [25] },
-  "admiralty->tsim sha tsui": { stationId: 2, line: "TWL", terminusIds: [25] },
-  "tung chung->sunny bay": { stationId: 43, line: "TCL", terminusIds: [39, 44] },
+const ROUTES: Record<string, {
+  stationId: number;
+  line: string;
+  terminusIds: number[];
+  /** Row label on the published frequency table. Some lines are quoted per
+   *  segment ("Hong Kong-Tung Chung"), so this is not always the line name. */
+  frequencyRow: string;
+}> = {
+  "central->tsuen wan": { stationId: 1, line: "TWL", terminusIds: [25], frequencyRow: "Tsuen Wan Line" },
+  "admiralty->tsim sha tsui": { stationId: 2, line: "TWL", terminusIds: [25], frequencyRow: "Tsuen Wan Line" },
+  "tung chung->sunny bay": { stationId: 43, line: "TCL", terminusIds: [39, 44], frequencyRow: "Hong Kong-Tung Chung" },
 };
+
+/**
+ * Column order of MTR's published frequency table, and which service day each
+ * column speaks for. Weekdays are quoted as three bands; Saturday and Sunday as
+ * one each, so a weekday advisory carries three entries and a weekend one.
+ */
+const FREQUENCY_COLUMNS: Array<{ label: string; dayTypes: ServiceDayType[] }> = [
+  { label: "Weekday morning peak", dayTypes: ["weekday"] },
+  { label: "Weekday evening peak", dayTypes: ["weekday"] },
+  { label: "Weekday off-peak", dayTypes: ["weekday"] },
+  { label: "Saturday", dayTypes: ["saturday"] },
+  { label: "Sunday and public holidays", dayTypes: ["sunday_holiday", "special"] },
+];
+
+const HEADWAY = /^\d+(\.\d+)?(-\d+(\.\d+)?)?$/;
+
+/**
+ * Read one route's published headways out of MTR's frequency table.
+ *
+ * Cells that are not a plain headway are skipped rather than coerced: MTR uses
+ * "-" for bands a segment does not run, and qualifies some with "(For
+ * 07:00-10:15 only)". Presenting either as a frequency would overstate it.
+ */
+export function parseHongKongFrequency(
+  page: string,
+  frequencyRow: string,
+  dayType: ServiceDayType,
+): Array<{ label: string; minutes: string }> | undefined {
+  const live = page.replace(/<!--[\s\S]*?-->/g, "");
+  for (const [, body] of live.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/g)) {
+    const cells = [...body.matchAll(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/g)]
+      .map(([, cell]) => cell.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim());
+    if (cells[0] !== frequencyRow || cells.length < FREQUENCY_COLUMNS.length + 1) continue;
+
+    const bands: Array<{ label: string; minutes: string }> = [];
+    FREQUENCY_COLUMNS.forEach((column, index) => {
+      if (!column.dayTypes.includes(dayType)) return;
+      const minutes = cells[index + 1];
+      if (HEADWAY.test(minutes)) bands.push({ label: column.label, minutes });
+    });
+    return bands.length > 0 ? bands : undefined;
+  }
+  return undefined;
+}
+
+export async function fetchHongKongFrequencies(fetcher: Fetcher = fetch): Promise<string> {
+  const response = await fetcher(FREQUENCY_URL, {
+    headers: { "user-agent": "TransitRail scheduled service-day collector" },
+  });
+  if (!response.ok) throw new Error(`MTR frequency page returned HTTP ${response.status}.`);
+  return response.text();
+}
 
 export type HongKongServiceDayArtifact = {
   schemaVersion: 1;
@@ -116,6 +177,7 @@ export function buildHongKongServiceHoursAdvisory(
   destination: string,
   date: string,
   selectedTime?: string,
+  frequencyPage?: string,
 ): ServiceDayAdvisory {
   const route = ROUTES[key(origin, destination)];
   if (!route) {
@@ -137,6 +199,9 @@ export function buildHongKongServiceHoursAdvisory(
     return unavailable(date, "MTR did not publish a first/last pair for this direction on the service hours page.");
   }
 
+  const frequency = frequencyPage
+    ? parseHongKongFrequency(frequencyPage, route.frequencyRow, dayType(date))
+    : undefined;
   const advisory = validateServiceDayAdvisory({
     coverage: "partial",
     serviceDate: date,
@@ -148,6 +213,7 @@ export function buildHongKongServiceHoursAdvisory(
     source: SOURCE,
     sourceUrl: SOURCE_URL,
     checkedAt: new Date().toISOString(),
+    ...(frequency ? { frequency } : {}),
     note: NOTE,
   });
   return withSelectedQueryRisk(advisory, selectedTime);
@@ -217,6 +283,15 @@ export async function collectHongKongServiceDayArtifact(
     routes: {},
   };
 
+  // One fetch for the whole run; a failure here must not lose the first/last
+  // times, which are the point of the artifact.
+  let frequencyPage: string | undefined;
+  try {
+    frequencyPage = await fetchHongKongFrequencies(fetcher);
+  } catch {
+    frequencyPage = undefined;
+  }
+
   let collected = 0;
   for (const requested of routes) {
     const route = ROUTES[key(requested.origin, requested.destination)];
@@ -231,6 +306,8 @@ export async function collectHongKongServiceDayArtifact(
       requested.origin,
       requested.destination,
       date,
+      undefined,
+      frequencyPage,
     );
     // Record an unavailable verdict rather than aborting: one direction MTR
     // stopped publishing must not throw away the routes that did resolve, and

@@ -22,34 +22,77 @@ export const japanStations = [
 // directory until the ODPT route adapter provides live station data.
 const japanLineDefs: Array<{ id: string; name: string; color: string; stations: string[] }> = [
   {
+    // Full station order from the operator's published line map. The five Tokyo
+    // subway lines here previously held only their endpoints (10 entries for
+    // ~130 stations), so interchange derivation — which works by shared station
+    // name — could not see Akasaka-mitsuke, Otemachi, Nihombashi or any other
+    // real transfer point.
+    //
+    // The Oedo Line is a "6": a branch from Hikarigaoka joins a loop at
+    // Tochomae. buildLines models a line as one ordered array, so this is the
+    // through-service order and the loop's closing link is not represented.
     id: "toei-oedo",
     name: "Toei Oedo Line",
     color: "#B6007A",
-    stations: ["Shinjuku", "Roppongi"],
+    stations: [
+      "Hikarigaoka", "Nerima-kasugacho", "Toshimaen", "Nerima", "Shin-egota",
+      "Ochiai-minami-nagasaki", "Nakai", "Higashi-nakano", "Nakano-sakaue",
+      "Nishi-shinjuku-gochome", "Tochomae", "Shinjuku-nishiguchi",
+      "Higashi-shinjuku", "Wakamatsu-kawada", "Ushigome-yanagicho",
+      "Ushigome-kagurazaka", "Iidabashi", "Kasuga", "Hongo-sanchome",
+      "Ueno-okachimachi", "Shin-okachimachi", "Kuramae", "Ryogoku", "Morishita",
+      "Kiyosumi-shirakawa", "Monzen-nakacho", "Tsukishima", "Kachidoki",
+      "Tsukijishijo", "Shiodome", "Daimon", "Akabanebashi", "Azabu-juban",
+      "Roppongi", "Aoyama-itchome", "Kokuritsu-kyogijo", "Yoyogi", "Shinjuku",
+    ],
   },
   {
     id: "toei-asakusa",
     name: "Toei Asakusa Line",
     color: "#E85298",
-    stations: ["Asakusa", "Nihombashi"],
+    stations: [
+      "Nishi-magome", "Magome", "Nakanobu", "Togoshi", "Gotanda", "Takanawadai",
+      "Sengakuji", "Mita", "Daimon", "Shimbashi", "Higashi-ginza", "Takaracho",
+      "Nihombashi", "Ningyocho", "Higashi-nihombashi", "Asakusabashi",
+      "Kuramae", "Asakusa", "Honjo-azumabashi", "Oshiage",
+    ],
   },
   {
     id: "toei-shinjuku",
     name: "Toei Shinjuku Line",
     color: "#6CBB5A",
-    stations: ["Jimbocho", "Shinjuku"],
+    stations: [
+      "Shinjuku", "Shinjuku-sanchome", "Akebonobashi", "Ichigaya", "Kudanshita",
+      "Jimbocho", "Ogawamachi", "Iwamotocho", "Bakuro-yokoyama", "Hamacho",
+      "Morishita", "Kikukawa", "Sumiyoshi", "Nishi-ojima", "Ojima",
+      "Higashi-ojima", "Funabori", "Ichinoe", "Mizue", "Shinozaki", "Motoyawata",
+    ],
   },
   {
     id: "tokyo-metro-ginza",
     name: "Tokyo Metro Ginza Line",
-    color: "#F39700",
-    stations: ["Shibuya", "Asakusa"],
+    color: "#FF9500",
+    stations: [
+      "Shibuya", "Omote-sando", "Gaiemmae", "Aoyama-itchome", "Akasaka-mitsuke",
+      "Tameike-sanno", "Toranomon", "Shimbashi", "Ginza", "Kyobashi",
+      "Nihombashi", "Mitsukoshimae", "Kanda", "Suehirocho", "Ueno-hirokoji",
+      "Ueno", "Inaricho", "Tawaramachi", "Asakusa",
+    ],
   },
   {
+    // Main line only; the Honancho branch (Honancho-Nakano-fujimicho-
+    // Nakano-shimbashi, joining at Nakano-sakaue) is a separate ordered run.
     id: "tokyo-metro-marunouchi",
     name: "Tokyo Metro Marunouchi Line",
-    color: "#E60012",
-    stations: ["Ikebukuro", "Otemachi", "Tokyo", "Ginza"],
+    color: "#F62E36",
+    stations: [
+      "Ogikubo", "Minami-asagaya", "Shin-koenji", "Higashi-koenji",
+      "Shin-nakano", "Nakano-sakaue", "Nishi-shinjuku", "Shinjuku",
+      "Shinjuku-sanchome", "Shinjuku-gyoemmae", "Yotsuya-sanchome", "Yotsuya",
+      "Akasaka-mitsuke", "Kokkai-gijido-mae", "Kasumigaseki", "Ginza", "Tokyo",
+      "Otemachi", "Awajicho", "Ochanomizu", "Hongo-sanchome", "Korakuen",
+      "Myogadani", "Shin-otsuka", "Ikebukuro",
+    ],
   },
   {
     id: "tokaido-shinkansen",

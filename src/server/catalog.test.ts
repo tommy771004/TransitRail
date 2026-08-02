@@ -56,6 +56,17 @@ describe("station and line catalog integrity scope", () => {
     expect(range?.days).toBe(6);
   });
 
+  it("trims a provider-then-scraped market to what its snapshots guarantee", async () => {
+    // Switzerland's OJP adapter answers only when SWISS_OJP_TOKEN is set; the
+    // guaranteed answer is the committed snapshot, so the offer must not run
+    // past it. It advertised 14 days while days 8-14 answered "unsupported
+    // route".
+    vi.setSystemTime(new Date("2026-08-02T04:00:00.000Z"));
+    const stations = await getStationsForCountry("switzerland", undefined, undefined);
+
+    expect(stations.coverage?.dateRange?.days).toBeLessThanOrEqual(7);
+  });
+
   it("does not trim a live-provider market to committed rows", async () => {
     // Boston answers a date from the provider, so its window is a capability,
     // not an inventory, and must keep its full length.

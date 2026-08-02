@@ -87,6 +87,21 @@ export function validateServiceDayAdvisory(value: unknown): ServiceDayAdvisory {
   if (advisory.minutesToLastDeparture !== undefined && (!Number.isFinite(advisory.minutesToLastDeparture) || Math.abs(advisory.minutesToLastDeparture) > 10_000)) {
     throw new Error("Service-day advisory has invalid minutes to last departure.");
   }
+  if (advisory.frequency !== undefined) {
+    if (!Array.isArray(advisory.frequency) || advisory.frequency.length === 0) {
+      throw new Error("Service-day advisory has an empty frequency list.");
+    }
+    for (const band of advisory.frequency) {
+      if (!band || typeof band.label !== "string" || band.label.length === 0) {
+        throw new Error("Service-day advisory frequency band has no label.");
+      }
+      // Operators quote single values and ranges; anything else is not a
+      // headway we can present as published.
+      if (typeof band.minutes !== "string" || !/^\d+(\.\d+)?(-\d+(\.\d+)?)?$/.test(band.minutes)) {
+        throw new Error("Service-day advisory frequency band has invalid minutes.");
+      }
+    }
+  }
   return advisory as ServiceDayAdvisory;
 }
 

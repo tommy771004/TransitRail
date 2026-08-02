@@ -134,6 +134,15 @@ export interface ServiceDayAdvisory {
   sourceUrl?: string;
   checkedAt?: string;
   updatedAt?: string;
+  /**
+   * Published train frequency for this service day.
+   *
+   * Kept in the operator's own shape — they split peak from off-peak and quote
+   * ranges ("3.5-5"), so reducing it to a single number would mean inventing
+   * precision the source does not have. A market with no published frequency
+   * simply omits this.
+   */
+  frequency?: Array<{ label: string; minutes: string }>;
   note?: string;
 }
 

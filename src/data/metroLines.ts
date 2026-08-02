@@ -203,6 +203,42 @@ const thailandLineDefs: LineDef[] = [
       "Ban Thap Chang", "Lat Krabang", "Suvarnabhumi",
     ],
   },
+  {
+    // Monorail, opened 2023. Its interchanges were previously underivable
+    // because the line itself was missing: Wat Phra Sri Mahathat (BTS
+    // Sukhumvit) and Nonthaburi Civic Center (MRT Purple) both sit on lines
+    // already listed here, so adding the line connects them.
+    // The Muang Thong Thani branch (MT01-MT02) is omitted — buildLines models a
+    // line as one ordered array and cannot represent a branch.
+    id: "th-mrt-pink",
+    name: "MRT Pink Line",
+    color: "#E6007E",
+    stations: [
+      "Nonthaburi Civic Center", "Khae Rai", "Sanambin Nam", "Samakkhi",
+      "Royal Irrigation Department", "Yaek Pak Kret", "Pak Kret Bypass",
+      "Chaeng Watthana - Pak Kret 28", "Si Rat", "Muang Thong Thani",
+      "Chaeng Watthana 14", "Government Complex", "National Telecom", "Lak Si",
+      "Rajabhat Phranakhon", "Wat Phra Sri Mahathat", "Ram Inthra 3",
+      "Lat Pla Khao", "Ram Inthra Kor Mor 4", "Maiyalap", "Vacharaphol",
+      "Ram Inthra Kor Mor 6", "Khu Bon", "Ram Inthra Kor Mor 9",
+      "Outer Ring Road - Ram Inthra", "Nopparat", "Bang Chan",
+      "Setthabutbamphen", "Min Buri Market", "Min Buri",
+    ],
+  },
+  {
+    // Monorail, opened 2023. Connects Lat Phrao (MRT Blue), Hua Mak (Airport
+    // Rail Link) and Samrong (BTS Sukhumvit) — all three already listed here.
+    id: "th-mrt-yellow",
+    name: "MRT Yellow Line",
+    color: "#FFD100",
+    stations: [
+      "Lat Phrao", "Phawana", "Chok Chai 4", "Lat Phrao 71", "Lat Phrao 83",
+      "Mahat Thai", "Lat Phrao 101", "Bang Kapi", "Yaek Lam Sali", "Si Kritha",
+      "Hua Mak", "Kalantan", "Si Nut", "Srinagarindra 38", "Suan Luang Rama IX",
+      "Si Udom", "Si Iam", "Si La Salle", "Si Bearing", "Si Dan", "Si Thepha",
+      "Thipphawan", "Samrong",
+    ],
+  },
 ];
 
 export const thailandTransitLines = buildLines(thailandLineDefs, "thailand");

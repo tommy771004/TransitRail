@@ -31,6 +31,7 @@ import {
   getScrapedReachableStations,
   getScrapedSearchabilitySummary,
 } from "../data/scraped";
+import { getCountryCapability } from "../data/countryCapability";
 import { stationSearchKey } from "../data/stationKey";
 import { resolveStationAlias } from "../data/stationAliases";
 import { addDateValueDays, countryOptions, searchDateRange, type SearchDateRange } from "../data/countries";
@@ -112,7 +113,18 @@ function hongKongLines(): TransitLine[] {
  */
 function offeredDateRange(country: Country): SearchDateRange {
   const range = searchDateRange(country);
-  if (coverageModeFor(country) !== "scraped") return range;
+  // `provider_then_scraped` is trimmed too: its guaranteed answer is the
+  // committed data, and the provider on top is optional. Switzerland offered 14
+  // days while its OJP adapter returned 501 for every one of them (no
+  // SWISS_OJP_TOKEN configured), so days 8-14 fell through to a snapshot that
+  // only covers 7 — the picker invited a date that answered "unsupported
+  // route". A deployment that does configure the token answers further ahead
+  // than this trim allows; raising the floor there means committing more days
+  // of data, not widening the offer past what is guaranteed.
+  const { search } = getCountryCapability(country);
+  const boundedByCommittedData = coverageModeFor(country) === "scraped"
+    || search.kind === "provider_then_scraped";
+  if (!boundedByCommittedData) return range;
 
   // Walk back from the last policy day to the newest one that verifies. Uses
   // the same coverage call the menu does, so "has data" cannot mean one thing
