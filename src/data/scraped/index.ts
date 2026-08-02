@@ -7,6 +7,7 @@ import {
   decodeKoreanSubwayArtifact,
   searchKoreanSubwayArtifact,
   koreanArtifactCoverageNames,
+  koreanServiceDayType,
   koreanArtifactReachableNames,
   precomputeKoreanReachability,
   type KoreanSubwayArtifact,
@@ -213,6 +214,28 @@ export function getScrapedReachableStations(
       : undefined,
   });
   return selection.reachableDestinations;
+}
+
+/**
+ * Line names the committed artifacts run trains on for a service day.
+ *
+ * The artifacts sit outside `getScrapedRoutes`, so a catalog asking "does this
+ * line have data" cannot see them through route rows. Each run already records
+ * its line; reading that is O(runs) once, where inferring it from station
+ * reachability was O(lines x stations x destinations) per request.
+ */
+export function getArtifactLineNames(country: Country, date?: string): Set<string> {
+  if (!loaded) loadScrapedData();
+  const names = new Set<string>();
+  if (country !== "korea") return names;
+  for (const artifact of koreanArtifacts) {
+    const dayType = date ? koreanServiceDayType(date) : undefined;
+    for (const [line, , runDayType] of artifact.runs) {
+      if (dayType && runDayType !== dayType) continue;
+      if (line) names.add(line);
+    }
+  }
+  return names;
 }
 
 /** Returns the newest route-snapshot timestamp loaded for a country, if known. */

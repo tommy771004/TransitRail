@@ -20,6 +20,7 @@ import {
 } from "../data/metroLines";
 import { hongKongMtrLineCatalog, mtrInterchanges } from "../data/hongKongMtr";
 import { getStaticMenuStations } from "../data/stationIdentity";
+import { decideSearchability } from "../data/searchabilityPolicy";
 import {
   coverageModeFor,
   hasCoverage,
@@ -29,6 +30,7 @@ import {
 import { authenticityOptionsFor, classifyTimetable, isVerifiableTimetable } from "../data/timetableAuthenticity";
 import {
   findScrapedResults,
+  getArtifactLineNames,
   getScrapedCoverageNames,
   getScrapedRoutes,
   getScrapedReachableStations,
@@ -144,55 +146,81 @@ function offeredDateRange(country: Country): SearchDateRange {
   return { ...range, end, days };
 }
 
+/** One journey the committed data can actually answer, and what serves it. */
+interface AnswerablePair {
+  origin: string;
+  destination: string;
+  /** Line names the serving rows claim, split on chained ` → ` segments. */
+  services: string[];
+}
+
+/**
+ * Every journey a market's committed routes can answer for one service day.
+ *
+ * Computed once per request. The obvious implementation — ask
+ * `findScrapedResults` for each candidate pair — costs a full search per pair
+ * (~330ms on the Korean artifacts), which made the line catalogue take tens of
+ * seconds. The route rows already state their endpoints and service, so read
+ * them directly.
+ */
+function answerablePairs(country: Country, date: string): AnswerablePair[] {
+  const pairs: AnswerablePair[] = [];
+  for (const route of getScrapedRoutes(country)) {
+    // Ask the market's own policy, not a private bar. China runs entirely on
+    // curated snapshots and permits them; Japan does not. Re-deciding that here
+    // would put a second, disagreeing answer next to the one search uses.
+    if (!decideSearchability({ country, serviceDay: date, source: route }).searchable) continue;
+    const byPair = new Map<string, Set<string>>();
+    for (const result of route.results) {
+      if (result.date !== date) continue;
+      const key = `${result.origin}\u0000${result.destination}`;
+      const services = byPair.get(key) ?? new Set<string>();
+      // TfL joins a multi-line journey with " + " and a chained result with
+      // " → ". Both mean the journey really runs on each named line.
+      for (const segment of (result.service ?? "").split(/→|\+/)) {
+        const name = segment.trim();
+        if (name) services.add(name);
+      }
+      byPair.set(key, services);
+    }
+    for (const [key, services] of byPair) {
+      const [origin, destination] = key.split("\u0000");
+      pairs.push({ origin, destination, services: [...services] });
+    }
+  }
+  return pairs;
+}
+
 /**
  * Whether a line is backed by timetable data of its own.
  *
- * Two signals have to agree, because neither alone is right:
+ * Two signals, because neither alone is right:
  *
- * - A reachable pair with both ends on the line. Necessary, but not
- *   sufficient: Tokyo Metro Ginza contains Asakusa and Nihombashi while the
- *   journey between them is served by Toei Asakusa, so the pair test alone
- *   admits a line whose own timetable is still generated.
- * - The route's own `service` label. Sufficient for metro, where the label is
- *   the line name — but useless for intercity, where it is a train name
- *   ("Nozomi 101") that matches no line.
- *
- * So: require a reachable verified pair on the line, and reject it when the
- * route that serves it names a *different* line. A train name names no line and
- * passes, which is what lets Tōkaidō Shinkansen through while San'yō — whose
- * only rows are generated — stays hidden.
+ * - The line is named by verified rows — by an artifact run's `line`, or by a
+ *   route's `service`. Sufficient on its own, and the only signal that works
+ *   for a live-provider market: the Elizabeth line has real data, but its
+ *   journeys end on other lines, so no pair test would ever admit it.
+ * - A verified pair with both ends on the line, where the rows serving it do
+ *   not name a *different* line. Needed for intercity, whose `service` is a
+ *   train name ("Nozomi 101") matching no line — and the "different line" guard
+ *   is what stops Tokyo Metro Ginza riding in on Toei Asakusa's Asakusa ↔
+ *   Nihombashi journey.
  */
 function lineHasOwnTimetable(
   country: Country,
   line: TransitLine,
-  date: string,
+  pairs: readonly AnswerablePair[],
   otherLineNames: ReadonlySet<string>,
   verifiedServiceNames: ReadonlySet<string>,
 ): boolean {
-  // A verified row that names this line settles it. Needed on its own for
-  // live-provider markets, where journeys run point to point across the
-  // network: the Elizabeth line has real data, but Heathrow → Oxford Circus
-  // ends on a different line, so no pair test would ever admit it.
   if (verifiedServiceNames.has(line.name)) return true;
 
   const onLine = new Set(line.stations.map((station) =>
     stationSearchKey(resolveStationAlias(country, station.name))));
-
-  for (const station of line.stations) {
-    for (const destination of getScrapedReachableStations(country, station.name, date)) {
-      if (!onLine.has(stationSearchKey(resolveStationAlias(country, destination)))) continue;
-      const found = findScrapedResults(country, station.name, destination, date);
-      if (!found?.length) continue;
-      // `service` may join legs with " → " on a chained result; any segment
-      // naming another line means that line is doing the work, not this one.
-      const namesAnotherLine = found.some((result) => (result.service ?? "")
-        .split("→")
-        .map((segment) => segment.trim())
-        .some((segment) => otherLineNames.has(segment)));
-      if (!namesAnotherLine) return true;
-    }
-  }
-  return false;
+  return pairs.some((pair) =>
+    onLine.has(stationSearchKey(resolveStationAlias(country, pair.origin)))
+    && onLine.has(stationSearchKey(resolveStationAlias(country, pair.destination)))
+    && !pair.services.some((service) => otherLineNames.has(service)));
 }
 
 /**
@@ -208,19 +236,16 @@ function filterLinesToAnswerable(country: Country, lines: TransitLine[], date?: 
   // catalogue whole rather than guessing which day the caller meant.
   if (!date) return lines;
 
-  const verifiedServiceNames = new Set<string>();
-  for (const route of getScrapedRoutes(country)) {
-    for (const result of route.results) {
-      if (result.date !== date || !result.service) continue;
-      if (!isVerifiableTimetable(classifyTimetable(route, date, authenticityOptionsFor(country)))) continue;
-      for (const segment of result.service.split("→")) verifiedServiceNames.add(segment.trim());
-    }
-  }
+  // Artifact-backed lines name themselves in their runs; route-backed ones name
+  // themselves in `service`. Both are O(rows) reads.
+  const verifiedServiceNames = getArtifactLineNames(country, date);
+  const pairs = answerablePairs(country, date);
+  for (const pair of pairs) for (const service of pair.services) verifiedServiceNames.add(service);
 
   const allNames = new Set(lines.map((line) => line.name));
   return lines.filter((line) => {
     const others = new Set([...allNames].filter((name) => name !== line.name));
-    return lineHasOwnTimetable(country, line, date, others, verifiedServiceNames);
+    return lineHasOwnTimetable(country, line, pairs, others, verifiedServiceNames);
   });
 }
 
@@ -245,22 +270,11 @@ function filterLinesByVerifiedCoverage(
         stationSearchKey(resolveStationAlias(resolvedCountry, station.name)),
       )),
     }))
-    .filter((line) => {
-      if (line.stations.length < 2) return false;
-      // A date-conditioned line must have a reachable pair on that same day,
-      // not merely two names that happen to occur somewhere in the catalog.
-      // With no selected day, retain the existing bounded catalog behavior.
-      if (!date) return true;
-      const lineKeys = new Set(line.stations.map((station) =>
-        stationSearchKey(resolveStationAlias(resolvedCountry, station.name))));
-      return line.stations.some((origin) => getScrapedReachableStations(
-        resolvedCountry,
-        origin.name,
-        date,
-      ).some((destination) => lineKeys.has(
-        stationSearchKey(resolveStationAlias(resolvedCountry, destination)),
-      )));
-    });
+    // Only the station trim lives here. Whether the line is answerable at all
+    // is decided once, in filterLinesToAnswerable — running a second pair test
+    // here dropped the Elizabeth line, whose journeys legitimately end on
+    // another line, before that rule could admit it by name.
+    .filter((line) => line.stations.length >= 2);
   return filtered;
 }
 
