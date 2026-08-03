@@ -3,7 +3,13 @@
   "stations": [
     "Tokyo",
     "Shinagawa",
+    "Shinjuku",
     "Ueno",
+    "Roppongi",
+    "Asakusa",
+    "Nihombashi",
+    "Jimbocho",
+    "Otemachi",
     "Shin-Yokohama",
     "Omiya",
     "Nagoya",
@@ -39,6 +45,620 @@
     "Nagasaki"
   ],
   "lines": [
+    {
+      "id": "toei-oedo",
+      "name": "Toei Oedo Line",
+      "color": "#B6007A",
+      "stations": [
+        {
+          "name": "Hikarigaoka"
+        },
+        {
+          "name": "Nerima-kasugacho"
+        },
+        {
+          "name": "Toshimaen"
+        },
+        {
+          "name": "Nerima"
+        },
+        {
+          "name": "Shin-egota"
+        },
+        {
+          "name": "Ochiai-minami-nagasaki"
+        },
+        {
+          "name": "Nakai"
+        },
+        {
+          "name": "Higashi-nakano"
+        },
+        {
+          "name": "Nakano-sakaue",
+          "interchanges": [
+            "Tokyo Metro Marunouchi Line"
+          ]
+        },
+        {
+          "name": "Nishi-shinjuku-gochome"
+        },
+        {
+          "name": "Tochomae"
+        },
+        {
+          "name": "Shinjuku-nishiguchi"
+        },
+        {
+          "name": "Higashi-shinjuku"
+        },
+        {
+          "name": "Wakamatsu-kawada"
+        },
+        {
+          "name": "Ushigome-yanagicho"
+        },
+        {
+          "name": "Ushigome-kagurazaka"
+        },
+        {
+          "name": "Iidabashi"
+        },
+        {
+          "name": "Kasuga",
+          "interchanges": [
+            "Toei Mita Line"
+          ]
+        },
+        {
+          "name": "Hongo-sanchome",
+          "interchanges": [
+            "Tokyo Metro Marunouchi Line"
+          ]
+        },
+        {
+          "name": "Ueno-okachimachi"
+        },
+        {
+          "name": "Shin-okachimachi"
+        },
+        {
+          "name": "Kuramae",
+          "interchanges": [
+            "Toei Asakusa Line"
+          ]
+        },
+        {
+          "name": "Ryogoku"
+        },
+        {
+          "name": "Morishita",
+          "interchanges": [
+            "Toei Shinjuku Line"
+          ]
+        },
+        {
+          "name": "Kiyosumi-shirakawa"
+        },
+        {
+          "name": "Monzen-nakacho"
+        },
+        {
+          "name": "Tsukishima"
+        },
+        {
+          "name": "Kachidoki"
+        },
+        {
+          "name": "Tsukijishijo"
+        },
+        {
+          "name": "Shiodome"
+        },
+        {
+          "name": "Daimon",
+          "interchanges": [
+            "Toei Asakusa Line"
+          ]
+        },
+        {
+          "name": "Akabanebashi"
+        },
+        {
+          "name": "Azabu-juban"
+        },
+        {
+          "name": "Roppongi"
+        },
+        {
+          "name": "Aoyama-itchome",
+          "interchanges": [
+            "Tokyo Metro Ginza Line"
+          ]
+        },
+        {
+          "name": "Kokuritsu-kyogijo"
+        },
+        {
+          "name": "Yoyogi"
+        },
+        {
+          "name": "Shinjuku",
+          "interchanges": [
+            "Toei Shinjuku Line",
+            "Tokyo Metro Marunouchi Line"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "toei-asakusa",
+      "name": "Toei Asakusa Line",
+      "color": "#E85298",
+      "stations": [
+        {
+          "name": "Nishi-magome"
+        },
+        {
+          "name": "Magome"
+        },
+        {
+          "name": "Nakanobu"
+        },
+        {
+          "name": "Togoshi"
+        },
+        {
+          "name": "Gotanda"
+        },
+        {
+          "name": "Takanawadai"
+        },
+        {
+          "name": "Sengakuji"
+        },
+        {
+          "name": "Mita",
+          "interchanges": [
+            "Toei Mita Line"
+          ]
+        },
+        {
+          "name": "Daimon",
+          "interchanges": [
+            "Toei Oedo Line"
+          ]
+        },
+        {
+          "name": "Shimbashi",
+          "interchanges": [
+            "Tokyo Metro Ginza Line"
+          ]
+        },
+        {
+          "name": "Higashi-ginza"
+        },
+        {
+          "name": "Takaracho"
+        },
+        {
+          "name": "Nihombashi",
+          "interchanges": [
+            "Tokyo Metro Ginza Line"
+          ]
+        },
+        {
+          "name": "Ningyocho"
+        },
+        {
+          "name": "Higashi-nihombashi"
+        },
+        {
+          "name": "Asakusabashi"
+        },
+        {
+          "name": "Kuramae",
+          "interchanges": [
+            "Toei Oedo Line"
+          ]
+        },
+        {
+          "name": "Asakusa",
+          "interchanges": [
+            "Tokyo Metro Ginza Line"
+          ]
+        },
+        {
+          "name": "Honjo-azumabashi"
+        },
+        {
+          "name": "Oshiage"
+        }
+      ]
+    },
+    {
+      "id": "toei-shinjuku",
+      "name": "Toei Shinjuku Line",
+      "color": "#6CBB5A",
+      "stations": [
+        {
+          "name": "Shinjuku",
+          "interchanges": [
+            "Toei Oedo Line",
+            "Tokyo Metro Marunouchi Line"
+          ]
+        },
+        {
+          "name": "Shinjuku-sanchome",
+          "interchanges": [
+            "Tokyo Metro Marunouchi Line"
+          ]
+        },
+        {
+          "name": "Akebonobashi"
+        },
+        {
+          "name": "Ichigaya"
+        },
+        {
+          "name": "Kudanshita"
+        },
+        {
+          "name": "Jimbocho",
+          "interchanges": [
+            "Toei Mita Line"
+          ]
+        },
+        {
+          "name": "Ogawamachi"
+        },
+        {
+          "name": "Iwamotocho"
+        },
+        {
+          "name": "Bakuro-yokoyama"
+        },
+        {
+          "name": "Hamacho"
+        },
+        {
+          "name": "Morishita",
+          "interchanges": [
+            "Toei Oedo Line"
+          ]
+        },
+        {
+          "name": "Kikukawa"
+        },
+        {
+          "name": "Sumiyoshi"
+        },
+        {
+          "name": "Nishi-ojima"
+        },
+        {
+          "name": "Ojima"
+        },
+        {
+          "name": "Higashi-ojima"
+        },
+        {
+          "name": "Funabori"
+        },
+        {
+          "name": "Ichinoe"
+        },
+        {
+          "name": "Mizue"
+        },
+        {
+          "name": "Shinozaki"
+        },
+        {
+          "name": "Motoyawata"
+        }
+      ]
+    },
+    {
+      "id": "tokyo-metro-ginza",
+      "name": "Tokyo Metro Ginza Line",
+      "color": "#FF9500",
+      "stations": [
+        {
+          "name": "Shibuya"
+        },
+        {
+          "name": "Omote-sando"
+        },
+        {
+          "name": "Gaiemmae"
+        },
+        {
+          "name": "Aoyama-itchome",
+          "interchanges": [
+            "Toei Oedo Line"
+          ]
+        },
+        {
+          "name": "Akasaka-mitsuke",
+          "interchanges": [
+            "Tokyo Metro Marunouchi Line"
+          ]
+        },
+        {
+          "name": "Tameike-sanno"
+        },
+        {
+          "name": "Toranomon"
+        },
+        {
+          "name": "Shimbashi",
+          "interchanges": [
+            "Toei Asakusa Line"
+          ]
+        },
+        {
+          "name": "Ginza",
+          "interchanges": [
+            "Tokyo Metro Marunouchi Line"
+          ]
+        },
+        {
+          "name": "Kyobashi"
+        },
+        {
+          "name": "Nihombashi",
+          "interchanges": [
+            "Toei Asakusa Line"
+          ]
+        },
+        {
+          "name": "Mitsukoshimae"
+        },
+        {
+          "name": "Kanda"
+        },
+        {
+          "name": "Suehirocho"
+        },
+        {
+          "name": "Ueno-hirokoji"
+        },
+        {
+          "name": "Ueno",
+          "interchanges": [
+            "Tōhoku Shinkansen",
+            "Hokuriku Shinkansen",
+            "Jōetsu Shinkansen",
+            "Yamagata Shinkansen"
+          ]
+        },
+        {
+          "name": "Inaricho"
+        },
+        {
+          "name": "Tawaramachi"
+        },
+        {
+          "name": "Asakusa",
+          "interchanges": [
+            "Toei Asakusa Line"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "toei-mita",
+      "name": "Toei Mita Line",
+      "color": "#0079C2",
+      "stations": [
+        {
+          "name": "Nishi-takashimadaira"
+        },
+        {
+          "name": "Shin-takashimadaira"
+        },
+        {
+          "name": "Takashimadaira"
+        },
+        {
+          "name": "Nishidai"
+        },
+        {
+          "name": "Hasune"
+        },
+        {
+          "name": "Shimura-sanchome"
+        },
+        {
+          "name": "Shimura-sakaue"
+        },
+        {
+          "name": "Motohasunuma"
+        },
+        {
+          "name": "Itabashi-honcho"
+        },
+        {
+          "name": "Itabashi-kuyakushomae"
+        },
+        {
+          "name": "Shin-itabashi"
+        },
+        {
+          "name": "Nishi-sugamo"
+        },
+        {
+          "name": "Sugamo"
+        },
+        {
+          "name": "Sengoku"
+        },
+        {
+          "name": "Hakusan"
+        },
+        {
+          "name": "Kasuga",
+          "interchanges": [
+            "Toei Oedo Line"
+          ]
+        },
+        {
+          "name": "Suidobashi"
+        },
+        {
+          "name": "Jimbocho",
+          "interchanges": [
+            "Toei Shinjuku Line"
+          ]
+        },
+        {
+          "name": "Otemachi",
+          "interchanges": [
+            "Tokyo Metro Marunouchi Line"
+          ]
+        },
+        {
+          "name": "Hibiya"
+        },
+        {
+          "name": "Uchisaiwaicho"
+        },
+        {
+          "name": "Onarimon"
+        },
+        {
+          "name": "Shibakoen"
+        },
+        {
+          "name": "Mita",
+          "interchanges": [
+            "Toei Asakusa Line"
+          ]
+        },
+        {
+          "name": "Shirokane-takanawa"
+        },
+        {
+          "name": "Shirokanedai"
+        },
+        {
+          "name": "Meguro"
+        }
+      ]
+    },
+    {
+      "id": "tokyo-metro-marunouchi",
+      "name": "Tokyo Metro Marunouchi Line",
+      "color": "#F62E36",
+      "stations": [
+        {
+          "name": "Ogikubo"
+        },
+        {
+          "name": "Minami-asagaya"
+        },
+        {
+          "name": "Shin-koenji"
+        },
+        {
+          "name": "Higashi-koenji"
+        },
+        {
+          "name": "Shin-nakano"
+        },
+        {
+          "name": "Nakano-sakaue",
+          "interchanges": [
+            "Toei Oedo Line"
+          ]
+        },
+        {
+          "name": "Nishi-shinjuku"
+        },
+        {
+          "name": "Shinjuku",
+          "interchanges": [
+            "Toei Oedo Line",
+            "Toei Shinjuku Line"
+          ]
+        },
+        {
+          "name": "Shinjuku-sanchome",
+          "interchanges": [
+            "Toei Shinjuku Line"
+          ]
+        },
+        {
+          "name": "Shinjuku-gyoemmae"
+        },
+        {
+          "name": "Yotsuya-sanchome"
+        },
+        {
+          "name": "Yotsuya"
+        },
+        {
+          "name": "Akasaka-mitsuke",
+          "interchanges": [
+            "Tokyo Metro Ginza Line"
+          ]
+        },
+        {
+          "name": "Kokkai-gijido-mae"
+        },
+        {
+          "name": "Kasumigaseki"
+        },
+        {
+          "name": "Ginza",
+          "interchanges": [
+            "Tokyo Metro Ginza Line"
+          ]
+        },
+        {
+          "name": "Tokyo",
+          "interchanges": [
+            "Tōkaidō Shinkansen",
+            "Tōhoku Shinkansen",
+            "Hokuriku Shinkansen",
+            "Jōetsu Shinkansen",
+            "Yamagata Shinkansen",
+            "Akita Shinkansen"
+          ]
+        },
+        {
+          "name": "Otemachi",
+          "interchanges": [
+            "Toei Mita Line"
+          ]
+        },
+        {
+          "name": "Awajicho"
+        },
+        {
+          "name": "Ochanomizu"
+        },
+        {
+          "name": "Hongo-sanchome",
+          "interchanges": [
+            "Toei Oedo Line"
+          ]
+        },
+        {
+          "name": "Korakuen"
+        },
+        {
+          "name": "Myogadani"
+        },
+        {
+          "name": "Shin-otsuka"
+        },
+        {
+          "name": "Ikebukuro"
+        }
+      ]
+    },
     {
       "id": "tokaido-shinkansen",
       "name": "Tōkaidō Shinkansen",
@@ -166,6 +786,7 @@
         {
           "name": "Ueno",
           "interchanges": [
+            "Tokyo Metro Ginza Line",
             "Hokuriku Shinkansen",
             "Jōetsu Shinkansen",
             "Yamagata Shinkansen"
@@ -234,6 +855,7 @@
         {
           "name": "Ueno",
           "interchanges": [
+            "Tokyo Metro Ginza Line",
             "Tōhoku Shinkansen",
             "Jōetsu Shinkansen",
             "Yamagata Shinkansen"
@@ -283,6 +905,7 @@
         {
           "name": "Ueno",
           "interchanges": [
+            "Tokyo Metro Ginza Line",
             "Tōhoku Shinkansen",
             "Hokuriku Shinkansen",
             "Yamagata Shinkansen"
@@ -320,6 +943,7 @@
         {
           "name": "Ueno",
           "interchanges": [
+            "Tokyo Metro Ginza Line",
             "Tōhoku Shinkansen",
             "Hokuriku Shinkansen",
             "Jōetsu Shinkansen"
@@ -387,9 +1011,9 @@
   "coverage": {
     "mode": "scraped",
     "dateRange": {
-      "start": "2026-08-02",
-      "end": "2026-08-07",
-      "days": 6,
+      "start": "2026-08-03",
+      "end": "2026-08-09",
+      "days": 7,
       "liveOnly": false
     }
   }
