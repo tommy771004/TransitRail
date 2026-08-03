@@ -1,5 +1,5 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { searchTflJourney } from "./tfl";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { resetTflStationResolutionCache, searchTflJourney } from "./tfl";
 import { searchMbtaJourney } from "./mbta";
 
 /**
@@ -19,6 +19,10 @@ import { searchMbtaJourney } from "./mbta";
 afterEach(() => vi.unstubAllGlobals());
 
 describe("TfL station resolution", () => {
+  // Resolution is memoized for a long-lived process, and every case here counts
+  // the lookups its own stub receives.
+  beforeEach(() => resetTflStationResolutionCache());
+
   /** TfL's word-based search finds nothing for a "Station" suffix the network
    *  does not use, but resolves the bare name. */
   function installTflSearch(searched: string[]) {
