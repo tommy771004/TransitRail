@@ -68,6 +68,44 @@ let stationCache: { expiresAt: number; stations: string[] } | null = null;
 let lineCache: { expiresAt: number; lines: TransitLine[] } | null = null;
 const serviceDayCache = new Map<string, { first: TflJourney; last: TflJourney }>();
 
+/**
+ * A service-day sweep asks the same route for eleven times of day, and two of
+ * the things each sample fetches do not vary with the time it asks about: the
+ * station ids, and the first/last trip of that service day. Fetching them per
+ * sample turned a 13-request route into a ~55-request one, which is how a single
+ * London route came to cost 82 seconds and the daily scrape came to exhaust its
+ * 30-minute budget after three of its seven dates.
+ *
+ * Both memos below store the *promise*, registered synchronously before the
+ * first await, so parallel samples that miss together share one request instead
+ * of racing to fill the entry. Neither caches a failure.
+ */
+type ResolvedTflStation = { id: string; name: string } | null;
+const stationResolutionMemo = new Map<string, { expiresAt: number; value: Promise<ResolvedTflStation> }>();
+
+/**
+ * Per-sweep scratch space for the first/last trip lookup.
+ *
+ * Deliberately *not* a process-wide cache with a TTL. The pair feeds
+ * `serviceDayAdvisory`, whose `coverage: "stale"` state is how a caller learns
+ * TfL could not answer right now — caching a success past the sweep that needed
+ * it would report a healthy service day through an outage. One sweep is exactly
+ * as long as the answer is known to be worth reusing.
+ */
+type ServiceDayBoundsScope = Map<string, Promise<[TflJourneyResponse, TflJourneyResponse]>>;
+
+/**
+ * Forget resolved station ids. Only tests need this: the memo is sized for a
+ * long-lived process, so a case that asserts on the lookups its own stub
+ * receives would otherwise be answered from the previous case's memo.
+ *
+ * Deliberately narrow — it does not touch `serviceDayCache`, whose contents are
+ * what the stale-advisory cases build up on purpose.
+ */
+export function resetTflStationResolutionCache() {
+  stationResolutionMemo.clear();
+}
+
 const tflLineColors: Record<string, string> = {
   bakerloo: "#B36305",
   central: "#E32017",
@@ -357,7 +395,22 @@ async function searchTflStopPoints(query: string) {
  * routes named "… Underground Station" worked. Retrying without the suffix costs
  * one request on the paths that were previously dead ends.
  */
-async function resolveTflStation(query: string) {
+function resolveTflStation(query: string): Promise<ResolvedTflStation> {
+  // Station ids are stable, so this shares the existing station-cache lifetime.
+  // Keyed on the raw query because the un-normalized spelling is what the first
+  // lookup attempt sends.
+  const cached = stationResolutionMemo.get(query);
+  if (cached && cached.expiresAt > Date.now()) return cached.value;
+
+  const value = resolveTflStationUncached(query);
+  stationResolutionMemo.set(query, { expiresAt: Date.now() + STATION_CACHE_TTL_MS, value });
+  value.catch(() => {
+    if (stationResolutionMemo.get(query)?.value === value) stationResolutionMemo.delete(query);
+  });
+  return value;
+}
+
+async function resolveTflStationUncached(query: string): Promise<ResolvedTflStation> {
   const normalizedQuery = normalizeStationName(query);
   let matches = await searchTflStopPoints(query);
   if (matches.length === 0 && normalizedQuery && normalizedQuery !== query.toLowerCase()) {
@@ -390,11 +443,40 @@ function currentLondonTimeHHMM() {
   return `${values.hour}${values.minute}`;
 }
 
+/**
+ * The first and last trip of a service day, shared across a sweep when one is in
+ * progress and fetched outright when this is a one-off journey query.
+ */
+function fetchServiceDayBounds(
+  journeyPath: string,
+  journeyParams: Record<string, string>,
+  key: string,
+  scope: ServiceDayBoundsScope | undefined,
+): Promise<[TflJourneyResponse, TflJourneyResponse]> {
+  const cached = scope?.get(key);
+  if (cached) return cached;
+
+  const value = Promise.all([
+    fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, { ...journeyParams, adjustment: "TripFirst" })),
+    fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, { ...journeyParams, adjustment: "TripLast" })),
+  ]);
+
+  // The caller only awaits this inside its own try, and the journey fetch it
+  // races can reject first — attach a handler so a rejection is never unhandled,
+  // and drop the entry so a later sample retries rather than reusing a failure.
+  value.catch(() => {
+    if (scope?.get(key) === value) scope.delete(key);
+  });
+  scope?.set(key, value);
+  return value;
+}
+
 export async function searchTflJourney(
   origin: string,
   destination: string,
   date: string,
   time?: string,
+  boundsScope?: ServiceDayBoundsScope,
 ): Promise<{ status: number; body: SearchResponse & { error?: string } }> {
   const tflDate = date.replace(/-/g, "");
   const tflTime = time ? time.replace(/:/g, "") : currentLondonTimeHHMM();
@@ -426,15 +508,24 @@ export async function searchTflJourney(
       date: tflDate,
       time: tflTime,
     };
+    // The first and last trip belong to the service day, not to the time being
+    // sampled — `buildServiceDayAdvisory` already takes the sample time as a
+    // separate argument, and the stale-fallback cache below has always been
+    // keyed by route and date alone. Starting the request before awaiting the
+    // journey means a sweep's eleven samples share one pair instead of fetching
+    // it eleven times, and that the pair overlaps the journey fetch rather than
+    // queueing behind it.
+    const boundsPromise = fetchServiceDayBounds(
+      journeyPath,
+      journeyParams,
+      serviceDayCacheKey,
+      boundsScope,
+    );
+
     const data = await fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, journeyParams));
-    let firstData: TflJourneyResponse | undefined;
-    let lastData: TflJourneyResponse | undefined;
     let serviceDayAdvisory: ServiceDayAdvisory;
     try {
-      [firstData, lastData] = await Promise.all([
-        fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, { ...journeyParams, adjustment: "TripFirst" })),
-        fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, { ...journeyParams, adjustment: "TripLast" })),
-      ]);
+      const [firstData, lastData] = await boundsPromise;
       const first = firstData.journeys?.[0];
       const last = lastData.journeys?.[0];
       if (first && last) {
@@ -602,6 +693,44 @@ const SERVICE_DAY_SAMPLE_TIMES = [
 ];
 
 /**
+ * How many samples may be in flight at once, and how far apart their requests
+ * may start.
+ *
+ * The sweep used to run strictly serially with a fixed sleep between samples,
+ * which made a route cost the sum of eleven round trips. Overlapping them hides
+ * the latency, but TfL's limit is a *rate*, not a concurrency, so the pacing
+ * moves to the request start: one sample per interval, several in flight. The
+ * retry in fetchTflJson stays the safety net, not the plan.
+ */
+const SERVICE_DAY_CONCURRENCY = 4;
+const SERVICE_DAY_KEYED_CONCURRENCY = 8;
+const SERVICE_DAY_SAMPLE_INTERVAL_MS = 1_200;
+const SERVICE_DAY_KEYED_SAMPLE_INTERVAL_MS = 150;
+
+/**
+ * Run `worker` over `items` with at most `limit` in flight, keeping the results
+ * in input order so the sweep stays deterministic regardless of which sample
+ * finishes first.
+ */
+async function mapWithConcurrency<T, R>(
+  items: readonly T[],
+  limit: number,
+  worker: (item: T, index: number) => Promise<R>,
+): Promise<R[]> {
+  const results = new Array<R>(items.length);
+  let next = 0;
+  const runner = async () => {
+    for (let index = next++; index < items.length; index = next++) {
+      results[index] = await worker(items[index], index);
+    }
+  };
+  await Promise.all(
+    Array.from({ length: Math.min(limit, items.length) }, runner),
+  );
+  return results;
+}
+
+/**
  * One service day for a route, assembled from several journey-planner queries.
  *
  * A single query gave three departures for a whole day, which is why the daily
@@ -614,19 +743,40 @@ export async function searchTflServiceDay(
   destination: string,
   date: string,
 ): Promise<{ status: number; body: SearchResponse & { error?: string } }> {
-  const byId = new Map<string, SearchResponse["results"][number]>();
-  let last: { status: number; body: SearchResponse & { error?: string } } | undefined;
+  const keyed = Boolean(process.env.TFL_APP_KEY);
+  const interval = keyed ? SERVICE_DAY_KEYED_SAMPLE_INTERVAL_MS : SERVICE_DAY_SAMPLE_INTERVAL_MS;
 
-  for (const [index, time] of SERVICE_DAY_SAMPLE_TIMES.entries()) {
-    // Pace the sweep so anonymous access stays under TfL's limit; the retry in
-    // fetchTflJson is the safety net, not the plan.
-    if (index > 0 && !process.env.TFL_APP_KEY) await sleep(1_200);
-    const response = await searchTflJourney(origin, destination, date, time);
-    last = response;
+  // Hand out start times up front: the slot is claimed synchronously, so
+  // concurrent runners queue behind each other instead of all sleeping to the
+  // same instant and then firing together.
+  let nextSlotAt = 0;
+  const takeStartSlot = async () => {
+    const now = Date.now();
+    const startAt = Math.max(now, nextSlotAt);
+    nextSlotAt = startAt + interval;
+    if (startAt > now) await sleep(startAt - now);
+  };
+
+  // One scope per sweep: the samples share the service day's first/last trip,
+  // and it is discarded with the sweep so no later request inherits it.
+  const boundsScope: ServiceDayBoundsScope = new Map();
+
+  const responses = await mapWithConcurrency(
+    SERVICE_DAY_SAMPLE_TIMES,
+    keyed ? SERVICE_DAY_KEYED_CONCURRENCY : SERVICE_DAY_CONCURRENCY,
+    async (time) => {
+      await takeStartSlot();
+      return searchTflJourney(origin, destination, date, time, boundsScope);
+    },
+  );
+
+  const byId = new Map<string, SearchResponse["results"][number]>();
+  for (const response of responses) {
     for (const result of response.body.results || []) {
       if (!byId.has(result.id)) byId.set(result.id, result);
     }
   }
+  const last = responses.at(-1);
 
   // Every sample failed: hand back the last failure so the caller's existing
   // provider-fallback path reports it rather than seeing a silent empty day.

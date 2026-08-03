@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { runTransitSearch } from "./transitSearch";
+import { resetTflStationResolutionCache } from "./tfl";
 
 const TODAY = "2026-07-29";
 const SATURDAY = "2026-08-01";
@@ -70,6 +71,9 @@ function installLondonFixtures(
 
 describe("runTransitSearch service-day advisory", () => {
   beforeEach(() => {
+    // TfL memoizes resolved station ids for a long-lived process; each case
+    // here stubs its own fetch and must be the one that answers it.
+    resetTflStationResolutionCache();
     vi.useFakeTimers();
     vi.setSystemTime(new Date(`${TODAY}T12:00:00Z`));
   });
