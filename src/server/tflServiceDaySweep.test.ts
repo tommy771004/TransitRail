@@ -161,9 +161,31 @@ describe("TfL service-day sweep", () => {
     const startedAt = Date.now();
     await runSweep();
 
-    // TfL allows ~50 requests/min without a subscription key, so the eleven
-    // samples are spread over at least ten 1.2s intervals.
-    expect(Date.now() - startedAt).toBeGreaterThanOrEqual(12_000);
+    // TfL allows ~50 requests/min without a subscription key, and the sweep's
+    // fifteen requests are spread across that rate.
+    expect(Date.now() - startedAt).toBeGreaterThanOrEqual(14 * 1_200);
+  });
+
+  it("never lets requests bunch up, however they were scheduled", async () => {
+    installTflStub();
+
+    // Pacing the *samples* was not enough: they all waited on one shared station
+    // lookup and then resumed in the same tick, so a route opened with about ten
+    // simultaneous requests and a 429 sent every one of them into a retry that
+    // bunched the same way. The gate covers each request, so no two may start
+    // closer together than the interval.
+    const startTimes: number[] = [];
+    const underlying = globalThis.fetch as typeof fetch;
+    vi.stubGlobal("fetch", (input: RequestInfo | URL) => {
+      startTimes.push(Date.now());
+      return underlying(input);
+    });
+
+    await runSweep();
+
+    expect(startTimes.length).toBe(15);
+    const gaps = startTimes.slice(1).map((at, index) => at - startTimes[index]);
+    expect(Math.min(...gaps)).toBeGreaterThanOrEqual(1_200);
   });
 
   it("uses the higher rate the subscription key buys, and sends the key", async () => {

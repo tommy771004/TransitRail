@@ -92,7 +92,12 @@ const stationResolutionMemo = new Map<string, { expiresAt: number; value: Promis
  * it would report a healthy service day through an outage. One sweep is exactly
  * as long as the answer is known to be worth reusing.
  */
-type ServiceDayBoundsScope = Map<string, Promise<[TflJourneyResponse, TflJourneyResponse]>>;
+interface TflSweepContext {
+  /** First/last trip per route+date, shared by the sweep's samples. */
+  bounds: Map<string, Promise<[TflJourneyResponse, TflJourneyResponse]>>;
+  /** Applies to every request the sweep makes, retries included. */
+  gate: TflRateGate;
+}
 
 /**
  * Forget resolved station ids. Only tests need this: the memo is sized for a
@@ -148,8 +153,52 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
  */
 const TFL_RATE_LIMIT_RETRIES = 3;
 
-async function fetchTflJson<T>(url: URL): Promise<T> {
+/**
+ * Serializes request *starts* to at most one per interval.
+ *
+ * A concurrency limit is not a rate limit. Pacing only the start of each sampled
+ * hour left the samples free to bunch up behind anything they share — they all
+ * wait on one station lookup, then resume in the same tick and fire together —
+ * so a sweep that averaged well under the limit still opened with a burst of
+ * about ten simultaneous requests, and a 429 sent all of them into a retry that
+ * bunched the same way. Claiming the slot synchronously means concurrent callers
+ * queue against each other instead of against the clock they all read at once.
+ */
+function createTflRateGate(intervalMs: number) {
+  let nextAt = 0;
+  return async () => {
+    if (intervalMs <= 0) return;
+    const now = Date.now();
+    const startAt = Math.max(now, nextAt);
+    nextAt = startAt + intervalMs;
+    if (startAt > now) await sleep(startAt - now);
+  };
+}
+
+type TflRateGate = () => Promise<void>;
+
+/**
+ * A 429 is the one failure worth quoting the provider on. "Rate limit exceeded,
+ * try again in N seconds" and "quota exhausted" and "this key is not subscribed"
+ * all arrive as the same status with different bodies, and without the body a
+ * run cannot tell a sweep that is going too fast from a key that was never going
+ * to work. It reaches the error log only — `searchTflJourney` still answers
+ * callers with its own generic message.
+ */
+async function describeTflRateLimit(response: Response) {
+  const retryAfter = response.headers.get("retry-after");
+  let body = "";
+  try {
+    body = (await response.text()).replace(/\s+/g, " ").trim().slice(0, 200);
+  } catch {
+    body = "<unreadable>";
+  }
+  return `TfL returned HTTP 429.${retryAfter ? ` Retry-After: ${retryAfter}.` : ""}${body ? ` Provider said: ${body}` : ""}`;
+}
+
+async function fetchTflJson<T>(url: URL, gate?: TflRateGate): Promise<T> {
   for (let attempt = 0; ; attempt += 1) {
+    await gate?.();
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 10_000);
     try {
@@ -160,7 +209,10 @@ async function fetchTflJson<T>(url: URL): Promise<T> {
           "User-Agent": "TransitRail/1.0",
         },
       });
-      if (response.status === 429 && attempt < TFL_RATE_LIMIT_RETRIES) {
+      if (response.status === 429) {
+        if (attempt >= TFL_RATE_LIMIT_RETRIES) {
+          throw new Error(await describeTflRateLimit(response));
+        }
         const retryAfter = Number(response.headers.get("retry-after"));
         clearTimeout(timeout);
         await sleep(Number.isFinite(retryAfter) && retryAfter > 0
@@ -381,9 +433,10 @@ export async function getTflLines(): Promise<TransitLine[]> {
   return catalog;
 }
 
-async function searchTflStopPoints(query: string) {
+async function searchTflStopPoints(query: string, gate?: TflRateGate) {
   const data = await fetchTflJson<TflSearchResponse>(
     tflUrl(`/StopPoint/Search/${encodeURIComponent(query)}`, { modes: TFL_MODES }),
+    gate,
   );
   return (data.matches || []).filter((match) => match.id && match.name);
 }
@@ -395,14 +448,14 @@ async function searchTflStopPoints(query: string) {
  * routes named "… Underground Station" worked. Retrying without the suffix costs
  * one request on the paths that were previously dead ends.
  */
-function resolveTflStation(query: string): Promise<ResolvedTflStation> {
+function resolveTflStation(query: string, gate?: TflRateGate): Promise<ResolvedTflStation> {
   // Station ids are stable, so this shares the existing station-cache lifetime.
   // Keyed on the raw query because the un-normalized spelling is what the first
   // lookup attempt sends.
   const cached = stationResolutionMemo.get(query);
   if (cached && cached.expiresAt > Date.now()) return cached.value;
 
-  const value = resolveTflStationUncached(query);
+  const value = resolveTflStationUncached(query, gate);
   stationResolutionMemo.set(query, { expiresAt: Date.now() + STATION_CACHE_TTL_MS, value });
   value.catch(() => {
     if (stationResolutionMemo.get(query)?.value === value) stationResolutionMemo.delete(query);
@@ -410,11 +463,11 @@ function resolveTflStation(query: string): Promise<ResolvedTflStation> {
   return value;
 }
 
-async function resolveTflStationUncached(query: string): Promise<ResolvedTflStation> {
+async function resolveTflStationUncached(query: string, gate?: TflRateGate): Promise<ResolvedTflStation> {
   const normalizedQuery = normalizeStationName(query);
-  let matches = await searchTflStopPoints(query);
+  let matches = await searchTflStopPoints(query, gate);
   if (matches.length === 0 && normalizedQuery && normalizedQuery !== query.toLowerCase()) {
-    matches = await searchTflStopPoints(normalizedQuery);
+    matches = await searchTflStopPoints(normalizedQuery, gate);
   }
   let exact = matches.find((match) => normalizeStationName(match.name || "") === normalizedQuery);
   let selected = exact || matches[0];
@@ -423,7 +476,7 @@ async function resolveTflStationUncached(query: string): Promise<ResolvedTflStat
   // JourneyResults cannot disambiguate those hubs (HTTP 300); retry with the
   // Tube spelling to obtain the child StopPoint id when one exists.
   if (selected?.id?.startsWith("HUB") && normalizedQuery) {
-    const specificMatches = await searchTflStopPoints(`${normalizedQuery} Underground Station`);
+    const specificMatches = await searchTflStopPoints(`${normalizedQuery} Underground Station`, gate);
     exact = specificMatches.find((match) => normalizeStationName(match.name || "") === normalizedQuery);
     selected = exact || specificMatches[0] || selected;
   }
@@ -451,23 +504,23 @@ function fetchServiceDayBounds(
   journeyPath: string,
   journeyParams: Record<string, string>,
   key: string,
-  scope: ServiceDayBoundsScope | undefined,
+  sweep: TflSweepContext | undefined,
 ): Promise<[TflJourneyResponse, TflJourneyResponse]> {
-  const cached = scope?.get(key);
+  const cached = sweep?.bounds.get(key);
   if (cached) return cached;
 
   const value = Promise.all([
-    fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, { ...journeyParams, adjustment: "TripFirst" })),
-    fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, { ...journeyParams, adjustment: "TripLast" })),
+    fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, { ...journeyParams, adjustment: "TripFirst" }), sweep?.gate),
+    fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, { ...journeyParams, adjustment: "TripLast" }), sweep?.gate),
   ]);
 
   // The caller only awaits this inside its own try, and the journey fetch it
   // races can reject first — attach a handler so a rejection is never unhandled,
   // and drop the entry so a later sample retries rather than reusing a failure.
   value.catch(() => {
-    if (scope?.get(key) === value) scope.delete(key);
+    if (sweep?.bounds.get(key) === value) sweep.bounds.delete(key);
   });
-  scope?.set(key, value);
+  sweep?.bounds.set(key, value);
   return value;
 }
 
@@ -476,15 +529,15 @@ export async function searchTflJourney(
   destination: string,
   date: string,
   time?: string,
-  boundsScope?: ServiceDayBoundsScope,
+  sweep?: TflSweepContext,
 ): Promise<{ status: number; body: SearchResponse & { error?: string } }> {
   const tflDate = date.replace(/-/g, "");
   const tflTime = time ? time.replace(/:/g, "") : currentLondonTimeHHMM();
 
   try {
     const [resolvedOrigin, resolvedDestination] = await Promise.all([
-      resolveTflStation(origin),
-      resolveTflStation(destination),
+      resolveTflStation(origin, sweep?.gate),
+      resolveTflStation(destination, sweep?.gate),
     ]);
 
     if (!resolvedOrigin || !resolvedDestination) {
@@ -519,10 +572,10 @@ export async function searchTflJourney(
       journeyPath,
       journeyParams,
       serviceDayCacheKey,
-      boundsScope,
+      sweep,
     );
 
-    const data = await fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, journeyParams));
+    const data = await fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, journeyParams), sweep?.gate);
     let serviceDayAdvisory: ServiceDayAdvisory;
     try {
       const [firstData, lastData] = await boundsPromise;
@@ -693,19 +746,28 @@ const SERVICE_DAY_SAMPLE_TIMES = [
 ];
 
 /**
- * How many samples may be in flight at once, and how far apart their requests
- * may start.
+ * How many samples may be in flight, and how often the sweep may issue a
+ * request of any kind.
  *
- * The sweep used to run strictly serially with a fixed sleep between samples,
- * which made a route cost the sum of eleven round trips. Overlapping them hides
- * the latency, but TfL's limit is a *rate*, not a concurrency, so the pacing
- * moves to the request start: one sample per interval, several in flight. The
- * retry in fetchTflJson stays the safety net, not the plan.
+ * The sweep used to run strictly serially, so a route cost the sum of eleven
+ * round trips. Concurrency hides that latency, but it must not raise the request
+ * rate — TfL's published limits are ~50/min anonymously and ~500/min on a
+ * subscription key, so the intervals sit under each. Concurrency then only
+ * decides how much latency overlaps; the gate decides the rate.
+ *
+ * `TFL_REQUEST_INTERVAL_MS` overrides the interval for a key on a product with a
+ * different allowance, so a 429 can be answered without a code change.
  */
 const SERVICE_DAY_CONCURRENCY = 4;
 const SERVICE_DAY_KEYED_CONCURRENCY = 8;
-const SERVICE_DAY_SAMPLE_INTERVAL_MS = 1_200;
-const SERVICE_DAY_KEYED_SAMPLE_INTERVAL_MS = 150;
+const SERVICE_DAY_REQUEST_INTERVAL_MS = 1_200;
+const SERVICE_DAY_KEYED_REQUEST_INTERVAL_MS = 150;
+
+function tflRequestIntervalMs(keyed: boolean) {
+  const override = Number(process.env.TFL_REQUEST_INTERVAL_MS);
+  if (Number.isFinite(override) && override >= 0) return override;
+  return keyed ? SERVICE_DAY_KEYED_REQUEST_INTERVAL_MS : SERVICE_DAY_REQUEST_INTERVAL_MS;
+}
 
 /**
  * Run `worker` over `items` with at most `limit` in flight, keeping the results
@@ -744,30 +806,21 @@ export async function searchTflServiceDay(
   date: string,
 ): Promise<{ status: number; body: SearchResponse & { error?: string } }> {
   const keyed = Boolean(process.env.TFL_APP_KEY);
-  const interval = keyed ? SERVICE_DAY_KEYED_SAMPLE_INTERVAL_MS : SERVICE_DAY_SAMPLE_INTERVAL_MS;
 
-  // Hand out start times up front: the slot is claimed synchronously, so
-  // concurrent runners queue behind each other instead of all sleeping to the
-  // same instant and then firing together.
-  let nextSlotAt = 0;
-  const takeStartSlot = async () => {
-    const now = Date.now();
-    const startAt = Math.max(now, nextSlotAt);
-    nextSlotAt = startAt + interval;
-    if (startAt > now) await sleep(startAt - now);
+  // One context per sweep. The samples share the service day's first/last trip,
+  // and it is discarded with the sweep so no later request inherits it; the gate
+  // covers every request they make — station lookups, trip bounds, journeys and
+  // retries alike — because pacing only the sample starts let them bunch behind
+  // whatever they shared and then fire together.
+  const sweep: TflSweepContext = {
+    bounds: new Map(),
+    gate: createTflRateGate(tflRequestIntervalMs(keyed)),
   };
-
-  // One scope per sweep: the samples share the service day's first/last trip,
-  // and it is discarded with the sweep so no later request inherits it.
-  const boundsScope: ServiceDayBoundsScope = new Map();
 
   const responses = await mapWithConcurrency(
     SERVICE_DAY_SAMPLE_TIMES,
     keyed ? SERVICE_DAY_KEYED_CONCURRENCY : SERVICE_DAY_CONCURRENCY,
-    async (time) => {
-      await takeStartSlot();
-      return searchTflJourney(origin, destination, date, time, boundsScope);
-    },
+    (time) => searchTflJourney(origin, destination, date, time, sweep),
   );
 
   const byId = new Map<string, SearchResponse["results"][number]>();
