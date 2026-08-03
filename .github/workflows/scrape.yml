@@ -17,7 +17,14 @@ permissions:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # A backstop against a hung provider, not a budget the job is expected to
+    # spend. 30 was below what a healthy run legitimately needed once London
+    # started sweeping its operating day, so the daily scrape was cancelled with
+    # three of seven dates collected and — because a cancelled job skips the
+    # commit step — nothing kept. A healthy run is ~19 minutes at the anonymous
+    # TfL rate and ~14 with TFL_APP_KEY set; 45 leaves room for a slow provider
+    # or a retried rate limit while still catching a genuine hang.
+    timeout-minutes: 45
 
     steps:
       - name: Checkout repository
@@ -49,9 +56,21 @@ jobs:
           # Optional. Toei uses the public ODPT endpoint without this secret;
           # Tokyo Metro routes refresh when the repository secret is present.
           ODPT_API_KEY: ${{ secrets.ODPT_API_KEY }}
+          # Optional, but London is the longest leg of this job. TfL allows ~50
+          # requests/min anonymously and ~500/min once a subscription key is
+          # used, and the service-day sweep paces itself against whichever limit
+          # applies — so supplying the key both removes the wait between samples
+          # and stops the sweep spending its retries on 429s. Without it the
+          # scrape still runs, just at the anonymous rate.
+          # Key: https://api-portal.tfl.gov.uk/ → Products → "500 Requests per min".
+          TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
         run: npm run scrape -- ${{ github.event.inputs.date }}
 
       - name: Generate static station catalog
+        env:
+          # The UK menu is built live from TfL, so this step is rate limited the
+          # same way the scrape is and takes the same key.
+          TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
         run: npm run catalog
 
       - name: Commit updated data
