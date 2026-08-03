@@ -17,7 +17,14 @@ permissions:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # A backstop against a hung provider, not a budget the job is expected to
+    # spend. 30 was below what a healthy run legitimately needed once London
+    # started sweeping its operating day, so the daily scrape was cancelled with
+    # three of seven dates collected and — because a cancelled job skips the
+    # commit step — nothing kept. A healthy run is ~19 minutes at the anonymous
+    # TfL rate and ~14 with TFL_APP_KEY set; 45 leaves room for a slow provider
+    # or a retried rate limit while still catching a genuine hang.
+    timeout-minutes: 45
 
     steps:
       - name: Checkout repository
