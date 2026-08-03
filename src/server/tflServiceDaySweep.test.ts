@@ -155,6 +155,37 @@ describe("TfL service-day sweep", () => {
     expect(calls).toHaveLength(15);
   });
 
+  it("paces itself against the anonymous rate limit by default", async () => {
+    installTflStub();
+
+    const startedAt = Date.now();
+    await runSweep();
+
+    // TfL allows ~50 requests/min without a subscription key, so the eleven
+    // samples are spread over at least ten 1.2s intervals.
+    expect(Date.now() - startedAt).toBeGreaterThanOrEqual(12_000);
+  });
+
+  it("uses the higher rate the subscription key buys, and sends the key", async () => {
+    vi.stubEnv("TFL_APP_KEY", "test-app-key");
+    const calls = installTflStub();
+    const seenKeys = new Set<string | null>();
+    const underlying = globalThis.fetch as typeof fetch;
+    vi.stubGlobal("fetch", (input: RequestInfo | URL) => {
+      seenKeys.add(new URL(String(input)).searchParams.get("app_key"));
+      return underlying(input);
+    });
+
+    const startedAt = Date.now();
+    await runSweep();
+
+    // A subscribed key raises the ceiling to ~500/min, so the sweep no longer
+    // spends twelve seconds waiting to be allowed to ask.
+    expect(Date.now() - startedAt).toBeLessThan(12_000);
+    expect(seenKeys).toEqual(new Set(["test-app-key"]));
+    expect(calls).toHaveLength(15);
+  });
+
   it("returns the sampled departures in time order, de-duplicated by id", async () => {
     installTflStub();
 
