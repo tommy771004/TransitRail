@@ -244,7 +244,13 @@ export async function searchBelgiumJourney(
         operator: "SNCB/NMBS via iRail",
         service: legs.map((leg) => leg.lineName).join(" + ") || "SNCB/NMBS",
         trainType: legs.map((leg) => leg.lineName.split(" ")[0]).filter(Boolean).join(" + ") || undefined,
-        durationMinutes: Number(connection.duration) ? Math.round(Number(connection.duration) / 60) : minutesBetween(connection.departure?.time, connection.arrival?.time),
+        // The endpoint timestamps are the source of truth for the journey the
+        // user will take. iRail's aggregate duration can be stale by a few
+        // minutes, which would make the published row contradict its own
+        // departure and arrival times. Keep the provider value only when one
+        // of the endpoint timestamps is unavailable.
+        durationMinutes: minutesBetween(connection.departure?.time, connection.arrival?.time)
+          ?? (Number(connection.duration) ? Math.round(Number(connection.duration) / 60) : undefined),
         departureTime: timeInBelgium(connection.departure?.time),
         arrivalTime: timeInBelgium(connection.arrival?.time),
         origin: resolvedOrigin.name || origin,
