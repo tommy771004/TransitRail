@@ -4,14 +4,55 @@ import { serviceDayArtifactFixture } from "./serviceDayArtifactFixture";
 import { franceGtfsFixture as gtfsFixture } from "./gtfsZipFixture";
 import { runTransitSearch } from "./transitSearch";
 import { collectFranceServiceDayArtifact, resetFranceGtfsCache, resetFranceGtfsFeedCache } from "./franceGtfs";
+import { loadScrapedData } from "../data/scraped";
+import { buildSourceMeta } from "../data/sourceRegistry";
 
 const artifact = serviceDayArtifactFixture(
   new URL("../data/service-day/france.json", import.meta.url),
 );
+const routeArtifact = serviceDayArtifactFixture(
+  new URL("../data/scraped/france/paris-gare-de-lyon-lyon-part-dieu.json", import.meta.url),
+);
+const ROUTE_DATE = "2026-08-03";
+const routeFixture = {
+  origin: "Paris Gare de Lyon",
+  destination: "Lyon Part-Dieu",
+  date: ROUTE_DATE,
+  scrapedAt: "2026-08-03T00:00:00.000Z",
+  source: "SNCF Open Data GTFS",
+  sourceMeta: buildSourceMeta({
+    sourceId: "fr-sncf-gtfs",
+    fetchedAt: "2026-08-03T00:00:00.000Z",
+  }),
+  provenance: "official",
+  results: [{
+    id: "2026-08-03-fr-fixture",
+    country: "france" as const,
+    date: ROUTE_DATE,
+    operator: "SNCF",
+    service: "TER fixture",
+    departureTime: "07:34",
+    arrivalTime: "23:50",
+    durationMinutes: 976,
+    origin: "Paris Gare de Lyon",
+    destination: "Lyon Part-Dieu",
+    direct: true,
+    stops: ["Paris Gare de Lyon", "Lyon Part-Dieu"],
+  }],
+};
 
 describe("runTransitSearch France GTFS service-day advisory", () => {
-  beforeAll(() => artifact.stash());
-  afterAll(() => artifact.restore());
+  beforeAll(() => {
+    artifact.stash();
+    routeArtifact.stash();
+    routeArtifact.write(`${JSON.stringify(routeFixture)}\n`);
+    loadScrapedData();
+  });
+  afterAll(() => {
+    artifact.restore();
+    routeArtifact.restore();
+    loadScrapedData();
+  });
   // Pin the clock to the service day these fixtures use. Search only answers
   // dates inside the current window, so without this the suite passes only
   // until the calendar moves past that date.

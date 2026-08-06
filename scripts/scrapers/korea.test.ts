@@ -4,7 +4,8 @@ import { KoreaScraper } from "./korea";
 describe("Korea scheduled scraper", () => {
   it("downloads the Seoul artifact once across the seven-date schedule", async () => {
     const collect = vi.fn(async () => undefined);
-    const scraper = new KoreaScraper(collect);
+    const collectIncheon = vi.fn(async () => undefined);
+    const scraper = new KoreaScraper(collect, collectIncheon);
     Object.defineProperty(scraper, "routes", { value: [] });
 
     await scraper.runAll("2026-08-01");
@@ -16,7 +17,7 @@ describe("Korea scheduled scraper", () => {
   it("keeps the KTX snapshot schedule running when the Seoul download fails", async () => {
     const scraper = new KoreaScraper(async () => {
       throw new Error("offline");
-    });
+    }, async () => undefined);
     Object.defineProperty(scraper, "routes", { value: [] });
 
     await expect(scraper.runAll("2026-08-01")).resolves.toEqual([]);

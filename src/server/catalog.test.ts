@@ -2,14 +2,22 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getLinesForCountry, getStationsForCountry } from "./catalog";
 import { getScrapedCoverageNames, getScrapedRoutes } from "../data/scraped";
 import { getProviderRouteLines } from "../data/providerRouteLines";
+import { addDateValueDays, searchDateRange } from "../data/countries";
 
-const DATE = "2026-08-01";
+let catalogDate = "2026-08-01";
+
+function firstJapanSnapshotDate(): string {
+  return [...new Set(
+    getScrapedRoutes("japan").flatMap((route) => route.results.map((result) => result.date)),
+  )].filter((date): date is string => Boolean(date)).sort()[0] || "2026-08-01";
+}
 
 // The catalog is date-conditioned, so a suite pinned to a fixed service day has
 // to pin the clock with it or it starts returning empty menus the next morning.
 beforeEach(() => {
+  catalogDate = firstJapanSnapshotDate();
   vi.useFakeTimers({ shouldAdvanceTime: true });
-  vi.setSystemTime(new Date(`${DATE}T04:00:00.000Z`));
+  vi.setSystemTime(new Date(`${catalogDate}T04:00:00.000Z`));
 });
 
 afterEach(() => {
@@ -17,28 +25,32 @@ afterEach(() => {
 });
 
 describe("station and line catalog integrity scope", () => {
-  it("removes Tokyo metro lines while retaining the existing Shinkansen directory", async () => {
-    const lines = await getLinesForCountry("japan", "2026-08-01");
-    const stations = await getStationsForCountry("japan", undefined, "2026-08-01");
+  it("exposes verified Toei and Shinkansen lines while hiding unverified Tokyo Metro lines", async () => {
+    const lines = await getLinesForCountry("japan", catalogDate);
+    const stations = await getStationsForCountry("japan", undefined, catalogDate);
 
-    expect(lines.every((line) => !line.id.startsWith("toei-") && !line.id.startsWith("tokyo-metro-"))).toBe(true);
+    expect(lines.some((line) => line.id.startsWith("toei-"))).toBe(true);
+    expect(lines.every((line) => !line.id.startsWith("tokyo-metro-"))).toBe(true);
     expect(lines.some((line) => line.id === "tokaido-shinkansen")).toBe(true);
     expect(stations.stations).toContain("Tokyo");
-    expect(stations.stations).not.toContain("Roppongi");
+    expect(stations.stations).toContain("Roppongi");
+    expect(stations.stations).not.toContain("Shibuya");
   });
 
-  it("keeps the existing intercity directory outside the metro gate", async () => {
-    const lines = await getLinesForCountry("china", "2026-08-01");
-    const stations = await getStationsForCountry("china", undefined, "2026-08-01");
+  it("keeps the static intercity directory without promising dated timetable coverage", async () => {
+    const lines = await getLinesForCountry("china");
+    const datedLines = await getLinesForCountry("china", catalogDate);
+    const stations = await getStationsForCountry("china", undefined, catalogDate);
 
     expect(lines).toHaveLength(6);
+    expect(datedLines).toHaveLength(0);
     expect(stations.stations).toContain("Beijing South");
     expect(stations.stations).toContain("Shanghai Hongqiao");
   });
 
   it("carries the Seoul artifact's verified policy fact into station and line discovery", async () => {
-    const lines = await getLinesForCountry("korea", "2026-08-01");
-    const stations = await getStationsForCountry("korea", undefined, "2026-08-01");
+    const lines = await getLinesForCountry("korea", catalogDate);
+    const stations = await getStationsForCountry("korea", undefined, catalogDate);
 
     expect(lines.length).toBeGreaterThan(0);
     expect(stations.coverage).toMatchObject({ truthMode: "verified", provenance: "official" });
@@ -84,15 +96,21 @@ describe("station and line catalog integrity scope", () => {
     // Derived from the committed data rather than pinned to a date: the scrape
     // legitimately extends the window, and a hardcoded end date fails on that
     // without saying anything about the trim this test exists for.
-    vi.setSystemTime(new Date("2026-08-02T04:00:00.000Z"));
+    const clockDate = addDateValueDays(firstJapanSnapshotDate(), -4);
+    vi.setSystemTime(new Date(`${clockDate}T04:00:00.000Z`));
     const stations = await getStationsForCountry("japan", undefined, undefined);
     const range = stations.coverage?.dateRange;
-    const lastAnswerable = [...new Set(
+    const snapshotDates = [...new Set(
       getScrapedRoutes("japan").flatMap((route) => route.results.map((result) => result.date)),
-    )].filter((date): date is string => Boolean(date)).sort().at(-1);
+    )].filter((date): date is string => Boolean(date)).sort();
+    const policyRange = searchDateRange("japan", new Date(`${clockDate}T04:00:00.000Z`));
+    const answerableDates = snapshotDates.filter((date) => (
+      date >= policyRange.start && date <= policyRange.end
+    ));
 
-    expect(range?.start).toBe("2026-08-02");
-    expect(range?.end).toBe(lastAnswerable);
+    expect(range?.start).toBe(answerableDates[0]);
+    expect(range?.end).toBe(answerableDates.at(-1));
+    expect(range?.days).toBe(answerableDates.length);
     expect(getScrapedCoverageNames("japan", range?.end).length).toBeGreaterThan(0);
   });
 
@@ -101,7 +119,7 @@ describe("station and line catalog integrity scope", () => {
     // guaranteed answer is the committed snapshot, so the offer must not run
     // past it. It advertised 14 days while days 8-14 answered "unsupported
     // route".
-    vi.setSystemTime(new Date("2026-08-02T04:00:00.000Z"));
+    vi.setSystemTime(new Date(`${addDateValueDays(firstJapanSnapshotDate(), -4)}T04:00:00.000Z`));
     const stations = await getStationsForCountry("switzerland", undefined, undefined);
 
     expect(stations.coverage?.dateRange?.days).toBeLessThanOrEqual(7);
@@ -110,7 +128,7 @@ describe("station and line catalog integrity scope", () => {
   it("does not trim a live-provider market to committed rows", async () => {
     // Boston answers a date from the provider, so its window is a capability,
     // not an inventory, and must keep its full length.
-    vi.setSystemTime(new Date("2026-08-02T04:00:00.000Z"));
+    vi.setSystemTime(new Date(`${addDateValueDays(firstJapanSnapshotDate(), -4)}T04:00:00.000Z`));
     const stations = await getStationsForCountry("united_states", undefined, undefined);
 
     expect(stations.coverage?.dateRange?.days).toBe(7);

@@ -4,7 +4,7 @@
   "source": "SMRT official station information API",
   "sourceUrl": "https://journey.smrt.com.sg/",
   "timezone": "Asia/Singapore",
-  "retrievedAt": "2026-08-06T13:07:31.280Z",
+  "retrievedAt": "2026-08-06T14:14:32.551Z",
   "validFrom": "2026-08-01",
   "validTo": "2026-08-12",
   "routes": {
@@ -89,9 +89,9 @@
         "risk": "safe",
         "source": "SMRT official station information API",
         "sourceUrl": "https://journey.smrt.com.sg/",
-        "checkedAt": "2026-08-06T12:50:46.701Z",
+        "checkedAt": "2026-08-06T14:14:32.458Z",
         "note": "SMRT publishes direction-specific first and last trains, not a complete departure timetable.",
-        "minutesToLastDeparture": 172
+        "minutesToLastDeparture": 88
       },
       "2026-08-07": {
         "coverage": "partial",
@@ -256,12 +256,12 @@
         "serviceDayType": "weekday",
         "firstDeparture": "05:27",
         "lastDeparture": "23:08",
-        "risk": "safe",
+        "risk": "approaching",
         "source": "SMRT official station information API",
         "sourceUrl": "https://journey.smrt.com.sg/",
-        "checkedAt": "2026-08-06T12:50:46.933Z",
+        "checkedAt": "2026-08-06T14:14:32.550Z",
         "note": "SMRT publishes direction-specific first and last trains, not a complete departure timetable.",
-        "minutesToLastDeparture": 138
+        "minutesToLastDeparture": 54
       },
       "2026-08-07": {
         "coverage": "partial",
@@ -346,6 +346,22 @@
         "checkedAt": "2026-08-06T13:07:31.279Z",
         "note": "SMRT publishes direction-specific first and last trains, not a complete departure timetable.",
         "minutesToLastDeparture": 1388
+      }
+    },
+    "changi airport->jurong east": {
+      "2026-08-06": {
+        "coverage": "partial",
+        "serviceDate": "2026-08-06",
+        "timezone": "Asia/Singapore",
+        "serviceDayType": "weekday",
+        "firstDeparture": "05:31",
+        "lastDeparture": "23:18",
+        "risk": "safe",
+        "source": "SMRT official station information API",
+        "sourceUrl": "https://journey.smrt.com.sg/",
+        "checkedAt": "2026-08-06T14:14:32.369Z",
+        "note": "SMRT publishes direction-specific first and last trains, not a complete departure timetable.",
+        "minutesToLastDeparture": 64
       }
     }
   }

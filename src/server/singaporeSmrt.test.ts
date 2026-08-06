@@ -13,6 +13,18 @@ const stationPayload = {
   }],
 };
 
+const changiAirportPayload = {
+  results: [{
+    name: "Changi Airport",
+    train_times: [{
+      last_trains: "2318",
+      first_trains: { weekday: "0531", sat: "0531", sun_public_holiday: "0559" },
+      station_line: "East-West Line",
+      description: "First/Last train service terminating at EW4 Tanah Merah connect to EW33 Tuas Link",
+    }],
+  }],
+};
+
 describe("Singapore SMRT scheduled service-day source", () => {
   it("builds a direction-specific weekday advisory without generating departures", () => {
     const advisory = buildSingaporeSmrtAdvisory(stationPayload, "Woodlands", "Orchard", "2026-08-03", "22:30");
@@ -28,7 +40,16 @@ describe("Singapore SMRT scheduled service-day source", () => {
 
   it("does not claim SMRT coverage for an unsupported operator or transfer route", () => {
     expect(buildSingaporeSmrtAdvisory(stationPayload, "HarbourFront", "Punggol", "2026-08-03").coverage).toBe("unavailable");
-    expect(buildSingaporeSmrtAdvisory(stationPayload, "Changi Airport", "Jurong East", "2026-08-03").coverage).toBe("unavailable");
+  });
+
+  it("uses the official airport direction that connects to Tuas Link", () => {
+    expect(buildSingaporeSmrtAdvisory(changiAirportPayload, "Changi Airport", "Jurong East", "2026-08-03", "22:30")).toMatchObject({
+      coverage: "partial",
+      firstDeparture: "05:31",
+      lastDeparture: "23:18",
+      minutesToLastDeparture: 48,
+      source: "SMRT official station information API",
+    });
   });
 
   it("fetches the official JSON with the website origin headers", async () => {

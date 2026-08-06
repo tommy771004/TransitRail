@@ -45,8 +45,11 @@ const artifactFixture = serviceDayArtifactFixture(
   new URL("./korea/seoul-subway-timetable.json.gz", import.meta.url),
   { binary: true },
 );
+const SERVICE_DATE = "2026-08-03";
 
 beforeAll(() => {
+  vi.useFakeTimers({ shouldAdvanceTime: true });
+  vi.setSystemTime(new Date(`${SERVICE_DATE}T04:00:00.000Z`));
   artifactFixture.stash();
   artifactFixture.write(
     encodeKoreanSubwayArtifact(buildKoreanSubwayArtifact(timetable, {
@@ -60,6 +63,7 @@ beforeAll(() => {
 afterAll(() => {
   artifactFixture.restore();
   loadScrapedData();
+  vi.useRealTimers();
 });
 
 describe("offline Seoul artifact search", () => {
@@ -69,7 +73,7 @@ describe("offline Seoul artifact search", () => {
       "korea",
       "Seoul Station",
       "City Hall",
-      "2026-08-03",
+      SERVICE_DATE,
     );
 
     expect(results).toHaveLength(1);
@@ -83,7 +87,7 @@ describe("offline Seoul artifact search", () => {
       "korea",
       "Seoul (SNC)",
       "City Hall",
-      "2026-08-03",
+      SERVICE_DATE,
     );
 
     expect(results).toHaveLength(1);
@@ -92,11 +96,11 @@ describe("offline Seoul artifact search", () => {
 
   it("includes artifact stations while excluding unverified KTX snapshots", () => {
     expect(getScrapedCoverageNames("korea")).toContain("City Hall");
-    expect(findScrapedResults("korea", "Seoul (SNC)", "Busan (BSN)", "2026-08-03")).toBeNull();
+    expect(findScrapedResults("korea", "Seoul (SNC)", "Busan (BSN)", SERVICE_DATE)).toBeNull();
   });
 
   it("answers a cross-line Seoul journey and exposes its transfer station", () => {
-    const results = findScrapedResults("korea", "Gangnam", "Seoul Station", "2026-08-03");
+    const results = findScrapedResults("korea", "Gangnam", "Seoul Station", SERVICE_DATE);
     const transfer = results?.find((result) => !result.direct);
     expect(transfer).toMatchObject({
       direct: false,

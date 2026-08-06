@@ -181,29 +181,35 @@ describe("runTransitSearch MBTA service-day advisory", () => {
   });
 
   it("returns future-date schedule journeys and a weekday first/last advisory", async () => {
-    installMbtaFixtures();
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    vi.setSystemTime(new Date("2026-08-02T04:00:00.000Z"));
+    try {
+      installMbtaFixtures();
 
-    const result = await runTransitSearch({
-      origin: "Ashmont",
-      destination: "JFK/UMass",
-      country: "united_states",
-      date: "2026-08-03",
-      time: "22:00",
-    });
+      const result = await runTransitSearch({
+        origin: "Ashmont",
+        destination: "JFK/UMass",
+        country: "united_states",
+        date: "2026-08-03",
+        time: "22:00",
+      });
 
-    expect(result.statusCode).toBe(200);
-    expect(result.payload.results).toHaveLength(2);
-    expect(result.payload.serviceDayAdvisory).toEqual(expect.objectContaining({
-      coverage: "supported",
-      serviceDate: "2026-08-03",
-      timezone: "America/New_York",
-      serviceDayType: "weekday",
-      firstDeparture: "08:00",
-      lastDeparture: "22:45",
-      risk: "approaching",
-      minutesToLastDeparture: 45,
-      source: "https://api-v3.mbta.com",
-    }));
+      expect(result.statusCode).toBe(200);
+      expect(result.payload.results).toHaveLength(2);
+      expect(result.payload.serviceDayAdvisory).toEqual(expect.objectContaining({
+        coverage: "supported",
+        serviceDate: "2026-08-03",
+        timezone: "America/New_York",
+        serviceDayType: "weekday",
+        firstDeparture: "08:00",
+        lastDeparture: "22:45",
+        risk: "approaching",
+        minutesToLastDeparture: 45,
+        source: "https://api-v3.mbta.com",
+      }));
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("keeps today's realtime results while adding the schedule advisory", async () => {

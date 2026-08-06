@@ -19,6 +19,7 @@ const TIMEZONE = "Asia/Singapore";
 const ARTIFACT_PATH = resolve(process.cwd(), "src/data/service-day/singapore.json");
 
 const ROUTES: Record<string, { slug: string; line: string; terminus: string }> = {
+  "changi airport->jurong east": { slug: "Changi Airport", line: "East-West Line", terminus: "Tuas Link" },
   "jurong east->raffles place": { slug: "Jurong East", line: "East-West Line", terminus: "Pasir Ris" },
   "woodlands->orchard": { slug: "Woodlands", line: "North-South Line", terminus: "Marina South Pier" },
 };

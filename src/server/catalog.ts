@@ -143,8 +143,18 @@ function offeredDateRange(country: Country): SearchDateRange {
   }
   if (end < range.start) return { ...range, end: range.start, days: 1 };
 
-  const days = Math.round((Date.parse(`${end}T00:00:00Z`) - Date.parse(`${range.start}T00:00:00Z`)) / 86_400_000) + 1;
-  return { ...range, end, days };
+  // The committed snapshot can start after the policy window (for example a
+  // delayed scrape). Do not offer the empty prefix before its first answerable
+  // service day: a provider-then-scraped market is bounded by the snapshot when
+  // the optional live provider is unavailable.
+  let start = range.start;
+  while (start <= end && getScrapedCoverageNames(country, start).length === 0) {
+    start = addDateValueDays(start, 1);
+  }
+  if (start > end) return { ...range, end: range.start, days: 1 };
+
+  const days = Math.round((Date.parse(`${end}T00:00:00Z`) - Date.parse(`${start}T00:00:00Z`)) / 86_400_000) + 1;
+  return { ...range, start, end, days };
 }
 
 /** One journey the committed data can actually answer, and what serves it. */

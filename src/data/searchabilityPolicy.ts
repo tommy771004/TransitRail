@@ -443,7 +443,6 @@ export function decideRouteContextSearchability(
   const historical = request.serviceDay
     ? searchableRoutesForContext(routes, {
         country: request.country,
-        origin: request.origin,
       })
     : current;
   const historicalNames = new Set(historical.covered.map((name) => stationSearchKey(resolveStationAlias(request.country, name))));
