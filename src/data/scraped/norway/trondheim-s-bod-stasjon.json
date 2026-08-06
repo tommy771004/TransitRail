@@ -2,22 +2,8 @@
   "origin": "Trondheim S",
   "destination": "Bodø stasjon",
   "date": "2026-08-06..2026-08-12",
-  "scrapedAt": "2026-08-05T23:06:34.623Z",
+  "scrapedAt": "2026-08-06T13:08:51.002Z",
   "source": "Entur Journey Planner v3",
-  "sourceMeta": {
-    "sourceId": "no-entur",
-    "sourceType": "official-json",
-    "sourceTier": "A",
-    "sourceName": "Entur Journey Planner v3",
-    "sourceUrl": "https://api.entur.io/journey-planner/v3/graphql",
-    "provider": "Entur AS",
-    "country": "norway",
-    "fetchedAt": "2026-08-05T23:06:34.623Z",
-    "verified": true,
-    "completeness": "full-timetable",
-    "artifactVersion": 2
-  },
-  "provenance": "official",
   "results": [
     {
       "id": "2026-08-06-no-entur-2026-08-06-0-2026-08-06T08:16:00+02:00",
@@ -288,14 +274,115 @@
       "date": "2026-08-06"
     },
     {
+      "id": "2026-08-06-no-entur-2026-08-06-4-2026-08-06T10:17:00+02:00",
+      "country": "norway",
+      "operator": "SJ Nord",
+      "service": "R70 + foot + Oslo-Trondheim + Oslo-Bodø + foot + 2 + foot",
+      "trainType": "R70",
+      "durationMinutes": 386,
+      "departureTime": "10:17",
+      "arrivalTime": "16:42",
+      "origin": "Trondheim S",
+      "destination": "Bodø stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": true,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "R70",
+          "lineCode": "R70",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Trondheim S",
+          "destination": "Trondheim lufthavn stasjon",
+          "departureTime": "10:17",
+          "arrivalTime": "10:52",
+          "durationMinutes": 35
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn stasjon",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:52",
+          "arrivalTime": "10:55",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Trondheim lufthavn",
+          "destination": "Oslo lufthavn",
+          "departureTime": "12:00",
+          "arrivalTime": "12:55",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "Oslo-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "14:46",
+          "arrivalTime": "16:10",
+          "durationMinutes": 84
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "16:25",
+          "arrivalTime": "16:25",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "2",
+          "lineCode": "2",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø lufthavn",
+          "destination": "Bankgata",
+          "departureTime": "16:30",
+          "arrivalTime": "16:36",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bankgata",
+          "destination": "Bodø stasjon",
+          "departureTime": "16:36",
+          "arrivalTime": "16:42",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Trondheim lufthavn stasjon",
+        "Trondheim lufthavn",
+        "Oslo lufthavn",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Bankgata"
+      ],
+      "date": "2026-08-06"
+    },
+    {
       "id": "2026-08-06-no-entur-2026-08-06-3-2026-08-06T10:53:00+02:00",
       "country": "norway",
       "operator": "ATB",
-      "service": "10 + FB73 + foot + Oslo-Trondheim + Oslo-Bodø + foot + 1 + 4",
+      "service": "10 + FB73 + foot + Oslo-Trondheim + Oslo-Bodø + foot + 2 + foot",
       "trainType": "10",
-      "durationMinutes": 362,
+      "durationMinutes": 350,
       "departureTime": "10:53",
-      "arrivalTime": "16:55",
+      "arrivalTime": "16:42",
       "origin": "Trondheim S",
       "destination": "Bodø stasjon",
       "direct": false,
@@ -353,9 +440,9 @@
           "mode": "air",
           "origin": "Oslo lufthavn",
           "destination": "Bodø lufthavn",
-          "departureTime": "14:50",
-          "arrivalTime": "16:15",
-          "durationMinutes": 85
+          "departureTime": "14:46",
+          "arrivalTime": "16:10",
+          "durationMinutes": 84
         },
         {
           "lineName": "foot",
@@ -363,31 +450,30 @@
           "mode": "foot",
           "origin": "Bodø lufthavn",
           "destination": "Bodø lufthavn",
-          "departureTime": "16:30",
-          "arrivalTime": "16:30",
+          "departureTime": "16:25",
+          "arrivalTime": "16:25",
           "durationMinutes": 0
         },
         {
-          "lineName": "1",
-          "lineCode": "1",
+          "lineName": "2",
+          "lineCode": "2",
           "color": "#4B5563",
           "mode": "bus",
           "origin": "Bodø lufthavn",
-          "destination": "Aspåsen",
-          "departureTime": "16:40",
-          "arrivalTime": "16:42",
-          "durationMinutes": 2
+          "destination": "Bankgata",
+          "departureTime": "16:30",
+          "arrivalTime": "16:36",
+          "durationMinutes": 6
         },
         {
-          "lineName": "4",
-          "lineCode": "4",
+          "lineName": "foot",
           "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Aspåsen",
+          "mode": "foot",
+          "origin": "Bankgata",
           "destination": "Bodø stasjon",
-          "departureTime": "16:49",
-          "arrivalTime": "16:55",
-          "durationMinutes": 6
+          "departureTime": "16:36",
+          "arrivalTime": "16:42",
+          "durationMinutes": 7
         }
       ],
       "transferStations": [
@@ -397,7 +483,7 @@
         "Oslo lufthavn",
         "Bodø lufthavn",
         "Bodø lufthavn",
-        "Aspåsen"
+        "Bankgata"
       ],
       "date": "2026-08-06"
     },
@@ -2476,5 +2562,19 @@
       ],
       "date": "2026-08-12"
     }
-  ]
+  ],
+  "sourceMeta": {
+    "sourceId": "no-entur",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "Entur Journey Planner v3",
+    "sourceUrl": "https://api.entur.io/journey-planner/v3/graphql",
+    "provider": "Entur AS",
+    "country": "norway",
+    "fetchedAt": "2026-08-06T13:08:51.002Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official"
 }

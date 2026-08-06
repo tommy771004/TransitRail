@@ -2,23 +2,8 @@
   "origin": "Asakusa",
   "destination": "Nihombashi",
   "date": "2026-08-06..2026-08-12",
-  "scrapedAt": "2026-08-05T23:05:12.628Z",
+  "scrapedAt": "2026-08-06T13:06:43.845Z",
   "source": "ODPT Toei train timetable",
-  "sourceMeta": {
-    "sourceId": "jp-odpt-toei",
-    "sourceType": "official-json",
-    "sourceTier": "A",
-    "sourceName": "ODPT Toei train timetable",
-    "sourceUrl": "https://developer.odpt.org/en/datasets",
-    "provider": "Tokyo Metropolitan Bureau of Transportation (Toei)",
-    "country": "japan",
-    "fetchedAt": "2026-08-05T23:05:12.628Z",
-    "verified": true,
-    "completeness": "full-timetable",
-    "artifactVersion": 2,
-    "attribution": "ODPT / Toei (CC BY 4.0)"
-  },
-  "provenance": "official",
   "results": [
     {
       "id": "2026-08-06-jp-odpt-toei-2362t-0008",
@@ -30213,5 +30198,20 @@
       "headsign": "Shinagawa",
       "lineColor": "#e85298"
     }
-  ]
+  ],
+  "sourceMeta": {
+    "sourceId": "jp-odpt-toei",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "ODPT Toei train timetable",
+    "sourceUrl": "https://developer.odpt.org/en/datasets",
+    "provider": "Tokyo Metropolitan Bureau of Transportation (Toei)",
+    "country": "japan",
+    "fetchedAt": "2026-08-06T13:06:43.841Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2,
+    "attribution": "ODPT / Toei (CC BY 4.0)"
+  },
+  "provenance": "official"
 }

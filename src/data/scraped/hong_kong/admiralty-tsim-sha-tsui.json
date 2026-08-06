@@ -2,30 +2,16 @@
   "origin": "Admiralty",
   "destination": "Tsim Sha Tsui",
   "date": "2026-08-06",
-  "scrapedAt": "2026-08-05T22:47:54.724Z",
+  "scrapedAt": "2026-08-06T12:50:49.236Z",
   "source": "MTR real-time next train API",
-  "sourceMeta": {
-    "sourceId": "hk-mtr-next-train",
-    "sourceType": "official-json",
-    "sourceTier": "A",
-    "sourceName": "MTR real-time next train API",
-    "sourceUrl": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
-    "provider": "MTR Corporation",
-    "country": "hong_kong",
-    "fetchedAt": "2026-08-05T22:47:54.724Z",
-    "verified": true,
-    "completeness": "full-timetable",
-    "artifactVersion": 2
-  },
-  "provenance": "official",
   "results": [
     {
-      "id": "2026-08-06-hk-TWL-ADM-2026-08-06 06:47:45-1",
+      "id": "2026-08-06-hk-TWL-ADM-2026-08-06 20:50:39-1",
       "country": "hong_kong",
       "operator": "MTR",
       "service": "Tsuen Wan Line",
       "trainType": "Next train",
-      "departureTime": "06:47",
+      "departureTime": "20:50",
       "origin": "Admiralty",
       "destination": "Tsim Sha Tsui",
       "direct": true,
@@ -37,12 +23,12 @@
       "date": "2026-08-06"
     },
     {
-      "id": "2026-08-06-hk-TWL-ADM-2026-08-06 06:51:45-2",
+      "id": "2026-08-06-hk-TWL-ADM-2026-08-06 20:54:39-2",
       "country": "hong_kong",
       "operator": "MTR",
       "service": "Tsuen Wan Line",
       "trainType": "Next train",
-      "departureTime": "06:51",
+      "departureTime": "20:54",
       "origin": "Admiralty",
       "destination": "Tsim Sha Tsui",
       "direct": true,
@@ -54,12 +40,12 @@
       "date": "2026-08-06"
     },
     {
-      "id": "2026-08-06-hk-TWL-ADM-2026-08-06 06:55:45-3",
+      "id": "2026-08-06-hk-TWL-ADM-2026-08-06 20:57:39-3",
       "country": "hong_kong",
       "operator": "MTR",
       "service": "Tsuen Wan Line",
       "trainType": "Next train",
-      "departureTime": "06:55",
+      "departureTime": "20:57",
       "origin": "Admiralty",
       "destination": "Tsim Sha Tsui",
       "direct": true,
@@ -71,12 +57,12 @@
       "date": "2026-08-06"
     },
     {
-      "id": "2026-08-06-hk-TWL-ADM-2026-08-06 07:00:45-4",
+      "id": "2026-08-06-hk-TWL-ADM-2026-08-06 21:01:39-4",
       "country": "hong_kong",
       "operator": "MTR",
       "service": "Tsuen Wan Line",
       "trainType": "Next train",
-      "departureTime": "07:00",
+      "departureTime": "21:01",
       "origin": "Admiralty",
       "destination": "Tsim Sha Tsui",
       "direct": true,
@@ -87,5 +73,19 @@
       "lineColor": "#E2231A",
       "date": "2026-08-06"
     }
-  ]
+  ],
+  "sourceMeta": {
+    "sourceId": "hk-mtr-next-train",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "MTR real-time next train API",
+    "sourceUrl": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
+    "provider": "MTR Corporation",
+    "country": "hong_kong",
+    "fetchedAt": "2026-08-06T12:50:49.236Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official"
 }

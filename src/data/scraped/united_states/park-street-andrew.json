@@ -2,22 +2,8 @@
   "origin": "Park Street",
   "destination": "Andrew",
   "date": "2026-08-06..2026-08-12",
-  "scrapedAt": "2026-08-05T23:06:16.589Z",
+  "scrapedAt": "2026-08-06T13:08:32.871Z",
   "source": "MBTA V3 API schedules",
-  "sourceMeta": {
-    "sourceId": "us-mbta-v3",
-    "sourceType": "official-json",
-    "sourceTier": "A",
-    "sourceName": "MBTA V3 API schedules",
-    "sourceUrl": "https://api-v3.mbta.com",
-    "provider": "Massachusetts Bay Transportation Authority",
-    "country": "united_states",
-    "fetchedAt": "2026-08-05T23:06:16.589Z",
-    "verified": true,
-    "completeness": "full-timetable",
-    "artifactVersion": 2
-  },
-  "provenance": "official",
   "results": [
     {
       "id": "us-mbta-schedule-76734760-70",
@@ -25536,5 +25522,19 @@
       "headsign": "Ashmont",
       "realtime": false
     }
-  ]
+  ],
+  "sourceMeta": {
+    "sourceId": "us-mbta-v3",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "MBTA V3 API schedules",
+    "sourceUrl": "https://api-v3.mbta.com",
+    "provider": "Massachusetts Bay Transportation Authority",
+    "country": "united_states",
+    "fetchedAt": "2026-08-06T13:08:32.866Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official"
 }

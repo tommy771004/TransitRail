@@ -2,22 +2,8 @@
   "origin": "Oslo S",
   "destination": "Bergen stasjon",
   "date": "2026-08-06..2026-08-12",
-  "scrapedAt": "2026-08-05T23:06:30.322Z",
+  "scrapedAt": "2026-08-06T13:08:46.646Z",
   "source": "Entur Journey Planner v3",
-  "sourceMeta": {
-    "sourceId": "no-entur",
-    "sourceType": "official-json",
-    "sourceTier": "A",
-    "sourceName": "Entur Journey Planner v3",
-    "sourceUrl": "https://api.entur.io/journey-planner/v3/graphql",
-    "provider": "Entur AS",
-    "country": "norway",
-    "fetchedAt": "2026-08-05T23:06:30.322Z",
-    "verified": true,
-    "completeness": "full-timetable",
-    "artifactVersion": 2
-  },
-  "provenance": "official",
   "results": [
     {
       "id": "2026-08-06-no-entur-2026-08-06-1-2026-08-06T08:54:00+02:00",
@@ -64,8 +50,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Bergen lufthavn",
           "departureTime": "10:40",
-          "arrivalTime": "11:33",
-          "durationMinutes": 54
+          "arrivalTime": "11:35",
+          "durationMinutes": 55
         },
         {
           "lineName": "foot",
@@ -73,8 +59,8 @@
           "mode": "foot",
           "origin": "Bergen lufthavn",
           "destination": "Bergen lufthavn",
-          "departureTime": "11:48",
-          "arrivalTime": "11:51",
+          "departureTime": "11:50",
+          "arrivalTime": "11:52",
           "durationMinutes": 3
         },
         {
@@ -153,8 +139,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Bergen lufthavn",
           "departureTime": "10:40",
-          "arrivalTime": "11:33",
-          "durationMinutes": 54
+          "arrivalTime": "11:35",
+          "durationMinutes": 55
         },
         {
           "lineName": "foot",
@@ -162,8 +148,8 @@
           "mode": "foot",
           "origin": "Bergen lufthavn",
           "destination": "Bergen lufthavn",
-          "departureTime": "11:48",
-          "arrivalTime": "11:51",
+          "departureTime": "11:50",
+          "arrivalTime": "11:52",
           "durationMinutes": 3
         },
         {
@@ -242,8 +228,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Bergen lufthavn",
           "departureTime": "10:40",
-          "arrivalTime": "11:33",
-          "durationMinutes": 54
+          "arrivalTime": "11:35",
+          "durationMinutes": 55
         },
         {
           "lineName": "foot",
@@ -251,8 +237,8 @@
           "mode": "foot",
           "origin": "Bergen lufthavn",
           "destination": "Bergen lufthavn",
-          "departureTime": "11:48",
-          "arrivalTime": "11:51",
+          "departureTime": "11:50",
+          "arrivalTime": "11:52",
           "durationMinutes": 3
         },
         {
@@ -331,8 +317,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Bergen lufthavn",
           "departureTime": "10:40",
-          "arrivalTime": "11:33",
-          "durationMinutes": 54
+          "arrivalTime": "11:35",
+          "durationMinutes": 55
         },
         {
           "lineName": "foot",
@@ -340,8 +326,8 @@
           "mode": "foot",
           "origin": "Bergen lufthavn",
           "destination": "Bergen lufthavn",
-          "departureTime": "11:48",
-          "arrivalTime": "11:51",
+          "departureTime": "11:50",
+          "arrivalTime": "11:52",
           "durationMinutes": 3
         },
         {
@@ -3869,5 +3855,19 @@
       ],
       "date": "2026-08-12"
     }
-  ]
+  ],
+  "sourceMeta": {
+    "sourceId": "no-entur",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "Entur Journey Planner v3",
+    "sourceUrl": "https://api.entur.io/journey-planner/v3/graphql",
+    "provider": "Entur AS",
+    "country": "norway",
+    "fetchedAt": "2026-08-06T13:08:46.645Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official"
 }

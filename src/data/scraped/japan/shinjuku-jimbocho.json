@@ -2,23 +2,8 @@
   "origin": "Shinjuku",
   "destination": "Jimbocho",
   "date": "2026-08-06..2026-08-12",
-  "scrapedAt": "2026-08-05T23:05:12.650Z",
+  "scrapedAt": "2026-08-06T13:06:43.871Z",
   "source": "ODPT Toei train timetable",
-  "sourceMeta": {
-    "sourceId": "jp-odpt-toei",
-    "sourceType": "official-json",
-    "sourceTier": "A",
-    "sourceName": "ODPT Toei train timetable",
-    "sourceUrl": "https://developer.odpt.org/en/datasets",
-    "provider": "Tokyo Metropolitan Bureau of Transportation (Toei)",
-    "country": "japan",
-    "fetchedAt": "2026-08-05T23:05:12.650Z",
-    "verified": true,
-    "completeness": "full-timetable",
-    "artifactVersion": 2,
-    "attribution": "ODPT / Toei (CC BY 4.0)"
-  },
-  "provenance": "official",
   "results": [
     {
       "id": "2026-08-06-jp-odpt-toei-2366k-0000",
@@ -30543,5 +30528,20 @@
       "headsign": "Mizue",
       "lineColor": "#6cbb5a"
     }
-  ]
+  ],
+  "sourceMeta": {
+    "sourceId": "jp-odpt-toei",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "ODPT Toei train timetable",
+    "sourceUrl": "https://developer.odpt.org/en/datasets",
+    "provider": "Tokyo Metropolitan Bureau of Transportation (Toei)",
+    "country": "japan",
+    "fetchedAt": "2026-08-06T13:06:43.867Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2,
+    "attribution": "ODPT / Toei (CC BY 4.0)"
+  },
+  "provenance": "official"
 }

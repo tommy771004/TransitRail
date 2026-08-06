@@ -1,19 +1,63 @@
 {
   "country": "thailand",
-  "provider": "none",
-  "source": "No registered official source",
-  "builtAt": "2026-08-06T02:34:03.369Z",
+  "provider": "Bangkok Expressway and Metro (BEM)",
+  "source": "BEM MRT official service information",
+  "sourceUrl": "https://metro.bemplc.co.th/Train-Schedule",
+  "sourceTier": "C",
+  "fetchedAt": "2026-08-06T13:07:31.280Z",
+  "builtAt": "2026-08-06T13:08:51.012Z",
   "recordCount": 0,
-  "routeCount": 0,
-  "successRate": 0,
+  "routeCount": 4,
+  "successRate": 1,
   "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 0,
-    "emptyRoutes": 0,
+    "emptyRoutes": 4,
     "unverifiedRoutes": 0,
     "serviceDates": []
   },
-  "checksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "checksum": "b5059f29200d1720f6b2fd34a7a42e05aee5eed77dc341c2b1a3c1bd9f1b66fd",
   "artifactVersion": 2,
-  "routes": []
+  "routes": [
+    {
+      "origin": "Mo Chit",
+      "destination": "Hua Lamphong",
+      "resultCount": 0,
+      "date": "2026-08-12",
+      "sourceId": "th-bem-service-hours",
+      "completeness": "frequency-only",
+      "fetchedAt": "2026-08-06T13:07:31.280Z",
+      "verified": true
+    },
+    {
+      "origin": "Siam",
+      "destination": "Mo Chit",
+      "resultCount": 0,
+      "date": "2026-08-12",
+      "sourceId": "th-bem-service-hours",
+      "completeness": "frequency-only",
+      "fetchedAt": "2026-08-06T13:07:31.280Z",
+      "verified": true
+    },
+    {
+      "origin": "Siam",
+      "destination": "Saphan Taksin",
+      "resultCount": 0,
+      "date": "2026-08-12",
+      "sourceId": "th-bem-service-hours",
+      "completeness": "frequency-only",
+      "fetchedAt": "2026-08-06T13:07:31.280Z",
+      "verified": true
+    },
+    {
+      "origin": "Sukhumvit",
+      "destination": "Hua Lamphong",
+      "resultCount": 0,
+      "date": "2026-08-12",
+      "sourceId": "th-bem-service-hours",
+      "completeness": "frequency-only",
+      "fetchedAt": "2026-08-06T13:07:31.280Z",
+      "verified": true
+    }
+  ]
 }

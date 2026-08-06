@@ -2,22 +2,8 @@
   "origin": "Oslo S",
   "destination": "Stavanger stasjon",
   "date": "2026-08-06..2026-08-12",
-  "scrapedAt": "2026-08-05T23:06:33.223Z",
+  "scrapedAt": "2026-08-06T13:08:49.449Z",
   "source": "Entur Journey Planner v3",
-  "sourceMeta": {
-    "sourceId": "no-entur",
-    "sourceType": "official-json",
-    "sourceTier": "A",
-    "sourceName": "Entur Journey Planner v3",
-    "sourceUrl": "https://api.entur.io/journey-planner/v3/graphql",
-    "provider": "Entur AS",
-    "country": "norway",
-    "fetchedAt": "2026-08-05T23:06:33.223Z",
-    "verified": true,
-    "completeness": "full-timetable",
-    "artifactVersion": 2
-  },
-  "provenance": "official",
   "results": [
     {
       "id": "2026-08-06-no-entur-2026-08-06-2-2026-08-06T08:28:00+02:00",
@@ -64,8 +50,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Stavanger lufthavn",
           "departureTime": "10:25",
-          "arrivalTime": "11:21",
-          "durationMinutes": 56
+          "arrivalTime": "11:15",
+          "durationMinutes": 50
         },
         {
           "lineName": "foot",
@@ -73,8 +59,8 @@
           "mode": "foot",
           "origin": "Stavanger lufthavn",
           "destination": "Stavanger lufthavn",
-          "departureTime": "11:36",
-          "arrivalTime": "11:37",
+          "departureTime": "11:30",
+          "arrivalTime": "11:31",
           "durationMinutes": 1
         },
         {
@@ -153,8 +139,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Stavanger lufthavn",
           "departureTime": "10:25",
-          "arrivalTime": "11:21",
-          "durationMinutes": 56
+          "arrivalTime": "11:15",
+          "durationMinutes": 50
         },
         {
           "lineName": "foot",
@@ -162,8 +148,8 @@
           "mode": "foot",
           "origin": "Stavanger lufthavn",
           "destination": "Stavanger lufthavn",
-          "departureTime": "11:36",
-          "arrivalTime": "11:37",
+          "departureTime": "11:30",
+          "arrivalTime": "11:31",
           "durationMinutes": 1
         },
         {
@@ -242,8 +228,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Stavanger lufthavn",
           "departureTime": "10:25",
-          "arrivalTime": "11:21",
-          "durationMinutes": 56
+          "arrivalTime": "11:15",
+          "durationMinutes": 50
         },
         {
           "lineName": "foot",
@@ -251,8 +237,8 @@
           "mode": "foot",
           "origin": "Stavanger lufthavn",
           "destination": "Stavanger lufthavn",
-          "departureTime": "11:36",
-          "arrivalTime": "11:38",
+          "departureTime": "11:30",
+          "arrivalTime": "11:31",
           "durationMinutes": 2
         },
         {
@@ -354,8 +340,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Stavanger lufthavn",
           "departureTime": "10:25",
-          "arrivalTime": "11:21",
-          "durationMinutes": 56
+          "arrivalTime": "11:15",
+          "durationMinutes": 50
         },
         {
           "lineName": "foot",
@@ -363,8 +349,8 @@
           "mode": "foot",
           "origin": "Stavanger lufthavn",
           "destination": "Stavanger lufthavn",
-          "departureTime": "11:36",
-          "arrivalTime": "11:37",
+          "departureTime": "11:30",
+          "arrivalTime": "11:31",
           "durationMinutes": 1
         },
         {
@@ -453,9 +439,9 @@
           "mode": "air",
           "origin": "Bergen lufthavn",
           "destination": "Stavanger lufthavn",
-          "departureTime": "14:10",
-          "arrivalTime": "14:50",
-          "durationMinutes": 40
+          "departureTime": "14:09",
+          "arrivalTime": "14:46",
+          "durationMinutes": 37
         },
         {
           "lineName": "foot",
@@ -463,8 +449,8 @@
           "mode": "foot",
           "origin": "Stavanger lufthavn",
           "destination": "Stavanger lufthavn",
-          "departureTime": "15:05",
-          "arrivalTime": "15:06",
+          "departureTime": "15:01",
+          "arrivalTime": "15:02",
           "durationMinutes": 1
         },
         {
@@ -554,9 +540,9 @@
           "mode": "air",
           "origin": "Bergen lufthavn",
           "destination": "Stavanger lufthavn",
-          "departureTime": "14:10",
-          "arrivalTime": "14:50",
-          "durationMinutes": 40
+          "departureTime": "14:09",
+          "arrivalTime": "14:46",
+          "durationMinutes": 37
         },
         {
           "lineName": "foot",
@@ -564,8 +550,8 @@
           "mode": "foot",
           "origin": "Stavanger lufthavn",
           "destination": "Stavanger lufthavn",
-          "departureTime": "15:05",
-          "arrivalTime": "15:06",
+          "departureTime": "15:01",
+          "arrivalTime": "15:02",
           "durationMinutes": 1
         },
         {
@@ -3947,5 +3933,19 @@
       ],
       "date": "2026-08-12"
     }
-  ]
+  ],
+  "sourceMeta": {
+    "sourceId": "no-entur",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "Entur Journey Planner v3",
+    "sourceUrl": "https://api.entur.io/journey-planner/v3/graphql",
+    "provider": "Entur AS",
+    "country": "norway",
+    "fetchedAt": "2026-08-06T13:08:49.448Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official"
 }

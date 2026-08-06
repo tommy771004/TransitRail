@@ -2,23 +2,8 @@
   "origin": "Otemachi",
   "destination": "Jimbocho",
   "date": "2026-08-06..2026-08-12",
-  "scrapedAt": "2026-08-05T23:05:12.663Z",
+  "scrapedAt": "2026-08-06T13:06:43.894Z",
   "source": "ODPT Toei train timetable",
-  "sourceMeta": {
-    "sourceId": "jp-odpt-toei",
-    "sourceType": "official-json",
-    "sourceTier": "A",
-    "sourceName": "ODPT Toei train timetable",
-    "sourceUrl": "https://developer.odpt.org/en/datasets",
-    "provider": "Tokyo Metropolitan Bureau of Transportation (Toei)",
-    "country": "japan",
-    "fetchedAt": "2026-08-05T23:05:12.663Z",
-    "verified": true,
-    "completeness": "full-timetable",
-    "artifactVersion": 2,
-    "attribution": "ODPT / Toei (CC BY 4.0)"
-  },
-  "provenance": "official",
   "results": [
     {
       "id": "2026-08-06-jp-odpt-toei-2343t-0004",
@@ -25727,5 +25712,20 @@
       "headsign": "Nishi Takashimadaira",
       "lineColor": "#0079c2"
     }
-  ]
+  ],
+  "sourceMeta": {
+    "sourceId": "jp-odpt-toei",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "ODPT Toei train timetable",
+    "sourceUrl": "https://developer.odpt.org/en/datasets",
+    "provider": "Tokyo Metropolitan Bureau of Transportation (Toei)",
+    "country": "japan",
+    "fetchedAt": "2026-08-06T13:06:43.890Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2,
+    "attribution": "ODPT / Toei (CC BY 4.0)"
+  },
+  "provenance": "official"
 }

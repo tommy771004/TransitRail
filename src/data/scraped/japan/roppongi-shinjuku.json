@@ -2,23 +2,8 @@
   "origin": "Roppongi",
   "destination": "Shinjuku",
   "date": "2026-08-06..2026-08-12",
-  "scrapedAt": "2026-08-05T23:05:12.618Z",
+  "scrapedAt": "2026-08-06T13:06:43.837Z",
   "source": "ODPT Toei train timetable",
-  "sourceMeta": {
-    "sourceId": "jp-odpt-toei",
-    "sourceType": "official-json",
-    "sourceTier": "A",
-    "sourceName": "ODPT Toei train timetable",
-    "sourceUrl": "https://developer.odpt.org/en/datasets",
-    "provider": "Tokyo Metropolitan Bureau of Transportation (Toei)",
-    "country": "japan",
-    "fetchedAt": "2026-08-05T23:05:12.618Z",
-    "verified": true,
-    "completeness": "full-timetable",
-    "artifactVersion": 2,
-    "attribution": "ODPT / Toei (CC BY 4.0)"
-  },
-  "provenance": "official",
   "results": [
     {
       "id": "2026-08-06-jp-odpt-toei-2321b-0006",
@@ -31348,5 +31333,20 @@
       "headsign": "Hikarigaoka",
       "lineColor": "#b6007a"
     }
-  ]
+  ],
+  "sourceMeta": {
+    "sourceId": "jp-odpt-toei",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "ODPT Toei train timetable",
+    "sourceUrl": "https://developer.odpt.org/en/datasets",
+    "provider": "Tokyo Metropolitan Bureau of Transportation (Toei)",
+    "country": "japan",
+    "fetchedAt": "2026-08-06T13:06:43.832Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2,
+    "attribution": "ODPT / Toei (CC BY 4.0)"
+  },
+  "provenance": "official"
 }

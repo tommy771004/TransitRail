@@ -2,22 +2,8 @@
   "origin": "Berlin Hbf",
   "destination": "Munich Hbf",
   "date": "2026-08-06..2026-08-12",
-  "scrapedAt": "2026-08-05T23:06:16.886Z",
+  "scrapedAt": "2026-08-06T13:08:33.148Z",
   "source": "gtfs.de Long Distance Rail Germany GTFS",
-  "sourceMeta": {
-    "sourceId": "de-gtfs",
-    "sourceType": "official-gtfs",
-    "sourceTier": "A",
-    "sourceName": "gtfs.de Long Distance Rail Germany GTFS",
-    "sourceUrl": "https://gtfs.de/en/feeds/de_fv/",
-    "provider": "gtfs.de",
-    "country": "germany",
-    "fetchedAt": "2026-08-05T23:06:16.886Z",
-    "verified": true,
-    "completeness": "full-timetable",
-    "artifactVersion": 2
-  },
-  "provenance": "official",
   "results": [
     {
       "id": "2026-08-06-de-1127802",
@@ -2777,5 +2763,19 @@
       "stops": [],
       "date": "2026-08-12"
     }
-  ]
+  ],
+  "sourceMeta": {
+    "sourceId": "de-gtfs",
+    "sourceType": "official-gtfs",
+    "sourceTier": "A",
+    "sourceName": "gtfs.de Long Distance Rail Germany GTFS",
+    "sourceUrl": "https://gtfs.de/en/feeds/de_fv/",
+    "provider": "gtfs.de",
+    "country": "germany",
+    "fetchedAt": "2026-08-06T13:08:33.147Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official"
 }

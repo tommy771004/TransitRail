@@ -4,12 +4,38 @@
   "source": "MBTA V3 API schedules",
   "sourceUrl": "https://api-v3.mbta.com",
   "sourceTier": "A",
-  "fetchedAt": "2026-08-05T23:06:16.773Z",
-  "builtAt": "2026-08-06T02:34:03.369Z",
+  "fetchedAt": "2026-08-06T13:08:33.024Z",
+  "builtAt": "2026-08-06T13:08:51.012Z",
   "recordCount": 5463,
   "routeCount": 4,
-  "successRate": 0,
-  "failedRoutes": [],
+  "successRate": 0.8214,
+  "failedRoutes": [
+    {
+      "origin": "Park Street",
+      "destination": "Boston College",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
+    {
+      "origin": "Park Street",
+      "destination": "Boston College",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
+    {
+      "origin": "Park Street",
+      "destination": "Boston College",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
+    {
+      "origin": "Park Street",
+      "destination": "Boston College",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
+    {
+      "origin": "Park Street",
+      "destination": "Boston College",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    }
+  ],
   "coverage": {
     "verifiedRoutes": 4,
     "emptyRoutes": 0,
@@ -34,7 +60,7 @@
       "date": "2026-08-06..2026-08-12",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-05T23:06:16.255Z",
+      "fetchedAt": "2026-08-06T13:08:32.577Z",
       "verified": true
     },
     {
@@ -44,7 +70,7 @@
       "date": "2026-08-06..2026-08-12",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-05T23:06:16.589Z",
+      "fetchedAt": "2026-08-06T13:08:32.866Z",
       "verified": true
     },
     {
@@ -54,7 +80,7 @@
       "date": "2026-08-06..2026-08-12",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-05T23:06:16.741Z",
+      "fetchedAt": "2026-08-06T12:57:57.693Z",
       "verified": true
     },
     {
@@ -64,7 +90,7 @@
       "date": "2026-08-06..2026-08-12",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-05T23:06:16.773Z",
+      "fetchedAt": "2026-08-06T13:08:33.024Z",
       "verified": true
     }
   ]

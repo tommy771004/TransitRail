@@ -1,19 +1,63 @@
 {
   "country": "singapore",
-  "provider": "none",
-  "source": "No registered official source",
-  "builtAt": "2026-08-06T02:34:03.369Z",
+  "provider": "SMRT Corporation",
+  "source": "SMRT official station information",
+  "sourceUrl": "https://journey.smrt.com.sg/journey/station_info/",
+  "sourceTier": "A",
+  "fetchedAt": "2026-08-06T13:07:31.279Z",
+  "builtAt": "2026-08-06T13:08:51.012Z",
   "recordCount": 0,
-  "routeCount": 0,
-  "successRate": 0,
+  "routeCount": 4,
+  "successRate": 1,
   "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 0,
-    "emptyRoutes": 0,
+    "emptyRoutes": 4,
     "unverifiedRoutes": 0,
     "serviceDates": []
   },
-  "checksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "checksum": "e516fc0d9ed0fb12a72baed0c69c28733e1f53c992fbe78a4a69d9a483b69835",
   "artifactVersion": 2,
-  "routes": []
+  "routes": [
+    {
+      "origin": "Changi Airport",
+      "destination": "Jurong East",
+      "resultCount": 0,
+      "date": "2026-08-12",
+      "sourceId": "sg-smrt-service-hours",
+      "completeness": "frequency-only",
+      "fetchedAt": "2026-08-06T13:07:31.278Z",
+      "verified": true
+    },
+    {
+      "origin": "HarbourFront",
+      "destination": "Punggol",
+      "resultCount": 0,
+      "date": "2026-08-12",
+      "sourceId": "sg-smrt-service-hours",
+      "completeness": "frequency-only",
+      "fetchedAt": "2026-08-06T13:07:31.279Z",
+      "verified": true
+    },
+    {
+      "origin": "Jurong East",
+      "destination": "Raffles Place",
+      "resultCount": 0,
+      "date": "2026-08-12",
+      "sourceId": "sg-smrt-service-hours",
+      "completeness": "frequency-only",
+      "fetchedAt": "2026-08-06T13:07:31.279Z",
+      "verified": true
+    },
+    {
+      "origin": "Woodlands",
+      "destination": "Orchard",
+      "resultCount": 0,
+      "date": "2026-08-12",
+      "sourceId": "sg-smrt-service-hours",
+      "completeness": "frequency-only",
+      "fetchedAt": "2026-08-06T13:07:31.279Z",
+      "verified": true
+    }
+  ]
 }
