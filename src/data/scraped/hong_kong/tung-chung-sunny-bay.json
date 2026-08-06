@@ -3,7 +3,21 @@
   "destination": "Sunny Bay",
   "date": "2026-08-06",
   "scrapedAt": "2026-08-05T22:47:56.674Z",
-  "source": "https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php",
+  "source": "MTR real-time next train API",
+  "sourceMeta": {
+    "sourceId": "hk-mtr-next-train",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "MTR real-time next train API",
+    "sourceUrl": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
+    "provider": "MTR Corporation",
+    "country": "hong_kong",
+    "fetchedAt": "2026-08-05T22:47:56.674Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official",
   "results": [
     {
       "id": "2026-08-06-hk-TCL-TUC-2026-08-06 06:52:51-1",
@@ -73,9 +87,5 @@
       "lineColor": "#F3982D",
       "date": "2026-08-06"
     }
-  ],
-  "provenance": "official",
-  "authenticity": "realtime",
-  "truthMode": "verified",
-  "sourceServiceDay": "2026-08-06"
+  ]
 }

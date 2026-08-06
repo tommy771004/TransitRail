@@ -4,6 +4,20 @@
   "date": "2026-08-06..2026-08-12",
   "scrapedAt": "2026-08-05T23:06:34.632Z",
   "source": "OpenTransportData Swiss GTFS Static",
+  "sourceMeta": {
+    "sourceId": "ch-opentransportdata-gtfs",
+    "sourceType": "official-gtfs",
+    "sourceTier": "A",
+    "sourceName": "OpenTransportData Swiss GTFS Static",
+    "sourceUrl": "https://opentransportdata.swiss/en/dataset/timetable-2025-gtfs2020",
+    "provider": "Swiss Federal Railways / opentransportdata.swiss",
+    "country": "switzerland",
+    "fetchedAt": "2026-08-05T23:06:34.632Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official",
   "results": [
     {
       "id": "2026-08-06-ch-gtfs-.ojp-91-2A-Y.1.TA.353.j26",
@@ -2345,9 +2359,5 @@
       "headsign": "Chiasso",
       "date": "2026-08-12"
     }
-  ],
-  "provenance": "official",
-  "authenticity": "scraped",
-  "truthMode": "verified",
-  "sourceServiceDay": "2026-08-12"
+  ]
 }

@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { mkdirSync, writeFileSync } from "fs";
 import { resolve } from "path";
-import { syncScrapedMetadata } from "./scrapers/metadata";
+import { buildCountryMetadata } from "./scrapers/artifactBuilder";
 import { syncMalaysiaStationCatalog } from "./scrapers/malaysia";
 
 async function main() {
@@ -12,9 +12,11 @@ async function main() {
     mkdirSync(directory, { recursive: true });
     writeFileSync(resolve(directory, "metadata.json"), `${JSON.stringify({
       country: "malaysia",
-      scraper: "data.gov.my historical-ridership station catalog",
-      lastScraped: new Date().toISOString(),
+      provider: "Ministry of Transport Malaysia (data.gov.my)",
+      source: "data.gov.my rail ridership station catalog",
+      builtAt: new Date().toISOString(),
       routeCount: 0,
+      recordCount: 0,
       routes: [],
     }, null, 2)}\n`, "utf8");
     console.log(`Malaysia catalog updated: ${malaysia.stationCount} stations from ${malaysia.sourceCount} source(s); no timetable results created.`);
@@ -23,7 +25,12 @@ async function main() {
 
   const { createTimetableScrapers, scraperDisplayNames } = await import("./scrapers/registry");
   const scrapers = createTimetableScrapers();
-  const scraperByCountry = Object.fromEntries(scrapers.map((s) => [s.country, s]));
+  // A country may have several scrapers (Japan reads ODPT and JR Central), so
+  // group rather than index — indexing silently ran only the last one.
+  const scraperByCountry = scrapers.reduce<Record<string, typeof scrapers>>((groups, scraper) => {
+    groups[scraper.country] = [...(groups[scraper.country] || []), scraper];
+    return groups;
+  }, {});
   const country = requestedCountry as string | undefined;
   const date = process.argv[3] || new Date().toISOString().split("T")[0];
 
@@ -31,9 +38,19 @@ async function main() {
     throw new Error(`Country must be one of: ${[...Object.keys(scraperByCountry), "malaysia"].join(", ")}`);
   }
 
-  const scraper = scraperByCountry[country];
-  const results = await scraper.runAll(date);
-  syncScrapedMetadata(scraperDisplayNames([scraper]));
+  const countryScrapers = scraperByCountry[country];
+  const results = [];
+  const outcomes = [];
+  for (const scraper of countryScrapers) {
+    results.push(...await scraper.runAll(date));
+    outcomes.push(...(scraper.report()?.outcomes || []));
+  }
+  buildCountryMetadata({
+    reports: {
+      [country]: { country: countryScrapers[0].country, scraper: country, date, outcomes },
+    },
+    scraperNames: scraperDisplayNames(countryScrapers),
+  });
 
   const total = results.reduce((acc: number, route: { results: unknown[] }) => acc + route.results.length, 0);
   console.log(`${results.length} routes done, ${total} results saved`);

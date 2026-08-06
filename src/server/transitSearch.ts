@@ -35,6 +35,7 @@ import {
   hasCoverage,
 } from "../data/stationCoverage";
 import { stationSearchKey } from "../data/stationKey";
+import { buildSourceMeta, sourceIdForProvider } from "../data/sourceRegistry";
 import { getLinesForCountry, officialTimetableUrls } from "./catalog";
 import { enrichTransitResultsWithLineStations } from "../utils/metroEnricher";
 import { searchTflJourney } from "./tfl";
@@ -145,11 +146,19 @@ function providerPayloadWithPolicy(
   // Provider adapters return the requested service day as a query argument;
   // attaching it to rows records source context without inventing a departure.
   const results = body.results.map((result) => ({ ...result, date: result.date || date }));
+  // A live answer is held to the same standard as a stored one: the provider we
+  // called has to be a registered source, and the block records which one and
+  // when we called it. Without this the live path was the one door into search
+  // that a row could walk through unattributed.
+  const capability = getCountryCapability(country);
+  const providerId = "provider" in capability.search ? capability.search.provider : undefined;
+  const sourceId = sourceIdForProvider(providerId);
   const source = {
     origin,
     destination,
     date,
     source: body.source,
+    sourceMeta: sourceId ? buildSourceMeta({ sourceId }) : undefined,
     provenance: "official" as TimetableProvenance,
     results,
   };

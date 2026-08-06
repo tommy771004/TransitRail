@@ -10,8 +10,10 @@ import {
   koreanServiceDayType,
   koreanArtifactReachableNames,
   precomputeKoreanReachability,
+  KOREAN_ARTIFACT_SOURCE_IDS,
   type KoreanSubwayArtifact,
 } from "../koreanSubwayArtifact";
+import { buildSourceMeta } from "../sourceRegistry";
 import { stationSearchKey } from "../stationKey";
 import {
   coveredEndpointNames,
@@ -324,6 +326,12 @@ export function findScrapedSearchability(
         date,
         scrapedAt: artifact.retrievedAt,
         source: artifact.source,
+        // The artifact format stores the operator's label; the register entry
+        // behind it supplies the URL, tier, and fetch time search reports.
+        sourceMeta: buildSourceMeta({
+          sourceId: KOREAN_ARTIFACT_SOURCE_IDS[artifact.source],
+          fetchedAt: artifact.retrievedAt,
+        }),
         provenance: "official",
         results: metro,
       }, date, { expectedCountry: "korea" });

@@ -1,6 +1,7 @@
 import type { Country, TimetableProvenance, TimetableTruthMode, TransitResult } from "../types";
 import { providerDateValue } from "./countries";
 import { getCountryCapability } from "./countryCapability";
+import { isValidSourceMeta, type TimetableSourceMeta } from "./sourceRegistry";
 
 export type { TimetableTruthMode } from "../types";
 
@@ -18,6 +19,8 @@ export interface TimetableSnapshot {
   date?: string;
   scrapedAt?: string;
   source?: string;
+  /** The registered source that produced these rows. Required to be verified. */
+  sourceMeta?: TimetableSourceMeta;
   provenance?: TimetableProvenance;
   results: TransitResult[];
 }
@@ -61,7 +64,14 @@ export function authenticityOptionsFor(
 }
 
 export type NormalizedTimetableProvenance = TimetableProvenance | "unknown";
-export type TimetableSourceIssue = "malformed" | "empty" | "service_day_mismatch" | "stale_realtime" | "unknown_provenance";
+export type TimetableSourceIssue =
+  | "malformed"
+  | "empty"
+  | "service_day_mismatch"
+  | "stale_realtime"
+  | "unknown_provenance"
+  /** Rows exist but no registered official source vouches for them. */
+  | "unverified_source";
 
 /** Source facts consumed by the Searchability policy without re-reading raw metadata. */
 export interface TimetableSourceFact {
@@ -80,6 +90,7 @@ export interface CompleteTimetableSnapshot extends TimetableSnapshot {
   date: string;
   scrapedAt: string;
   source: string;
+  sourceMeta: TimetableSourceMeta;
 }
 
 /** "06:05" → 365. Undefined for anything that is not a HH:MM clock time. */
@@ -90,43 +101,39 @@ export function parseClockMinutes(time: string | undefined): number | undefined 
   return hours * 60 + minutes;
 }
 
+/**
+ * Markers left by the retired curated/LLM pipeline.
+ *
+ * Nothing in TransitRail produces either any more, so these exist only to
+ * recognise a legacy file still sitting on disk (or restored from history) and
+ * refuse it. Recognising a marker is a rejection, never a classification: a row
+ * carrying one is unusable, not a weaker kind of timetable.
+ */
 const CURATED_SOURCE = /curated|snapshot/i;
 const LLM_ADVISORY_SOURCE = /\b(?:llm|openrouter|ai)[-_ ]?(?:advisory|generated|gap(?:-| )?fill)?\b/i;
-const OFFICIAL_SOURCE_LABELS = new Set([
-  "official timetable",
-  "ODPT timetable",
-  "ODPT Tokyo Metro timetable",
-  "ODPT Toei timetable (CC BY 4.0)",
-  "JR Central official journey search",
-  "SNCF Open Data GTFS",
-  "gtfs.de Long Distance Rail Germany",
-  "OpenTransportData Swiss GTFS Static",
-  "Seoul Metro official timetable CSV",
-  "Incheon Transit Corporation official timetable CSV",
-]);
-const OFFICIAL_SOURCE_URLS = new Set([
-  "https://api.tfl.gov.uk",
-  "https://api-v3.mbta.com",
-  "https://api.entur.io/journey-planner/v3/graphql",
-  "https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php",
-  "https://api.irail.be",
-]);
 const COUNTRY_VALUES = new Set<Country>([
   "japan", "korea", "hong_kong", "united_kingdom", "united_states", "singapore",
   "malaysia", "thailand", "germany", "france", "china", "switzerland", "belgium", "norway",
 ]);
 
 /**
- * A curated snapshot is a representative service pattern, not a real
- * timetable. Keep this backstop compatible with the SEO page generator: an
- * explicit curated/snapshot source wins, otherwise four or more departures
- * with one fixed headway are treated as indicative.
+ * Does this look like a timetable someone generated from a headway rather than
+ * read from a source?
+ *
+ * Two independent tells: an explicit curated/LLM marker, or a departure list
+ * whose every gap is identical. The second is the one that catches a synthetic
+ * timetable nobody labelled — a real operator varies its interval across the
+ * peak, the shoulder, and the last hour of service, so a run of four or more
+ * departures at one exact spacing is a generator's signature.
+ *
+ * This is a detector for validation and publication gates, not a
+ * classification: nothing it flags is publishable at any confidence.
  */
-export function isIndicativeTimetable(source: string, results: TransitResult[]): boolean {
+export function isSyntheticTimetable(source: string, results: TransitResult[]): boolean {
   if (
     CURATED_SOURCE.test(source)
     || LLM_ADVISORY_SOURCE.test(source)
-    || results.some((result) => result.provenance === "llm-advisory")
+    || results.some((result) => result.provenance === "llm-advisory" || result.provenance === "curated")
   ) return true;
   const minutes = results
     .map((result) => parseClockMinutes(result.departureTime))
@@ -206,9 +213,14 @@ export function classifyTimetable(
   // weakest of them. Classifying every row at once let four live rows valid for
   // today label a file as `realtime` when its other six days were curated —
   // and anything reading the file-level label then believed all seven.
+  //
+  // A single-dated file goes through the same path rather than being classified
+  // dateless: a live row is only valid for the day it names, and skipping the
+  // recursion for one date let a caller with no service day in hand read a
+  // day-old prediction as current.
   if (date === undefined) {
     const dates = [...new Set(snapshot.results.map((row) => row.date).filter(Boolean))];
-    if (dates.length > 1) {
+    if (dates.length >= 1) {
       let weakest: TimetableAuthenticity | undefined;
       for (const day of dates) {
         const dayClass = classifyTimetable(snapshot, day, options);
@@ -225,14 +237,19 @@ export function classifyTimetable(
   const rows = timetableSliceForDate(snapshot, date);
   if (rows.length === 0) return "none";
 
-  // An advisory transfer value is never promoted to scraped/realtime merely
-  // because its surrounding rows happen to carry an official-looking flag.
-  if (snapshot.provenance === "llm-advisory" || rows.some((row) => row.provenance === "llm-advisory")) {
-    return "indicative";
-  }
-  if (snapshot.provenance === "curated" || rows.some((row) => row.provenance === "curated")) {
-    return "indicative";
-  }
+  // Curated and AI-advisory rows are no longer produced anywhere. Finding one
+  // means a legacy or hand-edited file, and there is no confidence at which it
+  // may be shown, so it fails outright rather than degrading to "indicative".
+  if (
+    snapshot.provenance === "llm-advisory" || snapshot.provenance === "curated"
+    || rows.some((row) => row.provenance === "llm-advisory" || row.provenance === "curated")
+  ) return "none";
+
+  // The single gate: a registered official source read these rows. A route
+  // cannot vouch for itself with a `provenance: "official"` field or an
+  // official-sounding `source` label — both used to be enough, and both are
+  // things a file says about itself rather than facts about where it came from.
+  if (!isValidSourceMeta(snapshot.sourceMeta)) return "none";
 
   const realtimeRows = rows.filter((result) => result.realtime === true);
   if (realtimeRows.length > 0) {
@@ -242,11 +259,15 @@ export function classifyTimetable(
     return "realtime";
   }
 
-  if (snapshot.provenance === "official") return "scraped";
-  if (isIndicativeTimetable(snapshot.source || "", rows)) return "indicative";
   return "scraped";
 }
 
+/**
+ * Name where a route came from.
+ *
+ * Retired-pipeline markers are checked first so that a legacy curated file
+ * cannot be laundered into `official` by bolting a valid source block onto it.
+ */
 function normalizedProvenance(snapshot: TimetableSnapshot, rows = snapshot.results): NormalizedTimetableProvenance {
   if (
     snapshot.provenance === "llm-advisory"
@@ -258,9 +279,7 @@ function normalizedProvenance(snapshot: TimetableSnapshot, rows = snapshot.resul
     || rows.some((result) => result.provenance === "curated")
     || CURATED_SOURCE.test(snapshot.source || "")
   ) return "curated";
-  const source = snapshot.source?.trim() || "";
-  if (OFFICIAL_SOURCE_LABELS.has(source) || OFFICIAL_SOURCE_URLS.has(source)) return "official";
-  return "unknown";
+  return isValidSourceMeta(snapshot.sourceMeta) ? "official" : "unknown";
 }
 
 export function truthModeFor(authenticity: TimetableAuthenticity): TimetableTruthMode {
@@ -381,6 +400,11 @@ function isTimetableSnapshot(value: unknown): value is TimetableSnapshot {
     && value.provenance !== "curated"
     && value.provenance !== "llm-advisory"
   ) return false;
+  // A malformed block is a corrupt file, not merely an unverified one — the
+  // difference matters because "malformed" is reported separately from
+  // "nobody vouches for this". An absent block is the latter, handled by
+  // classification rather than rejected as unparseable here.
+  if (value.sourceMeta !== undefined && !isValidSourceMeta(value.sourceMeta)) return false;
   return Array.isArray(value.results) && value.results.every(isTimetableResult);
 }
 
@@ -417,7 +441,8 @@ export function isCompleteTimetableSnapshot(value: TimetableSnapshot): value is 
     && typeof value.scrapedAt === "string"
     && Number.isFinite(Date.parse(value.scrapedAt))
     && typeof value.source === "string"
-    && value.source.trim().length > 0;
+    && value.source.trim().length > 0
+    && isValidSourceMeta(value.sourceMeta);
 }
 
 /**
@@ -440,33 +465,28 @@ export function normalizeTimetableSource(
   if (options.expectedCountry && snapshot.results.some((result) => result.country !== options.expectedCountry)) {
     return unusableSourceFact(serviceDay);
   }
+  // The source block must belong to the country whose data this is. Without
+  // this, a France file's rows could be vouched for by Germany's GTFS feed:
+  // both blocks are individually valid, and the mismatch is only visible when
+  // the two are compared.
+  if (
+    options.expectedCountry
+    && snapshot.sourceMeta !== undefined
+    && snapshot.sourceMeta.country !== options.expectedCountry
+  ) {
+    return unusableSourceFact(serviceDay);
+  }
   if (snapshot.scrapedAt !== undefined && !Number.isFinite(Date.parse(snapshot.scrapedAt))) {
     return unusableSourceFact(serviceDay);
   }
-  const exactRows = serviceDay ? timetableSliceForDate(snapshot, serviceDay) : snapshot.results;
-  const canonicalRows = serviceDay
-    ? snapshot.results.filter((result) => !(result.date || "").trim())
-    : [];
-  const candidateRows = serviceDay && exactRows.length === 0 ? canonicalRows : exactRows;
-  const provenance = normalizedProvenance(snapshot, candidateRows);
-  const useCanonical = exactRows.length === 0
-    && canonicalRows.length > 0
-    // A dateless snapshot is representative regardless of the operator label.
-    // Known official provenance may describe where it came from, but it cannot
-    // substantiate the passenger's requested service day without dated rows.
-    && provenance !== "unknown";
-  const selectedRows = useCanonical ? canonicalRows : exactRows;
+  // Only rows carrying the passenger's exact service day may answer for it. A
+  // dateless "canonical day" used to stand in when the exact day was missing,
+  // which is how one representative timetable came to answer for seven dates.
+  // Nothing writes dateless rows any more, and none are accepted here.
+  const selectedRows = timetableSliceForDate(snapshot, serviceDay);
+  const provenance = normalizedProvenance(snapshot, selectedRows);
   const selectedSnapshot = { ...snapshot, results: selectedRows };
-  const isDatelessCanonical = selectedRows.length > 0 && selectedRows.every((result) => !result.date);
-  const classifiedAuthenticity = classifyTimetable(
-    selectedSnapshot,
-    useCanonical ? undefined : serviceDay,
-    options,
-  );
-  const authenticity = provenance === "unknown" && selectedRows.length > 0
-    ? "none"
-    : isDatelessCanonical ? "indicative"
-    : classifiedAuthenticity;
+  const authenticity = classifyTimetable(selectedSnapshot, serviceDay, options);
   const sourceDates = [...new Set(selectedRows.map((result) => (result.date || "").trim()).filter(Boolean))];
 
   return {
@@ -476,10 +496,25 @@ export function normalizeTimetableSource(
     sourceServiceDay: sourceDates.length === 1 ? sourceDates[0] : undefined,
     authenticity,
     truthMode: truthModeFor(authenticity),
-    issue: provenance === "unknown" && selectedRows.length > 0
-      ? "unknown_provenance"
-      : authenticity === "none"
-        ? snapshot.results.length === 0 ? "empty" : "service_day_mismatch"
-        : authenticity === "stale_realtime" ? "stale_realtime" : undefined,
+    issue: sourceIssueFor(snapshot, selectedRows, provenance, authenticity),
   };
+}
+
+/**
+ * Say why a route could not answer, distinguishing the three failures a reader
+ * would otherwise conflate: nothing came back, something came back for a
+ * different day, and something came back that nobody official vouches for.
+ */
+function sourceIssueFor(
+  snapshot: TimetableSnapshot,
+  selectedRows: TransitResult[],
+  provenance: NormalizedTimetableProvenance,
+  authenticity: TimetableAuthenticity,
+): TimetableSourceFact["issue"] {
+  if (authenticity === "stale_realtime") return "stale_realtime";
+  if (authenticity !== "none") return undefined;
+  if (snapshot.results.length === 0) return "empty";
+  if (selectedRows.length === 0) return "service_day_mismatch";
+  if (provenance === "curated" || provenance === "llm-advisory") return "unverified_source";
+  return provenance === "unknown" ? "unknown_provenance" : "unverified_source";
 }

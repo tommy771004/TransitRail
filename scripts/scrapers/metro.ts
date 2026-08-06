@@ -4,11 +4,9 @@ import { searchTflServiceDay } from "../../src/server/tfl";
 import { prepareSwissGtfsBatch, searchSwissGtfs } from "../../src/server/swissGtfs";
 import { searchBelgiumJourney } from "../../src/server/belgium";
 import { searchNorwayJourney } from "../../src/server/norway";
-import { chromium } from "playwright";
 import {
   belgiumRoutes,
   norwayRoutes,
-  chinaRoutes,
   franceRoutes,
   germanyRoutes,
   hongKongRoutes,
@@ -18,35 +16,33 @@ import {
   unitedKingdomRoutes,
   unitedStatesRoutes,
 } from "./routes";
-import { ProviderBackedScraper, SnapshotScraper } from "./snapshot";
-import type { ScrapedRouteData } from "./types";
+import { FrequencyScraper, OfficialFeedScraper } from "./kinds";
+import type { ScrapedRoute, ScrapedRouteData } from "./types";
 import { collectFranceServiceDayArtifact, searchFranceGtfs } from "../../src/server/franceGtfs";
 import { searchGermanyGtfs } from "../../src/server/germanyGtfs";
 import { recordError } from "../../src/server/errorLog";
 import { collectThailandServiceDayArtifact, THAILAND_BEM_URL } from "../../src/server/thailandBem";
 import { collectSingaporeServiceDayArtifact } from "../../src/server/singaporeSmrt";
 import { collectHongKongServiceDayArtifact } from "../../src/server/hongKongServiceHours";
+import { providerDateValue } from "../../src/data/countries";
 
-function dateInThailand(): string {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: "Asia/Bangkok",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(new Date());
-  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
-  return `${values.year}-${values.month}-${values.day}`;
-}
+/**
+ * Singapore's operators publish first train, last train, and peak/off-peak
+ * frequency — not a departure list. That is what gets stored: the route files
+ * carry no departures at all and the numbers go to the service-day artifact.
+ *
+ * The previous build expanded the published headway into 763 invented
+ * departures per route and served them as a timetable.
+ */
+export class SingaporeScraper extends FrequencyScraper {
+  readonly name = "SMRT";
+  readonly country = "singapore";
+  readonly routes = singaporeRoutes;
+  readonly sourceId = "sg-smrt-service-hours";
 
-export class SingaporeScraper extends SnapshotScraper {
-  constructor() {
-    super("LTA", "singapore", singaporeRoutes);
-  }
-
-  override async runAll(date: string, options: { keepDates?: string[] } = {}): Promise<ScrapedRouteData[]> {
-    const results = await super.runAll(date, options);
+  protected async collectServiceDay(routes: readonly ScrapedRoute[], date: string): Promise<void> {
     try {
-      await collectSingaporeServiceDayArtifact(this.routes, date);
+      await collectSingaporeServiceDayArtifact([...routes], date);
     } catch (error) {
       console.warn(`  ${this.country}: SMRT service-day artifact refresh skipped:`, error instanceof Error ? error.message : error);
       await recordError({
@@ -57,31 +53,27 @@ export class SingaporeScraper extends SnapshotScraper {
         error,
         country: "singapore",
         provider: "SMRT official station information API",
-        context: { date, routeCount: this.routes.length },
+        context: { date, routeCount: routes.length },
       });
     }
-    return results;
   }
 }
 
-export class ThailandScraper extends SnapshotScraper {
-  constructor() {
-    super("BTS/MRT", "thailand", thailandRoutes);
-  }
+/** BEM publishes MRT service hours and headways as official HTML; same shape as Singapore. */
+export class ThailandScraper extends FrequencyScraper {
+  readonly name = "BEM";
+  readonly country = "thailand";
+  readonly routes = thailandRoutes;
+  readonly sourceId = "th-bem-service-hours";
 
-  override async runAll(date: string, options: { keepDates?: string[] } = {}): Promise<ScrapedRouteData[]> {
-    const results = await super.runAll(date, options);
-    if (date !== dateInThailand()) return results;
-
-    let browser: Awaited<ReturnType<typeof chromium.launch>> | undefined;
+  protected async collectServiceDay(routes: readonly ScrapedRoute[], date: string): Promise<void> {
+    if (date !== providerDateValue("thailand")) return;
     try {
-      browser = await chromium.launch({ headless: true });
-      const page = await browser.newPage({
-        userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
+      const response = await fetch(THAILAND_BEM_URL, {
+        headers: { "user-agent": "TransitRail/1.0 (+https://github.com/tommy771004/TransitRail)" },
       });
-      await page.goto(THAILAND_BEM_URL, { waitUntil: "domcontentloaded", timeout: 30_000 });
-      await collectThailandServiceDayArtifact(await page.content(), this.routes, date);
-      await page.close();
+      if (!response.ok) throw new Error(`${THAILAND_BEM_URL} responded HTTP ${response.status}`);
+      await collectThailandServiceDayArtifact(await response.text(), [...routes], date);
     } catch (error) {
       console.warn(`  ${this.country}: service-day artifact refresh skipped:`, error instanceof Error ? error.message : error);
       await recordError({
@@ -92,26 +84,27 @@ export class ThailandScraper extends SnapshotScraper {
         error,
         country: "thailand",
         provider: "BEM MRT official HTML",
-        context: { date, routeCount: this.routes.length, sourceUrl: THAILAND_BEM_URL },
+        context: { date, routeCount: routes.length, sourceUrl: THAILAND_BEM_URL },
       });
-    } finally {
-      await browser?.close().catch(() => {});
     }
-    return results;
   }
 }
 
-export class HongKongScraper extends ProviderBackedScraper {
+/**
+ * MTR's feed answers "the next four trains" and nothing about any other date,
+ * so future service days get no departure rows at all. The official first/last
+ * train per direction does cover future dates, and that is collected instead —
+ * it is what a future service day can honestly say.
+ */
+export class HongKongScraper extends OfficialFeedScraper {
   constructor() {
-    super("MTR", "hong_kong", hongKongRoutes, searchHongKongMtr);
+    super("MTR", "hong_kong", hongKongRoutes, "hk-mtr-next-train", searchHongKongMtr);
   }
 
-  /**
-   * MTR publishes no departure timetable, so future dates get no departure
-   * rows at all (see ProviderBackedScraper). The official first/last train per
-   * direction is real and does cover future dates, so collect that instead —
-   * it is what lets a future service day say anything true.
-   */
+  protected override isProviderToday(date: string): boolean {
+    return date === providerDateValue("hong_kong");
+  }
+
   override async runAll(date: string, options: { keepDates?: string[] } = {}): Promise<ScrapedRouteData[]> {
     const results = await super.runAll(date, options);
     try {
@@ -133,45 +126,45 @@ export class HongKongScraper extends ProviderBackedScraper {
   }
 }
 
-export class UnitedKingdomScraper extends ProviderBackedScraper {
+export class UnitedKingdomScraper extends OfficialFeedScraper {
   constructor() {
-    super("TfL", "united_kingdom", unitedKingdomRoutes, searchTflServiceDay);
+    super("TfL", "united_kingdom", unitedKingdomRoutes, "uk-tfl-journey-planner", searchTflServiceDay);
   }
 }
 
-export class UnitedStatesScraper extends ProviderBackedScraper {
+export class UnitedStatesScraper extends OfficialFeedScraper {
   constructor() {
-    super("MBTA", "united_states", unitedStatesRoutes, searchMbtaJourney);
+    super("MBTA", "united_states", unitedStatesRoutes, "us-mbta-v3", searchMbtaJourney);
   }
 }
 
-export class SwitzerlandScraper extends ProviderBackedScraper {
+export class SwitzerlandScraper extends OfficialFeedScraper {
   constructor() {
-    super("OpenTransportData Swiss GTFS", "switzerland", switzerlandRoutes, searchSwissGtfs);
+    super("OpenTransportData Swiss GTFS", "switzerland", switzerlandRoutes, "ch-opentransportdata-gtfs", searchSwissGtfs);
   }
 
   override async runAll(date: string, options: { keepDates?: string[] } = {}) {
     // The Swiss stop_times.txt is hundreds of MB uncompressed. Prepare every
-    // configured route/date once, then let ProviderBackedScraper persist the
-    // results and retain snapshot fallback semantics if the feed is unavailable.
+    // configured route/date once; a failure here leaves each route to fail
+    // individually, which keeps its previously committed file.
     try {
       await prepareSwissGtfsBatch(this.routes, options.keepDates?.length ? options.keepDates : [date]);
     } catch (error) {
-      console.warn(`  ${this.country}: GTFS batch preparation failed; using route fallbacks:`, error instanceof Error ? error.message : error);
+      console.warn(`  ${this.country}: GTFS batch preparation failed:`, error instanceof Error ? error.message : error);
     }
     return super.runAll(date, options);
   }
 }
 
-export class GermanyScraper extends ProviderBackedScraper {
+export class GermanyScraper extends OfficialFeedScraper {
   constructor() {
-    super("gtfs.de", "germany", germanyRoutes, searchGermanyGtfs);
+    super("gtfs.de", "germany", germanyRoutes, "de-gtfs", searchGermanyGtfs);
   }
 }
 
-export class FranceScraper extends ProviderBackedScraper {
+export class FranceScraper extends OfficialFeedScraper {
   constructor() {
-    super("SNCF", "france", franceRoutes, searchFranceGtfs);
+    super("SNCF", "france", franceRoutes, "fr-sncf-gtfs", searchFranceGtfs);
   }
 
   override async runAll(date: string, options: { keepDates?: string[] } = {}): Promise<ScrapedRouteData[]> {
@@ -180,7 +173,7 @@ export class FranceScraper extends ProviderBackedScraper {
       await collectFranceServiceDayArtifact(this.routes, date);
     } catch (error) {
       // Keep the previous artifact and let the shared error log carry the
-      // diagnostic; route snapshots remain available for this scrape run.
+      // diagnostic; route files remain available for this scrape run.
       console.warn(`  ${this.country}: service-day artifact refresh skipped:`, error instanceof Error ? error.message : error);
       await recordError({
         severity: "error",
@@ -197,20 +190,14 @@ export class FranceScraper extends ProviderBackedScraper {
   }
 }
 
-export class BelgiumScraper extends ProviderBackedScraper {
+export class BelgiumScraper extends OfficialFeedScraper {
   constructor() {
-    super("iRail", "belgium", belgiumRoutes, searchBelgiumJourney);
+    super("iRail", "belgium", belgiumRoutes, "be-irail", searchBelgiumJourney);
   }
 }
 
-export class NorwayScraper extends ProviderBackedScraper {
+export class NorwayScraper extends OfficialFeedScraper {
   constructor() {
-    super("Entur Journey Planner", "norway", norwayRoutes, searchNorwayJourney);
-  }
-}
-
-export class ChinaScraper extends SnapshotScraper {
-  constructor() {
-    super("12306", "china", chinaRoutes);
+    super("Entur Journey Planner", "norway", norwayRoutes, "no-entur", searchNorwayJourney);
   }
 }

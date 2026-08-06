@@ -77,19 +77,17 @@ export type SearchKind =
   | { kind: "catalog_only" };
 
 /**
- * How the nightly scrape job fills this country's data.
- * - generated: synthetic timetable (Japan)
- * - snapshot: re-stamp curated JSON
- * - provider_backed: live provider then snapshot fallback
- * - catalog_sync: station catalog only (Malaysia)
- * - none: not on the scrape schedule
+ * How the nightly job fills this country's data.
+ * - official_source: one or more registered official sources are scraped; a
+ *   route that fails keeps its previously committed file
+ * - catalog_sync: station catalog only, no timetable (Malaysia)
+ * - none: no official source is wired up, so nothing is fetched and the
+ *   country has no timetable data (China)
+ *
+ * The retired `generated`, `snapshot` and `provider_backed` strategies all
+ * described ways of filling a gap with something other than official data.
  */
-export type ScrapeStrategy =
-  | "generated"
-  | "snapshot"
-  | "provider_backed"
-  | "catalog_sync"
-  | "none";
+export type ScrapeStrategy = "official_source" | "catalog_sync" | "none";
 
 export type ResultViewFamily = "japan" | "korea" | "metro" | "live_rail" | "catalog";
 export type LiveRailMarket = "london" | "boston" | "switzerland" | "belgium" | "norway";
@@ -125,18 +123,14 @@ export type CountryConfigEntry = {
   search: SearchKind;
   scrape: ScrapeStrategy;
   /**
-   * Which authenticity gates this market has been migrated onto.
+   * Whether the station and line menus are trimmed to what this market's
+   * committed timetables can answer.
    *
-   * Migration state, not permanent policy: a market moves to `true` once its
-   * source audit lands. Declared here so the per-country mapping stays in this
-   * one table — it previously lived as two opposite-polarity Sets in different
-   * modules that disagreed about Japan, Korea, HK, UK and US.
-   *
-   * - `timetable`: journey search rejects unverified rows
-   * - `catalog`: station and line menus are filtered to verified data
-   * - `routePages`: indicative routes are not published as SEO pages
+   * The sibling `timetable` and `routePages` gates are gone: rejecting
+   * unverified rows from search, and refusing to publish them as SEO pages, are
+   * now unconditional rather than a per-market migration step.
    */
-  authenticityGates: { timetable: boolean; catalog: boolean; routePages: boolean };
+  authenticityGates: { catalog: boolean };
   resultView: ResultViewFamily;
   liveRailMarket?: LiveRailMarket;
   serviceDay: ServiceDayCapability;
@@ -155,8 +149,8 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     dateRangeDays: SCRAPE_WINDOW_DAYS,
     timeZone: "Asia/Tokyo",
     search: { kind: "scraped" },
-    scrape: "provider_backed",
-    authenticityGates: { timetable: true, catalog: false, routePages: false },
+    scrape: "official_source",
+    authenticityGates: { catalog: false },
     resultView: "japan",
     serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
   },
@@ -173,8 +167,8 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     dateRangeEnforced: true,
     timeZone: "Asia/Seoul",
     search: { kind: "scraped" },
-    scrape: "provider_backed",
-    authenticityGates: { timetable: true, catalog: true, routePages: false },
+    scrape: "official_source",
+    authenticityGates: { catalog: true },
     resultView: "korea",
     serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
   },
@@ -190,8 +184,8 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     dateRangeDays: SCRAPE_WINDOW_DAYS,
     timeZone: "Asia/Singapore",
     search: { kind: "scraped" },
-    scrape: "snapshot",
-    authenticityGates: { timetable: true, catalog: true, routePages: true },
+    scrape: "official_source",
+    authenticityGates: { catalog: true },
     resultView: "metro",
     serviceDay: {
       coverage: "partial",
@@ -213,7 +207,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     timeZone: "Asia/Kuala_Lumpur",
     search: { kind: "catalog_only" },
     scrape: "catalog_sync",
-    authenticityGates: { timetable: true, catalog: true, routePages: false },
+    authenticityGates: { catalog: true },
     resultView: "catalog",
     serviceDay: { coverage: "unavailable", source: "Historical ridership catalog has no timetable", scope: "No service-day advisory" },
   },
@@ -229,8 +223,8 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     dateRangeDays: SCRAPE_WINDOW_DAYS,
     timeZone: "Asia/Bangkok",
     search: { kind: "scraped" },
-    scrape: "snapshot",
-    authenticityGates: { timetable: true, catalog: true, routePages: true },
+    scrape: "official_source",
+    authenticityGates: { catalog: true },
     resultView: "metro",
     serviceDay: {
       coverage: "partial",
@@ -253,8 +247,8 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     timeZone: "Asia/Hong_Kong",
     // Live MTR is used only by ProviderBackedScraper at scrape time.
     search: { kind: "scraped" },
-    scrape: "provider_backed",
-    authenticityGates: { timetable: true, catalog: true, routePages: false },
+    scrape: "official_source",
+    authenticityGates: { catalog: true },
     resultView: "metro",
     serviceDay: { coverage: "unavailable", source: "MTR next-train source is not a full service-day declaration", scope: "No service-day advisory" },
   },
@@ -281,8 +275,8 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     dateRangeEnforced: true,
     timeZone: "Europe/London",
     search: { kind: "provider", provider: "tfl" },
-    scrape: "provider_backed",
-    authenticityGates: { timetable: true, catalog: true, routePages: false },
+    scrape: "official_source",
+    authenticityGates: { catalog: true },
     resultView: "live_rail",
     liveRailMarket: "london",
     serviceDay: { coverage: "supported", source: "TfL Journey API", sourceUrl: "https://api.tfl.gov.uk", scope: "Complete route-aware first/last journeys" },
@@ -307,8 +301,8 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     dateRangeEnforced: true,
     timeZone: "America/New_York",
     search: { kind: "provider", provider: "mbta" },
-    scrape: "provider_backed",
-    authenticityGates: { timetable: true, catalog: true, routePages: false },
+    scrape: "official_source",
+    authenticityGates: { catalog: true },
     resultView: "live_rail",
     liveRailMarket: "boston",
     serviceDay: { coverage: "supported", source: "MBTA public API", sourceUrl: "https://api-v3.mbta.com", scope: "Scheduled route first/last journeys for the current service date" },
@@ -325,8 +319,8 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     dateRangeDays: SCRAPE_WINDOW_DAYS,
     timeZone: "Europe/Berlin",
     search: { kind: "scraped" },
-    scrape: "provider_backed",
-    authenticityGates: { timetable: false, catalog: false, routePages: false },
+    scrape: "official_source",
+    authenticityGates: { catalog: false },
     resultView: "japan",
     serviceDay: { coverage: "unavailable", source: "gtfs.de timetable is not yet published as a service-day advisory artifact", scope: "No service-day advisory" },
   },
@@ -342,8 +336,8 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     dateRangeDays: SCRAPE_WINDOW_DAYS,
     timeZone: "Europe/Paris",
     search: { kind: "scraped" },
-    scrape: "provider_backed",
-    authenticityGates: { timetable: false, catalog: false, routePages: false },
+    scrape: "official_source",
+    authenticityGates: { catalog: false },
     resultView: "japan",
     serviceDay: {
       coverage: "supported",
@@ -364,8 +358,8 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     dateRangeDays: 14,
     timeZone: "Europe/Brussels",
     search: { kind: "provider", provider: "belgium" },
-    scrape: "provider_backed",
-    authenticityGates: { timetable: false, catalog: false, routePages: false },
+    scrape: "official_source",
+    authenticityGates: { catalog: false },
     resultView: "live_rail",
     liveRailMarket: "belgium",
     serviceDay: { coverage: "unavailable", source: "iRail journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
@@ -382,8 +376,8 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     dateRangeDays: 14,
     timeZone: "Europe/Oslo",
     search: { kind: "provider", provider: "norway" },
-    scrape: "provider_backed",
-    authenticityGates: { timetable: false, catalog: false, routePages: false },
+    scrape: "official_source",
+    authenticityGates: { catalog: false },
     resultView: "live_rail",
     liveRailMarket: "norway",
     serviceDay: { coverage: "unavailable", source: "Entur journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
@@ -400,15 +394,15 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     dateRangeDays: 14,
     timeZone: "Europe/Zurich",
     search: { kind: "provider_then_scraped", provider: "swiss" },
-    scrape: "provider_backed",
-    authenticityGates: { timetable: false, catalog: false, routePages: false },
+    scrape: "official_source",
+    authenticityGates: { catalog: false },
     resultView: "live_rail",
     liveRailMarket: "switzerland",
     serviceDay: { coverage: "unavailable", source: "OJP journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
   },
   china: {
     labelKey: "search.china",
-    provider: "Scraped (12306)",
+    provider: "No registered official source",
     originPlaceholder: "Beijing South",
     destinationPlaceholder: "Shanghai Hongqiao",
     featuredStations: ["Beijing South", "Shanghai Hongqiao", "Guangzhou South", "Shenzhen North", "Chengdu East"],
@@ -418,10 +412,13 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     dateRangeDays: SCRAPE_WINDOW_DAYS,
     timeZone: "Asia/Shanghai",
     search: { kind: "scraped" },
-    scrape: "snapshot",
-    authenticityGates: { timetable: false, catalog: false, routePages: false },
+    // No official China source is wired up. The four high-speed route files
+    // that used to sit here were curated snapshots served under a 12306 label;
+    // they are gone, and nothing replaces them until a real source exists.
+    scrape: "none",
+    authenticityGates: { catalog: false },
     resultView: "japan",
-    serviceDay: { coverage: "unavailable", source: "Curated 12306 snapshot has no qualifying full-day declaration", scope: "No service-day advisory" },
+    serviceDay: { coverage: "unavailable", source: "No registered official source", scope: "No service-day advisory" },
   },
 };
 

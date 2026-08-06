@@ -52,14 +52,24 @@ describe("Searchability policy shared output contract", () => {
       expectedNoResult: undefined,
     },
     {
-      name: "canonical facts stay explicitly indicative where fallback is permitted",
-      fixture: searchabilityPolicyFixtures.indicative,
+      name: "a route no registered source vouches for fails closed everywhere",
+      fixture: searchabilityPolicyFixtures.unverified,
       origin: "Berlin Hbf",
       destination: "Munich Hbf",
-      expectedTruthMode: "indicative",
-      expectedRoutes: 1,
-      expectedCovered: true,
-      expectedNoResult: undefined,
+      expectedTruthMode: "unusable",
+      expectedRoutes: 0,
+      expectedCovered: false,
+      expectedNoResult: "no_verified_data",
+    },
+    {
+      name: "a curated route fails closed even under a registered source block",
+      fixture: searchabilityPolicyFixtures.curated,
+      origin: "Berlin Hbf",
+      destination: "Munich Hbf",
+      expectedTruthMode: "unusable",
+      expectedRoutes: 0,
+      expectedCovered: false,
+      expectedNoResult: "no_verified_data",
     },
     {
       name: "stale facts fail closed in journey and catalog output",
@@ -154,12 +164,12 @@ describe("Searchability policy shared output contract", () => {
     expect(decision).toMatchObject({ searchable: false, truthMode: "unusable", reason: "unavailable_coverage" });
   });
 
-  it("preserves verified and indicative truth mode in route publication", () => {
+  it("publishes only what search would answer", () => {
     const directory = mkdtempSync(join(tmpdir(), "transitrail-searchability-"));
     temporaryDirectories.push(directory);
     for (const [country, route] of [
       ["korea", searchabilityPolicyFixtures.verified.route],
-      ["germany", searchabilityPolicyFixtures.indicative.route],
+      ["germany", searchabilityPolicyFixtures.unverified.route],
       ["hong_kong", searchabilityPolicyFixtures.stale.route],
     ] as const) {
       const countryDirectory = join(directory, country);
@@ -168,12 +178,15 @@ describe("Searchability policy shared output contract", () => {
     }
 
     const pages = collectRoutePages(directory);
-    const verifiedPage = pages.find((page) => page.country === "korea");
-    const indicativePage = pages.find((page) => page.country === "germany");
 
-    expect(verifiedPage).toMatchObject({ truthMode: "verified", indicative: false, provenance: "official", canonicalDate: SEARCHABILITY_FIXTURE_DATE });
-    expect(indicativePage).toMatchObject({ truthMode: "indicative", indicative: true, provenance: "curated", canonicalDate: "" });
-    expect(indicativePage?.dayResults.every((result) => !result.date)).toBe(true);
-    expect(pages.some((page) => page.country === "hong_kong")).toBe(false);
+    // A page is a durable, indexable claim about a departure time, so the bar
+    // is the same as search's: only Korea's registered-source route qualifies.
+    expect(pages.map((page) => page.country)).toEqual(["korea"]);
+    expect(pages[0]).toMatchObject({
+      truthMode: "verified",
+      indicative: false,
+      provenance: "official",
+      canonicalDate: SEARCHABILITY_FIXTURE_DATE,
+    });
   });
 });

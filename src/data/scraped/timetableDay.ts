@@ -1,5 +1,6 @@
 import type { Country, JourneyLeg, TimetableProvenance, TransitResult } from "../../types";
 import type { TimetableAuthenticity, TimetableSourceIssue, TimetableTruthMode } from "../timetableAuthenticity";
+import type { TimetableSourceMeta } from "../sourceRegistry";
 import { stationSearchKey } from "../stationKey";
 import { resolveStationAlias } from "../stationAliases";
 import {
@@ -14,6 +15,14 @@ export interface ScrapedRouteData {
   date: string;
   scrapedAt: string;
   source: string;
+  /**
+   * Which registered official source produced these rows, and when it was read.
+   *
+   * This — not the free-text `source` label — is what makes a route verifiable.
+   * A file without a valid block is treated as unverified data whatever it says
+   * about itself; see {@link ../sourceRegistry}.
+   */
+  sourceMeta?: TimetableSourceMeta;
   provenance?: TimetableProvenance;
   authenticity?: TimetableAuthenticity;
   truthMode?: TimetableTruthMode;

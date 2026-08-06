@@ -56,10 +56,6 @@ export interface SearchabilityPolicyRequest {
   sourceFact?: TimetableSourceFact;
   /** Optional fixed clock for deterministic policy tests. */
   now?: Date;
-  /** Explicit override used by adapter/fallback tests; default is country policy. */
-  allowIndicativeFallback?: boolean;
-  /** Route collections have already crossed their source adapter boundary. */
-  sourceAdapterNormalized?: boolean;
 }
 
 export interface SearchabilityDecision {
@@ -95,14 +91,6 @@ export interface SearchabilitySummary {
 }
 
 /**
- * Which authenticity gates a market is on.
- *
- * The per-country facts live in `countryConfig` so this module reads policy
- * rather than restating it. They were previously two Sets here with opposite
- * polarity, which is how Japan, Korea, HK, UK and US ended up classified
- * differently depending on which one a caller happened to consult.
- */
-/**
  * Stamp results with the verdict the policy reached for them.
  *
  * Every path that returns rows to a caller has to carry the same two fields,
@@ -121,25 +109,16 @@ export function tagResultsWithDecision<T extends object>(
   }));
 }
 
-function gatesFor(country: Country) {
-  return countryConfig[country].authenticityGates;
-}
-
-export function usesStrictTimetableGate(country?: Country): boolean {
-  return country !== undefined && gatesFor(country).timetable;
-}
-
+/**
+ * Whether a country's station and line menus are trimmed to what its committed
+ * timetables can actually answer.
+ *
+ * This is the one remaining per-country gate. The timetable gate that used to
+ * sit beside it is now unconditional — every market rejects unverified rows —
+ * so it is no longer a country's decision to make and no longer stored.
+ */
 export function usesStrictCatalogGate(country?: Country): boolean {
-  return country !== undefined && gatesFor(country).catalog;
-}
-
-/** Country/source fallback permission is declared at the policy seam. */
-export function permitsIndicativeFallback(country: Country): boolean {
-  return !usesStrictTimetableGate(country);
-}
-
-export function permitsIndicativeRoutePublication(country: Country): boolean {
-  return !gatesFor(country).routePages;
+  return country !== undefined && countryConfig[country].authenticityGates.catalog;
 }
 
 function equivalentStation(country: Country, left: string | undefined, right: string | undefined): boolean {
@@ -148,72 +127,23 @@ function equivalentStation(country: Country, left: string | undefined, right: st
     === stationSearchKey(resolveStationAlias(country, right));
 }
 
+/**
+ * Normalize whatever the caller supplied into one source fact.
+ *
+ * Routes read from disk and routes handed over by an adapter go down the same
+ * path. They used to diverge — an "already normalized" adapter route got a
+ * looser classifier that trusted its own `provenance` field and accepted a
+ * dateless snapshot as an answer — which meant the same rows could be verified
+ * or unusable depending on which door they came through.
+ */
 function normalizeRequestSource(request: SearchabilityPolicyRequest): TimetableSourceFact | undefined {
   if (request.sourceFact) return request.sourceFact;
   if (request.source === undefined) return undefined;
-  if (request.sourceAdapterNormalized && isScrapedRoute(request.source)) {
-    return normalizeAdapterRoute(request.source, request.country, request.serviceDay, request.now);
-  }
   return normalizeTimetableSource(
     request.source,
     request.serviceDay,
     authenticityOptionsFor(request.country, request.now),
   );
-}
-
-function isScrapedRoute(value: unknown): value is ScrapedRouteData {
-  if (!value || typeof value !== "object") return false;
-  const candidate = value as Record<string, unknown>;
-  return typeof candidate.origin === "string"
-    && typeof candidate.destination === "string"
-    && Array.isArray(candidate.results);
-}
-
-function normalizeAdapterRoute(
-  route: ScrapedRouteData,
-  country: Country,
-  serviceDay: string | undefined,
-  now?: Date,
-): TimetableSourceFact {
-  const options = authenticityOptionsFor(country, now);
-  const exactRows = timetableSliceForDate(route, serviceDay);
-  const canonicalRows = serviceDay && exactRows.length === 0
-    ? route.results.filter((result) => !(result.date || "").trim())
-    : [];
-  const rows = exactRows.length > 0 ? exactRows : canonicalRows;
-  const canonical = rows.length > 0 && rows.every((result) => !(result.date || "").trim());
-  const sourceDates = [...new Set(rows.map((result) => (result.date || "").trim()).filter(Boolean))];
-  // A dateless canonical snapshot is representative by definition. Its source
-  // label may be official, but it has no passenger service day to substantiate,
-  // so it must never become a verified answer merely because the adapter added
-  // provenance metadata.
-  const authenticity = canonical
-    ? "indicative"
-    : classifyTimetable(
-        { ...route, results: rows },
-        serviceDay || (sourceDates.length === 1 ? sourceDates[0] : undefined),
-        options,
-      );
-  if (!route.provenance) {
-    return {
-      snapshot: { ...route, results: rows },
-      provenance: "unknown",
-      serviceDay,
-      sourceServiceDay: sourceDates.length === 1 ? sourceDates[0] : undefined,
-      authenticity: "none",
-      truthMode: "unusable",
-      issue: "unknown_provenance",
-    };
-  }
-  return {
-    snapshot: { ...route, results: rows },
-    provenance: route.provenance || "unknown",
-    serviceDay,
-    sourceServiceDay: sourceDates.length === 1 ? sourceDates[0] : undefined,
-    authenticity,
-    truthMode: truthModeFor(authenticity),
-    issue: rows.length === 0 ? "empty" : authenticity === "stale_realtime" ? "stale_realtime" : undefined,
-  };
 }
 
 function canonicalSnapshotFor(fact: TimetableSourceFact | undefined): boolean {
@@ -305,10 +235,10 @@ export function decideSearchability(request: SearchabilityPolicyRequest): Search
 
   const pairCovered = pairIsCovered(request.country, sourceFact.snapshot, request.origin, request.destination);
   const canonicalSnapshot = canonicalSnapshotFor(sourceFact);
-  const allowIndicative = request.allowIndicativeFallback ?? permitsIndicativeFallback(request.country);
-  const verified = isVerifiableTimetable(sourceFact.authenticity);
-  const indicative = sourceFact.truthMode === "indicative" && allowIndicative;
-  const searchable = pairCovered && (verified || indicative);
+  // Verified or nothing. There is no longer an "indicative" tier that a market
+  // may opt into: a route either has rows a registered official source stands
+  // behind for this service day, or the answer is that none is available.
+  const searchable = pairCovered && isVerifiableTimetable(sourceFact.authenticity);
 
   return {
     ...base,
@@ -400,7 +330,6 @@ export function searchableRoutesForContext(
       origin: route.origin,
       destination: route.destination,
       source: route,
-      sourceAdapterNormalized: true,
     });
     decisions.push(decision);
     if (!decision.searchable || !decision.sourceFact) continue;
@@ -463,7 +392,6 @@ function decisionFromAccepted(
     : [];
   const accepted = (matching.length > 0 ? matching : decisions).filter((decision) => decision.searchable);
   if (accepted.length === 0) return undefined;
-  const indicative = accepted.some((decision) => decision.truthMode === "indicative");
   const provenance = new Set(accepted.map((decision) => decision.provenance));
   return {
     ...accepted[0],
@@ -471,7 +399,7 @@ function decisionFromAccepted(
     destination,
     resolvedOrigin: resolveStationAlias(accepted[0].country, origin),
     resolvedDestination: resolveStationAlias(accepted[0].country, destination),
-    truthMode: indicative ? "indicative" : accepted[0].truthMode,
+    truthMode: accepted[0].truthMode,
     provenance: provenance.size === 1 ? accepted[0].provenance : "unknown",
     reachableDestinations,
   };
@@ -497,7 +425,6 @@ export function decideRouteContextSearchability(
     country: request.country,
     serviceDay: request.serviceDay,
     origin: request.origin,
-    allowIndicativeFallback: request.allowIndicativeFallback,
   });
   const currentResult = request.origin
     ? findInRoutes(current.routes, request.origin, request.destination, request.serviceDay, request.country)
@@ -517,7 +444,6 @@ export function decideRouteContextSearchability(
     ? searchableRoutesForContext(routes, {
         country: request.country,
         origin: request.origin,
-        allowIndicativeFallback: request.allowIndicativeFallback,
       })
     : current;
   const historicalNames = new Set(historical.covered.map((name) => stationSearchKey(resolveStationAlias(request.country, name))));
@@ -560,11 +486,10 @@ export function summarizeSearchability(decisions: readonly SearchabilityDecision
       reason: reason || "unavailable_coverage",
     };
   }
-  const indicative = accepted.some((decision) => decision.truthMode === "indicative");
   const provenance = new Set(accepted.map((decision) => decision.provenance));
   return {
     searchable: true,
-    truthMode: indicative ? "indicative" : "verified",
+    truthMode: "verified",
     provenance: provenance.size === 1 ? accepted[0].provenance : "unknown",
   };
 }
@@ -589,7 +514,6 @@ export function routeSearchability(
   country: Country,
   serviceDay?: string,
   now?: Date,
-  allowIndicativeFallback?: boolean,
 ): SearchabilityDecision {
   const sourceFact = normalizeTimetableSource(
     route,
@@ -603,7 +527,6 @@ export function routeSearchability(
     destination: route.destination,
     sourceFact,
     now,
-    allowIndicativeFallback,
   });
 }
 

@@ -2,11 +2,12 @@ import { describe, expect, it } from "vitest";
 import type { TransitResult } from "../types";
 import {
   classifyTimetable,
-  isIndicativeTimetable,
+  isSyntheticTimetable,
   normalizeTimetableSource,
   parseClockMinutes,
   type TimetableSnapshot,
 } from "./timetableAuthenticity";
+import { buildSourceMeta, type OfficialSourceId } from "./sourceRegistry";
 
 function result(partial: Partial<TransitResult> = {}): TransitResult {
   return {
@@ -25,10 +26,26 @@ function result(partial: Partial<TransitResult> = {}): TransitResult {
   };
 }
 
+/** A route as the pipeline writes it: rows plus the source block that vouches for them. */
 function snapshot(
-  source: string,
+  sourceId: OfficialSourceId,
   results: TransitResult[],
 ): TimetableSnapshot {
+  const sourceMeta = buildSourceMeta({ sourceId, fetchedAt: "2026-08-01T08:00:00.000Z" });
+  return {
+    origin: "Origin",
+    destination: "Destination",
+    date: "2026-08-01",
+    scrapedAt: "2026-08-01T08:00:00.000Z",
+    source: sourceMeta.sourceName,
+    sourceMeta,
+    provenance: "official",
+    results,
+  };
+}
+
+/** A route carrying a label but no registered source — a legacy or hand-made file. */
+function unregisteredSnapshot(source: string, results: TransitResult[]): TimetableSnapshot {
   return {
     origin: "Origin",
     destination: "Destination",
@@ -39,85 +56,10 @@ function snapshot(
   };
 }
 
-describe("timetable authenticity", () => {
-  it("keeps a canonical snapshot indicative for a requested service day", () => {
-    const canonicalRows = [
-      result({ id: "canonical-0", date: undefined, departureTime: "08:00" }),
-      result({ id: "canonical-1", date: undefined, departureTime: "08:17" }),
-    ];
-
+describe("a registered source is the only route to verified", () => {
+  it("accepts rows whose source block matches the register", () => {
     expect(normalizeTimetableSource(
-      snapshot("operator curated snapshot", canonicalRows),
-      "2026-08-02",
-    )).toMatchObject({
-      provenance: "curated",
-      serviceDay: "2026-08-02",
-      sourceServiceDay: undefined,
-      authenticity: "indicative",
-      truthMode: "indicative",
-    });
-  });
-
-  it("keeps a dateless LLM canonical snapshot indicative", () => {
-    const canonicalRows = [
-      result({ id: "llm-canonical-0", date: undefined, departureTime: "08:00", provenance: "llm-advisory" }),
-    ];
-
-    expect(normalizeTimetableSource({
-      ...snapshot("llm-advisory", canonicalRows),
-      provenance: "llm-advisory",
-    }, "2026-08-02")).toMatchObject({
-      provenance: "llm-advisory",
-      authenticity: "indicative",
-      truthMode: "indicative",
-    });
-  });
-
-  it("returns an unusable source fact for malformed input", () => {
-    expect(normalizeTimetableSource({
-      origin: "Origin",
-      destination: "Destination",
-      source: "official timetable",
-      results: "not-an-array",
-    } as unknown as TimetableSnapshot, "2026-08-01")).toEqual({
-      provenance: "unknown",
-      serviceDay: "2026-08-01",
-      authenticity: "none",
-      truthMode: "unusable",
-      issue: "malformed",
-    });
-  });
-
-  it("fails closed when a timetable row is malformed", () => {
-    expect(normalizeTimetableSource({
-      origin: "Origin",
-      destination: "Destination",
-      source: "official timetable",
-      results: [{ id: "missing-required-fields", date: "2026-08-01" }],
-    }, "2026-08-01")).toMatchObject({
-      provenance: "unknown",
-      authenticity: "none",
-      truthMode: "unusable",
-      issue: "malformed",
-    });
-  });
-
-  it("fails closed when the requested service day is not a calendar date", () => {
-    expect(normalizeTimetableSource(
-      snapshot("official timetable", [result()]),
-      "2026-02-30",
-    )).toMatchObject({
-      provenance: "unknown",
-      serviceDay: "2026-02-30",
-      authenticity: "none",
-      truthMode: "unusable",
-      issue: "malformed",
-    });
-  });
-
-  it("describes an exact scheduled source as verified", () => {
-    expect(normalizeTimetableSource(
-      snapshot("official timetable", [result()]),
+      snapshot("jp-odpt-toei", [result()]),
       "2026-08-01",
     )).toMatchObject({
       provenance: "official",
@@ -129,95 +71,10 @@ describe("timetable authenticity", () => {
     });
   });
 
-  it.each([
-    "ODPT timetable",
-    "ODPT Tokyo Metro timetable",
-  ])("keeps the Japan ODPT source label verified: %s", (source) => {
-    expect(normalizeTimetableSource(
-      snapshot(source, [result()]),
-      "2026-08-01",
-      { expectedCountry: "japan" },
-    )).toMatchObject({
-      provenance: "official",
-      authenticity: "scraped",
-      truthMode: "verified",
-      issue: undefined,
-    });
-  });
-
-  it("describes a current live source as verified", () => {
-    const live = result({
-      id: "2026-08-01-uk-tfl-2026-08-01T08:37:00-0",
-      realtime: true,
-    });
-    expect(normalizeTimetableSource(
-      snapshot("https://api.tfl.gov.uk", [live]),
-      "2026-08-01",
-    )).toMatchObject({
-      provenance: "official",
-      sourceServiceDay: "2026-08-01",
-      authenticity: "realtime",
-      truthMode: "verified",
-    });
-  });
-
-  it("accepts a current live source whose provider id has no date", () => {
-    const live = result({
-      id: "hk-TWL-ADM-08:37:00-0",
-      realtime: true,
-    });
-    expect(normalizeTimetableSource(
-      snapshot("https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php", [live]),
-      "2026-08-01",
-      { realtimeTodayOnly: true, today: "2026-08-01" },
-    )).toMatchObject({
-      provenance: "official",
-      sourceServiceDay: "2026-08-01",
-      authenticity: "realtime",
-      truthMode: "verified",
-    });
-  });
-
-  it("describes a copied live source as stale", () => {
-    const copied = result({
-      id: "2026-08-02-uk-tfl-2026-08-01T08:37:00-0",
-      date: "2026-08-02",
-      realtime: true,
-    });
-    expect(normalizeTimetableSource(
-      snapshot("https://api.tfl.gov.uk", [copied]),
-      "2026-08-02",
-    )).toMatchObject({
-      provenance: "official",
-      sourceServiceDay: "2026-08-02",
-      authenticity: "stale_realtime",
-      truthMode: "stale",
-      issue: "stale_realtime",
-    });
-  });
-
-  it("distinguishes an empty source from a service-day mismatch", () => {
-    expect(normalizeTimetableSource(snapshot("official timetable", []), "2026-08-01"))
-      .toMatchObject({ truthMode: "unusable", issue: "empty" });
-    expect(normalizeTimetableSource(snapshot("official timetable", [result()]), "2026-08-02"))
-      .toMatchObject({ truthMode: "unusable", issue: "service_day_mismatch" });
-  });
-
-  it("uses explicit curated provenance even when the source label is generic", () => {
+  it("rejects a route that only claims to be official", () => {
     expect(normalizeTimetableSource({
-      ...snapshot("official timetable", [result()]),
-      provenance: "curated",
-    }, "2026-08-01")).toMatchObject({
-      provenance: "curated",
-      authenticity: "indicative",
-      truthMode: "indicative",
-    });
-  });
-
-  it("fails closed when provenance is absent", () => {
-    expect(normalizeTimetableSource({
-      ...snapshot(undefined as unknown as string, [result()]),
-      source: undefined,
+      ...unregisteredSnapshot("official timetable", [result()]),
+      provenance: "official",
     }, "2026-08-01")).toMatchObject({
       provenance: "unknown",
       authenticity: "none",
@@ -226,220 +83,254 @@ describe("timetable authenticity", () => {
     });
   });
 
-  it("does not infer official provenance from an unknown source label", () => {
-    expect(normalizeTimetableSource(
-      snapshot("mystery provider", [result()]),
-      "2026-08-01",
-    )).toMatchObject({ provenance: "unknown", truthMode: "unusable", issue: "unknown_provenance" });
-    expect(normalizeTimetableSource(
-      snapshot("https://api.example.invalid", [result()]),
-      "2026-08-01",
-    )).toMatchObject({ provenance: "unknown", truthMode: "unusable", issue: "unknown_provenance" });
+  it("rejects an official-sounding source label with no source block", () => {
+    for (const label of ["ODPT timetable", "https://api.tfl.gov.uk", "mystery provider"]) {
+      expect(normalizeTimetableSource(
+        unregisteredSnapshot(label, [result()]),
+        "2026-08-01",
+      )).toMatchObject({ provenance: "unknown", truthMode: "unusable", issue: "unknown_provenance" });
+    }
   });
 
-  it("scopes row-level advisory provenance to the requested service day", () => {
+  it("rejects a source block that was edited away from the register", () => {
+    const route = snapshot("jp-odpt-toei", [result()]);
+    expect(normalizeTimetableSource({
+      ...route,
+      sourceMeta: { ...route.sourceMeta!, sourceUrl: "https://timetable.example.invalid" },
+    }, "2026-08-01")).toMatchObject({ truthMode: "unusable", issue: "malformed" });
+  });
+});
+
+describe("retired curated and AI-advisory data", () => {
+  it("refuses a curated route outright rather than showing it as indicative", () => {
+    expect(normalizeTimetableSource({
+      ...unregisteredSnapshot("operator curated snapshot", [result()]),
+      provenance: "curated",
+    }, "2026-08-01")).toMatchObject({
+      provenance: "curated",
+      authenticity: "none",
+      truthMode: "unusable",
+      issue: "unverified_source",
+    });
+  });
+
+  it("refuses an AI-advisory route outright", () => {
+    expect(normalizeTimetableSource({
+      ...unregisteredSnapshot("llm-advisory", [result({ provenance: "llm-advisory" })]),
+      provenance: "llm-advisory",
+    }, "2026-08-01")).toMatchObject({
+      provenance: "llm-advisory",
+      authenticity: "none",
+      truthMode: "unusable",
+    });
+  });
+
+  it("cannot be laundered by bolting a valid source block onto a curated file", () => {
+    const route = snapshot("jp-odpt-toei", [result()]);
     expect(normalizeTimetableSource(
-      snapshot("official timetable", [
+      { ...route, provenance: "curated" },
+      "2026-08-01",
+    )).toMatchObject({ provenance: "curated", authenticity: "none", truthMode: "unusable" });
+  });
+
+  it("refuses a route with a single curated row among registered ones", () => {
+    expect(normalizeTimetableSource(
+      snapshot("jp-odpt-toei", [result(), result({ id: "curated-1", provenance: "curated" })]),
+      "2026-08-01",
+    )).toMatchObject({ truthMode: "unusable" });
+  });
+});
+
+describe("service days", () => {
+  it("never answers one service day with rows stored for another", () => {
+    expect(normalizeTimetableSource(snapshot("jp-odpt-toei", [result()]), "2026-08-02"))
+      .toMatchObject({ truthMode: "unusable", issue: "service_day_mismatch" });
+  });
+
+  it("does not accept a dateless canonical day as an answer for a requested day", () => {
+    const canonicalRows = [
+      result({ id: "canonical-0", date: undefined, departureTime: "08:00" }),
+      result({ id: "canonical-1", date: undefined, departureTime: "08:17" }),
+    ];
+
+    expect(normalizeTimetableSource(
+      snapshot("jp-odpt-toei", canonicalRows),
+      "2026-08-02",
+    )).toMatchObject({
+      authenticity: "none",
+      truthMode: "unusable",
+      issue: "service_day_mismatch",
+    });
+  });
+
+  it("distinguishes an empty source from a service-day mismatch", () => {
+    expect(normalizeTimetableSource(snapshot("jp-odpt-toei", []), "2026-08-01"))
+      .toMatchObject({ truthMode: "unusable", issue: "empty" });
+  });
+
+  it("scopes a rejected row to the day it belongs to", () => {
+    expect(normalizeTimetableSource(
+      snapshot("jp-odpt-toei", [
         result({ id: "official-today", date: "2026-08-01" }),
-        result({ id: "llm-other-day", date: "2026-08-02", provenance: "llm-advisory" }),
+        result({ id: "curated-other-day", date: "2026-08-02", provenance: "curated" }),
       ]),
       "2026-08-01",
     )).toMatchObject({ provenance: "official", truthMode: "verified", authenticity: "scraped" });
   });
+});
 
-  it("fails closed for invalid semantic row values", () => {
+describe("live sources", () => {
+  it("describes a current live source as verified", () => {
+    const live = result({ id: "2026-08-01-uk-tfl-2026-08-01T08:37:00-0", country: "united_kingdom", realtime: true });
     expect(normalizeTimetableSource(
-      snapshot("official timetable", [result({
-        date: "2026-02-30",
-        departureTime: "not-a-time",
-      })]),
+      snapshot("uk-tfl-journey-planner", [live]),
       "2026-08-01",
     )).toMatchObject({
+      provenance: "official",
+      sourceServiceDay: "2026-08-01",
+      authenticity: "realtime",
+      truthMode: "verified",
+    });
+  });
+
+  it("accepts a current live source whose provider id carries no date", () => {
+    const live = result({ id: "hk-TWL-ADM-08:37:00-0", country: "hong_kong", realtime: true });
+    expect(normalizeTimetableSource(
+      snapshot("hk-mtr-next-train", [live]),
+      "2026-08-01",
+      { realtimeTodayOnly: true, today: "2026-08-01" },
+    )).toMatchObject({ authenticity: "realtime", truthMode: "verified" });
+  });
+
+  it("describes a live row copied onto another date as stale", () => {
+    const copied = result({
+      id: "2026-08-02-uk-tfl-2026-08-01T08:37:00-0",
+      country: "united_kingdom",
+      date: "2026-08-02",
+      realtime: true,
+    });
+    expect(normalizeTimetableSource(
+      snapshot("uk-tfl-journey-planner", [copied]),
+      "2026-08-02",
+    )).toMatchObject({
+      authenticity: "stale_realtime",
+      truthMode: "stale",
+      issue: "stale_realtime",
+    });
+  });
+
+  it("recognizes the space-separated timestamp the MTR adapter emits", () => {
+    const rows = [result({ id: "hk-TWL-ADM-2026-08-01 15:25:04-1", country: "hong_kong", realtime: true })];
+    expect(classifyTimetable(snapshot("hk-mtr-next-train", rows), "2026-08-01", {
+      realtimeTodayOnly: true,
+      today: "2026-08-01",
+    })).toBe("realtime");
+  });
+});
+
+describe("structural validation fails closed", () => {
+  it.each([
+    ["a non-array results field", { results: "not-an-array" }],
+    ["a row missing required fields", { results: [{ id: "missing", date: "2026-08-01" }] }],
+  ])("rejects %s", (_label, override) => {
+    expect(normalizeTimetableSource({
+      ...snapshot("jp-odpt-toei", [result()]),
+      ...override,
+    } as unknown as TimetableSnapshot, "2026-08-01")).toMatchObject({
+      provenance: "unknown",
       authenticity: "none",
       truthMode: "unusable",
       issue: "malformed",
     });
   });
 
-  it("fails closed for an invalid country value", () => {
+  it("rejects a requested service day that is not a calendar date", () => {
     expect(normalizeTimetableSource(
-      snapshot("official timetable", [result({ country: "atlantis" as TransitResult["country"] })]),
+      snapshot("jp-odpt-toei", [result()]),
+      "2026-02-30",
+    )).toMatchObject({ serviceDay: "2026-02-30", truthMode: "unusable", issue: "malformed" });
+  });
+
+  it.each([
+    ["an impossible row date and time", { date: "2026-02-30", departureTime: "not-a-time" }],
+    ["an unknown country", { country: "atlantis" as TransitResult["country"] }],
+    ["a non-array legs value", { direct: false, legs: {} as TransitResult["legs"] }],
+    ["an impossible leg time", {
+      direct: false,
+      legs: [{ lineName: "Line A", origin: "Origin", destination: "Destination", departureTime: "99:99" }],
+    }],
+    ["an impossible leg delay and upcoming time", {
+      direct: false,
+      legs: [{
+        lineName: "Line A",
+        origin: "Origin",
+        destination: "Destination",
+        delayMinutes: "late" as unknown as number,
+        upcomingDepartures: ["not-a-time"],
+      }],
+    }],
+  ])("rejects %s", (_label, override) => {
+    expect(normalizeTimetableSource(
+      snapshot("jp-odpt-toei", [result(override)]),
       "2026-08-01",
     )).toMatchObject({ truthMode: "unusable", issue: "malformed" });
   });
 
   it("rejects a provider row from the wrong country when the adapter supplies context", () => {
     expect(normalizeTimetableSource(
-      snapshot("https://api.tfl.gov.uk", [result({ country: "japan" })]),
+      snapshot("uk-tfl-journey-planner", [result({ country: "japan" })]),
       "2026-08-01",
       { expectedCountry: "united_kingdom" },
     )).toMatchObject({ truthMode: "unusable", issue: "malformed" });
   });
 
-  it("fails closed for malformed transfer legs", () => {
-    expect(normalizeTimetableSource(
-      snapshot("official timetable", [result({
-        direct: false,
-        legs: {} as TransitResult["legs"],
-      })]),
-      "2026-08-01",
-    )).toMatchObject({
-      authenticity: "none",
-      truthMode: "unusable",
-      issue: "malformed",
-    });
-  });
-
-  it("fails closed for invalid nested leg times", () => {
-    expect(normalizeTimetableSource(
-      snapshot("official timetable", [result({
-        direct: false,
-        legs: [{
-          lineName: "Line A",
-          origin: "Origin",
-          destination: "Destination",
-          departureTime: "99:99",
-        }],
-      })]),
-      "2026-08-01",
-    )).toMatchObject({ truthMode: "unusable", issue: "malformed" });
-  });
-
-  it("fails closed for invalid nested delay and upcoming times", () => {
-    expect(normalizeTimetableSource(
-      snapshot("official timetable", [result({
-        direct: false,
-        legs: [{
-          lineName: "Line A",
-          origin: "Origin",
-          destination: "Destination",
-          delayMinutes: "late" as unknown as number,
-          upcomingDepartures: ["not-a-time"],
-        }],
-      })]),
-      "2026-08-01",
-    )).toMatchObject({ truthMode: "unusable", issue: "malformed" });
-  });
-
-  it("fails closed for invalid source timestamps", () => {
+  it("rejects an unparseable scrape timestamp", () => {
     expect(normalizeTimetableSource({
-      ...snapshot("official timetable", [result()]),
+      ...snapshot("jp-odpt-toei", [result()]),
       scrapedAt: "not-a-timestamp",
     }, "2026-08-01")).toMatchObject({ truthMode: "unusable", issue: "malformed" });
+  });
+});
+
+describe("synthetic timetable detection", () => {
+  const fixedHeadway = [0, 10, 20, 30].map((offset, index) =>
+    result({ id: `row-${index}`, departureTime: `08:${String(offset).padStart(2, "0")}` }),
+  );
+  const mixedHeadway = ["08:00", "08:10", "08:25", "08:35"].map((departureTime, index) =>
+    result({ id: `mixed-${index}`, departureTime }),
+  );
+
+  it("flags an unvarying headway and an explicit curated label", () => {
+    expect(isSyntheticTimetable("official", fixedHeadway)).toBe(true);
+    expect(isSyntheticTimetable("official snapshot", mixedHeadway)).toBe(true);
+    expect(isSyntheticTimetable("official", mixedHeadway)).toBe(false);
+  });
+
+  it("flags a row carrying a retired provenance marker", () => {
+    expect(isSyntheticTimetable("official", [result({ provenance: "curated" })])).toBe(true);
+    expect(isSyntheticTimetable("official", [result({ provenance: "llm-advisory" })])).toBe(true);
+  });
+
+  it("needs four departures before an even spacing means anything", () => {
+    expect(isSyntheticTimetable("official", fixedHeadway.slice(0, 3))).toBe(false);
+  });
+
+  it("is a validation detector, not a classifier — it never downgrades a registered source", () => {
+    // A real next-train feed can legitimately return four trains four minutes
+    // apart. Wiring the detector into classification would delete that live
+    // answer, so classification stays on the register alone.
+    expect(classifyTimetable(snapshot("jp-odpt-toei", fixedHeadway), "2026-08-01")).toBe("scraped");
+  });
+});
+
+describe("classification helpers", () => {
+  it("classifies an empty date slice as none", () => {
+    expect(classifyTimetable(snapshot("jp-odpt-toei", [result()]), "2026-08-02")).toBe("none");
   });
 
   it("parses only clock values", () => {
     expect(parseClockMinutes("06:05")).toBe(365);
     expect(parseClockMinutes("25:05")).toBe(1505);
     expect(parseClockMinutes("not-a-time")).toBeUndefined();
-  });
-
-  it("keeps the existing indicative backstop semantics", () => {
-    const fixedHeadway = [0, 10, 20, 30].map((offset, index) =>
-      result({ id: `row-${index}`, departureTime: `08:${String(offset).padStart(2, "0")}` }),
-    );
-    const mixedHeadway = ["08:00", "08:10", "08:25", "08:35"].map((departureTime, index) =>
-      result({ id: `mixed-${index}`, departureTime }),
-    );
-
-    expect(isIndicativeTimetable("official snapshot", mixedHeadway)).toBe(true);
-    expect(isIndicativeTimetable("official", fixedHeadway)).toBe(true);
-    expect(isIndicativeTimetable("official", mixedHeadway)).toBe(false);
-  });
-
-  it("classifies an empty date slice as none", () => {
-    expect(classifyTimetable(snapshot("official", [result()]), "2026-08-02")).toBe("none");
-  });
-
-  it("classifies official scheduled rows as scraped", () => {
-    const rows = [
-      result({ id: "2026-08-01-official-0", departureTime: "08:00" }),
-      result({ id: "2026-08-01-official-1", departureTime: "08:17" }),
-    ];
-    expect(classifyTimetable(snapshot("official timetable", rows), "2026-08-01")).toBe("scraped");
-  });
-
-  it("does not downgrade an explicitly official source by the fixed-headway backstop", () => {
-    const rows = [0, 10, 20, 30].map((offset, index) =>
-      result({ id: `artifact-${index}`, departureTime: `08:${String(offset).padStart(2, "0")}` }),
-    );
-    expect(classifyTimetable({
-      ...snapshot("Seoul Metro official timetable CSV", rows),
-      provenance: "official",
-    }, "2026-08-01")).toBe("scraped");
-  });
-
-  it("classifies a current realtime snapshot as realtime", () => {
-    const rows = [result({
-      id: "2026-08-01-uk-tfl-2026-08-01T08:37:00-0",
-      realtime: true,
-    })];
-    expect(classifyTimetable(snapshot("https://api.tfl.gov.uk", rows), "2026-08-01")).toBe("realtime");
-  });
-
-  it("classifies a realtime row copied to another date as stale_realtime", () => {
-    const rows = [result({
-      id: "2026-08-02-uk-tfl-2026-08-01T08:37:00-0",
-      date: "2026-08-02",
-      realtime: true,
-    })];
-    expect(classifyTimetable(snapshot("https://api.tfl.gov.uk", rows), "2026-08-02")).toBe("stale_realtime");
-  });
-
-  it("recognizes the space-separated timestamp used by the MTR live adapter", () => {
-    const rows = [result({
-      id: "hk-TWL-ADM-2026-08-01 15:25:04-1",
-      realtime: true,
-    })];
-
-    expect(classifyTimetable(snapshot("https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php", rows), "2026-08-01", {
-      realtimeTodayOnly: true,
-      today: "2026-08-01",
-    })).toBe("realtime");
-  });
-
-  it("does not let a curated fallback label hide a current live row", () => {
-    const rows = [result({
-      id: "hk-TWL-ADM-2026-08-01 15:25:04-1",
-      realtime: true,
-    })];
-    const fallback = snapshot("MTR curated snapshot fallback", rows);
-
-    expect(classifyTimetable(fallback, "2026-08-01", {
-      realtimeTodayOnly: true,
-      today: "2026-08-01",
-    })).toBe("realtime");
-    expect(classifyTimetable({
-      ...fallback,
-      results: rows.map((row) => ({ ...row, date: "2026-08-02" })),
-    }, "2026-08-02", {
-      realtimeTodayOnly: true,
-      today: "2026-08-01",
-    })).toBe("stale_realtime");
-  });
-
-  it("does not treat LLM advisory data as a verified timetable", () => {
-    const rows = [
-      result({ id: "llm-0", departureTime: "08:00" }),
-      result({ id: "llm-1", departureTime: "08:17" }),
-    ];
-    expect(classifyTimetable(snapshot("llm-advisory", rows), "2026-08-01")).toBe("indicative");
-  });
-
-  it("honors a row-level LLM provenance marker even when the source looks official", () => {
-    const rows = [
-      result({ id: "official-llm-0", provenance: "llm-advisory" }),
-      result({ id: "official-llm-1", provenance: "llm-advisory", departureTime: "08:17" }),
-    ];
-    expect(classifyTimetable(snapshot("official timetable", rows), "2026-08-01")).toBe("indicative");
-  });
-
-  it("does not promote a route-level LLM marker when rows are marked realtime", () => {
-    const rows = [result({
-      id: "2026-08-01-llm-2026-08-01T08:37:00-0",
-      realtime: true,
-    })];
-    expect(classifyTimetable({ ...snapshot("official API", rows), provenance: "llm-advisory" }, "2026-08-01"))
-      .toBe("indicative");
   });
 });

@@ -43,13 +43,14 @@ describe("sitemap coverage matches the generated pages", () => {
     }
   });
 
-  it("removes only representative Singapore and Thailand route pages", () => {
-    expect(pages.some((page) => page.country === "singapore")).toBe(false);
-    expect(pages.some((page) => page.country === "thailand")).toBe(false);
-    expect(pages.some((page) => page.country === "korea")).toBe(true);
-    expect(pages.some((page) => page.country === "china")).toBe(true);
-    expect(allEntries.some((entry) => entry.url.includes("/singapore/"))).toBe(false);
-    expect(allEntries.some((entry) => entry.url.includes("/thailand/"))).toBe(false);
+  it("publishes no page for a market with no verified departures", () => {
+    // Singapore and Thailand publish service hours and headways, not departure
+    // times; Korail and 12306 have no source at all. None of them can back a
+    // page that states when a train leaves.
+    for (const country of ["singapore", "thailand", "korea", "china"]) {
+      expect(pages.some((page) => page.country === country), country).toBe(false);
+      expect(allEntries.some((entry) => entry.url.includes(`/${country}/`)), country).toBe(false);
+    }
   });
 
   it("covers every generated route page in every locale", () => {

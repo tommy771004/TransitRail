@@ -1,6 +1,7 @@
 import { gunzipSync, gzipSync } from "node:zlib";
 import type { ServiceDayType, TransitResult } from "../types";
 import { getMinimumTransferMinutes } from "./transferRules";
+import type { OfficialSourceId } from "./sourceRegistry";
 import {
   buildSeoulJourneys,
   formatClock,
@@ -34,6 +35,20 @@ export const KOREAN_SUBWAY_ARTIFACT_SOURCES = [
 ] as const;
 
 export type KoreanSubwayArtifactSource = typeof KOREAN_SUBWAY_ARTIFACT_SOURCES[number];
+
+/**
+ * Which register entry each artifact feed corresponds to.
+ *
+ * The mapping is exhaustive over the closed set above, so an artifact that
+ * decodes at all has a registered source, and search can attach the same
+ * provenance block to artifact rows that a route file carries. The artifact
+ * format predates that block and stores only the label; this is where the two
+ * are joined, in one place, rather than by matching strings at each call site.
+ */
+export const KOREAN_ARTIFACT_SOURCE_IDS: Record<KoreanSubwayArtifactSource, OfficialSourceId> = {
+  "Seoul Metro official timetable CSV": "kr-seoul-metro-csv",
+  "Incheon Transit Corporation official timetable CSV": "kr-incheon-transit-csv",
+};
 
 export interface KoreanSubwayArtifact {
   schemaVersion: typeof KOREAN_SUBWAY_ARTIFACT_SCHEMA_VERSION;

@@ -9,11 +9,13 @@ import {
   searchableRoutesForContext,
   type SearchabilityPolicyRequest,
 } from "./searchabilityPolicy";
+import { buildSourceMeta } from "./sourceRegistry";
 
 const SERVICE_DAY = SEARCHABILITY_FIXTURE_DATE;
 const NOW = SEARCHABILITY_FIXTURE_NOW;
 const verifiedRoute = searchabilityPolicyFixtures.verified.route;
-const indicativeRoute = searchabilityPolicyFixtures.indicative.route;
+const unverifiedRoute = searchabilityPolicyFixtures.unverified.route;
+const curatedRoute = searchabilityPolicyFixtures.curated.route;
 const staleRoute = searchabilityPolicyFixtures.stale.route;
 
 describe("Searchability policy contract", () => {
@@ -31,38 +33,28 @@ describe("Searchability policy contract", () => {
       expected: { searchable: true, truthMode: "verified", reason: undefined },
     },
     {
-      name: "accepts an indicative route only where fallback is permitted",
+      name: "rejects a route no registered source vouches for",
       request: {
-        country: searchabilityPolicyFixtures.indicative.country,
+        country: searchabilityPolicyFixtures.unverified.country,
         serviceDay: SERVICE_DAY,
-        origin: indicativeRoute.origin,
-        destination: indicativeRoute.destination,
-        source: indicativeRoute,
+        origin: unverifiedRoute.origin,
+        destination: unverifiedRoute.destination,
+        source: unverifiedRoute,
         now: NOW,
       },
-      expected: { searchable: true, truthMode: "indicative", reason: undefined },
+      expected: { searchable: false, truthMode: "unusable", reason: "unavailable_coverage" },
     },
     {
-      name: "rejects an indicative route where fallback is forbidden",
+      name: "rejects a curated route in a market that used to permit fallback",
       request: {
-        country: "hong_kong" as const,
+        country: searchabilityPolicyFixtures.curated.country,
         serviceDay: SERVICE_DAY,
-        origin: "Central",
-        destination: "Airport",
-        source: {
-          ...indicativeRoute,
-          origin: "Central",
-          destination: "Airport",
-          results: indicativeRoute.results.map((row) => ({
-            ...row,
-            country: "hong_kong" as const,
-            origin: "Central",
-            destination: "Airport",
-          })),
-        },
+        origin: curatedRoute.origin,
+        destination: curatedRoute.destination,
+        source: curatedRoute,
         now: NOW,
       },
-      expected: { searchable: false, truthMode: "indicative", reason: "unavailable_coverage" },
+      expected: { searchable: false, truthMode: "unusable", reason: "unavailable_coverage" },
     },
     {
       name: "rejects stale realtime data",
@@ -96,9 +88,29 @@ describe("Searchability policy contract", () => {
     expect(decideSearchability(request)).toMatchObject(expected);
   });
 
+  it("holds every market to the same bar, whatever kind of service it runs", () => {
+    // Germany used to permit an indicative fallback and Hong Kong did not, so
+    // identical rows were searchable in one and rejected in the other.
+    for (const country of ["germany", "hong_kong", "japan", "united_kingdom"] as const) {
+      const decision = decideSearchability({
+        country,
+        serviceDay: SERVICE_DAY,
+        origin: "A",
+        destination: "B",
+        source: {
+          ...unverifiedRoute,
+          origin: "A",
+          destination: "B",
+          results: unverifiedRoute.results.map((row) => ({ ...row, country, origin: "A", destination: "B" })),
+        },
+        now: NOW,
+      });
+      expect(decision.searchable, country).toBe(false);
+    }
+  });
+
   it("resolves aliases and keeps origin-conditioned destinations on the same policy", () => {
-    const routes = [verifiedRoute];
-    const selection = searchableRoutesForContext(routes, {
+    const selection = searchableRoutesForContext([verifiedRoute], {
       country: "korea",
       serviceDay: SERVICE_DAY,
       origin: "Seoul",
@@ -110,39 +122,40 @@ describe("Searchability policy contract", () => {
     expect(selection.decisions.every((decision) => decision.searchable)).toBe(true);
   });
 
-  it("uses a dateless canonical snapshot as an indicative service-day fallback", () => {
-    const selection = searchableRoutesForContext([indicativeRoute], {
-      country: "germany",
-      serviceDay: SERVICE_DAY,
-      origin: indicativeRoute.origin,
-      now: NOW,
-    });
-
-    expect(selection.routes).toHaveLength(1);
-    expect(selection.routes[0].truthMode).toBe("indicative");
-    expect(selection.routes[0].results.every((row) => !row.date)).toBe(true);
-  });
-
-  it("does not promote an official canonical snapshot to a dated answer", () => {
-    const officialCanonical = {
-      ...indicativeRoute,
-      source: "official timetable",
-      provenance: "official" as const,
+  it("does not answer a service day from a dateless canonical snapshot", () => {
+    const canonical = {
+      ...verifiedRoute,
+      results: verifiedRoute.results.map(({ date: _date, ...row }) => row),
     };
     const decision = decideSearchability({
-      country: "germany",
+      country: "korea",
       serviceDay: SERVICE_DAY,
-      origin: officialCanonical.origin,
-      destination: officialCanonical.destination,
-      source: officialCanonical,
+      origin: canonical.origin,
+      destination: canonical.destination,
+      source: canonical,
       now: NOW,
     });
 
     expect(decision).toMatchObject({
-      searchable: true,
-      truthMode: "indicative",
-      canonicalSnapshot: true,
+      searchable: false,
+      truthMode: "unusable",
       sourceServiceDay: undefined,
     });
+  });
+
+  it("rejects a route whose source block was retargeted at a different country", () => {
+    const decision = decideSearchability({
+      country: "korea",
+      serviceDay: SERVICE_DAY,
+      origin: verifiedRoute.origin,
+      destination: verifiedRoute.destination,
+      source: {
+        ...verifiedRoute,
+        sourceMeta: buildSourceMeta({ sourceId: "de-gtfs", fetchedAt: verifiedRoute.scrapedAt }),
+      },
+      now: NOW,
+    });
+
+    expect(decision.searchable).toBe(false);
   });
 });

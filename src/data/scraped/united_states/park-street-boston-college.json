@@ -3,7 +3,21 @@
   "destination": "Boston College",
   "date": "2026-08-06..2026-08-12",
   "scrapedAt": "2026-08-05T23:06:16.741Z",
-  "source": "https://api-v3.mbta.com",
+  "source": "MBTA V3 API schedules",
+  "sourceMeta": {
+    "sourceId": "us-mbta-v3",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "MBTA V3 API schedules",
+    "sourceUrl": "https://api-v3.mbta.com",
+    "provider": "Massachusetts Bay Transportation Authority",
+    "country": "united_states",
+    "fetchedAt": "2026-08-05T23:06:16.741Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official",
   "results": [
     {
       "id": "us-mbta-schedule-76510705-50",
@@ -16393,9 +16407,5 @@
       "realtime": false,
       "date": "2026-08-12"
     }
-  ],
-  "provenance": "official",
-  "authenticity": "scraped",
-  "truthMode": "verified",
-  "sourceServiceDay": "2026-08-07"
+  ]
 }

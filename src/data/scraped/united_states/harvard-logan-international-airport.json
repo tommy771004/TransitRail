@@ -3,7 +3,21 @@
   "destination": "Logan International Airport",
   "date": "2026-08-06..2026-08-12",
   "scrapedAt": "2026-08-05T23:06:16.255Z",
-  "source": "https://api-v3.mbta.com",
+  "source": "MBTA V3 API schedules",
+  "sourceMeta": {
+    "sourceId": "us-mbta-v3",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "MBTA V3 API schedules",
+    "sourceUrl": "https://api-v3.mbta.com",
+    "provider": "Massachusetts Bay Transportation Authority",
+    "country": "united_states",
+    "fetchedAt": "2026-08-05T23:06:16.255Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official",
   "results": [
     {
       "id": "us-mbta-transfer-2026-08-07T00:01:00-04:00-2026-08-07T00:42:00-04:00",
@@ -70364,9 +70378,5 @@
       ],
       "warning": "Fare for a transfer within one operator is not added; confirm the fare with the operator."
     }
-  ],
-  "provenance": "official",
-  "authenticity": "scraped",
-  "truthMode": "verified",
-  "sourceServiceDay": "2026-08-12"
+  ]
 }

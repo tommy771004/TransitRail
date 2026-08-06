@@ -24,7 +24,6 @@ import {
 import type { SearchabilityRejectionReason } from "./searchabilityPolicy";
 import type { ScrapedRouteData } from "./scraped/timetableDay";
 
-export { usesStrictTimetableGate } from "./searchabilityPolicy";
 export { usesStrictCatalogGate } from "./searchabilityPolicy";
 
 /**
@@ -60,13 +59,6 @@ export interface StationCoverage {
   reason?: SearchabilityRejectionReason;
 }
 
-/**
- * The metro integrity rollout is intentionally scoped away from the existing
- * long-distance rail markets. China/Germany/France/Belgium/Norway/Switzerland
- * keep their HSR/intercity presentation until that data contract is reviewed;
- * mixed Japan/Korea stay strict so the verified metro catalogs do not expose
- * their synthetic/curated rail snapshots as metro coverage.
- */
 /** Route slices that are safe to expose as searchable timetable data. */
 export function verifiableRoutesForDate(
   routes: readonly ScrapedRouteData[],
@@ -77,14 +69,13 @@ export function verifiableRoutesForDate(
   return searchableRoutesForContext(routes, {
     country,
     serviceDay: date,
-    allowIndicativeFallback: false,
   }).routes.filter((route) => route.truthMode === "verified");
 }
 
 /**
- * Routes exposed to the app's bounded station/search graph. Intercity data is
- * deliberately left on its existing contract; the other configured markets
- * are rejected when their dated slice is indicative/stale.
+ * Routes exposed to the app's bounded station/search graph. Every market is
+ * held to the same bar: a dated slice that no registered official source
+ * vouches for is not exposed, whatever kind of service the country runs.
  */
 export function searchableRoutesForDate(
   routes: readonly ScrapedRouteData[],
