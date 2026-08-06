@@ -90,9 +90,12 @@ export async function runAllScrapers(dates: string | string[]): Promise<void> {
   console.log("\n--- Metadata ---");
   for (const summary of metadata) {
     const failed = summary.failedRoutes.length;
+    const success = summary.successRate === null
+      ? "not measured"
+      : `${(summary.successRate * 100).toFixed(0)}%`;
     console.log(
       `  ${summary.country}: ${summary.routeCount} routes, ${summary.recordCount} rows`
-      + `, success ${(summary.successRate * 100).toFixed(0)}%${failed ? ` (${failed} failed)` : ""}`,
+      + `, success ${success}${failed ? ` (${failed} failed)` : ""}`,
     );
   }
 

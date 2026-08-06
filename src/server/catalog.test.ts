@@ -45,7 +45,7 @@ describe("station and line catalog integrity scope", () => {
     expect(stations.stations).toContain("Seoul Station");
   });
 
-  it("exposes route-first catalogs for Belgium, Norway, and the United States", async () => {
+  it("exposes snapshot-backed route catalogs for Belgium, Norway, and the United States", async () => {
     const expectedCounts = {
       belgium: 5,
       norway: 5,
@@ -67,6 +67,10 @@ describe("station and line catalog integrity scope", () => {
       if (country !== "united_states") {
         expect(lines).toHaveLength(expectedCount);
         expect(lines.every((line) => line.name.includes(" → "))).toBe(true);
+      } else {
+        expect(lines.map((line) => line.id)).toEqual(expect.arrayContaining(
+          getProviderRouteLines(country, getScrapedRoutes(country)).map((line) => line.id),
+        ));
       }
       expect(lines.every((line) => line.stations.length >= 2)).toBe(true);
     }

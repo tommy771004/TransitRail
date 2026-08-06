@@ -28,8 +28,8 @@ export interface CountryMetadata {
   builtAt: string;
   recordCount: number;
   routeCount: number;
-  /** Share of this run's route attempts that produced data, 0–1. */
-  successRate: number;
+  /** Share of this run's route attempts that produced data, 0–1; null if unmeasured. */
+  successRate: number | null;
   failedRoutes: Array<{ origin: string; destination: string; error?: string }>;
   coverage: {
     /** Routes whose stored file carries a valid registered source block. */
@@ -109,6 +109,13 @@ export interface BuildMetadataOptions {
   now?: Date;
 }
 
+/** Return a measured run rate, or null when no run report was supplied. */
+export function scrapeSuccessRate(report?: ScrapeRunReport): number | null {
+  if (!report || report.outcomes.length === 0) return null;
+  const succeeded = report.outcomes.filter((outcome) => outcome.status === "ok").length;
+  return Number((succeeded / report.outcomes.length).toFixed(4));
+}
+
 /**
  * Recompute every configured country's `metadata.json` from the files on disk.
  *
@@ -125,8 +132,6 @@ export function buildCountryMetadata(options: BuildMetadataOptions = {}): Countr
 
     const routes = loadRouteData(country);
     const report = options.reports?.[country];
-    const attempts = report?.outcomes.length ?? 0;
-    const succeeded = report?.outcomes.filter((outcome) => outcome.status === "ok").length ?? 0;
 
     const verifiedRoutes = routes.filter((route) => isValidSourceMeta(route.sourceMeta));
     const withRows = verifiedRoutes.filter((route) => route.results.length > 0);
@@ -150,9 +155,9 @@ export function buildCountryMetadata(options: BuildMetadataOptions = {}): Countr
       builtAt,
       recordCount: routes.reduce((total, route) => total + route.results.length, 0),
       routeCount: routes.length,
-      // No attempts is reported as 0, never as a vacuous 100%: a country with
-      // no scraper has not succeeded at anything.
-      successRate: attempts === 0 ? 0 : Number((succeeded / attempts).toFixed(4)),
+      // A metadata-only rebuild has no run report; null means "not measured"
+      // instead of making a healthy committed snapshot look like a failed run.
+      successRate: scrapeSuccessRate(report),
       failedRoutes: (report?.outcomes ?? [])
         .filter((outcome) => outcome.status === "failed")
         .map((outcome) => ({ origin: outcome.origin, destination: outcome.destination, error: outcome.error })),

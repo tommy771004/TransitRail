@@ -16,6 +16,8 @@ import { tmpdir } from "os";
 import { join } from "path";
 import { getStationsForCountry } from "../src/server/catalog";
 import { configuredCountryOptions } from "../src/data/countries";
+import { resolveStationAlias } from "../src/data/stationAliases";
+import type { Country } from "../src/types";
 import {
   countRowsByCountry,
   detectRowLossRegressions,
@@ -31,7 +33,12 @@ async function knownStationsByCountry(): Promise<Record<string, Set<string>>> {
     try {
       const { stations } = await getStationsForCountry(country);
       if (stations.length > 0) {
-        catalogs[country] = new Set(stations.map((name) => name.trim().toLowerCase()));
+        catalogs[country] = new Set(
+          stations.flatMap((name) => [
+            name.trim().toLowerCase(),
+            resolveStationAlias(country as Country, name).trim().toLowerCase(),
+          ]),
+        );
       }
     } catch {
       // A catalog built live from a provider may be unreachable. Skipping it

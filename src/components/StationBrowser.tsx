@@ -10,10 +10,10 @@ import i18n from "../i18n";
 import { motion, AnimatePresence, useDragControls, type Variants } from "motion/react";
 import { countryConfig, countryFlags, countryThemes } from "../data/countries";
 import type { Country, TransitLine } from "../types";
-import { routeFirstStationCountries } from "../data/providerRouteLines";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel } from "../utils/stationLabel";
 import { stationSearchKey } from "../data/stationKey";
+import { resolveStationAlias } from "../data/stationAliases";
 import type { StationCoverage } from "../data/stationCoverage";
 import { fuzzyMatch } from "../utils/fuzzy";
 import { getAuditHeaders, postAuditEvent, resolveAuditTimezone } from "../utils/audit";
@@ -46,7 +46,7 @@ export function StationBrowser({
 }: StationBrowserProps) {
   const { t } = useTranslation();
   const theme = countryThemes[country] || countryThemes.japan;
-  const isRouteFirstCountry = routeFirstStationCountries.includes(country);
+  const stationKeyForCountry = (name: string) => stationSearchKey(resolveStationAlias(country, name));
   const buildAuditHeaders = () => getAuditHeaders(i18n.language, resolveAuditTimezone());
 
   const dragControls = useDragControls();
@@ -73,19 +73,19 @@ export function StationBrowser({
     let autoFillDest: string | undefined;
     let selectedLineId: string | undefined;
     if (target === "origin") {
-      const stationKey = stationSearchKey(station);
+      const stationKey = stationKeyForCountry(station);
       const activeLine = lines.find(l => l.id === selectedCategory);
-      if (activeLine && activeLine.stations.some(s => stationSearchKey(s.name) === stationKey)) {
+      if (activeLine && activeLine.stations.some(s => stationKeyForCountry(s.name) === stationKey)) {
         const first = activeLine.stations[0].name;
         const last = activeLine.stations[activeLine.stations.length - 1].name;
-        autoFillDest = (last === station) ? first : last;
+        autoFillDest = stationKeyForCountry(last) === stationKey ? first : last;
         selectedLineId = activeLine.id;
       } else {
         for (const line of lines) {
-          if (line.stations.some(s => stationSearchKey(s.name) === stationKey)) {
+          if (line.stations.some(s => stationKeyForCountry(s.name) === stationKey)) {
             const first = line.stations[0].name;
             const last = line.stations[line.stations.length - 1].name;
-            autoFillDest = (last === station) ? first : last;
+            autoFillDest = stationKeyForCountry(last) === stationKey ? first : last;
             selectedLineId = line.id;
             break;
           }
@@ -176,7 +176,7 @@ export function StationBrowser({
       setLines(fetchedLines);
       setLinesFailed(false);
       if (fetchedLines.length > 0) {
-        setSelectedCategory(isRouteFirstCountry ? (scrollToLineId || "") : (scrollToLineId || fetchedLines[0].id));
+        setSelectedCategory(scrollToLineId || fetchedLines[0].id);
       }
     };
 
@@ -218,7 +218,7 @@ export function StationBrowser({
     return () => {
       active = false;
     };
-  }, [country, isRouteFirstCountry, selectedDate, selectedOrigin, target, scrollToLineId]);
+  }, [country, selectedDate, selectedOrigin, target, scrollToLineId]);
 
   const [isInputFocused, setIsInputFocused] = useState(false);
 
@@ -227,14 +227,14 @@ export function StationBrowser({
   }, [lines]);
 
   const visibleLines = useMemo(() => {
-    const stationKeys = new Set(stations.map((station) => stationSearchKey(station)));
+    const stationKeys = new Set(stations.map(stationKeyForCountry));
     return lines
       .map((line) => ({
         ...line,
-        stations: line.stations.filter((station) => stationKeys.has(stationSearchKey(station.name))),
+        stations: line.stations.filter((station) => stationKeys.has(stationKeyForCountry(station.name))),
       }))
       .filter((line) => line.stations.length > 0);
-  }, [lines, stations]);
+  }, [lines, stations, country]);
 
   useEffect(() => {
     if (visibleLines.length === 0 || visibleLines.some((line) => line.id === selectedCategory)) return;
@@ -242,15 +242,15 @@ export function StationBrowser({
       setSelectedCategory(scrollToLineId);
       return;
     }
-    if (!isRouteFirstCountry) setSelectedCategory(visibleLines[0].id);
-  }, [visibleLines, selectedCategory, scrollToLineId, isRouteFirstCountry]);
+    setSelectedCategory(visibleLines[0].id);
+  }, [visibleLines, selectedCategory, scrollToLineId]);
 
   const stationsToRender = useMemo(() => {
     const line = lines.find((l) => l.id === selectedCategory);
     if (!line) return [];
-    const stationKeys = new Set(stations.map((station) => stationSearchKey(station)));
-    return line.stations.filter((station) => stationKeys.has(stationSearchKey(station.name)));
-  }, [lines, selectedCategory, stations]);
+    const stationKeys = new Set(stations.map(stationKeyForCountry));
+    return line.stations.filter((station) => stationKeys.has(stationKeyForCountry(station.name)));
+  }, [lines, selectedCategory, stations, country]);
 
   const lineColorByName = useMemo(() => {
     const map = new Map<string, string | undefined>();
@@ -258,7 +258,7 @@ export function StationBrowser({
     return map;
   }, [lines]);
 
-  const searching = query.trim().length > 0 && (!isRouteFirstCountry || Boolean(selectedCategory));
+  const searching = query.trim().length > 0;
 
   useEffect(() => {
     if (selectedCategory && !searching && lines.length > 0) {
@@ -307,15 +307,13 @@ export function StationBrowser({
   const isUncovered = useMemo(() => {
     const covered = coverage?.covered;
     if (!covered) return () => false;
-    const keys = new Set(covered.map(stationSearchKey));
-    return (station: string) => !keys.has(stationSearchKey(station));
-  }, [coverage]);
+    const keys = new Set(covered.map(stationKeyForCountry));
+    return (station: string) => !keys.has(stationKeyForCountry(station));
+  }, [coverage, country]);
 
   const filteredStations = useMemo(() => {
     const value = query.trim().toLowerCase();
-    const baseStations = isRouteFirstCountry
-      ? (selectedCategory ? stationsToRender.map((station) => station.name) : [])
-      : stations;
+    const baseStations = stations;
     if (!value) return baseStations;
     
     const tZh = i18n.getFixedT("zh-TW", "translation");
@@ -331,17 +329,13 @@ export function StationBrowser({
              fuzzyMatch(value, zhLabel) || 
              (localName && fuzzyMatch(value, localName));
     });
-  }, [query, stations, stationsToRender, selectedCategory, isRouteFirstCountry, t, country, localNameMap]);
+  }, [query, stations, t, country, localNameMap]);
 
   const featured = useMemo(() => {
     const origFeatured = countryConfig[country].featuredStations;
-    const stationKeys = new Set(stations.map((station) => stationSearchKey(station)));
-    const lineStationKeys = new Set(stationsToRender.map((station) => stationSearchKey(station.name)));
-    return origFeatured.filter((station) => (
-      stationKeys.has(stationSearchKey(station))
-      && (!isRouteFirstCountry || lineStationKeys.has(stationSearchKey(station)))
-    ));
-  }, [country, stations, stationsToRender, isRouteFirstCountry]);
+    const stationKeys = new Set(stations.map(stationKeyForCountry));
+    return origFeatured.filter((station) => stationKeys.has(stationKeyForCountry(station)));
+  }, [country, stations]);
 
   const noteKey = lineNoteKeys[country];
 
@@ -451,10 +445,7 @@ export function StationBrowser({
                 onChange={(event) => setQuery(event.target.value)}
                 onFocus={() => setIsInputFocused(true)}
                 onBlur={() => setTimeout(() => setIsInputFocused(false), 200)}
-                disabled={isRouteFirstCountry && (!selectedCategory || linesLoading)}
-                placeholder={isRouteFirstCountry && !selectedCategory
-                  ? t("stations.choose_route")
-                  : t("stations.search_placeholder")}
+                placeholder={t("stations.search_placeholder")}
                 className="w-full bg-transparent text-sm font-semibold text-slate-800 outline-none placeholder:text-slate-400 dark:text-slate-200 dark:placeholder:text-slate-600"
               />
               {query && (
@@ -493,7 +484,7 @@ export function StationBrowser({
             )}
           </div>
 
-          {target === "origin" && !isRouteFirstCountry && (
+          {target === "origin" && (
             <div className="mt-3">
               <button
                 onClick={handleUseLocation}
@@ -541,7 +532,7 @@ export function StationBrowser({
                 isUncovered={isUncovered}
               />
             </div>
-          ) : lines.length === 0 && !linesLoading && !linesFailed && !isRouteFirstCountry ? (
+          ) : lines.length === 0 && !linesLoading && !linesFailed ? (
             <div className="w-full overflow-y-auto px-5 pb-12 pt-2">
               <StationList
                 isLoading={isLoading}
@@ -558,11 +549,6 @@ export function StationBrowser({
           ) : (
             <>
               <div className="w-[115px] sm:w-[135px] shrink-0 overflow-y-auto border-r border-slate-100 dark:border-slate-800/60 bg-slate-50/30 dark:bg-[#040810]/20 pb-12 pt-2">
-                {isRouteFirstCountry && (
-                  <div className="px-4 pb-2 text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                    {t("stations.routes")}
-                  </div>
-                )}
                 <ul className="space-y-1">
                   {!linesLoading && !linesFailed && visibleLines.map((line) => (
                     <li key={line.id}>
@@ -596,18 +582,9 @@ export function StationBrowser({
                     <Loader2 className="h-6 w-6 animate-spin text-slate-400" />
                     <p className="text-xs font-semibold text-slate-400 dark:text-slate-500">{t("stations.loading")}</p>
                   </div>
-                ) : linesFailed ? (
+                ) : linesFailed || !selectedCategory ? (
                   <div className="py-12 text-center">
-                    <p className="text-xs font-bold text-red-500 dark:text-red-400">{t("stations.lines_unavailable")}</p>
-                  </div>
-                ) : !selectedCategory ? (
-                  <div className="flex h-full flex-col items-center justify-center px-5 py-12 text-center">
-                    <p className="text-sm font-black text-slate-700 dark:text-slate-200">
-                      {t("stations.choose_route")}
-                    </p>
-                    <p className="mt-2 max-w-[220px] text-xs font-semibold leading-relaxed text-slate-400 dark:text-slate-500">
-                      {t("stations.choose_station_after_route")}
-                    </p>
+                    <p className="text-xs font-bold text-red-500 dark:text-red-400">{t("stations.unavailable")}</p>
                   </div>
                 ) : (
                   <>

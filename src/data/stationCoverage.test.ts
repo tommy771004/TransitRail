@@ -309,6 +309,16 @@ describe("resolveStationAlias", () => {
     expect(resolveStationAlias("hong_kong", "Hong Kong")).toBe("Central");
     expect(resolveStationAlias("hong_kong", "East Tsim Sha Tsui")).toBe("Tsim Sha Tsui");
   });
+
+  it("normalizes provider spellings for Belgian and London route endpoints", () => {
+    expect(resolveStationAlias("belgium", "Antwerp-Central")).toBe("Antwerpen-Centraal");
+    expect(resolveStationAlias("belgium", "Brussels-Luxemburg/Brussels-Luxembourg")).toBe("Brussels-Luxembourg");
+    expect(resolveStationAlias("belgium", "Ghent-Sint-Pieters")).toBe("Gent-Sint-Pieters");
+    expect(resolveStationAlias("belgium", "Brussels Airport - Zaventem")).toBe("Brussels Airport-Zaventem");
+    expect(resolveStationAlias("united_kingdom", "Heathrow Terminals 2 & 3 Underground Station")).toBe("Heathrow Terminals 2&3");
+    expect(resolveStationAlias("united_kingdom", "Leicester Square Underground Station")).toBe("Leicester Square");
+    expect(resolveStationAlias("united_kingdom", "Camden Town Underground Station")).toBe("Camden Town");
+  });
 });
 
 describe("aliasesForStation", () => {

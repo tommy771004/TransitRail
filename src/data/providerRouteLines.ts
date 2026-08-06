@@ -1,8 +1,8 @@
 import type { Country, TransitLine } from "../types";
 import type { ScrapedRouteData } from "./scraped/timetableDay";
 
-/** Markets whose station picker must start with a supported route. */
-export const routeFirstStationCountries: readonly Country[] = [
+/** Provider markets whose line catalog is built from verified route snapshots. */
+export const snapshotRouteCountries: readonly Country[] = [
   "belgium",
   "norway",
   "united_states",
@@ -12,34 +12,6 @@ const routeColors: Partial<Record<Country, string>> = {
   belgium: "#0055A4",
   norway: "#8B1D3D",
   united_states: "#2563EB",
-};
-
-/**
- * A small offline fallback keeps the route-first UI usable while a provider
- * route snapshot is being refreshed. The live snapshot path below adds every
- * stop it knows about; these definitions intentionally only promise endpoints.
- */
-const fallbackRoutes: Partial<Record<Country, Array<{ origin: string; destination: string }>>> = {
-  belgium: [
-    { origin: "Brussels-Central", destination: "Antwerp-Central" },
-    { origin: "Brussels-Luxemburg/Brussels-Luxembourg", destination: "Antwerp-Central" },
-    { origin: "Ghent-Sint-Pieters", destination: "Brussels Airport - Zaventem" },
-    { origin: "Brugge", destination: "Liège-Guillemins" },
-    { origin: "Brussels-South/Brussels-Midi", destination: "Namur" },
-  ],
-  norway: [
-    { origin: "Oslo S", destination: "Bergen stasjon" },
-    { origin: "Oslo S", destination: "Trondheim S" },
-    { origin: "Oslo S", destination: "Stavanger stasjon" },
-    { origin: "Oslo lufthavn", destination: "Lillehammer" },
-    { origin: "Trondheim S", destination: "Bodø stasjon" },
-  ],
-  united_states: [
-    { origin: "Harvard", destination: "Logan International Airport" },
-    { origin: "Park Street", destination: "Andrew" },
-    { origin: "Park Street", destination: "Boston College" },
-    { origin: "South Station", destination: "Harvard" },
-  ],
 };
 
 function slugPart(value: string): string {
@@ -66,12 +38,12 @@ function uniqueStations(names: string[]): string[] {
 }
 
 function representativeStations(route: ScrapedRouteData, date?: string): string[] {
-  const result = route.results.find((candidate) => !date || candidate.date === date)
-    || route.results[0];
+  const result = route.results.find((candidate) => !date || candidate.date === date);
+  if (!result) return [];
   return uniqueStations([
-    result?.origin || route.origin,
+    result.origin || route.origin,
     ...(result?.stops || []),
-    result?.destination || route.destination,
+    result.destination || route.destination,
   ]);
 }
 
@@ -80,29 +52,20 @@ function lineId(country: Country, origin: string, destination: string, index: nu
 }
 
 function snapshotLines(country: Country, routes: readonly ScrapedRouteData[], date?: string): TransitLine[] {
-  return routes.map((route, index) => {
+  return routes.map((route, index): TransitLine | undefined => {
     const stations = representativeStations(route, date);
-    const result = route.results.find((candidate) => !date || candidate.date === date)
-      || route.results[0];
+    const result = route.results.find((candidate) => !date || candidate.date === date);
+    if (!result || stations.length < 2) return undefined;
     return {
       id: lineId(country, route.origin, route.destination, index),
       // Use the same canonical endpoint spelling as the station buttons. Some
       // provider route definitions use a local spelling (e.g. Gent/Antwerpen),
       // while the live station catalogue returns the English station name.
       name: `${stations[0] || route.origin} → ${stations.at(-1) || route.destination}`,
-      color: result?.lineColor || routeColors[country],
+      color: result.lineColor || routeColors[country],
       stations: stations.map((name) => ({ name })),
     } satisfies TransitLine;
-  }).filter((line) => line.stations.length >= 2);
-}
-
-function fallbackLines(country: Country): TransitLine[] {
-  return (fallbackRoutes[country] || []).map((route, index) => ({
-    id: lineId(country, route.origin, route.destination, index),
-    name: `${route.origin} → ${route.destination}`,
-    color: routeColors[country],
-    stations: [{ name: route.origin }, { name: route.destination }],
-  }));
+  }).filter((line): line is TransitLine => Boolean(line));
 }
 
 /** Build the route cards used by the station picker for provider markets. */
@@ -111,7 +74,22 @@ export function getProviderRouteLines(
   routes: readonly ScrapedRouteData[],
   date?: string,
 ): TransitLine[] {
-  if (!routeFirstStationCountries.includes(country)) return [];
-  const lines = snapshotLines(country, routes, date);
-  return lines.length > 0 ? lines : fallbackLines(country);
+  if (!snapshotRouteCountries.includes(country)) return [];
+  return snapshotLines(country, routes, date);
+}
+
+/** Preserve live provider lines while adding verified snapshot route cards. */
+export function mergeCatalogLines(
+  providerLines: readonly TransitLine[],
+  snapshotLines: readonly TransitLine[],
+): TransitLine[] {
+  const seen = new Set(providerLines.map((line) => line.id));
+  return [
+    ...providerLines,
+    ...snapshotLines.filter((line) => {
+      if (seen.has(line.id)) return false;
+      seen.add(line.id);
+      return true;
+    }),
+  ];
 }

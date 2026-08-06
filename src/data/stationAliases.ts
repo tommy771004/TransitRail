@@ -38,6 +38,20 @@ const aliasesByCountry: Partial<Record<Country, Record<string, string>>> = {
     "hong kong": "Central",
     "east tsim sha tsui": "Tsim Sha Tsui",
   },
+  belgium: {
+    "antwerp-central": "Antwerpen-Centraal",
+    "brussels-luxemburg/brussels-luxembourg": "Brussels-Luxembourg",
+    "ghent-sint-pieters": "Gent-Sint-Pieters",
+    "brussels airport - zaventem": "Brussels Airport-Zaventem",
+  },
+  united_kingdom: {
+    "heathrow terminals 2 & 3": "Heathrow Terminals 2&3",
+    "heathrow terminals 2 & 3 underground station": "Heathrow Terminals 2&3",
+    "leicester square station": "Leicester Square",
+    "leicester square underground station": "Leicester Square",
+    "camden town station": "Camden Town",
+    "camden town underground station": "Camden Town",
+  },
 };
 
 /**
