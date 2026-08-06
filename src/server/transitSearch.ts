@@ -35,6 +35,7 @@ import {
   hasCoverage,
 } from "../data/stationCoverage";
 import { stationSearchKey } from "../data/stationKey";
+import { buildSourceMeta, sourceIdForProvider, type TimetableSourceMeta } from "../data/sourceRegistry";
 import { getLinesForCountry, officialTimetableUrls } from "./catalog";
 import { enrichTransitResultsWithLineStations } from "../utils/metroEnricher";
 import { searchTflJourney } from "./tfl";
@@ -76,6 +77,12 @@ export type TransitSearchPayload = SearchResponse & {
   message?: string;
   /** Safe support reference for a server-side error_log row. */
   referenceId?: string;
+  /**
+   * The registered source behind these rows, carried between the branch that
+   * produced them and the one that describes them. Removed before the payload
+   * is returned — `dataStatus` is what goes on the wire.
+   */
+  sourceMeta?: TimetableSourceMeta;
 };
 
 export type TransitSearchResult = {
@@ -106,29 +113,53 @@ async function runProvider(
   }
 }
 
-function describeSearchData(source: string | undefined, country: string | undefined): SearchDataStatus {
+/**
+ * Describe where the answer came from, for the notice shown above the results.
+ *
+ * When a registered source produced the rows, its facts are the description —
+ * publisher, public URL, grade and completeness. The `source` string is only a
+ * routing hint about which path answered, and on its own it told a passenger
+ * nothing they could act on ("Pre-scraped timetable snapshot").
+ */
+function describeSearchData(
+  source: string | undefined,
+  country: string | undefined,
+  sourceMeta?: TimetableSourceMeta,
+): SearchDataStatus {
   const checkedAt = new Date().toISOString();
+  const attribution = sourceMeta
+    ? {
+        source: sourceMeta.sourceName,
+        provider: sourceMeta.provider,
+        sourceUrl: sourceMeta.sourceUrl,
+        sourceTier: sourceMeta.sourceTier,
+        completeness: sourceMeta.completeness,
+        ...(sourceMeta.attribution ? { attribution: sourceMeta.attribution } : {}),
+      }
+    : undefined;
 
   if (source === "scraped") {
     return {
       kind: "snapshot",
       source: "Pre-scraped timetable snapshot",
-      updatedAt: country ? getScrapedCountryFreshness(country as Country) : undefined,
+      ...attribution,
+      // When the source was read, which is what a passenger cares about — not
+      // when this request happened. The per-country freshness stamp is the
+      // fallback for rows that predate the source block.
+      updatedAt: sourceMeta?.fetchedAt
+        ?? (country ? getScrapedCountryFreshness(country as Country) : undefined),
     };
   }
 
   if (source?.includes("historical ridership station catalog")) {
-    return {
-      kind: "catalog",
-      source,
-      checkedAt,
-    };
+    return { kind: "catalog", source, checkedAt };
   }
 
   return {
     kind: "provider",
     source: source || "Transit provider",
     checkedAt,
+    ...attribution,
   };
 }
 
@@ -145,11 +176,20 @@ function providerPayloadWithPolicy(
   // Provider adapters return the requested service day as a query argument;
   // attaching it to rows records source context without inventing a departure.
   const results = body.results.map((result) => ({ ...result, date: result.date || date }));
+  // A live answer is held to the same standard as a stored one: the provider we
+  // called has to be a registered source, and the block records which one and
+  // when we called it. Without this the live path was the one door into search
+  // that a row could walk through unattributed.
+  const capability = getCountryCapability(country);
+  const providerId = "provider" in capability.search ? capability.search.provider : undefined;
+  const sourceId = sourceIdForProvider(providerId);
+  const sourceMeta = sourceId ? buildSourceMeta({ sourceId }) : undefined;
   const source = {
     origin,
     destination,
     date,
     source: body.source,
+    sourceMeta,
     provenance: "official" as TimetableProvenance,
     results,
   };
@@ -170,6 +210,7 @@ function providerPayloadWithPolicy(
     payload: {
       ...body,
       results: decision.searchable ? tagResultsWithDecision(results, decision) : [],
+      sourceMeta: decision.searchable ? sourceMeta : undefined,
       provenance: decision.provenance,
       truthMode: decision.truthMode,
       ...(decision.searchable || !decision.reason
@@ -200,10 +241,7 @@ function providerFailurePayload(
   };
 }
 
-function tryScraped(
-  query: ResolvedQuery,
-  indicativeFallback = false,
-): TransitSearchPayload | undefined {
+function tryScraped(query: ResolvedQuery): TransitSearchPayload | undefined {
   const { country, origin, destination, date, time } = query;
   const found = findScrapedSearchability(country, origin, destination, date);
   if (!found || found.results.length === 0) return undefined;
@@ -220,9 +258,9 @@ function tryScraped(
   return {
     results: scraped,
     source: "scraped",
+    sourceMeta: found.decision.sourceFact?.snapshot?.sourceMeta,
     provenance: found.decision.provenance,
     truthMode: found.decision.truthMode,
-    ...(indicativeFallback && found.decision.truthMode === "indicative" ? { fallback: "indicative" as const } : {}),
   };
 }
 
@@ -405,7 +443,7 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
     }
 
     if (!payload && (search.kind === "scraped" || search.kind === "provider_then_scraped")) {
-      payload = tryScraped(resolvedQuery, search.kind === "provider_then_scraped");
+      payload = tryScraped(resolvedQuery);
     }
   } else if (countryValue) {
     // Non-option country string: refuse rather than cast to Country.
@@ -515,6 +553,9 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
     }
   }
 
-  payload.dataStatus = describeSearchData(payload.source, resolvedCountry);
+  payload.dataStatus = describeSearchData(payload.source, resolvedCountry, payload.sourceMeta);
+  // dataStatus is the single wire representation of provenance; the raw block
+  // it was built from does not need to travel alongside it.
+  delete payload.sourceMeta;
   return { statusCode, payload };
 }

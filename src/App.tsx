@@ -42,8 +42,6 @@ import type {
   SearchResponse,
   ServiceDayAdvisory,
   SortMode,
-  TimetableProvenance,
-  TimetableTruthMode,
   TransitResult,
   TransitSituation,
 } from "./types";
@@ -348,10 +346,10 @@ export default function App() {
   const [searchParams, setSearchParams] = useState<SearchParams>(initialSearch);
   const [results, setResults] = useState<TransitResult[]>([]);
   const [serviceDayAdvisory, setServiceDayAdvisory] = useState<ServiceDayAdvisory | undefined>();
-  const [truthMode, setTruthMode] = useState<TimetableTruthMode | undefined>();
-  const [provenance, setProvenance] = useState<TimetableProvenance | "unknown" | undefined>();
-  const [indicativeFallback, setIndicativeFallback] = useState(false);
+  const [dataStatus, setDataStatus] = useState<SearchDataStatus | undefined>();
   const [error, setError] = useState<string | undefined>();
+  /** Why a search returned nothing, so the UI can title the miss correctly. */
+  const [noResultReason, setNoResultReason] = useState<SearchResponse["noResultReason"]>();
   const [coverageGap, setCoverageGap] = useState<CoverageGap | undefined>();
   const [officialSourceUrl, setOfficialSourceUrl] = useState<string | undefined>();
   const [isSearching, setIsSearching] = useState(false);
@@ -857,13 +855,12 @@ export default function App() {
     setIsSearching(true);
     setView("results");
     setError(undefined);
+    setNoResultReason(undefined);
     setCoverageGap(undefined);
     setOfficialSourceUrl(undefined);
     setResults([]);
     setServiceDayAdvisory(undefined);
-    setTruthMode(undefined);
-    setProvenance(undefined);
-    setIndicativeFallback(false);
+    setDataStatus(undefined);
 
     const todayStr = providerDateValue(country);
     const queryParams: any = { ...params };
@@ -908,9 +905,7 @@ export default function App() {
 
       const resultList = Array.isArray(data.results) ? data.results : [];
       setServiceDayAdvisory(data.serviceDayAdvisory);
-      setTruthMode(data.truthMode);
-      setProvenance(data.provenance);
-      setIndicativeFallback(data.fallback === "indicative");
+      setDataStatus(data.dataStatus);
 
       if (!res.ok) {
         const reason = data.noResultReason as SearchResponse["noResultReason"] | undefined;
@@ -918,6 +913,7 @@ export default function App() {
           ? t(`search.no_result.${reason}`, { defaultValue: data.message || "No timetable data found." })
           : undefined;
         setError(localizedReason || data.message || "Failed to fetch real-time data.");
+        setNoResultReason(reason);
         setCoverageGap(data.coverageGap);
         setOfficialSourceUrl(data.officialSourceUrl);
         pushAlert(t("alerts.search_failed"), data.message || t("alerts.search_failed_body"));
@@ -934,9 +930,6 @@ export default function App() {
           results: resultList,
           dataStatus: data.dataStatus,
           serviceDayAdvisory: data.serviceDayAdvisory,
-          truthMode: data.truthMode,
-          provenance: data.provenance,
-          fallback: data.fallback,
           fetchedAt: new Date().toISOString(),
         }).catch(console.error);
         if (timetableChange) {
@@ -970,9 +963,6 @@ export default function App() {
               results: cachedData,
               dataStatus: undefined,
               serviceDayAdvisory: undefined,
-              truthMode: undefined,
-              provenance: undefined,
-              fallback: undefined,
               fetchedAt: undefined,
             }
           : cachedData && typeof cachedData === "object" && Array.isArray((cachedData as { results?: unknown }).results)
@@ -980,18 +970,13 @@ export default function App() {
                 results: TransitResult[];
                 dataStatus?: SearchDataStatus;
                 serviceDayAdvisory?: ServiceDayAdvisory;
-                truthMode?: TimetableTruthMode;
-                provenance?: TimetableProvenance | "unknown";
-                fallback?: "indicative";
                 fetchedAt?: string;
               }
             : undefined;
         if (cached && cached.results.length > 0) {
           setResults(cached.results);
           setServiceDayAdvisory(cached.serviceDayAdvisory);
-          setTruthMode(cached.truthMode || cached.results.find((result) => result.truthMode)?.truthMode);
-          setProvenance(cached.provenance);
-          setIndicativeFallback(cached.fallback === "indicative");
+          setDataStatus(cached.dataStatus);
           pushAlert("Offline Mode", "Showing cached results from a previous search.");
           setIsSearching(false);
           return;
@@ -1469,11 +1454,10 @@ export default function App() {
             date={searchParams.date}
             time={searchParams.time}
             error={error}
+            noResultReason={noResultReason}
             officialSourceUrl={officialSourceUrl}
             coverageGap={coverageGap}
-            truthMode={truthMode}
-            provenance={provenance}
-            indicativeFallback={indicativeFallback}
+            dataStatus={dataStatus}
             results={visibleResults}
             savedIds={savedIds}
             sortMode={sortMode}

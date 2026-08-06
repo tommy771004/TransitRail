@@ -6,7 +6,7 @@ import { AlertTriangle } from "lucide-react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
-import type { Country, CoverageGap, TransitResult } from "../types";
+import type { Country, CoverageGap, NoResultReason, TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
 import { stationLabel } from "../utils/stationLabel";
 import { TransitIcon, formatPlatform } from "./TransitIcon";
@@ -15,8 +15,7 @@ import {
   SaveTripButton,
   TimelineBar,
   renderEmptyBlock,
-  renderErrorBlock,
-  renderCoverageBlock,
+  renderMissBlock,
   renderWeatherBlock,
   tripCardClass,
   tripCardMotion,
@@ -29,6 +28,7 @@ interface LiveRailResultViewProps {
   date: string;
   time?: string;
   error?: string;
+  noResultReason?: NoResultReason;
   officialSourceUrl?: string;
   coverageGap?: CoverageGap;
   results: TransitResult[];
@@ -56,6 +56,7 @@ export function LiveRailResultView({
   date,
   time,
   error,
+  noResultReason,
   officialSourceUrl,
   coverageGap,
   results,
@@ -105,7 +106,14 @@ export function LiveRailResultView({
           {!error && results.length > 0 && renderWeatherBlock(destination, date, country)}
 
           {error ? (
-            coverageGap ? renderCoverageBlock(coverageGap, country) : renderErrorBlock(t("result.unable_to_fetch"), error, officialSourceUrl)
+            renderMissBlock({
+              message: error,
+              reason: noResultReason,
+              coverageGap,
+              country,
+              sourceUrl: officialSourceUrl,
+              errorTitle: t("result.unable_to_fetch"),
+            })
           ) : results.length === 0 ? (
             renderEmptyBlock(t(`${copyKey}.no_journeys`), t(`${copyKey}.no_journeys_hint`))
           ) : (

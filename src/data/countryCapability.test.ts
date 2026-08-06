@@ -17,7 +17,7 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
     // Search exposes only the current local service day for MTR data.
     expect(getCountryCapability("hong_kong")).toMatchObject({
       search: { kind: "scraped" },
-      scrape: "provider_backed",
+      scrape: "official_source",
       resultView: "metro",
       liveOnly: true,
     });
@@ -28,7 +28,7 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
     // journey planner answers a future date from the published schedule.
     expect(getCountryCapability("united_kingdom")).toMatchObject({
       search: { kind: "provider", provider: "tfl" },
-      scrape: "provider_backed",
+      scrape: "official_source",
       resultView: "live_rail",
       liveRailMarket: "london",
       liveOnly: false,
@@ -38,7 +38,7 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
   it("Switzerland: try provider, fall back to scraped when empty", () => {
     expect(getCountryCapability("switzerland")).toMatchObject({
       search: { kind: "provider_then_scraped", provider: "swiss" },
-      scrape: "provider_backed",
+      scrape: "official_source",
       resultView: "live_rail",
       liveRailMarket: "switzerland",
     });
@@ -56,7 +56,7 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
   it("United States: live MBTA, seven-day scheduled range", () => {
     expect(getCountryCapability("united_states")).toMatchObject({
       search: { kind: "provider", provider: "mbta" },
-      scrape: "provider_backed",
+      scrape: "official_source",
       resultView: "live_rail",
       liveRailMarket: "boston",
       liveOnly: false,
@@ -71,10 +71,10 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
         resultView: "japan",
       });
     }
-    expect(getCountryCapability("japan").scrape).toBe("provider_backed");
-    expect(getCountryCapability("germany").scrape).toBe("provider_backed");
-    expect(getCountryCapability("france").scrape).toBe("provider_backed");
-    expect(getCountryCapability("korea").scrape).toBe("provider_backed");
+    expect(getCountryCapability("japan").scrape).toBe("official_source");
+    expect(getCountryCapability("germany").scrape).toBe("official_source");
+    expect(getCountryCapability("france").scrape).toBe("official_source");
+    expect(getCountryCapability("korea").scrape).toBe("official_source");
   });
 
   it("defines capability for every selectable country", () => {
@@ -101,11 +101,12 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
     }
   });
 
-  it("lists every configured country as an automated scrape or catalog job", () => {
-    // No orphan markets: UI countries all have a scrape/catalog strategy.
-    expect(new Set(automatedScrapeCountries()).size).toBe(configuredCountryOptions.length);
+  it("lists every configured country except those with no registered source", () => {
+    // China is configured and visible, but no official source is wired up, so
+    // it runs no job at all rather than a job that invents data.
+    const automated = new Set(automatedScrapeCountries());
     for (const country of configuredCountryOptions) {
-      expect(automatedScrapeCountries()).toContain(country);
+      expect(automated.has(country), country).toBe(country !== "china");
     }
   });
 

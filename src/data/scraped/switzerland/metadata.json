@@ -1,38 +1,81 @@
 {
   "country": "switzerland",
-  "scraper": "OpenTransportData Swiss GTFS",
-  "lastScraped": "2026-08-05T23:06:34.739Z",
+  "provider": "Swiss Federal Railways / opentransportdata.swiss",
+  "source": "OpenTransportData Swiss GTFS Static",
+  "sourceUrl": "https://opentransportdata.swiss/en/dataset/timetable-2025-gtfs2020",
+  "sourceTier": "A",
+  "fetchedAt": "2026-08-05T23:06:34.634Z",
+  "builtAt": "2026-08-06T02:34:03.369Z",
+  "recordCount": 1633,
   "routeCount": 5,
+  "successRate": 0,
+  "failedRoutes": [],
+  "coverage": {
+    "verifiedRoutes": 5,
+    "emptyRoutes": 0,
+    "unverifiedRoutes": 0,
+    "serviceDates": [
+      "2026-08-06",
+      "2026-08-07",
+      "2026-08-08",
+      "2026-08-09",
+      "2026-08-10",
+      "2026-08-11",
+      "2026-08-12"
+    ]
+  },
+  "checksum": "b0f6e25e9bb96bcd6b6e45a0e718168b036a580803ef3ca2f3a9f1609b76ebf9",
+  "artifactVersion": 2,
   "routes": [
     {
       "origin": "Bern",
       "destination": "Lausanne",
       "resultCount": 256,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:34.634Z",
+      "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Basel SBB",
       "resultCount": 616,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:34.630Z",
+      "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Bern",
       "resultCount": 504,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:34.626Z",
+      "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Genève",
       "resultCount": 101,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:34.627Z",
+      "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Lugano",
       "resultCount": 156,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:34.632Z",
+      "verified": true
     }
   ]
 }

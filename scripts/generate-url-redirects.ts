@@ -47,12 +47,50 @@ const VERCEL_JSON = resolve("vercel.json");
 const COUNTRY_PREFIXES = Object.values(COUNTRY_PATHS);
 
 /**
- * These route pages were previously published from representative metro
- * snapshots. Ticket 07 deliberately removes those snapshots from the public
- * timetable catalogue, so keep their old six-locale URLs useful with a 301 to
- * the crawlable route index instead of letting the SPA answer a soft 404.
+ * Route pages that were published and no longer exist.
+ *
+ * Removing a page is not a slug change, so the derivation above cannot find
+ * these: nothing on disk records that the URL ever existed. Listing them keeps
+ * their six-locale URLs useful with a 301 to the crawlable route index rather
+ * than letting the SPA answer a soft 404 for a page Google still has indexed.
+ *
+ * The Singapore and Thailand entries were representative metro snapshots. The
+ * rest went with the official-sources refactor: Japan's generated Shinkansen
+ * and Yamanote pages, Korail's curated KTX pages, and the "12306" pages, all of
+ * which stated departure times no operator had published.
  */
 const REMOVED_ROUTE_SLUGS: Array<{ country: keyof typeof COUNTRY_PATHS; slug: string }> = [
+  { country: "china", slug: "beijing-south-to-nanjing-south" },
+  { country: "china", slug: "beijing-south-to-shanghai-hongqiao" },
+  { country: "china", slug: "guangzhou-south-to-shenzhen-north" },
+  { country: "china", slug: "shanghai-hongqiao-to-hangzhou-east" },
+  { country: "japan", slug: "akihabara-to-tokyo" },
+  { country: "japan", slug: "ikebukuro-to-tokyo" },
+  { country: "japan", slug: "sendai-to-tokyo" },
+  { country: "japan", slug: "shibuya-to-tokyo" },
+  { country: "japan", slug: "shin-osaka-to-hakata" },
+  { country: "japan", slug: "shinagawa-to-tokyo" },
+  { country: "japan", slug: "shinjuku-to-tokyo" },
+  { country: "japan", slug: "tokyo-to-akihabara" },
+  { country: "japan", slug: "tokyo-to-hakata" },
+  { country: "japan", slug: "tokyo-to-ikebukuro" },
+  { country: "japan", slug: "tokyo-to-kanazawa" },
+  { country: "japan", slug: "tokyo-to-niigata" },
+  { country: "japan", slug: "tokyo-to-sendai" },
+  { country: "japan", slug: "tokyo-to-shibuya" },
+  { country: "japan", slug: "tokyo-to-shinagawa" },
+  { country: "japan", slug: "tokyo-to-shinjuku" },
+  { country: "japan", slug: "tokyo-to-ueno" },
+  { country: "japan", slug: "ueno-to-tokyo" },
+  { country: "korea", slug: "busan-to-seoul" },
+  { country: "korea", slug: "daejeon-to-busan" },
+  { country: "korea", slug: "seoul-to-busan" },
+  { country: "korea", slug: "seoul-to-daejeon" },
+  { country: "korea", slug: "seoul-to-gangneung" },
+  { country: "korea", slug: "seoul-to-gwangju-songjeong" },
+  { country: "korea", slug: "seoul-to-mokpo" },
+  { country: "korea", slug: "seoul-to-yeosu-expo" },
+  { country: "korea", slug: "yongsan-to-mokpo" },
   { country: "singapore", slug: "changi-airport-to-jurong-east" },
   { country: "singapore", slug: "harbourfront-to-punggol" },
   { country: "singapore", slug: "jurong-east-to-raffles-place" },

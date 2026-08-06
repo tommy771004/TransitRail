@@ -66,6 +66,31 @@ jobs:
           TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
         run: npm run scrape -- ${{ github.event.inputs.date }}
 
+      # The gate between the run and its publication. Every check that fails
+      # here is a statement the app would otherwise make and could not support:
+      # a departure nobody published, a train arriving before it left, rows no
+      # official source vouches for, or a country that just lost most of its
+      # data to a silently broken parser.
+      #
+      # `--against-head` compares the run against the last commit, so a feed
+      # that starts answering 200 with an empty envelope is caught as data loss
+      # rather than accepted as a schedule with no trains in it.
+      - name: Validate scraped data
+        env:
+          TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
+        run: npm run validate:data -- --against-head
+
+      # Only runs when validation failed. Restores the previously committed
+      # data so the runner's tree matches what is published, then the job stops
+      # before the commit step: a bad run leaves yesterday's real timetable in
+      # place rather than replacing it with something wrong.
+      - name: Discard the failed run
+        if: failure()
+        run: |
+          git checkout -- src/data/scraped src/data/service-day || true
+          git clean -fd src/data/scraped src/data/service-day || true
+          echo "::error::Validation failed. The previously committed data has been kept and nothing was published."
+
       - name: Generate static station catalog
         env:
           # The UK menu is built live from TfL, so this step is rate limited the

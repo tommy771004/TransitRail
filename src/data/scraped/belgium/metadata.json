@@ -1,38 +1,81 @@
 {
   "country": "belgium",
-  "scraper": "iRail",
-  "lastScraped": "2026-08-05T23:06:34.733Z",
+  "provider": "NMBS/SNCB (via iRail)",
+  "source": "iRail official NMBS/SNCB connections API",
+  "sourceUrl": "https://api.irail.be",
+  "sourceTier": "A",
+  "fetchedAt": "2026-08-05T23:06:28.794Z",
+  "builtAt": "2026-08-06T02:34:03.369Z",
+  "recordCount": 215,
   "routeCount": 5,
+  "successRate": 0,
+  "failedRoutes": [],
+  "coverage": {
+    "verifiedRoutes": 5,
+    "emptyRoutes": 0,
+    "unverifiedRoutes": 0,
+    "serviceDates": [
+      "2026-08-06",
+      "2026-08-07",
+      "2026-08-08",
+      "2026-08-09",
+      "2026-08-10",
+      "2026-08-11",
+      "2026-08-12"
+    ]
+  },
+  "checksum": "ab0afab29393144d28f3013d4e13ad84b59c0e61c0de6890b069029a84f6edbc",
+  "artifactVersion": 2,
   "routes": [
     {
       "origin": "Brugge",
       "destination": "Liège-Guillemins",
       "resultCount": 47,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "be-irail",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:28.305Z",
+      "verified": true
     },
     {
       "origin": "Brussels-Central",
       "destination": "Antwerpen-Centraal",
       "resultCount": 42,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "be-irail",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:26.714Z",
+      "verified": true
     },
     {
       "origin": "Brussels-Luxembourg",
       "destination": "Antwerpen-Centraal",
       "resultCount": 42,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "be-irail",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:27.257Z",
+      "verified": true
     },
     {
       "origin": "Brussels-South/Brussels-Midi",
       "destination": "Namur",
       "resultCount": 42,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "be-irail",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:28.794Z",
+      "verified": true
     },
     {
       "origin": "Gent-Sint-Pieters",
       "destination": "Brussels Airport-Zaventem",
       "resultCount": 42,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "be-irail",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:27.758Z",
+      "verified": true
     }
   ]
 }

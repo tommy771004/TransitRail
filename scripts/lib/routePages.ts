@@ -15,11 +15,11 @@ import {
   parseClockMinutes,
 } from "../../src/data/timetableAuthenticity";
 import {
-  permitsIndicativeRoutePublication,
   routeSearchability,
 } from "../../src/data/searchabilityPolicy";
+import type { ScrapedRouteData } from "../../src/data/scraped/timetableDay";
 
-export { isIndicativeTimetable, parseClockMinutes } from "../../src/data/timetableAuthenticity";
+export { isSyntheticTimetable, parseClockMinutes } from "../../src/data/timetableAuthenticity";
 
 /**
  * Locales the SEO pages are prerendered in. English is served unprefixed at the
@@ -74,20 +74,7 @@ export const COUNTRY_PATHS: Record<string, string> = {
 /** Pages with fewer canonical-day departures than this are skipped as thin. */
 const MIN_DAILY_RESULTS = 3;
 
-/**
- * This spec removes only the eight representative Singapore/Thailand metro
- * pages. Intercity and high-speed route pages remain on their existing SEO
- * contract; their data-quality review is explicitly out of scope here.
- */
-interface ScrapedRouteFile {
-  origin: string;
-  destination: string;
-  date: string;
-  scrapedAt: string;
-  source: string;
-  provenance?: "official" | "curated" | "llm-advisory";
-  results: TransitResult[];
-}
+type ScrapedRouteFile = ScrapedRouteData;
 
 export interface RoutePageData {
   country: Country;
@@ -102,8 +89,16 @@ export interface RoutePageData {
   canonicalDate: string;
   scrapedAt: string;
   source: string;
-  /** True when dayResults is a representative service pattern rather than a real
-   *  timetable — see isIndicativeTimetable(). */
+  /**
+   * True when the page describes a service window and frequency rather than a
+   * departure list, because its source publishes no departure times.
+   *
+   * It no longer means "representative pattern": a page whose departures were
+   * generated is not published at all. Frequency-backed markets (Singapore,
+   * Thailand, Hong Kong future dates) store no departures, so they do not reach
+   * the minimum-departures gate today and nothing sets this — the rendering
+   * path is kept for when their service-window pages are wired up.
+   */
   indicative: boolean;
   truthMode: "verified" | "indicative";
   provenance: "official" | "curated" | "llm-advisory" | "unknown";
@@ -149,8 +144,8 @@ export function slugifyStation(name: string): string {
 
 /**
  * Route files accumulate one dated day slice per scrape date. The page renders
- * the latest stored date (the freshest scrape's "today"); dateless results
- * (curated snapshots collapsed to a canonical day) are all kept.
+ * the most recent stored date this country can still verify, walking backwards
+ * until one passes the same gate search uses.
  */
 function canonicalDaySlice(
   route: ScrapedRouteFile,
@@ -167,19 +162,12 @@ function canonicalDaySlice(
       { ...route, results: candidate.slice },
       country,
       candidate.date || undefined,
-      // Publication may expose general indicative information. It must still
-      // carry the indicative truth mode and avoid date-specific schema claims.
-      undefined,
-      true,
     );
-    if (!decision.searchable) continue;
-    if (decision.truthMode !== "verified" && decision.truthMode !== "indicative") continue;
-    if (decision.truthMode === "indicative" && !permitsIndicativeRoutePublication(country)) return null;
-    return {
-      date: decision.truthMode === "verified" ? candidate.date : "",
-      slice: candidate.slice,
-      decision,
-    };
+    // Publication is held to the same bar as search. A page is a durable,
+    // indexable claim about a departure time, so anything search would refuse
+    // to answer must not be published either.
+    if (!decision.searchable || decision.truthMode !== "verified") continue;
+    return { date: candidate.date, slice: candidate.slice, decision };
   }
   return null;
 }
@@ -238,10 +226,7 @@ export function collectRoutePages(scrapedDir = resolve("src/data/scraped")): Rou
       const dayResults = [...slice].sort((a, b) =>
         (a.departureTime || "").localeCompare(b.departureTime || ""),
       );
-      const publicationTruthMode = decision.truthMode === "verified" ? "verified" : "indicative";
-      const publicationResults = publicationTruthMode === "indicative"
-        ? dayResults.map(({ date: _serviceDay, ...result }) => result)
-        : dayResults;
+      const completeness = route.sourceMeta?.completeness ?? "full-timetable";
       pages.push({
         country: country as Country,
         countryPath,
@@ -252,10 +237,10 @@ export function collectRoutePages(scrapedDir = resolve("src/data/scraped")): Rou
         canonicalDate: date,
         scrapedAt: route.scrapedAt || "",
         source: route.source || "",
-        indicative: publicationTruthMode === "indicative",
-        truthMode: publicationTruthMode,
+        indicative: completeness !== "full-timetable",
+        truthMode: "verified",
         provenance: decision.provenance,
-        dayResults: publicationResults,
+        dayResults,
       });
     }
   }

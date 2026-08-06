@@ -3,7 +3,22 @@
   "destination": "Oxford Circus Underground Station",
   "date": "2026-08-06..2026-08-12",
   "scrapedAt": "2026-08-05T23:05:28.154Z",
-  "source": "https://api.tfl.gov.uk",
+  "source": "TfL Unified API journey planner",
+  "sourceMeta": {
+    "sourceId": "uk-tfl-journey-planner",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "TfL Unified API journey planner",
+    "sourceUrl": "https://api.tfl.gov.uk",
+    "provider": "Transport for London",
+    "country": "united_kingdom",
+    "fetchedAt": "2026-08-05T23:05:28.154Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2,
+    "attribution": "Powered by TfL Open Data"
+  },
+  "provenance": "official",
   "results": [
     {
       "id": "2026-08-06-uk-tfl-2026-08-03T05:21:00-0",
@@ -19318,9 +19333,5 @@
       "lineColor": "#6950A1",
       "date": "2026-08-12"
     }
-  ],
-  "provenance": "official",
-  "authenticity": "scraped",
-  "truthMode": "verified",
-  "sourceServiceDay": "2026-08-07"
+  ]
 }

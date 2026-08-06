@@ -6,7 +6,7 @@ import { AlertTriangle } from "lucide-react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
-import type { Country, CoverageGap, TransitResult } from "../types";
+import type { Country, CoverageGap, NoResultReason, TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
 import { stationLabel } from "../utils/stationLabel";
 import { extractPathBetweenStations } from "../utils/pathExtractor";
@@ -15,8 +15,7 @@ import {
   ResultShellHeader,
   SaveTripButton,
   renderEmptyBlock,
-  renderErrorBlock,
-  renderCoverageBlock,
+  renderMissBlock,
   renderWeatherBlock,
   tripCardClass,
   tripCardMotion,
@@ -42,6 +41,7 @@ interface MetroResultViewProps {
   date: string;
   time?: string;
   error?: string;
+  noResultReason?: NoResultReason;
   officialSourceUrl?: string;
   coverageGap?: CoverageGap;
   results: TransitResult[];
@@ -60,6 +60,7 @@ export function MetroResultView({
   date,
   time,
   error,
+  noResultReason,
   officialSourceUrl,
   coverageGap,
   results,
@@ -96,7 +97,14 @@ export function MetroResultView({
           {!error && results.length > 0 && renderWeatherBlock(destination, date, country)}
 
           {error ? (
-            coverageGap ? renderCoverageBlock(coverageGap, country) : renderErrorBlock(t("result.unable_to_fetch"), error, officialSourceUrl)
+            renderMissBlock({
+              message: error,
+              reason: noResultReason,
+              coverageGap,
+              country,
+              sourceUrl: officialSourceUrl,
+              errorTitle: t("result.unable_to_fetch"),
+            })
           ) : results.length === 0 ? (
             renderEmptyBlock(t("metro.no_departures"), t("metro.no_departures_hint"))
           ) : (

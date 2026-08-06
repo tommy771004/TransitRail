@@ -1,32 +1,71 @@
 {
   "country": "united_kingdom",
-  "scraper": "TfL",
-  "lastScraped": "2026-08-05T23:06:34.711Z",
+  "provider": "Transport for London",
+  "source": "TfL Unified API journey planner",
+  "sourceUrl": "https://api.tfl.gov.uk",
+  "sourceTier": "A",
+  "fetchedAt": "2026-08-05T23:06:12.967Z",
+  "builtAt": "2026-08-06T02:34:03.369Z",
+  "recordCount": 1974,
   "routeCount": 4,
+  "successRate": 0,
+  "failedRoutes": [],
+  "coverage": {
+    "verifiedRoutes": 4,
+    "emptyRoutes": 0,
+    "unverifiedRoutes": 0,
+    "serviceDates": [
+      "2026-08-06",
+      "2026-08-07",
+      "2026-08-08",
+      "2026-08-09",
+      "2026-08-10",
+      "2026-08-11",
+      "2026-08-12"
+    ]
+  },
+  "checksum": "0724bb2f2f1ee8b14d7d2f83d4f8d79f8c3f78d13d3b4faa0c9c81db85bb1fcb",
+  "artifactVersion": 2,
   "routes": [
     {
       "origin": "Heathrow Terminals 2&3",
       "destination": "Oxford Circus Underground Station",
       "resultCount": 497,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "uk-tfl-journey-planner",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:05:28.154Z",
+      "verified": true
     },
     {
       "origin": "King's Cross St. Pancras Underground Station",
       "destination": "Oxford Circus Underground Station",
       "resultCount": 511,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "uk-tfl-journey-planner",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:05:43.070Z",
+      "verified": true
     },
     {
       "origin": "Leicester Square",
       "destination": "Camden Town",
       "resultCount": 525,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "uk-tfl-journey-planner",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:05:58.007Z",
+      "verified": true
     },
     {
       "origin": "Paddington Station",
       "destination": "Liverpool Street Station",
       "resultCount": 441,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "uk-tfl-journey-planner",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:12.967Z",
+      "verified": true
     }
   ]
 }

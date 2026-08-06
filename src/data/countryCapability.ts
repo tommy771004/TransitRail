@@ -60,10 +60,9 @@ export function getCountryCapability(country: Country): CountryCapability {
 
 /** Countries whose scrape job is a timetable scraper (not catalog-only / none). */
 export function timetableScrapeCountries(): Country[] {
-  return configuredCountryOptions.filter((country) => {
-    const strategy = countryConfig[country].scrape;
-    return strategy === "generated" || strategy === "snapshot" || strategy === "provider_backed";
-  });
+  return configuredCountryOptions.filter(
+    (country) => countryConfig[country].scrape === "official_source",
+  );
 }
 
 /** Countries that run any automated data job (timetable scrapers + catalog sync). */

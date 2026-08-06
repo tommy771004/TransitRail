@@ -89,8 +89,6 @@ export interface SearchResponse {
   source?: string;
   provenance?: TimetableProvenance | "unknown";
   truthMode?: TimetableTruthMode;
-  /** Present only when a preferred source failed and policy allowed a snapshot. */
-  fallback?: "indicative";
   message?: string;
   dataStatus?: SearchDataStatus;
   serviceDayAdvisory?: ServiceDayAdvisory;
@@ -148,7 +146,16 @@ export interface ServiceDayAdvisory {
 
 export type SearchDataKind = "provider" | "snapshot" | "catalog";
 
-/** Describes how a search result was produced without overstating its freshness. */
+/**
+ * Where a result came from, in the terms a passenger would want before acting
+ * on a departure time: who published it, when it was read, where to check it,
+ * and how much of the service day it actually covers.
+ *
+ * `sourceUrl` and `completeness` are the two that change a decision. The link
+ * is what makes a departure checkable rather than merely asserted, and the
+ * completeness says whether "no later trains" means the day is over or only
+ * that this source never publishes a last train.
+ */
 export interface SearchDataStatus {
   kind: SearchDataKind;
   source: string;
@@ -156,6 +163,15 @@ export interface SearchDataStatus {
   updatedAt?: string;
   /** When TransitRail queried an upstream provider. */
   checkedAt?: string;
+  /** Operator or publisher, as they name themselves. */
+  provider?: string;
+  /** Public page a passenger can open to check a departure themselves. */
+  sourceUrl?: string;
+  /** Source grade: A machine-readable, B official query page, C page or PDF. */
+  sourceTier?: "A" | "B" | "C" | "D";
+  completeness?: "full-timetable" | "frequency-only" | "service-hours";
+  /** Licence or attribution the source requires us to display. */
+  attribution?: string;
 }
 
 export interface LineStation {

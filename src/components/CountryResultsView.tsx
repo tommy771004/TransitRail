@@ -5,9 +5,9 @@ import type {
   Country,
   CoverageGap,
   KoreaFilter,
+  NoResultReason,
+  SearchDataStatus,
   SortMode,
-  TimetableProvenance,
-  TimetableTruthMode,
   TransitResult,
 } from "../types";
 import { getCountryCapability } from "../data/countryCapability";
@@ -24,12 +24,13 @@ export type CountryResultsViewProps = {
   date: string;
   time?: string;
   error?: string;
+  /** Why the search returned nothing, so a miss is not framed as a fetch failure. */
+  noResultReason?: NoResultReason;
   officialSourceUrl?: string;
   /** Set when the miss is a catalog gap rather than a failed fetch. */
   coverageGap?: CoverageGap;
-  truthMode?: TimetableTruthMode;
-  provenance?: TimetableProvenance | "unknown";
-  indicativeFallback?: boolean;
+  /** Which registered source answered, for the attribution notice. */
+  dataStatus?: SearchDataStatus;
   results: TransitResult[];
   savedIds: Set<string>;
   sortMode: SortMode;
@@ -44,61 +45,67 @@ export type CountryResultsViewProps = {
   overview?: ReactNode;
 };
 
-function SearchabilityTrustNotice({
-  truthMode,
-  provenance,
-  fallback,
-}: {
-  truthMode?: TimetableTruthMode;
-  provenance?: TimetableProvenance | "unknown";
-  fallback?: boolean;
-}) {
+/**
+ * Where these departures came from, shown above every result list.
+ *
+ * Always rendered when a source is known, rather than only when something is
+ * wrong. A notice that appears only for suspect data teaches people to read its
+ * absence as "this is fine", which is exactly the inference that made curated
+ * snapshots indistinguishable from real timetables — nothing was flagged
+ * because nothing knew there was anything to flag.
+ */
+function SourceProvenanceNotice({ dataStatus }: { dataStatus?: SearchDataStatus }) {
   const { t } = useTranslation();
-  if (truthMode !== "indicative") return null;
+  if (!dataStatus?.sourceUrl) return null;
 
-  const sourceLabel = provenance === "llm-advisory"
-    ? t("result.source_llm_advisory", { defaultValue: "AI-advisory source" })
-    : provenance === "curated"
-      ? t("result.source_curated", { defaultValue: "Curated snapshot" })
-      : provenance === "official"
-        ? t("result.source_official", { defaultValue: "Official source" })
-        : t("result.source_unknown", { defaultValue: "Source not identified" });
+  const updated = dataStatus.updatedAt || dataStatus.checkedAt;
+  const completenessLabel = dataStatus.completeness === "frequency-only"
+    ? t("result.completeness_frequency", { defaultValue: "Service hours and frequency only — no departure list is published" })
+    : dataStatus.completeness === "service-hours"
+      ? t("result.completeness_service_hours", { defaultValue: "Service hours only — no departure list is published" })
+      : t("result.completeness_full", { defaultValue: "Full timetable" });
 
   return (
     <aside
       role="status"
-      className="mx-auto max-w-md border-l-2 border-amber-500 px-4 py-3 text-sm text-slate-700 dark:border-amber-400 dark:text-slate-200"
+      className="mx-auto max-w-md border-l-2 border-slate-300 px-4 py-3 text-xs text-slate-600 dark:border-slate-600 dark:text-slate-300"
     >
-      <p className="font-semibold">
-        {fallback
-          ? t("result.indicative_fallback", {
-              defaultValue: "Live timetable unavailable. Showing an indicative timetable pattern instead.",
-            })
-          : t("result.indicative_timetable", {
-              defaultValue: "Indicative timetable: departures are representative and are not verified for the selected service day.",
-            })}
+      <p>
+        <span className="font-semibold text-slate-700 dark:text-slate-200">
+          {t("result.data_source", { defaultValue: "Source" })}:
+        </span>{" "}
+        <a
+          href={dataStatus.sourceUrl}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="underline underline-offset-2"
+        >
+          {dataStatus.source}
+        </a>
+        {dataStatus.provider && dataStatus.provider !== dataStatus.source ? ` — ${dataStatus.provider}` : ""}
       </p>
-      <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{sourceLabel}</p>
+      <p className="mt-1">{completenessLabel}</p>
+      {updated ? (
+        <p className="mt-1">
+          {t("result.data_updated", { defaultValue: "Retrieved" })}:{" "}
+          <time dateTime={updated}>{new Date(updated).toLocaleString()}</time>
+        </p>
+      ) : null}
+      {dataStatus.attribution ? <p className="mt-1">{dataStatus.attribution}</p> : null}
     </aside>
   );
 }
 
 export function CountryResultsView(props: CountryResultsViewProps) {
   const capability = getCountryCapability(props.country);
-  const truthMode = props.truthMode || props.results.find((result) => result.truthMode)?.truthMode;
-  const notice = (
-    <SearchabilityTrustNotice
-      truthMode={truthMode}
-      provenance={props.provenance || props.results.find((result) => result.provenance)?.provenance}
-      fallback={props.indicativeFallback}
-    />
-  );
+  const notice = <SourceProvenanceNotice dataStatus={props.dataStatus} />;
   const shared = {
     origin: props.origin,
     destination: props.destination,
     date: props.date,
     time: props.time,
     error: props.error,
+    noResultReason: props.noResultReason,
     officialSourceUrl: props.officialSourceUrl,
     coverageGap: props.coverageGap,
     results: props.results,

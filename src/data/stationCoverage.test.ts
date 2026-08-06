@@ -12,6 +12,12 @@ import {
 } from "./stationCoverage";
 import { resolveStationAlias, aliasesForStation } from "./stationAliases";
 import type { ScrapedRouteData } from "./scraped/timetableDay";
+import { buildSourceMeta } from "./sourceRegistry";
+
+const SEOUL_SOURCE = buildSourceMeta({
+  sourceId: "kr-seoul-metro-csv",
+  fetchedAt: "2026-08-01T00:00:00.000Z",
+});
 
 function route(
   origin: string,
@@ -23,7 +29,8 @@ function route(
     destination,
     date: "2026-08-01",
     scrapedAt: "2026-08-01T00:00:00.000Z",
-    source: "official timetable",
+    source: SEOUL_SOURCE.sourceName,
+    sourceMeta: SEOUL_SOURCE,
     provenance: "official",
     results: resultDestinations.map((dest, index) => ({
       id: `2026-08-01-r${index}`,
@@ -150,21 +157,24 @@ describe("coveredStationKeys", () => {
     expect(coveredStationKeys([stale], "hong_kong", "2026-08-02").size).toBe(0);
   });
 
-  it("does not apply the metro gate to out-of-scope intercity snapshots", () => {
+  it("does not expose an intercity curated snapshot as coverage", () => {
+    // Long-distance rail used to be exempt from the gate that metro data was
+    // held to, so a 12306 curated snapshot still populated China's station
+    // menu. There is no exemption now, and no country-shaped reason for one.
     const intercity = route("Beijing South", "Shanghai Hongqiao");
     intercity.source = "12306 curated snapshot";
+    intercity.sourceMeta = undefined;
     intercity.results = Array.from({ length: 4 }, (_, index) => ({
       ...intercity.results[0],
       id: `2026-08-01-intercity-${index}`,
+      country: "china" as const,
       departureTime: `0${8 + index}:00`,
       arrivalTime: `0${10 + index}:00`,
       date: "2026-08-01",
     }));
 
-    expect(searchableRoutesForDate([intercity], "china", "2026-08-01")).toHaveLength(1);
-    expect(coveredStationKeys([intercity], "china", "2026-08-01")).toEqual(
-      new Set(["beijing south", "shanghai hongqiao"]),
-    );
+    expect(searchableRoutesForDate([intercity], "china", "2026-08-01")).toHaveLength(0);
+    expect(coveredStationKeys([intercity], "china", "2026-08-01")).toEqual(new Set());
   });
 });
 
@@ -232,12 +242,12 @@ describe("reachableDestinations", () => {
     second.results[0].departureTime = "09:40";
     const routes = [first, second];
 
-    expect(reachableDestinations(routes, "A", "japan", "2026-08-01")).toEqual(["B", "C", "D"]);
+    expect(reachableDestinations(routes, "A", "korea", "2026-08-01")).toEqual(["B", "C", "D"]);
   });
 
   it("does not expose a station that the dated graph cannot reach", () => {
     const routes = [route("A", "B")];
-    expect(reachableDestinations(routes, "A", "japan", "2026-08-02")).toEqual([]);
+    expect(reachableDestinations(routes, "A", "korea", "2026-08-02")).toEqual([]);
   });
 });
 

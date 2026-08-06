@@ -1,38 +1,81 @@
 {
   "country": "norway",
-  "scraper": "Entur Journey Planner",
-  "lastScraped": "2026-08-05T23:06:34.735Z",
+  "provider": "Entur AS",
+  "source": "Entur Journey Planner v3",
+  "sourceUrl": "https://api.entur.io/journey-planner/v3/graphql",
+  "sourceTier": "A",
+  "fetchedAt": "2026-08-05T23:06:34.623Z",
+  "builtAt": "2026-08-06T02:34:03.369Z",
+  "recordCount": 178,
   "routeCount": 5,
+  "successRate": 0,
+  "failedRoutes": [],
+  "coverage": {
+    "verifiedRoutes": 5,
+    "emptyRoutes": 0,
+    "unverifiedRoutes": 0,
+    "serviceDates": [
+      "2026-08-06",
+      "2026-08-07",
+      "2026-08-08",
+      "2026-08-09",
+      "2026-08-10",
+      "2026-08-11",
+      "2026-08-12"
+    ]
+  },
+  "checksum": "4f0a7401d57daf65fc11acd6cbe9a2fdcd4c4335787a901d69c849df2ef30e03",
+  "artifactVersion": 2,
   "routes": [
     {
       "origin": "Oslo lufthavn",
       "destination": "Lillehammer",
       "resultCount": 28,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "no-entur",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:33.726Z",
+      "verified": true
     },
     {
       "origin": "Oslo S",
       "destination": "Bergen stasjon",
       "resultCount": 42,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "no-entur",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:30.322Z",
+      "verified": true
     },
     {
       "origin": "Oslo S",
       "destination": "Stavanger stasjon",
       "resultCount": 41,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "no-entur",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:33.223Z",
+      "verified": true
     },
     {
       "origin": "Oslo S",
       "destination": "Trondheim S",
       "resultCount": 40,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "no-entur",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:31.241Z",
+      "verified": true
     },
     {
       "origin": "Trondheim S",
       "destination": "Bodø stasjon",
       "resultCount": 27,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "no-entur",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:34.623Z",
+      "verified": true
     }
   ]
 }

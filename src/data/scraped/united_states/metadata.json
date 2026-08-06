@@ -1,32 +1,71 @@
 {
   "country": "united_states",
-  "scraper": "MBTA",
-  "lastScraped": "2026-08-05T23:06:34.729Z",
+  "provider": "Massachusetts Bay Transportation Authority",
+  "source": "MBTA V3 API schedules",
+  "sourceUrl": "https://api-v3.mbta.com",
+  "sourceTier": "A",
+  "fetchedAt": "2026-08-05T23:06:16.773Z",
+  "builtAt": "2026-08-06T02:34:03.369Z",
+  "recordCount": 5463,
   "routeCount": 4,
+  "successRate": 0,
+  "failedRoutes": [],
+  "coverage": {
+    "verifiedRoutes": 4,
+    "emptyRoutes": 0,
+    "unverifiedRoutes": 0,
+    "serviceDates": [
+      "2026-08-06",
+      "2026-08-07",
+      "2026-08-08",
+      "2026-08-09",
+      "2026-08-10",
+      "2026-08-11",
+      "2026-08-12"
+    ]
+  },
+  "checksum": "1b83592f68a465e2f9532a2f9105b5df01e95aef4054c3d7b1561528fd34b757",
+  "artifactVersion": 2,
   "routes": [
     {
       "origin": "Harvard",
       "destination": "Logan International Airport",
       "resultCount": 1497,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "us-mbta-v3",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:16.255Z",
+      "verified": true
     },
     {
       "origin": "Park Street",
       "destination": "Andrew",
       "resultCount": 1501,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "us-mbta-v3",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:16.589Z",
+      "verified": true
     },
     {
       "origin": "Park Street",
       "destination": "Boston College",
       "resultCount": 964,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "us-mbta-v3",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:16.741Z",
+      "verified": true
     },
     {
       "origin": "South Station",
       "destination": "Harvard",
       "resultCount": 1501,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "us-mbta-v3",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:16.773Z",
+      "verified": true
     }
   ]
 }

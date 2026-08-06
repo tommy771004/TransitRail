@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   SEARCHABILITY_FIXTURE_DATE,
   SEARCHABILITY_FIXTURE_NOW,
@@ -6,7 +6,7 @@ import {
 } from "../data/searchabilityPolicyFixtures";
 import { decideSearchability } from "../data/searchabilityPolicy";
 
-const fixture = searchabilityPolicyFixtures.indicative;
+const fixture = searchabilityPolicyFixtures.verified;
 
 vi.mock("../data/scraped", async (importOriginal) => {
   const actual = await importOriginal<typeof import("../data/scraped")>();
@@ -35,7 +35,18 @@ vi.mock("../data/scraped", async (importOriginal) => {
 import { runTransitSearch } from "./transitSearch";
 
 describe("searchability policy runtime wiring", () => {
-  it("carries the shared indicative fixture through the journey coordinator", async () => {
+  // Korea enforces its published date range, so the fixture's service day has
+  // to be inside the window the clock says is current.
+  beforeEach(() => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    vi.setSystemTime(SEARCHABILITY_FIXTURE_NOW);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("carries the shared verified fixture through the journey coordinator", async () => {
     const result = await runTransitSearch({
       country: fixture.country,
       origin: fixture.route.origin,
@@ -46,8 +57,8 @@ describe("searchability policy runtime wiring", () => {
     expect(result.statusCode).toBe(200);
     expect(result.payload).toMatchObject({
       source: "scraped",
-      provenance: "curated",
-      truthMode: "indicative",
+      provenance: "official",
+      truthMode: "verified",
     });
     expect(result.payload.results).toHaveLength(fixture.route.results.length);
   });

@@ -3,7 +3,21 @@
   "destination": "Tsim Sha Tsui",
   "date": "2026-08-06",
   "scrapedAt": "2026-08-05T22:47:54.724Z",
-  "source": "https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php",
+  "source": "MTR real-time next train API",
+  "sourceMeta": {
+    "sourceId": "hk-mtr-next-train",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "MTR real-time next train API",
+    "sourceUrl": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
+    "provider": "MTR Corporation",
+    "country": "hong_kong",
+    "fetchedAt": "2026-08-05T22:47:54.724Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official",
   "results": [
     {
       "id": "2026-08-06-hk-TWL-ADM-2026-08-06 06:47:45-1",
@@ -73,9 +87,5 @@
       "lineColor": "#E2231A",
       "date": "2026-08-06"
     }
-  ],
-  "provenance": "official",
-  "authenticity": "realtime",
-  "truthMode": "verified",
-  "sourceServiceDay": "2026-08-06"
+  ]
 }

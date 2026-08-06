@@ -1,43 +1,30 @@
 import type { ScrapedRoute } from "./types";
 
-export const japanRoutes: ScrapedRoute[] = [
+/**
+ * The Tokaido Shinkansen pairs JR Central's own timetable search answers for a
+ * requested date.
+ *
+ * The list used to be much longer. Tokyo–Hakata, Tokyo–Sendai, Tokyo–Kanazawa,
+ * Tokyo–Niigata and eleven Yamanote/Chuo commuter pairs were served by a
+ * generator that emitted one departure every 30 (or 10) minutes from 06:00 to
+ * 22:00 with a constant duration and fare. JR East, JR West, JR Kyushu,
+ * JR Hokkaido and JR Shikoku have no source wired up here, so their routes are
+ * not listed: no source, no route, no departures.
+ */
+export const japanJrCentralRoutes: ScrapedRoute[] = [
   { origin: "Tokyo", destination: "Shin-Osaka" },
   { origin: "Tokyo", destination: "Kyoto" },
   { origin: "Tokyo", destination: "Nagoya" },
-  { origin: "Tokyo", destination: "Hakata" },
-  { origin: "Tokyo", destination: "Sendai" },
-  { origin: "Tokyo", destination: "Kanazawa" },
-  { origin: "Tokyo", destination: "Niigata" },
-  { origin: "Shin-Osaka", destination: "Hakata" },
   { origin: "Shin-Osaka", destination: "Tokyo" },
   { origin: "Nagoya", destination: "Shin-Osaka" },
-  { origin: "Sendai", destination: "Tokyo" },
-  // Local Tokyo commuter lines (Yamanote Line, Chūō Line, etc.)
-  { origin: "Tokyo", destination: "Ikebukuro" },
-  { origin: "Ikebukuro", destination: "Tokyo" },
-  { origin: "Tokyo", destination: "Shinjuku" },
-  { origin: "Shinjuku", destination: "Tokyo" },
-  { origin: "Tokyo", destination: "Shibuya" },
-  { origin: "Shibuya", destination: "Tokyo" },
-  { origin: "Tokyo", destination: "Shinagawa" },
-  { origin: "Shinagawa", destination: "Tokyo" },
-  { origin: "Tokyo", destination: "Ueno" },
-  { origin: "Ueno", destination: "Tokyo" },
-  { origin: "Tokyo", destination: "Akihabara" },
-  { origin: "Akihabara", destination: "Tokyo" },
 ];
 
-export const koreaRoutes: ScrapedRoute[] = [
-  { origin: "Seoul (SNC)", destination: "Busan (BSN)" },
-  { origin: "Seoul (SNC)", destination: "Mokpo" },
-  { origin: "Seoul (SNC)", destination: "Gangneung" },
-  { origin: "Seoul (SNC)", destination: "Yeosu-EXPO" },
-  { origin: "Seoul (SNC)", destination: "Daejeon" },
-  { origin: "Seoul (SNC)", destination: "Gwangju-Songjeong" },
-  { origin: "Busan (BSN)", destination: "Seoul (SNC)" },
-  { origin: "Daejeon", destination: "Busan (BSN)" },
-  { origin: "Yongsan", destination: "Mokpo" },
-];
+/**
+ * Korail has no listed routes. Its journey search blocks automated access, and
+ * the nine KTX route files that used to stand in for it were curated snapshots.
+ * Korea's data now comes from the Seoul Metro and Incheon Transit timetable
+ * CSVs, which are artifacts rather than per-route files.
+ */
 
 export const singaporeRoutes: ScrapedRoute[] = [
   { origin: "Changi Airport", destination: "Jurong East" },
@@ -112,9 +99,8 @@ export const switzerlandRoutes: ScrapedRoute[] = [
   { origin: "Bern", destination: "Lausanne" },
 ];
 
-export const chinaRoutes: ScrapedRoute[] = [
-  { origin: "Beijing South", destination: "Nanjing South" },
-  { origin: "Beijing South", destination: "Shanghai Hongqiao" },
-  { origin: "Guangzhou South", destination: "Shenzhen North" },
-  { origin: "Shanghai Hongqiao", destination: "Hangzhou East" },
-];
+/**
+ * China has no listed routes. The four high-speed pairs previously stored here
+ * were curated snapshots labelled "12306"; no official 12306 feed or permitted
+ * scrape is wired up, so the country has no timetable data at all.
+ */

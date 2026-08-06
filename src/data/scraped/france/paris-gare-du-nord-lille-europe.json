@@ -4,6 +4,20 @@
   "date": "2026-08-06..2026-08-12",
   "scrapedAt": "2026-08-05T23:06:21.517Z",
   "source": "SNCF Open Data GTFS",
+  "sourceMeta": {
+    "sourceId": "fr-sncf-gtfs",
+    "sourceType": "official-gtfs",
+    "sourceTier": "A",
+    "sourceName": "SNCF Open Data GTFS",
+    "sourceUrl": "https://ressources.data.sncf.com/explore/dataset/horaires-des-train-voyages-tgvinouiouigo/",
+    "provider": "SNCF Voyageurs",
+    "country": "france",
+    "fetchedAt": "2026-08-05T23:06:21.517Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official",
   "results": [
     {
       "id": "2026-08-06-fr-OCESN7551F1187_F:OUI:FR:Line::69ABADD2-325C-47DC-BC61-D74DD87C5E3C::87271007:87317586:5:914:20260814",
@@ -579,9 +593,5 @@
       "stops": [],
       "date": "2026-08-12"
     }
-  ],
-  "provenance": "official",
-  "authenticity": "scraped",
-  "truthMode": "verified",
-  "sourceServiceDay": "2026-08-12"
+  ]
 }
