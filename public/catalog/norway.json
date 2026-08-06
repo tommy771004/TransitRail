@@ -14,7 +14,73 @@
     "Tromsø sentrum",
     "Narvik stasjon"
   ],
-  "lines": [],
+  "lines": [
+    {
+      "id": "norway-route-oslo-lufthavn-lillehammer-1",
+      "name": "Oslo lufthavn → Lillehammer",
+      "color": "#8B1D3D",
+      "stations": [
+        {
+          "name": "Oslo lufthavn"
+        },
+        {
+          "name": "Lillehammer"
+        }
+      ]
+    },
+    {
+      "id": "norway-route-oslo-s-bergen-stasjon-2",
+      "name": "Oslo S → Bergen stasjon",
+      "color": "#8B1D3D",
+      "stations": [
+        {
+          "name": "Oslo S"
+        },
+        {
+          "name": "Bergen stasjon"
+        }
+      ]
+    },
+    {
+      "id": "norway-route-oslo-s-stavanger-stasjon-3",
+      "name": "Oslo S → Stavanger stasjon",
+      "color": "#8B1D3D",
+      "stations": [
+        {
+          "name": "Oslo S"
+        },
+        {
+          "name": "Stavanger stasjon"
+        }
+      ]
+    },
+    {
+      "id": "norway-route-oslo-s-trondheim-s-4",
+      "name": "Oslo S → Trondheim S",
+      "color": "#8B1D3D",
+      "stations": [
+        {
+          "name": "Oslo S"
+        },
+        {
+          "name": "Trondheim S"
+        }
+      ]
+    },
+    {
+      "id": "norway-route-trondheim-s-bod-stasjon-5",
+      "name": "Trondheim S → Bodø stasjon",
+      "color": "#8B1D3D",
+      "stations": [
+        {
+          "name": "Trondheim S"
+        },
+        {
+          "name": "Bodø stasjon"
+        }
+      ]
+    }
+  ],
   "source": "Entur National Stop Register / Geocoder",
   "coverage": {
     "mode": "provider",

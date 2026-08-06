@@ -20,6 +20,7 @@ import {
 } from "../data/metroLines";
 import { hongKongMtrLineCatalog, mtrInterchanges } from "../data/hongKongMtr";
 import { getStaticMenuStations } from "../data/stationIdentity";
+import { getProviderRouteLines, routeFirstStationCountries } from "../data/providerRouteLines";
 import { decideSearchability } from "../data/searchabilityPolicy";
 import {
   coverageModeFor,
@@ -284,10 +285,21 @@ export async function getLinesForCountry(country: string, date?: string): Promis
   else if (country === "korea") lines = seoulSubwayLines;
   else if (country === "hong_kong") lines = hongKongLines();
   else if (staticLineSets[country]) lines = staticLineSets[country];
+  else if (country === "united_states") {
+    try {
+      lines = await getMbtaLines();
+      if (lines.length === 0) {
+        lines = getProviderRouteLines(country, getScrapedRoutes(country), date);
+      }
+    } catch {
+      lines = getProviderRouteLines(country, getScrapedRoutes(country), date);
+    }
+  }
+  else if (routeFirstStationCountries.includes(country as Country)) {
+    lines = getProviderRouteLines(country as Country, getScrapedRoutes(country as Country), date);
+  }
   else if (country === "united_kingdom") {
     try { lines = await getTflLines(); } catch { lines = []; }
-  } else if (country === "united_states") {
-    try { lines = await getMbtaLines(); } catch { lines = []; }
   } else {
     lines = [];
   }

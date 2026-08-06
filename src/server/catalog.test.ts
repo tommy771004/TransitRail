@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getLinesForCountry, getStationsForCountry } from "./catalog";
 import { getScrapedCoverageNames, getScrapedRoutes } from "../data/scraped";
+import { getProviderRouteLines } from "../data/providerRouteLines";
 
 const DATE = "2026-08-01";
 
@@ -42,6 +43,33 @@ describe("station and line catalog integrity scope", () => {
     expect(lines.length).toBeGreaterThan(0);
     expect(stations.coverage).toMatchObject({ truthMode: "verified", provenance: "official" });
     expect(stations.stations).toContain("Seoul Station");
+  });
+
+  it("exposes route-first catalogs for Belgium, Norway, and the United States", async () => {
+    const expectedCounts = {
+      belgium: 5,
+      norway: 5,
+      united_states: 4,
+    } as const;
+
+    for (const country of Object.keys(expectedCounts) as Array<keyof typeof expectedCounts>) {
+      const routeLines = getProviderRouteLines(country, getScrapedRoutes(country));
+      expect(routeLines).toHaveLength(expectedCounts[country]);
+      expect(routeLines.every((line) => line.name.includes(" → "))).toBe(true);
+    }
+
+    for (const [country, expectedCount] of Object.entries(expectedCounts) as Array<[
+      keyof typeof expectedCounts,
+      number,
+    ]>) {
+      const lines = await getLinesForCountry(country);
+      expect(lines.length).toBeGreaterThan(0);
+      if (country !== "united_states") {
+        expect(lines).toHaveLength(expectedCount);
+        expect(lines.every((line) => line.name.includes(" → "))).toBe(true);
+      }
+      expect(lines.every((line) => line.stations.length >= 2)).toBe(true);
+    }
   });
 
   it("offers only the dates the committed data can answer", async () => {

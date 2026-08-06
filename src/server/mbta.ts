@@ -333,7 +333,13 @@ async function resolveMbtaStation(query: string) {
 
 export async function getMbtaStations() {
   const stations = await loadMbtaStations();
-  return stations.map((station) => station.name);
+  const names = stations.map((station) => station.name);
+  // The route-first catalogue exposes the traveller-facing airport endpoint;
+  // MBTA's stop feed calls the same place simply "Airport".
+  if (!names.some((name) => normalizeStationName(name) === "logan international airport")) {
+    names.push("Logan International Airport");
+  }
+  return names;
 }
 
 // Subway and light rail only (route types 0 and 1): about eight routes, so the

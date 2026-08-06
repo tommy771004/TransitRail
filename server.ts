@@ -448,31 +448,36 @@ async function logTransitSearch(
       });
     }
 
-    await insertAuditLog(req, {
-      transportType: "rail",
-      originStationName: queryValue,
-      activeFilter: buildActiveFilter({
-        event: queryValue ? "station.catalog.search" : "station.catalog.fetch",
-        country: countryValue,
-        tags: {
-          "query.term": queryValue,
-          "result.source": payload.source,
-          "result.status": statusCode,
-        },
-      }),
-      resultCount: payload.stations.length,
-    }).catch((error) => {
-      console.error("[audit] Failed to record station catalog access:", error);
-      void recordError({
-        severity: "error",
-        module: "audit",
-        operation: "station-catalog.insert",
-        errorCode: "AUDIT_INSERT_FAILED",
-        error,
-        country: countryValue,
-        context: { query: queryValue },
+    // Loading the catalogue is UI hydration, not a user action. Only an
+    // explicit station search belongs in TN_AUDIT_LOG; station selection is
+    // recorded separately by the station.select audit event.
+    if (queryValue) {
+      await insertAuditLog(req, {
+        transportType: "rail",
+        originStationName: queryValue,
+        activeFilter: buildActiveFilter({
+          event: "station.catalog.search",
+          country: countryValue,
+          tags: {
+            "query.term": queryValue,
+            "result.source": payload.source,
+            "result.status": statusCode,
+          },
+        }),
+        resultCount: payload.stations.length,
+      }).catch((error) => {
+        console.error("[audit] Failed to record station catalog search:", error);
+        void recordError({
+          severity: "error",
+          module: "audit",
+          operation: "station-catalog.insert",
+          errorCode: "AUDIT_INSERT_FAILED",
+          error,
+          country: countryValue,
+          context: { query: queryValue },
+        });
       });
-    });
+    }
     void sendTelemetry("station.catalog.completed", {
       has_country: Boolean(countryValue),
       has_query: Boolean(queryValue),
