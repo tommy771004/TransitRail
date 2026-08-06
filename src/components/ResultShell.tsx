@@ -9,7 +9,7 @@ import { Bookmark, Check, Compass, Edit2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, type MotionProps } from "motion/react";
-import type { Country, CoverageGap } from "../types";
+import type { Country, CoverageGap, NoResultReason } from "../types";
 import { triggerHaptic } from "../utils/haptics";
 import { WeatherWidget } from "./WeatherWidget";
 import { stationLabel } from "../utils/stationLabel";
@@ -102,6 +102,66 @@ export function renderWeatherBlock(destination: string, date: string, country: C
       <WeatherWidget destination={destination} date={date} country={country} />
     </motion.div>
   );
+}
+
+/**
+ * A search that returned nothing because no official source covers it.
+ *
+ * Distinct from the red error block on purpose: nothing failed. Titling this
+ * "Unable to fetch" invited a retry that can never succeed, and implied the
+ * data exists and we merely could not reach it — when the honest statement is
+ * that nobody has published it.
+ */
+export function renderNoVerifiedDataBlock(message: string, sourceUrl?: string) {
+  return (
+    <motion.div
+      key="no-verified-data"
+      initial={false}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.96 }}
+      transition={{ duration: 0.3 }}
+      className="rounded-3xl border border-slate-200 bg-slate-50 p-4 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+    >
+      <p className="text-sm font-bold">
+        {i18n.t("result.no_verified_timetable", { defaultValue: "No verified timetable available." })}
+      </p>
+      <p className="mt-1 text-sm">{message}</p>
+      {sourceUrl && (
+        <a
+          href={sourceUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-3 inline-block text-xs font-semibold underline underline-offset-2"
+        >
+          {i18n.t("stations.official_source", { defaultValue: "Open the operator timetable" })}
+        </a>
+      )}
+    </motion.div>
+  );
+}
+
+/**
+ * The single "we have nothing for you" renderer.
+ *
+ * Three different misses used to share one red "Unable to fetch" panel: a
+ * station outside the catalog, a route no official source covers, and an actual
+ * fetch failure. Only the third is an error, and only the third is worth
+ * retrying — so the choice between them is made once, here, rather than by a
+ * ternary repeated in each of the four result views.
+ */
+export function renderMissBlock(options: {
+  message: string;
+  reason?: NoResultReason;
+  coverageGap?: CoverageGap;
+  country: Country;
+  sourceUrl?: string;
+  errorTitle: string;
+}) {
+  if (options.coverageGap) return renderCoverageBlock(options.coverageGap, options.country);
+  if (options.reason === "no_verified_data" || options.reason === "unsupported_route") {
+    return renderNoVerifiedDataBlock(options.message, options.sourceUrl);
+  }
+  return renderErrorBlock(options.errorTitle, options.message, options.sourceUrl);
 }
 
 export function renderErrorBlock(title: string, message: string, sourceUrl?: string) {

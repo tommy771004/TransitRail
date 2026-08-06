@@ -1,32 +1,71 @@
 {
   "country": "germany",
-  "scraper": "gtfs.de",
-  "lastScraped": "2026-08-05T23:06:34.731Z",
+  "provider": "gtfs.de",
+  "source": "gtfs.de Long Distance Rail Germany GTFS",
+  "sourceUrl": "https://gtfs.de/en/feeds/de_fv/",
+  "sourceTier": "A",
+  "fetchedAt": "2026-08-05T23:06:16.992Z",
+  "builtAt": "2026-08-06T02:34:03.369Z",
+  "recordCount": 722,
   "routeCount": 4,
+  "successRate": 0,
+  "failedRoutes": [],
+  "coverage": {
+    "verifiedRoutes": 4,
+    "emptyRoutes": 0,
+    "unverifiedRoutes": 0,
+    "serviceDates": [
+      "2026-08-06",
+      "2026-08-07",
+      "2026-08-08",
+      "2026-08-09",
+      "2026-08-10",
+      "2026-08-11",
+      "2026-08-12"
+    ]
+  },
+  "checksum": "f9c3baf3605f29f839f7126fbf2fc76dc426e1abefa512abad03df88cb370d08",
+  "artifactVersion": 2,
   "routes": [
     {
       "origin": "Berlin Hbf",
       "destination": "Hamburg Hbf",
       "resultCount": 112,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "de-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:16.833Z",
+      "verified": true
     },
     {
       "origin": "Berlin Hbf",
       "destination": "Munich Hbf",
       "resultCount": 197,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "de-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:16.886Z",
+      "verified": true
     },
     {
       "origin": "Frankfurt Hbf",
       "destination": "Cologne Hbf",
       "resultCount": 208,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "de-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:16.942Z",
+      "verified": true
     },
     {
       "origin": "Munich Hbf",
       "destination": "Frankfurt Hbf",
       "resultCount": 205,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "de-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:06:16.992Z",
+      "verified": true
     }
   ]
 }

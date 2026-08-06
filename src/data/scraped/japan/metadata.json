@@ -1,194 +1,161 @@
 {
   "country": "japan",
-  "scraper": "JR local data + ODPT",
-  "lastScraped": "2026-08-05T23:06:34.677Z",
-  "routeCount": 31,
+  "provider": "Tokyo Metropolitan Bureau of Transportation (Toei)",
+  "source": "ODPT Toei train timetable",
+  "sourceUrl": "https://developer.odpt.org/en/datasets",
+  "sourceTier": "A",
+  "fetchedAt": "2026-08-05T23:05:12.663Z",
+  "builtAt": "2026-08-06T02:34:03.369Z",
+  "recordCount": 11415,
+  "routeCount": 13,
+  "successRate": 0,
+  "failedRoutes": [],
+  "coverage": {
+    "verifiedRoutes": 13,
+    "emptyRoutes": 0,
+    "unverifiedRoutes": 0,
+    "serviceDates": [
+      "2026-08-06",
+      "2026-08-07",
+      "2026-08-08",
+      "2026-08-09",
+      "2026-08-10",
+      "2026-08-11",
+      "2026-08-12"
+    ]
+  },
+  "checksum": "1890e888776768b1650772d96b1420eb419acbba33310adcb92548524c958bf5",
+  "artifactVersion": 2,
   "routes": [
-    {
-      "origin": "Akihabara",
-      "destination": "Tokyo",
-      "resultCount": 679,
-      "date": "2026-08-06..2026-08-12"
-    },
     {
       "origin": "Asakusa",
       "destination": "Nihombashi",
       "resultCount": 1322,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Ikebukuro",
-      "destination": "Tokyo",
-      "resultCount": 679,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "jp-odpt-toei",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:05:12.628Z",
+      "verified": true
     },
     {
       "origin": "Jimbocho",
       "destination": "Otemachi",
       "resultCount": 1360,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "jp-odpt-toei",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:05:12.658Z",
+      "verified": true
     },
     {
       "origin": "Jimbocho",
       "destination": "Shinjuku",
       "resultCount": 1331,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "jp-odpt-toei",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:05:12.643Z",
+      "verified": true
     },
     {
       "origin": "Nagoya",
       "destination": "Shin-Osaka",
       "resultCount": 119,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "jp-jr-central",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:05:12.543Z",
+      "verified": true
     },
     {
       "origin": "Nihombashi",
       "destination": "Asakusa",
       "resultCount": 1300,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "jp-odpt-toei",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:05:12.635Z",
+      "verified": true
     },
     {
       "origin": "Otemachi",
       "destination": "Jimbocho",
       "resultCount": 1353,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "jp-odpt-toei",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:05:12.663Z",
+      "verified": true
     },
     {
       "origin": "Roppongi",
       "destination": "Shinjuku",
       "resultCount": 1424,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Sendai",
-      "destination": "Tokyo",
-      "resultCount": 231,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Shibuya",
-      "destination": "Tokyo",
-      "resultCount": 679,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Shin-Osaka",
-      "destination": "Hakata",
-      "resultCount": 231,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "jp-odpt-toei",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:05:12.618Z",
+      "verified": true
     },
     {
       "origin": "Shin-Osaka",
       "destination": "Tokyo",
       "resultCount": 112,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Shinagawa",
-      "destination": "Tokyo",
-      "resultCount": 679,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "jp-jr-central",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:05:07.575Z",
+      "verified": true
     },
     {
       "origin": "Shinjuku",
       "destination": "Jimbocho",
       "resultCount": 1331,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "jp-odpt-toei",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:05:12.650Z",
+      "verified": true
     },
     {
       "origin": "Shinjuku",
       "destination": "Roppongi",
       "resultCount": 1424,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Shinjuku",
-      "destination": "Tokyo",
-      "resultCount": 679,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Tokyo",
-      "destination": "Akihabara",
-      "resultCount": 679,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Tokyo",
-      "destination": "Hakata",
-      "resultCount": 231,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Tokyo",
-      "destination": "Ikebukuro",
-      "resultCount": 679,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Tokyo",
-      "destination": "Kanazawa",
-      "resultCount": 231,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "jp-odpt-toei",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:05:12.609Z",
+      "verified": true
     },
     {
       "origin": "Tokyo",
       "destination": "Kyoto",
       "resultCount": 112,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "jp-jr-central",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:04:48.587Z",
+      "verified": true
     },
     {
       "origin": "Tokyo",
       "destination": "Nagoya",
       "resultCount": 115,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Tokyo",
-      "destination": "Niigata",
-      "resultCount": 231,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Tokyo",
-      "destination": "Sendai",
-      "resultCount": 231,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Tokyo",
-      "destination": "Shibuya",
-      "resultCount": 679,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "jp-jr-central",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:04:56.233Z",
+      "verified": true
     },
     {
       "origin": "Tokyo",
       "destination": "Shin-Osaka",
       "resultCount": 112,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Tokyo",
-      "destination": "Shinagawa",
-      "resultCount": 679,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Tokyo",
-      "destination": "Shinjuku",
-      "resultCount": 679,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Tokyo",
-      "destination": "Ueno",
-      "resultCount": 679,
-      "date": "2026-08-06..2026-08-12"
-    },
-    {
-      "origin": "Ueno",
-      "destination": "Tokyo",
-      "resultCount": 679,
-      "date": "2026-08-06..2026-08-12"
+      "date": "2026-08-06..2026-08-12",
+      "sourceId": "jp-jr-central",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-05T23:04:38.141Z",
+      "verified": true
     }
   ]
 }

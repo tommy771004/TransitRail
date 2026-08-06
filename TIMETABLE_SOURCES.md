@@ -1,7 +1,21 @@
 # Timetable data sources — status and outstanding work
 
-Where every route's departures actually come from, what is still fabricated, and
-what it would take to fix each one. Companion to
+> **Superseded, kept as the record of why.** The generated and curated
+> timetables this document catalogues have been removed, so its "current state"
+> tables and remediation plans describe a pipeline that no longer exists. For
+> what each market can answer *today*, read the generated
+> [SOURCE_COVERAGE.md](SOURCE_COVERAGE.md) (`npm run audit:sources`); for the
+> rules that replaced them, read the source-register section of
+> [CLAUDE.md](CLAUDE.md) and [src/data/sourceRegistry.ts](src/data/sourceRegistry.ts).
+>
+> What remains valuable here is the diagnosis: how the generated data got in,
+> what it looked like, and what it cost. Sections 2 onward are still the best
+> written account of the per-operator obstacles (Korail's bot blocking, 12306,
+> the JR East/West licensing position), and remain the starting point for anyone
+> wiring up one of the sources listed as a gap in SOURCE_COVERAGE.md.
+
+Where every route's departures came from before the official-sources refactor,
+what was fabricated, and what it would take to fix each one. Companion to
 [SERVICE_DAY_SOURCES.md](SERVICE_DAY_SOURCES.md), which covers the first/last
 train advisory rather than the timetable itself.
 

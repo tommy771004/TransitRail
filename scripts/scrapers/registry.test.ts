@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { getCountryCapability, timetableScrapeCountries } from "../../src/data/countryCapability";
 import { createTimetableScrapers } from "./registry";
+import { findOfficialSource } from "../../src/data/sourceRegistry";
 
 describe("scraper registry ↔ country capability", () => {
   it("covers exactly the timetable-scrape countries from countryConfig", () => {
@@ -21,6 +22,25 @@ describe("scraper registry ↔ country capability", () => {
   it("runs both of Japan's sources rather than only the last registered one", () => {
     const japan = createTimetableScrapers().filter((scraper) => scraper.country === "japan");
     expect(japan.map((scraper) => scraper.name).sort()).toEqual(["JR Central", "ODPT"]);
+  });
+
+  it("only lets a scraper claim a source its kind can actually produce", () => {
+    // JR Central was registered as a tier-B browser source while its scraper
+    // parses HTML over plain HTTP. Nothing caught it until the first run threw,
+    // because instantiating a scraper does not check its declarations.
+    for (const scraper of createTimetableScrapers()) {
+      expect(() => scraper.assertRegisteredSources(), scraper.name).not.toThrow();
+    }
+  });
+
+  it("names a registered source for every route it will scrape", () => {
+    for (const scraper of createTimetableScrapers()) {
+      for (const route of scraper.routes) {
+        const source = findOfficialSource(scraper.sourceIdFor(route));
+        expect(source, `${scraper.name}: ${route.origin} → ${route.destination}`).toBeDefined();
+        expect(source!.country).toBe(scraper.country);
+      }
+    }
   });
 
   it("excludes markets with no registered official source", () => {

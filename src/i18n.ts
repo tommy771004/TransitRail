@@ -138,6 +138,12 @@ const resources = {
         live_ready_body: "Queries use the official {{provider}} data source."
       },
       result: {
+        data_source: "Source",
+        data_updated: "Retrieved",
+        completeness_full: "Full timetable",
+        completeness_frequency: "Service hours and frequency only — no departure list is published",
+        completeness_service_hours: "Service hours only — no departure list is published",
+        no_verified_timetable: "No verified timetable available.",
         today: "Today",
         adult: "Adult",
         modify: "Modify",
@@ -647,6 +653,12 @@ const resources = {
         live_ready_body: "查詢直接使用 {{provider}} 官方資料來源。"
       },
       result: {
+        data_source: "資料來源",
+        data_updated: "擷取時間",
+        completeness_full: "完整時刻表",
+        completeness_frequency: "僅提供營運時間與班距，官方未公布逐班時刻",
+        completeness_service_hours: "僅提供營運時間，官方未公布逐班時刻",
+        no_verified_timetable: "查無可驗證的官方時刻表。",
         today: "今天",
         adult: "成人",
         modify: "修改",
@@ -1559,6 +1571,12 @@ const resources = {
         live_ready_body: "検索には{{provider}}の公式データソースを使用しています。"
       },
       result: {
+        data_source: "データ提供元",
+        data_updated: "取得日時",
+        completeness_full: "完全な時刻表",
+        completeness_frequency: "運行時間と運転間隔のみ — 個別の発車時刻は公開されていません",
+        completeness_service_hours: "運行時間のみ — 個別の発車時刻は公開されていません",
+        no_verified_timetable: "検証済みの時刻表はありません。",
         today: "今日",
         adult: "大人",
         modify: "条件を変更",
@@ -2093,6 +2111,12 @@ const resources = {
         live_ready_body: "검색 시 {{provider}}의 공식 데이터를 사용합니다."
       },
       result: {
+        data_source: "데이터 출처",
+        data_updated: "수집 시각",
+        completeness_full: "전체 시간표",
+        completeness_frequency: "운행 시간과 배차 간격만 제공 — 개별 출발 시각은 공개되지 않습니다",
+        completeness_service_hours: "운행 시간만 제공 — 개별 출발 시각은 공개되지 않습니다",
+        no_verified_timetable: "검증된 시간표가 없습니다.",
         today: "오늘",
         adult: "성인",
         modify: "조건 변경",

@@ -6,7 +6,7 @@ import { ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
-import type { Country, CoverageGap, SortMode, TransitResult } from "../types";
+import type { Country, CoverageGap, NoResultReason, SortMode, TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel } from "../utils/stationLabel";
@@ -17,8 +17,7 @@ import {
   TimelineBar,
   formatDuration,
   renderEmptyBlock,
-  renderErrorBlock,
-  renderCoverageBlock,
+  renderMissBlock,
   renderWeatherBlock,
   tripCardClass,
   tripCardMotion,
@@ -31,6 +30,7 @@ interface JapanResultViewProps {
   date: string;
   time?: string;
   error?: string;
+  noResultReason?: NoResultReason;
   officialSourceUrl?: string;
   coverageGap?: CoverageGap;
   results: TransitResult[];
@@ -98,6 +98,7 @@ export function JapanResultView({
   date,
   time,
   error,
+  noResultReason,
   officialSourceUrl,
   coverageGap,
   results,
@@ -163,7 +164,14 @@ export function JapanResultView({
       <div className="mx-auto max-w-md space-y-3 px-4 pt-4">
         <AnimatePresence mode="popLayout">
           {!error && results.length > 0 && renderWeatherBlock(destination, date, country)}
-          {error && (coverageGap ? renderCoverageBlock(coverageGap, country) : renderErrorBlock(t("result.unable_to_fetch"), error, officialSourceUrl))}
+          {error && renderMissBlock({
+            message: error,
+            reason: noResultReason,
+            coverageGap,
+            country,
+            sourceUrl: officialSourceUrl,
+            errorTitle: t("result.unable_to_fetch"),
+          })}
           {!error && results.length === 0 && renderEmptyBlock(t("result.no_results"), t("result.no_results_hint"))}
         </AnimatePresence>
 

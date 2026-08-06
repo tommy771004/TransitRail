@@ -133,7 +133,11 @@ export const officialSources = {
     country: "japan",
     provider: "Central Japan Railway Company (JR Central)",
     sourceName: "JR Central official journey search",
-    sourceType: "official-browser",
+    // Graded C rather than B even though this is JR Central's own timetable
+    // search: we parse the markup it returns rather than a published data file,
+    // so a layout change is a silent parsing risk in a way a schema change is
+    // not. Grading down is the safe direction to be wrong in.
+    sourceType: "official-html",
     sourceUrl: "https://railway.jr-central.co.jp/timetable/",
     maxCompleteness: "full-timetable",
   },

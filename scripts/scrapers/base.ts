@@ -183,7 +183,7 @@ export abstract class BaseScraper implements ScraperAdapter {
    * mis-declared scraper never gets as far as putting a wrongly-labelled file
    * on disk for a later run to merge into.
    */
-  private assertRegisteredSources(): void {
+  assertRegisteredSources(): void {
     for (const route of this.routes) {
       const id = this.sourceIdFor(route);
       const source = findOfficialSource(id);
