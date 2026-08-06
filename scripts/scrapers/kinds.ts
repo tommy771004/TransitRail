@@ -22,10 +22,6 @@ import {
   type SourceType,
 } from "../../src/data/sourceRegistry";
 
-/** Rows an adapter produced, before the base class stamps provenance onto them. */
-export type RawRouteRows = Pick<ScrapedRouteData, "origin" | "destination" | "results"> &
-  Partial<Pick<ScrapedRouteData, "scrapedAt">>;
-
 /**
  * **Tier A.** An official machine-readable feed: GTFS, GTFS-RT, CSV, XML, JSON,
  * or a published download. The highest-confidence kind, because the operator
@@ -149,7 +145,7 @@ export abstract class FrequencyScraper extends BaseScraper {
  * for. Asked about any other date it returns an empty day rather than repeating
  * today's arrivals under tomorrow's heading.
  */
-export function isLiveOnlySource(sourceId: OfficialSourceId): boolean {
+function isLiveOnlySource(sourceId: OfficialSourceId): boolean {
   return findOfficialSource(sourceId)?.liveOnly === true;
 }
 
@@ -160,7 +156,7 @@ export function isLiveOnlySource(sourceId: OfficialSourceId): boolean {
  * know" rather than as a timetable somebody could act on. The service-day
  * artifact is what carries the operator's real answer for such a date.
  */
-export function unknownServiceDay(route: ScrapedRoute, date: string): ScrapedRouteData {
+function unknownServiceDay(route: ScrapedRoute, date: string): ScrapedRouteData {
   return {
     origin: route.origin,
     destination: route.destination,
@@ -172,12 +168,12 @@ export function unknownServiceDay(route: ScrapedRoute, date: string): ScrapedRou
 }
 
 /** Shape a country adapter hands back from a live query. */
-export interface ProviderQueryResponse {
+interface ProviderQueryResponse {
   status: number;
   body: { results?: unknown[]; error?: string; message?: string; source?: string };
 }
 
-export type ProviderQuery = (
+type ProviderQuery = (
   origin: string,
   destination: string,
   date: string,

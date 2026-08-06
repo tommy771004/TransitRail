@@ -142,11 +142,12 @@ function describeSearchData(
     return {
       kind: "snapshot",
       source: "Pre-scraped timetable snapshot",
-      updatedAt: country ? getScrapedCountryFreshness(country as Country) : undefined,
       ...attribution,
-      // The stored fetch time is when the source was read, which is the number
-      // a passenger cares about — not when this request happened.
-      ...(sourceMeta ? { updatedAt: sourceMeta.fetchedAt } : {}),
+      // When the source was read, which is what a passenger cares about — not
+      // when this request happened. The per-country freshness stamp is the
+      // fallback for rows that predate the source block.
+      updatedAt: sourceMeta?.fetchedAt
+        ?? (country ? getScrapedCountryFreshness(country as Country) : undefined),
     };
   }
 
