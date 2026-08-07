@@ -4,12 +4,17 @@
   "source": "MBTA V3 API schedules",
   "sourceUrl": "https://api-v3.mbta.com",
   "sourceTier": "A",
-  "fetchedAt": "2026-08-07T01:46:19.201Z",
-  "builtAt": "2026-08-07T01:46:36.022Z",
+  "fetchedAt": "2026-08-07T22:42:59.605Z",
+  "builtAt": "2026-08-07T22:43:38.647Z",
   "recordCount": 5327,
   "routeCount": 4,
-  "successRate": 0.7857,
+  "successRate": 0.75,
   "failedRoutes": [
+    {
+      "origin": "Park Street",
+      "destination": "Boston College",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
     {
       "origin": "Park Street",
       "destination": "Boston College",
@@ -52,30 +57,31 @@
       "2026-08-10",
       "2026-08-11",
       "2026-08-12",
-      "2026-08-13"
+      "2026-08-13",
+      "2026-08-14"
     ]
   },
-  "checksum": "eb0ff2f8fc44d3d3402887817507dfbae4c81ba4b8b195cb92c882a1822719c7",
+  "checksum": "3d7cf43bb16a7679999131ded6670bd5a69e8bd59930a08ffaf776a053aa540e",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Harvard",
       "destination": "Logan International Airport",
       "resultCount": 1497,
-      "date": "2026-08-07..2026-08-13",
+      "date": "2026-08-08..2026-08-14",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-07T01:46:18.777Z",
+      "fetchedAt": "2026-08-07T22:42:59.070Z",
       "verified": true
     },
     {
       "origin": "Park Street",
       "destination": "Andrew",
       "resultCount": 1501,
-      "date": "2026-08-07..2026-08-13",
+      "date": "2026-08-08..2026-08-14",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-07T01:46:19.079Z",
+      "fetchedAt": "2026-08-07T22:42:59.420Z",
       "verified": true
     },
     {
@@ -92,10 +98,10 @@
       "origin": "South Station",
       "destination": "Harvard",
       "resultCount": 1501,
-      "date": "2026-08-07..2026-08-13",
+      "date": "2026-08-08..2026-08-14",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-07T01:46:19.201Z",
+      "fetchedAt": "2026-08-07T22:42:59.605Z",
       "verified": true
     }
   ]

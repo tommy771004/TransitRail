@@ -1,108 +1,37 @@
 {
   "origin": "Oslo S",
   "destination": "Bergen stasjon",
-  "date": "2026-08-07..2026-08-13",
-  "scrapedAt": "2026-08-07T01:46:32.099Z",
+  "date": "2026-08-08..2026-08-14",
+  "scrapedAt": "2026-08-07T22:43:33.652Z",
   "source": "Entur Journey Planner v3",
   "results": [
     {
-      "id": "2026-08-07-no-entur-2026-08-07-1-2026-08-07T08:54:00+02:00",
+      "id": "2026-08-08-no-entur-2026-08-08-5-2026-08-08T08:23:00+02:00",
       "country": "norway",
       "operator": "Vy",
-      "service": "R12 + foot + Oslo-Bergen + foot + 1 + foot",
-      "trainType": "R12",
-      "durationMinutes": 229,
-      "departureTime": "08:54",
-      "arrivalTime": "12:42",
+      "service": "F4",
+      "trainType": "F4",
+      "durationMinutes": 397,
+      "departureTime": "08:23",
+      "arrivalTime": "15:00",
       "origin": "Oslo S",
       "destination": "Bergen stasjon",
-      "direct": false,
+      "direct": true,
       "stops": [],
       "realtime": true,
       "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "R12",
-          "lineCode": "R12",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "08:54",
-          "arrivalTime": "09:27",
-          "durationMinutes": 33
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "09:27",
-          "arrivalTime": "09:30",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Bergen",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "10:40",
-          "arrivalTime": "11:33",
-          "durationMinutes": 53
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "11:48",
-          "arrivalTime": "11:51",
-          "durationMinutes": 3
-        },
-        {
-          "lineName": "1",
-          "lineCode": "1",
-          "color": "#0F766E",
-          "mode": "tram",
-          "origin": "Bergen lufthavn",
-          "destination": "Nonneseter",
-          "departureTime": "12:00",
-          "arrivalTime": "12:41",
-          "durationMinutes": 42
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Nonneseter",
-          "destination": "Bergen stasjon",
-          "departureTime": "12:41",
-          "arrivalTime": "12:42",
-          "durationMinutes": 1
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Bergen lufthavn",
-        "Bergen lufthavn",
-        "Nonneseter"
-      ],
-      "date": "2026-08-07"
+      "transferStations": [],
+      "date": "2026-08-08"
     },
     {
-      "id": "2026-08-07-no-entur-2026-08-07-3-2026-08-07T09:24:00+02:00",
+      "id": "2026-08-08-no-entur-2026-08-08-1-2026-08-08T08:24:00+02:00",
       "country": "norway",
       "operator": "Flytoget",
-      "service": "FLY1 + foot + Oslo-Bergen + foot + FB50 + foot",
+      "service": "FLY1 + foot + Oslo-Stavanger + Bergen-Stavanger + foot + FB50 + foot",
       "trainType": "FLY1",
-      "durationMinutes": 215,
-      "departureTime": "09:24",
-      "arrivalTime": "12:59",
+      "durationMinutes": 335,
+      "departureTime": "08:24",
+      "arrivalTime": "13:59",
       "origin": "Oslo S",
       "destination": "Bergen stasjon",
       "direct": false,
@@ -117,8 +46,8 @@
           "mode": "rail",
           "origin": "Oslo S",
           "destination": "Oslo lufthavn stasjon",
-          "departureTime": "09:24",
-          "arrivalTime": "09:54",
+          "departureTime": "08:24",
+          "arrivalTime": "08:54",
           "durationMinutes": 30
         },
         {
@@ -127,109 +56,31 @@
           "mode": "foot",
           "origin": "Oslo lufthavn stasjon",
           "destination": "Oslo lufthavn",
-          "departureTime": "09:54",
-          "arrivalTime": "09:57",
+          "departureTime": "08:54",
+          "arrivalTime": "08:57",
           "durationMinutes": 4
         },
         {
-          "lineName": "Oslo-Bergen",
+          "lineName": "Oslo-Stavanger",
           "lineCode": null,
           "color": "#4B5563",
           "mode": "air",
           "origin": "Oslo lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "10:40",
-          "arrivalTime": "11:33",
-          "durationMinutes": 53
+          "destination": "Stavanger lufthavn",
+          "departureTime": "09:50",
+          "arrivalTime": "10:45",
+          "durationMinutes": 55
         },
         {
-          "lineName": "foot",
+          "lineName": "Bergen-Stavanger",
+          "lineCode": null,
           "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen lufthavn",
+          "mode": "air",
+          "origin": "Stavanger lufthavn",
           "destination": "Bergen lufthavn",
-          "departureTime": "11:48",
-          "arrivalTime": "11:50",
-          "durationMinutes": 3
-        },
-        {
-          "lineName": "FB50",
-          "lineCode": "FB50",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen busstasjon",
           "departureTime": "12:30",
-          "arrivalTime": "12:55",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen busstasjon",
-          "destination": "Bergen stasjon",
-          "departureTime": "12:55",
-          "arrivalTime": "12:59",
-          "durationMinutes": 4
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Bergen lufthavn",
-        "Bergen lufthavn",
-        "Bergen busstasjon"
-      ],
-      "date": "2026-08-07"
-    },
-    {
-      "id": "2026-08-07-no-entur-2026-08-07-0-2026-08-07T09:28:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "RE10 + foot + Oslo-Bergen + foot + 1 + foot",
-      "trainType": "RE10",
-      "durationMinutes": 195,
-      "departureTime": "09:28",
-      "arrivalTime": "12:42",
-      "origin": "Oslo S",
-      "destination": "Bergen stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "RE10",
-          "lineCode": "RE10",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "09:28",
-          "arrivalTime": "09:57",
-          "durationMinutes": 29
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "09:57",
-          "arrivalTime": "10:00",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Bergen",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "10:40",
-          "arrivalTime": "11:33",
-          "durationMinutes": 53
+          "arrivalTime": "13:10",
+          "durationMinutes": 40
         },
         {
           "lineName": "foot",
@@ -237,394 +88,8 @@
           "mode": "foot",
           "origin": "Bergen lufthavn",
           "destination": "Bergen lufthavn",
-          "departureTime": "11:48",
-          "arrivalTime": "11:51",
-          "durationMinutes": 3
-        },
-        {
-          "lineName": "1",
-          "lineCode": "1",
-          "color": "#0F766E",
-          "mode": "tram",
-          "origin": "Bergen lufthavn",
-          "destination": "Nonneseter",
-          "departureTime": "12:00",
-          "arrivalTime": "12:41",
-          "durationMinutes": 42
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Nonneseter",
-          "destination": "Bergen stasjon",
-          "departureTime": "12:41",
-          "arrivalTime": "12:42",
-          "durationMinutes": 1
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Bergen lufthavn",
-        "Bergen lufthavn",
-        "Nonneseter"
-      ],
-      "date": "2026-08-07"
-    },
-    {
-      "id": "2026-08-07-no-entur-2026-08-07-2-2026-08-07T09:28:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "RE10 + foot + Oslo-Bergen + foot + FB50 + foot",
-      "trainType": "RE10",
-      "durationMinutes": 211,
-      "departureTime": "09:28",
-      "arrivalTime": "12:59",
-      "origin": "Oslo S",
-      "destination": "Bergen stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "RE10",
-          "lineCode": "RE10",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "09:28",
-          "arrivalTime": "09:57",
-          "durationMinutes": 29
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "09:57",
-          "arrivalTime": "10:00",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Bergen",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "10:40",
-          "arrivalTime": "11:33",
-          "durationMinutes": 53
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "11:48",
-          "arrivalTime": "11:50",
-          "durationMinutes": 3
-        },
-        {
-          "lineName": "FB50",
-          "lineCode": "FB50",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen busstasjon",
-          "departureTime": "12:30",
-          "arrivalTime": "12:55",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen busstasjon",
-          "destination": "Bergen stasjon",
-          "departureTime": "12:55",
-          "arrivalTime": "12:59",
-          "durationMinutes": 4
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Bergen lufthavn",
-        "Bergen lufthavn",
-        "Bergen busstasjon"
-      ],
-      "date": "2026-08-07"
-    },
-    {
-      "id": "2026-08-07-no-entur-2026-08-07-5-2026-08-07T09:54:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "R12 + foot + Oslo-Bergen + foot + 1 + foot",
-      "trainType": "R12",
-      "durationMinutes": 229,
-      "departureTime": "09:54",
-      "arrivalTime": "13:42",
-      "origin": "Oslo S",
-      "destination": "Bergen stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "R12",
-          "lineCode": "R12",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "09:54",
-          "arrivalTime": "10:27",
-          "durationMinutes": 33
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "10:27",
-          "arrivalTime": "10:30",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Bergen",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "11:45",
-          "arrivalTime": "12:40",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "12:55",
-          "arrivalTime": "12:57",
-          "durationMinutes": 3
-        },
-        {
-          "lineName": "1",
-          "lineCode": "1",
-          "color": "#0F766E",
-          "mode": "tram",
-          "origin": "Bergen lufthavn",
-          "destination": "Nonneseter",
-          "departureTime": "13:00",
-          "arrivalTime": "13:41",
-          "durationMinutes": 42
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Nonneseter",
-          "destination": "Bergen stasjon",
-          "departureTime": "13:41",
-          "arrivalTime": "13:42",
-          "durationMinutes": 1
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Bergen lufthavn",
-        "Bergen lufthavn",
-        "Nonneseter"
-      ],
-      "date": "2026-08-07"
-    },
-    {
-      "id": "2026-08-07-no-entur-2026-08-07-4-2026-08-07T10:28:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "RE10 + foot + Oslo-Bergen + foot + 1 + foot",
-      "trainType": "RE10",
-      "durationMinutes": 195,
-      "departureTime": "10:28",
-      "arrivalTime": "13:42",
-      "origin": "Oslo S",
-      "destination": "Bergen stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "RE10",
-          "lineCode": "RE10",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "10:28",
-          "arrivalTime": "10:57",
-          "durationMinutes": 29
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "10:57",
-          "arrivalTime": "11:00",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Bergen",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "11:45",
-          "arrivalTime": "12:40",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "12:55",
-          "arrivalTime": "12:57",
-          "durationMinutes": 3
-        },
-        {
-          "lineName": "1",
-          "lineCode": "1",
-          "color": "#0F766E",
-          "mode": "tram",
-          "origin": "Bergen lufthavn",
-          "destination": "Nonneseter",
-          "departureTime": "13:00",
-          "arrivalTime": "13:41",
-          "durationMinutes": 42
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Nonneseter",
-          "destination": "Bergen stasjon",
-          "departureTime": "13:41",
-          "arrivalTime": "13:42",
-          "durationMinutes": 1
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Bergen lufthavn",
-        "Bergen lufthavn",
-        "Nonneseter"
-      ],
-      "date": "2026-08-07"
-    },
-    {
-      "id": "2026-08-08-no-entur-2026-08-08-1-2026-08-08T09:23:55+02:00",
-      "country": "norway",
-      "operator": "Entur",
-      "service": "foot + FX651 + foot + 4 + foot + Bergen-Sandefjord + foot + FB50 + foot",
-      "durationMinutes": 275,
-      "departureTime": "09:23",
-      "arrivalTime": "13:59",
-      "origin": "Oslo S",
-      "destination": "Bergen stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": false,
-      "lineColor": "#4B5563",
-      "legs": [
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo S",
-          "destination": "Oslo bussterminal",
-          "departureTime": "09:23",
-          "arrivalTime": "09:30",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "FX651",
-          "lineCode": "FX651",
-          "color": "#4B5563",
-          "mode": "coach",
-          "origin": "Oslo bussterminal",
-          "destination": "Fokserød",
-          "departureTime": "09:30",
-          "arrivalTime": "10:55",
-          "durationMinutes": 85
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Fokserød",
-          "destination": "Fokserød",
-          "departureTime": "10:55",
-          "arrivalTime": "10:55",
-          "durationMinutes": 0
-        },
-        {
-          "lineName": "4",
-          "lineCode": "4",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Fokserød",
-          "destination": "Sandefjord lufthavn Torp",
-          "departureTime": "11:00",
-          "arrivalTime": "11:05",
-          "durationMinutes": 5
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Sandefjord lufthavn Torp",
-          "destination": "Sandefjord lufthavn",
-          "departureTime": "11:05",
-          "arrivalTime": "11:05",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "Bergen-Sandefjord",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Sandefjord lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "12:10",
-          "arrivalTime": "13:05",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "13:20",
-          "arrivalTime": "13:22",
+          "departureTime": "13:25",
+          "arrivalTime": "13:27",
           "durationMinutes": 3
         },
         {
@@ -650,11 +115,9 @@
         }
       ],
       "transferStations": [
-        "Oslo bussterminal",
-        "Fokserød",
-        "Fokserød",
-        "Sandefjord lufthavn Torp",
-        "Sandefjord lufthavn",
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Stavanger lufthavn",
         "Bergen lufthavn",
         "Bergen lufthavn",
         "Bergen busstasjon"
@@ -662,195 +125,63 @@
       "date": "2026-08-08"
     },
     {
-      "id": "2026-08-08-no-entur-2026-08-08-3-2026-08-08T09:23:55+02:00",
-      "country": "norway",
-      "operator": "Entur",
-      "service": "foot + FX651 + foot + 4 + foot + Bergen-Sandefjord + foot + 1 + foot",
-      "durationMinutes": 290,
-      "departureTime": "09:23",
-      "arrivalTime": "14:14",
-      "origin": "Oslo S",
-      "destination": "Bergen stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": false,
-      "lineColor": "#4B5563",
-      "legs": [
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo S",
-          "destination": "Oslo bussterminal",
-          "departureTime": "09:23",
-          "arrivalTime": "09:30",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "FX651",
-          "lineCode": "FX651",
-          "color": "#4B5563",
-          "mode": "coach",
-          "origin": "Oslo bussterminal",
-          "destination": "Fokserød",
-          "departureTime": "09:30",
-          "arrivalTime": "10:55",
-          "durationMinutes": 85
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Fokserød",
-          "destination": "Fokserød",
-          "departureTime": "10:55",
-          "arrivalTime": "10:55",
-          "durationMinutes": 0
-        },
-        {
-          "lineName": "4",
-          "lineCode": "4",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Fokserød",
-          "destination": "Sandefjord lufthavn Torp",
-          "departureTime": "11:00",
-          "arrivalTime": "11:05",
-          "durationMinutes": 5
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Sandefjord lufthavn Torp",
-          "destination": "Sandefjord lufthavn",
-          "departureTime": "11:05",
-          "arrivalTime": "11:05",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "Bergen-Sandefjord",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Sandefjord lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "12:10",
-          "arrivalTime": "13:05",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "13:20",
-          "arrivalTime": "13:22",
-          "durationMinutes": 3
-        },
-        {
-          "lineName": "1",
-          "lineCode": "1",
-          "color": "#0F766E",
-          "mode": "tram",
-          "origin": "Bergen lufthavn",
-          "destination": "Nonneseter",
-          "departureTime": "13:31",
-          "arrivalTime": "14:13",
-          "durationMinutes": 42
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Nonneseter",
-          "destination": "Bergen stasjon",
-          "departureTime": "14:13",
-          "arrivalTime": "14:14",
-          "durationMinutes": 1
-        }
-      ],
-      "transferStations": [
-        "Oslo bussterminal",
-        "Fokserød",
-        "Fokserød",
-        "Sandefjord lufthavn Torp",
-        "Sandefjord lufthavn",
-        "Bergen lufthavn",
-        "Bergen lufthavn",
-        "Nonneseter"
-      ],
-      "date": "2026-08-08"
-    },
-    {
-      "id": "2026-08-08-no-entur-2026-08-08-0-2026-08-08T09:48:00+02:00",
+      "id": "2026-08-08-no-entur-2026-08-08-0-2026-08-08T08:28:00+02:00",
       "country": "norway",
       "operator": "Vy",
-      "service": "RE11 + foot + S174 + foot + Bergen-Sandefjord + foot + FB50 + foot",
-      "trainType": "RE11",
-      "durationMinutes": 251,
-      "departureTime": "09:48",
+      "service": "RE10 + foot + Oslo-Stavanger + Bergen-Stavanger + foot + FB50 + foot",
+      "trainType": "RE10",
+      "durationMinutes": 331,
+      "departureTime": "08:28",
       "arrivalTime": "13:59",
       "origin": "Oslo S",
       "destination": "Bergen stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
-          "lineName": "RE11",
-          "lineCode": "RE11",
+          "lineName": "RE10",
+          "lineCode": "RE10",
           "color": "#8B1D3D",
           "mode": "rail",
           "origin": "Oslo S",
-          "destination": "Torp stasjon",
-          "departureTime": "09:48",
-          "arrivalTime": "11:19",
-          "durationMinutes": 91
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "08:28",
+          "arrivalTime": "08:57",
+          "durationMinutes": 29
         },
         {
           "lineName": "foot",
           "color": "#4B5563",
           "mode": "foot",
-          "origin": "Torp stasjon",
-          "destination": "Torp stasjon",
-          "departureTime": "11:19",
-          "arrivalTime": "11:19",
-          "durationMinutes": 0
-        },
-        {
-          "lineName": "S174",
-          "lineCode": "S174",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Torp stasjon",
-          "destination": "Sandefjord lufthavn Torp",
-          "departureTime": "11:23",
-          "arrivalTime": "11:27",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "08:57",
+          "arrivalTime": "09:00",
           "durationMinutes": 4
         },
         {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Sandefjord lufthavn Torp",
-          "destination": "Sandefjord lufthavn",
-          "departureTime": "11:27",
-          "arrivalTime": "11:27",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "Bergen-Sandefjord",
+          "lineName": "Oslo-Stavanger",
           "lineCode": null,
           "color": "#4B5563",
           "mode": "air",
-          "origin": "Sandefjord lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "12:10",
-          "arrivalTime": "13:05",
+          "origin": "Oslo lufthavn",
+          "destination": "Stavanger lufthavn",
+          "departureTime": "09:50",
+          "arrivalTime": "10:45",
           "durationMinutes": 55
+        },
+        {
+          "lineName": "Bergen-Stavanger",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Stavanger lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "12:30",
+          "arrivalTime": "13:10",
+          "durationMinutes": 40
         },
         {
           "lineName": "foot",
@@ -858,8 +189,8 @@
           "mode": "foot",
           "origin": "Bergen lufthavn",
           "destination": "Bergen lufthavn",
-          "departureTime": "13:20",
-          "arrivalTime": "13:22",
+          "departureTime": "13:25",
+          "arrivalTime": "13:27",
           "durationMinutes": 3
         },
         {
@@ -885,10 +216,9 @@
         }
       ],
       "transferStations": [
-        "Torp stasjon",
-        "Torp stasjon",
-        "Sandefjord lufthavn Torp",
-        "Sandefjord lufthavn",
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Stavanger lufthavn",
         "Bergen lufthavn",
         "Bergen lufthavn",
         "Bergen busstasjon"
@@ -896,119 +226,7 @@
       "date": "2026-08-08"
     },
     {
-      "id": "2026-08-08-no-entur-2026-08-08-2-2026-08-08T09:48:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "RE11 + foot + S174 + foot + Bergen-Sandefjord + foot + 1 + foot",
-      "trainType": "RE11",
-      "durationMinutes": 266,
-      "departureTime": "09:48",
-      "arrivalTime": "14:14",
-      "origin": "Oslo S",
-      "destination": "Bergen stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": false,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "RE11",
-          "lineCode": "RE11",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Torp stasjon",
-          "departureTime": "09:48",
-          "arrivalTime": "11:19",
-          "durationMinutes": 91
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Torp stasjon",
-          "destination": "Torp stasjon",
-          "departureTime": "11:19",
-          "arrivalTime": "11:19",
-          "durationMinutes": 0
-        },
-        {
-          "lineName": "S174",
-          "lineCode": "S174",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Torp stasjon",
-          "destination": "Sandefjord lufthavn Torp",
-          "departureTime": "11:23",
-          "arrivalTime": "11:27",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Sandefjord lufthavn Torp",
-          "destination": "Sandefjord lufthavn",
-          "departureTime": "11:27",
-          "arrivalTime": "11:27",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "Bergen-Sandefjord",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Sandefjord lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "12:10",
-          "arrivalTime": "13:05",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Bergen lufthavn",
-          "destination": "Bergen lufthavn",
-          "departureTime": "13:20",
-          "arrivalTime": "13:22",
-          "durationMinutes": 3
-        },
-        {
-          "lineName": "1",
-          "lineCode": "1",
-          "color": "#0F766E",
-          "mode": "tram",
-          "origin": "Bergen lufthavn",
-          "destination": "Nonneseter",
-          "departureTime": "13:31",
-          "arrivalTime": "14:13",
-          "durationMinutes": 42
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Nonneseter",
-          "destination": "Bergen stasjon",
-          "departureTime": "14:13",
-          "arrivalTime": "14:14",
-          "durationMinutes": 1
-        }
-      ],
-      "transferStations": [
-        "Torp stasjon",
-        "Torp stasjon",
-        "Sandefjord lufthavn Torp",
-        "Sandefjord lufthavn",
-        "Bergen lufthavn",
-        "Bergen lufthavn",
-        "Nonneseter"
-      ],
-      "date": "2026-08-08"
-    },
-    {
-      "id": "2026-08-08-no-entur-2026-08-08-5-2026-08-08T10:54:00+02:00",
+      "id": "2026-08-08-no-entur-2026-08-08-3-2026-08-08T10:54:00+02:00",
       "country": "norway",
       "operator": "Vy",
       "service": "R12 + foot + Oslo-Bergen + foot + 1 + foot",
@@ -1020,7 +238,7 @@
       "destination": "Bergen stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -1097,7 +315,7 @@
       "date": "2026-08-08"
     },
     {
-      "id": "2026-08-08-no-entur-2026-08-08-4-2026-08-08T11:04:00+02:00",
+      "id": "2026-08-08-no-entur-2026-08-08-2-2026-08-08T11:04:00+02:00",
       "country": "norway",
       "operator": "Flytoget",
       "service": "FLY1 + foot + Oslo-Bergen + foot + 1 + foot",
@@ -1109,7 +327,7 @@
       "destination": "Bergen stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -1182,6 +400,95 @@
         "Bergen lufthavn",
         "Bergen lufthavn",
         "Nonneseter"
+      ],
+      "date": "2026-08-08"
+    },
+    {
+      "id": "2026-08-08-no-entur-2026-08-08-4-2026-08-08T11:04:00+02:00",
+      "country": "norway",
+      "operator": "Flytoget",
+      "service": "FLY1 + foot + Oslo-Bergen + foot + FB50 + foot",
+      "trainType": "FLY1",
+      "durationMinutes": 235,
+      "departureTime": "11:04",
+      "arrivalTime": "14:59",
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": true,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "FLY1",
+          "lineCode": "FLY1",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "11:04",
+          "arrivalTime": "11:34",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "11:34",
+          "arrivalTime": "11:37",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Bergen",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "12:25",
+          "arrivalTime": "13:20",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "13:35",
+          "arrivalTime": "13:37",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "FB50",
+          "lineCode": "FB50",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen busstasjon",
+          "departureTime": "14:30",
+          "arrivalTime": "14:55",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen busstasjon",
+          "destination": "Bergen stasjon",
+          "departureTime": "14:55",
+          "arrivalTime": "14:59",
+          "durationMinutes": 4
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Bergen lufthavn",
+        "Bergen lufthavn",
+        "Bergen busstasjon"
       ],
       "date": "2026-08-08"
     },
@@ -3854,6 +3161,540 @@
         "Bergen busstasjon"
       ],
       "date": "2026-08-13"
+    },
+    {
+      "id": "2026-08-14-no-entur-2026-08-14-1-2026-08-14T08:54:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "R12 + foot + Oslo-Bergen + foot + 1 + foot",
+      "trainType": "R12",
+      "durationMinutes": 225,
+      "departureTime": "08:54",
+      "arrivalTime": "12:39",
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "R12",
+          "lineCode": "R12",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "08:54",
+          "arrivalTime": "09:17",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "09:17",
+          "arrivalTime": "09:20",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Bergen",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "10:40",
+          "arrivalTime": "11:35",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "11:50",
+          "arrivalTime": "11:52",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#0F766E",
+          "mode": "tram",
+          "origin": "Bergen lufthavn",
+          "destination": "Nonneseter",
+          "departureTime": "11:56",
+          "arrivalTime": "12:38",
+          "durationMinutes": 42
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Nonneseter",
+          "destination": "Bergen stasjon",
+          "departureTime": "12:38",
+          "arrivalTime": "12:39",
+          "durationMinutes": 1
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Bergen lufthavn",
+        "Bergen lufthavn",
+        "Nonneseter"
+      ],
+      "date": "2026-08-14"
+    },
+    {
+      "id": "2026-08-14-no-entur-2026-08-14-3-2026-08-14T09:30:00+02:00",
+      "country": "norway",
+      "operator": "Flytoget",
+      "service": "FLY2 + foot + Oslo-Bergen + foot + FB50 + foot",
+      "trainType": "FLY2",
+      "durationMinutes": 209,
+      "departureTime": "09:30",
+      "arrivalTime": "12:59",
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "FLY2",
+          "lineCode": "FLY2",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "09:30",
+          "arrivalTime": "09:49",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "09:49",
+          "arrivalTime": "09:52",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Bergen",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "10:40",
+          "arrivalTime": "11:35",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "11:50",
+          "arrivalTime": "11:52",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "FB50",
+          "lineCode": "FB50",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen busstasjon",
+          "departureTime": "12:30",
+          "arrivalTime": "12:55",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen busstasjon",
+          "destination": "Bergen stasjon",
+          "departureTime": "12:55",
+          "arrivalTime": "12:59",
+          "durationMinutes": 4
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Bergen lufthavn",
+        "Bergen lufthavn",
+        "Bergen busstasjon"
+      ],
+      "date": "2026-08-14"
+    },
+    {
+      "id": "2026-08-14-no-entur-2026-08-14-0-2026-08-14T09:34:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "RE10 + foot + Oslo-Bergen + foot + 1 + foot",
+      "trainType": "RE10",
+      "durationMinutes": 185,
+      "departureTime": "09:34",
+      "arrivalTime": "12:39",
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "RE10",
+          "lineCode": "RE10",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "09:34",
+          "arrivalTime": "09:57",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "09:57",
+          "arrivalTime": "10:00",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Bergen",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "10:40",
+          "arrivalTime": "11:35",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "11:50",
+          "arrivalTime": "11:52",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#0F766E",
+          "mode": "tram",
+          "origin": "Bergen lufthavn",
+          "destination": "Nonneseter",
+          "departureTime": "11:56",
+          "arrivalTime": "12:38",
+          "durationMinutes": 42
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Nonneseter",
+          "destination": "Bergen stasjon",
+          "departureTime": "12:38",
+          "arrivalTime": "12:39",
+          "durationMinutes": 1
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Bergen lufthavn",
+        "Bergen lufthavn",
+        "Nonneseter"
+      ],
+      "date": "2026-08-14"
+    },
+    {
+      "id": "2026-08-14-no-entur-2026-08-14-2-2026-08-14T09:34:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "RE10 + foot + Oslo-Bergen + foot + FB50 + foot",
+      "trainType": "RE10",
+      "durationMinutes": 205,
+      "departureTime": "09:34",
+      "arrivalTime": "12:59",
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "RE10",
+          "lineCode": "RE10",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "09:34",
+          "arrivalTime": "09:57",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "09:57",
+          "arrivalTime": "10:00",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Bergen",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "10:40",
+          "arrivalTime": "11:35",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "11:50",
+          "arrivalTime": "11:52",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "FB50",
+          "lineCode": "FB50",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen busstasjon",
+          "departureTime": "12:30",
+          "arrivalTime": "12:55",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen busstasjon",
+          "destination": "Bergen stasjon",
+          "departureTime": "12:55",
+          "arrivalTime": "12:59",
+          "durationMinutes": 4
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Bergen lufthavn",
+        "Bergen lufthavn",
+        "Bergen busstasjon"
+      ],
+      "date": "2026-08-14"
+    },
+    {
+      "id": "2026-08-14-no-entur-2026-08-14-5-2026-08-14T10:24:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "RE11 + foot + Oslo-Bergen + foot + FB50 + foot",
+      "trainType": "RE11",
+      "durationMinutes": 175,
+      "departureTime": "10:24",
+      "arrivalTime": "13:19",
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "RE11",
+          "lineCode": "RE11",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "10:24",
+          "arrivalTime": "10:47",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "10:47",
+          "arrivalTime": "10:50",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Bergen",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "11:30",
+          "arrivalTime": "12:25",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "12:40",
+          "arrivalTime": "12:42",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "FB50",
+          "lineCode": "FB50",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen busstasjon",
+          "departureTime": "12:50",
+          "arrivalTime": "13:15",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen busstasjon",
+          "destination": "Bergen stasjon",
+          "departureTime": "13:15",
+          "arrivalTime": "13:19",
+          "durationMinutes": 4
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Bergen lufthavn",
+        "Bergen lufthavn",
+        "Bergen busstasjon"
+      ],
+      "date": "2026-08-14"
+    },
+    {
+      "id": "2026-08-14-no-entur-2026-08-14-4-2026-08-14T10:30:00+02:00",
+      "country": "norway",
+      "operator": "Flytoget",
+      "service": "FLY2 + foot + Oslo-Bergen + foot + FB50 + foot",
+      "trainType": "FLY2",
+      "durationMinutes": 169,
+      "departureTime": "10:30",
+      "arrivalTime": "13:19",
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "FLY2",
+          "lineCode": "FLY2",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "10:30",
+          "arrivalTime": "10:49",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "10:49",
+          "arrivalTime": "10:52",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Bergen",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "11:30",
+          "arrivalTime": "12:25",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen lufthavn",
+          "departureTime": "12:40",
+          "arrivalTime": "12:42",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "FB50",
+          "lineCode": "FB50",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bergen lufthavn",
+          "destination": "Bergen busstasjon",
+          "departureTime": "12:50",
+          "arrivalTime": "13:15",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bergen busstasjon",
+          "destination": "Bergen stasjon",
+          "departureTime": "13:15",
+          "arrivalTime": "13:19",
+          "durationMinutes": 4
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Bergen lufthavn",
+        "Bergen lufthavn",
+        "Bergen busstasjon"
+      ],
+      "date": "2026-08-14"
     }
   ],
   "sourceMeta": {
@@ -3864,7 +3705,7 @@
     "sourceUrl": "https://api.entur.io/journey-planner/v3/graphql",
     "provider": "Entur AS",
     "country": "norway",
-    "fetchedAt": "2026-08-07T01:46:32.098Z",
+    "fetchedAt": "2026-08-07T22:43:33.651Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
