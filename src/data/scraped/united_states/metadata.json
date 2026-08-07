@@ -4,12 +4,17 @@
   "source": "MBTA V3 API schedules",
   "sourceUrl": "https://api-v3.mbta.com",
   "sourceTier": "A",
-  "fetchedAt": "2026-08-06T13:08:33.024Z",
-  "builtAt": "2026-08-06T13:08:51.012Z",
-  "recordCount": 5463,
+  "fetchedAt": "2026-08-07T01:46:19.201Z",
+  "builtAt": "2026-08-07T01:46:36.022Z",
+  "recordCount": 5327,
   "routeCount": 4,
-  "successRate": 0.8214,
+  "successRate": 0.7857,
   "failedRoutes": [
+    {
+      "origin": "Park Street",
+      "destination": "Boston College",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
     {
       "origin": "Park Street",
       "destination": "Boston College",
@@ -41,56 +46,56 @@
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-08-06",
       "2026-08-07",
       "2026-08-08",
       "2026-08-09",
       "2026-08-10",
       "2026-08-11",
-      "2026-08-12"
+      "2026-08-12",
+      "2026-08-13"
     ]
   },
-  "checksum": "1b83592f68a465e2f9532a2f9105b5df01e95aef4054c3d7b1561528fd34b757",
+  "checksum": "eb0ff2f8fc44d3d3402887817507dfbae4c81ba4b8b195cb92c882a1822719c7",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Harvard",
       "destination": "Logan International Airport",
       "resultCount": 1497,
-      "date": "2026-08-06..2026-08-12",
+      "date": "2026-08-07..2026-08-13",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-06T13:08:32.577Z",
+      "fetchedAt": "2026-08-07T01:46:18.777Z",
       "verified": true
     },
     {
       "origin": "Park Street",
       "destination": "Andrew",
       "resultCount": 1501,
-      "date": "2026-08-06..2026-08-12",
+      "date": "2026-08-07..2026-08-13",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-06T13:08:32.866Z",
+      "fetchedAt": "2026-08-07T01:46:19.079Z",
       "verified": true
     },
     {
       "origin": "Park Street",
       "destination": "Boston College",
-      "resultCount": 964,
-      "date": "2026-08-06..2026-08-12",
+      "resultCount": 828,
+      "date": "2026-08-07..2026-08-12",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-06T12:57:57.693Z",
+      "fetchedAt": "2026-08-07T01:29:49.209Z",
       "verified": true
     },
     {
       "origin": "South Station",
       "destination": "Harvard",
       "resultCount": 1501,
-      "date": "2026-08-06..2026-08-12",
+      "date": "2026-08-07..2026-08-13",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-06T13:08:33.024Z",
+      "fetchedAt": "2026-08-07T01:46:19.201Z",
       "verified": true
     }
   ]
