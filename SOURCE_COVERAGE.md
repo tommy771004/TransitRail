@@ -1,6 +1,6 @@
 # Source coverage and audit
 
-Generated 2026-08-08T06:33:27.870Z by `npm run audit:sources`. Do not edit by hand.
+Generated 2026-08-08T06:49:45.435Z by `npm run audit:sources`. Do not edit by hand.
 
 Every departure TransitRail serves comes from a source in
 [`src/data/sourceRegistry.ts`](src/data/sourceRegistry.ts). A route with no registered source
@@ -16,20 +16,20 @@ carries no departures and search answers *No verified timetable available.*
 
 | Market | Answers | Network today | Timetable as of fetch | Sources | Tier | Completeness | Routes | Departures | Artifact runs | Service days |
 | --- | --- | --- | --- | --- | --- | --- | ---: | ---: | ---: | --- |
-| 🇯🇵 japan | Departure times | 2/2 declared regions: tokyo-urban, japan-intercity — 5 lines, 105 stations | full-timetable (2026-08-08); observed 00:00–23:57; 2026-08-07T22:41:57.572Z | jp-jr-central<br>jp-odpt-toei | A, C | full-timetable | 13 | 11,414 | — | 2026-08-08 … 2026-08-14 (7) |
-| 🇰🇷 korea | Departure times | 1/1 declared regions: seoul-capital — 9 lines, 268 stations | stale (2026-08-08); 2026-08-02T13:52:27.505Z | kr-incheon-transit-csv<br>kr-seoul-metro-csv | A | full-timetable | 0 | 0 | 13,728 | — |
-| 🇨🇳 china | **No data** — no registered source | No searchable network (0/1 declared regions) — No verified timetable source is registered for this market. | unavailable (2026-08-08) | — | — | — | 0 | 0 | — | — |
-| 🇸🇬 singapore | Service hours / frequency only | No searchable network (0/1 declared regions) — No verified timetable data is available for this country on the selected date. | frequency-or-service-hours (2026-08-08); 2026-08-07T22:41:57.574Z | sg-smrt-service-hours | A | frequency-only | 4 | 0 | — | — |
-| 🇲🇾 malaysia | Station names only | No searchable network (0/1 declared regions) — Station names are available, but no verified timetable is available for this market. | catalog-only (2026-08-08) | — | — | — | 0 | 0 | — | — |
-| 🇹🇭 thailand | Service hours / frequency only | No searchable network (0/1 declared regions) — No verified timetable data is available for this country on the selected date. | frequency-or-service-hours (2026-08-08); 2026-08-07T22:41:57.576Z | th-bem-service-hours | C | frequency-only | 4 | 0 | — | — |
-| 🇭🇰 hong_kong | Departure times | 1/1 declared regions: hong-kong — 3 lines, 22 stations | bounded-upcoming (2026-08-08); observed 06:24–07:02; 2026-08-07T22:24:40.720Z | hk-mtr-next-train | A | full-timetable | 4 | 16 | — | 2026-08-08 |
-| 🇬🇧 united_kingdom | Departure times | No searchable network (0/1 declared regions) | stale (2026-08-08); observed 05:21–23:36; 2026-08-05T23:06:12.967Z | uk-tfl-journey-planner | A | full-timetable | 4 | 1,974 | — | 2026-08-06 … 2026-08-12 (7) |
-| 🇺🇸 united_states | Departure times | 1/1 declared regions: boston — 4 lines, 6 stations | stale (2026-08-08); observed 00:00–23:59; 2026-08-07T22:42:59.605Z | us-mbta-v3 | A | full-timetable | 4 | 5,327 | — | 2026-08-07 … 2026-08-14 (8) |
-| 🇩🇪 germany | Departure times | 1/1 declared regions: germany-intercity — 4 lines, 12 stations | full-timetable (2026-08-08); observed 00:01–23:16; 2026-08-07T22:42:59.773Z | de-gtfs | A | full-timetable | 4 | 741 | — | 2026-08-08 … 2026-08-14 (7) |
-| 🇫🇷 france | Departure times | 1/1 declared regions: france-intercity — 3 lines, 14 stations | full-timetable (2026-08-08); observed 06:03–20:25; 2026-08-07T22:43:14.672Z | fr-sncf-gtfs | A | full-timetable | 4 | 443 | — | 2026-08-08 … 2026-08-14 (7) |
-| 🇧🇪 belgium | Departure times | 1/1 declared regions: belgium-intercity — 5 lines, 46 stations | full-timetable (2026-08-08); observed 00:40–08:03; 2026-08-07T22:43:32.161Z | be-irail | A | full-timetable | 5 | 215 | — | 2026-08-08 … 2026-08-14 (7) |
-| 🇳🇴 norway | Departure times | 1/1 declared regions: norway-intercity — 5 lines, 7 stations | full-timetable (2026-08-08); observed 08:23–11:21; 2026-08-07T22:43:38.639Z | no-entur | A | full-timetable | 5 | 175 | — | 2026-08-08 … 2026-08-14 (7) |
-| 🇨🇭 switzerland | Departure times | 1/1 declared regions: switzerland-intercity — 4 lines, 18 stations | full-timetable (2026-08-08); observed 00:02–23:58; 2026-08-07T22:43:38.646Z | ch-opentransportdata-gtfs | A | full-timetable | 5 | 1,630 | — | 2026-08-08 … 2026-08-14 (7) |
+| 🇯🇵 japan | Departure times | 2/2 declared regions; 5/16 declared lines; 105/168 declared stations: tokyo-urban, japan-intercity | full-timetable (2026-08-08); observed 00:00–23:57; 2026-08-07T22:41:57.572Z | jp-jr-central<br>jp-odpt-toei | A, C | full-timetable | 13 | 11,414 | — | 2026-08-08 … 2026-08-14 (7) |
+| 🇰🇷 korea | Departure times | 1/1 declared regions; 9/12 declared lines; 268/332 declared stations: seoul-capital | stale (2026-08-08); 2026-08-02T13:52:27.505Z | kr-incheon-transit-csv<br>kr-seoul-metro-csv | A | full-timetable | 0 | 0 | 13,728 | — |
+| 🇨🇳 china | **No data** — no registered source | No searchable network (0/1 declared regions; 0/6 declared lines; 0/17 declared stations) — No verified timetable source is registered for this market. | unavailable (2026-08-08) | — | — | — | 0 | 0 | — | — |
+| 🇸🇬 singapore | Service hours / frequency only | No searchable network (0/1 declared regions; 0/6 declared lines; 0/145 declared stations) — No verified timetable data is available for this country on the selected date. | frequency-or-service-hours (2026-08-08); 2026-08-07T22:41:57.574Z | sg-smrt-service-hours | A | frequency-only | 4 | 0 | — | — |
+| 🇲🇾 malaysia | Station names only | No searchable network (0/1 declared regions; 0/0 declared lines; 0/216 declared stations) — Station names are available, but no verified timetable is available for this market. | catalog-only (2026-08-08) | — | — | — | 0 | 0 | — | — |
+| 🇹🇭 thailand | Service hours / frequency only | No searchable network (0/1 declared regions; 0/5 declared lines; 0/119 declared stations) — No verified timetable data is available for this country on the selected date. | frequency-or-service-hours (2026-08-08); 2026-08-07T22:41:57.576Z | th-bem-service-hours | C | frequency-only | 4 | 0 | — | — |
+| 🇭🇰 hong_kong | Departure times | 1/1 declared regions; 3/6 declared lines; 22/23 declared stations: hong-kong | bounded-upcoming (2026-08-08); observed 06:24–07:02; 2026-08-07T22:24:40.720Z | hk-mtr-next-train | A | full-timetable | 4 | 16 | — | 2026-08-08 |
+| 🇬🇧 united_kingdom | Departure times | No searchable network (0/1 declared regions; 0/11 declared lines; 0/961 declared stations) — No verified searchable lines are available for this country on the selected date. | stale (2026-08-08); observed 05:21–23:36; 2026-08-05T23:06:12.967Z | uk-tfl-journey-planner | A | full-timetable | 4 | 1,974 | — | 2026-08-06 … 2026-08-12 (7) |
+| 🇺🇸 united_states | Departure times | 1/1 declared regions; 4/6 declared lines; 6/263 declared stations: boston | stale (2026-08-08); observed 00:00–23:59; 2026-08-07T22:42:59.605Z | us-mbta-v3 | A | full-timetable | 4 | 5,327 | — | 2026-08-07 … 2026-08-14 (8) |
+| 🇩🇪 germany | Departure times | 1/1 declared regions; 4/6 declared lines; 12/17 declared stations: germany-intercity | full-timetable (2026-08-08); observed 00:01–23:16; 2026-08-07T22:42:59.773Z | de-gtfs | A | full-timetable | 4 | 741 | — | 2026-08-08 … 2026-08-14 (7) |
+| 🇫🇷 france | Departure times | 1/1 declared regions; 3/4 declared lines; 14/18 declared stations: france-intercity | full-timetable (2026-08-08); observed 06:03–20:25; 2026-08-07T22:43:14.672Z | fr-sncf-gtfs | A | full-timetable | 4 | 443 | — | 2026-08-08 … 2026-08-14 (7) |
+| 🇧🇪 belgium | Departure times | 1/1 declared regions; 5/5 declared lines; 46/714 declared stations: belgium-intercity | sampled-service-day (2026-08-08); observed 00:40–08:03; 2026-08-07T22:43:32.161Z | be-irail | A | full-timetable | 5 | 215 | — | 2026-08-08 … 2026-08-14 (7) |
+| 🇳🇴 norway | Departure times | 1/1 declared regions; 5/5 declared lines; 7/12 declared stations: norway-intercity | sampled-service-day (2026-08-08); observed 08:23–11:21; 2026-08-07T22:43:38.639Z | no-entur | A | full-timetable | 5 | 175 | — | 2026-08-08 … 2026-08-14 (7) |
+| 🇨🇭 switzerland | Departure times | 1/1 declared regions; 4/5 declared lines; 18/23 declared stations: switzerland-intercity | full-timetable (2026-08-08); observed 00:02–23:58; 2026-08-07T22:43:38.646Z | ch-opentransportdata-gtfs | A | full-timetable | 5 | 1,630 | — | 2026-08-08 … 2026-08-14 (7) |
 
 ## Registered sources
 

@@ -380,14 +380,14 @@ function uniqueStations(lines: readonly TransitLine[]): string[] {
 }
 
 function regionForLine(country: Country, line: TransitLine): Pick<ServiceRegion, "id" | "name"> {
-  // Urban networks stay in their city product area; all longer-distance rail is
-  // deliberately grouped once. The identities and labels live in countryConfig
-  // because the UI and coverage report must share the declared market boundary.
+  // Region identities and assignment rules belong to countryConfig so adding a
+  // product region never requires a second, hidden switch in this module.
   const topology = countryConfig[country].marketTopology.regions;
-  const id = country === "japan" && isJapanMetroLine(line) ? "tokyo-urban"
-    : country === "japan" ? "japan-intercity"
-      : topology[0]?.id;
-  return topology.find((region) => region.id === id) || topology[0]!;
+  const assigned = topology.find((region) => region.lineIdPrefixes?.some((prefix) => line.id.startsWith(prefix)))
+    ?? topology.find((region) => region.default)
+    ?? (topology.length === 1 ? topology[0] : undefined);
+  if (!assigned) throw new Error(`No market topology region assigns line ${line.id} in ${country}`);
+  return assigned;
 }
 
 /** Group already-verified lines without performing a journey search per pair. */
@@ -403,7 +403,7 @@ export function buildServiceRegions(country: Country, lines: readonly TransitLin
   return [...regions.values()];
 }
 
-function noDataMessage(country: Country, date: string): string | undefined {
+function noDataMessage(country: Country, date: string): string {
   const capability = countryConfig[country];
   if (capability.search.kind === "catalog_only") {
     return "Station names are available, but no verified timetable is available for this market.";
@@ -411,7 +411,7 @@ function noDataMessage(country: Country, date: string): string | undefined {
   if (capability.scrape === "none") return "No verified timetable source is registered for this market.";
   const summary = getScrapedSearchabilitySummary(country, date);
   if (!summary.searchable) return "No verified timetable data is available for this country on the selected date.";
-  return undefined;
+  return "No verified searchable lines are available for this country on the selected date.";
 }
 
 /**
@@ -441,7 +441,10 @@ export async function buildServiceRegionCatalog(
       reason: summary.reason,
     };
   }
-  const destinationKeys = origin
+  // Route snapshots can prove a destination is reachable. A live provider
+  // catalog cannot: its committed snapshots are intentionally only a fallback,
+  // so applying their pairs here would hide valid provider-network stations.
+  const destinationKeys = origin && coverage.mode === "scraped"
     ? new Set(getScrapedReachableStations(country, origin, serviceDate).map((station) =>
       stationSearchKey(resolveStationAlias(country, station))))
     : undefined;

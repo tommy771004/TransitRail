@@ -103,7 +103,18 @@ export type ServiceDayCapability = {
 
 /** Declared product boundary used by both browse UI and coverage audit. */
 export type MarketTopology = {
-  regions: readonly { id: string; name: string }[];
+  regions: readonly {
+    id: string;
+    name: string;
+    /** Lines whose stable ids begin with one of these prefixes belong here. */
+    lineIdPrefixes?: readonly string[];
+    /** Catch-all region when no prefix claims a line. Required for multi-region markets. */
+    default?: boolean;
+    /** Product-directory denominator, independent of current timetable coverage. */
+    declaredLines: number;
+    /** Product-directory denominator, independent of current timetable coverage. */
+    declaredStations: number;
+  }[];
   /** Operators/geographies intentionally outside the current product boundary. */
   expansionGaps?: readonly { operator: string; reason: string }[];
 };
@@ -159,7 +170,10 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: false },
-    marketTopology: { regions: [{ id: "tokyo-urban", name: "Tokyo urban rail" }, { id: "japan-intercity", name: "Japan intercity rail" }] },
+    marketTopology: { regions: [
+      { id: "tokyo-urban", name: "Tokyo urban rail", lineIdPrefixes: ["toei-", "tokyo-metro-"], declaredLines: 6, declaredStations: 132 },
+      { id: "japan-intercity", name: "Japan intercity rail", default: true, declaredLines: 10, declaredStations: 36 },
+    ] },
     resultView: "japan",
     serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
   },
@@ -178,7 +192,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: true },
-    marketTopology: { regions: [{ id: "seoul-capital", name: "Seoul Capital Area" }] },
+    marketTopology: { regions: [{ id: "seoul-capital", name: "Seoul Capital Area", declaredLines: 12, declaredStations: 332 }] },
     resultView: "korea",
     serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
   },
@@ -196,7 +210,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: true },
-    marketTopology: { regions: [{ id: "singapore", name: "Singapore" }] },
+    marketTopology: { regions: [{ id: "singapore", name: "Singapore", declaredLines: 6, declaredStations: 145 }] },
     resultView: "metro",
     serviceDay: {
       coverage: "partial",
@@ -219,7 +233,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "catalog_only" },
     scrape: "catalog_sync",
     authenticityGates: { catalog: true },
-    marketTopology: { regions: [{ id: "malaysia-intercity", name: "Malaysia rail" }] },
+    marketTopology: { regions: [{ id: "malaysia-intercity", name: "Malaysia rail", declaredLines: 0, declaredStations: 216 }] },
     resultView: "catalog",
     serviceDay: { coverage: "unavailable", source: "Historical ridership catalog has no timetable", scope: "No service-day advisory" },
   },
@@ -237,7 +251,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: true },
-    marketTopology: { regions: [{ id: "bangkok", name: "Bangkok" }] },
+    marketTopology: { regions: [{ id: "bangkok", name: "Bangkok", declaredLines: 5, declaredStations: 119 }] },
     resultView: "metro",
     serviceDay: {
       coverage: "partial",
@@ -262,7 +276,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: true },
-    marketTopology: { regions: [{ id: "hong-kong", name: "Hong Kong" }] },
+    marketTopology: { regions: [{ id: "hong-kong", name: "Hong Kong", declaredLines: 6, declaredStations: 23 }] },
     resultView: "metro",
     serviceDay: { coverage: "unavailable", source: "MTR next-train source is not a full service-day declaration", scope: "No service-day advisory" },
   },
@@ -292,7 +306,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     scrape: "official_source",
     authenticityGates: { catalog: true },
     marketTopology: {
-      regions: [{ id: "london", name: "London (TfL)" }],
+      regions: [{ id: "london", name: "London (TfL)", declaredLines: 11, declaredStations: 961 }],
       expansionGaps: [{ operator: "National Rail", reason: "National and intercity services are outside the TfL product market." }],
     },
     resultView: "live_rail",
@@ -322,7 +336,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     scrape: "official_source",
     authenticityGates: { catalog: true },
     marketTopology: {
-      regions: [{ id: "boston", name: "Boston (MBTA)" }],
+      regions: [{ id: "boston", name: "Boston (MBTA)", declaredLines: 6, declaredStations: 263 }],
       expansionGaps: [{ operator: "US national and non-Boston transit", reason: "Only the MBTA Boston product market is currently integrated." }],
     },
     resultView: "live_rail",
@@ -343,7 +357,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: false },
-    marketTopology: { regions: [{ id: "germany-intercity", name: "Germany intercity rail" }] },
+    marketTopology: { regions: [{ id: "germany-intercity", name: "Germany intercity rail", declaredLines: 6, declaredStations: 17 }] },
     resultView: "japan",
     serviceDay: { coverage: "unavailable", source: "gtfs.de timetable is not yet published as a service-day advisory artifact", scope: "No service-day advisory" },
   },
@@ -361,7 +375,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: false },
-    marketTopology: { regions: [{ id: "france-intercity", name: "France intercity rail" }] },
+    marketTopology: { regions: [{ id: "france-intercity", name: "France intercity rail", declaredLines: 4, declaredStations: 18 }] },
     resultView: "japan",
     serviceDay: {
       coverage: "supported",
@@ -384,7 +398,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "provider", provider: "belgium" },
     scrape: "official_source",
     authenticityGates: { catalog: false },
-    marketTopology: { regions: [{ id: "belgium-intercity", name: "Belgium intercity rail" }] },
+    marketTopology: { regions: [{ id: "belgium-intercity", name: "Belgium intercity rail", declaredLines: 5, declaredStations: 714 }] },
     resultView: "live_rail",
     liveRailMarket: "belgium",
     serviceDay: { coverage: "unavailable", source: "iRail journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
@@ -403,7 +417,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "provider", provider: "norway" },
     scrape: "official_source",
     authenticityGates: { catalog: false },
-    marketTopology: { regions: [{ id: "norway-intercity", name: "Norway intercity rail" }] },
+    marketTopology: { regions: [{ id: "norway-intercity", name: "Norway intercity rail", declaredLines: 5, declaredStations: 12 }] },
     resultView: "live_rail",
     liveRailMarket: "norway",
     serviceDay: { coverage: "unavailable", source: "Entur journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
@@ -422,7 +436,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "provider_then_scraped", provider: "swiss" },
     scrape: "official_source",
     authenticityGates: { catalog: false },
-    marketTopology: { regions: [{ id: "switzerland-intercity", name: "Switzerland intercity rail" }] },
+    marketTopology: { regions: [{ id: "switzerland-intercity", name: "Switzerland intercity rail", declaredLines: 5, declaredStations: 23 }] },
     resultView: "live_rail",
     liveRailMarket: "switzerland",
     serviceDay: { coverage: "unavailable", source: "OJP journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
@@ -444,7 +458,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     // they are gone, and nothing replaces them until a real source exists.
     scrape: "none",
     authenticityGates: { catalog: false },
-    marketTopology: { regions: [{ id: "china-intercity", name: "China intercity rail" }] },
+    marketTopology: { regions: [{ id: "china-intercity", name: "China intercity rail", declaredLines: 6, declaredStations: 17 }] },
     resultView: "japan",
     serviceDay: { coverage: "unavailable", source: "No registered official source", scope: "No service-day advisory" },
   },

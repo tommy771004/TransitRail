@@ -1,29 +1,170 @@
 {
   "country": "hong_kong",
-  "stations": [
-    "Admiralty",
-    "Airport",
-    "Central",
-    "Cheung Sha Wan",
-    "East Tsim Sha Tsui",
-    "Hong Kong",
-    "Jordan",
-    "Kowloon",
-    "Kwai Fong",
-    "Kwai Hing",
-    "Lai Chi Kok",
-    "Lai King",
-    "Mei Foo",
-    "Mong Kok",
-    "Prince Edward",
-    "Sham Shui Po",
-    "Sunny Bay",
-    "Tai Wo Hau",
-    "Tsim Sha Tsui",
-    "Tsing Yi",
-    "Tsuen Wan",
-    "Tung Chung",
-    "Yau Ma Tei"
+  "serviceDate": "2026-08-08",
+  "regions": [
+    {
+      "id": "hong-kong",
+      "name": "Hong Kong",
+      "declaredLines": 6,
+      "declaredStations": 23,
+      "lines": [
+        {
+          "id": "AEL",
+          "name": "Airport Express",
+          "color": "#00888E",
+          "stations": [
+            {
+              "name": "Hong Kong",
+              "interchanges": [
+                "Tung Chung Line",
+                "Tsuen Wan Line",
+                "Island Line"
+              ]
+            },
+            {
+              "name": "Kowloon",
+              "interchanges": [
+                "Tung Chung Line"
+              ]
+            },
+            {
+              "name": "Tsing Yi",
+              "interchanges": [
+                "Tung Chung Line"
+              ]
+            },
+            {
+              "name": "Airport"
+            }
+          ]
+        },
+        {
+          "id": "TCL",
+          "name": "Tung Chung Line",
+          "color": "#F3982D",
+          "stations": [
+            {
+              "name": "Hong Kong",
+              "interchanges": [
+                "Airport Express",
+                "Tsuen Wan Line",
+                "Island Line"
+              ]
+            },
+            {
+              "name": "Kowloon",
+              "interchanges": [
+                "Airport Express"
+              ]
+            },
+            {
+              "name": "Lai King",
+              "interchanges": [
+                "Tsuen Wan Line"
+              ]
+            },
+            {
+              "name": "Tsing Yi",
+              "interchanges": [
+                "Airport Express"
+              ]
+            },
+            {
+              "name": "Sunny Bay",
+              "interchanges": [
+                "Disneyland Resort Line"
+              ]
+            },
+            {
+              "name": "Tung Chung"
+            }
+          ]
+        },
+        {
+          "id": "TWL",
+          "name": "Tsuen Wan Line",
+          "color": "#E2231A",
+          "stations": [
+            {
+              "name": "Central",
+              "interchanges": [
+                "Airport Express",
+                "Tung Chung Line",
+                "Island Line"
+              ]
+            },
+            {
+              "name": "Admiralty",
+              "interchanges": [
+                "East Rail Line",
+                "South Island Line",
+                "Island Line"
+              ]
+            },
+            {
+              "name": "Tsim Sha Tsui",
+              "interchanges": [
+                "Tuen Ma Line"
+              ]
+            },
+            {
+              "name": "Jordan"
+            },
+            {
+              "name": "Yau Ma Tei",
+              "interchanges": [
+                "Kwun Tong Line"
+              ]
+            },
+            {
+              "name": "Mong Kok",
+              "interchanges": [
+                "Kwun Tong Line"
+              ]
+            },
+            {
+              "name": "Prince Edward",
+              "interchanges": [
+                "Kwun Tong Line"
+              ]
+            },
+            {
+              "name": "Sham Shui Po"
+            },
+            {
+              "name": "Cheung Sha Wan"
+            },
+            {
+              "name": "Lai Chi Kok"
+            },
+            {
+              "name": "Mei Foo",
+              "interchanges": [
+                "Tuen Ma Line"
+              ]
+            },
+            {
+              "name": "Lai King",
+              "interchanges": [
+                "Tung Chung Line"
+              ]
+            },
+            {
+              "name": "Kwai Fong"
+            },
+            {
+              "name": "Kwai Hing"
+            },
+            {
+              "name": "Tai Wo Hau"
+            },
+            {
+              "name": "Tsuen Wan"
+            }
+          ]
+        }
+      ]
+    }
   ],
   "lines": [
     {
@@ -95,25 +236,6 @@
         },
         {
           "name": "Tung Chung"
-        }
-      ]
-    },
-    {
-      "id": "TML",
-      "name": "Tuen Ma Line",
-      "color": "#9C2E00",
-      "stations": [
-        {
-          "name": "East Tsim Sha Tsui",
-          "interchanges": [
-            "Tsuen Wan Line"
-          ]
-        },
-        {
-          "name": "Mei Foo",
-          "interchanges": [
-            "Tsuen Wan Line"
-          ]
         }
       ]
     },
@@ -199,56 +321,33 @@
           "name": "Tsuen Wan"
         }
       ]
-    },
-    {
-      "id": "ISL",
-      "name": "Island Line",
-      "color": "#0075C2",
-      "stations": [
-        {
-          "name": "Central",
-          "interchanges": [
-            "Airport Express",
-            "Tung Chung Line",
-            "Tsuen Wan Line"
-          ]
-        },
-        {
-          "name": "Admiralty",
-          "interchanges": [
-            "East Rail Line",
-            "South Island Line",
-            "Tsuen Wan Line"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "KTL",
-      "name": "Kwun Tong Line",
-      "color": "#00A040",
-      "stations": [
-        {
-          "name": "Yau Ma Tei",
-          "interchanges": [
-            "Tsuen Wan Line"
-          ]
-        },
-        {
-          "name": "Mong Kok",
-          "interchanges": [
-            "Tsuen Wan Line"
-          ]
-        },
-        {
-          "name": "Prince Edward",
-          "interchanges": [
-            "Tsuen Wan Line"
-          ]
-        }
-      ]
     }
   ],
+  "stations": [
+    "Admiralty",
+    "Airport",
+    "Central",
+    "Cheung Sha Wan",
+    "Hong Kong",
+    "Jordan",
+    "Kowloon",
+    "Kwai Fong",
+    "Kwai Hing",
+    "Lai Chi Kok",
+    "Lai King",
+    "Mei Foo",
+    "Mong Kok",
+    "Prince Edward",
+    "Sham Shui Po",
+    "Sunny Bay",
+    "Tai Wo Hau",
+    "Tsim Sha Tsui",
+    "Tsing Yi",
+    "Tsuen Wan",
+    "Tung Chung",
+    "Yau Ma Tei"
+  ],
+  "source": "https://www.mtr.com.hk/en/customer/main/index.html",
   "coverage": {
     "mode": "scraped",
     "covered": [
@@ -256,7 +355,6 @@
       "Airport",
       "Central",
       "Cheung Sha Wan",
-      "East Tsim Sha Tsui",
       "Hong Kong",
       "Jordan",
       "Kowloon",
@@ -276,6 +374,7 @@
       "Tung Chung",
       "Yau Ma Tei"
     ],
+    "date": "2026-08-08",
     "dateRange": {
       "start": "2026-08-08",
       "end": "2026-08-08",

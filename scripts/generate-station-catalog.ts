@@ -3,15 +3,16 @@
  * public/catalog/<country>.json, served by the CDN so the station menu never
  * depends on the /api serverless function being healthy.
  *
- * 8 countries are deterministic (bundled data); UK/US fetch TfL/MBTA live, so
- * run this where there's network (the daily scrape workflow, and locally). On a
- * UK/US fetch failure the existing committed file is kept, never clobbered.
+ * Every artifact carries the exact market-local service date used to build it.
+ * A failed generation fails the command rather than leaving a prior-date file
+ * available to bypass the catalog's exact-date contract.
  *
  * Run: npx tsx scripts/generate-station-catalog.ts
  */
-import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { mkdirSync, writeFileSync } from "fs";
 import { resolve } from "path";
-import { buildCatalog, CATALOG_COUNTRIES } from "../src/server/catalog";
+import { providerDateValue } from "../src/data/countries";
+import { buildServiceRegionCatalog, CATALOG_COUNTRIES } from "../src/server/catalog";
 
 const OUT_DIR = resolve("public/catalog");
 
@@ -19,25 +20,17 @@ async function main() {
   mkdirSync(OUT_DIR, { recursive: true });
   let ok = 0;
   for (const country of CATALOG_COUNTRIES) {
-    const path = resolve(OUT_DIR, `${country}.json`);
-    try {
-      const catalog = await buildCatalog(country);
-      if (catalog.stations.length === 0) {
-        console.warn(`  ⚠ ${country}: 0 stations — ${existsSync(path) ? "keeping existing file" : "NO existing file!"}`);
-        continue;
-      }
-      writeFileSync(path, JSON.stringify(catalog, null, 2) + "\n", "utf-8");
-      const covered = catalog.coverage?.covered;
-      const coverageNote = covered
-        ? `, ${covered.length} with timetable data`
-        : "";
-      console.log(
-        `  ✓ ${country}: ${catalog.stations.length} stations, ${catalog.lines.length} lines${coverageNote}`,
-      );
-      ok += 1;
-    } catch (error) {
-      console.warn(`  ✗ ${country}: ${error instanceof Error ? error.message : error} — ${existsSync(path) ? "keeping existing file" : "NO existing file!"}`);
-    }
+    const serviceDate = providerDateValue(country);
+    const catalog = await buildServiceRegionCatalog({ country, date: serviceDate });
+    writeFileSync(resolve(OUT_DIR, `${country}.json`), JSON.stringify(catalog, null, 2) + "\n", "utf-8");
+    const covered = catalog.coverage?.covered;
+    const coverageNote = covered
+      ? `, ${covered.length} with timetable data`
+      : "";
+    console.log(
+      `  ✓ ${country} (${serviceDate}): ${catalog.stations.length} stations, ${catalog.lines.length} lines${coverageNote}`,
+    );
+    ok += 1;
   }
   console.log(`\nGenerated ${ok}/${CATALOG_COUNTRIES.length} catalogs into public/catalog/`);
 }

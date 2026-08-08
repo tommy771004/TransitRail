@@ -37,7 +37,7 @@ const DATA_DIR = resolve("src/data/scraped");
 const SERVICE_DAY_DIR = resolve("src/data/service-day");
 const OUTPUT = resolve("SOURCE_COVERAGE.md");
 
-interface CountryAudit {
+export interface CountryAudit {
   country: Country;
   serviceDate: string;
   scrape: string;
@@ -60,13 +60,15 @@ interface CountryAudit {
   network: {
     state: "searchable" | "no-searchable-network";
     declaredRegions: string[];
+    declaredLines: number;
+    declaredStations: number;
     regions: string[];
     lines: number;
     stations: number;
     message?: string;
   };
   temporal: {
-    state: "full-timetable" | "sampled-service-day" | "bounded-upcoming" | "frequency-or-service-hours" | "catalog-only" | "stale" | "unavailable";
+    state: TemporalState;
     fetchedAt?: string;
     observedSpan?: string;
   };
@@ -77,6 +79,24 @@ interface ArtifactSummary {
   sourceIds: string[];
   retrievedAt: string[];
 }
+
+export type TemporalState = "full-timetable" | "sampled-service-day" | "bounded-upcoming" | "frequency-or-service-hours" | "catalog-only" | "stale" | "unavailable";
+
+export interface TemporalAuditInput {
+  country: Country;
+  serviceDate: string;
+  departureRows: number;
+  artifactRuns: number;
+  hasServiceDayArtifact: boolean;
+  newestFetch?: string;
+  sourceIds: string[];
+  completeness: string[];
+  observedSpan?: string;
+  observedSpanMinutes?: number;
+}
+
+/** A full-day source observed for less than eight hours is a sample, not proof of a whole operating day. */
+export const MIN_FULL_TIMETABLE_SPAN_MINUTES = 8 * 60;
 
 /** Read whatever compressed timetable artifacts this country stores. */
 function loadArtifacts(country: Country): ArtifactSummary {
@@ -121,37 +141,43 @@ function observedDepartureSpan(routes: readonly ScrapedRouteData[], serviceDate:
   return times.length > 0 ? `${times[0]}–${times.at(-1)}` : undefined;
 }
 
-function temporalState(
-  country: Country,
-  serviceDate: string,
-  audit: Pick<CountryAudit, "departureRows" | "artifactRuns" | "hasServiceDayArtifact" | "newestFetch" | "sourceIds" | "completeness">,
-  routes: readonly ScrapedRouteData[],
-): CountryAudit["temporal"] {
-  const fetchedAt = audit.newestFetch;
-  const observedSpan = observedDepartureSpan(routes, serviceDate);
-  if (countryConfig[country].search.kind === "catalog_only") return { state: "catalog-only", fetchedAt };
-  if (audit.departureRows === 0 && audit.artifactRuns === 0) {
-    return { state: audit.hasServiceDayArtifact || audit.completeness.some((value) => value !== "full-timetable")
+function observedSpanMinutes(observedSpan: string | undefined): number | undefined {
+  if (!observedSpan) return undefined;
+  const [start, end] = observedSpan.split("–").map((time) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    return hours * 60 + minutes;
+  });
+  return Number.isFinite(start) && Number.isFinite(end) ? end - start : undefined;
+}
+
+export function classifyTemporalState(input: TemporalAuditInput): CountryAudit["temporal"] {
+  const fetchedAt = input.newestFetch;
+  if (countryConfig[input.country].search.kind === "catalog_only") return { state: "catalog-only", fetchedAt };
+  if (input.departureRows === 0 && input.artifactRuns === 0) {
+    return { state: input.hasServiceDayArtifact || input.completeness.some((value) => value !== "full-timetable")
       ? "frequency-or-service-hours"
       : "unavailable", fetchedAt };
   }
   // A fetch from another market-local day cannot describe today's service,
   // regardless of its official provenance or source grade.
-  if (!fetchedAt || providerDateValue(country, new Date(fetchedAt)) !== serviceDate) {
-    return { state: "stale", fetchedAt, observedSpan };
+  if (!fetchedAt || providerDateValue(input.country, new Date(fetchedAt)) !== input.serviceDate) {
+    return { state: "stale", fetchedAt, observedSpan: input.observedSpan };
   }
   // Route rows are the only evidence that a non-artifact market actually has
   // departures for this requested day. A current fetch timestamp alone is not
   // enough: it may be a provider response with no usable service slice.
-  if (!observedSpan && audit.artifactRuns === 0) {
+  if (!input.observedSpan && input.artifactRuns === 0) {
     return { state: "stale", fetchedAt };
   }
-  const temporalShapes = audit.sourceIds
+  const temporalShapes = input.sourceIds
     .map((id) => findOfficialSource(id)?.temporalCoverage)
     .filter((value): value is SourceTemporalCoverage => Boolean(value));
-  if (temporalShapes.includes("bounded-upcoming")) return { state: "bounded-upcoming", fetchedAt, observedSpan };
-  if (temporalShapes.includes("sampled-service-day")) return { state: "sampled-service-day", fetchedAt, observedSpan };
-  return { state: "full-timetable", fetchedAt, observedSpan };
+  if (temporalShapes.includes("bounded-upcoming")) return { state: "bounded-upcoming", fetchedAt, observedSpan: input.observedSpan };
+  if (temporalShapes.includes("sampled-service-day")
+    || (input.artifactRuns === 0 && (input.observedSpanMinutes ?? 0) < MIN_FULL_TIMETABLE_SPAN_MINUTES)) {
+    return { state: "sampled-service-day", fetchedAt, observedSpan: input.observedSpan };
+  }
+  return { state: "full-timetable", fetchedAt, observedSpan: input.observedSpan };
 }
 
 export async function auditCountry(country: Country, now = new Date()): Promise<CountryAudit> {
@@ -195,13 +221,17 @@ export async function auditCountry(country: Country, now = new Date()): Promise<
   // `includeProvider: false` makes this report reproducible from committed
   // routes/artifacts. The same hierarchy powers the passenger browser.
   const catalog = await buildServiceRegionCatalog({ country, date: serviceDate, includeProvider: false });
-  const declaredRegions = countryConfig[country].marketTopology.regions.map((region) => region.id);
+  const topology = countryConfig[country].marketTopology.regions;
+  const declaredRegions = topology.map((region) => region.id);
+  const observedSpan = observedDepartureSpan(routes, serviceDate);
   return {
     ...base,
     network: catalog.regions.length > 0
       ? {
         state: "searchable",
         declaredRegions,
+        declaredLines: topology.reduce((total, region) => total + region.declaredLines, 0),
+        declaredStations: topology.reduce((total, region) => total + region.declaredStations, 0),
         regions: catalog.regions.map((region) => region.id),
         lines: catalog.lines.length,
         stations: catalog.stations.length,
@@ -209,12 +239,20 @@ export async function auditCountry(country: Country, now = new Date()): Promise<
       : {
         state: "no-searchable-network",
         declaredRegions,
+        declaredLines: topology.reduce((total, region) => total + region.declaredLines, 0),
+        declaredStations: topology.reduce((total, region) => total + region.declaredStations, 0),
         regions: [],
         lines: 0,
         stations: 0,
         message: catalog.message,
       },
-    temporal: temporalState(country, serviceDate, base, routes),
+    temporal: classifyTemporalState({
+      ...base,
+      serviceDate,
+      country,
+      observedSpan,
+      observedSpanMinutes: observedSpanMinutes(observedSpan),
+    }),
   };
 }
 
@@ -265,9 +303,11 @@ export function buildReport(audits: CountryAudit[], now = new Date()): string {
   lines.push("| --- | --- | --- | --- | --- | --- | --- | ---: | ---: | ---: | --- |");
   for (const audit of audits) {
     const regionCoverage = `${audit.network.regions.length}/${audit.network.declaredRegions.length} declared regions`;
+    const lineCoverage = `${audit.network.lines}/${audit.network.declaredLines} declared lines`;
+    const stationCoverage = `${audit.network.stations}/${audit.network.declaredStations} declared stations`;
     const network = audit.network.state === "searchable"
-      ? `${regionCoverage}: ${audit.network.regions.join(", ")} — ${audit.network.lines} lines, ${audit.network.stations} stations`
-      : `No searchable network (${regionCoverage})${audit.network.message ? ` — ${audit.network.message}` : ""}`;
+      ? `${regionCoverage}; ${lineCoverage}; ${stationCoverage}: ${audit.network.regions.join(", ")}`
+      : `No searchable network (${regionCoverage}; ${lineCoverage}; ${stationCoverage})${audit.network.message ? ` — ${audit.network.message}` : ""}`;
     const temporal = `${audit.temporal.state} (${audit.serviceDate})`
       + `${audit.temporal.observedSpan ? `; observed ${audit.temporal.observedSpan}` : ""}`
       + `${audit.temporal.fetchedAt ? `; ${audit.temporal.fetchedAt}` : ""}`;

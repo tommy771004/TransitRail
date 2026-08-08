@@ -168,4 +168,24 @@ describe("station and line catalog integrity scope", () => {
 
     expect(stations.coverage?.dateRange?.days).toBe(7);
   });
+
+  it("does not use fallback snapshot pairs to hide provider-market destinations", async () => {
+    const date = [...new Set(
+      getScrapedRoutes("united_states").flatMap((route) => route.results.map((result) => result.date)),
+    )].filter((value): value is string => Boolean(value)).sort().at(-1)!;
+    const full = await buildServiceRegionCatalog({
+      country: "united_states",
+      date,
+      includeProvider: false,
+    });
+    const fromSouthStation = await buildServiceRegionCatalog({
+      country: "united_states",
+      date,
+      origin: "South Station",
+      includeProvider: false,
+    });
+
+    expect(fromSouthStation.stations).toEqual(full.stations);
+    expect(fromSouthStation.message).toBeUndefined();
+  });
 });
