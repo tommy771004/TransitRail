@@ -282,6 +282,15 @@ export const officialSources = {
   },
 
   // --- Singapore ---
+  "sg-lta-gtfs": {
+    id: "sg-lta-gtfs",
+    country: "singapore",
+    provider: "Singapore Land Transport Authority",
+    sourceName: "LTA DataMall GTFS Schedule (Train)",
+    sourceType: "official-gtfs",
+    sourceUrl: "https://datamall2.mytransport.sg/ltaodataservice/GTFSScheduleTrain",
+    maxCompleteness: "full-timetable",
+  },
   "sg-smrt-service-hours": {
     id: "sg-smrt-service-hours",
     country: "singapore",

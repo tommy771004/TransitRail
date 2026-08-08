@@ -51,7 +51,7 @@ A mobile-first cross-border transit timetable search app: React 19 SPA + a singl
 - **`BrowserScraper`** (tier B) — an official query page driven with Playwright. Nothing uses it yet.
 - **`HtmlScraper`** (tier C) — an official page fetched and parsed (JR Central's timetable search).
 - **`PdfScraper`** (tier C) — an official PDF timetable. Nothing uses it yet.
-- **`FrequencyScraper`** (tier D) — SG/TH, whose operators publish first train, last train and headway and no departure list. It writes route files with **no departures at all** and cannot be made to write any; what the operator does publish goes to the service-day artifact.
+- **`FrequencyScraper`** (tier D) — Thailand, whose BEM source publishes first train, last train and headway and no departure list. It writes route files with **no departures at all** and cannot be made to write any; what the operator does publish goes to the service-day artifact. Singapore uses LTA DataMall's key-protected GTFS Schedule (Train) feed for verified departures; SMRT's first/last-time API remains its service-day advisory source.
 - There is deliberately no kind for an aggregator or an estimate. **A route with no registered source gets no departures**, and search says `No verified timetable available.`
 - Malaysia is `catalog_sync`: station names only, no timetable, so it runs no timetable scraper at all.
 

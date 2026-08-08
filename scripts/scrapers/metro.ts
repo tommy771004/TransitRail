@@ -23,26 +23,24 @@ import { searchGermanyGtfs } from "../../src/server/germanyGtfs";
 import { recordError } from "../../src/server/errorLog";
 import { collectThailandServiceDayArtifact, THAILAND_BEM_URL } from "../../src/server/thailandBem";
 import { collectSingaporeServiceDayArtifact } from "../../src/server/singaporeSmrt";
+import { searchSingaporeLtaGtfs } from "../../src/server/singaporeLtaGtfs";
 import { collectHongKongServiceDayArtifact } from "../../src/server/hongKongServiceHours";
 import { providerDateValue } from "../../src/data/countries";
 
 /**
- * Singapore's operators publish first train, last train, and peak/off-peak
- * frequency — not a departure list. That is what gets stored: the route files
- * carry no departures at all and the numbers go to the service-day artifact.
- *
- * The previous build expanded the published headway into 763 invented
- * departures per route and served them as a timetable.
+ * LTA's official static GTFS supplies the verified departure rows. SMRT's
+ * first/last and headway data still supplies the separate service-day advisory;
+ * it is never expanded into invented timetable departures.
  */
-export class SingaporeScraper extends FrequencyScraper {
-  readonly name = "SMRT";
-  readonly country = "singapore";
-  readonly routes = singaporeRoutes;
-  readonly sourceId = "sg-smrt-service-hours";
+export class SingaporeScraper extends OfficialFeedScraper {
+  constructor() {
+    super("LTA DataMall GTFS", "singapore", singaporeRoutes, "sg-lta-gtfs", searchSingaporeLtaGtfs);
+  }
 
-  protected async collectServiceDay(routes: readonly ScrapedRoute[], date: string): Promise<void> {
+  override async runAll(date: string, options: { keepDates?: string[] } = {}): Promise<ScrapedRouteData[]> {
+    const results = await super.runAll(date, options);
     try {
-      await collectSingaporeServiceDayArtifact([...routes], date);
+      await collectSingaporeServiceDayArtifact([...this.routes], date);
     } catch (error) {
       console.warn(`  ${this.country}: SMRT service-day artifact refresh skipped:`, error instanceof Error ? error.message : error);
       await recordError({
@@ -53,9 +51,10 @@ export class SingaporeScraper extends FrequencyScraper {
         error,
         country: "singapore",
         provider: "SMRT official station information API",
-        context: { date, routeCount: routes.length },
+        context: { date, routeCount: this.routes.length },
       });
     }
+    return results;
   }
 }
 

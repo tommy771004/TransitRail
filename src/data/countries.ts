@@ -198,7 +198,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
   },
   singapore: {
     labelKey: "search.singapore",
-    provider: "Scraped (LTA)",
+    provider: "LTA DataMall GTFS",
     originPlaceholder: "Jurong East",
     destinationPlaceholder: "Raffles Place",
     featuredStations: ["Jurong East", "Raffles Place", "City Hall", "Orchard", "Woodlands"],

@@ -56,6 +56,10 @@ jobs:
           # Optional. Toei uses the public ODPT endpoint without this secret;
           # Tokyo Metro routes refresh when the repository secret is present.
           ODPT_API_KEY: ${{ secrets.ODPT_API_KEY }}
+          # Required for the official LTA DataMall Singapore GTFS train feed.
+          # The scraper preserves the last verified artifact when it is absent
+          # or the API cannot be reached.
+          LTA_ACCOUNT_KEY: ${{ secrets.LTA_ACCOUNT_KEY }}
           # Optional, but London is the longest leg of this job. TfL allows ~50
           # requests/min anonymously and ~500/min once a subscription key is
           # used, and the service-day sweep paces itself against whichever limit
