@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { getLinesForCountry, getStationsForCountry } from "./catalog";
+import { buildServiceRegionCatalog, getLinesForCountry, getStationsForCountry } from "./catalog";
 import { getScrapedCoverageNames, getScrapedRoutes } from "../data/scraped";
 import { getProviderRouteLines } from "../data/providerRouteLines";
 import { addDateValueDays, searchDateRange } from "../data/countries";
@@ -25,6 +25,41 @@ afterEach(() => {
 });
 
 describe("station and line catalog integrity scope", () => {
+  it("builds a stable date-qualified metro and intercity hierarchy without pair searches", async () => {
+    const catalog = await buildServiceRegionCatalog({
+      country: "japan",
+      date: catalogDate,
+      includeProvider: false,
+    });
+
+    expect(catalog.serviceDate).toBe(catalogDate);
+    expect(catalog.regions.map((region) => region.id)).toEqual([
+      "tokyo-urban",
+      "japan-intercity",
+    ]);
+    expect(catalog.lines).toEqual(catalog.regions.flatMap((region) => region.lines));
+    expect(catalog.regions.every((region) => region.lines.every((line) => line.stations.length >= 2))).toBe(true);
+    expect(catalog.stations).toEqual(expect.arrayContaining(["Tokyo", "Roppongi"]));
+  });
+
+  it("does not turn source-context-only markets into searchable catalogue entries", async () => {
+    for (const country of ["singapore", "malaysia", "china"] as const) {
+      const catalog = await buildServiceRegionCatalog({ country, date: catalogDate, includeProvider: false });
+      expect(catalog.regions).toEqual([]);
+      expect(catalog.lines).toEqual([]);
+      expect(catalog.stations).toEqual([]);
+      expect(catalog.message).toMatch(/timetable|source/i);
+    }
+  });
+
+  it("uses the artifact-backed Korean network in the same hierarchy", async () => {
+    const catalog = await buildServiceRegionCatalog({ country: "korea", date: catalogDate, includeProvider: false });
+    expect(catalog.regions).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: "seoul-capital" }),
+    ]));
+    expect(catalog.stations).toContain("Seoul Station");
+  });
+
   it("exposes verified Toei and Shinkansen lines while hiding unverified Tokyo Metro lines", async () => {
     const lines = await getLinesForCountry("japan", catalogDate);
     const stations = await getStationsForCountry("japan", undefined, catalogDate);

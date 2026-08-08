@@ -74,7 +74,10 @@ describe("search no-result reasons", () => {
       country: "japan",
       origin: "Tokyo",
       destination: "Kyoto",
-      date: "2026-08-14",
+      // A day before the committed rolling scrape window. Keeping this inside
+      // the product's non-enforced Japan date range exercises the "no service
+      // on this day" outcome instead of the separate future-date guard.
+      date: "2026-08-01",
     });
 
     expect(result.statusCode).toBe(404);

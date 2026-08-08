@@ -62,6 +62,13 @@ export type SourceCompleteness =
   | "frequency-only"
   | "service-hours";
 
+/**
+ * How an acquisition represents a service day in time. This is intentionally
+ * separate from `maxCompleteness`: an official journey API can be capable of a
+ * full timetable while a particular scraper run only retained one sample.
+ */
+export type SourceTemporalCoverage = "full-day" | "sampled-service-day" | "bounded-upcoming";
+
 /** Tier implied by the artifact type. Declared once so the two cannot disagree. */
 const TIER_BY_TYPE: Record<SourceType, SourceTier> = {
   "official-gtfs": "A",
@@ -92,6 +99,8 @@ export interface OfficialSource {
   sourceUrl: string;
   /** The most this source can ever substantiate, whatever a run returns. */
   maxCompleteness: SourceCompleteness;
+  /** Temporal shape of the acquired result; omitted means a complete day. */
+  temporalCoverage?: SourceTemporalCoverage;
   /** Set when the source only answers "now", never a future service day. */
   liveOnly?: boolean;
   /** Licence or attribution the source requires us to carry. */
@@ -171,6 +180,7 @@ export const officialSources = {
     sourceType: "official-json",
     sourceUrl: "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
     maxCompleteness: "full-timetable",
+    temporalCoverage: "bounded-upcoming",
     liveOnly: true,
   },
   "hk-mtr-service-hours": {
@@ -192,6 +202,7 @@ export const officialSources = {
     sourceType: "official-json",
     sourceUrl: "https://api.tfl.gov.uk",
     maxCompleteness: "full-timetable",
+    temporalCoverage: "sampled-service-day",
     attribution: "Powered by TfL Open Data",
   },
 

@@ -13,7 +13,7 @@ import type { Country, ServiceDayAdvisory } from "./src/types";
 import type { StationCoverage } from "./src/data/stationCoverage";
 import { db } from "./src/db";
 import { feedbacks, tnAuditLog, pushSubscriptions, type WatchedRoute } from "./src/db/schema";
-import { getStationsForCountry, getLinesForCountry } from "./src/server/catalog";
+import { buildServiceRegionCatalog, getStationsForCountry } from "./src/server/catalog";
 import { transferCatalog, getTransferInfo } from "./src/data/transfers";
 import { findNearestKnownStation } from "./src/utils/geoCoordinates";
 import { getTransitSituations } from "./src/server/situations";
@@ -354,6 +354,7 @@ async function logTransitSearch(
     const targetValue = readText(body?.target);
     const stationValue = readText(body?.station);
     const lineIdValue = readText(body?.lineId);
+    const regionIdValue = readText(body?.regionId);
     const reasonValue = readText(body?.reason);
 
     await insertAuditLog(req, {
@@ -366,6 +367,7 @@ async function logTransitSearch(
         tags: {
           "context.target": targetValue,
           "line.id": lineIdValue,
+          "region.id": regionIdValue,
           "failure.reason": reasonValue,
         },
       }),
@@ -411,12 +413,18 @@ async function logTransitSearch(
     };
 
     try {
-      const { stations, source, coverage } = await getStationsForCountry(
-        country as string,
-        queryValue,
-        dateValue,
-        originValue,
-      );
+      if (typeof country !== "string" || !countryOptions.includes(country as Country)) {
+        throw new Error("Invalid country");
+      }
+      const catalog = await buildServiceRegionCatalog({
+        country: country as Country,
+        date: dateValue,
+        origin: originValue,
+      });
+      const stations = queryValue
+        ? catalog.stations.filter((station) => station.toLowerCase().includes(queryValue.toLowerCase()))
+        : catalog.stations;
+      const { source, coverage } = catalog;
       payload = { stations, source, coverage };
       if (coverage?.message) payload.message = coverage.message;
       if (coverage?.sourceUrl && !payload.source) payload.source = coverage.sourceUrl;
@@ -492,6 +500,46 @@ async function logTransitSearch(
     });
 
     return res.status(statusCode).json(payload);
+  });
+
+  /** Unified station-browser hydration contract. */
+  app.get("/api/transit/catalog", async (req, res) => {
+    const country = typeof req.query.country === "string" ? req.query.country : undefined;
+    const date = normalizeDate(typeof req.query.date === "string" ? req.query.date.trim() : undefined);
+    const origin = typeof req.query.origin === "string" ? req.query.origin.trim() || undefined : undefined;
+    if (!country || !countryOptions.includes(country as Country)) {
+      return res.status(400).json({ error: "Invalid country", regions: [], lines: [], stations: [] });
+    }
+    if (!date) {
+      return res.status(400).json({
+        error: "Service date required",
+        message: "A catalog is only valid for one exact YYYY-MM-DD service date.",
+        regions: [],
+        lines: [],
+        stations: [],
+      });
+    }
+    try {
+      return res.json(await buildServiceRegionCatalog({ country: country as Country, date, origin }));
+    } catch (error) {
+      await recordError({
+        severity: "error",
+        module: "station-catalog",
+        operation: "catalog.fetch",
+        errorCode: "CATALOG_PROVIDER_FAILED",
+        error,
+        country,
+        httpStatus: 502,
+        context: { date, origin },
+      });
+      return res.status(502).json({
+        error: "Provider request failed",
+        message: "Station catalog is temporarily unavailable. Please try again later.",
+        regions: [],
+        lines: [],
+        stations: [],
+      });
+    }
   });
 
   app.get("/api/transit/nearest-station", async (req, res) => {
@@ -689,15 +737,15 @@ async function logTransitSearch(
     }
 
     try {
-      const lines = await getLinesForCountry(country, dateValue);
+      const catalog = await buildServiceRegionCatalog({ country: country as Country, date: dateValue });
+      const lines = catalog.lines;
       const source =
         country === "united_kingdom"
           ? "https://api.tfl.gov.uk"
           : country === "united_states"
             ? "https://api-v3.mbta.com"
             : undefined;
-      const stationCatalog = await getStationsForCountry(country, undefined, dateValue);
-      const coverage = stationCatalog.coverage;
+      const coverage = catalog.coverage;
       let message: string | undefined;
       let coverageSource: string | undefined;
       if (lines.length === 0) {

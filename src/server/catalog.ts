@@ -40,7 +40,14 @@ import {
 import { getCountryCapability } from "../data/countryCapability";
 import { stationSearchKey } from "../data/stationKey";
 import { resolveStationAlias } from "../data/stationAliases";
-import { addDateValueDays, countryOptions, searchDateRange, type SearchDateRange } from "../data/countries";
+import {
+  addDateValueDays,
+  countryConfig,
+  countryOptions,
+  providerDateValue,
+  searchDateRange,
+  type SearchDateRange,
+} from "../data/countries";
 import { getTflLines, getTflStations } from "./tfl";
 import { getMbtaLines, getMbtaStations } from "./mbta";
 import { getBelgiumStations } from "./belgium";
@@ -48,6 +55,42 @@ import { getMalaysiaStations, MALAYSIA_STATION_CATALOG_SOURCE } from "./malaysia
 import type { Country, TransitLine } from "../types";
 
 export const CATALOG_COUNTRIES = countryOptions;
+
+/** A product area whose lines and stations can be browsed together. */
+export interface ServiceRegion {
+  /** Stable machine identity. Never derive this from a translated label. */
+  id: string;
+  /** Source-language fallback displayed when a locale has no translation. */
+  name: string;
+  lines: TransitLine[];
+}
+
+/**
+ * The date-qualified station-browser contract.
+ *
+ * `stations` is the selectable set (possibly narrowed to destinations from
+ * `origin`); region line station arrays deliberately remain complete so that
+ * their ordering and identity do not flicker when a passenger switches pane.
+ */
+export interface ServiceRegionCatalog {
+  country: Country;
+  serviceDate: string;
+  regions: ServiceRegion[];
+  lines: TransitLine[];
+  stations: string[];
+  source?: string;
+  coverage: StationCoverage;
+  message?: string;
+}
+
+export interface BuildServiceRegionCatalogOptions {
+  country: Country;
+  /** The exact passenger service day. Defaults only for legacy callers. */
+  date?: string;
+  origin?: string;
+  /** Audit/report callers use committed data and must never call providers. */
+  includeProvider?: boolean;
+}
 
 export const officialTimetableUrls: Partial<Record<Country, string>> = {
   japan: "https://www.jreast.co.jp/e/",
@@ -289,7 +332,11 @@ function filterLinesByVerifiedCoverage(
   return filtered;
 }
 
-export async function getLinesForCountry(country: string, date?: string): Promise<TransitLine[]> {
+export async function getLinesForCountry(
+  country: string,
+  date?: string,
+  includeProvider = true,
+): Promise<TransitLine[]> {
   let lines: TransitLine[];
   if (country === "japan") lines = japanRailLines;
   else if (country === "korea") lines = seoulSubwayLines;
@@ -298,6 +345,7 @@ export async function getLinesForCountry(country: string, date?: string): Promis
   else if (country === "united_states") {
     const snapshotLines = getProviderRouteLines(country, getScrapedRoutes(country), date);
     try {
+      if (!includeProvider) throw new Error("Provider access disabled");
       lines = mergeCatalogLines(await getMbtaLines(), snapshotLines);
     } catch {
       lines = snapshotLines;
@@ -307,7 +355,9 @@ export async function getLinesForCountry(country: string, date?: string): Promis
     lines = getProviderRouteLines(country as Country, getScrapedRoutes(country as Country), date);
   }
   else if (country === "united_kingdom") {
-    try { lines = await getTflLines(); } catch { lines = []; }
+    try {
+      lines = includeProvider ? await getTflLines() : getProviderRouteLines(country, getScrapedRoutes(country), date);
+    } catch { lines = []; }
   } else {
     lines = [];
   }
@@ -316,6 +366,112 @@ export async function getLinesForCountry(country: string, date?: string): Promis
     lines = filterLinesByVerifiedCoverage(country, lines, date);
   }
   return filterLinesToAnswerable(country as Country, lines, date);
+}
+
+function uniqueStations(lines: readonly TransitLine[]): string[] {
+  const byKey = new Map<string, string>();
+  for (const line of lines) {
+    for (const station of line.stations) {
+      const key = stationSearchKey(station.name);
+      if (!byKey.has(key)) byKey.set(key, station.name);
+    }
+  }
+  return [...byKey.values()].sort((left, right) => left.localeCompare(right));
+}
+
+function regionForLine(country: Country, line: TransitLine): Pick<ServiceRegion, "id" | "name"> {
+  // These identifiers describe the product market rather than the operator.
+  // Urban networks stay in their city product area; all longer-distance rail is
+  // deliberately grouped once so it cannot appear in every city it happens to
+  // serve.
+  if (country === "japan") {
+    return isJapanMetroLine(line)
+      ? { id: "tokyo-urban", name: "Tokyo urban rail" }
+      : { id: "japan-intercity", name: "Japan intercity rail" };
+  }
+  if (country === "korea") return { id: "seoul-capital", name: "Seoul Capital Area" };
+  if (country === "united_kingdom") return { id: "london", name: "London (TfL)" };
+  if (country === "united_states") return { id: "boston", name: "Boston (MBTA)" };
+  if (country === "hong_kong") return { id: "hong-kong", name: "Hong Kong" };
+  if (country === "singapore") return { id: "singapore", name: "Singapore" };
+  if (country === "thailand") return { id: "bangkok", name: "Bangkok" };
+  return { id: `${country}-intercity`, name: `${countryConfig[country].promptName} intercity rail` };
+}
+
+/** Group already-verified lines without performing a journey search per pair. */
+export function buildServiceRegions(country: Country, lines: readonly TransitLine[]): ServiceRegion[] {
+  const regions = new Map<string, ServiceRegion>();
+  for (const line of lines) {
+    if (line.stations.length < 2) continue;
+    const identity = regionForLine(country, line);
+    const region = regions.get(identity.id) ?? { ...identity, lines: [] };
+    region.lines.push(line);
+    regions.set(identity.id, region);
+  }
+  return [...regions.values()];
+}
+
+function noDataMessage(country: Country, date: string): string | undefined {
+  const capability = countryConfig[country];
+  if (capability.search.kind === "catalog_only") {
+    return "Station names are available, but no verified timetable is available for this market.";
+  }
+  if (capability.scrape === "none") return "No verified timetable source is registered for this market.";
+  const summary = getScrapedSearchabilitySummary(country, date);
+  if (!summary.searchable) return "No verified timetable data is available for this country on the selected date.";
+  return undefined;
+}
+
+/**
+ * Build the single authoritative date-qualified station-browser catalogue.
+ *
+ * The hierarchy is a projection of `getLinesForCountry`, whose O(routes +
+ * artifact runs) gate already verifies the requested date. No station-pair
+ * calls are made here; that is both materially faster and prevents a line from
+ * becoming visible merely because a synthesized path happens to exist.
+ */
+export async function buildServiceRegionCatalog(
+  options: BuildServiceRegionCatalogOptions,
+): Promise<ServiceRegionCatalog> {
+  const { country, origin, includeProvider = true } = options;
+  const serviceDate = options.date || providerDateValue(country);
+  const lines = await getLinesForCountry(country, serviceDate, includeProvider);
+  const regions = buildServiceRegions(country, lines);
+  const allStations = uniqueStations(lines);
+  let coverage = getStationCoverage(country, allStations, serviceDate, origin)
+    ?? { mode: coverageModeFor(country), date: serviceDate };
+  if (usesStrictCatalogGate(country)) {
+    const summary = getScrapedSearchabilitySummary(country, serviceDate);
+    coverage = {
+      ...coverage,
+      provenance: summary.provenance,
+      truthMode: summary.truthMode,
+      reason: summary.reason,
+    };
+  }
+  const destinationKeys = origin
+    ? new Set(getScrapedReachableStations(country, origin, serviceDate).map((station) =>
+      stationSearchKey(resolveStationAlias(country, station))))
+    : undefined;
+  const stations = destinationKeys
+    ? allStations.filter((station) => destinationKeys.has(stationSearchKey(resolveStationAlias(country, station))))
+    : allStations;
+  const message = regions.length === 0
+    ? coverage.message || noDataMessage(country, serviceDate)
+    : destinationKeys && stations.length === 0
+      ? "No verified destinations are reachable from this station on the selected date."
+      : undefined;
+
+  return {
+    country,
+    serviceDate,
+    regions,
+    lines: regions.flatMap((region) => region.lines),
+    stations,
+    source: officialTimetableUrls[country],
+    coverage: { ...coverage, date: serviceDate, ...(message ? { message } : {}) },
+    ...(message ? { message } : {}),
+  };
 }
 
 /**
@@ -456,17 +612,14 @@ export async function getStationsForCountry(
   return { stations, source, coverage };
 }
 
-/** Combined catalog for one country — what a static public/catalog/<c>.json holds. */
-export async function buildCatalog(country: string): Promise<{
-  country: string;
-  stations: string[];
-  lines: TransitLine[];
-  source?: string;
-  coverage?: StationCoverage;
-}> {
-  const [{ stations, source, coverage }, lines] = await Promise.all([
-    getStationsForCountry(country),
-    getLinesForCountry(country),
-  ]);
-  return { country, stations, lines, source, coverage };
+/**
+ * Compatibility projection used by generated catalog consumers.
+ *
+ * New callers should use `buildServiceRegionCatalog` directly. Keeping this
+ * name lets old static consumers migrate without ever receiving a dateless
+ * hierarchy: it always selects one market-local service day.
+ */
+export async function buildCatalog(country: string, date?: string): Promise<ServiceRegionCatalog> {
+  if (!countryOptions.includes(country as Country)) throw new Error("Invalid country");
+  return buildServiceRegionCatalog({ country: country as Country, date });
 }

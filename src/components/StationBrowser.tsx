@@ -17,6 +17,7 @@ import { resolveStationAlias } from "../data/stationAliases";
 import type { StationCoverage } from "../data/stationCoverage";
 import { fuzzyMatch } from "../utils/fuzzy";
 import { getAuditHeaders, postAuditEvent, resolveAuditTimezone } from "../utils/audit";
+import type { ServiceRegion } from "../server/catalog";
 
 interface StationBrowserProps {
   country: Country;
@@ -34,6 +35,48 @@ const lineNoteKeys: Partial<Record<Country, string>> = {
   united_states: "stations.note_united_states",
   malaysia: "stations.note_malaysia",
 };
+
+type CatalogPayload = {
+  regions?: ServiceRegion[];
+  lines?: TransitLine[];
+  stations?: string[];
+  coverage?: StationCoverage;
+};
+
+// Browsing origin and destination can mount the sheet more than once without a
+// passenger changing its country/date/origin context. Keep the one catalog
+// operation (including its in-flight request) shared across those renders.
+const catalogRequests = new Map<string, Promise<{ ok: boolean; d: CatalogPayload }>>();
+
+function catalogRequest(country: Country, date: string | undefined, origin: string | undefined) {
+  const params = new URLSearchParams({ country });
+  if (date) params.set("date", date);
+  if (origin) params.set("origin", origin);
+  const key = params.toString();
+  const existing = catalogRequests.get(key);
+  if (existing) return existing;
+  const request = fetch(`/api/transit/catalog?${key}`, {
+    headers: getAuditHeaders(i18n.language, resolveAuditTimezone()),
+  })
+    .then((response) => response.json().then((d) => ({ ok: response.ok, d: d as CatalogPayload })))
+    .catch(() => ({ ok: false, d: {} as CatalogPayload }));
+  catalogRequests.set(key, request);
+  return request;
+}
+
+function serviceRegionLabel(language: string, region: ServiceRegion): string {
+  const localized: Record<string, Partial<Record<string, string>>> = {
+    "zh-TW": {
+      "tokyo-urban": "東京都會鐵路", "japan-intercity": "日本城際鐵路", "seoul-capital": "首爾首都圈",
+      london: "倫敦（TfL）", boston: "波士頓（MBTA）", "hong-kong": "香港", singapore: "新加坡", bangkok: "曼谷",
+    },
+    ja: { "tokyo-urban": "東京都市鉄道", "japan-intercity": "日本の都市間鉄道", "seoul-capital": "ソウル首都圏", london: "ロンドン（TfL）", boston: "ボストン（MBTA）" },
+    ko: { "tokyo-urban": "도쿄 도시 철도", "japan-intercity": "일본 도시 간 철도", "seoul-capital": "서울 수도권", london: "런던(TfL)", boston: "보스턴(MBTA)" },
+    fr: { "tokyo-urban": "Réseau urbain de Tokyo", "japan-intercity": "Rail interurbain japonais", london: "Londres (TfL)", boston: "Boston (MBTA)" },
+    de: { "tokyo-urban": "Stadtbahn Tokio", "japan-intercity": "Japanischer Fernverkehr", london: "London (TfL)", boston: "Boston (MBTA)" },
+  };
+  return localized[language]?.[region.id] || region.name;
+}
 
 export function StationBrowser({
   country,
@@ -57,9 +100,12 @@ export function StationBrowser({
   };
 
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedRegion, setSelectedRegion] = useState<string>("");
+  const [regionsCollapsed, setRegionsCollapsed] = useState(false);
   const [stations, setStations] = useState<string[]>([]);
   const [coverage, setCoverage] = useState<StationCoverage | undefined>(undefined);
   const [lines, setLines] = useState<TransitLine[]>([]);
+  const [regions, setRegions] = useState<ServiceRegion[]>([]);
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [loadFailed, setLoadFailed] = useState(false);
@@ -98,6 +144,7 @@ export function StationBrowser({
       target,
       station,
       lineId: selectedLineId,
+      regionId: regions.find((region) => region.lines.some((line) => line.id === selectedLineId))?.id,
     }, { language: i18n.language });
     onSelectStation(station, autoFillDest, selectedLineId);
   };
@@ -171,35 +218,45 @@ export function StationBrowser({
   useEffect(() => {
     let active = true;
     setSelectedCategory("");
+    setSelectedRegion("");
+    setRegionsCollapsed(false);
 
-    const applyLines = (fetchedLines: TransitLine[]) => {
+    const applyCatalog = (fetchedRegions: ServiceRegion[], fetchedLines: TransitLine[]) => {
+      setRegions(fetchedRegions);
       setLines(fetchedLines);
       setLinesFailed(false);
-      if (fetchedLines.length > 0) {
-        setSelectedCategory(scrollToLineId || fetchedLines[0].id);
+      const restoredRegion = fetchedRegions.find((region) =>
+        region.lines.some((line) => line.id === scrollToLineId));
+      const firstRegion = restoredRegion || fetchedRegions[0];
+      if (firstRegion) {
+        setSelectedRegion(firstRegion.id);
+        setRegionsCollapsed(false);
+        setSelectedCategory(scrollToLineId && firstRegion.lines.some((line) => line.id === scrollToLineId)
+          ? scrollToLineId
+          : firstRegion.lines[0]?.id || "");
       }
     };
 
     const loadFromApi = async () => {
-      const stationParams = new URLSearchParams({ country });
-      if (selectedDate) stationParams.set("date", selectedDate);
-      if (target === "destination" && selectedOrigin) stationParams.set("origin", selectedOrigin);
-      const lineParams = new URLSearchParams({ country });
-      if (selectedDate) lineParams.set("date", selectedDate);
-      const [sRes, lRes] = await Promise.allSettled([
-        fetch(`/api/transit/stations?${stationParams.toString()}`, {
-          headers: buildAuditHeaders(),
-        }).then((r) => r.json().then((d) => ({ ok: r.ok, d }))),
-        fetch(`/api/transit/lines?${lineParams.toString()}`).then((r) => r.json().then((d) => ({ ok: r.ok, d }))),
-      ]);
+      const response = await catalogRequest(
+        country,
+        selectedDate,
+        target === "destination" ? selectedOrigin : undefined,
+      );
       if (!active) return;
-      if (sRes.status === "fulfilled" && sRes.value.ok) {
-        setStations(sRes.value.d.stations || []);
-        setCoverage(sRes.value.d.coverage);
+      if (response.ok) {
+        setStations(response.d.stations || []);
+        setCoverage(response.d.coverage);
+        applyCatalog(response.d.regions || [], response.d.lines || []);
       }
-      else { setStations([]); setCoverage(undefined); setLoadFailed(true); }
-      if (lRes.status === "fulfilled" && lRes.value.ok) applyLines(lRes.value.d.lines || []);
-      else { setLines([]); setLinesFailed(true); }
+      else {
+        setStations([]);
+        setCoverage(undefined);
+        setRegions([]);
+        setLines([]);
+        setLoadFailed(true);
+        setLinesFailed(true);
+      }
     };
 
     const load = async () => {
@@ -228,22 +285,30 @@ export function StationBrowser({
 
   const visibleLines = useMemo(() => {
     const stationKeys = new Set(stations.map(stationKeyForCountry));
-    return lines
+    const regionLines = regions.find((region) => region.id === selectedRegion)?.lines || [];
+    return regionLines
       .map((line) => ({
         ...line,
         stations: line.stations.filter((station) => stationKeys.has(stationKeyForCountry(station.name))),
       }))
       .filter((line) => line.stations.length > 0);
-  }, [lines, stations, country]);
+  }, [regions, selectedRegion, stations, country]);
 
   useEffect(() => {
+    if (regions.length === 0) return;
+    const activeRegion = regions.find((region) => region.id === selectedRegion);
+    if (!activeRegion && !regionsCollapsed) {
+      const restored = regions.find((region) => region.lines.some((line) => line.id === scrollToLineId));
+      setSelectedRegion((restored || regions[0]).id);
+      return;
+    }
     if (visibleLines.length === 0 || visibleLines.some((line) => line.id === selectedCategory)) return;
     if (scrollToLineId && visibleLines.some((line) => line.id === scrollToLineId)) {
       setSelectedCategory(scrollToLineId);
       return;
     }
     setSelectedCategory(visibleLines[0].id);
-  }, [visibleLines, selectedCategory, scrollToLineId]);
+  }, [regions, selectedRegion, regionsCollapsed, visibleLines, selectedCategory, scrollToLineId]);
 
   const stationsToRender = useMemo(() => {
     const line = lines.find((l) => l.id === selectedCategory);
@@ -550,27 +615,57 @@ export function StationBrowser({
             <>
               <div className="w-[115px] sm:w-[135px] shrink-0 overflow-y-auto border-r border-slate-100 dark:border-slate-800/60 bg-slate-50/30 dark:bg-[#040810]/20 pb-12 pt-2">
                 <ul className="space-y-1">
-                  {!linesLoading && !linesFailed && visibleLines.map((line) => (
-                    <li key={line.id}>
+                  {!linesLoading && !linesFailed && regions.map((region) => (
+                    <li key={region.id}>
                       <button
-                        id={`line-btn-${line.id}`}
+                        aria-expanded={selectedRegion === region.id}
                         onClick={() => {
                           triggerHaptic("light");
-                          setSelectedCategory(line.id);
+                          if (selectedRegion === region.id) {
+                            setSelectedRegion("");
+                            setRegionsCollapsed(true);
+                            setSelectedCategory("");
+                          } else {
+                            setSelectedRegion(region.id);
+                            setRegionsCollapsed(false);
+                            setSelectedCategory(region.lines.find((line) => line.id === selectedCategory)?.id || region.lines[0]?.id || "");
+                          }
                         }}
-                        className={`group relative flex w-full flex-col justify-center px-4 py-3.5 text-left transition-all ${
-                          selectedCategory === line.id
-                            ? `${theme.badgeBg} border-l-4 ${theme.borderActive} font-black rounded-r-xl`
-                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-100/50 dark:hover:bg-slate-800/40 hover:text-slate-900 dark:hover:text-slate-200"
+                        className={`flex w-full items-center justify-between gap-1 px-3 py-2.5 text-left text-[10px] font-black uppercase tracking-wide ${
+                          selectedRegion === region.id ? theme.textActive : "text-slate-500 dark:text-slate-400"
                         }`}
                       >
-                        <span className="block truncate text-xs font-bold leading-tight">
-                          {t(`line.${line.name}`, { defaultValue: line.name })}
-                        </span>
-                        <span className="mt-1.5 inline-flex w-fit items-center justify-center rounded-full px-2 py-0.5 text-[9px] font-bold font-mono leading-none" style={{ backgroundColor: `${line.color}15`, color: line.color }}>
-                          {line.stations.length}
-                        </span>
+                        <span className="truncate">{serviceRegionLabel(i18n.language, region)}</span>
+                        <ChevronDown className={`h-3 w-3 shrink-0 transition-transform ${selectedRegion === region.id ? "rotate-180" : ""}`} />
                       </button>
+                      {selectedRegion === region.id && (
+                        <ul className="space-y-1 pb-1">
+                          {visibleLines.map((line) => (
+                            <li key={line.id}>
+                              <button
+                                id={`line-btn-${line.id}`}
+                                aria-pressed={selectedCategory === line.id}
+                                onClick={() => {
+                                  triggerHaptic("light");
+                                  setSelectedCategory(line.id);
+                                }}
+                                className={`group relative flex w-full flex-col justify-center px-4 py-3 text-left transition-all ${
+                                  selectedCategory === line.id
+                                    ? `${theme.badgeBg} border-l-4 ${theme.borderActive} font-black rounded-r-xl`
+                                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-100/50 dark:hover:bg-slate-800/40 hover:text-slate-900 dark:hover:text-slate-200"
+                                }`}
+                              >
+                                <span className="block truncate text-xs font-bold leading-tight">
+                                  {t(`line.${line.name}`, { defaultValue: line.name })}
+                                </span>
+                                <span className="mt-1.5 inline-flex w-fit items-center justify-center rounded-full px-2 py-0.5 text-[9px] font-bold font-mono leading-none" style={{ backgroundColor: `${line.color}15`, color: line.color }}>
+                                  {line.stations.length}
+                                </span>
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </li>
                   ))}
                 </ul>

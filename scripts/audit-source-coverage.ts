@@ -12,14 +12,21 @@
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "fs";
 import { join, resolve } from "path";
 import type { Country } from "../src/types";
-import { configuredCountryOptions, countryConfig, countryFlags } from "../src/data/countries";
+import {
+  configuredCountryOptions,
+  countryConfig,
+  countryFlags,
+  providerDateValue,
+} from "../src/data/countries";
 import {
   findOfficialSource,
   isValidSourceMeta,
   officialSourcesForCountry,
   tierForSourceType,
   type SourceTier,
+  type SourceTemporalCoverage,
 } from "../src/data/sourceRegistry";
+import { buildServiceRegionCatalog } from "../src/server/catalog";
 import type { ScrapedRouteData } from "../src/data/scraped/timetableDay";
 import {
   decodeKoreanSubwayArtifact,
@@ -32,6 +39,7 @@ const OUTPUT = resolve("SOURCE_COVERAGE.md");
 
 interface CountryAudit {
   country: Country;
+  serviceDate: string;
   scrape: string;
   routeFiles: number;
   verifiedRoutes: number;
@@ -49,6 +57,18 @@ interface CountryAudit {
   tiers: SourceTier[];
   completeness: string[];
   hasServiceDayArtifact: boolean;
+  network: {
+    state: "searchable" | "no-searchable-network";
+    regions: string[];
+    lines: number;
+    stations: number;
+    message?: string;
+  };
+  temporal: {
+    state: "full-timetable" | "sampled-service-day" | "bounded-upcoming" | "frequency-or-service-hours" | "catalog-only" | "stale" | "unavailable";
+    fetchedAt?: string;
+    observedSpan?: string;
+  };
 }
 
 interface ArtifactSummary {
@@ -91,7 +111,49 @@ function loadRoutes(country: Country): ScrapedRouteData[] {
     });
 }
 
-export function auditCountry(country: Country): CountryAudit {
+function observedDepartureSpan(routes: readonly ScrapedRouteData[], serviceDate: string): string | undefined {
+  const times = routes.flatMap((route) => route.results)
+    .filter((result) => result.date === serviceDate)
+    .map((result) => result.departureTime)
+    .filter((time): time is string => /^\d{2}:\d{2}$/.test(time))
+    .sort();
+  return times.length > 0 ? `${times[0]}–${times.at(-1)}` : undefined;
+}
+
+function temporalState(
+  country: Country,
+  serviceDate: string,
+  audit: Pick<CountryAudit, "departureRows" | "artifactRuns" | "hasServiceDayArtifact" | "newestFetch" | "sourceIds" | "completeness">,
+  routes: readonly ScrapedRouteData[],
+): CountryAudit["temporal"] {
+  const fetchedAt = audit.newestFetch;
+  const observedSpan = observedDepartureSpan(routes, serviceDate);
+  if (countryConfig[country].search.kind === "catalog_only") return { state: "catalog-only", fetchedAt };
+  if (audit.departureRows === 0 && audit.artifactRuns === 0) {
+    return { state: audit.hasServiceDayArtifact || audit.completeness.some((value) => value !== "full-timetable")
+      ? "frequency-or-service-hours"
+      : "unavailable", fetchedAt };
+  }
+  // A fetch from another market-local day cannot describe today's service,
+  // regardless of its official provenance or source grade.
+  if (!fetchedAt || providerDateValue(country, new Date(fetchedAt)) !== serviceDate) {
+    return { state: "stale", fetchedAt, observedSpan };
+  }
+  // Route rows are the only evidence that a non-artifact market actually has
+  // departures for this requested day. A current fetch timestamp alone is not
+  // enough: it may be a provider response with no usable service slice.
+  if (!observedSpan && audit.artifactRuns === 0) {
+    return { state: "stale", fetchedAt };
+  }
+  const temporalShapes = audit.sourceIds
+    .map((id) => findOfficialSource(id)?.temporalCoverage)
+    .filter((value): value is SourceTemporalCoverage => Boolean(value));
+  if (temporalShapes.includes("bounded-upcoming")) return { state: "bounded-upcoming", fetchedAt, observedSpan };
+  if (temporalShapes.includes("sampled-service-day")) return { state: "sampled-service-day", fetchedAt, observedSpan };
+  return { state: "full-timetable", fetchedAt, observedSpan };
+}
+
+export async function auditCountry(country: Country, now = new Date()): Promise<CountryAudit> {
   const routes = loadRoutes(country);
   const artifacts = loadArtifacts(country);
   const verified = routes.filter((route) => isValidSourceMeta(route.sourceMeta));
@@ -102,8 +164,10 @@ export function auditCountry(country: Country): CountryAudit {
     .filter(Boolean)
     .sort();
 
-  return {
+  const serviceDate = providerDateValue(country, now);
+  const base = {
     country,
+    serviceDate,
     scrape: countryConfig[country].scrape,
     routeFiles: routes.length,
     verifiedRoutes: verified.length,
@@ -126,6 +190,27 @@ export function auditCountry(country: Country): CountryAudit {
       ...artifacts.sourceIds.map(() => "full-timetable"),
     ])].sort(),
     hasServiceDayArtifact: existsSync(join(SERVICE_DAY_DIR, `${country}.json`)),
+  };
+  // `includeProvider: false` makes this report reproducible from committed
+  // routes/artifacts. The same hierarchy powers the passenger browser.
+  const catalog = await buildServiceRegionCatalog({ country, date: serviceDate, includeProvider: false });
+  return {
+    ...base,
+    network: catalog.regions.length > 0
+      ? {
+        state: "searchable",
+        regions: catalog.regions.map((region) => region.id),
+        lines: catalog.lines.length,
+        stations: catalog.stations.length,
+      }
+      : {
+        state: "no-searchable-network",
+        regions: [],
+        lines: 0,
+        stations: 0,
+        message: catalog.message,
+      },
+    temporal: temporalState(country, serviceDate, base, routes),
   };
 }
 
@@ -172,12 +257,20 @@ export function buildReport(audits: CountryAudit[], now = new Date()): string {
   lines.push("");
 
   lines.push("## What each market can answer", "");
-  lines.push("| Market | Answers | Sources | Tier | Completeness | Routes | Departures | Artifact runs | Service days |");
-  lines.push("| --- | --- | --- | --- | --- | ---: | ---: | ---: | --- |");
+  lines.push("| Market | Answers | Network today | Timetable as of fetch | Sources | Tier | Completeness | Routes | Departures | Artifact runs | Service days |");
+  lines.push("| --- | --- | --- | --- | --- | --- | --- | ---: | ---: | ---: | --- |");
   for (const audit of audits) {
+    const network = audit.network.state === "searchable"
+      ? `${audit.network.regions.join(", ")} — ${audit.network.lines} lines, ${audit.network.stations} stations`
+      : `No searchable network${audit.network.message ? ` — ${audit.network.message}` : ""}`;
+    const temporal = `${audit.temporal.state} (${audit.serviceDate})`
+      + `${audit.temporal.observedSpan ? `; observed ${audit.temporal.observedSpan}` : ""}`
+      + `${audit.temporal.fetchedAt ? `; ${audit.temporal.fetchedAt}` : ""}`;
     lines.push([
       `${countryFlags[audit.country] || ""} ${audit.country}`,
       verdict(audit),
+      network,
+      temporal,
       audit.sourceIds.join("<br>") || "—",
       audit.tiers.join(", ") || "—",
       audit.completeness.join(", ") || "—",
@@ -202,7 +295,7 @@ export function buildReport(audits: CountryAudit[], now = new Date()): string {
   }
   lines.push("");
 
-  lines.push("## Known gaps", "");
+  lines.push("## Expansion gaps outside the declared product market", "");
   lines.push(
     "These are markets or operators with no source wired up. They are listed so the",
     "absence is a tracked fact rather than something a reader has to infer from an",
@@ -230,8 +323,8 @@ export function buildReport(audits: CountryAudit[], now = new Date()): string {
   return `${lines.join("\n")}\n`;
 }
 
-function main() {
-  const audits = configuredCountryOptions.map(auditCountry);
+async function main() {
+  const audits = await Promise.all(configuredCountryOptions.map((country) => auditCountry(country)));
   writeFileSync(OUTPUT, buildReport(audits), "utf-8");
 
   console.log(`Wrote ${OUTPUT}\n`);
@@ -244,4 +337,6 @@ function main() {
   }
 }
 
-if (process.argv[1] && process.argv[1].endsWith("audit-source-coverage.ts")) main();
+if (process.argv[1] && process.argv[1].endsWith("audit-source-coverage.ts")) {
+  void main().catch((error) => { console.error(error); process.exit(1); });
+}
