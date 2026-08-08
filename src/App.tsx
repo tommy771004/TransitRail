@@ -18,7 +18,6 @@ import { ResultSkeleton } from "./components/ResultSkeleton";
 import { TransitLegend } from "./components/TransitLegend";
 import { TransitIcon, formatPlatform } from "./components/TransitIcon";
 import { CountryResultsView } from "./components/CountryResultsView";
-import { AffiliateMarquee } from "./components/AffiliateMarquee";
 import { generateICS } from "./utils/ics";
 import { stationLabel } from "./utils/stationLabel";
 import { triggerHaptic } from "./utils/haptics";
@@ -1883,14 +1882,8 @@ export default function App() {
             <div className="pt-14">
               {serviceDayAdvisory ? <ServiceDayAdvisoryNotice advisory={serviceDayAdvisory} /> : null}
               {renderView()}
-              <AffiliateMarquee />
             </div>
-          ) : (
-            <>
-              {renderView()}
-              {view === "search" ? <AffiliateMarquee /> : null}
-            </>
-          )}
+          ) : renderView()}
         </motion.div>
       </AnimatePresence>
 
