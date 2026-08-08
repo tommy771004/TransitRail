@@ -52,7 +52,12 @@ export function AffiliateMarquee() {
   }, [offers]);
 
   if (offers.length === 0) return null;
-  const repeatedOffers = [...offers, ...offers];
+  const topRow = offers.filter((_, index) => index % 2 === 0);
+  const bottomRow = offers.filter((_, index) => index % 2 === 1);
+  const rows = [
+    { offers: topRow.length > 0 ? topRow : offers, animation: "animate-marquee-right" },
+    { offers: bottomRow.length > 0 ? bottomRow : offers, animation: "animate-marquee-left" },
+  ];
 
   return (
     <aside aria-label="Affiliate offers" className="mx-auto w-full max-w-3xl px-4 pb-28 pt-5">
@@ -61,31 +66,35 @@ export function AffiliateMarquee() {
           <span className="rounded-full bg-sky-600 px-2 py-0.5 text-white">Affiliate offers</span>
           <span>Affiliate links may earn TransitRail a commission.</span>
         </div>
-        <div ref={containerRef} className="group relative flex overflow-hidden">
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 bg-gradient-to-r from-sky-50/90 to-transparent dark:from-sky-950/90" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-6 bg-gradient-to-l from-sky-50/90 to-transparent dark:from-sky-950/90" />
-          <div className="flex shrink-0 animate-marquee-left whitespace-nowrap motion-reduce:animate-none group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]">
-            {repeatedOffers.map((offer, index) => (
-              <a
-                key={`${offer.id}-${index}`}
-                data-affiliate-id={offer.id}
-                href={offer.url}
-                target="_blank"
-                rel="sponsored nofollow noopener noreferrer"
-                onClick={() => recordAffiliateEvent("affiliate_click", offer)}
-                className="mx-1.5 inline-flex shrink-0 items-center gap-2 rounded-xl border border-sky-200 bg-white px-3 py-2 text-left text-xs text-slate-700 transition hover:border-sky-400 hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:border-sky-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-sky-600 dark:hover:bg-slate-800"
-              >
-                <span className="font-bold text-slate-900 dark:text-white">{offer.campaignCode ? `(${offer.campaignCode}) ` : ""}{offer.title}</span>
-                {offer.industryType ? <span className="text-slate-500 dark:text-slate-400">· {offer.industryType}</span> : null}
-                {offer.conversionType || offer.cookieDays !== undefined || offer.commission ? (
-                  <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-800 dark:bg-amber-950/40 dark:text-amber-200">
-                    {[offer.conversionType, offer.cookieDays !== undefined ? `${offer.cookieDays} days` : undefined, offer.commission].filter(Boolean).join(" · ")}
-                  </span>
-                ) : null}
-                <span className="text-slate-500 dark:text-slate-400">· {offer.notes || offer.description}</span>
-              </a>
-            ))}
-          </div>
+        <div ref={containerRef} className="group space-y-2">
+          {rows.map((row, rowIndex) => (
+            <div key={row.animation} className="relative flex overflow-hidden">
+              <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 bg-gradient-to-r from-sky-50/90 to-transparent dark:from-sky-950/90" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-6 bg-gradient-to-l from-sky-50/90 to-transparent dark:from-sky-950/90" />
+              <div className={`flex shrink-0 ${row.animation} whitespace-nowrap motion-reduce:animate-none group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]`}>
+                {[...row.offers, ...row.offers].map((offer, index) => (
+                  <a
+                    key={`${offer.id}-${rowIndex}-${index}`}
+                    data-affiliate-id={offer.id}
+                    href={offer.url}
+                    target="_blank"
+                    rel="sponsored nofollow noopener noreferrer"
+                    onClick={() => recordAffiliateEvent("affiliate_click", offer)}
+                    className="mx-1.5 inline-flex shrink-0 items-center gap-2 rounded-xl border border-sky-200 bg-white px-3 py-2 text-left text-xs text-slate-700 transition hover:border-sky-400 hover:bg-sky-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:border-sky-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-sky-600 dark:hover:bg-slate-800"
+                  >
+                    <span className="font-bold text-slate-900 dark:text-white">{offer.campaignCode ? `(${offer.campaignCode}) ` : ""}{offer.title}</span>
+                    {offer.industryType ? <span className="text-slate-500 dark:text-slate-400">· {offer.industryType}</span> : null}
+                    {offer.conversionType || offer.cookieDays !== undefined || offer.commission ? (
+                      <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-800 dark:bg-amber-950/40 dark:text-amber-200">
+                        {[offer.conversionType, offer.cookieDays !== undefined ? `${offer.cookieDays} days` : undefined, offer.commission].filter(Boolean).join(" · ")}
+                      </span>
+                    ) : null}
+                    <span className="text-slate-500 dark:text-slate-400">· {offer.notes || offer.description}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </aside>
