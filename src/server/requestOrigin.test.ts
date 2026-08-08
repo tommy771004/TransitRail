@@ -1,7 +1,7 @@
 import { IncomingMessage } from "node:http";
 import { Socket } from "node:net";
 import { afterEach, describe, expect, it } from "vitest";
-import { requestOrigin } from "./requestOrigin";
+import { requestOrigin, requestPath, requestQuery } from "./requestOrigin";
 
 describe("requestOrigin", () => {
   it("prefers the forwarded headers a proxy sets", () => {
@@ -69,5 +69,22 @@ describe("requestOrigin on platform IncomingMessage", () => {
     req.headers = { "x-forwarded-proto": "https", "x-forwarded-host": "rail.example" };
 
     expect(requestOrigin(req)).toBe("https://rail.example");
+  });
+});
+
+describe("request URL parsing on platform IncomingMessage", () => {
+  it("uses raw request URLs without the platform req.query or req.path accessors", () => {
+    const platformRequest = {
+      url: "/api/exchange-rates?base=usd&base=eur",
+      get query() {
+        throw new Error("platform query accessor was used");
+      },
+      get path() {
+        throw new Error("platform path accessor was used");
+      },
+    };
+
+    expect(requestQuery(platformRequest)).toEqual({ base: "usd" });
+    expect(requestPath(platformRequest)).toBe("/api/exchange-rates");
   });
 });

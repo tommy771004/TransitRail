@@ -16,6 +16,10 @@ export type OriginRequest = {
   socket?: unknown;
 };
 
+export type UrlRequest = {
+  url?: string;
+};
+
 /** TLSSocket sets `encrypted`; a plain net.Socket has no such property. */
 function isEncrypted(socket: unknown): boolean {
   return (
@@ -42,4 +46,32 @@ export function requestOrigin(req: OriginRequest): string {
   const proto =
     firstValue(req.headers["x-forwarded-proto"]) || (isEncrypted(req.socket) ? "https" : "http");
   return `${proto}://${host}`;
+}
+
+/**
+ * Parse the raw Node request target without Express's `req.query` getter.
+ * Vercel's request shim currently implements that getter through the legacy
+ * `url.parse()` path, which emits DEP0169 on otherwise normal API requests.
+ */
+export function requestQuery(req: UrlRequest): Record<string, string> {
+  let params: URLSearchParams;
+  try {
+    params = new URL(req.url || "/", "http://transitrail.local").searchParams;
+  } catch {
+    return {};
+  }
+  const query: Record<string, string> = {};
+  for (const [key, value] of params) {
+    if (!(key in query)) query[key] = value;
+  }
+  return query;
+}
+
+/** The raw path is safe for error reporting and avoids Express's `req.path` getter. */
+export function requestPath(req: UrlRequest): string {
+  try {
+    return new URL(req.url || "/", "http://transitrail.local").pathname;
+  } catch {
+    return "/";
+  }
 }

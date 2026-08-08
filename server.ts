@@ -23,7 +23,7 @@ import { timetableFingerprint } from "./src/utils/timetableChanges";
 import { recordError } from "./src/server/errorLog";
 import { sendTelemetry } from "./src/server/telemetry";
 import { serviceDayAdvisoryForWatch, unavailableServiceDayAdvisory } from "./src/server/serviceDayWatch";
-import { requestOrigin } from "./src/server/requestOrigin";
+import { requestOrigin, requestPath, requestQuery } from "./src/server/requestOrigin";
 import { getAffiliateOffers } from "./src/server/affiliates";
 
 dotenv.config();
@@ -238,7 +238,7 @@ async function logTransitSearch(
 }
 
   app.get("/api/transit/search", async (req, res) => {
-    const { origin, destination, country, date, time } = req.query;
+    const { origin, destination, country, date, time } = requestQuery(req);
 
     if (typeof origin !== "string" || typeof destination !== "string" || typeof date !== "string") {
       return res.status(400).json({
@@ -335,7 +335,7 @@ async function logTransitSearch(
   });
 
   app.get("/api/transit/situations", async (req, res) => {
-    const country = typeof req.query.country === "string" ? req.query.country as Country : undefined;
+    const country = requestQuery(req).country as Country | undefined;
     if (country && !countryOptions.includes(country)) {
       return res.status(400).json({ error: "Invalid country.", situations: [] });
     }
@@ -437,7 +437,7 @@ async function logTransitSearch(
   });
 
   app.get("/api/transit/stations", async (req, res) => {
-    const { country, q, date, origin } = req.query;
+    const { country, q, date, origin } = requestQuery(req);
     const countryValue = typeof country === "string" ? country : undefined;
     const queryValue = typeof q === "string" ? q.trim() || undefined : undefined;
     const dateValue = typeof date === "string" ? date.trim() || undefined : undefined;
@@ -544,9 +544,10 @@ async function logTransitSearch(
 
   /** Unified station-browser hydration contract. */
   app.get("/api/transit/catalog", async (req, res) => {
-    const country = typeof req.query.country === "string" ? req.query.country : undefined;
-    const date = normalizeDate(typeof req.query.date === "string" ? req.query.date.trim() : undefined);
-    const origin = typeof req.query.origin === "string" ? req.query.origin.trim() || undefined : undefined;
+    const query = requestQuery(req);
+    const country = query.country;
+    const date = normalizeDate(query.date?.trim() || undefined);
+    const origin = query.origin?.trim() || undefined;
     if (!country || !countryOptions.includes(country as Country)) {
       return res.status(400).json({ error: "Invalid country", regions: [], lines: [], stations: [] });
     }
@@ -583,7 +584,7 @@ async function logTransitSearch(
   });
 
   app.get("/api/transit/nearest-station", async (req, res) => {
-    const { country, lat, lng, accuracy } = req.query;
+    const { country, lat, lng, accuracy } = requestQuery(req);
     const countryValue = typeof country === "string" ? country : undefined;
     const latitudeValue = parseDecimal(lat);
     const longitudeValue = parseDecimal(lng);
@@ -677,7 +678,7 @@ async function logTransitSearch(
   });
 
   app.get("/api/exchange-rates", async (req, res) => {
-    const requestedBase = typeof req.query.base === "string" ? req.query.base : "TWD";
+    const requestedBase = requestQuery(req).base || "TWD";
     const base = /^[A-Za-z]{3}$/.test(requestedBase) ? requestedBase.toUpperCase() : "TWD";
     try {
       const cbcResult = await getCbcRates();
@@ -758,7 +759,7 @@ async function logTransitSearch(
   });
 
   app.get("/api/transit/lines", async (req, res) => {
-    const { country, date } = req.query;
+    const { country, date } = requestQuery(req);
     const dateValue = typeof date === "string" ? date.trim() || undefined : undefined;
     if (typeof country !== "string" || !countryOptions.includes(country as Country)) {
       return res.status(400).json({
@@ -819,7 +820,7 @@ async function logTransitSearch(
   });
 
   app.get("/api/transit/transfers", (req, res) => {
-    const { stationId, stationName, country } = req.query;
+    const { stationId, stationName, country } = requestQuery(req);
 
     if (typeof stationId === "string" && stationId) {
       const info = transferCatalog[stationId];
@@ -1039,14 +1040,14 @@ async function logTransitSearch(
   });
 
   app.get("/api/share-card.svg", (req, res) => {
-    const trip = readShareCardPayload(req.query);
+    const trip = readShareCardPayload(requestQuery(req));
     if (!trip) return res.status(400).type("text/plain").send("Missing journey details.");
     res.set("Cache-Control", "public, max-age=300, s-maxage=300");
     return res.type("image/svg+xml").send(generateShareCardSvg(trip));
   });
 
   app.get("/api/share", (req, res) => {
-    const trip = readShareCardPayload(req.query);
+    const trip = readShareCardPayload(requestQuery(req));
     if (!trip) return res.status(400).type("text/plain").send("Missing journey details.");
 
     const baseUrl = (process.env.APP_URL || requestOrigin(req)).replace(/\/$/, "");
@@ -1168,7 +1169,7 @@ app.use((
     errorCode: "UNHANDLED_REQUEST_ERROR",
     error,
     httpStatus: status,
-    context: { path: req.path, method: req.method },
+    context: { path: requestPath(req), method: req.method },
   }).then((receipt) => {
     res.status(status).json({
       error: "Internal server error",
