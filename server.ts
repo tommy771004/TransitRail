@@ -207,16 +207,6 @@ async function logTransitSearch(
     resultCount: number;
   },
 ) {
-  // Telemetry is the non-database delivery path for search events. Start it
-  // before the optional audit-table write so a missing or unavailable
-  // TN_AUDIT_LOG cannot suppress the completed-search event.
-  void sendTelemetry("journey.search.completed", {
-    has_country: Boolean(search.country),
-    has_time_filter: Boolean(search.time),
-    result_count: search.resultCount,
-    status_code: search.statusCode,
-  });
-
   await insertAuditLog(req, {
     transportType: "rail",
     originStationName: search.origin,
@@ -232,6 +222,12 @@ async function logTransitSearch(
       },
     }),
     resultCount: search.resultCount,
+  });
+  void sendTelemetry("journey.search.completed", {
+    has_country: Boolean(search.country),
+    has_time_filter: Boolean(search.time),
+    result_count: search.resultCount,
+    status_code: search.statusCode,
   });
 }
 
