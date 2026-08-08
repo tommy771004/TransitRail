@@ -24,6 +24,7 @@ import { recordError } from "./src/server/errorLog";
 import { sendTelemetry } from "./src/server/telemetry";
 import { serviceDayAdvisoryForWatch, unavailableServiceDayAdvisory } from "./src/server/serviceDayWatch";
 import { requestOrigin } from "./src/server/requestOrigin";
+import { getAffiliateOffers } from "./src/server/affiliates";
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use(express.json());
 function eventGroup(value: string | undefined) {
   if (value?.startsWith("station.")) return "station";
   if (value?.startsWith("search.")) return "search";
+  if (value?.startsWith("affiliate.")) return "affiliate";
   return "other";
 }
 
@@ -158,6 +160,8 @@ async function insertAuditLog(
     latitude?: number;
     longitude?: number;
     geoAccuracy?: number;
+    target?: string;
+    metadata?: Record<string, unknown>;
   },
 ) {
   if (!process.env.DATABASE_URL) {
@@ -191,6 +195,8 @@ async function insertAuditLog(
     geoLatitude: parseDecimal(readHeader(req, "x-vercel-ip-latitude")),
     geoLongitude: parseDecimal(readHeader(req, "x-vercel-ip-longitude")),
     geoAccuracy: entry.geoAccuracy,
+    target: entry.target,
+    metadata: entry.metadata,
   });
 }
 
@@ -338,6 +344,24 @@ async function logTransitSearch(
     return res.json({ situations, checkedAt: new Date().toISOString() });
   });
 
+  /** Browser-safe projection of the externally maintained affiliate table. */
+  app.get("/api/transit/affiliates", async (_req, res) => {
+    try {
+      const offers = await getAffiliateOffers();
+      res.set("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
+      return res.json({ offers });
+    } catch (error) {
+      void recordError({
+        severity: "warning",
+        module: "affiliates",
+        operation: "offers.read",
+        errorCode: "AFFILIATE_OFFERS_UNAVAILABLE",
+        error,
+      });
+      return res.status(503).json({ offers: [] });
+    }
+  });
+
   app.post("/api/transit/audit", async (req, res) => {
     const body = req.body && typeof req.body === "object" ? (req.body as Record<string, unknown>) : undefined;
     const eventValue = normalizeAuditEvent(readText(body?.event) ?? readText(body?.action));
@@ -352,11 +376,27 @@ async function logTransitSearch(
     const lineIdValue = readText(body?.lineId);
     const regionIdValue = readText(body?.regionId);
     const reasonValue = readText(body?.reason);
+    const affiliateIdValue = readText(body?.affiliateId);
+    const placementValue = readText(body?.placement);
+    const partnerValue = readText(body?.partner);
+    const sponsoredValue = typeof body?.sponsored === "boolean" ? String(body.sponsored) : undefined;
+    const affiliateEvent = eventValue === "affiliate.impression" || eventValue === "affiliate.click";
+
+    if (eventValue.startsWith("affiliate.") && !affiliateEvent) {
+      return res.status(400).json({ error: "Unsupported affiliate event." });
+    }
 
     await insertAuditLog(req, {
       transportType: "rail",
       originStationName: targetValue === "origin" ? stationValue : undefined,
       destStationName: targetValue === "destination" ? stationValue : undefined,
+      target: affiliateEvent ? affiliateIdValue : undefined,
+      metadata: affiliateEvent && affiliateIdValue ? {
+        project_name: process.env.AFFILIATE_PROJECT_NAME || "",
+        placement: placementValue || "",
+        partner: partnerValue || "",
+        sponsored: sponsoredValue === "true",
+      } : undefined,
       activeFilter: buildActiveFilter({
         event: eventValue,
         country: countryValue,
@@ -365,6 +405,10 @@ async function logTransitSearch(
           "line.id": lineIdValue,
           "region.id": regionIdValue,
           "failure.reason": reasonValue,
+          "affiliate.id": affiliateIdValue,
+          "affiliate.placement": placementValue,
+          "affiliate.partner": partnerValue,
+          "affiliate.sponsored": sponsoredValue,
         },
       }),
       resultCount: parseInteger(body?.resultCount),

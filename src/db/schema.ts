@@ -57,6 +57,10 @@ export const tnAuditLog = pgTable("TN_AUDIT_LOG", {
   geoLatitude: doublePrecision("geo_latitude"),
   geoLongitude: doublePrecision("geo_longitude"),
   geoAccuracy: doublePrecision("geo_accuracy"),
+  /** Affiliate offer id for impression/click attribution. */
+  target: text("target"),
+  /** Structured, non-identifying event context (affiliate placement/partner). */
+  metadata: jsonb("metadata").$type<Record<string, unknown>>(),
 });
 
 /** One saved-route watch entry inside a subscription's `watched_routes` JSON array. */

@@ -18,6 +18,7 @@ import { ResultSkeleton } from "./components/ResultSkeleton";
 import { TransitLegend } from "./components/TransitLegend";
 import { TransitIcon, formatPlatform } from "./components/TransitIcon";
 import { CountryResultsView } from "./components/CountryResultsView";
+import { AffiliateMarquee } from "./components/AffiliateMarquee";
 import { generateICS } from "./utils/ics";
 import { stationLabel } from "./utils/stationLabel";
 import { triggerHaptic } from "./utils/haptics";
@@ -1878,12 +1879,18 @@ export default function App() {
           transition={{ type: "spring", damping: 30, stiffness: 350, mass: 0.7 }}
           className="w-full flex-1 flex flex-col"
         >
-          {view === "results" && !isSearching ? (
-            <div className="pt-14">
-              {serviceDayAdvisory ? <ServiceDayAdvisoryNotice advisory={serviceDayAdvisory} /> : null}
+          {view === "results" ? (
+            <div className={isSearching ? undefined : "pt-14"}>
+              {!isSearching && serviceDayAdvisory ? <ServiceDayAdvisoryNotice advisory={serviceDayAdvisory} /> : null}
               {renderView()}
+              <AffiliateMarquee />
             </div>
-          ) : renderView()}
+          ) : (
+            <>
+              {renderView()}
+              {view === "search" ? <AffiliateMarquee /> : null}
+            </>
+          )}
         </motion.div>
       </AnimatePresence>
 

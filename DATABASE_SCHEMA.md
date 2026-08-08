@@ -72,6 +72,8 @@
 | `geo_latitude` | `double precision` | 是 | Vercel 提供的地理緯度。 |
 | `geo_longitude` | `double precision` | 是 | Vercel 提供的地理經度。 |
 | `geo_accuracy` | `double precision` | 是 | 用戶端回報的位置精度。 |
+| `target` | `text` | 是 | 聯盟曝光／點擊的 offer ID。 |
+| `metadata` | `jsonb` | 是 | 非識別性的事件資訊；聯盟事件含 `project_name`、`placement`、`partner`、`sponsored`。 |
 
 目前寫入時機：
 
@@ -79,6 +81,7 @@
 - `POST /api/transit/audit`：記錄前端主動送出的車站選擇、站點瀏覽等事件。
 - `GET /api/transit/stations`：記錄站點目錄讀取或搜尋。
 - `GET /api/transit/nearest-station`：記錄最近站點查詢與位置精度。
+- `POST /api/transit/audit`：聯盟跑馬燈另以 `affiliate.impression`／`affiliate.click` 記錄曝光與點擊。
 
 稽核寫入失敗會被捕捉並只輸出伺服器錯誤日誌，不會改變原本 API 的回應。部分 schema 欄位（例如 `origin_station_id`、`dest_station_id`、`trip_type`、`return_date`）目前已保留但尚未在現有寫入 payload 中賦值。程式碼目前也沒有讀取此表的查詢 API。
 
