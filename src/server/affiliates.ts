@@ -12,6 +12,12 @@ export type AffiliateOffer = {
   crops: string[];
   priority: number;
   partner?: string;
+  campaignCode?: string;
+  industryType?: string;
+  conversionType?: string;
+  cookieDays?: number;
+  commission?: string;
+  notes?: string;
 };
 
 type AffiliateRow = Partial<AffiliateOffer> & { enabled?: boolean };
@@ -48,6 +54,12 @@ export function selectAffiliateOffers(rows: readonly AffiliateRow[], limit = 6):
       crops: stringArray(row.crops),
       priority: typeof row.priority === "number" && Number.isFinite(row.priority) ? row.priority : 0,
       ...(typeof row.partner === "string" ? { partner: row.partner } : {}),
+      ...(typeof row.campaignCode === "string" ? { campaignCode: row.campaignCode } : {}),
+      ...(typeof row.industryType === "string" ? { industryType: row.industryType } : {}),
+      ...(typeof row.conversionType === "string" ? { conversionType: row.conversionType } : {}),
+      ...(typeof row.cookieDays === "number" && Number.isInteger(row.cookieDays) && row.cookieDays >= 0 ? { cookieDays: row.cookieDays } : {}),
+      ...(typeof row.commission === "string" ? { commission: row.commission } : {}),
+      ...(typeof row.notes === "string" ? { notes: row.notes } : {}),
     }].filter((offer) => offer.categories.includes("all"));
   })
     .sort((left, right) => right.priority - left.priority || left.id.localeCompare(right.id))
@@ -67,7 +79,9 @@ export async function getAffiliateOffers(limit = 6): Promise<AffiliateOffer[]> {
   const sql = neon(databaseUrl);
   const rows = await sql`
     SELECT id, enabled, sponsored, title, description, cta_label AS "ctaLabel",
-      url, icon, categories, crops, priority, partner
+      url, icon, categories, crops, priority, partner, campaign_code AS "campaignCode",
+      industry_type AS "industryType", conversion_type AS "conversionType",
+      cookie_days AS "cookieDays", commission, notes
     FROM affiliates
     WHERE project_name = ${projectName} AND enabled = true
   `;

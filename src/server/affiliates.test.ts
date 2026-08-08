@@ -7,11 +7,11 @@ describe("selectAffiliateOffers", () => {
       { id: "disabled", enabled: false, title: "Disabled", description: "x", ctaLabel: "Open", url: "https://example.com", priority: 100 },
       { id: "unsafe", enabled: true, title: "Unsafe", description: "x", ctaLabel: "Open", url: "javascript:alert(1)", priority: 99 },
       { id: "later", enabled: true, title: "Later", description: "x", ctaLabel: "Open", url: "https://later.example", priority: 1, categories: ["all"] },
-      { id: "first", enabled: true, sponsored: true, title: "First", description: "x", ctaLabel: "Open", url: "https://first.example", priority: 2, categories: ["all"] },
+      { id: "first", enabled: true, sponsored: true, title: "First", description: "x", ctaLabel: "Open", url: "https://first.example", priority: 2, categories: ["all"], campaignCode: "1234", cookieDays: 30, commission: "8.5%" },
     ]);
 
     expect(offers.map((offer) => offer.id)).toEqual(["first", "later"]);
-    expect(offers[0]).toMatchObject({ sponsored: true, categories: ["all"] });
+    expect(offers[0]).toMatchObject({ sponsored: true, categories: ["all"], campaignCode: "1234", cookieDays: 30, commission: "8.5%" });
   });
 
   it("does not publish a placement without its dedicated configuration", async () => {
