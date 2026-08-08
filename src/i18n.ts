@@ -11,6 +11,13 @@ import { transferTranslations } from './data/transfers/translations';
 const resources = {
   en: {
     translation: {
+      service_region: {
+        "tokyo-urban": "Tokyo urban rail", "japan-intercity": "Japan intercity rail", "seoul-capital": "Seoul Capital Area",
+        singapore: "Singapore", "malaysia-intercity": "Malaysia rail", bangkok: "Bangkok", "hong-kong": "Hong Kong",
+        london: "London (TfL)", boston: "Boston (MBTA)", "germany-intercity": "Germany intercity rail",
+        "france-intercity": "France intercity rail", "belgium-intercity": "Belgium intercity rail",
+        "norway-intercity": "Norway intercity rail", "switzerland-intercity": "Switzerland intercity rail", "china-intercity": "China intercity rail",
+      },
       header: {
         title: "Rail Nation",
         open_menu: "Open menu",
@@ -526,6 +533,13 @@ const resources = {
   },
   'zh-TW': {
     translation: {
+      service_region: {
+        "tokyo-urban": "東京都會鐵路", "japan-intercity": "日本城際鐵路", "seoul-capital": "首爾首都圈",
+        singapore: "新加坡", "malaysia-intercity": "馬來西亞鐵路", bangkok: "曼谷", "hong-kong": "香港",
+        london: "倫敦（TfL）", boston: "波士頓（MBTA）", "germany-intercity": "德國城際鐵路",
+        "france-intercity": "法國城際鐵路", "belgium-intercity": "比利時城際鐵路",
+        "norway-intercity": "挪威城際鐵路", "switzerland-intercity": "瑞士城際鐵路", "china-intercity": "中國城際鐵路",
+      },
       header: {
         title: "國際地鐵查詢",
         open_menu: "開啟選單",
@@ -1444,6 +1458,13 @@ const resources = {
   },
   ja: {
     translation: {
+      service_region: {
+        "tokyo-urban": "東京都市鉄道", "japan-intercity": "日本の都市間鉄道", "seoul-capital": "ソウル首都圏",
+        singapore: "シンガポール", "malaysia-intercity": "マレーシア鉄道", bangkok: "バンコク", "hong-kong": "香港",
+        london: "ロンドン（TfL）", boston: "ボストン（MBTA）", "germany-intercity": "ドイツ都市間鉄道",
+        "france-intercity": "フランス都市間鉄道", "belgium-intercity": "ベルギー都市間鉄道",
+        "norway-intercity": "ノルウェー都市間鉄道", "switzerland-intercity": "スイス都市間鉄道", "china-intercity": "中国都市間鉄道",
+      },
       header: {
         title: "国際鉄道案内",
         open_menu: "メニューを開く",
@@ -1984,6 +2005,13 @@ const resources = {
   },
   ko: {
     translation: {
+      service_region: {
+        "tokyo-urban": "도쿄 도시 철도", "japan-intercity": "일본 도시 간 철도", "seoul-capital": "서울 수도권",
+        singapore: "싱가포르", "malaysia-intercity": "말레이시아 철도", bangkok: "방콕", "hong-kong": "홍콩",
+        london: "런던(TfL)", boston: "보스턴(MBTA)", "germany-intercity": "독일 도시 간 철도",
+        "france-intercity": "프랑스 도시 간 철도", "belgium-intercity": "벨기에 도시 간 철도",
+        "norway-intercity": "노르웨이 도시 간 철도", "switzerland-intercity": "스위스 도시 간 철도", "china-intercity": "중국 도시 간 철도",
+      },
       header: {
         title: "국제 철도 안내",
         open_menu: "메뉴 열기",

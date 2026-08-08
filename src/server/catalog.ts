@@ -380,22 +380,14 @@ function uniqueStations(lines: readonly TransitLine[]): string[] {
 }
 
 function regionForLine(country: Country, line: TransitLine): Pick<ServiceRegion, "id" | "name"> {
-  // These identifiers describe the product market rather than the operator.
   // Urban networks stay in their city product area; all longer-distance rail is
-  // deliberately grouped once so it cannot appear in every city it happens to
-  // serve.
-  if (country === "japan") {
-    return isJapanMetroLine(line)
-      ? { id: "tokyo-urban", name: "Tokyo urban rail" }
-      : { id: "japan-intercity", name: "Japan intercity rail" };
-  }
-  if (country === "korea") return { id: "seoul-capital", name: "Seoul Capital Area" };
-  if (country === "united_kingdom") return { id: "london", name: "London (TfL)" };
-  if (country === "united_states") return { id: "boston", name: "Boston (MBTA)" };
-  if (country === "hong_kong") return { id: "hong-kong", name: "Hong Kong" };
-  if (country === "singapore") return { id: "singapore", name: "Singapore" };
-  if (country === "thailand") return { id: "bangkok", name: "Bangkok" };
-  return { id: `${country}-intercity`, name: `${countryConfig[country].promptName} intercity rail` };
+  // deliberately grouped once. The identities and labels live in countryConfig
+  // because the UI and coverage report must share the declared market boundary.
+  const topology = countryConfig[country].marketTopology.regions;
+  const id = country === "japan" && isJapanMetroLine(line) ? "tokyo-urban"
+    : country === "japan" ? "japan-intercity"
+      : topology[0]?.id;
+  return topology.find((region) => region.id === id) || topology[0]!;
 }
 
 /** Group already-verified lines without performing a journey search per pair. */

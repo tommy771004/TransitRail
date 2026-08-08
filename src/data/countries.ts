@@ -101,6 +101,13 @@ export type ServiceDayCapability = {
   scope: string;
 };
 
+/** Declared product boundary used by both browse UI and coverage audit. */
+export type MarketTopology = {
+  regions: readonly { id: string; name: string }[];
+  /** Operators/geographies intentionally outside the current product boundary. */
+  expansionGaps?: readonly { operator: string; reason: string }[];
+};
+
 /**
  * Single country table: product chrome + search/scrape/result policy.
  * Prefer reading policy via {@link getCountryCapability} from countryCapability.ts.
@@ -131,6 +138,7 @@ export type CountryConfigEntry = {
    * now unconditional rather than a per-market migration step.
    */
   authenticityGates: { catalog: boolean };
+  marketTopology: MarketTopology;
   resultView: ResultViewFamily;
   liveRailMarket?: LiveRailMarket;
   serviceDay: ServiceDayCapability;
@@ -151,6 +159,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: false },
+    marketTopology: { regions: [{ id: "tokyo-urban", name: "Tokyo urban rail" }, { id: "japan-intercity", name: "Japan intercity rail" }] },
     resultView: "japan",
     serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
   },
@@ -169,6 +178,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: true },
+    marketTopology: { regions: [{ id: "seoul-capital", name: "Seoul Capital Area" }] },
     resultView: "korea",
     serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
   },
@@ -186,6 +196,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: true },
+    marketTopology: { regions: [{ id: "singapore", name: "Singapore" }] },
     resultView: "metro",
     serviceDay: {
       coverage: "partial",
@@ -208,6 +219,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "catalog_only" },
     scrape: "catalog_sync",
     authenticityGates: { catalog: true },
+    marketTopology: { regions: [{ id: "malaysia-intercity", name: "Malaysia rail" }] },
     resultView: "catalog",
     serviceDay: { coverage: "unavailable", source: "Historical ridership catalog has no timetable", scope: "No service-day advisory" },
   },
@@ -225,6 +237,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: true },
+    marketTopology: { regions: [{ id: "bangkok", name: "Bangkok" }] },
     resultView: "metro",
     serviceDay: {
       coverage: "partial",
@@ -249,6 +262,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: true },
+    marketTopology: { regions: [{ id: "hong-kong", name: "Hong Kong" }] },
     resultView: "metro",
     serviceDay: { coverage: "unavailable", source: "MTR next-train source is not a full service-day declaration", scope: "No service-day advisory" },
   },
@@ -277,6 +291,10 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "provider", provider: "tfl" },
     scrape: "official_source",
     authenticityGates: { catalog: true },
+    marketTopology: {
+      regions: [{ id: "london", name: "London (TfL)" }],
+      expansionGaps: [{ operator: "National Rail", reason: "National and intercity services are outside the TfL product market." }],
+    },
     resultView: "live_rail",
     liveRailMarket: "london",
     serviceDay: { coverage: "supported", source: "TfL Journey API", sourceUrl: "https://api.tfl.gov.uk", scope: "Complete route-aware first/last journeys" },
@@ -303,6 +321,10 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "provider", provider: "mbta" },
     scrape: "official_source",
     authenticityGates: { catalog: true },
+    marketTopology: {
+      regions: [{ id: "boston", name: "Boston (MBTA)" }],
+      expansionGaps: [{ operator: "US national and non-Boston transit", reason: "Only the MBTA Boston product market is currently integrated." }],
+    },
     resultView: "live_rail",
     liveRailMarket: "boston",
     serviceDay: { coverage: "supported", source: "MBTA public API", sourceUrl: "https://api-v3.mbta.com", scope: "Scheduled route first/last journeys for the current service date" },
@@ -321,6 +343,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: false },
+    marketTopology: { regions: [{ id: "germany-intercity", name: "Germany intercity rail" }] },
     resultView: "japan",
     serviceDay: { coverage: "unavailable", source: "gtfs.de timetable is not yet published as a service-day advisory artifact", scope: "No service-day advisory" },
   },
@@ -338,6 +361,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: false },
+    marketTopology: { regions: [{ id: "france-intercity", name: "France intercity rail" }] },
     resultView: "japan",
     serviceDay: {
       coverage: "supported",
@@ -360,6 +384,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "provider", provider: "belgium" },
     scrape: "official_source",
     authenticityGates: { catalog: false },
+    marketTopology: { regions: [{ id: "belgium-intercity", name: "Belgium intercity rail" }] },
     resultView: "live_rail",
     liveRailMarket: "belgium",
     serviceDay: { coverage: "unavailable", source: "iRail journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
@@ -378,6 +403,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "provider", provider: "norway" },
     scrape: "official_source",
     authenticityGates: { catalog: false },
+    marketTopology: { regions: [{ id: "norway-intercity", name: "Norway intercity rail" }] },
     resultView: "live_rail",
     liveRailMarket: "norway",
     serviceDay: { coverage: "unavailable", source: "Entur journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
@@ -396,6 +422,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "provider_then_scraped", provider: "swiss" },
     scrape: "official_source",
     authenticityGates: { catalog: false },
+    marketTopology: { regions: [{ id: "switzerland-intercity", name: "Switzerland intercity rail" }] },
     resultView: "live_rail",
     liveRailMarket: "switzerland",
     serviceDay: { coverage: "unavailable", source: "OJP journey API has no qualifying full-day declaration", scope: "No service-day advisory" },
@@ -417,6 +444,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     // they are gone, and nothing replaces them until a real source exists.
     scrape: "none",
     authenticityGates: { catalog: false },
+    marketTopology: { regions: [{ id: "china-intercity", name: "China intercity rail" }] },
     resultView: "japan",
     serviceDay: { coverage: "unavailable", source: "No registered official source", scope: "No service-day advisory" },
   },

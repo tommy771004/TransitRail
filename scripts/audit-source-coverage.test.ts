@@ -7,7 +7,13 @@ describe("source coverage audit", () => {
   it("keeps no-source and frequency markets out of the searchable network", async () => {
     for (const country of ["china", "singapore"] as const) {
       const audit = await auditCountry(country, NOW);
-      expect(audit.network).toMatchObject({ state: "no-searchable-network", regions: [], lines: 0, stations: 0 });
+      expect(audit.network).toMatchObject({
+        state: "no-searchable-network",
+        regions: [],
+        declaredRegions: expect.any(Array),
+        lines: 0,
+        stations: 0,
+      });
     }
   });
 
@@ -27,6 +33,7 @@ describe("source coverage audit", () => {
     const report = buildReport(audits, NOW);
     expect(report).toContain("Network today");
     expect(report).toContain("Timetable as of fetch");
+    expect(report).toContain("declared regions");
     expect(report).toContain(`bounded-upcoming (${audits[1].serviceDate})`);
     expect(report).toContain("No searchable network");
   });

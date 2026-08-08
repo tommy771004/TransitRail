@@ -59,6 +59,7 @@ interface CountryAudit {
   hasServiceDayArtifact: boolean;
   network: {
     state: "searchable" | "no-searchable-network";
+    declaredRegions: string[];
     regions: string[];
     lines: number;
     stations: number;
@@ -194,17 +195,20 @@ export async function auditCountry(country: Country, now = new Date()): Promise<
   // `includeProvider: false` makes this report reproducible from committed
   // routes/artifacts. The same hierarchy powers the passenger browser.
   const catalog = await buildServiceRegionCatalog({ country, date: serviceDate, includeProvider: false });
+  const declaredRegions = countryConfig[country].marketTopology.regions.map((region) => region.id);
   return {
     ...base,
     network: catalog.regions.length > 0
       ? {
         state: "searchable",
+        declaredRegions,
         regions: catalog.regions.map((region) => region.id),
         lines: catalog.lines.length,
         stations: catalog.stations.length,
       }
       : {
         state: "no-searchable-network",
+        declaredRegions,
         regions: [],
         lines: 0,
         stations: 0,
@@ -260,9 +264,10 @@ export function buildReport(audits: CountryAudit[], now = new Date()): string {
   lines.push("| Market | Answers | Network today | Timetable as of fetch | Sources | Tier | Completeness | Routes | Departures | Artifact runs | Service days |");
   lines.push("| --- | --- | --- | --- | --- | --- | --- | ---: | ---: | ---: | --- |");
   for (const audit of audits) {
+    const regionCoverage = `${audit.network.regions.length}/${audit.network.declaredRegions.length} declared regions`;
     const network = audit.network.state === "searchable"
-      ? `${audit.network.regions.join(", ")} — ${audit.network.lines} lines, ${audit.network.stations} stations`
-      : `No searchable network${audit.network.message ? ` — ${audit.network.message}` : ""}`;
+      ? `${regionCoverage}: ${audit.network.regions.join(", ")} — ${audit.network.lines} lines, ${audit.network.stations} stations`
+      : `No searchable network (${regionCoverage})${audit.network.message ? ` — ${audit.network.message}` : ""}`;
     const temporal = `${audit.temporal.state} (${audit.serviceDate})`
       + `${audit.temporal.observedSpan ? `; observed ${audit.temporal.observedSpan}` : ""}`
       + `${audit.temporal.fetchedAt ? `; ${audit.temporal.fetchedAt}` : ""}`;
@@ -296,20 +301,15 @@ export function buildReport(audits: CountryAudit[], now = new Date()): string {
   lines.push("");
 
   lines.push("## Expansion gaps outside the declared product market", "");
-  lines.push(
-    "These are markets or operators with no source wired up. They are listed so the",
-    "absence is a tracked fact rather than something a reader has to infer from an",
-    "empty table row.",
-    "",
-  );
+  lines.push("These gaps come from the same `countryConfig` market boundary that the catalog and coverage ratio use.", "");
   lines.push("| Operator | Market | Why there is no data |");
   lines.push("| --- | --- | --- |");
-  lines.push("| Korail | korea | Blocks automated access to its journey search (`CODE : -8003`); no open feed. |");
-  lines.push("| 12306 | china | No open feed, and no permitted automated access to the official search. |");
-  lines.push("| JR East / West / Kyushu / Hokkaido / Shikoku | japan | No adapter written; only JR Central and ODPT are wired up. |");
-  lines.push("| National Rail | united_kingdom | Only TfL is wired up; Network Rail / National Rail feeds are not. |");
-  lines.push("| SNCF TER / RER / Metro | france | Only the long-distance GTFS extract is wired up. |");
-  lines.push("| KTMB / Prasarana | malaysia | Publishes station catalogues, no timetable. |");
+  const expansionGaps = audits.flatMap((audit) => (countryConfig[audit.country].marketTopology.expansionGaps || [])
+    .map((gap) => ({ ...gap, country: audit.country })));
+  if (expansionGaps.length === 0) lines.push("| — | — | No declared out-of-market expansion gaps. |");
+  for (const gap of expansionGaps) {
+    lines.push(`| ${gap.operator} | ${gap.country} | ${gap.reason} |`);
+  }
   lines.push("");
 
   lines.push("## Freshness", "");

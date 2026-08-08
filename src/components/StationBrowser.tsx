@@ -18,6 +18,7 @@ import type { StationCoverage } from "../data/stationCoverage";
 import { fuzzyMatch } from "../utils/fuzzy";
 import { getAuditHeaders, postAuditEvent, resolveAuditTimezone } from "../utils/audit";
 import type { ServiceRegion } from "../server/catalog";
+import { loadStationBrowserCatalog, resolveCatalogSelection } from "./stationBrowserCatalog";
 
 interface StationBrowserProps {
   country: Country;
@@ -35,48 +36,6 @@ const lineNoteKeys: Partial<Record<Country, string>> = {
   united_states: "stations.note_united_states",
   malaysia: "stations.note_malaysia",
 };
-
-type CatalogPayload = {
-  regions?: ServiceRegion[];
-  lines?: TransitLine[];
-  stations?: string[];
-  coverage?: StationCoverage;
-};
-
-// Browsing origin and destination can mount the sheet more than once without a
-// passenger changing its country/date/origin context. Keep the one catalog
-// operation (including its in-flight request) shared across those renders.
-const catalogRequests = new Map<string, Promise<{ ok: boolean; d: CatalogPayload }>>();
-
-function catalogRequest(country: Country, date: string | undefined, origin: string | undefined) {
-  const params = new URLSearchParams({ country });
-  if (date) params.set("date", date);
-  if (origin) params.set("origin", origin);
-  const key = params.toString();
-  const existing = catalogRequests.get(key);
-  if (existing) return existing;
-  const request = fetch(`/api/transit/catalog?${key}`, {
-    headers: getAuditHeaders(i18n.language, resolveAuditTimezone()),
-  })
-    .then((response) => response.json().then((d) => ({ ok: response.ok, d: d as CatalogPayload })))
-    .catch(() => ({ ok: false, d: {} as CatalogPayload }));
-  catalogRequests.set(key, request);
-  return request;
-}
-
-function serviceRegionLabel(language: string, region: ServiceRegion): string {
-  const localized: Record<string, Partial<Record<string, string>>> = {
-    "zh-TW": {
-      "tokyo-urban": "東京都會鐵路", "japan-intercity": "日本城際鐵路", "seoul-capital": "首爾首都圈",
-      london: "倫敦（TfL）", boston: "波士頓（MBTA）", "hong-kong": "香港", singapore: "新加坡", bangkok: "曼谷",
-    },
-    ja: { "tokyo-urban": "東京都市鉄道", "japan-intercity": "日本の都市間鉄道", "seoul-capital": "ソウル首都圏", london: "ロンドン（TfL）", boston: "ボストン（MBTA）" },
-    ko: { "tokyo-urban": "도쿄 도시 철도", "japan-intercity": "일본 도시 간 철도", "seoul-capital": "서울 수도권", london: "런던(TfL)", boston: "보스턴(MBTA)" },
-    fr: { "tokyo-urban": "Réseau urbain de Tokyo", "japan-intercity": "Rail interurbain japonais", london: "Londres (TfL)", boston: "Boston (MBTA)" },
-    de: { "tokyo-urban": "Stadtbahn Tokio", "japan-intercity": "Japanischer Fernverkehr", london: "London (TfL)", boston: "Boston (MBTA)" },
-  };
-  return localized[language]?.[region.id] || region.name;
-}
 
 export function StationBrowser({
   country,
@@ -225,29 +184,26 @@ export function StationBrowser({
       setRegions(fetchedRegions);
       setLines(fetchedLines);
       setLinesFailed(false);
-      const restoredRegion = fetchedRegions.find((region) =>
-        region.lines.some((line) => line.id === scrollToLineId));
-      const firstRegion = restoredRegion || fetchedRegions[0];
-      if (firstRegion) {
-        setSelectedRegion(firstRegion.id);
+      const selection = resolveCatalogSelection(fetchedRegions, scrollToLineId);
+      if (selection.regionId) {
+        setSelectedRegion(selection.regionId);
         setRegionsCollapsed(false);
-        setSelectedCategory(scrollToLineId && firstRegion.lines.some((line) => line.id === scrollToLineId)
-          ? scrollToLineId
-          : firstRegion.lines[0]?.id || "");
+        setSelectedCategory(selection.lineId);
       }
     };
 
     const loadFromApi = async () => {
-      const response = await catalogRequest(
+      const response = await loadStationBrowserCatalog({
         country,
-        selectedDate,
-        target === "destination" ? selectedOrigin : undefined,
-      );
+        date: selectedDate,
+        origin: target === "destination" ? selectedOrigin : undefined,
+        headers: buildAuditHeaders(),
+      });
       if (!active) return;
       if (response.ok) {
-        setStations(response.d.stations || []);
-        setCoverage(response.d.coverage);
-        applyCatalog(response.d.regions || [], response.d.lines || []);
+        setStations(response.data.stations || []);
+        setCoverage(response.data.coverage);
+        applyCatalog(response.data.regions || [], response.data.lines || []);
       }
       else {
         setStations([]);
@@ -635,7 +591,7 @@ export function StationBrowser({
                           selectedRegion === region.id ? theme.textActive : "text-slate-500 dark:text-slate-400"
                         }`}
                       >
-                        <span className="truncate">{serviceRegionLabel(i18n.language, region)}</span>
+                        <span className="truncate">{t(`service_region.${region.id}`, { defaultValue: region.name })}</span>
                         <ChevronDown className={`h-3 w-3 shrink-0 transition-transform ${selectedRegion === region.id ? "rotate-180" : ""}`} />
                       </button>
                       {selectedRegion === region.id && (
