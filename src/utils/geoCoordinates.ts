@@ -214,3 +214,32 @@ export function findNearestKnownStation(
 export function getStationCoordinates(stationName: string): GeoCoord | undefined {
   return findKnownStationCoordinates(stationName);
 }
+
+// A name-only coordinate can be unsafe for stations such as Central. Keep the
+// existing lookup for proximity, but require the coordinate to fall inside the
+// selected market before a third-party provider may use it as an identity.
+const countryBounds: Record<Country, { minLat: number; maxLat: number; minLng: number; maxLng: number }> = {
+  japan: { minLat: 24, maxLat: 46, minLng: 123, maxLng: 146 },
+  korea: { minLat: 33, maxLat: 39, minLng: 124, maxLng: 132 },
+  hong_kong: { minLat: 22, maxLat: 23, minLng: 113, maxLng: 115 },
+  united_kingdom: { minLat: 49, maxLat: 61, minLng: -9, maxLng: 3 },
+  united_states: { minLat: 24, maxLat: 50, minLng: -125, maxLng: -66 },
+  singapore: { minLat: 1, maxLat: 2, minLng: 103, maxLng: 105 },
+  malaysia: { minLat: 0, maxLat: 8, minLng: 99, maxLng: 120 },
+  thailand: { minLat: 5, maxLat: 21, minLng: 97, maxLng: 106 },
+  germany: { minLat: 47, maxLat: 56, minLng: 5, maxLng: 16 },
+  france: { minLat: 41, maxLat: 52, minLng: -6, maxLng: 10 },
+  china: { minLat: 18, maxLat: 54, minLng: 73, maxLng: 135 },
+  switzerland: { minLat: 45, maxLat: 48, minLng: 5, maxLng: 11 },
+  belgium: { minLat: 49, maxLat: 52, minLng: 2, maxLng: 7 },
+  norway: { minLat: 57, maxLat: 72, minLng: 4, maxLng: 32 },
+};
+
+export function getStationCoordinatesForCountry(country: Country, stationName: string): GeoCoord | undefined {
+  const coordinate = findKnownStationCoordinates(stationName);
+  const bounds = countryBounds[country];
+  if (!coordinate || coordinate.lat < bounds.minLat || coordinate.lat > bounds.maxLat
+    || coordinate.lng < bounds.minLng || coordinate.lng > bounds.maxLng) return undefined;
+  return coordinate;
+}
+import type { Country } from "../types";

@@ -16,6 +16,7 @@ import { KoreaResultView } from "./KoreaResultView";
 import { MetroResultView } from "./MetroResultView";
 import { LiveRailResultView } from "./LiveRailResultView";
 import { MalaysiaCatalogView } from "./MalaysiaCatalogView";
+import { TransitAppSupplement } from "./TransitAppSupplement";
 
 export type CountryResultsViewProps = {
   country: Country;
@@ -116,6 +117,7 @@ export function CountryResultsView(props: CountryResultsViewProps) {
     formatPrice: props.formatPrice,
     overview: props.overview,
   };
+  const supplementary = <TransitAppSupplement country={props.country} origin={props.origin} destination={props.destination} />;
 
   if (capability.resultView === "japan") {
     return (
@@ -128,6 +130,7 @@ export function CountryResultsView(props: CountryResultsViewProps) {
           onSortChange={props.onSortChange}
           onSelectSeat={props.onSelectSeat}
         />
+        {supplementary}
       </>
     );
   }
@@ -141,16 +144,20 @@ export function CountryResultsView(props: CountryResultsViewProps) {
           onFilterChange={props.onKoreaFilterChange}
           onSelectSeat={props.onSelectSeat}
         />
+        {supplementary}
       </>
     );
   }
   if (capability.resultView === "catalog") {
     return (
-      <MalaysiaCatalogView
-        origin={props.origin}
-        destination={props.destination}
-        onModify={props.onModify}
-      />
+      <>
+        <MalaysiaCatalogView
+          origin={props.origin}
+          destination={props.destination}
+          onModify={props.onModify}
+        />
+        {supplementary}
+      </>
     );
   }
   if (capability.resultView === "metro") {
@@ -158,6 +165,7 @@ export function CountryResultsView(props: CountryResultsViewProps) {
       <>
         {notice}
         <MetroResultView country={props.country} {...shared} />
+        {supplementary}
       </>
     );
   }
@@ -166,6 +174,7 @@ export function CountryResultsView(props: CountryResultsViewProps) {
       <>
         {notice}
         <LiveRailResultView market={capability.liveRailMarket} {...shared} />
+        {supplementary}
       </>
     );
   }

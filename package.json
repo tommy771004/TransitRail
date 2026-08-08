@@ -17,6 +17,8 @@
     "scrape:metadata": "tsx scripts/sync-scraped-metadata.ts",
     "validate:data": "tsx scripts/validate-timetables.ts",
     "audit:sources": "tsx scripts/audit-source-coverage.ts",
+    "audit:transit-app": "tsx scripts/audit-transitapp-coverage.ts",
+    "compare:transit-app": "tsx scripts/compare-transitapp-schedule.ts",
     "scrape:japan": "tsx scripts/scrape-country.ts japan",
     "scrape:korea": "tsx scripts/scrape-country.ts korea",
     "scrape:singapore": "tsx scripts/scrape-country.ts singapore",

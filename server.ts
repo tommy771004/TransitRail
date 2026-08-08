@@ -25,6 +25,7 @@ import { sendTelemetry } from "./src/server/telemetry";
 import { serviceDayAdvisoryForWatch, unavailableServiceDayAdvisory } from "./src/server/serviceDayWatch";
 import { requestOrigin, requestPath, requestQuery } from "./src/server/requestOrigin";
 import { getAffiliateOffers } from "./src/server/affiliates";
+import { transitAppClient } from "./src/server/transitApp";
 
 dotenv.config();
 
@@ -342,6 +343,43 @@ async function logTransitSearch(
     const situations = await getTransitSituations(country);
     res.set("Cache-Control", "public, s-maxage=120, stale-while-revalidate=300");
     return res.json({ situations, checkedAt: new Date().toISOString() });
+  });
+
+  /**
+   * Transit App is an explicitly supplementary, third-party live-data path.
+   * Keep it separate from /search so it can never affect verified timetable
+   * rows, source provenance, or date-specific searchability.
+   */
+  app.get("/api/transit/transit-app/live", async (req, res) => {
+    const { country, station } = requestQuery(req);
+    if (!countryOptions.includes(country as Country) || !station?.trim()) {
+      return res.status(400).json({ error: "A valid country and station are required." });
+    }
+    const context = await transitAppClient.getLiveContext({ country: country as Country, station: station.trim() });
+    res.set("Cache-Control", "private, max-age=0, no-store");
+    return res.json(context);
+  });
+
+  app.post("/api/transit/transit-app/plan", async (req, res) => {
+    const body = req.body && typeof req.body === "object" ? req.body as Record<string, unknown> : {};
+    const country = readText(body.country);
+    const origin = readText(body.origin);
+    const destination = readText(body.destination);
+    const accessibility = readText(body.accessibility);
+    if (!countryOptions.includes(country as Country) || !origin || !destination) {
+      return res.status(400).json({ error: "A valid country, origin, and destination are required." });
+    }
+    if (accessibility && accessibility !== "strict" && accessibility !== "prioritize_step_free") {
+      return res.status(400).json({ error: "Invalid accessibility preference." });
+    }
+    const plan = await transitAppClient.planJourney({
+      country: country as Country,
+      origin,
+      destination,
+      ...(accessibility ? { accessibility: accessibility as "strict" | "prioritize_step_free" } : {}),
+    });
+    res.set("Cache-Control", "private, max-age=0, no-store");
+    return res.json(plan);
   });
 
   /** Browser-safe projection of the externally maintained affiliate table. */
