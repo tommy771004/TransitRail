@@ -205,6 +205,17 @@ export const officialSources = {
     temporalCoverage: "sampled-service-day",
     attribution: "Powered by TfL Open Data",
   },
+  "uk-tfl-journey-planner-web": {
+    id: "uk-tfl-journey-planner-web",
+    country: "united_kingdom",
+    provider: "Transport for London",
+    sourceName: "TfL official Journey Planner",
+    sourceType: "official-browser",
+    sourceUrl: "https://tfl.gov.uk/plan-a-journey/",
+    maxCompleteness: "full-timetable",
+    temporalCoverage: "sampled-service-day",
+    attribution: "Powered by TfL Open Data",
+  },
 
   // --- United States ---
   "us-mbta-v3": {

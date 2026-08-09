@@ -12,6 +12,7 @@ import { createHash } from "crypto";
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import { configuredCountryOptions } from "../../src/data/countries";
+import type { Country } from "../../src/types";
 import { isValidSourceMeta, ARTIFACT_VERSION } from "../../src/data/sourceRegistry";
 import type { ScrapedRouteData } from "./types";
 import type { ScrapeRunReport } from "./base";
@@ -107,6 +108,8 @@ export interface BuildMetadataOptions {
   reports?: Record<string, ScrapeRunReport | undefined>;
   scraperNames?: Record<string, string>;
   now?: Date;
+  /** Limit writes for a single-country maintenance run. Defaults to every country. */
+  countries?: readonly Country[];
 }
 
 /** Return a measured run rate, or null when no run report was supplied. */
@@ -125,8 +128,9 @@ export function scrapeSuccessRate(report?: ScrapeRunReport): number | null {
  */
 export function buildCountryMetadata(options: BuildMetadataOptions = {}): CountryMetadata[] {
   const builtAt = (options.now ?? new Date()).toISOString();
+  const countries = options.countries ?? configuredCountryOptions;
 
-  return configuredCountryOptions.map((country) => {
+  return countries.map((country) => {
     const dir = resolve(DATA_DIR, country);
     mkdirSync(dir, { recursive: true });
 

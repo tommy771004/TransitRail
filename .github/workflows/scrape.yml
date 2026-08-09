@@ -21,9 +21,9 @@ jobs:
     # spend. 30 was below what a healthy run legitimately needed once London
     # started sweeping its operating day, so the daily scrape was cancelled with
     # three of seven dates collected and — because a cancelled job skips the
-    # commit step — nothing kept. A healthy run is ~19 minutes at the anonymous
-    # TfL rate and ~14 with TFL_APP_KEY set; 45 leaves room for a slow provider
-    # or a retried rate limit while still catching a genuine hang.
+    # commit step — nothing kept. The TfL browser sweep takes roughly 20 minutes
+    # for its 28 route-days; 45 leaves room for a slow provider or a retried page
+    # navigation while still catching a genuine hang.
     timeout-minutes: 45
 
     steps:
@@ -60,14 +60,6 @@ jobs:
           # The scraper preserves the last verified artifact when it is absent
           # or the API cannot be reached.
           LTA_ACCOUNT_KEY: ${{ secrets.LTA_ACCOUNT_KEY }}
-          # Optional, but London is the longest leg of this job. TfL allows ~50
-          # requests/min anonymously and ~500/min once a subscription key is
-          # used, and the service-day sweep paces itself against whichever limit
-          # applies — so supplying the key both removes the wait between samples
-          # and stops the sweep spending its retries on 429s. Without it the
-          # scrape still runs, just at the anonymous rate.
-          # Key: https://api-portal.tfl.gov.uk/ → Products → "500 Requests per min".
-          TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
         run: npm run scrape -- ${{ github.event.inputs.date }}
 
       # The gate between the run and its publication. Every check that fails
@@ -80,8 +72,6 @@ jobs:
       # that starts answering 200 with an empty envelope is caught as data loss
       # rather than accepted as a schedule with no trains in it.
       - name: Validate scraped data
-        env:
-          TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
         run: npm run validate:data -- --against-head
 
       # Only runs when validation failed. Restores the previously committed
@@ -97,8 +87,8 @@ jobs:
 
       - name: Generate static station catalog
         env:
-          # The UK menu is built live from TfL, so this step is rate limited the
-          # same way the scrape is and takes the same key.
+          # The UK menu is still built from the TfL API. The timetable scraper
+          # above uses the official web Journey Planner and does not need this key.
           TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
         run: npm run catalog
 

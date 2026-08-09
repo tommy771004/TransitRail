@@ -3,6 +3,7 @@ import { mkdirSync, writeFileSync } from "fs";
 import { resolve } from "path";
 import { buildCountryMetadata } from "./scrapers/artifactBuilder";
 import { syncMalaysiaStationCatalog } from "./scrapers/malaysia";
+import type { Country } from "../src/types";
 
 async function main() {
   const requestedCountry = process.argv[2];
@@ -31,7 +32,7 @@ async function main() {
     groups[scraper.country] = [...(groups[scraper.country] || []), scraper];
     return groups;
   }, {});
-  const country = requestedCountry as string | undefined;
+  const country = requestedCountry as Country | undefined;
   const date = process.argv[3] || new Date().toISOString().split("T")[0];
 
   if (!country || !scraperByCountry[country]) {
@@ -50,6 +51,7 @@ async function main() {
       [country]: { country: countryScrapers[0].country, scraper: country, date, outcomes },
     },
     scraperNames: scraperDisplayNames(countryScrapers),
+    countries: [country],
   });
 
   const total = results.reduce((acc: number, route: { results: unknown[] }) => acc + route.results.length, 0);

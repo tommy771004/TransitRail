@@ -1,6 +1,5 @@
 import { searchHongKongMtr } from "../../src/server/hongKongMtr";
 import { searchMbtaJourney } from "../../src/server/mbta";
-import { searchTflServiceDay } from "../../src/server/tfl";
 import { prepareSwissGtfsBatch, searchSwissGtfs } from "../../src/server/swissGtfs";
 import { searchBelgiumJourney } from "../../src/server/belgium";
 import { searchNorwayJourney } from "../../src/server/norway";
@@ -16,7 +15,7 @@ import {
   unitedKingdomRoutes,
   unitedStatesRoutes,
 } from "./routes";
-import { FrequencyScraper, OfficialFeedScraper } from "./kinds";
+import { BrowserScraper, FrequencyScraper, OfficialFeedScraper } from "./kinds";
 import type { ScrapedRoute, ScrapedRouteData } from "./types";
 import { collectFranceServiceDayArtifact, searchFranceGtfs } from "../../src/server/franceGtfs";
 import { searchGermanyGtfs } from "../../src/server/germanyGtfs";
@@ -26,6 +25,7 @@ import { collectSingaporeServiceDayArtifact } from "../../src/server/singaporeSm
 import { searchSingaporeLtaGtfs } from "../../src/server/singaporeLtaGtfs";
 import { collectHongKongServiceDayArtifact } from "../../src/server/hongKongServiceHours";
 import { providerDateValue } from "../../src/data/countries";
+import { scrapeTflBrowserServiceDay } from "../../src/server/tflBrowser";
 
 /**
  * LTA's official static GTFS supplies the verified departure rows. SMRT's
@@ -125,9 +125,14 @@ export class HongKongScraper extends OfficialFeedScraper {
   }
 }
 
-export class UnitedKingdomScraper extends OfficialFeedScraper {
-  constructor() {
-    super("TfL", "united_kingdom", unitedKingdomRoutes, "uk-tfl-journey-planner", searchTflServiceDay);
+export class UnitedKingdomScraper extends BrowserScraper {
+  readonly name = "TfL Journey Planner browser";
+  readonly country = "united_kingdom";
+  readonly routes = unitedKingdomRoutes;
+  readonly sourceId = "uk-tfl-journey-planner-web";
+
+  async scrape(route: ScrapedRoute, date: string, page: Parameters<typeof scrapeTflBrowserServiceDay>[0]) {
+    return scrapeTflBrowserServiceDay(page, route.origin, route.destination, date);
   }
 }
 
