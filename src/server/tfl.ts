@@ -133,13 +133,97 @@ const tflLineColors: Record<string, string> = {
   windrush: "#EE2E24",
 };
 
+/**
+ * Whether the configured `TFL_APP_KEY` is one TfL actually accepts.
+ *
+ * `undefined` means the question has not been asked yet; a key stays attached
+ * until something tells us it is bad, so the ordinary keyed path costs nothing.
+ */
+let tflKeyAccepted: boolean | undefined;
+let tflKeyProbe: Promise<boolean> | undefined;
+
+function tflAppKey() {
+  const key = process.env.TFL_APP_KEY?.trim();
+  return key || undefined;
+}
+
 function tflUrl(pathname: string, params: Record<string, string> = {}) {
   const url = new URL(pathname, TFL_API_URL);
   Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
-  if (process.env.TFL_APP_KEY) {
-    url.searchParams.set("app_key", process.env.TFL_APP_KEY);
+  const key = tflAppKey();
+  // A key TfL has already rejected is worse than no key: it cannot lift the
+  // allowance and it may be the reason the request is refused at all.
+  if (key && tflKeyAccepted !== false) {
+    url.searchParams.set("app_key", key);
   }
   return url;
+}
+
+/**
+ * Ask TfL once whether the configured key works, and cache the answer.
+ *
+ * The sweep used to read `Boolean(process.env.TFL_APP_KEY)` as "this key buys
+ * the subscription allowance" and paced itself accordingly — 150ms between
+ * requests, eight in flight, against TfL's ~500/min for subscribers. But a key
+ * that is *present and rejected* — never subscribed to a product, quota spent,
+ * or carrying a stray newline out of the secret store — buys nothing. The sweep
+ * then ran eight times faster than the ~50/min anonymous allowance it was
+ * actually being held to, every request came back 429, the retries exhausted,
+ * and all 28 of London's route-dates failed while the job still reported
+ * success. Setting a bad key was strictly worse than setting none.
+ *
+ * One idle request settles it, which is the same question
+ * `scripts/diagnose-tfl-key.ts` answers by hand.
+ */
+async function tflKeyIsUsable(): Promise<boolean> {
+  const key = tflAppKey();
+  if (!key) return false;
+  if (tflKeyAccepted !== undefined) return tflKeyAccepted;
+
+  tflKeyProbe ??= (async () => {
+    const url = new URL(`/StopPoint/Search/${encodeURIComponent("Oxford Circus")}`, TFL_API_URL);
+    url.searchParams.set("modes", TFL_MODES);
+    url.searchParams.set("app_key", key);
+    try {
+      const response = await fetch(url, {
+        headers: { Accept: "application/json", "User-Agent": "TransitRail/1.0" },
+      });
+      if (response.ok) return true;
+      console.warn(
+        `  TfL rejected TFL_APP_KEY (HTTP ${response.status}); falling back to anonymous access and pacing.`
+        + " Run `npx tsx scripts/diagnose-tfl-key.ts` to see what TfL says about the key.",
+      );
+      return false;
+    } catch {
+      // A network failure says nothing about the key. Leave the verdict open so
+      // a transient blip does not demote a good key for the whole process.
+      return true;
+    }
+  })();
+
+  const accepted = await tflKeyProbe;
+  tflKeyAccepted = accepted;
+  if (!accepted) {
+    void recordError({
+      severity: "warning",
+      module: "tfl",
+      operation: "key.probe",
+      errorCode: "TFL_APP_KEY_REJECTED",
+      error: new Error("TFL_APP_KEY was rejected by TfL; using anonymous access."),
+      country: "united_kingdom",
+      provider: TFL_API_URL,
+    });
+  }
+  return accepted;
+}
+
+/**
+ * Forget the cached key verdict. Tests drive the probe per case; a long-lived
+ * process keeps its answer.
+ */
+export function resetTflKeyProbe() {
+  tflKeyAccepted = undefined;
+  tflKeyProbe = undefined;
 }
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -805,7 +889,9 @@ export async function searchTflServiceDay(
   destination: string,
   date: string,
 ): Promise<{ status: number; body: SearchResponse & { error?: string } }> {
-  const keyed = Boolean(process.env.TFL_APP_KEY);
+  // Verified, not merely configured: pacing at the subscription rate on the
+  // strength of an unusable key is what turned London's scrape into 28 failures.
+  const keyed = await tflKeyIsUsable();
 
   // One context per sweep. The samples share the service day's first/last trip,
   // and it is discarded with the sweep so no later request inherits it; the gate
