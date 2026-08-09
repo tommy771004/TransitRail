@@ -17,6 +17,7 @@ import { join } from "path";
 import { getStationsForCountry } from "../src/server/catalog";
 import { configuredCountryOptions } from "../src/data/countries";
 import { resolveStationAlias } from "../src/data/stationAliases";
+import { createTimetableScrapers } from "./scrapers/registry";
 import type { Country } from "../src/types";
 import {
   countRowsByCountry,
@@ -83,8 +84,26 @@ function baselineRowCounts(): CountryRowCounts | undefined {
   }
 }
 
+/**
+ * Which registered sources each country's scrapers actually fetch from today.
+ *
+ * Built from the same factories `npm run scrape` runs, so a file left behind by
+ * a source the pipeline has since stopped using cannot pass as current data.
+ */
+function configuredSourceIdsByCountry(): Record<string, ReadonlySet<string>> {
+  const byCountry: Record<string, Set<string>> = {};
+  for (const scraper of createTimetableScrapers()) {
+    (byCountry[scraper.country] ??= new Set()).add(scraper.sourceId);
+    for (const route of scraper.routes) byCountry[scraper.country].add(scraper.sourceIdFor(route));
+  }
+  return byCountry;
+}
+
 async function main() {
-  const report = validateCommittedTimetables({ knownStations: await knownStationsByCountry() });
+  const report = validateCommittedTimetables({
+    knownStations: await knownStationsByCountry(),
+    configuredSourceIds: configuredSourceIdsByCountry(),
+  });
 
   if (process.argv.includes("--against-head")) {
     const baseline = baselineRowCounts();

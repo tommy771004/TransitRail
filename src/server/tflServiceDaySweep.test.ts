@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { resetTflStationResolutionCache, searchTflServiceDay } from "./tfl";
+import { resetTflKeyProbe, resetTflStationResolutionCache, searchTflServiceDay } from "./tfl";
 
 /**
  * The sweep that builds a London service day used to issue every request once
@@ -71,6 +71,9 @@ async function runSweep() {
 describe("TfL service-day sweep", () => {
   beforeEach(() => {
     resetTflStationResolutionCache();
+    // The key verdict is cached for the process, so without this the first
+    // keyed case would probe and every later one would inherit its answer.
+    resetTflKeyProbe();
     vi.useFakeTimers();
   });
 
@@ -205,7 +208,57 @@ describe("TfL service-day sweep", () => {
     // spends twelve seconds waiting to be allowed to ask.
     expect(Date.now() - startedAt).toBeLessThan(12_000);
     expect(seenKeys).toEqual(new Set(["test-app-key"]));
-    expect(calls).toHaveLength(15);
+    // Fifteen for the sweep, plus the one idle request that established the key
+    // is worth pacing against. That probe is per process, not per route.
+    expect(calls).toHaveLength(16);
+  });
+
+  it("falls back to anonymous access when TfL rejects the key, rather than racing past the anonymous limit", async () => {
+    vi.stubEnv("TFL_APP_KEY", "rejected-app-key");
+    installTflStub();
+    const underlying = globalThis.fetch as typeof fetch;
+    const seenKeys = new Set<string | null>();
+    vi.stubGlobal("fetch", async (input: RequestInfo | URL) => {
+      const url = new URL(String(input));
+      // TfL refuses the key itself; the same request without one is fine.
+      if (url.searchParams.get("app_key")) {
+        return new Response('{"message":"Invalid App Key"}', { status: 429 });
+      }
+      seenKeys.add(url.searchParams.get("app_key"));
+      return underlying(input);
+    });
+
+    const startedAt = Date.now();
+    const { status } = await runSweep();
+
+    // The point of the fix: a key that buys nothing must not be paced as though
+    // it bought the subscription allowance. Setting a bad key used to be
+    // strictly worse than setting none — every request 429'd and the whole
+    // route failed. Now the sweep completes at the anonymous rate.
+    expect(status).toBe(200);
+    expect(seenKeys).toEqual(new Set([null]));
+    expect(Date.now() - startedAt).toBeGreaterThanOrEqual(14 * 1_200);
+  });
+
+  it("keeps using a good key when a single request fails for an unrelated reason", async () => {
+    vi.stubEnv("TFL_APP_KEY", "test-app-key");
+    installTflStub();
+    const underlying = globalThis.fetch as typeof fetch;
+    let failedOnce = false;
+    const seenKeys = new Set<string | null>();
+    vi.stubGlobal("fetch", async (input: RequestInfo | URL) => {
+      if (!failedOnce) {
+        failedOnce = true;
+        // A network blip says nothing about whether the key is valid.
+        throw new Error("socket hang up");
+      }
+      seenKeys.add(new URL(String(input)).searchParams.get("app_key"));
+      return underlying(input);
+    });
+
+    await runSweep();
+
+    expect(seenKeys).toEqual(new Set(["test-app-key"]));
   });
 
   it("returns the sampled departures in time order, de-duplicated by id", async () => {

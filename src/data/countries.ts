@@ -55,11 +55,21 @@ export const configuredCountryOptions: Country[] = [
  * Markets configured but deliberately withheld from the public picker — a
  * market mid-migration, or one whose data is not fit to show yet.
  *
- * Empty is the normal state. It exists so that hiding a market is one edit here
- * rather than a hand-maintained second list: {@link countryOptions} is derived,
- * so the "configured" and "public" sets can never silently drift apart.
+ * A market belongs here when it can answer nothing, not merely when it answers
+ * less than another market does. It exists so that hiding a market is one edit
+ * here rather than a hand-maintained second list: {@link countryOptions} is
+ * derived, so the "configured" and "public" sets can never silently drift apart.
  */
-export const hiddenCountryOptions = new Set<Country>();
+export const hiddenCountryOptions = new Set<Country>([
+  // No official China source is registered, so `scrape: "none"` fetches nothing
+  // and there are no route files at all. The market was still in the public
+  // picker with a seven-day range: every station menu was empty and every
+  // search 404'd, which is a dead end dressed as a destination.
+  //
+  // Hidden rather than deleted — the config, topology and currency stay put, so
+  // registering a source is all it takes to bring it back.
+  "china",
+]);
 
 /** Markets exposed by the public picker and transit API. */
 export const countryOptions: Country[] = configuredCountryOptions.filter(
@@ -245,8 +255,18 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     featuredStations: ["Siam", "Chit Lom", "Asok", "Mo Chit", "Sukhumvit"],
     promptName: "泰國",
     connected: true,
-    liveOnly: false,
-    dateRangeDays: SCRAPE_WINDOW_DAYS,
+    // BEM's first/last table is stamped with the one service date it describes,
+    // and `advisoryFromHtml` refuses any other date rather than reusing those
+    // times — so Bangkok can answer today and nothing else. The picker offered
+    // seven days against it, and the six beyond today had neither a departure
+    // (the frequency source writes none by design) nor an advisory: the user was
+    // invited to choose dates the market could say nothing at all about.
+    //
+    // The honest range is what the source publishes. Reusing today's first/last
+    // across the week would be the dateless canonical day this codebase removed.
+    liveOnly: true,
+    dateRangeDays: 1,
+    dateRangeEnforced: true,
     timeZone: "Asia/Bangkok",
     search: { kind: "scraped" },
     scrape: "official_source",
@@ -431,7 +451,18 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "瑞士",
     connected: true,
     liveOnly: false,
-    dateRangeDays: 14,
+    // Belgium and Norway are pure `provider` markets: if the journey API cannot
+    // answer, the search fails as a provider error and says so. Switzerland is
+    // `provider_then_scraped` — it is built to fall back to committed GTFS, and
+    // that fallback only ever holds SCRAPE_WINDOW_DAYS. Offering fourteen days
+    // meant the second week was backed by nothing but the live OJP token being
+    // present and accepted; without it those dates fell through to a fallback
+    // that had no rows for them and answered "no service" for a date the picker
+    // had just invited the user to choose.
+    //
+    // Bind the range to the data that is always there. A working OJP token
+    // still answers these days, and answers them better.
+    dateRangeDays: SCRAPE_WINDOW_DAYS,
     timeZone: "Europe/Zurich",
     search: { kind: "provider_then_scraped", provider: "swiss" },
     scrape: "official_source",
