@@ -46,7 +46,8 @@ export type ValidationCheckId =
   | "source-mismatch"
   | "missing-source-url"
   | "missing-fetch-time"
-  | "missing-artifact-version";
+  | "missing-artifact-version"
+  | "source-not-configured";
 
 /** Every check, in the order they are reported. */
 export const VALIDATION_CHECKS: ValidationCheckId[] = [
@@ -60,6 +61,7 @@ export const VALIDATION_CHECKS: ValidationCheckId[] = [
   "missing-source-url",
   "missing-fetch-time",
   "missing-artifact-version",
+  "source-not-configured",
 ];
 
 export interface ValidationInput {
@@ -67,6 +69,12 @@ export interface ValidationInput {
   route: ScrapedRouteData;
   /** Station names this country's catalog knows about, lower-cased. */
   knownStations?: Set<string>;
+  /**
+   * Source ids this country's currently configured scrapers actually fetch
+   * from. Omitted for a country whose scrapers could not be enumerated, which
+   * drops the check rather than inventing a verdict.
+   */
+  configuredSourceIds?: ReadonlySet<string>;
 }
 
 function routeLabel(route: ScrapedRouteData): string {
@@ -217,6 +225,34 @@ export function validateRoute(input: ValidationInput): ValidationFinding[] {
         `Written under artifact version ${meta.artifactVersion}; current is ${ARTIFACT_VERSION}.`,
       );
     }
+
+    // 11. Source drift. A file whose source is not one this country's scrapers
+    // still fetch from was left behind by a source the pipeline has stopped
+    // running — so nothing in the daily run can refresh it, and it will sit
+    // there answering for the market indefinitely.
+    //
+    // Singapore is why this exists. It was migrated from SMRT's frequency-only
+    // feed to LTA's full GTFS, but the GTFS request has returned 401 on every
+    // run since, so the route keeps its previously committed file — correctly,
+    // by design. The kept file carries SMRT's `frequency-only` block and no
+    // departures, which is precisely the shape a legitimately frequency-only
+    // market has, so `empty-data` stays quiet and the market reads as "this
+    // operator only publishes service hours" rather than "the timetable source
+    // has never once succeeded".
+    //
+    // A warning, not a blocking finding: yesterday's real data is still the
+    // best answer available and must keep publishing. It is the silence that
+    // was wrong, not the file.
+    const configured = input.configuredSourceIds;
+    if (configured && configured.size > 0 && !configured.has(meta.sourceId)) {
+      add(
+        "source-not-configured",
+        "warning",
+        `Rows come from "${meta.sourceId}", which no configured ${country} scraper fetches from`
+        + ` (configured: ${[...configured].sort().join(", ")}).`
+        + ` Nothing in the daily run can refresh this file${route.results.length === 0 ? ", and it holds no departures" : ""}.`,
+      );
+    }
   }
 
   return findings;
@@ -237,6 +273,8 @@ export interface ValidateCommittedOptions {
   countries?: readonly string[];
   /** Station names per country, lower-cased, for the unknown-station check. */
   knownStations?: Record<string, Set<string>>;
+  /** Source ids each country's configured scrapers fetch from. */
+  configuredSourceIds?: Record<string, ReadonlySet<string>>;
 }
 
 /** Validate every committed route file under `dataDir`. */
@@ -272,6 +310,7 @@ export function validateCommittedTimetables(options: ValidateCommittedOptions = 
         country,
         route,
         knownStations: options.knownStations?.[country],
+        configuredSourceIds: options.configuredSourceIds?.[country],
       }));
     }
   }

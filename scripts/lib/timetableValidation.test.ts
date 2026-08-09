@@ -233,6 +233,54 @@ describe("checks 7–10 — source provenance", () => {
   });
 });
 
+describe("check 11 — source drift", () => {
+  it("warns when the stored source is not one the country's scrapers still fetch", () => {
+    // Singapore's shape: migrated to a full-timetable source that has never
+    // succeeded, so the old frequency-only file survives untouched and reads as
+    // a market that simply has no timetable to publish.
+    const findings = validateRoute({
+      country: "germany",
+      route: route([]),
+      configuredSourceIds: new Set(["fr-sncf-gtfs"]),
+    });
+    expect(findings).toContainEqual(expect.objectContaining({
+      check: "source-not-configured",
+      severity: "warning",
+      message: expect.stringContaining("de-gtfs"),
+    }));
+    // A warning, never blocking: the kept file is still the best answer there is.
+    expect(hasBlockingFindings({ findings, routesChecked: 1, countriesChecked: 1 })).toBe(false);
+  });
+
+  it("says so when the unrefreshable file is also empty", () => {
+    const findings = validateRoute({
+      country: "germany",
+      route: route([]),
+      configuredSourceIds: new Set(["fr-sncf-gtfs"]),
+    });
+    expect(findings).toContainEqual(expect.objectContaining({
+      check: "source-not-configured",
+      message: expect.stringContaining("holds no departures"),
+    }));
+  });
+
+  it("stays quiet when the stored source is still configured", () => {
+    expect(checksFrom(validateRoute({
+      country: "germany",
+      route: route(hourly(3)),
+      configuredSourceIds: new Set(["de-gtfs"]),
+    }))).not.toContain("source-not-configured");
+  });
+
+  it("drops the check rather than guessing when the scrapers cannot be enumerated", () => {
+    expect(checksFrom(validateRoute({
+      country: "germany",
+      route: route(hourly(3)),
+      configuredSourceIds: new Set(),
+    }))).not.toContain("source-not-configured");
+  });
+});
+
 describe("reporting", () => {
   it("groups findings in the declared check order", () => {
     const findings = [
