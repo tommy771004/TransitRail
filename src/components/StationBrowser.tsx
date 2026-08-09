@@ -3,7 +3,7 @@
  * OS support: Linux
  * Description: Component for browsing and selecting origin or destination stations with auto-fill logic
  */
-import { ArrowLeft, ChevronDown, Search, X, MapPin, Loader2, Navigation } from "lucide-react";
+import { Accessibility, ArrowLeft, ChevronDown, Search, X, MapPin, Loader2, Navigation } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "../i18n";
@@ -410,7 +410,7 @@ export function StationBrowser({
       animate="visible"
       exit="hidden"
       variants={backdropVariants}
-      className="fixed inset-0 z-[80] flex items-end justify-center bg-slate-900/60 dark:bg-slate-950/75 backdrop-blur-sm sm:items-center sm:p-4"
+      className="fixed inset-0 z-[80] flex items-end justify-center bg-slate-900/60 dark:bg-slate-950/75 sm:items-center sm:p-4"
     >
       <motion.section 
         variants={sheetVariants}
@@ -424,10 +424,8 @@ export function StationBrowser({
             handleClose();
           }
         }}
-        className="relative flex h-[88vh] w-full flex-col overflow-hidden rounded-t-[32px] bg-white/95 dark:bg-[#060a13]/95 backdrop-blur-xl sm:h-[80vh] sm:max-w-md sm:rounded-[28px] border border-slate-200/50 dark:border-slate-800/60 shadow-[0_24px_64px_rgba(0,0,0,0.12)] dark:shadow-[0_24px_64px_rgba(0,0,0,0.4)]"
+        className="relative flex h-[88vh] w-full flex-col overflow-hidden rounded-t-2xl border border-slate-200 bg-white shadow-[0_-8px_24px_rgba(15,23,42,0.12)] dark:border-slate-800 dark:bg-[#060a13] dark:shadow-[0_-8px_24px_rgba(0,0,0,0.28)] sm:h-[80vh] sm:max-w-md sm:rounded-2xl"
       >
-        <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-emerald-500/60 to-transparent`} />
-
         <div 
           onPointerDown={(e) => dragControls.start(e)}
           className="w-full pt-3 pb-2 flex justify-center cursor-grab active:cursor-grabbing select-none shrink-0"
@@ -439,11 +437,12 @@ export function StationBrowser({
         <div className="shrink-0 border-b border-slate-100 dark:border-slate-800/50 px-5 pb-4">
           <div className="mb-4 flex items-center gap-3">
             <button
+              type="button"
               onClick={handleClose}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-850 text-slate-700 dark:text-slate-300 hover:scale-105 active:scale-95 transition-all shadow-xs border border-slate-200/40 dark:border-slate-800/50"
+              className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-slate-100 text-slate-700 transition-colors hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
               aria-label={t("workflow.back")}
             >
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft aria-hidden="true" className="h-5 w-5" />
             </button>
             <div className="min-w-0 flex-1">
               <h1 className="text-base font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
@@ -459,31 +458,36 @@ export function StationBrowser({
           </div>
 
           <div className="relative">
-            <div className="relative flex items-center gap-2 rounded-2xl border border-slate-200/80 bg-slate-50/80 px-4 py-3 dark:border-slate-800/60 dark:bg-slate-900/60 focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500/50 dark:focus-within:ring-emerald-500/10 focus-within:bg-white dark:focus-within:bg-slate-950/80 transition-all duration-300 shadow-xs">
-              <Search className="h-4.5 w-4.5 text-slate-400 dark:text-slate-500 shrink-0 transition-colors group-focus-within:text-emerald-500" />
+            <div className="relative flex min-h-12 items-center gap-2 rounded-lg border border-slate-300 bg-slate-50 px-3 transition-colors focus-within:border-emerald-700 focus-within:bg-white dark:border-slate-700 dark:bg-slate-900 dark:focus-within:border-emerald-400 dark:focus-within:bg-slate-950">
+              <Search aria-hidden="true" className="h-4.5 w-4.5 shrink-0 text-slate-500 dark:text-slate-400" />
               <input
+                type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 onFocus={() => setIsInputFocused(true)}
                 onBlur={() => setTimeout(() => setIsInputFocused(false), 200)}
+                aria-label={t("stations.search_label", { defaultValue: "Search stations" })}
+                enterKeyHint="search"
                 placeholder={t("stations.search_placeholder")}
-                className="w-full bg-transparent text-sm font-semibold text-slate-800 outline-none placeholder:text-slate-400 dark:text-slate-200 dark:placeholder:text-slate-600"
+                className="w-full bg-transparent text-base font-medium text-slate-900 placeholder:text-slate-500 dark:text-slate-100 dark:placeholder:text-slate-500"
               />
               {query && (
                 <button
+                  type="button"
                   onClick={() => {
                     triggerHaptic("light");
                     setQuery("");
                   }}
-                  className="p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                  aria-label={t("stations.clear_search", { defaultValue: "Clear station search" })}
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
                 >
-                  <X className="h-3.5 w-3.5" />
+                  <X aria-hidden="true" className="h-4 w-4" />
                 </button>
               )}
             </div>
 
             {searching && isInputFocused && (
-              <div className="absolute top-[calc(100%+8px)] left-0 right-0 z-50 max-h-72 overflow-y-auto rounded-2xl border border-slate-200/80 bg-white/95 p-2 shadow-2xl dark:border-slate-800/80 dark:bg-[#070b14]/95 backdrop-blur-xl">
+              <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 max-h-72 overflow-y-auto rounded-xl border border-slate-200 bg-white p-2 shadow-[0_8px_20px_rgba(15,23,42,0.12)] dark:border-slate-800 dark:bg-[#070b14] dark:shadow-[0_8px_20px_rgba(0,0,0,0.3)]">
                 <StationList
                   isLoading={isLoading}
                   loadFailed={loadFailed}
@@ -508,16 +512,16 @@ export function StationBrowser({
           {target === "origin" && (
             <div className="mt-3">
               <button
+                type="button"
                 onClick={handleUseLocation}
                 disabled={isLocating}
-              className={`relative flex w-full items-center justify-center gap-2 rounded-2xl border py-3 text-sm font-bold shadow-sm transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 ${theme.badgeBg}`}
+                aria-busy={isLocating}
+                className={`flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border px-4 py-3 text-sm font-semibold transition-colors disabled:cursor-wait disabled:opacity-60 ${theme.badgeBg}`}
               >
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shine" />
-                
                 {isLocating ? (
-                  <Loader2 className="h-4 w-4 animate-spin text-emerald-500" />
+                  <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin text-emerald-600 dark:text-emerald-400" />
                 ) : (
-                  <Navigation className="h-4 w-4 text-emerald-500 group-hover:rotate-12 transition-transform duration-300" />
+                  <Navigation aria-hidden="true" className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
                 )}
                 {isLocating ? t("stations.locating", "Locating...") : t("stations.use_current_location", "Use Current Location")}
               </button>
@@ -587,7 +591,8 @@ export function StationBrowser({
                             setSelectedCategory(region.lines.find((line) => line.id === selectedCategory)?.id || region.lines[0]?.id || "");
                           }
                         }}
-                        className={`flex w-full items-center justify-between gap-1 px-3 py-2.5 text-left text-[10px] font-black uppercase tracking-wide ${
+                        type="button"
+                        className={`flex min-h-11 w-full items-center justify-between gap-1 px-3 py-2.5 text-left text-xs font-semibold ${
                           selectedRegion === region.id ? theme.textActive : "text-slate-500 dark:text-slate-400"
                         }`}
                       >
@@ -605,16 +610,17 @@ export function StationBrowser({
                                   triggerHaptic("light");
                                   setSelectedCategory(line.id);
                                 }}
-                                className={`group relative flex w-full flex-col justify-center px-4 py-3 text-left transition-all ${
+                                type="button"
+                                className={`group relative flex min-h-11 w-full flex-col justify-center px-4 py-3 text-left transition-colors ${
                                   selectedCategory === line.id
-                                    ? `${theme.badgeBg} border-l-4 ${theme.borderActive} font-black rounded-r-xl`
+                                    ? `${theme.badgeBg} border-l-4 ${theme.borderActive} font-semibold rounded-r-lg`
                                     : "text-slate-600 dark:text-slate-400 hover:bg-slate-100/50 dark:hover:bg-slate-800/40 hover:text-slate-900 dark:hover:text-slate-200"
                                 }`}
                               >
                                 <span className="block truncate text-xs font-bold leading-tight">
                                   {t(`line.${line.name}`, { defaultValue: line.name })}
                                 </span>
-                                <span className="mt-1.5 inline-flex w-fit items-center justify-center rounded-full px-2 py-0.5 text-[9px] font-bold font-mono leading-none" style={{ backgroundColor: `${line.color}15`, color: line.color }}>
+                                <span className="mt-1.5 inline-flex w-fit items-center justify-center rounded px-1.5 py-0.5 text-[10px] font-semibold tabular-nums leading-none" style={{ backgroundColor: `${line.color}15`, color: line.color }}>
                                   {line.stations.length}
                                 </span>
                               </button>
@@ -641,7 +647,7 @@ export function StationBrowser({
                   <>
                     {featured.length > 0 && (
                       <div className="mb-4">
-                        <div className="flex items-center gap-1.5 px-1 mb-2 text-[10px] font-bold tracking-wider text-slate-400 dark:text-slate-500 uppercase">
+                        <div className="mb-2 flex items-center gap-1.5 px-1 text-xs font-semibold text-slate-600 dark:text-slate-300">
                           <MapPin className="h-3 w-3 text-emerald-500" />
                           <span>{t("stations.featured", "Popular Stations")}</span>
                         </div>
@@ -649,8 +655,9 @@ export function StationBrowser({
                           {featured.map((station) => (
                             <button
                               key={station}
+                              type="button"
                               onClick={() => handleSelectStation(station)}
-                              className="shrink-0 whitespace-nowrap rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-850 dark:hover:bg-slate-800 border border-slate-200/50 dark:border-slate-800/60 px-3 py-2 text-xs font-bold text-slate-700 dark:text-slate-300 hover:scale-105 active:scale-95 transition-all shadow-xs"
+                              className="min-h-11 shrink-0 whitespace-nowrap rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
                             >
                               {stationLabel(t, station, country)}
                             </button>
@@ -687,18 +694,19 @@ export function StationBrowser({
                             variants={itemVariants}
                           >
                             <button
+                              type="button"
                               onClick={() => handleSelectStation(station.name)}
-                              className="w-full flex items-center gap-3 px-3 py-3 rounded-2xl hover:bg-slate-100/40 dark:hover:bg-slate-800/40 text-left transition-all group"
+                              className="group flex min-h-11 w-full items-center gap-3 rounded-lg px-3 py-3 text-left transition-colors hover:bg-slate-100/60 dark:hover:bg-slate-800/60"
                             >
                               <span className="flex w-2 shrink-0 flex-col items-center self-stretch">
                                 <span className={`w-[2px] flex-1 ${index === 0 ? "bg-transparent" : "bg-slate-200 dark:bg-slate-800"}`} />
                                 <span
-                                  className="h-2.5 w-2.5 rounded-full border-2 bg-white dark:bg-[#060a13] transition-transform duration-300 group-hover:scale-125"
-                                  style={{ borderColor: line?.color || "#10b981", boxShadow: `0 0 8px ${line?.color || "#10b981"}50` }}
+                                  className="h-2.5 w-2.5 rounded-full border-2 bg-white dark:bg-[#060a13]"
+                                  style={{ borderColor: line?.color || "#10b981" }}
                                 />
                                 <span className={`w-[2px] flex-1 ${index === arr.length - 1 ? "bg-transparent" : "bg-slate-200 dark:bg-slate-800"}`} />
                               </span>
-                              <div className="flex-1 min-w-0 flex flex-col group-hover:translate-x-1 transition-transform">
+                              <div className="flex min-w-0 flex-1 flex-col">
                                 <span className={`block truncate text-sm font-bold flex items-center gap-1.5 ${isUncovered(station.name) ? "text-slate-400 dark:text-slate-500" : "text-slate-800 dark:text-slate-100"}`}>
                                   {primaryLabel}
                                   {isUncovered(station.name) && <NoTimetableBadge />}
@@ -706,8 +714,9 @@ export function StationBrowser({
                                     <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">{station.localName}</span>
                                   ) : null}
                                   {station.accessible && (
-                                    <span className="inline-flex items-center justify-center p-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded" title={t("stations.accessible", "Wheelchair Accessible")}>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="2"/><path d="M19 22l-3-6-4 2"/><path d="M16 16l-4-2-2-6 2-2 4 4"/><circle cx="8" cy="18" r="4"/><path d="M8 22v-8"/></svg>
+                                    <span className="inline-flex items-center justify-center text-blue-700 dark:text-blue-300" title={t("stations.accessible", "Wheelchair Accessible")}>
+                                      <Accessibility aria-hidden="true" className="h-4 w-4" />
+                                      <span className="sr-only">{t("stations.accessible", "Wheelchair Accessible")}</span>
                                     </span>
                                   )}
                                 </span>
@@ -723,7 +732,7 @@ export function StationBrowser({
                                     <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                                       {conn.isDirect ? (
                                         <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border border-emerald-200/30">
-                                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-700 dark:bg-emerald-400" />
                                           {t("stations.direct_route", "Direct")}
                                         </span>
                                       ) : (
@@ -896,16 +905,18 @@ function StationList({
             variants={itemVariants}
           >
             <button
+              type="button"
               onClick={() => onSelectStation(station)}
-              className="w-full flex items-center justify-between px-3.5 py-3 rounded-2xl hover:bg-slate-100/40 dark:hover:bg-slate-800/40 text-left transition-all group"
+              className="group flex min-h-11 w-full items-center justify-between rounded-lg px-3.5 py-3 text-left transition-colors hover:bg-slate-100/60 dark:hover:bg-slate-800/60"
             >
-              <div className="flex flex-col min-w-0 group-hover:translate-x-1 transition-transform">
+              <div className="flex min-w-0 flex-col">
                 <span className={`block truncate text-sm font-bold flex items-center gap-1.5 ${uncovered ? "text-slate-400 dark:text-slate-500" : "text-slate-800 dark:text-slate-100"}`}>
                   {primaryLabel}
                   {uncovered && <NoTimetableBadge />}
                   {accessibilityMap.get(station) && (
-                    <span className="inline-flex items-center justify-center p-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded" title={t("stations.accessible", "Wheelchair Accessible")}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="2"/><path d="M19 22l-3-6-4 2"/><path d="M16 16l-4-2-2-6 2-2 4 4"/><circle cx="8" cy="18" r="4"/><path d="M8 22v-8"/></svg>
+                    <span className="inline-flex items-center justify-center text-blue-700 dark:text-blue-300" title={t("stations.accessible", "Wheelchair Accessible")}>
+                      <Accessibility aria-hidden="true" className="h-4 w-4" />
+                      <span className="sr-only">{t("stations.accessible", "Wheelchair Accessible")}</span>
                     </span>
                   )}
                 </span>
@@ -921,7 +932,7 @@ function StationList({
                     <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                       {conn.isDirect ? (
                         <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border border-emerald-200/30">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-700 dark:bg-emerald-400" />
                           {t("stations.direct_route", "Direct")}
                         </span>
                       ) : (

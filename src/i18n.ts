@@ -61,6 +61,9 @@ const resources = {
         searching: "Searching...",
         fetching_live_data: "Connecting to transit provider...",
         plan_ai: "Plan itinerary with AI",
+        detecting_country: "Detecting your country",
+        auto_detect_country: "Use detected country",
+        scroll_dates: "More dates",
         validation_required: "Enter both origin and destination.",
         validation_same_station: "Origin and destination must be different.",
         preferred_transit_types: "Preferred transit types",
@@ -101,6 +104,8 @@ const resources = {
         pick_origin: "Choose an origin",
         pick_destination: "Choose a destination",
         search_placeholder: "Search station name",
+        search_label: "Search stations",
+        clear_search: "Clear station search",
         loading: "Loading stations...",
         unavailable: "The station catalog is unavailable.",
         none: "No matching stations.",
@@ -206,11 +211,13 @@ const resources = {
         forecast_title: "{{station}} Forecast",
         forecast_loading: "Forecast...",
         transfer_info: "Transfer Info",
+        transit_legend: "Transit legend",
         transfer_details: "Transfer Details",
         recommended_exit: "Recommended Exit / Platform",
         smart_guidance: "Smart Transfer Guide",
         timeline_tab: "Timeline",
         map_tab: "Route Map",
+        view_mode: "Trip detail view",
         hide_stops: "Hide intermediate stops",
         show_stops: "Show {{count}} intermediate stop",
         show_stops_other: "Show {{count}} intermediate stops"
@@ -304,6 +311,11 @@ const resources = {
         clear_all: "Clear All",
         pin: "Pin route",
         unpin: "Unpin route"
+      },
+      favorites: {
+        title: "Favorite routes",
+        save: "Save route to favorites",
+        remove: "Remove route from favorites"
       },
       saved: {
         empty_title: "No saved trips",
@@ -583,6 +595,9 @@ const resources = {
         searching: "搜尋中...",
         fetching_live_data: "正在連接大眾運輸系統...",
         plan_ai: "AI 行程規劃",
+        detecting_country: "正在偵測所在國家",
+        auto_detect_country: "使用偵測到的國家",
+        scroll_dates: "更多日期",
         validation_required: "請輸入出發地和目的地。",
         validation_same_station: "出發地和目的地不能相同。",
         preferred_transit_types: "偏好交通工具",
@@ -623,6 +638,8 @@ const resources = {
         pick_origin: "選擇出發站",
         pick_destination: "選擇抵達站",
         search_placeholder: "搜尋車站名稱",
+        search_label: "搜尋車站",
+        clear_search: "清除車站搜尋",
         loading: "正在載入車站...",
         unavailable: "目前無法讀取車站目錄。",
         none: "找不到符合的車站。",
@@ -726,11 +743,13 @@ const resources = {
         forecast_title: "{{station}}天氣預報",
         forecast_loading: "正在載入天氣...",
         transfer_info: "轉乘資訊",
+        transit_legend: "交通圖例",
         transfer_details: "轉乘詳細資訊",
         recommended_exit: "推薦出口 / 月台",
         smart_guidance: "智慧轉乘指引",
         timeline_tab: "時間軸",
         map_tab: "路線圖",
+        view_mode: "行程明細檢視",
         hide_stops: "隱藏中途停靠站",
         show_stops: "顯示 {{count}} 個中途停靠站",
         show_stops_other: "顯示 {{count}} 個中途停靠站"
@@ -824,6 +843,11 @@ const resources = {
         clear_all: "清除紀錄",
         pin: "固定路線",
         unpin: "取消固定"
+      },
+      favorites: {
+        title: "收藏路線",
+        save: "收藏這條路線",
+        remove: "取消收藏這條路線"
       },
       saved: {
         empty_title: "尚無儲存行程",
@@ -1508,6 +1532,9 @@ const resources = {
         searching: "検索中...",
         fetching_live_data: "交通機関に接続中...",
         plan_ai: "AIで旅程を計画",
+        detecting_country: "現在地の国を確認中",
+        auto_detect_country: "検出した国を使用",
+        scroll_dates: "他の日付",
         validation_required: "出発駅と到着駅を両方入力してください。",
         validation_same_station: "出発駅と到着駅は異なる駅を選択してください。",
         preferred_transit_types: "希望する交通手段",
@@ -1548,6 +1575,8 @@ const resources = {
         pick_origin: "出発駅を選択",
         pick_destination: "到着駅を選択",
         search_placeholder: "駅名を検索",
+        search_label: "駅を検索",
+        clear_search: "駅検索をクリア",
         loading: "駅情報を読み込み中...",
         unavailable: "現在、駅一覧を利用できません。",
         none: "該当する駅が見つかりません。",
@@ -1651,11 +1680,13 @@ const resources = {
         forecast_title: "{{station}}の天気予報",
         forecast_loading: "天気情報を読み込み中...",
         transfer_info: "乗換情報",
+        transit_legend: "交通凡例",
         transfer_details: "乗換の詳細",
         recommended_exit: "推奨出口・ホーム",
         smart_guidance: "スマート乗換ガイド",
         timeline_tab: "タイムライン",
         map_tab: "路線図",
+        view_mode: "行程詳細の表示",
         hide_stops: "途中駅を非表示",
         show_stops: "途中駅を{{count}}件表示",
         show_stops_other: "途中駅を{{count}}件表示"
@@ -1749,6 +1780,11 @@ const resources = {
         clear_all: "すべて削除",
         pin: "ルートを固定",
         unpin: "固定を解除"
+      },
+      favorites: {
+        title: "お気に入りの路線",
+        save: "路線をお気に入りに保存",
+        remove: "お気に入りから路線を削除"
       },
       saved: {
         empty_title: "保存した旅程はありません",
@@ -2055,6 +2091,9 @@ const resources = {
         searching: "검색 중...",
         fetching_live_data: "교통 시스템에 연결 중...",
         plan_ai: "AI로 일정 계획하기",
+        detecting_country: "현재 국가 확인 중",
+        auto_detect_country: "감지된 국가 사용",
+        scroll_dates: "다른 날짜",
         validation_required: "출발역과 도착역을 모두 입력하세요.",
         validation_same_station: "출발역과 도착역은 서로 달라야 합니다.",
         preferred_transit_types: "선호하는 교통수단",
@@ -2095,6 +2134,8 @@ const resources = {
         pick_origin: "출발역 선택",
         pick_destination: "도착역 선택",
         search_placeholder: "역 이름 검색",
+        search_label: "역 검색",
+        clear_search: "역 검색 지우기",
         loading: "역 정보를 불러오는 중...",
         unavailable: "현재 역 목록을 이용할 수 없습니다.",
         none: "일치하는 역이 없습니다.",
@@ -2198,11 +2239,13 @@ const resources = {
         forecast_title: "{{station}} 날씨 예보",
         forecast_loading: "날씨 정보를 불러오는 중...",
         transfer_info: "환승 정보",
+        transit_legend: "교통 범례",
         transfer_details: "환승 상세 정보",
         recommended_exit: "추천 출구 / 승강장",
         smart_guidance: "스마트 환승 안내",
         timeline_tab: "타임라인",
         map_tab: "노선도",
+        view_mode: "여정 상세 보기",
         hide_stops: "중간 정차역 숨기기",
         show_stops: "중간 정차역 {{count}}개 표시",
         show_stops_other: "중간 정차역 {{count}}개 표시"
@@ -2296,6 +2339,11 @@ const resources = {
         clear_all: "전체 삭제",
         pin: "노선 고정",
         unpin: "고정 해제"
+      },
+      favorites: {
+        title: "즐겨찾는 노선",
+        save: "노선을 즐겨찾기에 저장",
+        remove: "즐겨찾기에서 노선 삭제"
       },
       saved: {
         empty_title: "저장된 일정이 없습니다",
