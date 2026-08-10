@@ -26,6 +26,7 @@ import { searchSingaporeLtaGtfs } from "../../src/server/singaporeLtaGtfs";
 import { collectHongKongServiceDayArtifact } from "../../src/server/hongKongServiceHours";
 import { providerDateValue } from "../../src/data/countries";
 import { scrapeTflBrowserServiceDay } from "../../src/server/tflBrowser";
+import { scrapeMbtaBrowserServiceDay } from "../../src/server/mbtaBrowser";
 
 /**
  * LTA's official static GTFS supplies the verified departure rows. SMRT's
@@ -138,7 +139,33 @@ export class UnitedKingdomScraper extends BrowserScraper {
 
 export class UnitedStatesScraper extends OfficialFeedScraper {
   constructor() {
-    super("MBTA", "united_states", unitedStatesRoutes, "us-mbta-v3", searchMbtaJourney);
+    super(
+      "MBTA",
+      "united_states",
+      unitedStatesRoutes.filter((route) => !(route.origin === "Park Street" && route.destination === "Boston College")),
+      "us-mbta-v3",
+      searchMbtaJourney,
+    );
+  }
+}
+
+/**
+ * The MBTA V3 schedules endpoint omits Green Line B journeys during planned
+ * diversions even though the official passenger planner publishes usable
+ * alternatives. Drive that page for the affected station pair and keep only
+ * itinerary groups that the page marks as available.
+ */
+export class UnitedStatesBrowserScraper extends BrowserScraper {
+  readonly name = "MBTA Trip Planner browser";
+  readonly country = "united_states";
+  readonly routes = unitedStatesRoutes.filter(
+    (route) => route.origin === "Park Street" && route.destination === "Boston College",
+  );
+  readonly sourceId = "us-mbta-journey-planner-web";
+  protected override readonly browserTimezoneId = "America/New_York";
+
+  async scrape(route: ScrapedRoute, date: string, page: Parameters<typeof scrapeMbtaBrowserServiceDay>[0]) {
+    return scrapeMbtaBrowserServiceDay(page, route.origin, route.destination, date);
   }
 }
 

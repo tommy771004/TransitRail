@@ -26,6 +26,7 @@ import {
   SwitzerlandScraper,
   ThailandScraper,
   UnitedKingdomScraper,
+  UnitedStatesBrowserScraper,
   UnitedStatesScraper,
 } from "./metro";
 import type { BaseScraper } from "./base";
@@ -38,7 +39,7 @@ const FACTORIES: Record<string, Array<() => BaseScraper>> = {
   thailand: [() => new ThailandScraper()],
   hong_kong: [() => new HongKongScraper()],
   united_kingdom: [() => new UnitedKingdomScraper()],
-  united_states: [() => new UnitedStatesScraper()],
+  united_states: [() => new UnitedStatesScraper(), () => new UnitedStatesBrowserScraper()],
   germany: [() => new GermanyScraper()],
   france: [() => new FranceScraper()],
   belgium: [() => new BelgiumScraper()],

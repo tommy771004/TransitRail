@@ -4,25 +4,17 @@
   "source": "MBTA V3 API schedules",
   "sourceUrl": "https://api-v3.mbta.com",
   "sourceTier": "A",
-  "fetchedAt": "2026-08-09T13:27:25.074Z",
-  "builtAt": "2026-08-09T13:27:25.077Z",
-  "recordCount": 5327,
+  "fetchedAt": "2026-08-09T14:17:24.259Z",
+  "builtAt": "2026-08-09T14:17:36.426Z",
+  "recordCount": 4856,
   "routeCount": 4,
-  "successRate": 0.75,
-  "failedRoutes": [
-    {
-      "origin": "Park Street",
-      "destination": "Boston College",
-      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
-    }
-  ],
+  "successRate": null,
+  "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 4,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-08-07",
-      "2026-08-08",
       "2026-08-09",
       "2026-08-10",
       "2026-08-11",
@@ -32,7 +24,7 @@
       "2026-08-15"
     ]
   },
-  "checksum": "cc79f0545368e816b90ba2fa99f2d4b36287743ba7f3346c8124fe63f8256eeb",
+  "checksum": "d43490fbf3c1e4ec3ab9ca2c1086570030dc4c6a1b5d7afc875b43c1cd065126",
   "artifactVersion": 2,
   "routes": [
     {
@@ -58,11 +50,11 @@
     {
       "origin": "Park Street",
       "destination": "Boston College",
-      "resultCount": 828,
-      "date": "2026-08-07..2026-08-12",
-      "sourceId": "us-mbta-v3",
+      "resultCount": 357,
+      "date": "2026-08-09..2026-08-15",
+      "sourceId": "us-mbta-journey-planner-web",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-07T01:29:49.209Z",
+      "fetchedAt": "2026-08-09T14:17:24.259Z",
       "verified": true
     },
     {

@@ -79,6 +79,13 @@ export abstract class BaseScraper implements ScraperAdapter {
   /** Live browser scrapers set this true; feed and API scrapers skip Chromium. */
   protected readonly usesBrowser: boolean = false;
 
+  /**
+   * Browser query pages interpret date pickers in the browser's local zone.
+   * A provider-specific zone prevents a Taiwan runner from selecting the
+   * previous service date on an American or European journey planner.
+   */
+  protected readonly browserTimezoneId?: string;
+
   /** Most of a run's routes share one source; Japan's span three operators. */
   sourceIdFor(_route: ScrapedRoute): OfficialSourceId {
     return this.sourceId;
@@ -105,6 +112,7 @@ export abstract class BaseScraper implements ScraperAdapter {
     const context = browser
       ? await browser.newContext({
           userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+          ...(this.browserTimezoneId ? { timezoneId: this.browserTimezoneId } : {}),
         })
       : null;
 

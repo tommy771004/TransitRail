@@ -227,6 +227,16 @@ export const officialSources = {
     sourceUrl: "https://api-v3.mbta.com",
     maxCompleteness: "full-timetable",
   },
+  "us-mbta-journey-planner-web": {
+    id: "us-mbta-journey-planner-web",
+    country: "united_states",
+    provider: "Massachusetts Bay Transportation Authority",
+    sourceName: "MBTA official Trip Planner",
+    sourceType: "official-browser",
+    sourceUrl: "https://www.mbta.com/trip-planner",
+    maxCompleteness: "full-timetable",
+    temporalCoverage: "sampled-service-day",
+  },
 
   // --- Germany ---
   "de-gtfs": {
