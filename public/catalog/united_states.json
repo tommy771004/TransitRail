@@ -1,74 +1,9 @@
 {
   "country": "united_states",
   "serviceDate": "2026-08-11",
-  "regions": [
-    {
-      "id": "boston",
-      "name": "Boston (MBTA)",
-      "declaredLines": 6,
-      "declaredStations": 263,
-      "lines": [
-        {
-          "id": "Red",
-          "name": "Red Line",
-          "color": "#DA291C",
-          "stations": [
-            {
-              "name": "Harvard"
-            },
-            {
-              "name": "Park Street",
-              "interchanges": [
-                "Green Line B",
-                "Green Line C",
-                "Green Line D",
-                "Green Line E"
-              ]
-            },
-            {
-              "name": "South Station"
-            },
-            {
-              "name": "Andrew"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "lines": [
-    {
-      "id": "Red",
-      "name": "Red Line",
-      "color": "#DA291C",
-      "stations": [
-        {
-          "name": "Harvard"
-        },
-        {
-          "name": "Park Street",
-          "interchanges": [
-            "Green Line B",
-            "Green Line C",
-            "Green Line D",
-            "Green Line E"
-          ]
-        },
-        {
-          "name": "South Station"
-        },
-        {
-          "name": "Andrew"
-        }
-      ]
-    }
-  ],
-  "stations": [
-    "Andrew",
-    "Harvard",
-    "Park Street",
-    "South Station"
-  ],
+  "regions": [],
+  "lines": [],
+  "stations": [],
   "source": "https://www.mbta.com/schedules",
   "coverage": {
     "mode": "provider",
@@ -78,8 +13,11 @@
       "days": 7,
       "liveOnly": false
     },
-    "provenance": "official",
-    "truthMode": "verified",
-    "date": "2026-08-11"
-  }
+    "provenance": "unknown",
+    "truthMode": "unusable",
+    "reason": "no_departures",
+    "date": "2026-08-11",
+    "messageKey": "stations.no_verified_timetable_for_date"
+  },
+  "messageKey": "stations.no_verified_timetable_for_date"
 }
