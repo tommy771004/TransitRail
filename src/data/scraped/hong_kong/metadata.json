@@ -4,12 +4,18 @@
   "source": "MTR real-time next train API",
   "sourceUrl": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
   "sourceTier": "A",
-  "fetchedAt": "2026-08-11T08:00:40.324Z",
-  "builtAt": "2026-08-11T08:00:41.634Z",
-  "recordCount": 32,
+  "fetchedAt": "2026-08-11T09:46:25.747Z",
+  "builtAt": "2026-08-11T10:30:03.269Z",
+  "recordCount": 20,
   "routeCount": 4,
-  "successRate": 1,
-  "failedRoutes": [],
+  "successRate": 0.75,
+  "failedRoutes": [
+    {
+      "origin": "Hong Kong",
+      "destination": "Airport",
+      "error": "MTR returned no departures for Hong Kong → Airport on 2026-08-11"
+    }
+  ],
   "coverage": {
     "verifiedRoutes": 4,
     "emptyRoutes": 0,
@@ -19,27 +25,27 @@
       "2026-08-11"
     ]
   },
-  "checksum": "b400d30875b184cf258d384d72c43ecce0f15f64c1841bdee2b6aa0962c9b2e3",
+  "checksum": "df19fe285e454d8c8fe356c31bf62dd695e3e340cc366bf5e4d4419d912d20e2",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Admiralty",
       "destination": "Tsim Sha Tsui",
-      "resultCount": 8,
-      "date": "2026-08-09..2026-08-11",
+      "resultCount": 4,
+      "date": "2026-08-11",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-11T08:00:39.473Z",
+      "fetchedAt": "2026-08-11T09:46:23.844Z",
       "verified": true
     },
     {
       "origin": "Central",
       "destination": "Tsuen Wan",
-      "resultCount": 8,
-      "date": "2026-08-09..2026-08-11",
+      "resultCount": 4,
+      "date": "2026-08-11",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-11T08:00:39.828Z",
+      "fetchedAt": "2026-08-11T09:46:24.217Z",
       "verified": true
     },
     {
@@ -55,11 +61,11 @@
     {
       "origin": "Tung Chung",
       "destination": "Sunny Bay",
-      "resultCount": 8,
-      "date": "2026-08-09..2026-08-11",
+      "resultCount": 4,
+      "date": "2026-08-11",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-11T08:00:40.324Z",
+      "fetchedAt": "2026-08-11T09:46:25.747Z",
       "verified": true
     }
   ]

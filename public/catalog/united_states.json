@@ -1,6 +1,6 @@
 {
   "country": "united_states",
-  "serviceDate": "2026-08-08",
+  "serviceDate": "2026-08-11",
   "regions": [
     {
       "id": "boston",
@@ -9,34 +9,27 @@
       "declaredStations": 263,
       "lines": [
         {
-          "id": "Green-B",
-          "name": "Green Line B",
-          "color": "#00843D",
+          "id": "Red",
+          "name": "Red Line",
+          "color": "#DA291C",
           "stations": [
+            {
+              "name": "Harvard"
+            },
             {
               "name": "Park Street",
               "interchanges": [
-                "Red Line",
+                "Green Line B",
                 "Green Line C",
                 "Green Line D",
                 "Green Line E"
               ]
             },
             {
-              "name": "Boston College"
-            }
-          ]
-        },
-        {
-          "id": "united_states-route-park-street-boston-college-3",
-          "name": "Park Street → Boston College",
-          "color": "#2563EB",
-          "stations": [
-            {
-              "name": "Park Street"
+              "name": "South Station"
             },
             {
-              "name": "Boston College"
+              "name": "Andrew"
             }
           ]
         }
@@ -45,53 +38,48 @@
   ],
   "lines": [
     {
-      "id": "Green-B",
-      "name": "Green Line B",
-      "color": "#00843D",
+      "id": "Red",
+      "name": "Red Line",
+      "color": "#DA291C",
       "stations": [
+        {
+          "name": "Harvard"
+        },
         {
           "name": "Park Street",
           "interchanges": [
-            "Red Line",
+            "Green Line B",
             "Green Line C",
             "Green Line D",
             "Green Line E"
           ]
         },
         {
-          "name": "Boston College"
-        }
-      ]
-    },
-    {
-      "id": "united_states-route-park-street-boston-college-3",
-      "name": "Park Street → Boston College",
-      "color": "#2563EB",
-      "stations": [
-        {
-          "name": "Park Street"
+          "name": "South Station"
         },
         {
-          "name": "Boston College"
+          "name": "Andrew"
         }
       ]
     }
   ],
   "stations": [
-    "Boston College",
-    "Park Street"
+    "Andrew",
+    "Harvard",
+    "Park Street",
+    "South Station"
   ],
   "source": "https://www.mbta.com/schedules",
   "coverage": {
     "mode": "provider",
     "dateRange": {
-      "start": "2026-08-08",
-      "end": "2026-08-14",
+      "start": "2026-08-11",
+      "end": "2026-08-17",
       "days": 7,
       "liveOnly": false
     },
     "provenance": "official",
     "truthMode": "verified",
-    "date": "2026-08-08"
+    "date": "2026-08-11"
   }
 }

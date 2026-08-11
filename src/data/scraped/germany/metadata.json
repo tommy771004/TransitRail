@@ -4,9 +4,9 @@
   "source": "gtfs.de Long Distance Rail Germany GTFS",
   "sourceUrl": "https://gtfs.de/en/feeds/de_fv/",
   "sourceTier": "A",
-  "fetchedAt": "2026-08-08T22:35:47.148Z",
-  "builtAt": "2026-08-08T22:36:03.921Z",
-  "recordCount": 758,
+  "fetchedAt": "2026-08-11T10:29:41.785Z",
+  "builtAt": "2026-08-11T10:30:03.269Z",
+  "recordCount": 768,
   "routeCount": 4,
   "successRate": 1,
   "failedRoutes": [],
@@ -15,56 +15,56 @@
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-08-09",
-      "2026-08-10",
       "2026-08-11",
       "2026-08-12",
       "2026-08-13",
       "2026-08-14",
-      "2026-08-15"
+      "2026-08-15",
+      "2026-08-16",
+      "2026-08-17"
     ]
   },
-  "checksum": "30e2a9845699b6a38bb0398776bd870bef7f02fef60f615718bf751162dd5e0a",
+  "checksum": "83e66df86d9edcb069702086aa6aaf8ed89189eaabc9a056e859809852cb51bc",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Berlin Hbf",
       "destination": "Hamburg Hbf",
       "resultCount": 112,
-      "date": "2026-08-09..2026-08-15",
+      "date": "2026-08-11..2026-08-17",
       "sourceId": "de-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-08T22:35:46.987Z",
+      "fetchedAt": "2026-08-11T10:29:41.488Z",
       "verified": true
     },
     {
       "origin": "Berlin Hbf",
       "destination": "Munich Hbf",
-      "resultCount": 208,
-      "date": "2026-08-09..2026-08-15",
+      "resultCount": 217,
+      "date": "2026-08-11..2026-08-17",
       "sourceId": "de-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-08T22:35:47.041Z",
+      "fetchedAt": "2026-08-11T10:29:41.600Z",
       "verified": true
     },
     {
       "origin": "Frankfurt Hbf",
       "destination": "Cologne Hbf",
-      "resultCount": 234,
-      "date": "2026-08-09..2026-08-15",
+      "resultCount": 237,
+      "date": "2026-08-11..2026-08-17",
       "sourceId": "de-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-08T22:35:47.094Z",
+      "fetchedAt": "2026-08-11T10:29:41.707Z",
       "verified": true
     },
     {
       "origin": "Munich Hbf",
       "destination": "Frankfurt Hbf",
-      "resultCount": 204,
-      "date": "2026-08-09..2026-08-15",
+      "resultCount": 202,
+      "date": "2026-08-11..2026-08-17",
       "sourceId": "de-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-08T22:35:47.148Z",
+      "fetchedAt": "2026-08-11T10:29:41.785Z",
       "verified": true
     }
   ]

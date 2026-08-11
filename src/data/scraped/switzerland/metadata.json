@@ -4,77 +4,83 @@
   "source": "OpenTransportData Swiss GTFS Static",
   "sourceUrl": "https://opentransportdata.swiss/en/dataset/timetable-2025-gtfs2020",
   "sourceTier": "A",
-  "fetchedAt": "2026-08-08T22:36:03.920Z",
-  "builtAt": "2026-08-08T22:36:03.921Z",
-  "recordCount": 1612,
+  "fetchedAt": "2026-08-11T10:30:03.263Z",
+  "builtAt": "2026-08-11T10:30:03.269Z",
+  "recordCount": 1565,
   "routeCount": 5,
-  "successRate": 1,
-  "failedRoutes": [],
+  "successRate": 0.9714,
+  "failedRoutes": [
+    {
+      "origin": "Bern",
+      "destination": "Lausanne",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (35 departures every 30 minutes) for Bern → Lausanne on 2026-08-16"
+    }
+  ],
   "coverage": {
     "verifiedRoutes": 5,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-08-09",
-      "2026-08-10",
       "2026-08-11",
       "2026-08-12",
       "2026-08-13",
       "2026-08-14",
-      "2026-08-15"
+      "2026-08-15",
+      "2026-08-16",
+      "2026-08-17"
     ]
   },
-  "checksum": "9b1f6d137e47a1d690e4e585f4cf87f77baabb3a8ef2d5951d0e54a1c0594850",
+  "checksum": "42792c6134da1802b5d85ef289fc24ce0b5bb0e174bf0aa517315cb0d251d46b",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Bern",
       "destination": "Lausanne",
-      "resultCount": 254,
-      "date": "2026-08-09..2026-08-15",
+      "resultCount": 217,
+      "date": "2026-08-11..2026-08-17",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-08T22:36:03.920Z",
+      "fetchedAt": "2026-08-11T10:30:03.263Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Basel SBB",
-      "resultCount": 596,
-      "date": "2026-08-09..2026-08-15",
+      "resultCount": 591,
+      "date": "2026-08-11..2026-08-17",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-08T22:36:03.916Z",
+      "fetchedAt": "2026-08-11T10:30:03.255Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Bern",
-      "resultCount": 505,
-      "date": "2026-08-09..2026-08-15",
+      "resultCount": 501,
+      "date": "2026-08-11..2026-08-17",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-08T22:36:03.912Z",
+      "fetchedAt": "2026-08-11T10:30:03.247Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Genève",
-      "resultCount": 101,
-      "date": "2026-08-09..2026-08-15",
+      "resultCount": 100,
+      "date": "2026-08-11..2026-08-17",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-08T22:36:03.915Z",
+      "fetchedAt": "2026-08-11T10:30:03.254Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Lugano",
       "resultCount": 156,
-      "date": "2026-08-09..2026-08-15",
+      "date": "2026-08-11..2026-08-17",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-08T22:36:03.919Z",
+      "fetchedAt": "2026-08-11T10:30:03.262Z",
       "verified": true
     }
   ]

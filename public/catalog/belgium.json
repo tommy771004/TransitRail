@@ -1,6 +1,6 @@
 {
   "country": "belgium",
-  "serviceDate": "2026-08-09",
+  "serviceDate": "2026-08-11",
   "regions": [
     {
       "id": "belgium-intercity",
@@ -39,7 +39,7 @@
         {
           "id": "belgium-route-brussels-central-antwerpen-centraal-2",
           "name": "Brussels-Central → Antwerp-Central",
-          "color": "#4B5563",
+          "color": "#0055A4",
           "stations": [
             {
               "name": "Brussels-Central"
@@ -48,40 +48,7 @@
               "name": "Brussels-North"
             },
             {
-              "name": "Schaarbeek/Schaerbeek"
-            },
-            {
-              "name": "Vilvoorde"
-            },
-            {
-              "name": "Eppegem"
-            },
-            {
-              "name": "Weerde"
-            },
-            {
               "name": "Mechelen"
-            },
-            {
-              "name": "Mechelen-Nekkerspoel"
-            },
-            {
-              "name": "Sint-Katelijne-Waver"
-            },
-            {
-              "name": "Duffel"
-            },
-            {
-              "name": "Kontich-Lint"
-            },
-            {
-              "name": "Hove"
-            },
-            {
-              "name": "Mortsel-Oude God"
-            },
-            {
-              "name": "Mortsel"
             },
             {
               "name": "Antwerp-Berchem"
@@ -94,7 +61,7 @@
         {
           "id": "belgium-route-brussels-luxembourg-antwerpen-centraal-3",
           "name": "Brussels-Luxemburg/Brussels-Luxembourg → Antwerp-Central",
-          "color": "#0055A4",
+          "color": "#4B5563",
           "stations": [
             {
               "name": "Brussels-Luxemburg/Brussels-Luxembourg"
@@ -107,6 +74,9 @@
             },
             {
               "name": "Mechelen"
+            },
+            {
+              "name": "Mechelen-Nekkerspoel"
             },
             {
               "name": "Mortsel-Oude God"
@@ -204,7 +174,7 @@
     {
       "id": "belgium-route-brussels-central-antwerpen-centraal-2",
       "name": "Brussels-Central → Antwerp-Central",
-      "color": "#4B5563",
+      "color": "#0055A4",
       "stations": [
         {
           "name": "Brussels-Central"
@@ -213,40 +183,7 @@
           "name": "Brussels-North"
         },
         {
-          "name": "Schaarbeek/Schaerbeek"
-        },
-        {
-          "name": "Vilvoorde"
-        },
-        {
-          "name": "Eppegem"
-        },
-        {
-          "name": "Weerde"
-        },
-        {
           "name": "Mechelen"
-        },
-        {
-          "name": "Mechelen-Nekkerspoel"
-        },
-        {
-          "name": "Sint-Katelijne-Waver"
-        },
-        {
-          "name": "Duffel"
-        },
-        {
-          "name": "Kontich-Lint"
-        },
-        {
-          "name": "Hove"
-        },
-        {
-          "name": "Mortsel-Oude God"
-        },
-        {
-          "name": "Mortsel"
         },
         {
           "name": "Antwerp-Berchem"
@@ -259,7 +196,7 @@
     {
       "id": "belgium-route-brussels-luxembourg-antwerpen-centraal-3",
       "name": "Brussels-Luxemburg/Brussels-Luxembourg → Antwerp-Central",
-      "color": "#0055A4",
+      "color": "#4B5563",
       "stations": [
         {
           "name": "Brussels-Luxemburg/Brussels-Luxembourg"
@@ -272,6 +209,9 @@
         },
         {
           "name": "Mechelen"
+        },
+        {
+          "name": "Mechelen-Nekkerspoel"
         },
         {
           "name": "Mortsel-Oude God"
@@ -345,34 +285,26 @@
     "Brussels-North",
     "Brussels-Schuman",
     "Brussels-South/Brussels-Midi",
-    "Duffel",
-    "Eppegem",
     "Gembloux",
     "Ghent-Sint-Pieters",
-    "Hove",
-    "Kontich-Lint",
     "Leuven",
     "Liège-Guillemins",
     "Mechelen",
     "Mechelen-Nekkerspoel",
-    "Mortsel",
     "Mortsel-Oude God",
     "Namur",
     "Ottignies",
-    "Schaarbeek/Schaerbeek",
-    "Sint-Katelijne-Waver",
-    "Vilvoorde",
-    "Weerde"
+    "Vilvoorde"
   ],
   "source": "https://www.belgiantrain.be/en",
   "coverage": {
     "mode": "provider",
     "dateRange": {
-      "start": "2026-08-09",
-      "end": "2026-08-22",
+      "start": "2026-08-11",
+      "end": "2026-08-24",
       "days": 14,
       "liveOnly": false
     },
-    "date": "2026-08-09"
+    "date": "2026-08-11"
   }
 }

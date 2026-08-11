@@ -1,23 +1,121 @@
 {
   "country": "malaysia",
-  "serviceDate": "2026-08-09",
-  "regions": [],
-  "lines": [],
-  "stations": [],
-  "source": "https://data.gov.my/data-catalogue/ridership_od_rapidrail_daily",
+  "serviceDate": "2026-08-11",
+  "regions": [
+    {
+      "id": "malaysia-intercity",
+      "name": "Malaysia rail",
+      "declaredLines": 3,
+      "declaredStations": 5,
+      "lines": [
+        {
+          "id": "malaysia-route-batu-caves-kuala-lumpur-1",
+          "name": "Batu Caves → Kuala Lumpur",
+          "color": "#3C5A9F",
+          "stations": [
+            {
+              "name": "Batu Caves"
+            },
+            {
+              "name": "Kuala Lumpur"
+            }
+          ]
+        },
+        {
+          "id": "malaysia-route-klang-subang-jaya-2",
+          "name": "Klang → Subang Jaya",
+          "color": "#3C5A9F",
+          "stations": [
+            {
+              "name": "Klang"
+            },
+            {
+              "name": "Subang Jaya"
+            }
+          ]
+        },
+        {
+          "id": "malaysia-route-rawang-kuala-lumpur-3",
+          "name": "Rawang → Kuala Lumpur",
+          "color": "#3C5A9F",
+          "stations": [
+            {
+              "name": "Rawang"
+            },
+            {
+              "name": "Kuala Lumpur"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "lines": [
+    {
+      "id": "malaysia-route-batu-caves-kuala-lumpur-1",
+      "name": "Batu Caves → Kuala Lumpur",
+      "color": "#3C5A9F",
+      "stations": [
+        {
+          "name": "Batu Caves"
+        },
+        {
+          "name": "Kuala Lumpur"
+        }
+      ]
+    },
+    {
+      "id": "malaysia-route-klang-subang-jaya-2",
+      "name": "Klang → Subang Jaya",
+      "color": "#3C5A9F",
+      "stations": [
+        {
+          "name": "Klang"
+        },
+        {
+          "name": "Subang Jaya"
+        }
+      ]
+    },
+    {
+      "id": "malaysia-route-rawang-kuala-lumpur-3",
+      "name": "Rawang → Kuala Lumpur",
+      "color": "#3C5A9F",
+      "stations": [
+        {
+          "name": "Rawang"
+        },
+        {
+          "name": "Kuala Lumpur"
+        }
+      ]
+    }
+  ],
+  "stations": [
+    "Batu Caves",
+    "Klang",
+    "Kuala Lumpur",
+    "Rawang",
+    "Subang Jaya"
+  ],
+  "source": "https://api.data.gov.my/gtfs-static/ktmb",
   "coverage": {
-    "mode": "catalog_only",
+    "mode": "scraped",
+    "covered": [
+      "Batu Caves",
+      "Klang",
+      "Kuala Lumpur",
+      "Rawang",
+      "Subang Jaya"
+    ],
+    "date": "2026-08-11",
     "dateRange": {
-      "start": "2026-08-09",
-      "end": "2026-08-09",
+      "start": "2026-08-11",
+      "end": "2026-08-11",
       "days": 1,
       "liveOnly": false
     },
-    "provenance": "unknown",
-    "truthMode": "unusable",
-    "reason": "unavailable_coverage",
-    "date": "2026-08-09",
-    "message": "Station names are available, but no verified timetable is available for this market."
-  },
-  "message": "Station names are available, but no verified timetable is available for this market."
+    "provenance": "official",
+    "truthMode": "verified"
+  }
 }
