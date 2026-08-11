@@ -117,7 +117,7 @@ export function StationBrowser({
         target,
         reason: "geolocation_unsupported",
       }, { language: i18n.language });
-      setLocationError(t("stations.geolocation_unsupported", "Geolocation is not supported by your browser."));
+      setLocationError(t("stations.geolocation_unsupported"));
       return;
     }
 
@@ -147,7 +147,7 @@ export function StationBrowser({
             throw new Error("No station found");
           }
         } catch (error) {
-          setLocationError(t("stations.location_error", "Could not determine nearest station."));
+          setLocationError(t("stations.location_error"));
         } finally {
           setIsLocating(false);
         }
@@ -159,7 +159,7 @@ export function StationBrowser({
           target,
           reason: error.code === error.PERMISSION_DENIED ? "permission_denied" : "geolocation_error",
         }, { language: i18n.language });
-        setLocationError(t("stations.location_permission_denied", "Location access denied or failed."));
+        setLocationError(t("stations.location_permission_denied"));
         setIsLocating(false);
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
@@ -466,7 +466,7 @@ export function StationBrowser({
                 onChange={(event) => setQuery(event.target.value)}
                 onFocus={() => setIsInputFocused(true)}
                 onBlur={() => setTimeout(() => setIsInputFocused(false), 200)}
-                aria-label={t("stations.search_label", { defaultValue: "Search stations" })}
+                aria-label={t("stations.search_label")}
                 enterKeyHint="search"
                 placeholder={t("stations.search_placeholder")}
                 className="w-full bg-transparent text-base font-medium text-slate-900 placeholder:text-slate-500 dark:text-slate-100 dark:placeholder:text-slate-500"
@@ -478,7 +478,7 @@ export function StationBrowser({
                     triggerHaptic("light");
                     setQuery("");
                   }}
-                  aria-label={t("stations.clear_search", { defaultValue: "Clear station search" })}
+                  aria-label={t("stations.clear_search")}
                   className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
                 >
                   <X aria-hidden="true" className="h-4 w-4" />
@@ -491,7 +491,7 @@ export function StationBrowser({
                 <StationList
                   isLoading={isLoading}
                   loadFailed={loadFailed}
-                  emptyMessage={coverage?.message}
+                  emptyMessageKey={coverage?.messageKey}
                   sourceUrl={coverage?.sourceUrl}
                   stations={filteredStations}
                   country={country}
@@ -523,7 +523,7 @@ export function StationBrowser({
                 ) : (
                   <Navigation aria-hidden="true" className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
                 )}
-                {isLocating ? t("stations.locating", "Locating...") : t("stations.use_current_location", "Use Current Location")}
+                {isLocating ? t("stations.locating") : t("stations.use_current_location")}
               </button>
               {locationError && (
                 <p className="mt-2 text-center text-xs font-semibold text-red-500 dark:text-red-400">
@@ -548,7 +548,7 @@ export function StationBrowser({
               <StationList
                 isLoading={isLoading}
                 loadFailed={loadFailed}
-                emptyMessage={coverage?.message}
+                emptyMessageKey={coverage?.messageKey}
                 sourceUrl={coverage?.sourceUrl}
                 stations={filteredStations}
                 country={country}
@@ -562,7 +562,7 @@ export function StationBrowser({
               <StationList
                 isLoading={isLoading}
                 loadFailed={loadFailed}
-                emptyMessage={coverage?.message}
+                emptyMessageKey={coverage?.messageKey}
                 sourceUrl={coverage?.sourceUrl}
                 stations={filteredStations}
                 country={country}
@@ -596,7 +596,7 @@ export function StationBrowser({
                           selectedRegion === region.id ? theme.textActive : "text-slate-500 dark:text-slate-400"
                         }`}
                       >
-                        <span className="truncate">{t(`service_region.${region.id}`, { defaultValue: region.name })}</span>
+                        <span className="truncate">{t(`service_region.${region.id}`)}</span>
                         <ChevronDown className={`h-3 w-3 shrink-0 transition-transform ${selectedRegion === region.id ? "rotate-180" : ""}`} />
                       </button>
                       {selectedRegion === region.id && (
@@ -649,7 +649,7 @@ export function StationBrowser({
                       <div className="mb-4">
                         <div className="mb-2 flex items-center gap-1.5 px-1 text-xs font-semibold text-slate-600 dark:text-slate-300">
                           <MapPin className="h-3 w-3 text-emerald-500" />
-                          <span>{t("stations.featured", "Popular Stations")}</span>
+                          <span>{t("stations.featured")}</span>
                         </div>
                         <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
                           {featured.map((station) => (
@@ -714,9 +714,9 @@ export function StationBrowser({
                                     <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">{station.localName}</span>
                                   ) : null}
                                   {station.accessible && (
-                                    <span className="inline-flex items-center justify-center text-blue-700 dark:text-blue-300" title={t("stations.accessible", "Wheelchair Accessible")}>
+                                    <span className="inline-flex items-center justify-center text-blue-700 dark:text-blue-300" title={t("stations.accessible")}>
                                       <Accessibility aria-hidden="true" className="h-4 w-4" />
-                                      <span className="sr-only">{t("stations.accessible", "Wheelchair Accessible")}</span>
+                                      <span className="sr-only">{t("stations.accessible")}</span>
                                     </span>
                                   )}
                                 </span>
@@ -733,12 +733,12 @@ export function StationBrowser({
                                       {conn.isDirect ? (
                                         <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border border-emerald-200/30">
                                           <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-700 dark:bg-emerald-400" />
-                                          {t("stations.direct_route", "Direct")}
+                                          {t("stations.direct_route")}
                                         </span>
                                       ) : (
                                         <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 border border-amber-200/30">
                                           <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-                                          {conn.transferCount} {conn.transferCount === 1 ? t("stations.transfer", "Transfer") : t("stations.transfers", "Transfers")}
+                                          {conn.transferCount} {conn.transferCount === 1 ? t("stations.transfer") : t("stations.transfers")}
                                         </span>
                                       )}
                                       {conn.lines.map((lineObj) => (
@@ -795,9 +795,9 @@ function NoTimetableBadge() {
   return (
     <span
       className="inline-flex shrink-0 items-center gap-1 rounded-md border border-slate-200/60 bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold text-slate-500 dark:border-slate-700/60 dark:bg-slate-800/60 dark:text-slate-400"
-      title={t("stations.no_timetable_hint", "TransitRail has no timetable for this station yet.")}
+      title={t("stations.no_timetable_hint")}
     >
-      {t("stations.no_timetable", "No timetable")}
+      {t("stations.no_timetable")}
     </span>
   );
 }
@@ -805,7 +805,7 @@ function NoTimetableBadge() {
 function StationList({
   isLoading,
   loadFailed,
-  emptyMessage,
+  emptyMessageKey,
   sourceUrl,
   stations,
   country,
@@ -818,7 +818,7 @@ function StationList({
 }: {
   isLoading: boolean;
   loadFailed: boolean;
-  emptyMessage?: string;
+  emptyMessageKey?: StationCoverage["messageKey"];
   sourceUrl?: string;
   stations: string[];
   country: Country;
@@ -849,7 +849,7 @@ function StationList({
     return (
       <div className="py-12 text-center">
         <p className="text-xs font-bold text-slate-500 dark:text-slate-400">
-          {emptyMessage || t("stations.none")}
+          {emptyMessageKey ? t(emptyMessageKey) : t("stations.none")}
         </p>
         {sourceUrl && (
           <a
@@ -858,7 +858,7 @@ function StationList({
             rel="noreferrer"
             className="mt-3 inline-block text-xs font-semibold text-emerald-700 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300"
           >
-            {t("stations.official_source", "Open the operator timetable")}
+            {t("stations.official_source")}
           </a>
         )}
       </div>
@@ -914,9 +914,9 @@ function StationList({
                   {primaryLabel}
                   {uncovered && <NoTimetableBadge />}
                   {accessibilityMap.get(station) && (
-                    <span className="inline-flex items-center justify-center text-blue-700 dark:text-blue-300" title={t("stations.accessible", "Wheelchair Accessible")}>
+                    <span className="inline-flex items-center justify-center text-blue-700 dark:text-blue-300" title={t("stations.accessible")}>
                       <Accessibility aria-hidden="true" className="h-4 w-4" />
-                      <span className="sr-only">{t("stations.accessible", "Wheelchair Accessible")}</span>
+                      <span className="sr-only">{t("stations.accessible")}</span>
                     </span>
                   )}
                 </span>
@@ -933,12 +933,12 @@ function StationList({
                       {conn.isDirect ? (
                         <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border border-emerald-200/30">
                           <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-700 dark:bg-emerald-400" />
-                          {t("stations.direct_route", "Direct")}
+                          {t("stations.direct_route")}
                         </span>
                       ) : (
                         <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 border border-amber-200/30">
                           <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-                          {conn.transferCount} {conn.transferCount === 1 ? t("stations.transfer", "Transfer") : t("stations.transfers", "Transfers")}
+                          {conn.transferCount} {conn.transferCount === 1 ? t("stations.transfer") : t("stations.transfers")}
                         </span>
                       )}
                       {conn.lines.map((lineObj) => (

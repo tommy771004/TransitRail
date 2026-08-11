@@ -7,6 +7,7 @@
  */
 import { describe, expect, it } from "vitest";
 import i18n from "./i18n";
+import { countryConfig } from "./data/countries";
 
 const LOCALES = ["en", "zh-TW", "ja", "ko"];
 
@@ -53,4 +54,39 @@ describe("English subject/verb agreement", () => {
       .toBe("City Hall, Chungjeongno appear on the network map, but TransitRail has no timetable data for them yet.");
     expect(t("result.not_covered_title", { count: 2 })).toBe("These stations have no timetable yet");
   });
+});
+
+describe("station browser i18n coverage", () => {
+  const stationKeys = [
+    "stations.search_label",
+    "stations.search_placeholder",
+    "stations.clear_search",
+    "stations.loading",
+    "stations.unavailable",
+    "stations.invalid_country",
+    "stations.none",
+    "stations.featured",
+    "stations.accessible",
+    "stations.direct_route",
+    "stations.transfer",
+    "stations.transfers",
+    "stations.official_source",
+    "stations.catalog_only_no_timetable",
+    "stations.no_registered_timetable_source",
+    "stations.no_verified_timetable_for_date",
+    "stations.no_verified_timetable_current",
+    "stations.no_verified_searchable_lines_for_date",
+    "stations.no_verified_destinations_for_origin",
+  ];
+  const regionKeys = [...new Set(Object.values(countryConfig).flatMap((country) =>
+    country.marketTopology.regions.map((region) => `service_region.${region.id}`),
+  ))];
+
+  for (const lng of LOCALES) {
+    it(`${lng} has every station-browser UI key without falling back to English`, () => {
+      for (const key of [...stationKeys, ...regionKeys]) {
+        expect(i18n.exists(key, { lng, fallbackLng: false }), `${lng}: ${key}`).toBe(true);
+      }
+    });
+  }
 });

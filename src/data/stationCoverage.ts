@@ -35,6 +35,17 @@ export { usesStrictCatalogGate } from "./searchabilityPolicy";
  */
 export type CoverageMode = "scraped" | "provider" | "catalog_only";
 
+/** Translation keys for catalogue states. The API sends a semantic state, not UI copy. */
+export type StationCatalogMessageKey =
+  | "stations.invalid_country"
+  | "stations.unavailable"
+  | "stations.catalog_only_no_timetable"
+  | "stations.no_registered_timetable_source"
+  | "stations.no_verified_timetable_for_date"
+  | "stations.no_verified_timetable_current"
+  | "stations.no_verified_searchable_lines_for_date"
+  | "stations.no_verified_destinations_for_origin";
+
 /** Station coverage for one country, as served to the picker. */
 export interface StationCoverage {
   mode: CoverageMode;
@@ -52,7 +63,8 @@ export interface StationCoverage {
     days: number;
     liveOnly: boolean;
   };
-  message?: string;
+  /** Semantic UI state; translate this in the client for the active locale. */
+  messageKey?: StationCatalogMessageKey;
   sourceUrl?: string;
   provenance?: TimetableProvenance | "unknown";
   truthMode?: TimetableTruthMode;

@@ -65,7 +65,7 @@ export interface CountryAudit {
     regions: string[];
     lines: number;
     stations: number;
-    message?: string;
+    messageKey?: string;
   };
   temporal: {
     state: TemporalState;
@@ -244,7 +244,7 @@ export async function auditCountry(country: Country, now = new Date()): Promise<
         regions: [],
         lines: 0,
         stations: 0,
-        message: catalog.message,
+        messageKey: catalog.messageKey,
       },
     temporal: classifyTemporalState({
       ...base,
@@ -307,7 +307,7 @@ export function buildReport(audits: CountryAudit[], now = new Date()): string {
     const stationCoverage = `${audit.network.stations}/${audit.network.declaredStations} declared stations`;
     const network = audit.network.state === "searchable"
       ? `${regionCoverage}; ${lineCoverage}; ${stationCoverage}: ${audit.network.regions.join(", ")}`
-      : `No searchable network (${regionCoverage}; ${lineCoverage}; ${stationCoverage})${audit.network.message ? ` — ${audit.network.message}` : ""}`;
+      : `No searchable network (${regionCoverage}; ${lineCoverage}; ${stationCoverage})${audit.network.messageKey ? ` — ${audit.network.messageKey}` : ""}`;
     const temporal = `${audit.temporal.state} (${audit.serviceDate})`
       + `${audit.temporal.observedSpan ? `; observed ${audit.temporal.observedSpan}` : ""}`
       + `${audit.temporal.fetchedAt ? `; ${audit.temporal.fetchedAt}` : ""}`;

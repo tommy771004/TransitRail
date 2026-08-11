@@ -27,6 +27,7 @@ import {
   hasCoverage,
   usesStrictCatalogGate,
   type StationCoverage,
+  type StationCatalogMessageKey,
 } from "../data/stationCoverage";
 import { authenticityOptionsFor, classifyTimetable, isVerifiableTimetable } from "../data/timetableAuthenticity";
 import {
@@ -80,7 +81,7 @@ export interface ServiceRegionCatalog {
   stations: string[];
   source?: string;
   coverage: StationCoverage;
-  message?: string;
+  messageKey?: StationCatalogMessageKey;
 }
 
 export interface BuildServiceRegionCatalogOptions {
@@ -403,15 +404,15 @@ export function buildServiceRegions(country: Country, lines: readonly TransitLin
   return [...regions.values()];
 }
 
-function noDataMessage(country: Country, date: string): string {
+function noDataMessageKey(country: Country, date: string): StationCatalogMessageKey {
   const capability = countryConfig[country];
   if (capability.search.kind === "catalog_only") {
-    return "Station names are available, but no verified timetable is available for this market.";
+    return "stations.catalog_only_no_timetable";
   }
-  if (capability.scrape === "none") return "No verified timetable source is registered for this market.";
+  if (capability.scrape === "none") return "stations.no_registered_timetable_source";
   const summary = getScrapedSearchabilitySummary(country, date);
-  if (!summary.searchable) return "No verified timetable data is available for this country on the selected date.";
-  return "No verified searchable lines are available for this country on the selected date.";
+  if (!summary.searchable) return "stations.no_verified_timetable_for_date";
+  return "stations.no_verified_searchable_lines_for_date";
 }
 
 /**
@@ -451,10 +452,10 @@ export async function buildServiceRegionCatalog(
   const stations = destinationKeys
     ? allStations.filter((station) => destinationKeys.has(stationSearchKey(resolveStationAlias(country, station))))
     : allStations;
-  const message = regions.length === 0
-    ? coverage.message || noDataMessage(country, serviceDate)
+  const messageKey = regions.length === 0
+    ? coverage.messageKey || noDataMessageKey(country, serviceDate)
     : destinationKeys && stations.length === 0
-      ? "No verified destinations are reachable from this station on the selected date."
+      ? "stations.no_verified_destinations_for_origin"
       : undefined;
 
   return {
@@ -464,8 +465,8 @@ export async function buildServiceRegionCatalog(
     lines: regions.flatMap((region) => region.lines),
     stations,
     source: officialTimetableUrls[country],
-    coverage: { ...coverage, date: serviceDate, ...(message ? { message } : {}) },
-    ...(message ? { message } : {}),
+    coverage: { ...coverage, date: serviceDate, ...(messageKey ? { messageKey } : {}) },
+    ...(messageKey ? { messageKey } : {}),
   };
 }
 
@@ -497,15 +498,15 @@ export function getStationCoverage(
     dateRange: offeredDateRange(resolvedCountry),
   };
   if ((coverage.covered ?? []).length === 0) {
-    coverage.message = date
-      ? "No verified timetable data is available for this country on the selected date."
-      : "No verified timetable data is currently available for this country.";
+    coverage.messageKey = date
+      ? "stations.no_verified_timetable_for_date"
+      : "stations.no_verified_timetable_current";
     coverage.sourceUrl = officialTimetableUrls[resolvedCountry];
   }
   if (origin && date) {
     coverage.destinations = getScrapedReachableStations(resolvedCountry, origin, date);
     if (coverage.destinations.length === 0) {
-      coverage.message = "No verified destinations are reachable from this station on the selected date.";
+      coverage.messageKey = "stations.no_verified_destinations_for_origin";
       coverage.sourceUrl = officialTimetableUrls[resolvedCountry];
     }
   }

@@ -48,7 +48,7 @@ describe("station and line catalog integrity scope", () => {
       expect(catalog.regions).toEqual([]);
       expect(catalog.lines).toEqual([]);
       expect(catalog.stations).toEqual([]);
-      expect(catalog.message).toMatch(/timetable|source/i);
+      expect(catalog.messageKey).toMatch(/^stations\./);
     }
   });
 
@@ -186,6 +186,6 @@ describe("station and line catalog integrity scope", () => {
     });
 
     expect(fromSouthStation.stations).toEqual(full.stations);
-    expect(fromSouthStation.message).toBeUndefined();
+    expect(fromSouthStation.messageKey).toBeUndefined();
   });
 });

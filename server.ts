@@ -487,7 +487,7 @@ async function logTransitSearch(
       source?: string;
       coverage?: StationCoverage;
       error?: string;
-      message?: string;
+      messageKey?: StationCoverage["messageKey"];
     };
 
     try {
@@ -504,14 +504,14 @@ async function logTransitSearch(
         : catalog.stations;
       const { source, coverage } = catalog;
       payload = { stations, source, coverage };
-      if (coverage?.message) payload.message = coverage.message;
+      if (coverage?.messageKey) payload.messageKey = coverage.messageKey;
       if (coverage?.sourceUrl && !payload.source) payload.source = coverage.sourceUrl;
     } catch (error) {
       if (error instanceof Error && error.message === "Invalid country") {
         statusCode = 400;
         payload = {
           error: "Invalid country",
-          message: `Country must be one of ${countryOptions.join(", ")}.`,
+          messageKey: "stations.invalid_country",
           stations: [],
         };
       } else {
@@ -519,7 +519,7 @@ async function logTransitSearch(
         providerError = error;
         payload = {
           error: "Provider request failed",
-          message: "Station data is temporarily unavailable. Please try again later.",
+          messageKey: "stations.unavailable",
           stations: [],
         };
       }
@@ -825,17 +825,17 @@ async function logTransitSearch(
             ? "https://api-v3.mbta.com"
             : undefined;
       const coverage = catalog.coverage;
-      let message: string | undefined;
+      let messageKey: StationCoverage["messageKey"];
       let coverageSource: string | undefined;
       if (lines.length === 0) {
-        message = coverage?.message || "No searchable lines are available for the selected service day.";
+        messageKey = coverage?.messageKey || "stations.no_verified_searchable_lines_for_date";
         coverageSource = coverage?.sourceUrl;
       }
       return res.json({
         lines,
         ...(source ? { source } : {}),
         ...(coverageSource && !source ? { source: coverageSource } : {}),
-        ...(message ? { message } : {}),
+        ...(messageKey ? { messageKey } : {}),
         ...(coverage?.provenance ? { provenance: coverage.provenance } : {}),
         ...(coverage?.truthMode ? { truthMode: coverage.truthMode } : {}),
       });
