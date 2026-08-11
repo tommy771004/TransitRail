@@ -72,19 +72,51 @@ jobs:
       # `--against-head` compares the run against the last commit, so a feed
       # that starts answering 200 with an empty envelope is caught as data loss
       # rather than accepted as a schedule with no trains in it.
+      # Keep the exact findings after a failed run. GitHub's job annotation only
+      # says that this command exited non-zero; the report distinguishes a real
+      # source/provenance violation from a provider's transient row loss.
       - name: Validate scraped data
-        run: npm run validate:data -- --against-head
+        id: validate_data
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          npm run validate:data -- --against-head 2>&1 | tee validation-report.txt
+
+      - name: Publish validation report
+        if: always()
+        run: |
+          if [ -f validation-report.txt ]; then
+            {
+              echo "## Timetable validation report"
+              echo '```text'
+              cat validation-report.txt
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: timetable-validation-report
+          path: validation-report.txt
+          if-no-files-found: warn
+          retention-days: 14
 
       # Only runs when validation failed. Restores the previously committed
       # data so the runner's tree matches what is published, then the job stops
       # before the commit step: a bad run leaves yesterday's real timetable in
       # place rather than replacing it with something wrong.
       - name: Discard the failed run
-        if: failure()
+        if: steps.validate_data.outcome == 'failure'
         run: |
           git checkout -- src/data/scraped src/data/service-day || true
           git clean -fd src/data/scraped src/data/service-day || true
           echo "::error::Validation failed. The previously committed data has been kept and nothing was published."
+
+      - name: Mark validation failure
+        if: steps.validate_data.outcome == 'failure'
+        run: exit 1
 
       - name: Generate static station catalog
         env:

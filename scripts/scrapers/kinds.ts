@@ -21,6 +21,7 @@ import {
   type SourceCompleteness,
   type SourceType,
 } from "../../src/data/sourceRegistry";
+import { exactHeadwayMinutes } from "../../src/data/timetableAuthenticity";
 
 /**
  * **Tier A.** An official machine-readable feed: GTFS, GTFS-RT, CSV, XML, JSON,
@@ -213,6 +214,12 @@ export abstract class OfficialFeedScraper extends DownloadScraper {
     const results = Array.isArray(response.body?.results) ? response.body.results : [];
     if (results.length === 0) {
       throw new Error(`${this.name} returned no departures for ${route.origin} → ${route.destination} on ${date}`);
+    }
+    const headway = exactHeadwayMinutes(results as ScrapedRouteData["results"]);
+    if (headway !== undefined) {
+      throw new Error(
+        `${this.name} returned a generated exact-headway day (${results.length} departures every ${headway} minutes) for ${route.origin} → ${route.destination} on ${date}`,
+      );
     }
     return {
       origin: route.origin,

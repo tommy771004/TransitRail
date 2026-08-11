@@ -133,6 +133,26 @@ describe("OfficialFeedScraper", () => {
     await expect(scraper.scrape(ROUTE, "2026-08-01")).rejects.toThrow(expected);
   });
 
+  it("rejects a generated exact-headway day before it reaches the publish validator", async () => {
+    // Regression for the Swiss GTFS Bern → Lausanne slice that reached the
+    // action with 35 half-hourly rows and tripped validation after all scrapers
+    // had finished.
+    const generated = Array.from({ length: 35 }, (_, index) => {
+      const departureMinutes = 5 * 60 + index * 30;
+      const arrivalMinutes = departureMinutes + 60;
+      const clock = (minutes: number) => `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
+      return {
+      ...row,
+      id: `generated-${index}`,
+        departureTime: clock(departureMinutes),
+        arrivalTime: clock(arrivalMinutes),
+      };
+    });
+    const scraper = new TestFeedScraper(async () => ({ status: 200, body: { results: generated } }));
+
+    await expect(scraper.scrape(ROUTE, "2026-08-01")).rejects.toThrow(/generated exact-headway/);
+  });
+
   it("never calls a live-only provider about another service day", async () => {
     class LiveOnly extends OfficialFeedScraper {
       constructor(query: Parameters<typeof buildFeed>[0]) {

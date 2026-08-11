@@ -102,6 +102,31 @@ export function parseClockMinutes(time: string | undefined): number | undefined 
 }
 
 /**
+ * A full service day with one perfectly constant interval is the signature of
+ * a headway being expanded into invented departures. Keep the threshold shared
+ * by the scraper and its publish-time validator so a bad slice is rejected
+ * before it can make the daily job fail at the final gate.
+ */
+export const SYNTHETIC_HEADWAY_MIN_DEPARTURES = 8;
+
+export function exactHeadwayMinutes(
+  results: readonly Pick<TransitResult, "departureTime">[],
+  minimumDepartures = SYNTHETIC_HEADWAY_MIN_DEPARTURES,
+): number | undefined {
+  const minutes = results
+    .map((result) => parseClockMinutes(result.departureTime))
+    .filter((minutes): minutes is number => minutes !== undefined)
+    .sort((a, b) => a - b);
+  if (minutes.length < minimumDepartures) return undefined;
+
+  const gaps = new Set<number>();
+  for (let index = 1; index < minutes.length; index += 1) {
+    gaps.add(minutes[index] - minutes[index - 1]);
+  }
+  return gaps.size === 1 ? [...gaps][0] : undefined;
+}
+
+/**
  * Markers left by the retired curated/LLM pipeline.
  *
  * Nothing in TransitRail produces either any more, so these exist only to
@@ -135,16 +160,7 @@ export function isSyntheticTimetable(source: string, results: TransitResult[]): 
     || LLM_ADVISORY_SOURCE.test(source)
     || results.some((result) => result.provenance === "llm-advisory" || result.provenance === "curated")
   ) return true;
-  const minutes = results
-    .map((result) => parseClockMinutes(result.departureTime))
-    .filter((minutes): minutes is number => minutes !== undefined)
-    .sort((a, b) => a - b);
-  if (minutes.length < 4) return false;
-  const gaps = new Set<number>();
-  for (let index = 1; index < minutes.length; index += 1) {
-    gaps.add(minutes[index] - minutes[index - 1]);
-  }
-  return gaps.size === 1;
+  return exactHeadwayMinutes(results, 4) !== undefined;
 }
 
 /** Return the rows belonging to one service date without mutating the route. */

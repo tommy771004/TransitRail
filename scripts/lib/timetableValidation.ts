@@ -24,7 +24,10 @@ import {
   findOfficialSource,
   isValidSourceMeta,
 } from "../../src/data/sourceRegistry";
-import { parseClockMinutes } from "../../src/data/timetableAuthenticity";
+import {
+  exactHeadwayMinutes,
+  parseClockMinutes,
+} from "../../src/data/timetableAuthenticity";
 
 export type ValidationSeverity = "blocking" | "warning";
 
@@ -99,8 +102,6 @@ function byServiceDay(results: readonly TransitResult[]): Map<string, TransitRes
  * no variation anywhere in the day, is not something a real operating day does:
  * the peak differs from the shoulder, and the last hour differs from both.
  */
-const SYNTHETIC_MIN_DEPARTURES = 8;
-
 /**
  * A journey longer than this is treated as a parsing error rather than a very
  * long train. The longest scheduled passenger rail journeys in the covered
@@ -170,20 +171,13 @@ export function validateRoute(input: ValidationInput): ValidationFinding[] {
     }
 
     // 6. Synthetic headway: a full day at one exact interval.
-    const minutes = rows
-      .map((row) => parseClockMinutes(row.departureTime))
-      .filter((value): value is number => value !== undefined)
-      .sort((left, right) => left - right);
-    if (minutes.length >= SYNTHETIC_MIN_DEPARTURES) {
-      const gaps = new Set<number>();
-      for (let index = 1; index < minutes.length; index += 1) gaps.add(minutes[index] - minutes[index - 1]);
-      if (gaps.size === 1) {
-        add(
-          "synthetic-headway",
-          "blocking",
-          `${day}: all ${minutes.length} departures are exactly ${[...gaps][0]} minutes apart, which is a generated pattern rather than a published timetable.`,
-        );
-      }
+    const headway = exactHeadwayMinutes(rows);
+    if (headway !== undefined) {
+      add(
+        "synthetic-headway",
+        "blocking",
+        `${day}: all ${rows.length} departures are exactly ${headway} minutes apart, which is a generated pattern rather than a published timetable.`,
+      );
     }
   }
 
