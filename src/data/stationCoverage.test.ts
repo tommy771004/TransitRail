@@ -77,8 +77,8 @@ describe("coverageModeFor", () => {
     expect(coverageModeFor("switzerland")).toBe("provider");
   });
 
-  it("marks a station-catalog-only country as such", () => {
-    expect(coverageModeFor("malaysia")).toBe("catalog_only");
+  it("bounds Malaysia to official KTMB GTFS routes", () => {
+    expect(coverageModeFor("malaysia")).toBe("scraped");
   });
 });
 

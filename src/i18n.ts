@@ -76,7 +76,7 @@ const resources = {
         popular_routes: "Popular Routes",
         faq_title: "Frequently Asked Questions FAQ",
         about_title: "About Global Transit Search",
-        about_body: "TransitRail is a free cross-border train and public transit timetable search utility. It integrates railway and subway networks across 13 countries and territories, including Japan, Singapore, Malaysia, Thailand, Hong Kong, the United Kingdom, the United States, Germany, France, Belgium, Norway, Switzerland, and China. Malaysia currently provides an official historical-ridership station catalog only; it is not presented as timetable or live-arrival data.",
+        about_body: "TransitRail is a free cross-border train and public transit timetable search utility. It integrates railway and subway networks across 13 countries and territories, including Japan, Singapore, Malaysia, Thailand, Hong Kong, the United Kingdom, the United States, Germany, France, Belgium, Norway, Switzerland, and China. Malaysia provides KTMB schedules from its official data.gov.my GTFS feed only for the service dates that feed publishes.",
         data_source_detail: "Schedules, fares, and live statuses are directly integrated from official transit systems and third-party APIs (such as Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF, iRail, Entur, and OpenTransportData Swiss).",
         taiwan_rail_link: "Taiwan Rail & Metro",
         date_of_travel: "Date of Travel",

@@ -40,6 +40,8 @@ export type GtfsFeedSource = {
 type GtfsFeedSourceOptions = {
   url: string;
   label: string;
+  /** Some official download gateways reject the otherwise valid zip MIME type. */
+  accept?: string;
   userAgent?: string;
   timeoutMs?: number;
   cacheTtlMs?: number;
@@ -255,7 +257,7 @@ export function createGtfsFeedSource(options: GtfsFeedSourceOptions): GtfsFeedSo
         response = await fetch(options.url, {
           signal: controller.signal,
           headers: {
-            Accept: "application/zip",
+            Accept: options.accept || "application/zip",
             "User-Agent": options.userAgent || "TransitRail/1.0",
           },
         });

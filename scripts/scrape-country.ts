@@ -1,6 +1,4 @@
 import "dotenv/config";
-import { mkdirSync, writeFileSync } from "fs";
-import { resolve } from "path";
 import { buildCountryMetadata } from "./scrapers/artifactBuilder";
 import { syncMalaysiaStationCatalog } from "./scrapers/malaysia";
 import type { Country } from "../src/types";
@@ -9,19 +7,7 @@ async function main() {
   const requestedCountry = process.argv[2];
   if (requestedCountry === "malaysia") {
     const malaysia = await syncMalaysiaStationCatalog();
-    const directory = resolve("src/data/scraped/malaysia");
-    mkdirSync(directory, { recursive: true });
-    writeFileSync(resolve(directory, "metadata.json"), `${JSON.stringify({
-      country: "malaysia",
-      provider: "Ministry of Transport Malaysia (data.gov.my)",
-      source: "data.gov.my rail ridership station catalog",
-      builtAt: new Date().toISOString(),
-      routeCount: 0,
-      recordCount: 0,
-      routes: [],
-    }, null, 2)}\n`, "utf8");
-    console.log(`Malaysia catalog updated: ${malaysia.stationCount} stations from ${malaysia.sourceCount} source(s); no timetable results created.`);
-    return;
+    console.log(`Malaysia station catalog updated: ${malaysia.stationCount} stations from ${malaysia.sourceCount} source(s).`);
   }
 
   const { createTimetableScrapers, scraperDisplayNames } = await import("./scrapers/registry");
@@ -36,7 +22,7 @@ async function main() {
   const date = process.argv[3] || new Date().toISOString().split("T")[0];
 
   if (!country || !scraperByCountry[country]) {
-    throw new Error(`Country must be one of: ${[...Object.keys(scraperByCountry), "malaysia"].join(", ")}`);
+    throw new Error(`Country must be one of: ${Object.keys(scraperByCountry).join(", ")}`);
   }
 
   const countryScrapers = scraperByCountry[country];

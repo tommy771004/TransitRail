@@ -1,19 +1,55 @@
 {
   "country": "malaysia",
-  "provider": "data.gov.my historical-ridership station catalog",
-  "source": "No registered official source",
-  "builtAt": "2026-08-08T22:36:03.921Z",
-  "recordCount": 0,
-  "routeCount": 0,
-  "successRate": null,
+  "provider": "Ministry of Transport Malaysia / Keretapi Tanah Melayu Berhad",
+  "source": "data.gov.my KTMB static GTFS",
+  "sourceUrl": "https://api.data.gov.my/gtfs-static/ktmb",
+  "sourceTier": "A",
+  "fetchedAt": "2026-08-11T08:09:15.318Z",
+  "builtAt": "2026-08-11T08:09:15.319Z",
+  "recordCount": 36,
+  "routeCount": 3,
+  "successRate": 1,
   "failedRoutes": [],
   "coverage": {
-    "verifiedRoutes": 0,
+    "verifiedRoutes": 3,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
-    "serviceDates": []
+    "serviceDates": [
+      "2026-08-11"
+    ]
   },
-  "checksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "checksum": "91573f4f5738fdac5b5c66763644dc9e0c714b3885c9bb7ec25875e107a9f0f6",
   "artifactVersion": 2,
-  "routes": []
+  "routes": [
+    {
+      "origin": "Batu Caves",
+      "destination": "Kuala Lumpur",
+      "resultCount": 15,
+      "date": "2026-08-11",
+      "sourceId": "my-ktmb-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-11T08:09:15.317Z",
+      "verified": true
+    },
+    {
+      "origin": "Klang",
+      "destination": "Subang Jaya",
+      "resultCount": 4,
+      "date": "2026-08-11",
+      "sourceId": "my-ktmb-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-11T08:09:15.318Z",
+      "verified": true
+    },
+    {
+      "origin": "Rawang",
+      "destination": "Kuala Lumpur",
+      "resultCount": 17,
+      "date": "2026-08-11",
+      "sourceId": "my-ktmb-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-08-11T08:09:15.313Z",
+      "verified": true
+    }
+  ]
 }

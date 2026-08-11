@@ -16,6 +16,7 @@ import type { Country } from "../../src/types";
 import { getCountryCapability, timetableScrapeCountries } from "../../src/data/countryCapability";
 import { JapanOdptScraper, JapanJrCentralScraper } from "./japan";
 import { KoreaScraper } from "./korea";
+import { MalaysiaKtmbScraper } from "./malaysiaTimetable";
 import {
   BelgiumScraper,
   NorwayScraper,
@@ -36,6 +37,7 @@ const FACTORIES: Record<string, Array<() => BaseScraper>> = {
   japan: [() => new JapanOdptScraper(), () => new JapanJrCentralScraper()],
   korea: [() => new KoreaScraper()],
   singapore: [() => new SingaporeScraper()],
+  malaysia: [() => new MalaysiaKtmbScraper()],
   thailand: [() => new ThailandScraper()],
   hong_kong: [() => new HongKongScraper()],
   united_kingdom: [() => new UnitedKingdomScraper()],
@@ -92,6 +94,5 @@ export function scraperDisplayNames(
   }
   return Object.fromEntries([
     ...[...byCountry].map(([country, names]) => [country, names.join(" + ")]),
-    ["malaysia", "data.gov.my historical-ridership station catalog"],
   ]);
 }

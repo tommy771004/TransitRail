@@ -4,12 +4,14 @@ import type { ScrapedRouteData } from "./scraped/timetableDay";
 /** Provider markets whose line catalog is built from verified route snapshots. */
 export const snapshotRouteCountries: readonly Country[] = [
   "belgium",
+  "malaysia",
   "norway",
   "united_states",
 ];
 
 const routeColors: Partial<Record<Country, string>> = {
   belgium: "#0055A4",
+  malaysia: "#3C5A9F",
   norway: "#8B1D3D",
   united_states: "#2563EB",
 };

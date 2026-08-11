@@ -74,7 +74,7 @@ function resolveDataDir(): string {
 const ACTUAL_DATA_DIR = resolveDataDir();
 
 const ALL_COUNTRIES: Country[] = [
-  "japan", "korea", "singapore", "thailand",
+  "japan", "korea", "singapore", "malaysia", "thailand",
   "hong_kong", "united_kingdom", "united_states",
   "germany", "france", "belgium", "norway", "china", "switzerland",
 ];

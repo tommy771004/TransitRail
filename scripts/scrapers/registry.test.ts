@@ -50,8 +50,7 @@ describe("scraper registry ↔ country capability", () => {
     expect(countries.has("hong_kong")).toBe(true);
     expect(countries.has("united_kingdom")).toBe(true);
     expect(countries.has("switzerland")).toBe(true);
-    // Catalog-only, and no source wired up at all, respectively.
-    expect(countries.has("malaysia")).toBe(false);
+    expect(countries.has("malaysia")).toBe(true);
     expect(countries.has("china")).toBe(false);
   });
 });

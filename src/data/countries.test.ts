@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   isSearchDateAllowed,
+  countryOptions,
   providerDateTimeValue,
   providerDateValue,
   providerDateValues,
@@ -8,6 +9,11 @@ import {
 } from "./countries";
 
 describe("market-local date and time values", () => {
+  it("hides markets with no searchable published timetable from the picker", () => {
+    expect(countryOptions).not.toContain("singapore");
+    expect(countryOptions).not.toContain("thailand");
+  });
+
   const instant = new Date("2026-07-28T00:30:00.000Z");
 
   it("uses the market timezone for the current provider date", () => {

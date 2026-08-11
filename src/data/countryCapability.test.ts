@@ -44,11 +44,11 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
     });
   });
 
-  it("Malaysia: station catalog only — no timetable search", () => {
+  it("Malaysia: official KTMB GTFS timetable search", () => {
     expect(getCountryCapability("malaysia")).toMatchObject({
-      search: { kind: "catalog_only" },
-      scrape: "catalog_sync",
-      resultView: "catalog",
+      search: { kind: "scraped" },
+      scrape: "official_source",
+      resultView: "metro",
       liveOnly: false,
     });
   });
@@ -110,10 +110,10 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
     }
   });
 
-  it("timetable scrapers exclude catalog-only Malaysia", () => {
-    expect(timetableScrapeCountries()).not.toContain("malaysia");
+  it("timetable scrapers include Malaysia's official GTFS", () => {
+    expect(timetableScrapeCountries()).toContain("malaysia");
     expect(timetableScrapeCountries()).toContain("japan");
     expect(timetableScrapeCountries()).toContain("hong_kong");
-    expect(getCountryCapability("malaysia").scrape).toBe("catalog_sync");
+    expect(getCountryCapability("malaysia").scrape).toBe("official_source");
   });
 });

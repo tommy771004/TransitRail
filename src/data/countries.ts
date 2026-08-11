@@ -69,6 +69,10 @@ export const hiddenCountryOptions = new Set<Country>([
   // Hidden rather than deleted — the config, topology and currency stay put, so
   // registering a source is all it takes to bring it back.
   "china",
+  // These markets remain configured so their official sources can be monitored,
+  // but neither currently has a published, searchable departure timetable.
+  "singapore",
+  "thailand",
 ]);
 
 /** Markets exposed by the public picker and transit API. */
@@ -231,21 +235,21 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
   },
   malaysia: {
     labelKey: "search.malaysia",
-    provider: "data.gov.my historical ridership station catalog",
-    originPlaceholder: "KJ15: KL Sentral",
-    destinationPlaceholder: "KJ10: KLCC",
-    featuredStations: ["KJ15: KL Sentral", "KJ10: KLCC", "KG18: Bukit Bintang", "KL Sentral", "Kajang"],
+    provider: "data.gov.my / KTMB GTFS",
+    originPlaceholder: "Rawang",
+    destinationPlaceholder: "Kuala Lumpur",
+    featuredStations: ["Rawang", "Batu Caves", "Kuala Lumpur", "Klang", "Subang Jaya"],
     promptName: "馬來西亞",
-    connected: false,
+    connected: true,
     liveOnly: false,
-    dateRangeDays: 1,
+    dateRangeDays: SCRAPE_WINDOW_DAYS,
     timeZone: "Asia/Kuala_Lumpur",
-    search: { kind: "catalog_only" },
-    scrape: "catalog_sync",
+    search: { kind: "scraped" },
+    scrape: "official_source",
     authenticityGates: { catalog: true },
-    marketTopology: { regions: [{ id: "malaysia-intercity", name: "Malaysia rail", declaredLines: 0, declaredStations: 216 }] },
-    resultView: "catalog",
-    serviceDay: { coverage: "unavailable", source: "Historical ridership catalog has no timetable", scope: "No service-day advisory" },
+    marketTopology: { regions: [{ id: "malaysia-intercity", name: "Malaysia rail", declaredLines: 3, declaredStations: 5 }] },
+    resultView: "metro",
+    serviceDay: { coverage: "unavailable", source: "KTMB GTFS has no separate service-day advisory", scope: "No service-day advisory" },
   },
   thailand: {
     labelKey: "search.thailand",

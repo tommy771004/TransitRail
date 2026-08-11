@@ -67,7 +67,8 @@ describe("source coverage audit", () => {
     expect(classifyTemporalState({ ...base, country: "united_kingdom", sourceIds: ["uk-tfl-journey-planner"] }).state)
       .toBe("sampled-service-day");
     expect(classifyTemporalState({ ...base, newestFetch: "2026-08-07T12:00:00.000Z" }).state).toBe("stale");
-    expect(classifyTemporalState({ ...base, country: "malaysia" }).state).toBe("catalog-only");
+    expect(classifyTemporalState({ ...base, country: "malaysia", sourceIds: ["my-ktmb-gtfs"] }).state)
+      .toBe("full-timetable");
     expect(classifyTemporalState({ ...base, departureRows: 0, hasServiceDayArtifact: true }).state)
       .toBe("frequency-or-service-hours");
     expect(classifyTemporalState({ ...base, departureRows: 0, completeness: ["full-timetable"] }).state)

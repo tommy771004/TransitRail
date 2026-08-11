@@ -33,6 +33,17 @@ export const singaporeRoutes: ScrapedRoute[] = [
   { origin: "Woodlands", destination: "Orchard" },
 ];
 
+/**
+ * KTMB pairs verified against the official data.gov.my GTFS feed. This is a
+ * deliberately small catalogue: every endpoint also exists in the Malaysia
+ * station menu, and the crawler only writes dates declared by GTFS calendar.
+ */
+export const malaysiaKtmbRoutes: ScrapedRoute[] = [
+  { origin: "Rawang", destination: "Kuala Lumpur" },
+  { origin: "Batu Caves", destination: "Kuala Lumpur" },
+  { origin: "Klang", destination: "Subang Jaya" },
+];
+
 export const thailandRoutes: ScrapedRoute[] = [
   { origin: "Mo Chit", destination: "Hua Lamphong" },
   { origin: "Siam", destination: "Mo Chit" },

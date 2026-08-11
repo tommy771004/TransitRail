@@ -107,7 +107,7 @@ export const officialTimetableUrls: Partial<Record<Country, string>> = {
   belgium: "https://www.belgiantrain.be/en",
   norway: "https://www.entur.no/",
   switzerland: "https://opentransportdata.swiss/en/",
-  malaysia: MALAYSIA_STATION_CATALOG_SOURCE,
+  malaysia: "https://api.data.gov.my/gtfs-static/ktmb",
 };
 
 const staticLineSets: Record<string, TransitLine[]> = {

@@ -1,8 +1,8 @@
 {
   "origin": "Hong Kong",
   "destination": "Airport",
-  "date": "2026-08-09",
-  "scrapedAt": "2026-08-08T22:18:07.729Z",
+  "date": "2026-08-09..2026-08-11",
+  "scrapedAt": "2026-08-11T08:00:40.083Z",
   "source": "MTR real-time next train API",
   "results": [
     {
@@ -84,6 +84,86 @@
       "realtime": true,
       "lineColor": "#00888E",
       "date": "2026-08-09"
+    },
+    {
+      "id": "2026-08-11-hk-AEL-HOK-2026-08-11 16:10:00-1",
+      "country": "hong_kong",
+      "operator": "MTR",
+      "service": "Airport Express",
+      "trainType": "Next train",
+      "departureTime": "16:10",
+      "origin": "Hong Kong",
+      "destination": "Airport",
+      "direct": true,
+      "stops": [
+        "Kowloon",
+        "Tsing Yi"
+      ],
+      "platform": "1",
+      "headsign": "AsiaWorld-Expo",
+      "realtime": true,
+      "lineColor": "#00888E",
+      "date": "2026-08-11"
+    },
+    {
+      "id": "2026-08-11-hk-AEL-HOK-2026-08-11 16:20:00-2",
+      "country": "hong_kong",
+      "operator": "MTR",
+      "service": "Airport Express",
+      "trainType": "Next train",
+      "departureTime": "16:20",
+      "origin": "Hong Kong",
+      "destination": "Airport",
+      "direct": true,
+      "stops": [
+        "Kowloon",
+        "Tsing Yi"
+      ],
+      "platform": "1",
+      "headsign": "AsiaWorld-Expo",
+      "realtime": true,
+      "lineColor": "#00888E",
+      "date": "2026-08-11"
+    },
+    {
+      "id": "2026-08-11-hk-AEL-HOK-2026-08-11 16:30:00-3",
+      "country": "hong_kong",
+      "operator": "MTR",
+      "service": "Airport Express",
+      "trainType": "Next train",
+      "departureTime": "16:30",
+      "origin": "Hong Kong",
+      "destination": "Airport",
+      "direct": true,
+      "stops": [
+        "Kowloon",
+        "Tsing Yi"
+      ],
+      "platform": "1",
+      "headsign": "AsiaWorld-Expo",
+      "realtime": true,
+      "lineColor": "#00888E",
+      "date": "2026-08-11"
+    },
+    {
+      "id": "2026-08-11-hk-AEL-HOK-2026-08-11 16:40:00-4",
+      "country": "hong_kong",
+      "operator": "MTR",
+      "service": "Airport Express",
+      "trainType": "Next train",
+      "departureTime": "16:40",
+      "origin": "Hong Kong",
+      "destination": "Airport",
+      "direct": true,
+      "stops": [
+        "Kowloon",
+        "Tsing Yi"
+      ],
+      "platform": "1",
+      "headsign": "AsiaWorld-Expo",
+      "realtime": true,
+      "lineColor": "#00888E",
+      "date": "2026-08-11"
     }
   ],
   "sourceMeta": {
@@ -94,7 +174,7 @@
     "sourceUrl": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
     "provider": "MTR Corporation",
     "country": "hong_kong",
-    "fetchedAt": "2026-08-08T22:18:07.729Z",
+    "fetchedAt": "2026-08-11T08:00:40.083Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

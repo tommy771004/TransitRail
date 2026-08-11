@@ -56,7 +56,7 @@ describe("search no-result reasons", () => {
     expect(result.payload.message).toContain("service-date range");
   });
 
-  it("reports a country with no verified timetable data", async () => {
+  it("reports an uncovered Malaysia station pair without claiming a timetable", async () => {
     const result = await runTransitSearch({
       country: "malaysia",
       origin: "KL Sentral",
@@ -64,9 +64,9 @@ describe("search no-result reasons", () => {
       date: "2026-08-01",
     });
 
-    expect(result.statusCode).toBe(422);
+    expect(result.statusCode).toBe(404);
     expect(result.payload.noResultReason).toBe("no_verified_data");
-    expect(result.payload.officialSourceUrl).toContain("data.gov.my");
+    expect(result.payload.officialSourceUrl).toBe("https://api.data.gov.my/gtfs-static/ktmb");
   });
 
   it("reports an otherwise covered route with no service on the selected day", async () => {

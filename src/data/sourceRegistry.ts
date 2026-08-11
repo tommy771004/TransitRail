@@ -344,6 +344,15 @@ export const officialSources = {
     // Station names only — this source publishes no timetable at all.
     maxCompleteness: "service-hours",
   },
+  "my-ktmb-gtfs": {
+    id: "my-ktmb-gtfs",
+    country: "malaysia",
+    provider: "Ministry of Transport Malaysia / Keretapi Tanah Melayu Berhad",
+    sourceName: "data.gov.my KTMB static GTFS",
+    sourceType: "official-gtfs",
+    sourceUrl: "https://api.data.gov.my/gtfs-static/ktmb",
+    maxCompleteness: "full-timetable",
+  },
 } as const satisfies Record<string, OfficialSource>;
 
 export type OfficialSourceId = keyof typeof officialSources;
