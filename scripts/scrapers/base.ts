@@ -80,6 +80,13 @@ export abstract class BaseScraper implements ScraperAdapter {
   protected readonly usesBrowser: boolean = false;
 
   /**
+   * Independent route pairs may run together when an operator tolerates it.
+   * Keep the default serial: provider-specific scrapers opt in only after their
+   * rate limits are understood.
+   */
+  protected readonly routeConcurrency: number = 1;
+
+  /**
    * Browser query pages interpret date pickers in the browser's local zone.
    * A provider-specific zone prevents a Taiwan runner from selecting the
    * previous service date on an American or European journey planner.
@@ -116,56 +123,69 @@ export abstract class BaseScraper implements ScraperAdapter {
         })
       : null;
 
-    const results: ScrapedRouteData[] = [];
-    const outcomes: RouteOutcome[] = [];
-    for (const route of this.routes) {
-      console.log(`  ${this.country}: scraping ${route.origin} → ${route.destination}...`);
-      const page = context ? await context.newPage() : undefined;
-      try {
-        const data = this.withResultDates(this.stampSource(await this.scrape(route, date, page), route, date));
-        results.push(data);
-        this.saveRoute(data, options);
-        outcomes.push({
-          origin: route.origin,
-          destination: route.destination,
-          date,
-          status: "ok",
-          rowCount: data.results.length,
-          sourceId: this.sourceIdFor(route),
-        });
-      } catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
-        console.error(`  ✗ ${route.origin} → ${route.destination} FAILED: ${message}`);
-        console.error(`    keeping the previously committed file for this route`);
-        outcomes.push({
-          origin: route.origin,
-          destination: route.destination,
-          date,
-          status: "failed",
-          rowCount: 0,
-          sourceId: this.sourceIdFor(route),
-          error: message,
-        });
-        await recordError({
-          severity: "error",
-          module: "scraper",
-          operation: "route.scrape",
-          errorCode: "SCRAPER_ROUTE_FAILED",
-          error,
-          country: this.country,
-          provider: this.name,
-          context: {
+    const routeResults = new Array<ScrapedRouteData | undefined>(this.routes.length);
+    const routeOutcomes = new Array<RouteOutcome | undefined>(this.routes.length);
+    const concurrency = Math.min(this.routes.length, Math.max(1, Math.floor(this.routeConcurrency)));
+    let nextRouteIndex = 0;
+
+    const scrapeNextRoute = async () => {
+      while (nextRouteIndex < this.routes.length) {
+        const routeIndex = nextRouteIndex;
+        nextRouteIndex += 1;
+        const route = this.routes[routeIndex];
+        console.log(`  ${this.country}: scraping ${route.origin} → ${route.destination}...`);
+        let page: any;
+        try {
+          page = context ? await context.newPage() : undefined;
+          const data = this.withResultDates(this.stampSource(await this.scrape(route, date, page), route, date));
+          routeResults[routeIndex] = data;
+          this.saveRoute(data, options);
+          routeOutcomes[routeIndex] = {
             origin: route.origin,
             destination: route.destination,
             date,
-            usesBrowser: this.usesBrowser,
+            status: "ok",
+            rowCount: data.results.length,
             sourceId: this.sourceIdFor(route),
-          },
-        });
-      } finally {
-        if (page) await page.close().catch(() => {});
+          };
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error);
+          console.error(`  ✗ ${route.origin} → ${route.destination} FAILED: ${message}`);
+          console.error(`    keeping the previously committed file for this route`);
+          routeOutcomes[routeIndex] = {
+            origin: route.origin,
+            destination: route.destination,
+            date,
+            status: "failed",
+            rowCount: 0,
+            sourceId: this.sourceIdFor(route),
+            error: message,
+          };
+          await recordError({
+            severity: "error",
+            module: "scraper",
+            operation: "route.scrape",
+            errorCode: "SCRAPER_ROUTE_FAILED",
+            error,
+            country: this.country,
+            provider: this.name,
+            context: {
+              origin: route.origin,
+              destination: route.destination,
+              date,
+              usesBrowser: this.usesBrowser,
+              sourceId: this.sourceIdFor(route),
+            },
+          });
+        } finally {
+          if (page) await page.close().catch(() => {});
+        }
       }
-    }
+    };
+
+    await Promise.all(Array.from({ length: concurrency }, scrapeNextRoute));
+    const results = routeResults.filter((result): result is ScrapedRouteData => Boolean(result));
+    const outcomes = routeOutcomes.filter((outcome): outcome is RouteOutcome => Boolean(outcome));
 
     if (browser) await browser.close();
     this.lastReport = { country: this.country, scraper: this.name, date, outcomes };

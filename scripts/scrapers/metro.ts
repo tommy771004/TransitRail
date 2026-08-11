@@ -131,6 +131,9 @@ export class UnitedKingdomScraper extends BrowserScraper {
   readonly country = "united_kingdom";
   readonly routes = unitedKingdomRoutes;
   readonly sourceId = "uk-tfl-journey-planner-web";
+  // Two independent browser pages halve route-day wall time without creating a
+  // large burst against TfL's public Journey Planner.
+  protected override readonly routeConcurrency = 2;
 
   async scrape(route: ScrapedRoute, date: string, page: Parameters<typeof scrapeTflBrowserServiceDay>[0]) {
     return scrapeTflBrowserServiceDay(page, route.origin, route.destination, date);

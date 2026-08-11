@@ -55,6 +55,7 @@ export async function runAllScrapers(dates: string | string[]): Promise<void> {
       console.log(`  Routes to scrape: ${scraper.routes.length}`);
 
       let results;
+      const startedAt = performance.now();
       try {
         const keepDates = capability.liveOnly ? [today] : dateList;
         results = await scraper.runAll(date, { keepDates });
@@ -82,7 +83,8 @@ export async function runAllScrapers(dates: string | string[]): Promise<void> {
       }
 
       const total = results.reduce((acc: number, r: { results: unknown[] }) => acc + r.results.length, 0);
-      console.log(`  Done: ${results.length}/${scraper.routes.length} routes, ${total} results saved`);
+      const elapsedSeconds = ((performance.now() - startedAt) / 1000).toFixed(1);
+      console.log(`  Done: ${results.length}/${scraper.routes.length} routes, ${total} results saved in ${elapsedSeconds}s`);
     }
   }
 

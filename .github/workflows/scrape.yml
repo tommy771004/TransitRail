@@ -21,10 +21,11 @@ jobs:
     # spend. 30 was below what a healthy run legitimately needed once London
     # started sweeping its operating day, so the daily scrape was cancelled with
     # three of seven dates collected and — because a cancelled job skips the
-    # commit step — nothing kept. The TfL browser sweep takes roughly 20 minutes
-    # for its 28 route-days; 45 leaves room for a slow provider or a retried page
-    # navigation while still catching a genuine hang.
-    timeout-minutes: 45
+    # commit step — nothing kept. Provider sweeps can slow down materially when
+    # rate-limited or when browser navigation retries are needed, so leave a
+    # full 90-minute recovery window while still terminating a genuinely hung
+    # run well below GitHub Actions' six-hour job limit.
+    timeout-minutes: 90
 
     steps:
       - name: Checkout repository
