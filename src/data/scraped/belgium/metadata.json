@@ -4,83 +4,77 @@
   "source": "iRail official NMBS/SNCB connections API",
   "sourceUrl": "https://api.irail.be",
   "sourceTier": "A",
-  "fetchedAt": "2026-08-11T23:00:32.966Z",
-  "builtAt": "2026-08-11T23:00:39.591Z",
-  "recordCount": 216,
+  "fetchedAt": "2026-08-12T23:00:15.236Z",
+  "builtAt": "2026-08-12T23:00:22.221Z",
+  "recordCount": 218,
   "routeCount": 5,
-  "successRate": 0.9714,
-  "failedRoutes": [
-    {
-      "origin": "Brugge",
-      "destination": "Liège-Guillemins",
-      "error": "iRail returned no departures for Brugge → Liège-Guillemins on 2026-08-12"
-    }
-  ],
+  "successRate": 1,
+  "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 5,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-08-12",
       "2026-08-13",
       "2026-08-14",
       "2026-08-15",
       "2026-08-16",
       "2026-08-17",
-      "2026-08-18"
+      "2026-08-18",
+      "2026-08-19"
     ]
   },
-  "checksum": "bd418fa94eb128ae31d2e25a1c0e86240ab775daac9b310a8f0758c8a4cd4c5b",
+  "checksum": "7be0d3265a4a0611db5a0d527aa57fc62a780f5649afa0e5643559c1cd83887f",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Brugge",
       "destination": "Liège-Guillemins",
-      "resultCount": 46,
-      "date": "2026-08-12..2026-08-18",
+      "resultCount": 47,
+      "date": "2026-08-13..2026-08-19",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-11T23:00:32.582Z",
+      "fetchedAt": "2026-08-12T23:00:14.678Z",
       "verified": true
     },
     {
       "origin": "Brussels-Central",
       "destination": "Antwerpen-Centraal",
       "resultCount": 42,
-      "date": "2026-08-12..2026-08-18",
+      "date": "2026-08-13..2026-08-19",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-11T23:00:31.318Z",
+      "fetchedAt": "2026-08-12T23:00:12.771Z",
       "verified": true
     },
     {
       "origin": "Brussels-Luxembourg",
       "destination": "Antwerpen-Centraal",
       "resultCount": 44,
-      "date": "2026-08-12..2026-08-18",
+      "date": "2026-08-13..2026-08-19",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-11T23:00:31.733Z",
+      "fetchedAt": "2026-08-12T23:00:13.497Z",
       "verified": true
     },
     {
       "origin": "Brussels-South/Brussels-Midi",
       "destination": "Namur",
       "resultCount": 42,
-      "date": "2026-08-12..2026-08-18",
+      "date": "2026-08-13..2026-08-19",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-11T23:00:32.966Z",
+      "fetchedAt": "2026-08-12T23:00:15.236Z",
       "verified": true
     },
     {
       "origin": "Gent-Sint-Pieters",
       "destination": "Brussels Airport-Zaventem",
-      "resultCount": 42,
-      "date": "2026-08-12..2026-08-18",
+      "resultCount": 43,
+      "date": "2026-08-13..2026-08-19",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-11T23:00:32.140Z",
+      "fetchedAt": "2026-08-12T23:00:14.073Z",
       "verified": true
     }
   ]
