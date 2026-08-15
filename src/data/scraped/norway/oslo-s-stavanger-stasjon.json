@@ -1,590 +1,10 @@
 {
   "origin": "Oslo S",
   "destination": "Stavanger stasjon",
-  "date": "2026-08-15..2026-08-21",
-  "scrapedAt": "2026-08-14T22:52:17.751Z",
+  "date": "2026-08-16..2026-08-22",
+  "scrapedAt": "2026-08-15T22:48:42.978Z",
   "source": "Entur Journey Planner v3",
   "results": [
-    {
-      "id": "2026-08-15-no-entur-2026-08-15-1-2026-08-15T08:34:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "RE10 + foot + Oslo-Stavanger + foot + FB40 + foot",
-      "trainType": "RE10",
-      "durationMinutes": 202,
-      "departureTime": "08:34",
-      "arrivalTime": "11:55",
-      "origin": "Oslo S",
-      "destination": "Stavanger stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "RE10",
-          "lineCode": "RE10",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "08:34",
-          "arrivalTime": "08:57",
-          "durationMinutes": 23
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "08:57",
-          "arrivalTime": "09:00",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Stavanger",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Stavanger lufthavn",
-          "departureTime": "09:50",
-          "arrivalTime": "10:47",
-          "durationMinutes": 57
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Stavanger lufthavn",
-          "destination": "Stavanger lufthavn",
-          "departureTime": "11:02",
-          "arrivalTime": "11:03",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "FB40",
-          "lineCode": "FB40",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Stavanger lufthavn",
-          "destination": "Jernbaneveien",
-          "departureTime": "11:30",
-          "arrivalTime": "11:55",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Jernbaneveien",
-          "destination": "Stavanger stasjon",
-          "departureTime": "11:55",
-          "arrivalTime": "11:55",
-          "durationMinutes": 1
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Stavanger lufthavn",
-        "Stavanger lufthavn",
-        "Jernbaneveien"
-      ],
-      "date": "2026-08-15"
-    },
-    {
-      "id": "2026-08-15-no-entur-2026-08-15-3-2026-08-15T08:34:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "RE10 + foot + Oslo-Stavanger + foot + 42 + foot + 7 + foot",
-      "trainType": "RE10",
-      "durationMinutes": 215,
-      "departureTime": "08:34",
-      "arrivalTime": "12:08",
-      "origin": "Oslo S",
-      "destination": "Stavanger stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "RE10",
-          "lineCode": "RE10",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "08:34",
-          "arrivalTime": "08:57",
-          "durationMinutes": 23
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "08:57",
-          "arrivalTime": "09:00",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Stavanger",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Stavanger lufthavn",
-          "departureTime": "09:50",
-          "arrivalTime": "10:47",
-          "durationMinutes": 57
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Stavanger lufthavn",
-          "destination": "Stavanger lufthavn",
-          "departureTime": "11:02",
-          "arrivalTime": "11:03",
-          "durationMinutes": 2
-        },
-        {
-          "lineName": "42",
-          "lineCode": "42",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Stavanger lufthavn",
-          "destination": "Solstrålen barnehage",
-          "departureTime": "11:06",
-          "arrivalTime": "11:17",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Solstrålen barnehage",
-          "destination": "Solstrålen barnehage",
-          "departureTime": "11:17",
-          "arrivalTime": "11:17",
-          "durationMinutes": 0
-        },
-        {
-          "lineName": "7",
-          "lineCode": "7",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Solstrålen barnehage",
-          "destination": "Jernbaneveien",
-          "departureTime": "11:35",
-          "arrivalTime": "12:08",
-          "durationMinutes": 33
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Jernbaneveien",
-          "destination": "Stavanger stasjon",
-          "departureTime": "12:08",
-          "arrivalTime": "12:08",
-          "durationMinutes": 1
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Stavanger lufthavn",
-        "Stavanger lufthavn",
-        "Solstrålen barnehage",
-        "Solstrålen barnehage",
-        "Jernbaneveien"
-      ],
-      "date": "2026-08-15"
-    },
-    {
-      "id": "2026-08-15-no-entur-2026-08-15-0-2026-08-15T08:40:00+02:00",
-      "country": "norway",
-      "operator": "Flytoget",
-      "service": "FLY1 + foot + Oslo-Stavanger + foot + FB40 + foot",
-      "trainType": "FLY1",
-      "durationMinutes": 196,
-      "departureTime": "08:40",
-      "arrivalTime": "11:55",
-      "origin": "Oslo S",
-      "destination": "Stavanger stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "FLY1",
-          "lineCode": "FLY1",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "08:40",
-          "arrivalTime": "09:02",
-          "durationMinutes": 22
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "09:02",
-          "arrivalTime": "09:05",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Stavanger",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Stavanger lufthavn",
-          "departureTime": "09:50",
-          "arrivalTime": "10:47",
-          "durationMinutes": 57
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Stavanger lufthavn",
-          "destination": "Stavanger lufthavn",
-          "departureTime": "11:02",
-          "arrivalTime": "11:03",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "FB40",
-          "lineCode": "FB40",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Stavanger lufthavn",
-          "destination": "Jernbaneveien",
-          "departureTime": "11:30",
-          "arrivalTime": "11:55",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Jernbaneveien",
-          "destination": "Stavanger stasjon",
-          "departureTime": "11:55",
-          "arrivalTime": "11:55",
-          "durationMinutes": 1
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Stavanger lufthavn",
-        "Stavanger lufthavn",
-        "Jernbaneveien"
-      ],
-      "date": "2026-08-15"
-    },
-    {
-      "id": "2026-08-15-no-entur-2026-08-15-2-2026-08-15T08:40:00+02:00",
-      "country": "norway",
-      "operator": "Flytoget",
-      "service": "FLY1 + foot + Oslo-Stavanger + foot + 42 + foot + 7 + foot",
-      "trainType": "FLY1",
-      "durationMinutes": 209,
-      "departureTime": "08:40",
-      "arrivalTime": "12:08",
-      "origin": "Oslo S",
-      "destination": "Stavanger stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "FLY1",
-          "lineCode": "FLY1",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "08:40",
-          "arrivalTime": "09:02",
-          "durationMinutes": 22
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "09:02",
-          "arrivalTime": "09:05",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Stavanger",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Stavanger lufthavn",
-          "departureTime": "09:50",
-          "arrivalTime": "10:47",
-          "durationMinutes": 57
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Stavanger lufthavn",
-          "destination": "Stavanger lufthavn",
-          "departureTime": "11:02",
-          "arrivalTime": "11:03",
-          "durationMinutes": 2
-        },
-        {
-          "lineName": "42",
-          "lineCode": "42",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Stavanger lufthavn",
-          "destination": "Solstrålen barnehage",
-          "departureTime": "11:06",
-          "arrivalTime": "11:17",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Solstrålen barnehage",
-          "destination": "Solstrålen barnehage",
-          "departureTime": "11:17",
-          "arrivalTime": "11:17",
-          "durationMinutes": 0
-        },
-        {
-          "lineName": "7",
-          "lineCode": "7",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Solstrålen barnehage",
-          "destination": "Jernbaneveien",
-          "departureTime": "11:35",
-          "arrivalTime": "12:08",
-          "durationMinutes": 33
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Jernbaneveien",
-          "destination": "Stavanger stasjon",
-          "departureTime": "12:08",
-          "arrivalTime": "12:08",
-          "durationMinutes": 1
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Stavanger lufthavn",
-        "Stavanger lufthavn",
-        "Solstrålen barnehage",
-        "Solstrålen barnehage",
-        "Jernbaneveien"
-      ],
-      "date": "2026-08-15"
-    },
-    {
-      "id": "2026-08-15-no-entur-2026-08-15-5-2026-08-15T10:34:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "RE10 + foot + Oslo-Stavanger + foot + FB40 + foot",
-      "trainType": "RE10",
-      "durationMinutes": 172,
-      "departureTime": "10:34",
-      "arrivalTime": "13:25",
-      "origin": "Oslo S",
-      "destination": "Stavanger stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "RE10",
-          "lineCode": "RE10",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "10:34",
-          "arrivalTime": "10:57",
-          "durationMinutes": 23
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "10:57",
-          "arrivalTime": "11:00",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Stavanger",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Stavanger lufthavn",
-          "departureTime": "11:45",
-          "arrivalTime": "12:40",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Stavanger lufthavn",
-          "destination": "Stavanger lufthavn",
-          "departureTime": "12:55",
-          "arrivalTime": "12:56",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "FB40",
-          "lineCode": "FB40",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Stavanger lufthavn",
-          "destination": "Jernbaneveien",
-          "departureTime": "13:00",
-          "arrivalTime": "13:25",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Jernbaneveien",
-          "destination": "Stavanger stasjon",
-          "departureTime": "13:25",
-          "arrivalTime": "13:25",
-          "durationMinutes": 1
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Stavanger lufthavn",
-        "Stavanger lufthavn",
-        "Jernbaneveien"
-      ],
-      "date": "2026-08-15"
-    },
-    {
-      "id": "2026-08-15-no-entur-2026-08-15-4-2026-08-15T10:40:00+02:00",
-      "country": "norway",
-      "operator": "Flytoget",
-      "service": "FLY1 + foot + Oslo-Stavanger + foot + FB40 + foot",
-      "trainType": "FLY1",
-      "durationMinutes": 166,
-      "departureTime": "10:40",
-      "arrivalTime": "13:25",
-      "origin": "Oslo S",
-      "destination": "Stavanger stasjon",
-      "direct": false,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "legs": [
-        {
-          "lineName": "FLY1",
-          "lineCode": "FLY1",
-          "color": "#8B1D3D",
-          "mode": "rail",
-          "origin": "Oslo S",
-          "destination": "Oslo lufthavn stasjon",
-          "departureTime": "10:40",
-          "arrivalTime": "11:02",
-          "durationMinutes": 22
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Oslo lufthavn stasjon",
-          "destination": "Oslo lufthavn",
-          "departureTime": "11:02",
-          "arrivalTime": "11:05",
-          "durationMinutes": 4
-        },
-        {
-          "lineName": "Oslo-Stavanger",
-          "lineCode": null,
-          "color": "#4B5563",
-          "mode": "air",
-          "origin": "Oslo lufthavn",
-          "destination": "Stavanger lufthavn",
-          "departureTime": "11:45",
-          "arrivalTime": "12:40",
-          "durationMinutes": 55
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Stavanger lufthavn",
-          "destination": "Stavanger lufthavn",
-          "departureTime": "12:55",
-          "arrivalTime": "12:56",
-          "durationMinutes": 1
-        },
-        {
-          "lineName": "FB40",
-          "lineCode": "FB40",
-          "color": "#4B5563",
-          "mode": "bus",
-          "origin": "Stavanger lufthavn",
-          "destination": "Jernbaneveien",
-          "departureTime": "13:00",
-          "arrivalTime": "13:25",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "foot",
-          "color": "#4B5563",
-          "mode": "foot",
-          "origin": "Jernbaneveien",
-          "destination": "Stavanger stasjon",
-          "departureTime": "13:25",
-          "arrivalTime": "13:25",
-          "durationMinutes": 1
-        }
-      ],
-      "transferStations": [
-        "Oslo lufthavn stasjon",
-        "Oslo lufthavn",
-        "Stavanger lufthavn",
-        "Stavanger lufthavn",
-        "Jernbaneveien"
-      ],
-      "date": "2026-08-15"
-    },
     {
       "id": "2026-08-16-no-entur-2026-08-16-2-2026-08-16T08:54:00+02:00",
       "country": "norway",
@@ -598,7 +18,7 @@
       "destination": "Stavanger stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -630,8 +50,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Stavanger lufthavn",
           "departureTime": "10:35",
-          "arrivalTime": "11:25",
-          "durationMinutes": 50
+          "arrivalTime": "11:30",
+          "durationMinutes": 55
         },
         {
           "lineName": "foot",
@@ -639,8 +59,8 @@
           "mode": "foot",
           "origin": "Stavanger lufthavn",
           "destination": "Stavanger lufthavn",
-          "departureTime": "11:40",
-          "arrivalTime": "11:41",
+          "departureTime": "11:45",
+          "arrivalTime": "11:46",
           "durationMinutes": 1
         },
         {
@@ -687,7 +107,7 @@
       "destination": "Stavanger stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -719,8 +139,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Stavanger lufthavn",
           "departureTime": "10:35",
-          "arrivalTime": "11:25",
-          "durationMinutes": 50
+          "arrivalTime": "11:30",
+          "durationMinutes": 55
         },
         {
           "lineName": "foot",
@@ -728,8 +148,8 @@
           "mode": "foot",
           "origin": "Stavanger lufthavn",
           "destination": "Stavanger lufthavn",
-          "departureTime": "11:40",
-          "arrivalTime": "11:41",
+          "departureTime": "11:45",
+          "arrivalTime": "11:46",
           "durationMinutes": 2
         },
         {
@@ -799,7 +219,7 @@
       "destination": "Stavanger stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -831,8 +251,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Stavanger lufthavn",
           "departureTime": "10:35",
-          "arrivalTime": "11:25",
-          "durationMinutes": 50
+          "arrivalTime": "11:30",
+          "durationMinutes": 55
         },
         {
           "lineName": "foot",
@@ -840,8 +260,8 @@
           "mode": "foot",
           "origin": "Stavanger lufthavn",
           "destination": "Stavanger lufthavn",
-          "departureTime": "11:40",
-          "arrivalTime": "11:41",
+          "departureTime": "11:45",
+          "arrivalTime": "11:46",
           "durationMinutes": 1
         },
         {
@@ -888,7 +308,7 @@
       "destination": "Stavanger stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -920,8 +340,8 @@
           "origin": "Oslo lufthavn",
           "destination": "Stavanger lufthavn",
           "departureTime": "10:35",
-          "arrivalTime": "11:25",
-          "durationMinutes": 50
+          "arrivalTime": "11:30",
+          "durationMinutes": 55
         },
         {
           "lineName": "foot",
@@ -929,8 +349,8 @@
           "mode": "foot",
           "origin": "Stavanger lufthavn",
           "destination": "Stavanger lufthavn",
-          "departureTime": "11:40",
-          "arrivalTime": "11:41",
+          "departureTime": "11:45",
+          "arrivalTime": "11:46",
           "durationMinutes": 1
         },
         {
@@ -977,7 +397,7 @@
       "destination": "Stavanger stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -1066,7 +486,7 @@
       "destination": "Stavanger stasjon",
       "direct": false,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "legs": [
         {
@@ -4041,6 +3461,598 @@
         "Jernbaneveien"
       ],
       "date": "2026-08-21"
+    },
+    {
+      "id": "2026-08-22-no-entur-2026-08-22-2-2026-08-22T09:54:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "R12 + foot + Oslo-Stavanger + foot + FB40 + foot",
+      "trainType": "R12",
+      "durationMinutes": 212,
+      "departureTime": "09:54",
+      "arrivalTime": "13:25",
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "R12",
+          "lineCode": "R12",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "09:54",
+          "arrivalTime": "10:17",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "10:17",
+          "arrivalTime": "10:20",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Stavanger",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Stavanger lufthavn",
+          "departureTime": "11:30",
+          "arrivalTime": "12:20",
+          "durationMinutes": 50
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Stavanger lufthavn",
+          "destination": "Stavanger lufthavn",
+          "departureTime": "12:35",
+          "arrivalTime": "12:36",
+          "durationMinutes": 1
+        },
+        {
+          "lineName": "FB40",
+          "lineCode": "FB40",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Stavanger lufthavn",
+          "destination": "Jernbaneveien",
+          "departureTime": "13:00",
+          "arrivalTime": "13:25",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Jernbaneveien",
+          "destination": "Stavanger stasjon",
+          "departureTime": "13:25",
+          "arrivalTime": "13:25",
+          "durationMinutes": 1
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Stavanger lufthavn",
+        "Stavanger lufthavn",
+        "Jernbaneveien"
+      ],
+      "date": "2026-08-22"
+    },
+    {
+      "id": "2026-08-22-no-entur-2026-08-22-4-2026-08-22T10:20:00+02:00",
+      "country": "norway",
+      "operator": "Flytoget",
+      "service": "FLY1 + foot + Oslo-Stavanger + foot + 42 + foot + 7 + foot",
+      "trainType": "FLY1",
+      "durationMinutes": 199,
+      "departureTime": "10:20",
+      "arrivalTime": "13:38",
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "FLY1",
+          "lineCode": "FLY1",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "10:20",
+          "arrivalTime": "10:42",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "10:42",
+          "arrivalTime": "10:45",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Stavanger",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Stavanger lufthavn",
+          "departureTime": "11:30",
+          "arrivalTime": "12:20",
+          "durationMinutes": 50
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Stavanger lufthavn",
+          "destination": "Stavanger lufthavn",
+          "departureTime": "12:35",
+          "arrivalTime": "12:36",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "42",
+          "lineCode": "42",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Stavanger lufthavn",
+          "destination": "Sande terrasse",
+          "departureTime": "12:51",
+          "arrivalTime": "13:01",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Sande terrasse",
+          "destination": "Sande terrasse",
+          "departureTime": "13:01",
+          "arrivalTime": "13:01",
+          "durationMinutes": 1
+        },
+        {
+          "lineName": "7",
+          "lineCode": "7",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Sande terrasse",
+          "destination": "Jernbaneveien",
+          "departureTime": "13:06",
+          "arrivalTime": "13:38",
+          "durationMinutes": 32
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Jernbaneveien",
+          "destination": "Stavanger stasjon",
+          "departureTime": "13:38",
+          "arrivalTime": "13:38",
+          "durationMinutes": 1
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Stavanger lufthavn",
+        "Stavanger lufthavn",
+        "Sande terrasse",
+        "Sande terrasse",
+        "Jernbaneveien"
+      ],
+      "date": "2026-08-22"
+    },
+    {
+      "id": "2026-08-22-no-entur-2026-08-22-3-2026-08-22T10:24:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "RE11 + foot + Oslo-Stavanger + foot + 42 + foot + 7 + foot",
+      "trainType": "RE11",
+      "durationMinutes": 195,
+      "departureTime": "10:24",
+      "arrivalTime": "13:38",
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "RE11",
+          "lineCode": "RE11",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "10:24",
+          "arrivalTime": "10:47",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "10:47",
+          "arrivalTime": "10:50",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Stavanger",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Stavanger lufthavn",
+          "departureTime": "11:30",
+          "arrivalTime": "12:20",
+          "durationMinutes": 50
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Stavanger lufthavn",
+          "destination": "Stavanger lufthavn",
+          "departureTime": "12:35",
+          "arrivalTime": "12:36",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "42",
+          "lineCode": "42",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Stavanger lufthavn",
+          "destination": "Sande terrasse",
+          "departureTime": "12:51",
+          "arrivalTime": "13:01",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Sande terrasse",
+          "destination": "Sande terrasse",
+          "departureTime": "13:01",
+          "arrivalTime": "13:01",
+          "durationMinutes": 1
+        },
+        {
+          "lineName": "7",
+          "lineCode": "7",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Sande terrasse",
+          "destination": "Jernbaneveien",
+          "departureTime": "13:06",
+          "arrivalTime": "13:38",
+          "durationMinutes": 32
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Jernbaneveien",
+          "destination": "Stavanger stasjon",
+          "departureTime": "13:38",
+          "arrivalTime": "13:38",
+          "durationMinutes": 1
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Stavanger lufthavn",
+        "Stavanger lufthavn",
+        "Sande terrasse",
+        "Sande terrasse",
+        "Jernbaneveien"
+      ],
+      "date": "2026-08-22"
+    },
+    {
+      "id": "2026-08-22-no-entur-2026-08-22-1-2026-08-22T10:34:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "RE10 + foot + Oslo-Stavanger + foot + FB40 + foot",
+      "trainType": "RE10",
+      "durationMinutes": 172,
+      "departureTime": "10:34",
+      "arrivalTime": "13:25",
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "RE10",
+          "lineCode": "RE10",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "10:34",
+          "arrivalTime": "10:57",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "10:57",
+          "arrivalTime": "11:00",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Stavanger",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Stavanger lufthavn",
+          "departureTime": "11:45",
+          "arrivalTime": "12:40",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Stavanger lufthavn",
+          "destination": "Stavanger lufthavn",
+          "departureTime": "12:55",
+          "arrivalTime": "12:56",
+          "durationMinutes": 1
+        },
+        {
+          "lineName": "FB40",
+          "lineCode": "FB40",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Stavanger lufthavn",
+          "destination": "Jernbaneveien",
+          "departureTime": "13:00",
+          "arrivalTime": "13:25",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Jernbaneveien",
+          "destination": "Stavanger stasjon",
+          "departureTime": "13:25",
+          "arrivalTime": "13:25",
+          "durationMinutes": 1
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Stavanger lufthavn",
+        "Stavanger lufthavn",
+        "Jernbaneveien"
+      ],
+      "date": "2026-08-22"
+    },
+    {
+      "id": "2026-08-22-no-entur-2026-08-22-0-2026-08-22T10:40:00+02:00",
+      "country": "norway",
+      "operator": "Flytoget",
+      "service": "FLY1 + foot + Oslo-Stavanger + foot + FB40 + foot",
+      "trainType": "FLY1",
+      "durationMinutes": 166,
+      "departureTime": "10:40",
+      "arrivalTime": "13:25",
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "FLY1",
+          "lineCode": "FLY1",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "10:40",
+          "arrivalTime": "11:02",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "11:02",
+          "arrivalTime": "11:05",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Stavanger",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Stavanger lufthavn",
+          "departureTime": "11:45",
+          "arrivalTime": "12:40",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Stavanger lufthavn",
+          "destination": "Stavanger lufthavn",
+          "departureTime": "12:55",
+          "arrivalTime": "12:56",
+          "durationMinutes": 1
+        },
+        {
+          "lineName": "FB40",
+          "lineCode": "FB40",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Stavanger lufthavn",
+          "destination": "Jernbaneveien",
+          "departureTime": "13:00",
+          "arrivalTime": "13:25",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Jernbaneveien",
+          "destination": "Stavanger stasjon",
+          "departureTime": "13:25",
+          "arrivalTime": "13:25",
+          "durationMinutes": 1
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Stavanger lufthavn",
+        "Stavanger lufthavn",
+        "Jernbaneveien"
+      ],
+      "date": "2026-08-22"
+    },
+    {
+      "id": "2026-08-22-no-entur-2026-08-22-5-2026-08-22T10:40:00+02:00",
+      "country": "norway",
+      "operator": "Flytoget",
+      "service": "FLY1 + foot + Oslo-Stavanger + foot + 42 + 4 + foot",
+      "trainType": "FLY1",
+      "durationMinutes": 192,
+      "departureTime": "10:40",
+      "arrivalTime": "13:51",
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "FLY1",
+          "lineCode": "FLY1",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo S",
+          "destination": "Oslo lufthavn stasjon",
+          "departureTime": "10:40",
+          "arrivalTime": "11:02",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Oslo lufthavn",
+          "departureTime": "11:02",
+          "arrivalTime": "11:05",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "Oslo-Stavanger",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Stavanger lufthavn",
+          "departureTime": "11:45",
+          "arrivalTime": "12:40",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Stavanger lufthavn",
+          "destination": "Stavanger lufthavn",
+          "departureTime": "12:55",
+          "arrivalTime": "12:56",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "42",
+          "lineCode": "42",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Stavanger lufthavn",
+          "destination": "Tjora",
+          "departureTime": "13:01",
+          "arrivalTime": "13:06",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "4",
+          "lineCode": "4",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Tjora",
+          "destination": "Jernbaneveien",
+          "departureTime": "13:20",
+          "arrivalTime": "13:51",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Jernbaneveien",
+          "destination": "Stavanger stasjon",
+          "departureTime": "13:51",
+          "arrivalTime": "13:51",
+          "durationMinutes": 1
+        }
+      ],
+      "transferStations": [
+        "Oslo lufthavn stasjon",
+        "Oslo lufthavn",
+        "Stavanger lufthavn",
+        "Stavanger lufthavn",
+        "Tjora",
+        "Jernbaneveien"
+      ],
+      "date": "2026-08-22"
     }
   ],
   "sourceMeta": {
@@ -4051,7 +4063,7 @@
     "sourceUrl": "https://api.entur.io/journey-planner/v3/graphql",
     "provider": "Entur AS",
     "country": "norway",
-    "fetchedAt": "2026-08-14T22:52:17.751Z",
+    "fetchedAt": "2026-08-15T22:48:42.977Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

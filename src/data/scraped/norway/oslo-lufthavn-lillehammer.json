@@ -1,64 +1,10 @@
 {
   "origin": "Oslo lufthavn",
   "destination": "Lillehammer",
-  "date": "2026-08-15..2026-08-21",
-  "scrapedAt": "2026-08-14T22:52:18.352Z",
+  "date": "2026-08-16..2026-08-22",
+  "scrapedAt": "2026-08-15T22:48:43.500Z",
   "source": "Entur Journey Planner v3",
   "results": [
-    {
-      "id": "2026-08-15-no-entur-2026-08-15-0-2026-08-15T08:29:00+02:00",
-      "country": "norway",
-      "operator": "SJ Nord",
-      "service": "F6",
-      "trainType": "F6",
-      "durationMinutes": 90,
-      "departureTime": "08:29",
-      "arrivalTime": "09:59",
-      "origin": "Oslo lufthavn",
-      "destination": "Lillehammer",
-      "direct": true,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "transferStations": [],
-      "date": "2026-08-15"
-    },
-    {
-      "id": "2026-08-15-no-entur-2026-08-15-1-2026-08-15T08:59:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "RE10",
-      "trainType": "RE10",
-      "durationMinutes": 102,
-      "departureTime": "08:59",
-      "arrivalTime": "10:41",
-      "origin": "Oslo lufthavn",
-      "destination": "Lillehammer",
-      "direct": true,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "transferStations": [],
-      "date": "2026-08-15"
-    },
-    {
-      "id": "2026-08-15-no-entur-2026-08-15-2-2026-08-15T09:59:00+02:00",
-      "country": "norway",
-      "operator": "Vy",
-      "service": "RE10",
-      "trainType": "RE10",
-      "durationMinutes": 102,
-      "departureTime": "09:59",
-      "arrivalTime": "11:41",
-      "origin": "Oslo lufthavn",
-      "destination": "Lillehammer",
-      "direct": true,
-      "stops": [],
-      "realtime": true,
-      "lineColor": "#8B1D3D",
-      "transferStations": [],
-      "date": "2026-08-15"
-    },
     {
       "id": "2026-08-16-no-entur-2026-08-16-0-2026-08-16T08:29:00+02:00",
       "country": "norway",
@@ -72,7 +18,7 @@
       "destination": "Lillehammer",
       "direct": true,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "transferStations": [],
       "date": "2026-08-16"
@@ -90,7 +36,7 @@
       "destination": "Lillehammer",
       "direct": true,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "transferStations": [],
       "date": "2026-08-16"
@@ -108,7 +54,7 @@
       "destination": "Lillehammer",
       "direct": true,
       "stops": [],
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#8B1D3D",
       "transferStations": [],
       "date": "2026-08-16"
@@ -472,6 +418,134 @@
       "lineColor": "#8B1D3D",
       "transferStations": [],
       "date": "2026-08-21"
+    },
+    {
+      "id": "2026-08-22-no-entur-2026-08-22-0-2026-08-22T08:59:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "RE10 + foot + RE10",
+      "trainType": "RE10",
+      "durationMinutes": 119,
+      "departureTime": "08:59",
+      "arrivalTime": "10:58",
+      "origin": "Oslo lufthavn",
+      "destination": "Lillehammer",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "RE10",
+          "lineCode": "RE10",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Eidsvoll stasjon",
+          "departureTime": "08:59",
+          "arrivalTime": "09:07",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Eidsvoll stasjon",
+          "destination": "Eidsvoll stasjon",
+          "departureTime": "09:07",
+          "arrivalTime": "09:11",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "RE10",
+          "lineCode": "RE10",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Eidsvoll stasjon",
+          "destination": "Lillehammer skysstasjon",
+          "departureTime": "09:17",
+          "arrivalTime": "10:58",
+          "durationMinutes": 101
+        }
+      ],
+      "transferStations": [
+        "Eidsvoll stasjon",
+        "Eidsvoll stasjon"
+      ],
+      "date": "2026-08-22"
+    },
+    {
+      "id": "2026-08-22-no-entur-2026-08-22-2-2026-08-22T09:59:00+02:00",
+      "country": "norway",
+      "operator": "Vy",
+      "service": "RE10 + foot + RE10",
+      "trainType": "RE10",
+      "durationMinutes": 119,
+      "departureTime": "09:59",
+      "arrivalTime": "11:58",
+      "origin": "Oslo lufthavn",
+      "destination": "Lillehammer",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#8B1D3D",
+      "legs": [
+        {
+          "lineName": "RE10",
+          "lineCode": "RE10",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Oslo lufthavn stasjon",
+          "destination": "Eidsvoll stasjon",
+          "departureTime": "09:59",
+          "arrivalTime": "10:07",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Eidsvoll stasjon",
+          "destination": "Eidsvoll stasjon",
+          "departureTime": "10:07",
+          "arrivalTime": "10:11",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "RE10",
+          "lineCode": "RE10",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Eidsvoll stasjon",
+          "destination": "Lillehammer skysstasjon",
+          "departureTime": "10:17",
+          "arrivalTime": "11:58",
+          "durationMinutes": 101
+        }
+      ],
+      "transferStations": [
+        "Eidsvoll stasjon",
+        "Eidsvoll stasjon"
+      ],
+      "date": "2026-08-22"
+    },
+    {
+      "id": "2026-08-22-no-entur-2026-08-22-1-2026-08-22T10:05:00+02:00",
+      "country": "norway",
+      "operator": "Vy Buss",
+      "service": "VY148",
+      "trainType": "VY148",
+      "durationMinutes": 105,
+      "departureTime": "10:05",
+      "arrivalTime": "11:50",
+      "origin": "Oslo lufthavn",
+      "destination": "Lillehammer",
+      "direct": true,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "transferStations": [],
+      "date": "2026-08-22"
     }
   ],
   "sourceMeta": {
@@ -482,7 +556,7 @@
     "sourceUrl": "https://api.entur.io/journey-planner/v3/graphql",
     "provider": "Entur AS",
     "country": "norway",
-    "fetchedAt": "2026-08-14T22:52:18.352Z",
+    "fetchedAt": "2026-08-15T22:48:43.500Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
