@@ -4,27 +4,12 @@
   "source": "data.gov.my KTMB static GTFS",
   "sourceUrl": "https://api.data.gov.my/gtfs-static/ktmb",
   "sourceTier": "A",
-  "fetchedAt": "2026-08-15T22:03:33.139Z",
-  "builtAt": "2026-08-15T22:48:44.917Z",
-  "recordCount": 24,
+  "fetchedAt": "2026-08-16T22:03:32.298Z",
+  "builtAt": "2026-08-16T22:48:50.580Z",
+  "recordCount": 36,
   "routeCount": 3,
   "successRate": 0.1429,
   "failedRoutes": [
-    {
-      "origin": "Rawang",
-      "destination": "Kuala Lumpur",
-      "error": "data.gov.my published no KTMB Rawang → Kuala Lumpur service for 2026-08-17."
-    },
-    {
-      "origin": "Batu Caves",
-      "destination": "Kuala Lumpur",
-      "error": "data.gov.my published no KTMB Batu Caves → Kuala Lumpur service for 2026-08-17."
-    },
-    {
-      "origin": "Klang",
-      "destination": "Subang Jaya",
-      "error": "data.gov.my published no KTMB Klang → Subang Jaya service for 2026-08-17."
-    },
     {
       "origin": "Rawang",
       "destination": "Kuala Lumpur",
@@ -99,6 +84,21 @@
       "origin": "Klang",
       "destination": "Subang Jaya",
       "error": "data.gov.my published no KTMB Klang → Subang Jaya service for 2026-08-22."
+    },
+    {
+      "origin": "Rawang",
+      "destination": "Kuala Lumpur",
+      "error": "data.gov.my published no KTMB Rawang → Kuala Lumpur service for 2026-08-23."
+    },
+    {
+      "origin": "Batu Caves",
+      "destination": "Kuala Lumpur",
+      "error": "data.gov.my published no KTMB Batu Caves → Kuala Lumpur service for 2026-08-23."
+    },
+    {
+      "origin": "Klang",
+      "destination": "Subang Jaya",
+      "error": "data.gov.my published no KTMB Klang → Subang Jaya service for 2026-08-23."
     }
   ],
   "coverage": {
@@ -106,40 +106,40 @@
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-08-16"
+      "2026-08-17"
     ]
   },
-  "checksum": "ddbb51692417d2fedb84059ce28b2310c3a36de5314a370777d050aa0222fe33",
+  "checksum": "9ba6f744b0b2775240dd6b53a1ec176f1d701fba95b28755d3ee07ccf01799b9",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Batu Caves",
       "destination": "Kuala Lumpur",
-      "resultCount": 7,
-      "date": "2026-08-16",
+      "resultCount": 15,
+      "date": "2026-08-17",
       "sourceId": "my-ktmb-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-15T22:03:33.135Z",
+      "fetchedAt": "2026-08-16T22:03:32.295Z",
       "verified": true
     },
     {
       "origin": "Klang",
       "destination": "Subang Jaya",
-      "resultCount": 3,
-      "date": "2026-08-16",
+      "resultCount": 4,
+      "date": "2026-08-17",
       "sourceId": "my-ktmb-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-15T22:03:33.139Z",
+      "fetchedAt": "2026-08-16T22:03:32.298Z",
       "verified": true
     },
     {
       "origin": "Rawang",
       "destination": "Kuala Lumpur",
-      "resultCount": 14,
-      "date": "2026-08-16",
+      "resultCount": 17,
+      "date": "2026-08-17",
       "sourceId": "my-ktmb-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-15T22:03:33.130Z",
+      "fetchedAt": "2026-08-16T22:03:32.289Z",
       "verified": true
     }
   ]
