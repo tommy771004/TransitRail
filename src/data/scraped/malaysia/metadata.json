@@ -4,77 +4,12 @@
   "source": "data.gov.my KTMB static GTFS",
   "sourceUrl": "https://api.data.gov.my/gtfs-static/ktmb",
   "sourceTier": "A",
-  "fetchedAt": "2026-08-16T22:03:32.298Z",
-  "builtAt": "2026-08-16T22:48:50.580Z",
-  "recordCount": 36,
+  "fetchedAt": "2026-08-17T22:42:48.642Z",
+  "builtAt": "2026-08-17T22:46:45.382Z",
+  "recordCount": 297,
   "routeCount": 3,
-  "successRate": 0.1429,
+  "successRate": 0.8095,
   "failedRoutes": [
-    {
-      "origin": "Rawang",
-      "destination": "Kuala Lumpur",
-      "error": "data.gov.my published no KTMB Rawang → Kuala Lumpur service for 2026-08-18."
-    },
-    {
-      "origin": "Batu Caves",
-      "destination": "Kuala Lumpur",
-      "error": "data.gov.my published no KTMB Batu Caves → Kuala Lumpur service for 2026-08-18."
-    },
-    {
-      "origin": "Klang",
-      "destination": "Subang Jaya",
-      "error": "data.gov.my published no KTMB Klang → Subang Jaya service for 2026-08-18."
-    },
-    {
-      "origin": "Rawang",
-      "destination": "Kuala Lumpur",
-      "error": "data.gov.my published no KTMB Rawang → Kuala Lumpur service for 2026-08-19."
-    },
-    {
-      "origin": "Batu Caves",
-      "destination": "Kuala Lumpur",
-      "error": "data.gov.my published no KTMB Batu Caves → Kuala Lumpur service for 2026-08-19."
-    },
-    {
-      "origin": "Klang",
-      "destination": "Subang Jaya",
-      "error": "data.gov.my published no KTMB Klang → Subang Jaya service for 2026-08-19."
-    },
-    {
-      "origin": "Rawang",
-      "destination": "Kuala Lumpur",
-      "error": "data.gov.my published no KTMB Rawang → Kuala Lumpur service for 2026-08-20."
-    },
-    {
-      "origin": "Batu Caves",
-      "destination": "Kuala Lumpur",
-      "error": "data.gov.my published no KTMB Batu Caves → Kuala Lumpur service for 2026-08-20."
-    },
-    {
-      "origin": "Klang",
-      "destination": "Subang Jaya",
-      "error": "data.gov.my published no KTMB Klang → Subang Jaya service for 2026-08-20."
-    },
-    {
-      "origin": "Rawang",
-      "destination": "Kuala Lumpur",
-      "error": "data.gov.my published no KTMB Rawang → Kuala Lumpur service for 2026-08-21."
-    },
-    {
-      "origin": "Batu Caves",
-      "destination": "Kuala Lumpur",
-      "error": "data.gov.my published no KTMB Batu Caves → Kuala Lumpur service for 2026-08-21."
-    },
-    {
-      "origin": "Klang",
-      "destination": "Subang Jaya",
-      "error": "data.gov.my published no KTMB Klang → Subang Jaya service for 2026-08-21."
-    },
-    {
-      "origin": "Rawang",
-      "destination": "Kuala Lumpur",
-      "error": "data.gov.my published no KTMB Rawang → Kuala Lumpur service for 2026-08-22."
-    },
     {
       "origin": "Batu Caves",
       "destination": "Kuala Lumpur",
@@ -84,11 +19,6 @@
       "origin": "Klang",
       "destination": "Subang Jaya",
       "error": "data.gov.my published no KTMB Klang → Subang Jaya service for 2026-08-22."
-    },
-    {
-      "origin": "Rawang",
-      "destination": "Kuala Lumpur",
-      "error": "data.gov.my published no KTMB Rawang → Kuala Lumpur service for 2026-08-23."
     },
     {
       "origin": "Batu Caves",
@@ -106,40 +36,46 @@
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-08-17"
+      "2026-08-18",
+      "2026-08-19",
+      "2026-08-20",
+      "2026-08-21",
+      "2026-08-22",
+      "2026-08-23",
+      "2026-08-24"
     ]
   },
-  "checksum": "9ba6f744b0b2775240dd6b53a1ec176f1d701fba95b28755d3ee07ccf01799b9",
+  "checksum": "ec36784adcccd3c7d9c468259a4acb979620787a7c39d8566651726bedb7599d",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Batu Caves",
       "destination": "Kuala Lumpur",
-      "resultCount": 15,
-      "date": "2026-08-17",
+      "resultCount": 115,
+      "date": "2026-08-18..2026-08-24",
       "sourceId": "my-ktmb-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-16T22:03:32.295Z",
+      "fetchedAt": "2026-08-17T22:42:48.634Z",
       "verified": true
     },
     {
       "origin": "Klang",
       "destination": "Subang Jaya",
-      "resultCount": 4,
-      "date": "2026-08-17",
+      "resultCount": 40,
+      "date": "2026-08-18..2026-08-24",
       "sourceId": "my-ktmb-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-16T22:03:32.298Z",
+      "fetchedAt": "2026-08-17T22:42:48.642Z",
       "verified": true
     },
     {
       "origin": "Rawang",
       "destination": "Kuala Lumpur",
-      "resultCount": 17,
-      "date": "2026-08-17",
+      "resultCount": 142,
+      "date": "2026-08-18..2026-08-24",
       "sourceId": "my-ktmb-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-16T22:03:32.289Z",
+      "fetchedAt": "2026-08-17T22:42:48.622Z",
       "verified": true
     }
   ]
