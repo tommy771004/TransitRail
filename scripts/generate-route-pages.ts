@@ -19,6 +19,7 @@ import { mkdirSync, rmSync, writeFileSync } from "fs";
 import { join, resolve } from "path";
 import i18n from "../src/i18n";
 import { stationOverrides } from "../src/data/stationOverrides";
+import { generatedStationLabel, type GeneratedStationLocale } from "../src/data/generatedStationLabels";
 import { getStationCoordinates } from "../src/utils/geoCoordinates";
 import {
   COUNTRY_PATHS,
@@ -109,6 +110,13 @@ const I18N_LOCALE: Partial<Record<Lang, string>> = { en: "en", zh: "zh-TW", ja: 
 const T: Partial<Record<Lang, ReturnType<typeof i18n.getFixedT>>> = Object.fromEntries(
   Object.entries(I18N_LOCALE).map(([lang, locale]) => [lang, i18n.getFixedT(locale)]),
 );
+
+/** SEO lang code → the locale the generated station labels are keyed by. */
+const GENERATED_LOCALE: Partial<Record<Lang, GeneratedStationLocale>> = {
+  zh: "zh-TW",
+  ja: "ja",
+  ko: "ko",
+};
 
 const STATION_DICTS: Record<Lang, Record<string, string>> = {
   ...(Object.fromEntries(
@@ -720,11 +728,18 @@ function esc(value: string): string {
     .replace(/'/g, "&#39;");
 }
 
-/** Only zh-TW has per-country disambiguation overrides (see stationOverrides.ts);
- *  en/ja/ko fall straight through to their flat station dict, then the raw name. */
+/** Same resolution order as the app's stationLabel(): a curated zh-TW override
+ *  (only zh-TW has per-country disambiguation, see stationOverrides.ts), then
+ *  the flat curated dict, then the sourced generated label for that market, then
+ *  the operator's own name. fr/de are prerender-only and have no generated set. */
 function stationName(name: string, country: Country, lang: Lang): string {
-  if (lang === "zh") return stationOverrides[country]?.[name] ?? STATION_DICTS.zh[name] ?? name;
-  return STATION_DICTS[lang][name] ?? name;
+  const generated = GENERATED_LOCALE[lang]
+    ? generatedStationLabel(GENERATED_LOCALE[lang]!, name, country)
+    : undefined;
+  if (lang === "zh") {
+    return stationOverrides[country]?.[name] ?? STATION_DICTS.zh[name] ?? generated ?? name;
+  }
+  return STATION_DICTS[lang][name] ?? generated ?? name;
 }
 
 /** Localized station label with operator codes and network suffixes removed —

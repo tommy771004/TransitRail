@@ -16,7 +16,10 @@ import { isMbtaDepartureAtOrAfter, searchMbtaJourney } from "./mbta";
  * Neither was a rate limit. Both were names the provider does not use.
  */
 
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.unstubAllEnvs();
+});
 
 describe("TfL station resolution", () => {
   // Resolution is memoized for a long-lived process, and every case here counts
@@ -89,6 +92,31 @@ describe("TfL station resolution", () => {
     expect(body.error).toBeUndefined();
     expect(searched).toContain("paddington Underground Station");
     expect(searched).toContain("liverpool street Underground Station");
+  });
+
+  it("paces every request in a one-off journey instead of bursting into TfL's anonymous limit", async () => {
+    vi.stubEnv("TFL_REQUEST_INTERVAL_MS", "10");
+    const startedAt: number[] = [];
+    vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
+      startedAt.push(Date.now());
+      const url = new URL(String(input));
+      if (url.pathname.startsWith("/StopPoint/Search/")) {
+        const query = decodeURIComponent(url.pathname.replace("/StopPoint/Search/", ""));
+        return new Response(JSON.stringify({
+          matches: [{ id: `940GZZLU${query.replace(/\s/g, "").toUpperCase()}`, name: query }],
+        }), { status: 200 });
+      }
+      if (url.pathname.startsWith("/Journey/JourneyResults/")) {
+        return new Response(JSON.stringify({ journeys: [] }), { status: 200 });
+      }
+      throw new Error(`Unexpected request: ${url}`);
+    }));
+
+    await searchTflJourney("Green Park", "Oxford Circus", "2026-08-03", "12:00");
+
+    expect(startedAt).toHaveLength(5);
+    const gaps = startedAt.slice(1).map((value, index) => value - startedAt[index]);
+    expect(Math.min(...gaps)).toBeGreaterThanOrEqual(8);
   });
 });
 

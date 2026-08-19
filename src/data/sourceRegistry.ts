@@ -378,6 +378,7 @@ export const providerSourceIds = {
   belgium: "be-irail",
   norway: "no-entur",
   swiss: "ch-ojp",
+  hong_kong_mtr: "hk-mtr-next-train",
 } as const satisfies Record<string, OfficialSourceId>;
 
 export type LiveProviderId = keyof typeof providerSourceIds;

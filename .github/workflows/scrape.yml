@@ -2,14 +2,26 @@ name: Daily Transit Data Scrape
 
 on:
   schedule:
-    # Run at 22:00 UTC every day = 06:00 Taiwan time (UTC+8)
+    # Runs every night at 22:00 UTC = 06:00 Taiwan time (UTC+8), but not every
+    # night collects the same thing. Markets whose source only answers for today
+    # (Hong Kong's next-train feed, Thailand's service hours) have to refresh
+    # daily or that day has no data at all. Every other market is collected on
+    # the slower full-scrape cadence, and `scripts/scrape-plan.ts` decides which
+    # kind of pass tonight is — see its header for why that is read off the data
+    # rather than the calendar.
     - cron: "0 22 * * *"
   workflow_dispatch:
     inputs:
       date:
-        description: "Start date (YYYY-MM-DD, default: today in Asia/Taipei); scrapes 7 days forward"
+        description: "Start date (YYYY-MM-DD, default: today in Asia/Taipei)"
         required: false
         type: string
+      mode:
+        description: "Which pass to run"
+        required: false
+        default: auto
+        type: choice
+        options: [auto, full, live-only]
 
 permissions:
   contents: write
@@ -45,6 +57,19 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install chromium
 
+      # `full` collects the search window plus the headroom that lets it stay
+      # correct until the next full run; `live-only` refreshes just the markets
+      # that would otherwise have nothing for today.
+      - name: Decide tonight's pass
+        id: plan
+        run: |
+          MODE="${{ github.event.inputs.mode }}"
+          if [ -z "$MODE" ] || [ "$MODE" = "auto" ]; then
+            MODE="$(npx tsx scripts/scrape-plan.ts)"
+          fi
+          echo "Pass: $MODE"
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+
       - name: Run scrapers
         env:
           # Enables the Switzerland OJP scrape. The token must additionally be
@@ -68,7 +93,19 @@ jobs:
           # link expired 15 minutes after it was published. Without a valid
           # secret the scraper keeps the last verified artifact.
           LTA_ACCOUNT_KEY: ${{ secrets.LTA_ACCOUNT_KEY }}
-        run: npm run scrape -- ${{ github.event.inputs.date }}
+        run: |
+          if [ "${{ steps.plan.outputs.mode }}" = "live-only" ]; then
+            npm run scrape -- --live-only ${{ github.event.inputs.date }}
+          else
+            npm run scrape -- ${{ github.event.inputs.date }}
+          fi
+
+      # A scrape only prunes the dates it collected, so between full passes the
+      # snapshot markets keep yesterday's slice. Those rows can never answer a
+      # search — the picker offers today forward — so drop them before the run
+      # is judged and published.
+      - name: Drop timetable rows for past service days
+        run: npm run prune:past
 
       # The gate between the run and its publication. Every check that fails
       # here is a statement the app would otherwise make and could not support:

@@ -60,7 +60,9 @@ function SourceProvenanceNotice({ dataStatus }: { dataStatus?: SearchDataStatus 
   if (!dataStatus?.sourceUrl) return null;
 
   const updated = dataStatus.updatedAt || dataStatus.checkedAt;
-  const completenessLabel = dataStatus.completeness === "frequency-only"
+  const completenessLabel = dataStatus.temporalCoverage === "bounded-upcoming"
+    ? t("result.completeness_bounded_upcoming", { defaultValue: "Live upcoming departures only" })
+    : dataStatus.completeness === "frequency-only"
     ? t("result.completeness_frequency", { defaultValue: "Service hours and frequency only — no departure list is published" })
     : dataStatus.completeness === "service-hours"
       ? t("result.completeness_service_hours", { defaultValue: "Service hours only — no departure list is published" })

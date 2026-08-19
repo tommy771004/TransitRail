@@ -6,11 +6,27 @@ import { createTimetableScrapers, scraperDisplayNames } from "./registry";
 import { recordError } from "../../src/server/errorLog";
 import type { ScrapeRunReport } from "./base";
 
-export async function runAllScrapers(dates: string | string[]): Promise<void> {
+export interface RunAllScrapersOptions {
+  /**
+   * Run only the markets whose source can answer for today and no other date.
+   * They must refresh every night; everything else is collected on the slower
+   * full-scrape cadence.
+   */
+  onlyLiveOnly?: boolean;
+}
+
+export async function runAllScrapers(
+  dates: string | string[],
+  options: RunAllScrapersOptions = {},
+): Promise<void> {
   const dateList = Array.isArray(dates) ? dates : [dates];
   console.log(`\n=== Starting scrapers for ${dateList.join(", ")} ===\n`);
 
-  const scrapers = createTimetableScrapers();
+  const scrapers = createTimetableScrapers()
+    .filter((scraper) => !options.onlyLiveOnly || getCountryCapability(scraper.country).liveOnly);
+  if (options.onlyLiveOnly) {
+    console.log(`  Live-only pass: ${scrapers.map((scraper) => scraper.country).join(", ") || "no markets"}`);
+  }
   try {
     const malaysia = await syncMalaysiaStationCatalog();
     console.log(`  Malaysia station catalog: ${malaysia.stationCount} stations from ${malaysia.sourceCount} official daily source(s)`);

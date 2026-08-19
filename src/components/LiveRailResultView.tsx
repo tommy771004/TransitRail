@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
 import type { Country, CoverageGap, NoResultReason, TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
-import { stationLabel } from "../utils/stationLabel";
+import { stationLabel, stationListLabel } from "../utils/stationLabel";
 import { TransitIcon, formatPlatform } from "./TransitIcon";
 import {
   ResultShellHeader,
@@ -150,7 +150,7 @@ export function LiveRailResultView({
                               {trip.direct
                                 ? t("result.direct")
                                 : trip.transferStations && trip.transferStations.length > 0
-                                  ? t("result.transfer_at", { station: trip.transferStations.join(", ") })
+                                  ? t("result.transfer_at", { station: stationListLabel(t, trip.transferStations, country) })
                                   : t("london.transfers")}
                             </p>
                           </div>

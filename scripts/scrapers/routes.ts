@@ -27,7 +27,13 @@ export const japanJrCentralRoutes: ScrapedRoute[] = [
  */
 
 export const singaporeRoutes: ScrapedRoute[] = [
-  { origin: "Changi Airport", destination: "Jurong East" },
+  // Changi Airport → Jurong East is not a single service: the airport branch
+  // terminates at Tanah Merah, so the GTFS feed publishes no direct trip and
+  // the pair failed every night. Scraping the two real legs keeps the journey
+  // answerable — search chains origin→X with X→destination — and every row is
+  // a train the operator actually runs.
+  { origin: "Changi Airport", destination: "Tanah Merah" },
+  { origin: "Tanah Merah", destination: "Jurong East" },
   { origin: "HarbourFront", destination: "Punggol" },
   { origin: "Jurong East", destination: "Raffles Place" },
   { origin: "Woodlands", destination: "Orchard" },

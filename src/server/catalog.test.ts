@@ -76,6 +76,18 @@ describe("station and line catalog integrity scope", () => {
     expect(china.messageKey).toMatch(/^stations\./);
   });
 
+  it("keeps Thailand's official directory reachable for its service-day advisory", async () => {
+    const thailand = await buildServiceRegionCatalog({
+      country: "thailand",
+      date: catalogDate,
+      includeProvider: false,
+    });
+
+    expect(thailand.stations).toEqual(expect.arrayContaining(["Sukhumvit", "Hua Lamphong"]));
+    expect(thailand.lines.length).toBeGreaterThan(0);
+    expect(thailand.coverage).toMatchObject({ mode: "scraped", truthMode: "unusable" });
+  });
+
   it("uses the verified KTMB snapshot for Malaysia stations and source attribution", async () => {
     const date = [...new Set(
       getScrapedRoutes("malaysia").flatMap((route) => route.results.map((result) => result.date)),

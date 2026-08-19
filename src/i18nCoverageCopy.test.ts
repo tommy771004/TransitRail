@@ -90,3 +90,24 @@ describe("station browser i18n coverage", () => {
     });
   }
 });
+
+describe("result-slice copy exists in every shipped locale", () => {
+  const keys = [
+    "result.completeness_bounded_upcoming",
+    "result.overview_label",
+    "result.first_shown",
+    "result.last_shown",
+    "result.last_shown_departed",
+    "result.minutes_until_last_shown",
+  ];
+
+  for (const lng of LOCALES) {
+    it(`${lng} describes displayed rows without claiming they are first/last service`, () => {
+      const t = i18n.getFixedT(lng, "translation");
+      for (const key of keys) {
+        expect(i18n.exists(key, { lng, fallbackLng: false }), `${lng}: ${key}`).toBe(true);
+        expect(t(key, { count: 12 }), `${lng}: ${key}`).not.toContain(key.split(".")[1]);
+      }
+    });
+  }
+});

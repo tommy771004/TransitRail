@@ -170,6 +170,8 @@ export interface SearchDataStatus {
   /** Source grade: A machine-readable, B official query page, C page or PDF. */
   sourceTier?: "A" | "B" | "C" | "D";
   completeness?: "full-timetable" | "frequency-only" | "service-hours";
+  /** Whether the returned rows cover a day, samples, or only the next few departures. */
+  temporalCoverage?: "full-day" | "sampled-service-day" | "bounded-upcoming";
   /** Licence or attribution the source requires us to display. */
   attribution?: string;
 }

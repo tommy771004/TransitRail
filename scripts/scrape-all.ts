@@ -38,12 +38,16 @@ function getScrapeDates(startDate: string, days: number): string[] {
 }
 
 async function main() {
-  const dateArg = process.argv[2];
+  const args = process.argv.slice(2);
+  // A live-only pass refreshes just the markets whose source answers for today
+  // and no other date, so it collects one date rather than the full window.
+  const onlyLiveOnly = args.includes("--live-only");
+  const dateArg = args.find((arg) => !arg.startsWith("--"));
   const startDate = dateArg || dateInTimeZone(DEFAULT_TIME_ZONE);
-  const dates = getScrapeDates(startDate, SCRAPE_WINDOW_DAYS);
+  const dates = onlyLiveOnly ? [startDate] : getScrapeDates(startDate, SCRAPE_WINDOW_DAYS);
 
   console.log(`Scrape dates: ${dates.join(", ")}`);
-  await runAllScrapers(dates);
+  await runAllScrapers(dates, { onlyLiveOnly });
 }
 
 main().catch((error) => {

@@ -35,7 +35,12 @@ import {
   hasCoverage,
 } from "../data/stationCoverage";
 import { stationSearchKey } from "../data/stationKey";
-import { buildSourceMeta, sourceIdForProvider, type TimetableSourceMeta } from "../data/sourceRegistry";
+import {
+  buildSourceMeta,
+  findOfficialSource,
+  sourceIdForProvider,
+  type TimetableSourceMeta,
+} from "../data/sourceRegistry";
 import { getLinesForCountry, officialTimetableUrls } from "./catalog";
 import { enrichTransitResultsWithLineStations } from "../utils/metroEnricher";
 import { searchTflJourney } from "./tfl";
@@ -43,6 +48,7 @@ import { searchMbtaJourney } from "./mbta";
 import { searchBelgiumJourney } from "./belgium";
 import { searchNorwayJourney } from "./norway";
 import { searchSwissJourney } from "./swiss";
+import { searchHongKongMtr } from "./hongKongMtr";
 import { recordError } from "./errorLog";
 import { getFranceServiceDayAdvisory } from "./franceGtfs";
 import { getThailandServiceDayAdvisory } from "./thailandBem";
@@ -110,6 +116,8 @@ async function runProvider(
       return searchNorwayJourney(origin, destination, date, time);
     case "swiss":
       return searchSwissJourney(origin, destination, date, time);
+    case "hong_kong_mtr":
+      return searchHongKongMtr(origin, destination, date);
   }
 }
 
@@ -127,6 +135,9 @@ function describeSearchData(
   sourceMeta?: TimetableSourceMeta,
 ): SearchDataStatus {
   const checkedAt = new Date().toISOString();
+  const temporalCoverage = sourceMeta
+    ? findOfficialSource(sourceMeta.sourceId)?.temporalCoverage
+    : undefined;
   const attribution = sourceMeta
     ? {
         source: sourceMeta.sourceName,
@@ -134,6 +145,7 @@ function describeSearchData(
         sourceUrl: sourceMeta.sourceUrl,
         sourceTier: sourceMeta.sourceTier,
         completeness: sourceMeta.completeness,
+        ...(temporalCoverage ? { temporalCoverage } : {}),
         ...(sourceMeta.attribution ? { attribution: sourceMeta.attribution } : {}),
       }
     : undefined;

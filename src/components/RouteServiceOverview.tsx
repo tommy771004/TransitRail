@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Clock3, MoonStar, Sunrise } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 import type { Country, TransitResult } from "../types";
 import { countryConfig, providerDateValue } from "../data/countries";
 
@@ -16,17 +17,20 @@ function toMinutes(time: string | undefined): number | undefined {
   return hours * 60 + minutes;
 }
 
-function formatRemaining(minutes: number, isChinese: boolean) {
-  if (minutes <= 0) return isChinese ? "末班車已發車" : "Last service has departed";
-  if (isChinese) return `距離末班車還有 ${minutes} 分鐘`;
-  return `${minutes} min until the last service`;
+function formatRemaining(minutes: number, t: TFunction) {
+  if (minutes <= 0) {
+    return t("result.last_shown_departed", { defaultValue: "The last displayed departure has left" });
+  }
+  return t("result.minutes_until_last_shown", {
+    count: minutes,
+    defaultValue: `${minutes} min until the last displayed departure`,
+  });
 }
 
-/** A compact, country-timezone-aware summary of the canonical-day timetable. */
+/** A compact, country-timezone-aware summary of the rows in this response. */
 export function RouteServiceOverview({ country, date, results }: RouteServiceOverviewProps) {
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
   const [now, setNow] = useState(() => Date.now());
-  const isChinese = i18n.language.toLowerCase().startsWith("zh");
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 30_000);
@@ -68,19 +72,26 @@ export function RouteServiceOverview({ country, date, results }: RouteServiceOve
   const showCountdown = serviceToday && remaining >= 0 && remaining <= 90;
 
   return (
-    <section className="mx-auto max-w-md px-4 pt-3" aria-label={isChinese ? "路線時刻速覽" : "Route timetable overview"}>
+    <section
+      className="mx-auto max-w-md px-4 pt-3"
+      aria-label={t("result.overview_label", { defaultValue: "Displayed departures overview" })}
+    >
       <div className="grid grid-cols-2 gap-2 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-slate-800 dark:bg-slate-900">
         <div className="flex items-center gap-2 rounded-xl bg-amber-50 px-3 py-2 dark:bg-amber-950/30">
           <Sunrise className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
           <div>
-            <p className="text-[10px] font-bold text-amber-700/75 dark:text-amber-300/75">{isChinese ? "首班車" : "First service"}</p>
+            <p className="text-[10px] font-bold text-amber-700/75 dark:text-amber-300/75">
+              {t("result.first_shown", { defaultValue: "First shown" })}
+            </p>
             <p className="font-mono text-sm font-black text-slate-900 dark:text-white">{summary.first}</p>
           </div>
         </div>
         <div className="flex items-center gap-2 rounded-xl bg-indigo-50 px-3 py-2 dark:bg-indigo-950/30">
           <MoonStar className="h-4 w-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
           <div>
-            <p className="text-[10px] font-bold text-indigo-700/75 dark:text-indigo-300/75">{isChinese ? "末班車" : "Last service"}</p>
+            <p className="text-[10px] font-bold text-indigo-700/75 dark:text-indigo-300/75">
+              {t("result.last_shown", { defaultValue: "Last shown" })}
+            </p>
             <p className="font-mono text-sm font-black text-slate-900 dark:text-white">{summary.last}</p>
           </div>
         </div>
@@ -88,7 +99,7 @@ export function RouteServiceOverview({ country, date, results }: RouteServiceOve
       {showCountdown ? (
         <p className="mt-2 flex items-center justify-center gap-1.5 rounded-xl bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700 dark:bg-rose-950/30 dark:text-rose-300">
           <Clock3 className="h-3.5 w-3.5" />
-          {formatRemaining(remaining, isChinese)}
+          {formatRemaining(remaining, t)}
         </p>
       ) : null}
     </section>

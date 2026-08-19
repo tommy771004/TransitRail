@@ -13,10 +13,10 @@ describe("getCountryCapability — search / scrape / result view policy", () => 
     expect(timetableScrapeCountries()).toContain("korea");
   });
 
-  it("Hong Kong: scraped at request time, provider-backed scrape, metro results", () => {
+  it("Hong Kong: live provider at request time, provider-backed scrape, metro results", () => {
     // Search exposes only the current local service day for MTR data.
     expect(getCountryCapability("hong_kong")).toMatchObject({
-      search: { kind: "scraped" },
+      search: { kind: "provider", provider: "hong_kong_mtr" },
       scrape: "official_source",
       resultView: "metro",
       liveOnly: true,

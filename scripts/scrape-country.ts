@@ -1,6 +1,8 @@
 import "dotenv/config";
 import { buildCountryMetadata } from "./scrapers/artifactBuilder";
 import { syncMalaysiaStationCatalog } from "./scrapers/malaysia";
+import { getCountryCapability } from "../src/data/countryCapability";
+import { addDateValueDays, providerDateValue, SCRAPE_WINDOW_DAYS } from "../src/data/countries";
 import type { Country } from "../src/types";
 
 async function main() {
@@ -19,22 +21,38 @@ async function main() {
     return groups;
   }, {});
   const country = requestedCountry as Country | undefined;
-  const date = process.argv[3] || new Date().toISOString().split("T")[0];
 
   if (!country || !scraperByCountry[country]) {
     throw new Error(`Country must be one of: ${Object.keys(scraperByCountry).join(", ")}`);
   }
 
+  // The same window the nightly job uses, for the same reason: `keepDates` is
+  // what prunes date slices outside it, so a run that passes a single date
+  // leaves every older slice on disk forever. London accumulated a fortnight
+  // that way, and the stale half kept a `sourceMeta` stamp naming a source
+  // that had not produced it.
+  const startDate = process.argv[3] || providerDateValue(country);
+  const capability = getCountryCapability(country);
+  const today = providerDateValue(country);
+  const dates = capability.liveOnly
+    ? [today]
+    : Array.from({ length: SCRAPE_WINDOW_DAYS }, (_, index) => addDateValueDays(startDate, index));
+
+  console.log(`Scrape dates: ${dates.join(", ")}`);
+
   const countryScrapers = scraperByCountry[country];
   const results = [];
   const outcomes = [];
-  for (const scraper of countryScrapers) {
-    results.push(...await scraper.runAll(date));
-    outcomes.push(...(scraper.report()?.outcomes || []));
+  for (const date of dates) {
+    if (dates.length > 1) console.log(`\n=== Scrape date ${date} ===`);
+    for (const scraper of countryScrapers) {
+      results.push(...await scraper.runAll(date, { keepDates: dates }));
+      outcomes.push(...(scraper.report()?.outcomes || []));
+    }
   }
   buildCountryMetadata({
     reports: {
-      [country]: { country: countryScrapers[0].country, scraper: country, date, outcomes },
+      [country]: { country: countryScrapers[0].country, scraper: country, date: dates.at(-1)!, outcomes },
     },
     scraperNames: scraperDisplayNames(countryScrapers),
     countries: [country],

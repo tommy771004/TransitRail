@@ -244,4 +244,45 @@ describe("runTransitSearch service-day advisory", () => {
       provenance: "unknown",
     });
   });
+
+  it("queries Hong Kong MTR live instead of serving an earlier next-train snapshot", async () => {
+    const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
+      const url = new URL(String(input));
+      expect(url.pathname).toBe("/v1/transport/mtr/getSchedule.php");
+      expect(url.searchParams.get("line")).toBe("TWL");
+      expect(url.searchParams.get("sta")).toBe("ADM");
+      return new Response(JSON.stringify({
+        status: 1,
+        isdelay: "N",
+        data: {
+          "TWL-ADM": {
+            UP: [{ dest: "TSW", plat: "1", seq: "1", time: `${TODAY} 20:15:00`, valid: "Y" }],
+          },
+        },
+      }), { status: 200 });
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const result = await runTransitSearch({
+      origin: "Admiralty",
+      destination: "Tsim Sha Tsui",
+      country: "hong_kong",
+      date: TODAY,
+      time: "20:00",
+    });
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(result.statusCode).toBe(200);
+    expect(result.payload.results).toEqual([
+      expect.objectContaining({ departureTime: "20:15", realtime: true }),
+    ]);
+    expect(result.payload).toMatchObject({
+      truthMode: "verified",
+      provenance: "official",
+      dataStatus: {
+        completeness: "full-timetable",
+        temporalCoverage: "bounded-upcoming",
+      },
+    });
+  });
 });

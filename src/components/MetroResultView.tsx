@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
 import type { Country, CoverageGap, NoResultReason, TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
-import { stationLabel } from "../utils/stationLabel";
+import { stationLabel, stationListLabel } from "../utils/stationLabel";
 import { extractPathBetweenStations } from "../utils/pathExtractor";
 import { TransitIcon, formatPlatform } from "./TransitIcon";
 import {
@@ -246,7 +246,7 @@ export function MetroResultView({
                         <p className="font-mono text-xs font-bold text-slate-500 dark:text-slate-400">
                           {trip.direct
                             ? `${trip.stops.length} ${t("result.stops")}`
-                            : `${t("result.transfer")} · ${trip.transferStations?.join(", ") || ""}`}
+                            : `${t("result.transfer")} · ${stationListLabel(t, trip.transferStations || [], country)}`}
                         </p>
                         <SaveTripButton
                           isSaved={isSaved}

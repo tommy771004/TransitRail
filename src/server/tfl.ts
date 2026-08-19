@@ -617,11 +617,19 @@ export async function searchTflJourney(
 ): Promise<{ status: number; body: SearchResponse & { error?: string } }> {
   const tflDate = date.replace(/-/g, "");
   const tflTime = time ? time.replace(/:/g, "") : currentLondonTimeHHMM();
+  // A traveller query still fans out into station resolution, the requested
+  // journey, and first/last service-day bounds. Pace that whole fan-out with
+  // the same mechanism as a nightly sweep so opening the live directory and
+  // immediately searching cannot burst through TfL's anonymous allowance.
+  const requestContext: TflSweepContext = sweep ?? {
+    bounds: new Map(),
+    gate: createTflRateGate(tflRuntimeRequestIntervalMs()),
+  };
 
   try {
     const [resolvedOrigin, resolvedDestination] = await Promise.all([
-      resolveTflStation(origin, sweep?.gate),
-      resolveTflStation(destination, sweep?.gate),
+      resolveTflStation(origin, requestContext.gate),
+      resolveTflStation(destination, requestContext.gate),
     ]);
 
     if (!resolvedOrigin || !resolvedDestination) {
@@ -656,10 +664,10 @@ export async function searchTflJourney(
       journeyPath,
       journeyParams,
       serviceDayCacheKey,
-      sweep,
+      requestContext,
     );
 
-    const data = await fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, journeyParams), sweep?.gate);
+    const data = await fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, journeyParams), requestContext.gate);
     let serviceDayAdvisory: ServiceDayAdvisory;
     try {
       const [firstData, lastData] = await boundsPromise;
@@ -851,6 +859,14 @@ function tflRequestIntervalMs(keyed: boolean) {
   const override = Number(process.env.TFL_REQUEST_INTERVAL_MS);
   if (Number.isFinite(override) && override >= 0) return override;
   return keyed ? SERVICE_DAY_KEYED_REQUEST_INTERVAL_MS : SERVICE_DAY_REQUEST_INTERVAL_MS;
+}
+
+function tflRuntimeRequestIntervalMs() {
+  // Ordinary journey unit fixtures are in-memory and should not spend seconds
+  // imitating the public API. A pacing test sets the override explicitly;
+  // sweep tests continue to exercise the production defaults above.
+  if (process.env.NODE_ENV === "test" && process.env.TFL_REQUEST_INTERVAL_MS === undefined) return 0;
+  return tflRequestIntervalMs(false);
 }
 
 /**

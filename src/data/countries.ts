@@ -20,18 +20,36 @@ export const countryFlags: Record<string, string> = {
 };
 
 /**
- * How many service days the daily scrape commits, and therefore how far a
- * snapshot-backed market can be searched.
- *
- * The picker's date range and the scrape window are the same fact seen from two
- * ends, so they share one constant. When they were written separately the
- * picker offered 14 days against 7 days of data, and the second week returned
- * "no service" for dates the user had just been invited to choose.
+ * How many service days a snapshot-backed market can be searched — what the
+ * picker offers.
  *
  * A market whose provider answers arbitrary dates live is not bound by this —
  * its range is a provider capability, not a data inventory.
  */
-export const SCRAPE_WINDOW_DAYS = 7;
+export const SEARCH_WINDOW_DAYS = 7;
+
+/**
+ * How often the full scrape runs. Markets whose source only answers for today
+ * still run daily; everything else is collected on this cadence.
+ */
+export const FULL_SCRAPE_INTERVAL_DAYS = 3;
+
+/**
+ * How many service days one full scrape commits.
+ *
+ * The picker's range and the scrape window are the same fact seen from two
+ * ends, and must never be edited apart: written separately once, the picker
+ * offered 14 days against 7 days of data and the second week returned "no
+ * service" for dates the user had just been invited to choose.
+ *
+ * They are no longer *equal*, because equality only held while the scrape ran
+ * every night. On a {@link FULL_SCRAPE_INTERVAL_DAYS}-day cadence a run on day
+ * X must still answer the window a passenger sees on day X+2 — which reaches
+ * X+2+SEARCH_WINDOW_DAYS-1. Hence the derivation below: the search window plus
+ * the days that pass before the next run refreshes it. Change the cadence and
+ * this follows automatically; that is the point.
+ */
+export const SCRAPE_WINDOW_DAYS = SEARCH_WINDOW_DAYS + FULL_SCRAPE_INTERVAL_DAYS - 1;
 
 /** Every configured market, including temporarily hidden ones used by jobs. */
 export const configuredCountryOptions: Country[] = [
@@ -81,7 +99,7 @@ export const countryOptions: Country[] = configuredCountryOptions.filter(
 );
 
 /** Live timetable provider id used by /api/transit/search. */
-export type ProviderId = "tfl" | "mbta" | "belgium" | "norway" | "swiss";
+export type ProviderId = "tfl" | "mbta" | "belgium" | "norway" | "swiss" | "hong_kong_mtr";
 
 /** How search obtains timetable results. */
 export type SearchKind =
@@ -186,7 +204,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "日本",
     connected: true,
     liveOnly: false,
-    dateRangeDays: SCRAPE_WINDOW_DAYS,
+    dateRangeDays: SEARCH_WINDOW_DAYS,
     timeZone: "Asia/Tokyo",
     search: { kind: "scraped" },
     scrape: "official_source",
@@ -226,7 +244,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "新加坡",
     connected: true,
     liveOnly: false,
-    dateRangeDays: SCRAPE_WINDOW_DAYS,
+    dateRangeDays: SEARCH_WINDOW_DAYS,
     timeZone: "Asia/Singapore",
     search: { kind: "scraped" },
     scrape: "official_source",
@@ -249,7 +267,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "馬來西亞",
     connected: true,
     liveOnly: false,
-    dateRangeDays: SCRAPE_WINDOW_DAYS,
+    dateRangeDays: SEARCH_WINDOW_DAYS,
     timeZone: "Asia/Kuala_Lumpur",
     search: { kind: "scraped" },
     scrape: "official_source",
@@ -281,7 +299,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     timeZone: "Asia/Bangkok",
     search: { kind: "scraped" },
     scrape: "official_source",
-    authenticityGates: { catalog: true },
+    authenticityGates: { catalog: true, officialDirectory: true },
     marketTopology: { regions: [{ id: "bangkok", name: "Bangkok", declaredLines: 5, declaredStations: 119 }] },
     resultView: "metro",
     serviceDay: {
@@ -293,7 +311,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
   },
   hong_kong: {
     labelKey: "search.hong_kong",
-    provider: "Scraped (MTR)",
+    provider: "Official MTR Next Train API",
     originPlaceholder: "Central",
     destinationPlaceholder: "Tsuen Wan",
     featuredStations: ["Central", "Admiralty", "Tsim Sha Tsui", "Mong Kok", "Causeway Bay"],
@@ -303,8 +321,10 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     dateRangeDays: 1,
     dateRangeEnforced: true,
     timeZone: "Asia/Hong_Kong",
-    // Live MTR is used only by ProviderBackedScraper at scrape time.
-    search: { kind: "scraped" },
+    // The next-train feed describes only the moment it is fetched. Search it
+    // at request time; a nightly snapshot cannot truthfully answer later in
+    // the same day.
+    search: { kind: "provider", provider: "hong_kong_mtr" },
     scrape: "official_source",
     authenticityGates: { catalog: true },
     marketTopology: { regions: [{ id: "hong-kong", name: "Hong Kong", declaredLines: 6, declaredStations: 23 }] },
@@ -383,7 +403,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "德國",
     connected: true,
     liveOnly: false,
-    dateRangeDays: SCRAPE_WINDOW_DAYS,
+    dateRangeDays: SEARCH_WINDOW_DAYS,
     timeZone: "Europe/Berlin",
     search: { kind: "scraped" },
     scrape: "official_source",
@@ -401,7 +421,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "法國",
     connected: true,
     liveOnly: false,
-    dateRangeDays: SCRAPE_WINDOW_DAYS,
+    dateRangeDays: SEARCH_WINDOW_DAYS,
     timeZone: "Europe/Paris",
     search: { kind: "scraped" },
     scrape: "official_source",
@@ -465,7 +485,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     // Belgium and Norway are pure `provider` markets: if the journey API cannot
     // answer, the search fails as a provider error and says so. Switzerland is
     // `provider_then_scraped` — it is built to fall back to committed GTFS, and
-    // that fallback only ever holds SCRAPE_WINDOW_DAYS. Offering fourteen days
+    // that fallback only ever holds the scraped window. Offering fourteen days
     // meant the second week was backed by nothing but the live OJP token being
     // present and accepted; without it those dates fell through to a fallback
     // that had no rows for them and answered "no service" for a date the picker
@@ -473,7 +493,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     //
     // Bind the range to the data that is always there. A working OJP token
     // still answers these days, and answers them better.
-    dateRangeDays: SCRAPE_WINDOW_DAYS,
+    dateRangeDays: SEARCH_WINDOW_DAYS,
     timeZone: "Europe/Zurich",
     search: { kind: "provider_then_scraped", provider: "swiss" },
     scrape: "official_source",
@@ -492,7 +512,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "中國",
     connected: true,
     liveOnly: false,
-    dateRangeDays: SCRAPE_WINDOW_DAYS,
+    dateRangeDays: SEARCH_WINDOW_DAYS,
     timeZone: "Asia/Shanghai",
     search: { kind: "scraped" },
     // No official China source is wired up. The four high-speed route files
