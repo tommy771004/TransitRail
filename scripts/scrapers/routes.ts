@@ -17,6 +17,15 @@ export const japanJrCentralRoutes: ScrapedRoute[] = [
   { origin: "Tokyo", destination: "Nagoya" },
   { origin: "Shin-Osaka", destination: "Tokyo" },
   { origin: "Nagoya", destination: "Shin-Osaka" },
+  // San'yō Shinkansen, from the same joint Tokaido/San'yō timetable search.
+  // West of Shin-Osaka the catalogue had six stations and no committed data,
+  // so the whole line was hidden; these pairs are what makes it answerable.
+  { origin: "Shin-Osaka", destination: "Okayama" },
+  { origin: "Okayama", destination: "Shin-Osaka" },
+  { origin: "Shin-Osaka", destination: "Hiroshima" },
+  { origin: "Hiroshima", destination: "Shin-Osaka" },
+  { origin: "Shin-Osaka", destination: "Hakata" },
+  { origin: "Hakata", destination: "Shin-Osaka" },
 ];
 
 /**
