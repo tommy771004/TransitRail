@@ -35,7 +35,7 @@ import {
   type TimetableSourceFact,
   type TimetableTruthMode,
 } from "./timetableAuthenticity";
-import { findInRoutes, type ScrapedRouteData } from "./scraped/timetableDay";
+import { endpointNamesForRoute, findInRoutes, type ScrapedRouteData } from "./scraped/timetableDay";
 
 /** Stable policy reasons. API-specific reason names are mapped at the edge. */
 export type SearchabilityRejectionReason =
@@ -295,13 +295,7 @@ function addRouteNames(route: ScrapedRouteData, names: Map<string, string>, coun
     const key = stationSearchKey(resolveStationAlias(country, name));
     if (!names.has(key)) names.set(key, name);
   };
-  add(route.origin);
-  add(route.destination);
-  for (const result of route.results || []) {
-    add(result.origin);
-    add(result.destination);
-    for (const stop of result.stops || []) add(stop);
-  }
+  for (const name of endpointNamesForRoute(route)) add(name);
 }
 
 function selectedRoute(route: ScrapedRouteData, fact: TimetableSourceFact): ScrapedRouteData {

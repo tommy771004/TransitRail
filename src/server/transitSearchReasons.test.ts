@@ -15,6 +15,24 @@ afterEach(() => {
 
 describe("search no-result reasons", () => {
   it("distinguishes a covered-but-unsupported station pair", async () => {
+    // Both endpoints are searchable — Asakusa on the Toei Asakusa Line pair,
+    // Roppongi on the Oedo one — but no committed route or chain links them.
+    const result = await runTransitSearch({
+      country: "japan",
+      origin: "Asakusa",
+      destination: "Roppongi",
+      date: "2026-08-01",
+    });
+
+    expect(result.statusCode).toBe(404);
+    expect(result.payload.noResultReason).toBe("unsupported_route");
+  });
+
+  it("calls a station search cannot answer for uncovered, not merely unsupported", async () => {
+    // Akebonobashi is only ever an intermediate stop in the ODPT rows, which
+    // carry no per-leg times, so no pair through it can be answered. It used to
+    // count as covered and the pair came back "unsupported_route" — the station
+    // browser then suggested it as a place to search from.
     const result = await runTransitSearch({
       country: "japan",
       origin: "Akebonobashi",
@@ -23,7 +41,9 @@ describe("search no-result reasons", () => {
     });
 
     expect(result.statusCode).toBe(404);
-    expect(result.payload.noResultReason).toBe("unsupported_route");
+    expect(result.payload.noResultReason).toBe("no_verified_data");
+    expect(result.payload.coverageGap?.uncovered).toEqual(["Akebonobashi"]);
+    expect(result.payload.coverageGap?.suggestions).not.toContain("Akebonobashi");
   });
 
   it("reports a future date outside a live source's today-only contract", async () => {

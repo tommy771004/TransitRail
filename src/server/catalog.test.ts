@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { buildServiceRegionCatalog, getLinesForCountry, getStationsForCountry } from "./catalog";
 import { getScrapedCoverageNames, getScrapedRoutes } from "../data/scraped";
+import { findInRoutes } from "../data/scraped/timetableDay";
 import { getProviderRouteLines } from "../data/providerRouteLines";
 import { addDateValueDays, searchDateRange } from "../data/countries";
 
@@ -129,6 +130,32 @@ describe("station and line catalog integrity scope", () => {
     expect(stations.stations).toContain("Tokyo");
     expect(stations.stations).toContain("Roppongi");
     expect(stations.stations).not.toContain("Shibuya");
+  });
+
+  it("offers only Japanese stations a search can answer, in the menu and on the map", async () => {
+    // Every name the browse map and the "covered stations" hint publish has to
+    // be usable as an endpoint. The hint used to be built from each train's
+    // calling pattern, so it advertised Akebonobashi, Asakusabashi and nine
+    // more stops the matcher never reads, and the map still listed all 132
+    // Tokyo stations — Nishi-magome → Oshiage was pickable and then answered
+    // "no timetable for this station".
+    const routes = [...getScrapedRoutes("japan")];
+    const suggestions = getScrapedCoverageNames("japan", catalogDate);
+    const answerable = suggestions.filter((station) => suggestions.some((other) => (
+      other !== station && Boolean(findInRoutes(routes, station, other, catalogDate, "japan")?.length)
+    )));
+    expect(suggestions).toEqual(answerable);
+
+    const lines = await getLinesForCountry("japan", catalogDate);
+    const mapped = new Set(lines.flatMap((line) => line.stations.map((station) => station.name)));
+    expect([...mapped].filter((station) => !suggestions.includes(station))).toEqual([]);
+    expect(mapped.has("Nishi-magome")).toBe(false);
+
+    const menu = await getStationsForCountry("japan", undefined, catalogDate);
+    expect(menu.stations).toEqual(expect.arrayContaining(["Asakusa", "Jimbocho", "Shin-Osaka"]));
+    expect(menu.stations).not.toContain("Akebonobashi");
+    // Shinkansen stations no committed run reaches are held to the same bar.
+    expect(menu.stations).not.toContain("Hakata");
   });
 
   it("keeps the static intercity directory without promising dated timetable coverage", async () => {
