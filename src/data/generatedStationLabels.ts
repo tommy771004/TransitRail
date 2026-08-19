@@ -17,13 +17,39 @@
  */
 import type { Country } from "../types";
 import labels from "./catalog/station-i18n/labels.json";
+import singaporeCatalog from "./catalog/singapore-menu.json";
 
 /** Locales the generator emits. English is the source language. */
 export type GeneratedStationLocale = "zh-TW" | "ja" | "ko";
 
 type GeneratedLabels = Partial<Record<Country, Partial<Record<GeneratedStationLocale, Record<string, string>>>>>;
 
-const generated = labels as GeneratedLabels;
+/**
+ * Singapore's directory labels come from its own generated catalog rather than
+ * from the shared sync. They used to be merged into the flat i18next dictionary,
+ * where they became every market's answer for a shared name: Hong Kong's
+ * Admiralty rendered as Singapore's アドミラルティ, and Korea's City Hall as
+ * Singapore's. Folding them in here instead keeps them scoped to Singapore.
+ */
+function withSingaporeCatalog(base: GeneratedLabels): GeneratedLabels {
+  const catalog = (singaporeCatalog as {
+    stationTranslations?: Record<string, Partial<Record<GeneratedStationLocale, string>>>;
+  }).stationTranslations || {};
+  const singapore: Partial<Record<GeneratedStationLocale, Record<string, string>>> = {
+    "zh-TW": { ...(base.singapore?.["zh-TW"] || {}) },
+    ja: { ...(base.singapore?.ja || {}) },
+    ko: { ...(base.singapore?.ko || {}) },
+  };
+  for (const [name, byLocale] of Object.entries(catalog)) {
+    for (const locale of ["zh-TW", "ja", "ko"] as const) {
+      const label = byLocale[locale];
+      if (label && label !== name) singapore[locale]![name] = label;
+    }
+  }
+  return { ...base, singapore };
+}
+
+const generated = withSingaporeCatalog(labels as GeneratedLabels);
 
 /**
  * Sourced label for `name` in `country`, or undefined when the sync found no

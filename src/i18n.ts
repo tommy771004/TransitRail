@@ -4,7 +4,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import translations from './data/translations.json';
-import singaporeCatalog from './data/catalog/singapore-menu.json';
 import { additionalStationZhTW } from './data/stationTranslations';
 import { seoulSubwayTranslationsZhTW } from './data/seoulSubwayTranslations';
 import { transferTranslations } from './data/transfers/translations';
@@ -2672,21 +2671,13 @@ Object.entries(translations).forEach(([key, value]) => {
   if (!(key in stationDict)) stationDict[key] = value;
 });
 
-// Same rule as the generated TfL/MBTA merge above: a curated name always
-// wins. The Singapore directory is a generated file, and its labels are
-// derived from Wikipedia article titles, so letting it assign over a curated
-// key silently re-points names that two networks share — it rewrote Hong
-// Kong's "Admiralty" (金鐘) to Singapore's 海軍部 the one time it did.
-const singaporeStationI18n = (singaporeCatalog as {
-  stationTranslations?: Record<string, Partial<Record<"zh-TW" | "ja" | "ko", string>>>;
-}).stationTranslations || {};
-for (const [name, labels] of Object.entries(singaporeStationI18n)) {
-  for (const locale of ["zh-TW", "ja", "ko"] as const) {
-    const label = labels[locale];
-    const dict = resources[locale].translation.station as Record<string, string>;
-    if (label && !(name in dict)) dict[name] = label;
-  }
-}
+// The Singapore directory's own labels are NOT merged here. This dictionary is
+// flat and shared by every market, so a generated per-market file assigning into
+// it silently re-points names two networks share — it rewrote Hong Kong's
+// "Admiralty" (金鐘) to Singapore's 海軍部 the one time it did, and later showed
+// Hong Kong Admiralty under Singapore's Japanese and Korean names. Those labels
+// are country-scoped in src/data/generatedStationLabels.ts instead, and reached
+// through stationLabel().
 // The literal resource object gives `station` a fixed key set; the generated
 // TfL/MBTA names are added at runtime, so index it through the same widened
 // record shape already used for zh-TW.

@@ -15,6 +15,7 @@ import i18n from "../i18n";
 import { configuredCountryOptions } from "./countries";
 import { generatedLabelCountries, generatedLabelsFor, type GeneratedStationLocale } from "./generatedStationLabels";
 import { stationLabel } from "../utils/stationLabel";
+import { stationOverrides } from "./stationOverrides";
 import type { Country } from "../types";
 
 const LOCALES: GeneratedStationLocale[] = ["zh-TW", "ja", "ko"];
@@ -71,8 +72,11 @@ describe("generated station labels", () => {
       const t = i18n.getFixedT(locale, "translation");
       for (const country of generatedLabelCountries()) {
         for (const name of Object.keys(generatedLabelsFor(country, locale))) {
-          const curated = t(`station.${name}`, { defaultValue: "" });
-          if (!curated) continue;
+          // A country-scoped override outranks the flat entry for this market;
+          // everything else must render exactly what the flat dictionary says.
+          const override = locale === "zh-TW" ? stationOverrides[country]?.[name] : undefined;
+          const curated = override || t(`station.${name}`, { defaultValue: "" });
+          if (!curated || curated === name) continue;
           expect(stationLabel(t, name, country), `${country}/${locale}/${name}`).toBe(curated);
         }
       }
@@ -94,17 +98,34 @@ describe("generated station labels", () => {
   });
 
   it("keeps the shipped file in step with the per-market artifacts", () => {
-    // labels.json is generated; a hand edit here is a silent, unsourced
-    // translation, which is exactly what the artifacts exist to prevent.
+    // labels.json is generated from the artifacts; a hand edit here is a
+    // silent, unsourced translation, which is what the artifacts exist to
+    // prevent. Read the file itself, not the runtime map, which additionally
+    // folds in Singapore's own generated catalog.
+    const shippedFile = JSON.parse(readFileSync(resolve(ARTIFACT_DIR, "labels.json"), "utf8")) as
+      Record<string, Partial<Record<GeneratedStationLocale, Record<string, string>>>>;
     for (const artifact of artifacts()) {
       for (const locale of LOCALES) {
-        const shipped = generatedLabelsFor(artifact.country, locale);
         const expected = Object.fromEntries(
           Object.entries(artifact.stations)
             .map(([name, labels]) => [name, labels[locale]?.label])
             .filter((entry): entry is [string, string] => Boolean(entry[1]) && entry[1] !== entry[0]),
         );
-        expect(shipped, `${artifact.country}/${locale}`).toEqual(expected);
+        expect(shippedFile[artifact.country]?.[locale] || {}, `${artifact.country}/${locale}`)
+          .toEqual(expected);
+      }
+    }
+  });
+
+  it("keeps every artifact label reachable through the runtime map", () => {
+    for (const artifact of artifacts()) {
+      for (const locale of LOCALES) {
+        const shipped = generatedLabelsFor(artifact.country, locale);
+        for (const [name, labels] of Object.entries(artifact.stations)) {
+          const label = labels[locale]?.label;
+          if (!label || label === name) continue;
+          expect(shipped[name], `${artifact.country}/${locale}/${name}`).toBeTruthy();
+        }
       }
     }
   });

@@ -72,13 +72,26 @@ describe("localised station labels", () => {
   });
 
   it("labels stations in Japanese and Korean, not just Chinese", () => {
-    // Sourced from the ja/ko Wikipedia article titles for the same station.
+    // Sourced from the ja/ko Wikipedia article titles (赤坂見附駅 / 아카사카미쓰케역),
+    // trimmed to the way the curated metro dictionaries write a station name.
     expect(stationLabel(i18n.getFixedT("ja", "translation"), "Akasaka-mitsuke", "japan"))
-      .toBe("赤坂見附駅");
+      .toBe("赤坂見附");
     expect(stationLabel(i18n.getFixedT("ko", "translation"), "Akasaka-mitsuke", "japan"))
-      .toBe("아카사카미쓰케역");
+      .toBe("아카사카미쓰케");
+    // Intercity rail keeps it: 中央駅 is part of the station's name, not a
+    // suffix, and the curated Belgian names spell it out the same way.
     expect(stationLabel(i18n.getFixedT("ja", "translation"), "Aachen Hbf", "belgium"))
       .toBe("アーヘン中央駅");
+  });
+
+  it("scopes a shared name to the network the passenger is looking at", () => {
+    // "Admiralty" is Hong Kong's 金鐘 and Singapore's 海軍部. Before the labels
+    // were country-scoped, the Japanese and Korean UI showed Singapore's name
+    // for the Hong Kong station.
+    expect(stationLabel(i18n.getFixedT("ja", "translation"), "Admiralty", "hong_kong")).toBe("金鐘");
+    expect(stationLabel(i18n.getFixedT("ja", "translation"), "Admiralty", "singapore")).toBe("アドミラルティ");
+    expect(stationLabel(i18n.getFixedT("ko", "translation"), "Admiralty", "hong_kong")).toBe("감중");
+    expect(stationLabel(i18n.getFixedT("ko", "translation"), "Admiralty", "singapore")).toBe("애드미럴티");
   });
 
   it("localizes transfer-station lists without changing their stored names", () => {

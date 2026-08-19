@@ -28,10 +28,10 @@ export function stationLabel(t: TFunction, name: string, country?: Country): str
     if (override) return override;
   }
   // An empty default separates "the dictionary has no entry" from "the entry is
-  // the English name", which matters because only the former may fall through
-  // to a generated label.
+  // the English name". A dictionary entry that just repeats the English name is
+  // not a translation, so it must not block a sourced one either.
   const curated = t(`station.${name}`, { defaultValue: "" });
-  if (curated) return curated;
+  if (curated && curated !== name) return curated;
   return generatedStationLabel(locale, name, country) || name;
 }
 

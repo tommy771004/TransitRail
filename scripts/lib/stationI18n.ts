@@ -25,9 +25,10 @@
  * Wikidata joins are exact wherever the directory carries an external ID: for
  * European rail that is the UIC station code (P722), which iRail, DB and SNCF
  * all embed in their station IDs. Name search is the fallback, and it only
- * accepts a candidate whose own English label matches the directory name after
- * normalisation — a near-miss is dropped rather than guessed at, because a
- * wrong match here renames a station in the UI.
+ * accepts a candidate whose own label or alias — in any language it publishes —
+ * matches the directory name once stop-kind words are normalised away. A
+ * near-miss is dropped rather than guessed at, because a wrong match here
+ * renames a station in the UI.
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -52,6 +53,8 @@ export interface StationLabel {
   sourceLocale: string;
   /** Set when Simplified source text was converted to Traditional for zh-TW. */
   converted?: boolean;
+  /** The source text, when the shipped label was converted or trimmed. */
+  sourceText?: string;
   wikidataId?: string;
   wikipediaTitle?: string;
 }
@@ -78,8 +81,11 @@ export interface CountryDirectory {
   country: Country;
   /** URL or repo path the station names were read from. */
   directorySource: string;
-  /** Wikidata QID of the country, used to reject cross-border name matches. */
-  countryQid?: string;
+  /**
+   * Wikidata QIDs accepted for P17, used to reject cross-border name matches.
+   * More than one is normal: Hong Kong's stations carry both Q8646 and Q148.
+   */
+  countryQids?: readonly string[];
   entries: StationEntry[];
 }
 
@@ -201,7 +207,13 @@ function chunks<T>(values: readonly T[], size: number): T[][] {
 }
 
 const WIKI_SITES = ["zhwiki", "jawiki", "kowiki"] as const;
-const WIKI_LANGUAGES = ["zh", "zh-hans", "zh-hant", "zh-tw", "zh-hk", "ja", "ko", "en"] as const;
+// zh/ja/ko are what we ship; the rest are only read to confirm that a searched
+// candidate is the station the directory named ("Bergen stasjon" is the no
+// label of the item whose en label is "Bergen station").
+const WIKI_LANGUAGES = [
+  "zh", "zh-hans", "zh-hant", "zh-tw", "zh-hk", "ja", "ko",
+  "en", "de", "fr", "nl", "it", "es", "pt", "no", "nb", "sv", "da", "th", "ms", "id",
+] as const;
 
 /** Batch fetch of the label/sitelink/claim slice this module reasons about. */
 export async function fetchEntities(
@@ -269,16 +281,55 @@ interface SearchResult {
   match?: { text?: string };
 }
 
-/** Punctuation, case and the word "station" are never identity-bearing here. */
+/**
+ * Words that name the *kind* of stop rather than the stop, in the languages the
+ * markets here publish in: "Ang Mo Kio" and "Ang Mo Kio MRT station" are the
+ * same place.
+ */
+const STOP_KIND_WORDS =
+  /\b(?:station|stations|stasjon|stasjonen|stazione|estacion|estacao|gare|bahnhof|railway|rail|train|metro|subway|underground|tube|dlr|mrt|lrt|bts|mtr|brt|arl|srt|skytrain|halt|stop)\b/g;
+
+/**
+ * Words for "the main station of this city", which different operators and
+ * languages spell differently for the same place — "Berlin Hbf", "Berlin
+ * Hauptbahnhof" and "Berlin Central Station" are one station. Dropped only in
+ * the last-resort variant, because they *are* identity-bearing where a city has
+ * more than one big station.
+ */
+const MAIN_STATION_WORDS = /\b(?:hauptbahnhof|hbf|hb|centraal|central|centrale|zentral)\b/g;
+
+/** Punctuation, case and accents are never identity-bearing here. */
 export function normalizeStationName(name: string): string {
+  return baseNormalize(name).replace(/[^a-z0-9]+/g, "");
+}
+
+function baseNormalize(name: string): string {
   return name
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
-    .replace(/\b(?:railway|train|metro|subway|underground|tube|dlr|rail)\b/g, " ")
-    .replace(/\bstation\b/g, " ")
-    .replace(/\bst\b/g, "saint")
-    .replace(/[^a-z0-9]+/g, "");
+    .replace(/&/g, " and ")
+    .replace(/\bst\b\.?/g, "saint");
+}
+
+/**
+ * The forms a name may legitimately be written in: as published, with the
+ * stop-kind words removed, and with the "main station" words removed too. A
+ * match on any of them counts.
+ *
+ * A variant that empties the name is dropped, which is what keeps Hong Kong's
+ * "Central" from normalising to nothing and then matching every station whose
+ * label happens to end in "Central".
+ */
+export function stationNameVariants(name: string): Set<string> {
+  const base = baseNormalize(name);
+  const squeeze = (value: string) => value.replace(/[^a-z0-9]+/g, "");
+  const withoutKind = base.replace(STOP_KIND_WORDS, " ");
+  return new Set(
+    [base, withoutKind, withoutKind.replace(MAIN_STATION_WORDS, " ")]
+      .map(squeeze)
+      .filter(Boolean),
+  );
 }
 
 /**
@@ -321,23 +372,44 @@ function claimValues(entity: WikidataEntity, property: string): string[] {
 }
 
 /**
- * Confirm a name-searched candidate really is this station: its English label
- * or one of its aliases has to match the directory name once "station" and
- * punctuation are normalised away, and — when the caller knows the country —
- * P17 has to agree. Anything less is dropped.
+ * Confirm a name-searched candidate really is this station: one of its labels
+ * or aliases, in any language it publishes, has to match the directory name
+ * once stop-kind words and punctuation are normalised away, and — when the
+ * caller knows the market — P17 has to be one of the accepted countries.
+ * Anything less is dropped, because a wrong match here renames a station.
  */
-export function isConfirmedMatch(entity: WikidataEntity, name: string, countryQid?: string): boolean {
-  if (countryQid) {
+export function isConfirmedMatch(
+  entity: WikidataEntity,
+  name: string,
+  countryQids?: readonly string[],
+  options: { allowAliases?: boolean } = {},
+): boolean {
+  // A place has coordinates; the concept "central station" does not. Hong
+  // Kong's "Central" used to resolve to that concept item and shipped 中央車站
+  // for 中環站 — one dictionary entry away from renaming a station.
+  if (!entity.claims?.P625?.length) return false;
+  if (countryQids && countryQids.length > 0) {
     const countries = claimValues(entity, "P17");
-    if (countries.length > 0 && !countries.includes(countryQid)) return false;
+    if (countries.length > 0 && !countries.some((country) => countryQids.includes(country))) {
+      return false;
+    }
   }
-  const target = normalizeStationName(name);
-  if (!target) return false;
+  const target = stationNameVariants(name);
+  if (target.size === 0) return false;
   const candidates = [
-    entity.labels?.en?.value,
-    ...(entity.aliases?.en || []).map((alias) => alias.value),
+    ...Object.values(entity.labels || {}).map((label) => label.value),
+    // Aliases carry a station's *former* names — Hung Hom is still aliased
+    // "Kowloon station" — so they are only consulted once no label matched.
+    ...(options.allowAliases
+      ? Object.values(entity.aliases || {}).flatMap((aliases) => aliases.map((alias) => alias.value))
+      : []),
   ].filter((value): value is string => Boolean(value));
-  return candidates.some((candidate) => normalizeStationName(candidate) === target);
+  return candidates.some((candidate) => {
+    for (const variant of stationNameVariants(candidate)) {
+      if (target.has(variant)) return true;
+    }
+    return false;
+  });
 }
 
 /** Drop a Wikipedia title's disambiguator: "滑鐵盧站 (比利時)" → "滑鐵盧站". */
@@ -481,6 +553,42 @@ export function buildLabels(
 /** True when text still contains Simplified-only forms after sourcing. */
 export function needsConversion(locale: StationLocale, sourceLocale: string): boolean {
   return locale === "zh-TW" && sourceLocale !== "zh-tw" && sourceLocale !== "zh-hant";
+}
+
+/**
+ * Markets whose curated dictionaries write metro stations without the local
+ * word for "station" — 金鐘, not 金鐘站; 江南, not 江南駅. A generated label has
+ * to read the same way as the curated ones beside it in the same menu.
+ *
+ * Intercity rail markets are deliberately absent: 布魯塞爾中央車站 and 北京南站
+ * carry the word as part of the station's actual name, and trimming it there
+ * would produce the city, not the station.
+ */
+const PLAIN_LABEL_MARKETS = new Set<Country>([
+  "japan", "korea", "hong_kong", "singapore", "thailand",
+]);
+
+const STATION_SUFFIX: Record<StationLocale, RegExp> = {
+  "zh-TW": /(?:車站|站)$/u,
+  ja: /駅$/u,
+  ko: /\s*역$/u,
+};
+
+/**
+ * Apply the market's display convention to a sourced label. A directory name
+ * that itself ends in "Station" keeps the suffix — Seoul Station is 서울역, not
+ * 서울 — because there the word is part of the name the operator publishes.
+ */
+export function toDisplayLabel(
+  country: Country,
+  locale: StationLocale,
+  label: string,
+  englishName: string,
+): string {
+  if (!PLAIN_LABEL_MARKETS.has(country)) return label;
+  if (/\b(?:station|stn)\b\.?$/i.test(englishName.trim())) return label;
+  const trimmed = label.replace(STATION_SUFFIX[locale], "").trim();
+  return trimmed.length > 0 ? trimmed : label;
 }
 
 export interface CountryArtifact {

@@ -21,6 +21,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { configuredCountryOptions } from "../src/data/countries";
+import { getScrapedRoutes } from "../src/data/scraped";
 import { getTflStations } from "../src/server/tfl";
 import { getMbtaStations } from "../src/server/mbta";
 import type { Country } from "../src/types";
@@ -31,10 +32,12 @@ import {
   fetchEntities,
   isConfirmedMatch,
   needsConversion,
+  artifactPath,
   rebuildRuntimeLabels,
   resolveByUic,
   searchByName,
   staticStationUniverse,
+  toDisplayLabel,
   toTraditionalChinese,
   writeArtifact,
   type CountryArtifact,
@@ -54,21 +57,28 @@ import {
  */
 const IRAIL_STATIONS_URL = "https://api.irail.be/stations/?format=json&lang=en";
 
-/** Used to reject a name match that landed on a same-named station abroad. */
-const COUNTRY_QID: Partial<Record<Country, string>> = {
-  japan: "Q17",
-  korea: "Q884",
-  china: "Q148",
-  singapore: "Q334",
-  malaysia: "Q833",
-  thailand: "Q869",
-  hong_kong: "Q8646",
-  united_kingdom: "Q145",
-  united_states: "Q30",
-  germany: "Q183",
-  france: "Q142",
-  norway: "Q20",
-  switzerland: "Q39",
+/**
+ * P17 values accepted for a market, used to reject a name match that landed on
+ * a same-named station abroad. Hong Kong's stations are filed under both Hong
+ * Kong and China, and Britain's under the UK and its constituent countries, so
+ * these are lists rather than single QIDs.
+ */
+const COUNTRY_QIDS: Partial<Record<Country, string[]>> = {
+  japan: ["Q17"],
+  korea: ["Q884"],
+  china: ["Q148"],
+  singapore: ["Q334"],
+  malaysia: ["Q833"],
+  thailand: ["Q869"],
+  // MTR items are filed under China and, for the older ones, British Hong Kong;
+  // Q8646 alone matches almost none of them.
+  hong_kong: ["Q8646", "Q148", "Q1054923"],
+  united_kingdom: ["Q145", "Q21", "Q22", "Q25", "Q26"],
+  united_states: ["Q30"],
+  germany: ["Q183"],
+  france: ["Q142"],
+  norway: ["Q20"],
+  switzerland: ["Q39"],
   // Belgium's directory is deliberately left unfiltered: iRail lists the
   // French, Dutch, German and British stations its international trains call
   // at, and a Q31 filter would drop every one of them.
@@ -126,7 +136,7 @@ async function directoryFor(country: Country): Promise<CountryDirectory> {
     return {
       country,
       directorySource: "https://api.tfl.gov.uk/StopPoint/Mode/tube,dlr,overground,elizabeth-line",
-      countryQid: COUNTRY_QID[country],
+      countryQids: COUNTRY_QIDS[country],
       entries: names.map((name) => ({ name })),
     };
   }
@@ -136,8 +146,25 @@ async function directoryFor(country: Country): Promise<CountryDirectory> {
     return {
       country,
       directorySource: "https://api-v3.mbta.com/stops",
-      countryQid: COUNTRY_QID[country],
+      countryQids: COUNTRY_QIDS[country],
       entries: names.map((name) => ({ name })),
+    };
+  }
+
+  if (country === "malaysia") {
+    // Malaysia's menu is derived from the dated KTMB route snapshots rather
+    // than a station list, so the directory is the endpoints those snapshots
+    // actually carry.
+    const names = new Set<string>();
+    for (const route of getScrapedRoutes("malaysia")) {
+      if (route.origin) names.add(route.origin);
+      if (route.destination) names.add(route.destination);
+    }
+    return {
+      country,
+      directorySource: "src/data/scraped/malaysia (KTMB route snapshots)",
+      countryQids: COUNTRY_QIDS[country],
+      entries: [...names].sort().map((name) => ({ name })),
     };
   }
 
@@ -149,7 +176,7 @@ async function directoryFor(country: Country): Promise<CountryDirectory> {
   return {
     country,
     directorySource: `src/data/stationIdentity.ts + line graphs (${country} menu directory)`,
-    countryQid: COUNTRY_QID[country],
+    countryQids: COUNTRY_QIDS[country],
     entries: names.map((name) => {
       const koreanName = official?.get(name);
       return {
@@ -211,13 +238,21 @@ async function resolveEntities(
   );
   let confirmed = 0;
   for (const entry of remaining) {
-    for (const qid of candidatesByName.get(entry.name) || []) {
-      const entity = entities.get(qid);
-      if (!entity) continue;
-      if (!isConfirmedMatch(entity, entry.name, directory.countryQid)) continue;
-      byName.set(entry.name, entity);
+    // Labels first, aliases only if nothing matched: an alias is often a
+    // station's former name, and "Kowloon" resolving to Hung Hom (renamed in
+    // 1975) is worse than leaving the name untranslated.
+    const match = [false, true].reduce<WikidataEntity | undefined>((found, allowAliases) => {
+      if (found) return found;
+      for (const qid of candidatesByName.get(entry.name) || []) {
+        const entity = entities.get(qid);
+        if (!entity) continue;
+        if (isConfirmedMatch(entity, entry.name, directory.countryQids, { allowAliases })) return entity;
+      }
+      return undefined;
+    }, undefined);
+    if (match) {
+      byName.set(entry.name, match);
       confirmed += 1;
-      break;
     }
   }
   console.log(`  ${confirmed}/${remaining.length} confirmed by name.`);
@@ -259,9 +294,22 @@ async function syncCountry(
       if (!zh || !needsConversion("zh-TW", zh.sourceLocale)) continue;
       const traditional = converted.get(zh.label);
       if (traditional && traditional !== zh.label) {
+        zh.sourceText = zh.label;
         zh.label = traditional;
         zh.converted = true;
       }
+    }
+  }
+
+  // Last step, so the artifact always records the text the source published.
+  for (const [name, labels] of Object.entries(stations)) {
+    for (const locale of locales) {
+      const entry = labels[locale];
+      if (!entry) continue;
+      const display = toDisplayLabel(country, locale, entry.label, name);
+      if (display === entry.label) continue;
+      entry.sourceText ||= entry.label;
+      entry.label = display;
     }
   }
 
@@ -290,8 +338,6 @@ async function syncCountry(
     unresolved,
     stations: Object.fromEntries(Object.entries(stations).sort(([a], [b]) => a.localeCompare(b))),
   };
-  writeArtifact(artifact);
-
   for (const locale of locales) {
     const found = directory.entries.filter((entry) => stations[entry.name]?.[locale]).length;
     console.log(`  ${locale}: ${found}/${directory.entries.length} labelled`);
@@ -299,6 +345,22 @@ async function syncCountry(
   if (unresolved.length > 0) {
     console.log(`  ${unresolved.length} names keep the operator's own spelling (no source found).`);
   }
+
+  if (limit) {
+    // --limit is for eyeballing the sourcing on a handful of stations. Writing
+    // that partial pass would replace the market's committed artifact with a
+    // fraction of its directory, so it stays a dry run.
+    console.log(`  --limit set: dry run, ${artifactPath(country)} left untouched.`);
+    for (const [name, labels] of Object.entries(artifact.stations).slice(0, 10)) {
+      const rendered = locales
+        .map((locale) => labels[locale] && `${locale}=${labels[locale]!.label} (${labels[locale]!.sourceKind})`)
+        .filter(Boolean)
+        .join("  ");
+      console.log(`    ${name}: ${rendered}`);
+    }
+    return;
+  }
+  writeArtifact(artifact);
 }
 
 function parseArgs(argv: string[]) {
