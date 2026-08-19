@@ -15,7 +15,15 @@ export const japanStations = [
   "Fukui", "Tsuruga",
   "Fukushima", "Yonezawa", "Yamagata", "Shinjo",
   "Kakunodate", "Akita",
-  "Takeo-Onsen", "Ureshino-Onsen", "Shin-Omura", "Isahaya", "Nagasaki"
+  "Takeo-Onsen", "Ureshino-Onsen", "Shin-Omura", "Isahaya", "Nagasaki",
+  // 都營地鐵各線端點 (Toei subway line terminals) — the stations the committed
+  // timetables are filed under. Every other stop on those lines reaches the
+  // picker through the scraped coverage names; these are here so the menu and
+  // the route files agree on their own endpoints.
+  "Nishi-magome", "Oshiage", "Sengakuji",
+  "Hikarigaoka", "Shinjuku-nishiguchi",
+  "Motoyawata",
+  "Nishi-takashimadaira", "Meguro", "Shirokane-takanawa"
 ];
 
 // Major stops only, not the full station list of each line. Used as a static

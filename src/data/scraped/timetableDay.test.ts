@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { TransitResult } from "../../types";
+import type { JourneyLeg, TransitResult } from "../../types";
 import {
   canonicalDay,
   findInRoutes,
@@ -494,6 +494,124 @@ describe("findInRoutes — transfer chain", () => {
 
     expect(found).toHaveLength(1);
     expect(found![0].origin).toBe("Sukhumvit");
+  });
+});
+
+describe("findInRoutes — a train's own calling pattern", () => {
+  const hop = (origin: string, destination: string, departureTime: string, arrivalTime: string, lineName = "Toei Asakusa Line") => ({
+    lineName,
+    origin,
+    destination,
+    departureTime,
+    arrivalTime,
+    durationMinutes: 2,
+  });
+
+  const lineRoute = (legs: JourneyLeg[]) => route(
+    [
+      trip({
+        id: "2026-07-10-a-1000",
+        date: "2026-07-10",
+        country: "japan",
+        service: "Toei Asakusa Line",
+        origin: "Nishi-magome",
+        destination: "Oshiage",
+        departureTime: "10:00",
+        arrivalTime: "10:08",
+        durationMinutes: 8,
+        stops: ["Nishi-magome", "Kuramae", "Asakusabashi", "Nihombashi", "Oshiage"],
+        legs,
+      }),
+    ],
+    "Nishi-magome",
+    "Oshiage",
+  );
+
+  const fullPattern = [
+    hop("Nishi-magome", "Kuramae", "10:00", "10:02"),
+    hop("Kuramae", "Asakusabashi", "10:02", "10:04"),
+    hop("Asakusabashi", "Nihombashi", "10:04", "10:06"),
+    hop("Nihombashi", "Oshiage", "10:06", "10:08"),
+  ];
+
+  it("answers two intermediate stations with the operator's own times", () => {
+    const found = findInRoutes([lineRoute(fullPattern)], "Kuramae", "Nihombashi", "2026-07-10", "japan");
+
+    expect(found).toHaveLength(1);
+    expect(found![0]).toMatchObject({
+      origin: "Kuramae",
+      destination: "Nihombashi",
+      departureTime: "10:02",
+      arrivalTime: "10:06",
+      durationMinutes: 4,
+      direct: true,
+      service: "Toei Asakusa Line",
+      stops: ["Kuramae", "Asakusabashi", "Nihombashi"],
+    });
+    // Staying on one train is not a connection, so the ride is not published
+    // as a journey with legs to change between.
+    expect(found![0].legs).toBeUndefined();
+    expect(found![0].transferStations).toBeUndefined();
+    expect(found![0].price).toBeUndefined();
+  });
+
+  it("publishes a train filed under two overlapping routes once", () => {
+    // The Asakusa Line is committed end to end and again as its Sengakuji
+    // through-service span, so the trains that do run the whole line are in
+    // both files. One train is one departure.
+    const wholeLine = lineRoute(fullPattern);
+    const throughSpan = route(
+      [
+        trip({
+          id: "2026-07-10-b-1002",
+          date: "2026-07-10",
+          country: "japan",
+          service: "Toei Asakusa Line",
+          origin: "Kuramae",
+          destination: "Oshiage",
+          departureTime: "10:02",
+          arrivalTime: "10:08",
+          durationMinutes: 6,
+          stops: ["Kuramae", "Asakusabashi", "Nihombashi", "Oshiage"],
+          legs: fullPattern.slice(1),
+        }),
+      ],
+      "Kuramae",
+      "Oshiage",
+    );
+
+    const found = findInRoutes([wholeLine, throughSpan], "Kuramae", "Nihombashi", "2026-07-10", "japan");
+
+    expect(found).toHaveLength(1);
+    expect(found![0]).toMatchObject({ departureTime: "10:02", arrivalTime: "10:06" });
+  });
+
+  it("refuses to span a hop the source left untimed", () => {
+    const gapped = [
+      fullPattern[0],
+      { ...fullPattern[1], departureTime: undefined, arrivalTime: undefined },
+      fullPattern[2],
+      fullPattern[3],
+    ];
+
+    expect(findInRoutes([lineRoute(gapped)], "Kuramae", "Nihombashi", "2026-07-10", "japan")).toBeNull();
+  });
+
+  it("does not merge a change of line into one ride", () => {
+    const twoLines = [
+      fullPattern[0],
+      hop("Kuramae", "Asakusabashi", "10:02", "10:04", "Toei Oedo Line"),
+      fullPattern[2],
+      fullPattern[3],
+    ];
+
+    // A different line at Kuramae is a transfer, and a zero-minute one at that:
+    // the connection rules reject it rather than the span quietly absorbing it.
+    expect(findInRoutes([lineRoute(twoLines)], "Nishi-magome", "Nihombashi", "2026-07-10", "japan")).toBeNull();
+  });
+
+  it("keeps a partial ride out of the row when only the terminals are timed", () => {
+    expect(findInRoutes([lineRoute([])], "Kuramae", "Nihombashi", "2026-07-10", "japan")).toBeNull();
   });
 });
 

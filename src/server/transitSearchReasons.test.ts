@@ -29,21 +29,23 @@ describe("search no-result reasons", () => {
   });
 
   it("calls a station search cannot answer for uncovered, not merely unsupported", async () => {
-    // Akebonobashi is only ever an intermediate stop in the ODPT rows, which
-    // carry no per-leg times, so no pair through it can be answered. It used to
-    // count as covered and the pair came back "unsupported_route" — the station
-    // browser then suggested it as a place to search from.
+    // A station is uncovered when no committed row can act as an endpoint for
+    // it. Akebonobashi used to be the case in point: an intermediate stop in
+    // rows that carried no per-leg times. Now that the Toei lines are scraped
+    // with each train's own per-stop times it is answerable, and the stations
+    // left in that position are the Tokyo Metro ones — their lines are on the
+    // map in full but nothing fetches them without ODPT_API_KEY.
     const result = await runTransitSearch({
       country: "japan",
-      origin: "Akebonobashi",
+      origin: "Shibuya",
       destination: "Asakusa",
       date: "2026-08-01",
     });
 
     expect(result.statusCode).toBe(404);
     expect(result.payload.noResultReason).toBe("no_verified_data");
-    expect(result.payload.coverageGap?.uncovered).toEqual(["Akebonobashi"]);
-    expect(result.payload.coverageGap?.suggestions).not.toContain("Akebonobashi");
+    expect(result.payload.coverageGap?.uncovered).toEqual(["Shibuya"]);
+    expect(result.payload.coverageGap?.suggestions).not.toContain("Shibuya");
   });
 
   it("reports a future date outside a live source's today-only contract", async () => {

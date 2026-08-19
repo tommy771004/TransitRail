@@ -230,6 +230,54 @@ function routeSegments(route: ScrapedRouteData, date?: string, country?: Country
   return Array.from(segments.values());
 }
 
+function spanDuration(departureMinutes: number, arrivalMinutes: number): number | undefined {
+  if (!Number.isFinite(departureMinutes) || !Number.isFinite(arrivalMinutes)) return undefined;
+  return arrivalMinutes - departureMinutes + (arrivalMinutes < departureMinutes ? 1440 : 0);
+}
+
+/**
+ * The run of legs a train makes from `fromKey` to `toKey`, or null.
+ *
+ * A source that times every call publishes one leg per hop (ODPT gives each
+ * train's `odpt:departureTime` at every station it passes), so the leg for
+ * "Kuramae → Nihombashi" is four consecutive hops rather than a single entry.
+ * Reading the first leg's departure and the last leg's arrival keeps every
+ * time the operator's own; it is the intermediate legs' contiguity — not any
+ * arithmetic of ours — that proves the two stations are one ride apart.
+ *
+ * The run must be unbroken and stay on one service. A gap or a change of line
+ * means the pair needs a connection, which is {@link chainResults}' job and
+ * carries transfer rules this function has no business assuming away.
+ */
+function legSpan(
+  legs: JourneyLeg[] | undefined,
+  fromKey: string,
+  toKey: string,
+  country?: Country,
+): JourneyLeg[] | null {
+  if (!legs || legs.length === 0) return null;
+  const start = legs.findIndex((leg) => (
+    stationKeyFor(country, leg.origin) === fromKey
+    && Boolean(leg.departureTime)
+    && Boolean(leg.arrivalTime)
+  ));
+  if (start < 0) return null;
+
+  const span: JourneyLeg[] = [];
+  for (let index = start; index < legs.length; index += 1) {
+    const leg = legs[index];
+    if (!leg.departureTime || !leg.arrivalTime) return null;
+    if (index > start) {
+      const previous = legs[index - 1];
+      if (stationKeyFor(country, previous.destination) !== stationKeyFor(country, leg.origin)) return null;
+      if ((leg.lineName || "") !== (legs[start].lineName || "")) return null;
+    }
+    span.push(leg);
+    if (stationKeyFor(country, leg.destination) === toKey) return span;
+  }
+  return null;
+}
+
 function segmentResult(
   result: TransitResult,
   route: ScrapedRouteData,
@@ -252,39 +300,69 @@ function segmentResult(
 
   // An intermediate stop is a valid graph node, but a route-level departure
   // and arrival do not tell us when the train reached that stop. Only expose a
-  // partial edge when the source supplied an explicit leg for it; proportional
+  // partial edge when the source supplied explicit legs for it; proportional
   // interpolation would turn an unknown time into fabricated timetable data.
-  const segmentLeg = oriented.legs?.find((leg) => (
-    stationKeyFor(country, leg.origin) === fromKey
-    && stationKeyFor(country, leg.destination) === toKey
-    && Boolean(leg.departureTime)
-    && Boolean(leg.arrivalTime)
-  ));
-  if (!segmentLeg?.departureTime || !segmentLeg.arrivalTime) return null;
-  const departureMinutes = parseTime(segmentLeg.departureTime);
-  const arrivalMinutes = parseTime(segmentLeg.arrivalTime);
-  const durationMinutes = segmentLeg.durationMinutes
-    ?? (Number.isFinite(departureMinutes) && Number.isFinite(arrivalMinutes)
-      ? arrivalMinutes - departureMinutes + (arrivalMinutes < departureMinutes ? 1440 : 0)
-      : undefined);
+  const span = legSpan(oriented.legs, fromKey, toKey, country);
+  if (!span) return null;
+  const first = span[0];
+  const last = span[span.length - 1];
+  const departureTime = first.departureTime!;
+  const arrivalTime = last.arrivalTime!;
+  const departureMinutes = parseTime(departureTime);
+  const arrivalMinutes = parseTime(arrivalTime);
+  const durationMinutes = span.length === 1
+    ? first.durationMinutes ?? spanDuration(departureMinutes, arrivalMinutes)
+    : spanDuration(departureMinutes, arrivalMinutes);
+  // One leg is one train, whatever journey it was cut out of. Several legs are
+  // only direct when the journey they came from was.
+  const direct = span.length === 1 || oriented.direct !== false;
 
   return {
     ...oriented,
     id: `${oriented.id}-segment-${fromIndex}-${toIndex}`,
     origin: fullPath[0],
     destination: fullPath[fullPath.length - 1],
-    service: segmentLeg.lineName || oriented.service,
-    departureTime: segmentLeg.departureTime,
-    arrivalTime: segmentLeg.arrivalTime,
+    service: first.lineName || oriented.service,
+    departureTime,
+    arrivalTime,
     durationMinutes,
     price: fromIndex === 0 ? oriented.price : undefined,
-    platform: segmentLeg.platform,
-    headsign: segmentLeg.headsign,
-    direct: true,
+    platform: first.platform,
+    headsign: first.headsign,
+    direct,
     stops: fullPath,
-    legs: undefined,
-    transferStations: undefined,
+    legs: direct ? undefined : span,
+    transferStations: direct ? undefined : span.slice(0, -1).map((leg) => leg.destination),
   };
+}
+
+/**
+ * One departure, once.
+ *
+ * A line can be filed under more than one route when its trains do not all run
+ * the same span (Tokyo's Asakusa Line is committed end to end *and* as the
+ * Sengakuji through-service span, because only a quarter of its trains run the
+ * whole line). A train that appears in two of those files is still one train,
+ * and the ride cut out of it for a given pair is the same ride, so it must not
+ * reach the results twice. Identity is the departure itself — its clock times
+ * and service — not the row id, which carries the file's own origin and so
+ * differs between copies.
+ */
+function dedupeDepartures(results: TransitResult[]): TransitResult[] {
+  const seen = new Set<string>();
+  return results.filter((result) => {
+    const key = [
+      result.departureTime,
+      result.arrivalTime,
+      result.origin,
+      result.destination,
+      result.service,
+      result.operator,
+    ].join("|");
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function resultsForEdge(edge: RouteEdge, date?: string, country?: Country): TransitResult[] {
@@ -530,11 +608,27 @@ export function findInRoutes(
     return country ? results.map((r) => (r.country ? r : { ...r, country })) : results;
   }
 
+  // One route's own train can serve a pair that is neither the file's endpoints
+  // nor two adjacent stops: a line scraped terminal-to-terminal answers
+  // Kuramae → Nihombashi from the same rows. The stop graph below only ever
+  // builds edges between consecutive stops, so without this the pair would fall
+  // through to chaining and be rejected — a single train is not a connection,
+  // and no transfer window applies to staying seated.
+  for (const reversed of [false, true]) {
+    const spans = dedupeDepartures(routes
+      .filter((route) => resultsForDate(route, date).length > 0)
+      .flatMap((route) => resultsForEdge({ route, from: origin, to: destination, reversed }, date, country)))
+      .sort((left, right) => left.departureTime.localeCompare(right.departureTime));
+    if (spans.length > 0) {
+      return country ? spans.map((result) => (result.country ? result : { ...result, country })) : spans;
+    }
+  }
+
   const graphPaths = findRoutePaths(routes, origin, destination, date, country);
   if (graphPaths.some((path) => path.length === 1)) {
-    const directSegments = graphPaths
+    const directSegments = dedupeDepartures(graphPaths
       .filter((path) => path.length === 1)
-      .flatMap((path) => resultsForEdge(path[0], date, country));
+      .flatMap((path) => resultsForEdge(path[0], date, country)));
     if (directSegments.length > 0) {
       return country
         ? directSegments.map((result) => (result.country ? result : { ...result, country }))
@@ -542,7 +636,9 @@ export function findInRoutes(
     }
   }
 
-  const chained = chainResults(routes, origin, destination, date, country);
+  // Overlapping route files can build the same connection twice, so the same
+  // rule applies to chains as to a single ride.
+  const chained = dedupeDepartures(chainResults(routes, origin, destination, date, country));
   if (chained.length > 0) return chained;
 
   return null;

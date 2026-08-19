@@ -60,7 +60,15 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
   const detailsTriggerId = `${disclosureId}-trigger`;
   const detailsPanelId = `${disclosureId}-panel`;
 
-  const displayLegs: JourneyLeg[] = trip.legs && trip.legs.length > 0 ? trip.legs : [
+  // A source that times every call — ODPT publishes a departure at every
+  // station a train passes — files one leg per hop. Those hops are one ride's
+  // calling pattern, not connections, and the timeline reads every leg boundary
+  // as a transfer: left alone they would show eighteen changes inside a single
+  // subway journey. Collapse them back into the ride and keep the hops as its
+  // stop list, which is what the route map wants anyway.
+  const legsAreCallingPattern = trip.direct !== false && (trip.legs?.length ?? 0) > 1;
+  const journeyLegs = legsAreCallingPattern ? undefined : trip.legs;
+  const displayLegs: JourneyLeg[] = journeyLegs && journeyLegs.length > 0 ? journeyLegs : [
     {
       lineName: trip.service || trip.trainType || "Transit",
       origin: trip.origin,
@@ -69,6 +77,9 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
       arrivalTime: trip.arrivalTime,
       durationMinutes: trip.durationMinutes,
       mode: trip.trainType,
+      stops: legsAreCallingPattern && trip.legs
+        ? [trip.legs[0].origin, ...trip.legs.map((leg) => leg.destination)]
+        : undefined,
     }
   ];
 

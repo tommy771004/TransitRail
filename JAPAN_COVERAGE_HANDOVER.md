@@ -57,7 +57,7 @@
 
 ---
 
-## 3. 已完成的三個 commit
+## 3. 已完成的工作
 
 ### `e27c3c2` — 只提供搜尋答得出來的日本車站
 
@@ -110,17 +110,73 @@
 
 另外把「把已抓到的站名併回選單」從 Korea 專屬改成所有靜態選單市場通用，否則 feed 帶進來的站有資料卻選不到。
 
+### 3.4（本次）ODPT 逐站時刻 → `legs`，站對改為整線端點
+
+原 §4.1。ODPT 的 `odpt:trainTimetableObject` 本來就給每班車**逐站**的時刻，之前只取起訖兩點、中間只留站名，所以中途站永遠不是端點。**已對著真實 API 驗證並落地資料。**
+
+**改了什麼**
+
+1. `src/server/odptTimetable.ts`
+   - 每一跳寫成一筆 `leg`（官方的到發時刻，沒有任何內插）。來源沒給時刻的那一跳直接不寫，於是跨越它的區間查詢也答不出來 — 這是對的
+   - 站名改用**線路圖的寫法**（`Higashi-nihombashi`，不再是由 ID 推出來的 `Higashi Nihombashi`）。站名是時刻表與搜尋之間的比對鍵，選單給的拼法答不出來的名字等於沒收錄
+   - 站別比對改用羅馬拼音正規化（去掉大小寫、連字號、ID 前綴）。設定裡的 ID 拼法猜錯也仍然對得上，而不是安靜地抓不到東西
+2. `src/data/scraped/timetableDay.ts`
+   - `segmentResult()` 可以跨**連續同線**的多個 leg 組成區間：出發取第一段的發車、抵達取最後一段的到達，兩個都是業者給的時刻。中間斷掉或換線就不組（換線是轉乘，該走 `chainResults` 的轉乘規則）
+   - `findInRoutes()` 新增「同一條路線的直達區間」分支：站點圖只連相鄰站，藏前 → 日本橋 這種不相鄰的組合以前會掉進轉乘鏈，然後因為轉乘時間為 0 被打掉。同一班車不是轉乘
+   - `dedupeDepartures()`：同一班車同時出現在整線檔與區間檔時只發佈一次（見下）
+3. `src/data/odptRoutes.ts`：站對重寫，**每一組都用真實 feed 驗證過**
+4. `src/data/stations.ts`：都營各線端點補進 `japanStations`，`audit-station-mapping` 名稱不符從 26 降為 0
+5. `src/components/TripDetails.tsx`：`direct` 的班次若帶多個 leg，收合回一段行程並把逐站當成停站表。否則時間軸會把一趟地鐵畫成十八次轉乘
+
+**站對怎麼定出來的（不是猜的）**
+
+先把四條都營線的 weekday 班表抓下來，統計每班車真正的頭尾站，再照統計結果設定：
+
+| 線 | 站對 | 為什麼 |
+|---|---|---|
+| 淺草線 | 西馬込 ↔ 押上 | 全線 20 站 |
+| 淺草線 | 泉岳寺 ↔ 押上、西馬込 ↔ 泉岳寺 | 516 班裡只有 135 班跑完全程，其餘是京急／京成直通、在泉岳寺折返。少了這兩組，淺草 → 日本橋 的班次會從 196/天 掉到 68/天 |
+| 大江戶線 | 光丘 ↔ **新宿西口** | 「6」字形：直通運轉是 光丘…都廳前…繞完環…都廳前。班車讀到**第一次**停靠終點站為止，所以 光丘 ↔ 都廳前 只會拿到支線的 11 站；改用環上最後一站新宿西口，兩個方向都拿到完整 38 站 |
+| 新宿線 | 新宿 ↔ 本八幡 | 396 班裡 369 班跑完全程 |
+| 三田線 | 西高島平 ↔ 目黑、西高島平 ↔ 白金高輪 | 131 班在白金高輪折返 |
+
+光丘 → 都廳前 仍然答得出來，而且答的是**支線那段 21 分鐘的短程**：區間比對讀到第一次停靠都廳前就停，不會把繞一圈的 80 分鐘當成答案。
+
+**實際抓下來的結果**（2026-08-19 執行，`failedRoutes: []`）
+
+| | 前 | 後 |
+|---|---|---|
+| 可查車站 | 10 | **106** |
+| 西馬込 → 押上 | 此站尚未收錄 | 67 班/天 |
+| 淺草 → 日本橋 | 約 196 班/天 | 196 班/天（持平） |
+| 藏前 → 日本橋 | 此站尚未收錄 | 187 班/天 |
+| 路網圖 | 5 線 / 12 點 | 都營 4 線 106 點 + 東海道／山陽新幹線 |
+
+順帶清掉 8 個舊站對的孤兒檔（`asakusa-nihombashi.json` 等）：新檔涵蓋同樣的服務日與同樣的班次，實測移除前後答案完全一致，而且沒有任何 scraper 會再更新它們。
+
+**代價（實測，不是估計）**
+
+- `src/data/scraped/japan` 從 6 MB 變成 **114 MB**。大江戶線一列帶 37 個 leg ≈ 9.8 KB
+- 啟動載入 1.0 秒、heapUsed 188 MB、RSS 348 MB（原本整包 scraped 資料才 14 MB）
+- 單次搜尋約 140 ms（查無資料的最壞情況 213 ms）
+
+同樣的逐站時刻若改存與 `stops` 對齊的兩個字串陣列，JSON 約是 1/3.5。**這是目前最大的未決項。**
+
+### 3.5（本次）§4.3 已驗證：山陽新幹線抓得到
+
+`railway.jr-central.co.jp` 的聯合時刻表 CGI **確實回答山陽站對**，不需要另寫 JR 西日本解析器：
+
+- 新大阪 → 博多 16 班（06:00→08:28 みずほ 601 等），operator 記為 JR West
+- 岡山 → 新大阪 17 班
+- 山陽新幹線已自動出現在路網圖（新大阪／岡山／広島／博多）
+
+**已知問題（不是這次造成的）**：中間站對會回傳繞路的轉乘鏈。岡山 → 広島 目前答 06:00→08:28「みずほ 601 → のぞみ 2」，其實是先往東回新大阪再往西。**京都 → 名古屋 早就是同樣情形**（經東京，4 小時 39 分），這是 JR 檔案只有站對兩端、沒有逐站時刻的結構性後果。兩種解法：補抓 岡山↔広島、広島↔博多、岡山↔博多（每組 ×9 天 ×17 次取樣），或讓轉乘鏈拒絕「轉乘站不在起訖之間」的路徑。
+
 ---
 
 ## 4. 待辦事項（依投報率排序）
 
-### 4.1 ODPT 逐站時刻 → `legs`（最高價值，不需任何新來源）
-
-`src/server/odptTimetable.ts:69` 已經在讀 `odpt:trainTimetableObject` — 那是每班車**逐站**的 `odpt:departureTime` / `odpt:arrivalTime`。目前只留起訖兩點的時間，中間全丟掉，只存站名清單。
-
-把逐站時刻寫成 `legs`，再把 `src/data/odptRoutes.ts` 的站對改成整線端點（淺草線就是西馬込 ↔ 押上），四條都營線的**任意兩站**就都能查。不需要新來源、不需要金鑰、不違反「不自行合成時刻表」（時刻是官方逐站給的）。
-
-**而且 `e27c3c2` 加的 leg 規則會自動讓這些中途站變成可搜尋 — 不用再改覆蓋邏輯。**
+> §4.1（ODPT 逐站時刻 → `legs`）已實作，見 §3.4。
 
 ### 4.2 申請 ODPT 金鑰
 
@@ -128,7 +184,9 @@
 
 申請步驟見 `docs/transit-provider-setup.md` 的「日本：ODPT」。
 
-### 4.3 驗證山陽新幹線是否真的抓得到
+### ~~4.3 驗證山陽新幹線是否真的抓得到~~ — 已完成，見 §3.5
+
+原文保留如下。
 
 `776aa3f` 的 6 組站對**尚未跑過真實網路**（見 §6）。跑一次 `npm run scrape:japan` 後：
 
@@ -159,13 +217,13 @@
 
 | 檔案 | 角色 |
 |---|---|
-| `src/data/scraped/timetableDay.ts` | `endpointNamesForRoute()` — 「什麼算端點」的唯一規則；`findInRoutes()` 比對器 |
+| `src/data/scraped/timetableDay.ts` | `endpointNamesForRoute()` — 「什麼算端點」的唯一規則；`findInRoutes()` 比對器與同線區間 |
 | `src/data/stationCoverage.ts` | 覆蓋集合、選單過濾、`no_verified_data` 的判定依據 |
 | `src/data/searchabilityPolicy.ts` | 搜尋／目錄／發佈共用的決策接縫 |
 | `src/data/countries.ts` | `countryConfig.japan` — 目錄閘門、市場拓撲、搜尋視窗 |
 | `src/server/catalog.ts` | 路網圖與車站選單的組裝與裁切 |
-| `src/data/odptRoutes.ts` | 都營／東京 Metro 的站對清單（§4.1 要改這裡） |
-| `src/server/odptTimetable.ts` | ODPT JSON → `TransitResult`（§4.1 要改這裡） |
+| `src/data/odptRoutes.ts` | 都營／東京 Metro 的站對清單 — 每條線一組整線端點 |
+| `src/server/odptTimetable.ts` | ODPT JSON → `TransitResult`，逐站時刻寫成 `legs` |
 | `src/server/jrCentralTimetable.ts` | 東海道・山陽新幹線 CGI 解析 |
 | `src/server/japanGtfsJp.ts` | GTFS-JP 地方鐵道 adapter |
 | `scripts/lib/gtfsFeedSummary.ts` | 從 feed 推導路線／端點／停站順序 |
@@ -208,7 +266,10 @@ npm run catalog         # 重新產生 public/catalog/*.json
 ## 7. 交接檢查清單
 
 - [ ] 申請 ODPT 金鑰，設定 `ODPT_API_KEY`（§4.2）
-- [ ] 跑一次 `npm run scrape:japan`，確認山陽新幹線 6 組站對有沒有回資料（§4.3）
+- [x] 跑一次 `npm run scrape:japan`，確認山陽新幹線 6 組站對有沒有回資料（§3.5：有）
 - [ ] 取得 ことでん GTFS zip 網址與授權，設定 `KOTODEN_GTFS_URL`、補 `attribution`、加線路目錄（§4.4）
-- [ ] 實作 ODPT 逐站時刻 → `legs`，並把 `odptRoutes.ts` 改成整線端點（§4.1）
+- [x] 實作 ODPT 逐站時刻 → `legs`，並把 `odptRoutes.ts` 改成整線端點（§3.4）
+- [x] 確認四條都營線的中途站真的可查（106 站），`audit-station-mapping` 名稱不符 0 筆
+- [ ] 決定逐站時刻的存法：維持 `legs`（114 MB）或改存精簡陣列（約 1/3.5）（§3.4 代價）
+- [ ] 決定中間站對的繞路轉乘鏈怎麼處理（§3.5 已知問題）
 - [ ] 上述任一項落地後：`npm run validate:data`、`npm run audit:sources`、`npm run catalog`

@@ -139,9 +139,24 @@ describe("station and line catalog integrity scope", () => {
     // more stops the matcher never reads, and the map still listed all 132
     // Tokyo stations — Nishi-magome → Oshiage was pickable and then answered
     // "no timetable for this station".
+    //
+    // Both halves moved once the Toei lines were scraped terminal to terminal
+    // with each train's own per-stop times: those stops are now genuinely
+    // answerable, so they belong in the hint. The rule is unchanged — publish a
+    // name only if a search through it returns departures — and the stations
+    // still failing it are the ones with no committed run at all: the Tokyo
+    // Metro lines, which need ODPT_API_KEY, and the Shinkansen stations no
+    // scraped pair reaches.
     const routes = [...getScrapedRoutes("japan")];
     const suggestions = getScrapedCoverageNames("japan", catalogDate);
-    const answerable = suggestions.filter((station) => suggestions.some((other) => (
+    // Ask each name against the routes that actually list it, rather than
+    // against all 105 other names: same assertion, one search per station
+    // instead of a full cross product.
+    const partnersFor = (station: string) => routes
+      .filter((route) => route.results.some((result) => result.stops?.includes(station)))
+      .flatMap((route) => [route.origin, route.destination])
+      .filter((partner) => partner !== station);
+    const answerable = suggestions.filter((station) => [...partnersFor(station), ...suggestions].some((other) => (
       other !== station && Boolean(findInRoutes(routes, station, other, catalogDate, "japan")?.length)
     )));
     expect(suggestions).toEqual(answerable);
@@ -149,13 +164,18 @@ describe("station and line catalog integrity scope", () => {
     const lines = await getLinesForCountry("japan", catalogDate);
     const mapped = new Set(lines.flatMap((line) => line.stations.map((station) => station.name)));
     expect([...mapped].filter((station) => !suggestions.includes(station))).toEqual([]);
-    expect(mapped.has("Nishi-magome")).toBe(false);
+    // The station the report opened on: on the map, and answerable.
+    expect(mapped.has("Nishi-magome")).toBe(true);
+    expect(findInRoutes(routes, "Nishi-magome", "Oshiage", catalogDate, "japan")?.length).toBeGreaterThan(0);
+    expect(mapped.has("Shibuya")).toBe(false);
 
     const menu = await getStationsForCountry("japan", undefined, catalogDate);
-    expect(menu.stations).toEqual(expect.arrayContaining(["Asakusa", "Jimbocho", "Shin-Osaka"]));
-    expect(menu.stations).not.toContain("Akebonobashi");
-    // Shinkansen stations no committed run reaches are held to the same bar.
-    expect(menu.stations).not.toContain("Hakata");
+    expect(menu.stations).toEqual(expect.arrayContaining(["Asakusa", "Jimbocho", "Shin-Osaka", "Akebonobashi"]));
+    // A Tokyo Metro line has no committed run without a key, so its stations
+    // are held to the same bar however complete the line map is.
+    expect(menu.stations).not.toContain("Shibuya");
+    // Shinkansen stations no committed run reaches are held to it too.
+    expect(menu.stations).not.toContain("Himeji");
   });
 
   it("keeps the static intercity directory without promising dated timetable coverage", async () => {
