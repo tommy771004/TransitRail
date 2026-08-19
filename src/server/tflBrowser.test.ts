@@ -115,10 +115,81 @@ describe("TfL official Journey Planner browser scraper", () => {
       "King's Cross St. Pancras Underground Station",
       "Oxford Circus Underground Station",
       "2026-08-15",
+      { retryDelayMs: 0 },
     );
 
     expect(gotoCalls).toBe(16);
     expect(result.results).toHaveLength(1);
     expect(result.results[0].departureTime).toBe("08:03");
+  });
+
+  /** A page that refuses the sample times named, and answers every other one. */
+  function pageRefusing(times: string[]) {
+    let attempted = 0;
+    const page = {
+      goto: async (url: string) => {
+        attempted += 1;
+        const time = new URL(url).searchParams.get("Time") || "";
+        if (times.includes(time)) throw new Error("page.waitForFunction: Timeout 12000ms exceeded.");
+      },
+      waitForFunction: async () => undefined,
+      locator: () => ({
+        evaluateAll: async () => [{
+          departureTime: "08:03",
+          arrivalTime: "08:48",
+          services: ["Victoria line"],
+          modes: ["tube"],
+        }],
+      }),
+    };
+    return { page, attempts: () => attempted };
+  }
+
+  it("keeps the samples the planner did answer when a few are refused", async () => {
+    // A single refused sample used to throw out of the sweep, so one timeout at
+    // 05:30 discarded the fourteen samples that were never attempted.
+    const { page, attempts } = pageRefusing(["0530", "0645"]);
+
+    const result = await scrapeTflBrowserServiceDay(
+      page as never,
+      "Leicester Square",
+      "Camden Town",
+      "2026-08-19",
+      { retryDelayMs: 0 },
+    );
+
+    expect(result.results).toHaveLength(1);
+    // Every sample time is still tried: 13 answered once, 2 refused twice.
+    expect(attempts()).toBe(17);
+  });
+
+  it("refuses a day with material gaps rather than publishing a sparse one", async () => {
+    const { page } = pageRefusing(["0530", "0645", "0800", "0915"]);
+
+    await expect(scrapeTflBrowserServiceDay(
+      page as never,
+      "Leicester Square",
+      "Camden Town",
+      "2026-08-19",
+      { retryDelayMs: 0 },
+    )).rejects.toThrow(/covered too little of 2026-08-19.*11\/15 samples answered/s);
+  });
+
+  it("says what the page was when the results markup never appears", async () => {
+    const page = {
+      goto: async () => undefined,
+      waitForFunction: async () => { throw new Error("page.waitForFunction: Timeout 12000ms exceeded."); },
+      locator: () => ({ evaluateAll: async () => [] }),
+      url: () => "https://tfl.gov.uk/JourneyPlanner/ResultsAsync?x=1",
+      evaluate: async () => ({ title: "Access denied", text: "Your request has been blocked." }),
+    };
+
+    await expect(scrapeTflBrowserServiceDay(
+      page as never,
+      "Leicester Square",
+      "Camden Town",
+      "2026-08-19",
+      { retryDelayMs: 0 },
+    )).rejects.toThrow(/title "Access denied".*Your request has been blocked/s);
   });
 });

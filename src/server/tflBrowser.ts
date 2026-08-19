@@ -31,6 +31,30 @@ const TFL_BROWSER_STATIONS: Record<string, { id: string; pageName: string }> = {
   "liverpool street station": { id: "1000138", pageName: "Liverpool Street, Liverpool Street Station" },
 };
 
+/**
+ * How long to wait for the results markup after the document is parsed.
+ *
+ * The Journey Planner renders results server-side — every marker below is in
+ * the initial HTML — so this either matches immediately or the page is not the
+ * results page at all. Waiting 45s for that verdict bought nothing and cost a
+ * failing route ninety seconds before it even reached its second sample.
+ */
+const RESULTS_MARKUP_TIMEOUT_MS = 12_000;
+
+/** Pause before a sample's second attempt, so a retry never doubles a burst. */
+const RETRY_BACKOFF_MS = 2_000;
+
+/**
+ * How many of the samples below may fail before the day is refused.
+ *
+ * Each sample covers roughly seventy-five minutes of the operating day, so a
+ * missing one is a hole a passenger would read as "no service". Tolerating a
+ * few keeps a flaky night from discarding a whole day, while refusing a day
+ * that would be published with material gaps — the previous file, which is
+ * complete, is the better answer then.
+ */
+const MAX_FAILED_SAMPLES = 3;
+
 const SERVICE_DAY_SAMPLE_TIMES = [
   "05:30", "06:45", "08:00", "09:15", "10:30",
   "11:45", "13:00", "14:15", "15:30", "16:45",
@@ -57,6 +81,9 @@ type TflBrowserPage = {
   locator(selector: string): {
     evaluateAll<T>(fn: (elements: Element[]) => T): Promise<T>;
   };
+  /** Present on a real Playwright page; used only to describe a failure. */
+  url?(): string;
+  evaluate?<T>(fn: () => T): Promise<T>;
 };
 
 function station(name: string) {
@@ -201,12 +228,39 @@ async function readJourneySummaries(page: TflBrowserPage): Promise<TflBrowserJou
   return page.locator(".publictransport-box").evaluateAll(extract);
 }
 
+/**
+ * Say what the page actually was when the results markup never appeared.
+ *
+ * `page.waitForFunction: Timeout` on its own cannot distinguish a slow render
+ * from a block page, a challenge, or an outage notice — which is exactly the
+ * question an operator needs answered, and the reason a ten-day outage read as
+ * one repeating stack trace.
+ */
+async function describeUnexpectedPage(page: TflBrowserPage): Promise<string> {
+  try {
+    const url = page.url?.() || "";
+    const snapshot = await page.evaluate?.(() => ({
+      title: document.title,
+      text: (document.body?.innerText || "").replace(/\s+/g, " ").trim().slice(0, 160),
+    }));
+    const parts = [
+      url ? `at ${url}` : "",
+      snapshot?.title ? `title "${snapshot.title}"` : "",
+      snapshot?.text ? `page says "${snapshot.text}"` : "",
+    ].filter(Boolean);
+    return parts.length > 0 ? ` The page was ${parts.join(", ")}.` : "";
+  } catch {
+    return "";
+  }
+}
+
 async function scrapeSample(
   page: TflBrowserPage,
   origin: string,
   destination: string,
   date: string,
   time: string,
+  retryDelayMs: number,
 ) {
   const url = buildTflBrowserQueryUrl(origin, destination, date, time);
   let lastError: unknown;
@@ -219,13 +273,18 @@ async function scrapeSample(
       await page.waitForFunction(
         () => Boolean(document.querySelector(".journey-results, .disambiguation-form, .field-validation-errors")),
         undefined,
-        { timeout: 45_000 },
+        { timeout: RESULTS_MARKUP_TIMEOUT_MS },
       );
       return readJourneySummaries(page);
     } catch (error) {
-      lastError = error;
+      lastError = new Error(
+        `${error instanceof Error ? error.message : String(error)}${await describeUnexpectedPage(page)}`,
+      );
       if (attempt < 2) {
         console.warn(`  TfL browser query retry: ${origin} → ${destination} on ${date} at ${time}`);
+        // Back off before retrying. An immediate second request is the worst
+        // thing to send when the first was refused for pacing reasons.
+        if (retryDelayMs > 0) await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
       }
     }
   }
@@ -242,15 +301,41 @@ export async function scrapeTflBrowserServiceDay(
   origin: string,
   destination: string,
   date: string,
+  options: { retryDelayMs?: number } = {},
 ): Promise<ScrapedRouteData> {
+  const retryDelayMs = options.retryDelayMs ?? RETRY_BACKOFF_MS;
   const samples: TflBrowserJourneySummary[] = [];
+  const failures: string[] = [];
   for (const time of SERVICE_DAY_SAMPLE_TIMES) {
-    const journeys = await scrapeSample(page, origin, destination, date, time);
-    samples.push(...journeys);
+    // One refused sample used to throw straight out of this loop, so a single
+    // timeout at 05:30 discarded the fourteen samples never attempted and the
+    // route reported nothing at all. Collect what the planner does answer and
+    // judge the day as a whole below.
+    try {
+      samples.push(...await scrapeSample(page, origin, destination, date, time, retryDelayMs));
+    } catch (error) {
+      failures.push(`${time}: ${error instanceof Error ? error.message : String(error)}`);
+    }
   }
+
   const results = buildTflBrowserResults(origin, destination, date, samples);
+  const sampled = SERVICE_DAY_SAMPLE_TIMES.length - failures.length;
+  const context = `${sampled}/${SERVICE_DAY_SAMPLE_TIMES.length} samples answered`
+    + `${failures.length > 0 ? `; first failure — ${failures[0]}` : ""}`;
+
+  if (failures.length > MAX_FAILED_SAMPLES) {
+    throw new Error(
+      `TfL Journey Planner covered too little of ${date} for ${origin} → ${destination} `
+      + `to publish (${context}). Keeping the previous file rather than a day with gaps.`,
+    );
+  }
   if (results.length === 0) {
-    throw new Error(`TfL Journey Planner returned no published journeys for ${origin} → ${destination} on ${date}.`);
+    throw new Error(
+      `TfL Journey Planner returned no published journeys for ${origin} → ${destination} on ${date} (${context}).`,
+    );
+  }
+  if (failures.length > 0) {
+    console.warn(`  TfL partial day: ${origin} → ${destination} on ${date} — ${context}`);
   }
   return {
     origin,
