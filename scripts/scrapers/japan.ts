@@ -1,9 +1,17 @@
 import { DownloadScraper, HtmlScraper } from "./kinds";
 import { japanJrCentralRoutes } from "./routes";
+import { scrapeRoutePairs, summarizeGtfsRoutes } from "../lib/gtfsFeedSummary";
 import type { ScrapedRoute, ScrapedRouteData } from "./types";
 import { odptRoutes } from "../../src/data/odptRoutes";
 import { searchOdptTimetable } from "../../src/server/odptTimetable";
 import { searchJrCentralTimetable } from "../../src/server/jrCentralTimetable";
+import {
+  japanGtfsFeedUrl,
+  loadJapanGtfsFeed,
+  searchJapanGtfsRail,
+  KOTODEN_GTFS_RAIL,
+  type JapanGtfsRailSource,
+} from "../../src/server/japanGtfsJp";
 import type { OfficialSourceId } from "../../src/data/sourceRegistry";
 import type { SearchResponse } from "../../src/types";
 
@@ -104,6 +112,64 @@ export class JapanJrCentralScraper extends HtmlScraper {
       scrapedAt: new Date().toISOString(),
       source: "",
       results: rowsOrThrow(response, "JR Central", route, date),
+    };
+  }
+}
+
+/**
+ * A Japanese local railway that publishes GTFS-JP.
+ *
+ * The scrape list is read out of the feed rather than written next to it: each
+ * rail route's two busiest terminals become a pair in both directions, spelled
+ * the way the operator spells them. Station names are the join key between the
+ * timetable and the search index, and transcribing them by hand from anywhere
+ * but the feed is how a route ends up matching nothing every night while
+ * looking correctly configured.
+ *
+ * With no feed URL configured the scraper runs nothing at all, the same way the
+ * ODPT scraper drops its Tokyo Metro routes without a key.
+ */
+export class JapanLocalGtfsScraper extends DownloadScraper {
+  readonly name: string;
+  readonly country = "japan";
+  readonly routes: ScrapedRoute[] = [];
+  readonly sourceId: OfficialSourceId;
+
+  constructor(private readonly feedSource: JapanGtfsRailSource = KOTODEN_GTFS_RAIL) {
+    super();
+    this.name = feedSource.label;
+    this.sourceId = feedSource.sourceId;
+  }
+
+  override async runAll(date: string, options: { keepDates?: string[] } = {}): Promise<ScrapedRouteData[]> {
+    if (!japanGtfsFeedUrl(this.feedSource)) {
+      console.log(
+        `  japan: ${this.feedSource.urlEnvVar} not set; skipping ${this.feedSource.label}.`,
+      );
+      return [];
+    }
+    // runAll is called once per service day, so derive the pairs on the first
+    // pass only and let the cached feed answer the rest.
+    if (this.routes.length === 0) {
+      const feed = await loadJapanGtfsFeed(this.feedSource);
+      this.routes.push(...scrapeRoutePairs(summarizeGtfsRoutes(feed)));
+      console.log(
+        `  japan: ${this.feedSource.label} published ${this.routes.length} route(s): `
+        + this.routes.map((route) => `${route.origin} → ${route.destination}`).join(", "),
+      );
+    }
+    return super.runAll(date, options);
+  }
+
+  async scrape(route: ScrapedRoute, date: string): Promise<ScrapedRouteData> {
+    const response = await searchJapanGtfsRail(this.feedSource, route.origin, route.destination, date);
+    return {
+      origin: route.origin,
+      destination: route.destination,
+      date,
+      scrapedAt: new Date().toISOString(),
+      source: "",
+      results: rowsOrThrow(response, this.feedSource.label, route, date),
     };
   }
 }

@@ -451,6 +451,30 @@ function chainResults(
 }
 
 /**
+ * Names in one route's committed rows that can act as a journey endpoint.
+ *
+ * Route- and result-level origins and destinations always can. An intermediate
+ * stop only can when the source supplied a leg carrying its own departure and
+ * arrival times — the same admission rule {@link segmentResult} applies before
+ * it will answer for a partial edge. Counting every `stops` entry instead
+ * published names search must answer nothing for: Japan's ODPT rows list the
+ * whole calling pattern but carry no legs, so eleven stations (Kuramae,
+ * Asakusabashi, Akebonobashi, …) were offered as pickable and then met with
+ * "no timetable".
+ */
+export function endpointNamesForRoute(route: ScrapedRouteData): string[] {
+  const names: Array<string | undefined> = [route.origin, route.destination];
+  for (const result of route.results || []) {
+    names.push(result.origin, result.destination);
+    for (const leg of result.legs || []) {
+      if (!leg.departureTime || !leg.arrivalTime) continue;
+      names.push(leg.origin, leg.destination);
+    }
+  }
+  return names.filter((name): name is string => Boolean(name));
+}
+
+/**
  * Find timetable results in an in-memory set of route snapshots.
  * Matching order: exact file O/D → result-level destination → reverse → chain.
  * Pass `country` so chained results get correct ids (`chain-${country}-n`) at construction.

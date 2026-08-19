@@ -126,34 +126,6 @@ const staticLineSets: Record<string, TransitLine[]> = {
   switzerland: switzerlandRailLines,
 };
 
-function isJapanMetroLine(line: TransitLine): boolean {
-  return line.id.startsWith("toei-") || line.id.startsWith("tokyo-metro-");
-}
-
-function japanIntercityStationKeys(): Set<string> {
-  return new Set(
-    japanRailLines
-      .filter((line) => !isJapanMetroLine(line))
-      .flatMap((line) => line.stations.map((station) => stationSearchKey(station.name))),
-  );
-}
-
-/**
- * Japan's metro is admitted line by line, as each one gets real data.
- *
- * Every Tokyo subway line used to be a fixed-headway generation, so the menu
- * dropped all of them wholesale. The four Toei lines come from the ODPT public
- * feed and classify as `scraped`, and a station users cannot pick is a station
- * the timetable cannot serve — so admit what a verified timetable can answer
- * for, and leave the rest hidden until their source arrives.
- */
-function japanVerifiedMetroKeys(date?: string): Set<string> {
-  return new Set(
-    getScrapedCoverageNames("japan", date)
-      .map((station) => stationSearchKey(resolveStationAlias("japan", station))),
-  );
-}
-
 function hongKongLines(): TransitLine[] {
   return hongKongMtrLineCatalog.map((line) => ({
     id: line.code,
@@ -572,27 +544,20 @@ export async function getStationsForCountry(
       throw new Error("Invalid country");
     }
     stations = staticMenu;
-    if (country === "japan") {
-      const intercityKeys = japanIntercityStationKeys();
-      const verifiedKeys = japanVerifiedMetroKeys(date);
-      stations = stations.filter((station) => {
-        const key = stationSearchKey(station);
-        return intercityKeys.has(key) || verifiedKeys.has(key);
-      });
+    // A committed timetable can answer for a station the static menu never
+    // listed. Korea files two separate networks — Seoul Metro and Incheon
+    // Transit — and a GTFS-JP feed brings its own station spellings with it.
+    // Those names are searchable by definition, so union them in rather than
+    // leaving data behind that nobody can pick; a further operator needs no
+    // edit here.
+    const menuKeys = new Set(stations.map((station) => stationSearchKey(station)));
+    for (const station of getScrapedCoverageNames(country as Country, date)) {
+      if (!menuKeys.has(stationSearchKey(station))) {
+        menuKeys.add(stationSearchKey(station));
+        stations = [...stations, station];
+      }
     }
     if (country === "korea") {
-      // Korea files two separate networks: Seoul Metro and Incheon Transit.
-      // The static menu is built from the Seoul station list plus Korail, so a
-      // second operator's stations are searchable but unpickable until they are
-      // unioned in here. Adding whatever the committed artifacts can answer for
-      // keeps the menu and the data one set, and a third network needs no edit.
-      const menuKeys = new Set(stations.map((station) => stationSearchKey(station)));
-      for (const station of getScrapedCoverageNames("korea", date)) {
-        if (!menuKeys.has(stationSearchKey(station))) {
-          menuKeys.add(stationSearchKey(station));
-          stations = [...stations, station];
-        }
-      }
       stations = [...stations].sort((left, right) => left.localeCompare(right));
     }
     if (country === "norway") {

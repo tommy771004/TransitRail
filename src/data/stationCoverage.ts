@@ -22,7 +22,7 @@ import {
   usesStrictCatalogGate,
 } from "./searchabilityPolicy";
 import type { SearchabilityRejectionReason } from "./searchabilityPolicy";
-import type { ScrapedRouteData } from "./scraped/timetableDay";
+import { endpointNamesForRoute, type ScrapedRouteData } from "./scraped/timetableDay";
 
 export { usesStrictCatalogGate, publishesFullOfficialDirectory } from "./searchabilityPolicy";
 
@@ -122,12 +122,10 @@ export function coverageModeFor(country: Country): CoverageMode {
  * mixed-destination snapshot file resolves via the result level). Transfer
  * chaining only ever links endpoints already in this set, so it adds no names.
  *
- * Intermediate `stops` are deliberately NOT endpoints. A train calling at a
- * station does not make that station searchable — `findInRoutes` matches
- * origin/destination and never reads `stops`, so counting them here would offer
- * names the picker can hand to a search that must answer nothing. Japan has 11
- * such stations today (Kuramae, Asakusabashi, …) and China 3. If they should
- * become searchable, the fix is in the matcher, not in this set.
+ * Which intermediate stops count is the matcher's rule, not this module's:
+ * {@link endpointNamesForRoute} admits a stop only when the source gave it a
+ * leg with its own times, which is exactly what `findInRoutes` needs to answer
+ * for a partial edge.
  */
 export function coveredStationKeys(
   routes: readonly ScrapedRouteData[],
@@ -139,12 +137,7 @@ export function coveredStationKeys(
     if (name) keys.add(stationSearchKey(resolveStationAlias(country, name)));
   };
   for (const route of searchableRoutesForDate(routes, country, date)) {
-    add(route.origin);
-    add(route.destination);
-    for (const result of route.results || []) {
-      add(result.origin);
-      add(result.destination);
-    }
+    for (const name of endpointNamesForRoute(route)) add(name);
   }
   return keys;
 }
@@ -194,13 +187,7 @@ export function coveredEndpointNames(
     if (!byKey.has(key)) byKey.set(key, name);
   };
   for (const route of searchableRoutesForDate(routes, country, date)) {
-    add(route.origin);
-    add(route.destination);
-    for (const result of route.results || []) {
-      add(result.origin);
-      add(result.destination);
-      for (const stop of result.stops || []) add(stop);
-    }
+    for (const name of endpointNamesForRoute(route)) add(name);
   }
   return Array.from(byKey.values()).sort((a, b) => a.localeCompare(b));
 }

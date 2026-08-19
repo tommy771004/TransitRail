@@ -16,13 +16,26 @@ export type GtfsStationMatchOptions = {
   aliases?: Readonly<Record<string, readonly string[]>>;
 };
 
+/**
+ * Compare station names without punctuation, case or accents getting in the way.
+ *
+ * The class of kept characters is Unicode, not `a-z0-9`: a Japanese or Korean
+ * feed's stop names contain no ASCII letters at all, so the ASCII version
+ * reduced every one of them — and every query for one — to the empty string,
+ * which then compared equal to every stop in the feed. A Kotoden search for
+ * 高松築港 → 琴電琴平 matched whichever two stops a trip happened to call at
+ * and reported their times as the journey.
+ */
 function normalizeStation(value: string) {
-  return value
+  const normalized = value
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
     .trim();
+  // A name made only of dropped characters would still normalize to "" and
+  // match everything; keep it distinguishable instead.
+  return normalized || value.trim().toLowerCase();
 }
 
 function stationTokens(

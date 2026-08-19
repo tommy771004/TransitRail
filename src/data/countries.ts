@@ -208,7 +208,13 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     timeZone: "Asia/Tokyo",
     search: { kind: "scraped" },
     scrape: "official_source",
-    authenticityGates: { catalog: false },
+    // Japan publishes no complete official directory here — its line map is a
+    // declared product boundary, so an untrimmed menu was not "the operator's
+    // own map" but a list of stations search cannot answer for. The ODPT pass
+    // covers four Toei station pairs and five JR runs; the map offered all 132
+    // Tokyo stations, so Nishi-magome → Oshiage was pickable and then met with
+    // "no timetable". Gate the menu until the scrape reaches the whole line.
+    authenticityGates: { catalog: true },
     marketTopology: { regions: [
       { id: "tokyo-urban", name: "Tokyo urban rail", lineIdPrefixes: ["toei-", "tokyo-metro-"], declaredLines: 6, declaredStations: 132 },
       { id: "japan-intercity", name: "Japan intercity rail", default: true, declaredLines: 10, declaredStations: 36 },

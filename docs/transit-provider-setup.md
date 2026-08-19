@@ -65,6 +65,24 @@
 
 專案後續 adapter 應將 ODPT 的站碼、時刻、列車動態與營運商資料正規化為 `TransitResult`。目前有金鑰時仍會明確回傳 `Provider Adapter Missing`，不會製造結果。
 
+## 日本地方鐵道：GTFS-JP
+
+東京以外的鐵道業者多半不走 ODPT，而是自行（或透過 GTFS 資料倉庫）公開 GTFS-JP zip。這類來源不需要金鑰，只需要那份 zip 的實際網址。
+
+設定：
+
+1. 開啟業者的開放資料頁，例如[ことでん（高松琴平電氣鐵道）](https://www.kotoden.co.jp/publichtm/gtfs/index.html)，找到鐵道（非巴士）的 GTFS zip 網址。
+2. 先確認該檔的授權條款，並把授權字串補進 `src/data/sourceRegistry.ts` 對應來源的 `attribution`。
+3. 寫入伺服器環境：
+
+   ```dotenv
+   KOTODEN_GTFS_URL="https://.../feed.zip"
+   ```
+
+4. 用 `npm run inspect:gtfs -- <zip 網址> --rail-only` 確認路線與站名。輸出的站名就是搜尋比對用的識別字串。
+
+沒有設定網址時，該業者的 scraper 整個不執行，不會退而求其次抓別的東西。路線清單由 feed 自己決定：每條鐵道路線的兩個端點會成為雙向的抓取路線，站名沿用業者自己的寫法。
+
 ## 韓國：ODsay
 
 官方入口：[ODsay LAB](https://lab.odsay.com/)

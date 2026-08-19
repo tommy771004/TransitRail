@@ -22,15 +22,44 @@ const STATIONS: Record<string, StationConfig> = {
   Nagoya: { japanese: "名古屋", eucJp: "%cc%be%b8%c5%b2%b0" },
   Kyoto: { japanese: "京都", eucJp: "%b5%fe%c5%d4" },
   "Shin-Osaka": { japanese: "新大阪", eucJp: "%bf%b7%c2%e7%ba%e5" },
+  Okayama: { japanese: "岡山", eucJp: "%b2%ac%bb%b3" },
+  Hiroshima: { japanese: "広島", eucJp: "%b9%ad%c5%e7" },
+  Hakata: { japanese: "博多", eucJp: "%c7%ee%c2%bf" },
 };
 
+/**
+ * The CGI is the Tokaido *and* San'yō timetable — the two lines through-run, so
+ * one search answers Shin-Osaka westward as well.
+ *
+ * Only Shin-Osaka-anchored San'yō pairs are listed. Tokyo → Hakata is a real
+ * through service but each pair costs a full hourly sampling sweep against
+ * someone else's CGI, and search chains Tokyo → Shin-Osaka with Shin-Osaka →
+ * Hakata from the pairs already here.
+ */
 const ROUTES = new Set([
   "Tokyo-Shin-Osaka",
   "Tokyo-Kyoto",
   "Tokyo-Nagoya",
   "Shin-Osaka-Tokyo",
   "Nagoya-Shin-Osaka",
+  "Shin-Osaka-Okayama",
+  "Okayama-Shin-Osaka",
+  "Shin-Osaka-Hiroshima",
+  "Hiroshima-Shin-Osaka",
+  "Shin-Osaka-Hakata",
+  "Hakata-Shin-Osaka",
 ]);
+
+/**
+ * San'yō Shinkansen track is JR West's, and the Sakura and Mizuho services on
+ * it are JR West/JR Kyushu trains. JR Central publishes the joint timetable, so
+ * the source stays `jp-jr-central` while the operator follows the train.
+ */
+const SANYO_STATIONS = new Set(["Okayama", "Hiroshima", "Hakata"]);
+
+function operatorFor(origin: string, destination: string): string {
+  return SANYO_STATIONS.has(origin) || SANYO_STATIONS.has(destination) ? "JR West" : "JR Central";
+}
 
 export function isJrCentralRoute(origin: string, destination: string): boolean {
   return ROUTES.has(`${origin}-${destination}`);
@@ -64,9 +93,15 @@ function yen(value: string | undefined): number | undefined {
 
 function serviceLabel(value: string): string {
   const withoutEquipment = value.replace(/（.*$/, "").trim();
-  const match = /^(のぞみ|ひかり|こだま)(\d+)号$/.exec(withoutEquipment);
+  const match = /^(のぞみ|ひかり|こだま|みずほ|さくら)(\d+)号$/.exec(withoutEquipment);
   if (!match) return withoutEquipment;
-  const names: Record<string, string> = { のぞみ: "Nozomi", ひかり: "Hikari", こだま: "Kodama" };
+  const names: Record<string, string> = {
+    のぞみ: "Nozomi",
+    ひかり: "Hikari",
+    こだま: "Kodama",
+    みずほ: "Mizuho",
+    さくら: "Sakura",
+  };
   return `${names[match[1]]} ${match[2]}`;
 }
 
@@ -98,7 +133,7 @@ function parseResults(
       id: `${date}-jp-jr-central-${service.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${departureTime.replace(":", "")}`,
       country: "japan",
       date,
-      operator: "JR Central",
+      operator: operatorFor(origin, destination),
       service,
       departureTime,
       arrivalTime,
@@ -161,7 +196,7 @@ export function createJrCentralTimetableProvider(
       body: {
         results,
         source: "JR Central official journey search",
-        message: "Official Nozomi journey results sampled hourly by the scheduled scraper; this is representative rather than every departure.",
+        message: "Official Shinkansen journey results sampled hourly by the scheduled scraper; this is representative rather than every departure.",
       },
     };
   };
