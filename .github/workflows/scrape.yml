@@ -57,6 +57,11 @@ jobs:
           # Optional. Toei uses the public ODPT endpoint without this secret;
           # Tokyo Metro routes refresh when the repository secret is present.
           ODPT_API_KEY: ${{ secrets.ODPT_API_KEY }}
+          # Raises London's rate limit. The sweep verifies the key before
+          # pacing to the subscription rate and falls back to anonymous when
+          # it is unusable, so a stale value degrades rather than fails — but
+          # without it the sweep paces slowly and samples start aborting.
+          TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
           # Required for the official LTA DataMall Singapore GTFS train feed.
           # Only the authenticated resolver mints a usable archive link: the
           # key-free static ZIP is a frozen copy of one response whose signed
@@ -122,8 +127,7 @@ jobs:
 
       - name: Generate static station catalog
         env:
-          # The UK menu is still built from the TfL API. The timetable scraper
-          # above uses the official web Journey Planner and does not need this key.
+          # The UK menu is built from the same TfL API the timetable scrape uses.
           TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
         run: npm run catalog
 
