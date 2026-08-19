@@ -14,7 +14,7 @@
  */
 import type { Country } from "../../src/types";
 import { getCountryCapability, timetableScrapeCountries } from "../../src/data/countryCapability";
-import { JapanOdptScraper, JapanJrCentralScraper } from "./japan";
+import { JapanLocalGtfsScraper, JapanOdptScraper, JapanJrCentralScraper } from "./japan";
 import { KoreaScraper } from "./korea";
 import { MalaysiaKtmbScraper } from "./malaysiaTimetable";
 import {
@@ -34,7 +34,11 @@ import type { BaseScraper } from "./base";
 
 /** One or more factories per timetable-scrape country. */
 const FACTORIES: Record<string, Array<() => BaseScraper>> = {
-  japan: [() => new JapanOdptScraper(), () => new JapanJrCentralScraper()],
+  japan: [
+    () => new JapanOdptScraper(),
+    () => new JapanJrCentralScraper(),
+    () => new JapanLocalGtfsScraper(),
+  ],
   korea: [() => new KoreaScraper()],
   singapore: [() => new SingaporeScraper()],
   malaysia: [() => new MalaysiaKtmbScraper()],

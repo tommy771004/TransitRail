@@ -19,9 +19,13 @@ describe("scraper registry ↔ country capability", () => {
     }
   });
 
-  it("runs both of Japan's sources rather than only the last registered one", () => {
+  it("runs all of Japan's sources rather than only the last registered one", () => {
     const japan = createTimetableScrapers().filter((scraper) => scraper.country === "japan");
-    expect(japan.map((scraper) => scraper.name).sort()).toEqual(["JR Central", "ODPT"]);
+    expect(japan.map((scraper) => scraper.name).sort()).toEqual([
+      "JR Central",
+      "Kotoden GTFS-JP",
+      "ODPT",
+    ]);
   });
 
   it("only lets a scraper claim a source its kind can actually produce", () => {

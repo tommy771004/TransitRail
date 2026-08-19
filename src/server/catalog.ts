@@ -544,19 +544,20 @@ export async function getStationsForCountry(
       throw new Error("Invalid country");
     }
     stations = staticMenu;
-    if (country === "korea") {
-      // Korea files two separate networks: Seoul Metro and Incheon Transit.
-      // The static menu is built from the Seoul station list plus Korail, so a
-      // second operator's stations are searchable but unpickable until they are
-      // unioned in here. Adding whatever the committed artifacts can answer for
-      // keeps the menu and the data one set, and a third network needs no edit.
-      const menuKeys = new Set(stations.map((station) => stationSearchKey(station)));
-      for (const station of getScrapedCoverageNames("korea", date)) {
-        if (!menuKeys.has(stationSearchKey(station))) {
-          menuKeys.add(stationSearchKey(station));
-          stations = [...stations, station];
-        }
+    // A committed timetable can answer for a station the static menu never
+    // listed. Korea files two separate networks — Seoul Metro and Incheon
+    // Transit — and a GTFS-JP feed brings its own station spellings with it.
+    // Those names are searchable by definition, so union them in rather than
+    // leaving data behind that nobody can pick; a further operator needs no
+    // edit here.
+    const menuKeys = new Set(stations.map((station) => stationSearchKey(station)));
+    for (const station of getScrapedCoverageNames(country as Country, date)) {
+      if (!menuKeys.has(stationSearchKey(station))) {
+        menuKeys.add(stationSearchKey(station));
+        stations = [...stations, station];
       }
+    }
+    if (country === "korea") {
       stations = [...stations].sort((left, right) => left.localeCompare(right));
     }
     if (country === "norway") {

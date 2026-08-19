@@ -150,6 +150,21 @@ export const officialSources = {
     sourceUrl: "https://railway.jr-central.co.jp/timetable/",
     maxCompleteness: "full-timetable",
   },
+  // Japan's local railways publish GTFS-JP themselves rather than through
+  // ODPT. The zip's own URL is configuration (`KOTODEN_GTFS_URL`), because it
+  // belongs to the operator's site or its repository entry rather than to this
+  // register; without it the scraper does not run. Attribution is deliberately
+  // absent until the feed's own licence file has been read — a licence line
+  // written from memory is not a licence.
+  "jp-kotoden-gtfs": {
+    id: "jp-kotoden-gtfs",
+    country: "japan",
+    provider: "Takamatsu-Kotohira Electric Railroad (Kotoden)",
+    sourceName: "Kotoden GTFS-JP",
+    sourceType: "official-gtfs",
+    sourceUrl: "https://www.kotoden.co.jp/publichtm/gtfs/index.html",
+    maxCompleteness: "full-timetable",
+  },
 
   // --- Korea ---
   "kr-seoul-metro-csv": {
