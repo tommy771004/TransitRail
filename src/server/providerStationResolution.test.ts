@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { resetTflStationResolutionCache, searchTflJourney } from "./tfl";
-import { searchMbtaJourney } from "./mbta";
+import { isMbtaDepartureAtOrAfter, searchMbtaJourney } from "./mbta";
 
 /**
  * Both cases come straight from the first scrape run that logged its fallback
@@ -93,6 +93,12 @@ describe("TfL station resolution", () => {
 });
 
 describe("MBTA station resolution", () => {
+  it("excludes scheduled rows before the passenger's selected time", () => {
+    expect(isMbtaDepartureAtOrAfter("11:59", "12:00")).toBe(false);
+    expect(isMbtaDepartureAtOrAfter("12:00", "12:00")).toBe(true);
+    expect(isMbtaDepartureAtOrAfter("12:01", "12:00")).toBe(true);
+  });
+
   function installMbtaStops() {
     vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
       const url = new URL(String(input));

@@ -164,6 +164,15 @@ function currentBostonTimeHHMM() {
   return `${values.hour}:${values.minute}`;
 }
 
+export function isMbtaDepartureAtOrAfter(departureTime: string | undefined, selectedTime: string): boolean {
+  return Boolean(
+    departureTime
+    && /^\d{2}:\d{2}$/.test(departureTime)
+    && /^\d{2}:\d{2}$/.test(selectedTime)
+    && departureTime >= selectedTime,
+  );
+}
+
 function timeInBoston(value?: string | null) {
   if (!value) return undefined;
   return new Intl.DateTimeFormat("en-US", {
@@ -740,17 +749,20 @@ export async function searchMbtaJourney(
         );
         scheduledJourneys = transferJourneysForRoute(firstLeg, secondLeg, transferStation, date);
       }
+      const serviceDayJourneys = scheduledJourneys;
       serviceDayAdvisory = buildMbtaAdvisory(
         date,
         selectedTime,
-        scheduledJourneys[0],
-        scheduledJourneys.at(-1),
+        serviceDayJourneys[0],
+        serviceDayJourneys.at(-1),
       );
-      const first = scheduledJourneys[0];
-      const last = scheduledJourneys.at(-1);
+      const first = serviceDayJourneys[0];
+      const last = serviceDayJourneys.at(-1);
       if (first && last) {
         serviceDayCache.set(serviceDayCacheKey, { first, last });
       }
+      scheduledJourneys = serviceDayJourneys.filter((journey) =>
+        isMbtaDepartureAtOrAfter(journey.result.departureTime, selectedTime));
     } catch (error) {
       void recordError({
         severity: "error",
@@ -844,6 +856,7 @@ export async function searchMbtaJourney(
       const departureTime = timeInBoston(departureIso);
       const arrivalTime = timeInBoston(arrivalIso);
       if (!departureTime || !arrivalTime) continue;
+      if (!isMbtaDepartureAtOrAfter(departureTime, selectedTime)) continue;
 
       const route = routes.get(relationshipId(originPrediction, "route") || "");
       const trip = trips.get(tripId);

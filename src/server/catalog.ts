@@ -351,7 +351,7 @@ export async function getLinesForCountry(
   else if (country === "hong_kong") lines = hongKongLines();
   else if (staticLineSets[country]) lines = staticLineSets[country];
   else if (country === "united_states") {
-    const snapshotLines = getProviderRouteLines(country, getScrapedRoutes(country), date);
+    const snapshotLines = getProviderRouteLines(country, getScrapedRoutes(country));
     try {
       if (!includeProvider) throw new Error("Provider access disabled");
       lines = mergeCatalogLines(await getMbtaLines(), snapshotLines);
@@ -360,15 +360,24 @@ export async function getLinesForCountry(
     }
   }
   else if (snapshotRouteCountries.includes(country as Country)) {
-    lines = getProviderRouteLines(country as Country, getScrapedRoutes(country as Country), date);
+    lines = getProviderRouteLines(
+      country as Country,
+      getScrapedRoutes(country as Country),
+      coverageModeFor(country as Country) === "provider" ? undefined : date,
+    );
   }
   else if (country === "united_kingdom") {
     try {
-      lines = includeProvider ? await getTflLines() : getProviderRouteLines(country, getScrapedRoutes(country), date);
+      lines = includeProvider ? await getTflLines() : getProviderRouteLines(country, getScrapedRoutes(country));
     } catch { lines = []; }
   } else {
     lines = [];
   }
+
+  // A live provider answers the selected service day independently of the
+  // committed scraper snapshots. Those snapshots may supply a useful browsing
+  // hierarchy, but they must never date-gate the provider's station picker.
+  if (coverageModeFor(country as Country) === "provider") return lines;
 
   // A market with a complete official directory keeps its whole line map; the
   // per-station coverage badges, not a trimmed menu, say what search can
@@ -442,8 +451,12 @@ export async function buildServiceRegionCatalog(
   const serviceDate = options.date || providerDateValue(country);
   const lines = await getLinesForCountry(country, serviceDate, includeProvider);
   const regions = buildServiceRegions(country, lines);
-  const allStations = uniqueStations(lines);
-  let coverage = getStationCoverage(country, allStations, serviceDate, origin)
+  const providerDirectory = includeProvider && coverageModeFor(country) === "provider"
+    ? await getStationsForCountry(country)
+    : undefined;
+  const allStations = providerDirectory?.stations ?? uniqueStations(lines);
+  let coverage = providerDirectory?.coverage
+    ?? getStationCoverage(country, allStations, serviceDate, origin)
     ?? { mode: coverageModeFor(country), date: serviceDate };
   if (usesStrictCatalogGate(country)) {
     const summary = getScrapedSearchabilitySummary(country, serviceDate);
@@ -477,7 +490,7 @@ export async function buildServiceRegionCatalog(
     lines: regions.flatMap((region) => region.lines),
     stations,
     source: officialTimetableUrls[country],
-    stationSource: officialStationDirectoryUrls[country],
+    stationSource: providerDirectory?.source || officialStationDirectoryUrls[country],
     coverage: { ...coverage, date: serviceDate, ...(messageKey ? { messageKey } : {}) },
     ...(messageKey ? { messageKey } : {}),
   };

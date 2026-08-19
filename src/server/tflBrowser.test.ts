@@ -164,7 +164,7 @@ describe("TfL official Journey Planner browser scraper", () => {
   });
 
   it("refuses a day with material gaps rather than publishing a sparse one", async () => {
-    const { page } = pageRefusing(["0530", "0645", "0800", "0915"]);
+    const { page, attempts } = pageRefusing(["0530", "0645", "0800", "0915"]);
 
     await expect(scrapeTflBrowserServiceDay(
       page as never,
@@ -172,7 +172,13 @@ describe("TfL official Journey Planner browser scraper", () => {
       "Camden Town",
       "2026-08-19",
       { retryDelayMs: 0 },
-    )).rejects.toThrow(/covered too little of 2026-08-19.*11\/15 samples answered/s);
+    )).rejects.toThrow(/covered too little of 2026-08-19.*stopped after 4 of 15/s);
+
+    // Stops as soon as the day is unpublishable. Sampling all fifteen against a
+    // market that refuses every request costs 15 timeouts per route-date, which
+    // over four routes and seven days overruns the workflow's 90-minute budget
+    // — and a cancelled job commits nothing, for any country.
+    expect(attempts()).toBe(8);
   });
 
   it("says what the page was when the results markup never appears", async () => {

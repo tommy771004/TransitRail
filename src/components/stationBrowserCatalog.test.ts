@@ -26,6 +26,19 @@ describe("station browser catalog hydration", () => {
     expect(fetcher).toHaveBeenCalledTimes(3);
   });
 
+  it("does not pin a transient failure in the browser-session cache", async () => {
+    const fetcher = vi.fn()
+      .mockRejectedValueOnce(new Error("temporary outage"))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ stations: ["Recovered Station"] }), { status: 200 }));
+    const request = { country: "united_kingdom", date: "2026-08-19", headers: {} };
+
+    expect((await loadStationBrowserCatalog(request, fetcher)).ok).toBe(false);
+    const recovered = await loadStationBrowserCatalog(request, fetcher);
+
+    expect(fetcher).toHaveBeenCalledTimes(2);
+    expect(recovered).toEqual({ ok: true, data: { stations: ["Recovered Station"] } });
+  });
+
   it("restores a valid line and resets an invalid selection to the first region", () => {
     const regions = [
       { id: "north", name: "North", lines: [{ id: "n1", name: "N1", stations: [{ name: "A" }, { name: "B" }] }] },

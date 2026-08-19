@@ -4,6 +4,28 @@
  * the provider/station catalog names.
  */
 export const additionalStationZhTW: Record<string, string> = {
+  // Live provider directories. Keep provider spellings and common aliases as
+  // separate keys so localisation never changes the value sent back to search.
+  "Canning Town Station": "景寧鎮站",
+  "Great Portland St Stn  / Euston Rd": "大波特蘭街站／尤斯頓路",
+  "Queen's Park Station": "女王公園站",
+  "Royal Albert Dlr Station": "皇家阿爾伯特碼頭輕鐵站",
+  "Sloane Square": "斯隆廣場",
+  "Logan International Airport": "洛根國際機場",
+
+  // Belgium: featured stations plus the English/local spellings returned by
+  // iRail's station and connection endpoints.
+  "Brussels-Central": "布魯塞爾中央車站",
+  "Brussels-South/Brussels-Midi": "布魯塞爾南站",
+  "Brussels-North": "布魯塞爾北站",
+  "Antwerpen-Centraal": "安特衛普中央車站",
+  "Antwerp-Central": "安特衛普中央車站",
+  "Gent-Sint-Pieters": "根特聖彼得車站",
+  "Ghent-Sint-Pieters": "根特聖彼得車站",
+  "Liège-Guillemins": "列日吉耶曼車站",
+  "Brugge": "布魯日",
+  "Bruges": "布魯日",
+
   // Japan urban rail
   "Roppongi": "六本木",
   "Asakusa": "淺草",

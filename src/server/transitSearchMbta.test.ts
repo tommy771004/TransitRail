@@ -195,7 +195,8 @@ describe("runTransitSearch MBTA service-day advisory", () => {
       });
 
       expect(result.statusCode).toBe(200);
-      expect(result.payload.results).toHaveLength(2);
+      expect(result.payload.results).toHaveLength(1);
+      expect(result.payload.results[0]?.departureTime).toBe("22:45");
       expect(result.payload.serviceDayAdvisory).toEqual(expect.objectContaining({
         coverage: "supported",
         serviceDate: "2026-08-03",
@@ -316,7 +317,8 @@ describe("runTransitSearch MBTA service-day advisory", () => {
     });
 
     expect(result.statusCode).toBe(200);
-    expect(result.payload.results).toHaveLength(2);
+    expect(result.payload.results).toHaveLength(1);
+    expect(result.payload.results[0]?.departureTime).toBe("22:45");
     expect(result.payload.results.every((entry) => entry.realtime !== true)).toBe(true);
     expect(result.payload.message).toBeUndefined();
     expect(result.payload.serviceDayAdvisory).toEqual(expect.objectContaining({

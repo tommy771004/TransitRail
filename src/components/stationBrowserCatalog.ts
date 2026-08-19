@@ -37,7 +37,14 @@ export function loadStationBrowserCatalog(
   if (existing) return existing;
   const pending = fetcher(`/api/transit/catalog?${key}`, { headers: request.headers })
     .then((response) => response.json().then((data) => ({ ok: response.ok, data: data as StationBrowserCatalogPayload })))
-    .catch(() => ({ ok: false, data: {} as StationBrowserCatalogPayload }));
+    .then((result) => {
+      if (!result.ok) requests.delete(key);
+      return result;
+    })
+    .catch(() => {
+      requests.delete(key);
+      return { ok: false, data: {} as StationBrowserCatalogPayload };
+    });
   requests.set(key, pending);
   return pending;
 }

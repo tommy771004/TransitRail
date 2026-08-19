@@ -43,4 +43,12 @@ describe("zh-TW station labels", () => {
     expect(stationLabel(t, "City Hall", "korea")).toBe("市廳");
     expect(stationLabel(t, "City Hall", "singapore")).toBe("政府大廈");
   });
+
+  it("covers live-provider aliases without changing their query identity", () => {
+    const t = i18n.getFixedT("zh-TW", "translation");
+    expect(stationLabel(t, "Canning Town Station", "united_kingdom")).toBe("景寧鎮站");
+    expect(stationLabel(t, "Logan International Airport", "united_states")).toBe("洛根國際機場");
+    expect(stationLabel(t, "Antwerpen-Centraal", "belgium")).toBe("安特衛普中央車站");
+    expect(stationLabel(t, "Antwerp-Central", "belgium")).toBe("安特衛普中央車站");
+  });
 });

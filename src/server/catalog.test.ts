@@ -22,7 +22,27 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.useRealTimers();
+  vi.unstubAllGlobals();
 });
+
+function installMbtaCatalogProvider() {
+  vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
+    const url = new URL(String(input));
+    if (url.pathname === "/routes") {
+      return new Response(JSON.stringify({ data: [{
+        id: "Red",
+        attributes: { long_name: "Red Line", color: "DA291C" },
+      }] }), { status: 200 });
+    }
+    if (url.pathname === "/stops") {
+      return new Response(JSON.stringify({ data: [
+        { id: "place-sstat", attributes: { name: "South Station" } },
+        { id: "place-bbsta", attributes: { name: "Back Bay" } },
+      ] }), { status: 200 });
+    }
+    return new Response(JSON.stringify({ data: [] }), { status: 200 });
+  }));
+}
 
 describe("station and line catalog integrity scope", () => {
   it("builds a stable date-qualified metro and intercity hierarchy without pair searches", async () => {
@@ -136,16 +156,10 @@ describe("station and line catalog integrity scope", () => {
       keyof typeof expectedCounts,
       number,
     ]>) {
-      const lines = await getLinesForCountry(country);
+      const lines = await getLinesForCountry(country, undefined, false);
       expect(lines.length).toBeGreaterThan(0);
-      if (country !== "united_states") {
-        expect(lines).toHaveLength(expectedCount);
-        expect(lines.every((line) => line.name.includes(" → "))).toBe(true);
-      } else {
-        expect(lines.map((line) => line.id)).toEqual(expect.arrayContaining(
-          getProviderRouteLines(country, getScrapedRoutes(country)).map((line) => line.id),
-        ));
-      }
+      expect(lines).toHaveLength(expectedCount);
+      expect(lines.every((line) => line.name.includes(" → "))).toBe(true);
       expect(lines.every((line) => line.stations.length >= 2)).toBe(true);
     }
   });
@@ -191,9 +205,29 @@ describe("station and line catalog integrity scope", () => {
     // Boston answers a date from the provider, so its window is a capability,
     // not an inventory, and must keep its full length.
     vi.setSystemTime(new Date(`${addDateValueDays(firstJapanSnapshotDate(), -4)}T04:00:00.000Z`));
+    installMbtaCatalogProvider();
     const stations = await getStationsForCountry("united_states", undefined, undefined);
 
     expect(stations.coverage?.dateRange?.days).toBe(7);
+  });
+
+  it("hydrates a provider catalog from the complete live station directory", async () => {
+    installMbtaCatalogProvider();
+    const directory = await getStationsForCountry("united_states", undefined, catalogDate);
+    const catalog = await buildServiceRegionCatalog({
+      country: "united_states",
+      date: catalogDate,
+    });
+
+    expect(directory.stations).toEqual(["South Station", "Back Bay", "Logan International Airport"]);
+    expect(catalog.stations).toEqual(directory.stations);
+  });
+
+  it("does not make provider line browsing depend on a committed snapshot date", async () => {
+    for (const country of ["united_states", "belgium"] as const) {
+      const lines = await getLinesForCountry(country, "2099-01-01", false);
+      expect(lines.length, country).toBeGreaterThan(0);
+    }
   });
 
   it("does not use fallback snapshot pairs to hide provider-market destinations", async () => {

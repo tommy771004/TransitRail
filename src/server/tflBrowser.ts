@@ -306,7 +306,9 @@ export async function scrapeTflBrowserServiceDay(
   const retryDelayMs = options.retryDelayMs ?? RETRY_BACKOFF_MS;
   const samples: TflBrowserJourneySummary[] = [];
   const failures: string[] = [];
+  let attempted = 0;
   for (const time of SERVICE_DAY_SAMPLE_TIMES) {
+    attempted += 1;
     // One refused sample used to throw straight out of this loop, so a single
     // timeout at 05:30 discarded the fourteen samples never attempted and the
     // route reported nothing at all. Collect what the planner does answer and
@@ -315,12 +317,22 @@ export async function scrapeTflBrowserServiceDay(
       samples.push(...await scrapeSample(page, origin, destination, date, time, retryDelayMs));
     } catch (error) {
       failures.push(`${time}: ${error instanceof Error ? error.message : String(error)}`);
+      // Say why on the first failure. The retry warnings alone produced thirty
+      // lines that named every sample and no cause.
+      if (failures.length === 1) console.warn(`  TfL sample failed: ${failures[0]}`);
+      // Once the day cannot be published, more samples cannot rescue it — and
+      // a market that is refusing every request would otherwise spend fifteen
+      // timeouts per route-date. Four routes over seven days at that rate
+      // overruns the workflow's 90-minute budget, and a cancelled job skips
+      // the commit step, so an unreachable London would take every other
+      // country's fresh data down with it.
+      if (failures.length > MAX_FAILED_SAMPLES) break;
     }
   }
 
   const results = buildTflBrowserResults(origin, destination, date, samples);
-  const sampled = SERVICE_DAY_SAMPLE_TIMES.length - failures.length;
-  const context = `${sampled}/${SERVICE_DAY_SAMPLE_TIMES.length} samples answered`
+  const context = `${attempted - failures.length}/${attempted} samples answered`
+    + `${attempted < SERVICE_DAY_SAMPLE_TIMES.length ? ` (stopped after ${attempted} of ${SERVICE_DAY_SAMPLE_TIMES.length})` : ""}`
     + `${failures.length > 0 ? `; first failure — ${failures[0]}` : ""}`;
 
   if (failures.length > MAX_FAILED_SAMPLES) {
