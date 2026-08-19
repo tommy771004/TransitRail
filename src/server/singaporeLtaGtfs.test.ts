@@ -1,39 +1,53 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { germanyGtfsFixture } from "./gtfsZipFixture";
+import { germanyGtfsFixture, zipFixture } from "./gtfsZipFixture";
 import {
   LTA_GTFS_SCHEDULE_URL,
   resetSingaporeLtaGtfsFeedCache,
   searchSingaporeLtaGtfs,
 } from "./singaporeLtaGtfs";
 
-const originalKey = process.env.LTA_ACCOUNT_KEY;
-
 afterEach(() => {
   vi.unstubAllGlobals();
   resetSingaporeLtaGtfsFeedCache();
-  if (originalKey === undefined) delete process.env.LTA_ACCOUNT_KEY;
-  else process.env.LTA_ACCOUNT_KEY = originalKey;
 });
 
 describe("LTA DataMall GTFS train feed", () => {
-  it("does not make an anonymous request when the account key is absent", async () => {
+  it("downloads the official static ZIP without requiring an AccountKey", async () => {
     delete process.env.LTA_ACCOUNT_KEY;
-    const fetchMock = vi.fn();
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(new Response(zipFixture({
+        "GTFSScheduleTrain.json": JSON.stringify({
+          value: [{ link: "https://signed.example/gtfs_schedule.zip" }],
+        }),
+      })));
+    fetchMock.mockResolvedValueOnce(new Response(germanyGtfsFixture, {
+      headers: { "last-modified": "Fri, 07 Aug 2026 00:00:00 GMT" },
+    }));
     vi.stubGlobal("fetch", fetchMock);
 
     const response = await searchSingaporeLtaGtfs("Berlin Hbf", "München Hbf", "2026-08-03");
 
-    expect(response.status).toBe(502);
-    expect(response.body.error).toBe("SINGAPORE_LTA_GTFS_UNAVAILABLE");
-    expect(response.body.message).toContain("LTA_ACCOUNT_KEY");
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(response.status).toBe(200);
+    expect(response.body.results).toHaveLength(1);
+    expect(fetchMock).toHaveBeenNthCalledWith(1, LTA_GTFS_SCHEDULE_URL, expect.objectContaining({
+      headers: expect.objectContaining({ Accept: "application/zip" }),
+    }));
+    expect(fetchMock.mock.calls[0][1]?.headers).not.toHaveProperty("AccountKey");
+    expect(fetchMock).toHaveBeenNthCalledWith(2, "https://signed.example/gtfs_schedule.zip", expect.objectContaining({
+      headers: expect.objectContaining({ Accept: "application/zip" }),
+    }));
   });
 
-  it("uses AccountKey to resolve and download the official GTFS archive", async () => {
-    process.env.LTA_ACCOUNT_KEY = "test-lta-key";
+  it("builds Singapore timetable results from the official ZIP", async () => {
     const fetchMock = vi.fn()
-      .mockResolvedValueOnce(new Response(JSON.stringify({ value: [{ Link: "https://signed.example/lta-gtfs.zip" }] })))
-      .mockResolvedValueOnce(new Response(germanyGtfsFixture, { headers: { "last-modified": "Fri, 07 Aug 2026 00:00:00 GMT" } }));
+      .mockResolvedValueOnce(new Response(zipFixture({
+        "GTFSScheduleTrain.json": JSON.stringify({
+          value: [{ link: "https://signed.example/gtfs_schedule.zip" }],
+        }),
+      })));
+    fetchMock.mockResolvedValueOnce(new Response(germanyGtfsFixture, {
+      headers: { "last-modified": "Fri, 07 Aug 2026 00:00:00 GMT" },
+    }));
     vi.stubGlobal("fetch", fetchMock);
 
     const response = await searchSingaporeLtaGtfs("Berlin Hbf", "München Hbf", "2026-08-03");
@@ -46,21 +60,47 @@ describe("LTA DataMall GTFS train feed", () => {
       departureTime: "23:45",
       arrivalTime: "04:10",
     });
-    expect(fetchMock).toHaveBeenNthCalledWith(1, LTA_GTFS_SCHEDULE_URL, expect.objectContaining({
-      headers: expect.objectContaining({ AccountKey: "test-lta-key", Accept: "application/json" }),
-    }));
-    expect(fetchMock).toHaveBeenNthCalledWith(2, "https://signed.example/lta-gtfs.zip", expect.objectContaining({
-      headers: expect.not.objectContaining({ AccountKey: expect.anything() }),
-    }));
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
-  it("rejects an API response without the short-lived archive link", async () => {
-    process.env.LTA_ACCOUNT_KEY = "test-lta-key";
-    vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({ value: [] }))));
+  it("accepts a direct GTFS archive when the wrapper is not there", async () => {
+    // DataMall may drop the wrapper; the reader decides by inspecting the ZIP,
+    // so a real archive must be used directly rather than searched for a link.
+    const fetchMock = vi.fn().mockResolvedValueOnce(new Response(germanyGtfsFixture, {
+      headers: { "last-modified": "Fri, 07 Aug 2026 00:00:00 GMT" },
+    }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await searchSingaporeLtaGtfs("Berlin Hbf", "München Hbf", "2026-08-03");
+
+    expect(response.status).toBe(200);
+    expect(response.body.results).toHaveLength(1);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("reports a failed static download without inventing results", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response("upstream unavailable", { status: 503 })));
 
     const response = await searchSingaporeLtaGtfs("Berlin Hbf", "Munich Hbf", "2026-08-03");
 
     expect(response.status).toBe(502);
-    expect(response.body.message).toContain("download link");
+    expect(response.body.message).toContain("HTTP 503");
+  });
+
+  it("reports a stale or rejected signed archive without inventing results", async () => {
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(new Response(zipFixture({
+        "GTFSScheduleTrain.json": JSON.stringify({
+          value: [{ link: "https://signed.example/expired-gtfs.zip" }],
+        }),
+      })))
+      .mockResolvedValueOnce(new Response("expired", { status: 403 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await searchSingaporeLtaGtfs("Berlin Hbf", "Munich Hbf", "2026-08-03");
+
+    expect(response.status).toBe(502);
+    expect(response.body.results).toEqual([]);
+    expect(response.body.message).toContain("archive download returned HTTP 403");
   });
 });

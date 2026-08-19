@@ -27,6 +27,7 @@ import {
   type SourceTemporalCoverage,
 } from "../src/data/sourceRegistry";
 import { buildServiceRegionCatalog } from "../src/server/catalog";
+import { publishesFullOfficialDirectory } from "../src/data/searchabilityPolicy";
 import type { ScrapedRouteData } from "../src/data/scraped/timetableDay";
 import {
   decodeKoreanSubwayArtifact,
@@ -35,6 +36,7 @@ import {
 
 const DATA_DIR = resolve("src/data/scraped");
 const SERVICE_DAY_DIR = resolve("src/data/service-day");
+const STATION_CATALOG_DIR = resolve("src/data/catalog");
 const OUTPUT = resolve("SOURCE_COVERAGE.md");
 
 export interface CountryAudit {
@@ -57,8 +59,12 @@ export interface CountryAudit {
   tiers: SourceTier[];
   completeness: string[];
   hasServiceDayArtifact: boolean;
+  latestScrape: {
+    builtAt?: string;
+    failures: { origin: string; destination: string; error: string }[];
+  };
   network: {
-    state: "searchable" | "no-searchable-network";
+    state: "searchable" | "directory-only" | "no-searchable-network";
     declaredRegions: string[];
     declaredLines: number;
     declaredStations: number;
@@ -78,6 +84,27 @@ interface ArtifactSummary {
   runs: number;
   sourceIds: string[];
   retrievedAt: string[];
+}
+
+interface ScrapeMetadata {
+  builtAt?: string;
+  failedRoutes?: { origin?: unknown; destination?: unknown; error?: unknown }[];
+}
+
+/**
+ * Any committed station directory, whatever produced it. Keying this on one
+ * generator's `kind` string dropped Malaysia's catalog from a table that says
+ * it lists them all, so match on the shape every directory has instead.
+ */
+interface StationDirectoryCatalog {
+  country?: string;
+  kind?: string;
+  source?: string;
+  sources?: { name?: string; catalogUrl?: string }[];
+  stationXml?: string;
+  lines?: unknown[];
+  stations?: unknown[];
+  stationTranslations?: Record<string, unknown>;
 }
 
 export type TemporalState = "full-timetable" | "sampled-service-day" | "bounded-upcoming" | "frequency-or-service-hours" | "catalog-only" | "stale" | "unavailable";
@@ -118,6 +145,17 @@ function loadArtifacts(country: Country): ArtifactSummary {
   return summary;
 }
 
+function loadStationDirectoryCatalog(country: Country): StationDirectoryCatalog | undefined {
+  const path = join(STATION_CATALOG_DIR, `${country}.json`);
+  if (!existsSync(path)) return undefined;
+  try {
+    const catalog = JSON.parse(readFileSync(path, "utf8")) as StationDirectoryCatalog;
+    return Array.isArray(catalog.stations) ? catalog : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 function loadRoutes(country: Country): ScrapedRouteData[] {
   const dir = join(DATA_DIR, country);
   if (!existsSync(dir)) return [];
@@ -130,6 +168,26 @@ function loadRoutes(country: Country): ScrapedRouteData[] {
         return [];
       }
     });
+}
+
+/** Read the metadata committed by the nightly Action, including failed attempts. */
+function loadScrapeMetadata(country: Country): CountryAudit["latestScrape"] {
+  const path = join(DATA_DIR, country, "metadata.json");
+  if (!existsSync(path)) return { failures: [] };
+  try {
+    const metadata = JSON.parse(readFileSync(path, "utf-8")) as ScrapeMetadata;
+    return {
+      builtAt: typeof metadata.builtAt === "string" ? metadata.builtAt : undefined,
+      failures: (metadata.failedRoutes || []).flatMap((failure) => {
+        if (typeof failure.origin !== "string"
+          || typeof failure.destination !== "string"
+          || typeof failure.error !== "string") return [];
+        return [{ origin: failure.origin, destination: failure.destination, error: failure.error }];
+      }),
+    };
+  } catch {
+    return { failures: [] };
+  }
 }
 
 function observedDepartureSpan(routes: readonly ScrapedRouteData[], serviceDate: string): string | undefined {
@@ -183,6 +241,7 @@ export function classifyTemporalState(input: TemporalAuditInput): CountryAudit["
 export async function auditCountry(country: Country, now = new Date()): Promise<CountryAudit> {
   const routes = loadRoutes(country);
   const artifacts = loadArtifacts(country);
+  const latestScrape = loadScrapeMetadata(country);
   const verified = routes.filter((route) => isValidSourceMeta(route.sourceMeta));
   const fetches = [
     ...verified.map((route) => route.sourceMeta!.fetchedAt),
@@ -217,6 +276,7 @@ export async function auditCountry(country: Country, now = new Date()): Promise<
       ...artifacts.sourceIds.map(() => "full-timetable"),
     ])].sort(),
     hasServiceDayArtifact: existsSync(join(SERVICE_DAY_DIR, `${country}.json`)),
+    latestScrape,
   };
   // `includeProvider: false` makes this report reproducible from committed
   // routes/artifacts. The same hierarchy powers the passenger browser.
@@ -226,7 +286,18 @@ export async function auditCountry(country: Country, now = new Date()): Promise<
   const observedSpan = observedDepartureSpan(routes, serviceDate);
   return {
     ...base,
-    network: catalog.regions.length > 0
+    network: catalog.regions.length > 0 && publishesFullOfficialDirectory(country)
+      ? {
+        state: "directory-only",
+        declaredRegions,
+        declaredLines: topology.reduce((total, region) => total + region.declaredLines, 0),
+        declaredStations: topology.reduce((total, region) => total + region.declaredStations, 0),
+        regions: catalog.regions.map((region) => region.id),
+        lines: catalog.lines.length,
+        stations: catalog.stations.length,
+        messageKey: "stations.no_verified_timetable_for_date",
+      }
+      : catalog.regions.length > 0
       ? {
         state: "searchable",
         declaredRegions,
@@ -276,6 +347,25 @@ function dateRange(dates: string[]): string {
   return dates.length === 1 ? dates[0] : `${dates[0]} … ${dates.at(-1)} (${dates.length})`;
 }
 
+function directoryUrl(catalog: StationDirectoryCatalog): string | undefined {
+  return catalog.source || catalog.sources?.find((entry) => entry.catalogUrl)?.catalogUrl;
+}
+
+function scrapeFailureSummary(
+  failures: CountryAudit["latestScrape"]["failures"],
+): string {
+  const grouped = new Map<string, { count: number; routes: Set<string> }>();
+  for (const failure of failures) {
+    const current = grouped.get(failure.error) || { count: 0, routes: new Set<string>() };
+    current.count += 1;
+    current.routes.add(`${failure.origin} → ${failure.destination}`);
+    grouped.set(failure.error, current);
+  }
+  return [...grouped.entries()]
+    .map(([error, value]) => `${value.count} attempt(s): ${error} (${[...value.routes].join(", ")})`)
+    .join("<br>");
+}
+
 export function buildReport(audits: CountryAudit[], now = new Date()): string {
   const lines: string[] = [];
   const withDepartures = audits.filter((audit) => audit.departureRows > 0 || audit.artifactRuns > 0);
@@ -307,6 +397,8 @@ export function buildReport(audits: CountryAudit[], now = new Date()): string {
     const stationCoverage = `${audit.network.stations}/${audit.network.declaredStations} declared stations`;
     const network = audit.network.state === "searchable"
       ? `${regionCoverage}; ${lineCoverage}; ${stationCoverage}: ${audit.network.regions.join(", ")}`
+      : audit.network.state === "directory-only"
+        ? `Directory only (${regionCoverage}; ${lineCoverage}; ${stationCoverage})${audit.network.messageKey ? ` — ${audit.network.messageKey}` : ""}`
       : `No searchable network (${regionCoverage}; ${lineCoverage}; ${stationCoverage})${audit.network.messageKey ? ` — ${audit.network.messageKey}` : ""}`;
     const temporal = `${audit.temporal.state} (${audit.serviceDate})`
       + `${audit.temporal.observedSpan ? `; observed ${audit.temporal.observedSpan}` : ""}`
@@ -325,6 +417,46 @@ export function buildReport(audits: CountryAudit[], now = new Date()): string {
       dateRange(audit.serviceDates),
     ].join(" | ").replace(/^/, "| ").concat(" |"));
   }
+  lines.push("");
+
+  lines.push("## Latest committed scrape attempt", "");
+  lines.push(
+    "This section is read from each market's committed `metadata.json`, which the daily GitHub Action writes after scraping. "
+    + "A failed route is reported here even when its previous verified snapshot remains in service.",
+    "",
+  );
+  lines.push("| Market | Metadata built at | Failed attempts | Details |", "| --- | --- | ---: | --- |");
+  for (const audit of audits) {
+    lines.push([
+      `${countryFlags[audit.country] || ""} ${audit.country}`,
+      audit.latestScrape.builtAt || "—",
+      String(audit.latestScrape.failures.length),
+      audit.latestScrape.failures.length > 0 ? scrapeFailureSummary(audit.latestScrape.failures) : "—",
+    ].join(" | ").replace(/^/, "| ").concat(" |"));
+  }
+  lines.push("");
+
+  const stationDirectories = configuredCountryOptions
+    .map((country) => ({ country, catalog: loadStationDirectoryCatalog(country) }))
+    .filter((entry): entry is { country: Country; catalog: StationDirectoryCatalog } => Boolean(entry.catalog));
+  lines.push("## Cached station and line directories", "");
+  lines.push(
+    "These catalogs are fetched during a deliberate update step and committed as JSON. "
+    + "The runtime station picker reads the snapshot; it does not call the official map or Wikipedia per request.",
+    "",
+  );
+  lines.push("| Market | Snapshot | Official directory | Lines | Stations | Wikipedia i18n |", "| --- | --- | --- | ---: | ---: | ---: |");
+  for (const { country, catalog } of stationDirectories) {
+    lines.push([
+      `${countryFlags[country] || ""} ${country}`,
+      `[src/data/catalog/${country}.json](src/data/catalog/${country}.json)`,
+      directoryUrl(catalog) ? `<${directoryUrl(catalog)}>` : "—",
+      String(catalog.lines?.length || 0),
+      String(catalog.stations?.length || 0),
+      catalog.stationTranslations ? `${Object.keys(catalog.stationTranslations).length}/${catalog.stations?.length || 0}` : "—",
+    ].join(" | ").replace(/^/, "| ").concat(" |"));
+  }
+  if (stationDirectories.length === 0) lines.push("| — | — | — | — | — | No cached official station directory. |");
   lines.push("");
 
   lines.push("## Registered sources", "");

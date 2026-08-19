@@ -1,4 +1,5 @@
 import type { Country, LineStation, TransitLine } from "../types";
+import singaporeCatalog from "./catalog/singapore-menu.json";
 import { resolveStationAlias } from "./stationAliases";
 import { stationSearchKey } from "./stationKey";
 
@@ -49,90 +50,18 @@ function buildLines(defs: LineDef[], country?: Country): TransitLine[] {
 }
 
 // ---------------------------------------------------------------------------
-// Singapore MRT — all open stations (LTA official colours & names).
+// Singapore MRT/LRT — generated from the official mytransport.sg station XML.
+// The JSON is committed so runtime and builds never depend on a live scrape.
 // ---------------------------------------------------------------------------
-const singaporeLineDefs: LineDef[] = [
-  {
-    id: "sg-nsl",
-    name: "North South Line",
-    color: "#D42E12",
-    stations: [
-      { name: "Jurong East", accessible: true }, "Bukit Batok", "Bukit Gombak", "Choa Chu Kang", "Yew Tee",
-      "Kranji", "Marsiling", "Woodlands", "Admiralty", "Sembawang", "Canberra",
-      "Yishun", "Khatib", "Yio Chu Kang", "Ang Mo Kio", "Bishan", "Braddell",
-      "Toa Payoh", "Novena", "Newton", "Orchard", "Somerset", "Dhoby Ghaut",
-      { name: "City Hall", accessible: true }, "Raffles Place", "Marina Bay", "Marina South Pier",
-    ],
-  },
-  {
-    id: "sg-ewl",
-    name: "East West Line",
-    color: "#009645",
-    stations: [
-      "Pasir Ris", "Tampines", "Simei", "Tanah Merah", "Bedok", "Kembangan",
-      "Eunos", "Paya Lebar", "Aljunied", "Kallang", "Lavender", "Bugis",
-      "City Hall", "Raffles Place", "Tanjong Pagar", "Outram Park", "Tiong Bahru",
-      "Redhill", "Queenstown", "Commonwealth", "Buona Vista", "Dover", "Clementi",
-      "Jurong East", "Chinese Garden", "Lakeside", "Boon Lay", "Pioneer",
-      "Joo Koon", "Gul Circle", "Tuas Crescent", "Tuas West Road", "Tuas Link",
-      "Expo", "Changi Airport",
-    ],
-  },
-  {
-    id: "sg-nel",
-    name: "North East Line",
-    color: "#9900AA",
-    stations: [
-      "HarbourFront", "Outram Park", "Chinatown", "Clarke Quay", "Dhoby Ghaut",
-      "Little India", "Farrer Park", "Boon Keng", "Potong Pasir", "Woodleigh",
-      "Serangoon", "Kovan", "Hougang", "Buangkok", "Sengkang", "Punggol",
-      "Punggol Coast",
-    ],
-  },
-  {
-    id: "sg-ccl",
-    name: "Circle Line",
-    color: "#FA9E0D",
-    stations: [
-      "Dhoby Ghaut", "Bras Basah", "Esplanade", "Promenade", "Nicoll Highway",
-      "Stadium", "Mountbatten", "Dakota", "Paya Lebar", "MacPherson", "Tai Seng",
-      "Bartley", "Serangoon", "Lorong Chuan", "Bishan", "Marymount", "Caldecott",
-      "Botanic Gardens", "Farrer Road", "Holland Village", "Buona Vista",
-      "one-north", "Kent Ridge", "Haw Par Villa", "Pasir Panjang", "Labrador Park",
-      "Telok Blangah", "HarbourFront", "Bayfront", "Marina Bay",
-    ],
-  },
-  {
-    id: "sg-dtl",
-    name: "Downtown Line",
-    color: "#005EC4",
-    stations: [
-      "Bukit Panjang", "Cashew", "Hillview", "Hume", "Beauty World",
-      "King Albert Park", "Sixth Avenue", "Tan Kah Kee", "Botanic Gardens",
-      "Stevens", "Newton", "Little India", "Rochor", "Bugis", "Promenade",
-      "Bayfront", "Downtown", "Telok Ayer", "Chinatown", "Fort Canning",
-      "Bencoolen", "Jalan Besar", "Bendemeer", "Geylang Bahru", "Mattar",
-      "MacPherson", "Ubi", "Kaki Bukit", "Bedok North", "Bedok Reservoir",
-      "Tampines West", "Tampines", "Tampines East", "Upper Changi", "Expo",
-      "Xilin", "Sungei Bedok",
-    ],
-  },
-  {
-    id: "sg-tel",
-    name: "Thomson–East Coast Line",
-    color: "#9D5B25",
-    stations: [
-      "Woodlands North", "Woodlands", "Woodlands South", "Springleaf", "Lentor",
-      "Mayflower", "Bright Hill", "Upper Thomson", "Caldecott", "Stevens",
-      "Napier", "Orchard Boulevard", "Orchard", "Great World", "Havelock",
-      "Outram Park", "Maxwell", "Shenton Way", "Marina Bay", "Gardens by the Bay",
-      "Tanjong Rhu", "Katong Park", "Tanjong Katong", "Marine Parade",
-      "Marine Terrace", "Siglap", "Bayshore",
-    ],
-  },
-];
+const singaporeLineDefs: LineDef[] = singaporeCatalog.lines.map((line) => ({
+  id: line.id,
+  name: line.name,
+  color: line.color,
+  stations: line.stations.map((station) => ({ name: station.name })),
+}));
 
 export const singaporeMrtLines = buildLines(singaporeLineDefs, "singapore");
+export const singaporeStationDirectorySource = singaporeCatalog.source;
 
 // ---------------------------------------------------------------------------
 // Bangkok BTS / MRT / ARL — all open stations.

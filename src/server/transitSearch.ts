@@ -413,9 +413,9 @@ export async function runTransitSearch(input: TransitSearchInput): Promise<Trans
       payload = {
         error: "Timetable unavailable",
         message:
-          "Malaysia currently provides an official station catalog derived from historical data.gov.my ridership files. Those files do not contain train schedules or real-time arrivals, so no timetable is shown.",
+          "This market provides an official station catalog, but its registered source does not publish train schedules or real-time arrivals, so no timetable is shown.",
         results: [],
-        source: "data.gov.my historical ridership station catalog",
+        source: "Official station catalog without timetable data",
         truthMode: "unusable",
         provenance: "unknown",
       };

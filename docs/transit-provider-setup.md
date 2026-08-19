@@ -9,7 +9,7 @@
 | 日本 | ODPT | API key | 等待 route adapter | 鐵路、車站、時刻與部分動態資料，依營運商授權而異 |
 | 韓國 | ODsay／TAGO／首爾開放資料 | API key | 目前為策展快照，覆蓋 9/305 站 | 見 [韓國申請流程](korea-api-registration.md)：TAGO 補城際站，首爾開放資料補地鐵站 |
 | 香港 | MTR Next Train | 不需要 | 已完成 | 支援路線的即時下一班列車、月台、終點與延誤狀態 |
-| 新加坡 | LTA DataMall | AccountKey | 規劃中 | 列車服務警示、車站擁擠度、設施維護；不是逐站下一班時刻 |
+| 新加坡 | LTA DataMall GTFS Schedule + mytransport.sg station map | 靜態站點目錄不需；即時 API 仍需 AccountKey | 站點目錄已快取；班次 adapter 已接入但官方簽名 ZIP 目前回 403 | 9 條 MRT/LRT 路線、184 站；班次待 LTA 修復下載鏈 |
 | 馬來西亞 | data.gov.my | 多數公開下載不需金鑰 | 資料評估 | Rapid Rail／KTMB 統計與下載檔；目前不應當成即時班次 |
 | 英國 | Transport for London | app_key，可匿名低流量試用 | 已完成 | 倫敦 Underground、Elizabeth line、DLR 與 Overground 的即時旅程 |
 | 德國 | Deutsche Bahn API Marketplace | Client ID／API key | 建議下一階段 | 車站時刻表、計畫班次與即時異動 |
@@ -100,7 +100,13 @@
 
 官方入口：[LTA DataMall](https://datamall.lta.gov.sg/content/datamall/en.html)
 
-申請：
+目前專案的計畫班次使用官方靜態 GTFS ZIP，不需要 AccountKey：
+
+```text
+https://datamall.lta.gov.sg/content/dam/datamall/datasets/PublicTransportRelated/GTFSScheduleTrain.zip
+```
+
+若要接即時 Trip Updates 或其他動態資料，再依下列流程申請：
 
 1. 在 DataMall 點選 `Request for API Access`。
 2. 使用有效 Email 接受 API Terms of Service 並註冊訂閱者資料。
@@ -112,11 +118,22 @@
    ```
 
 5. 依 [API User Guide](https://datamall.lta.gov.sg/content/dam/datamall/datasets/LTA_DataMall_API_User_Guide.pdf) 將 key 放在 HTTP request header `AccountKey`。
-6. 列車相關可使用：
+
+站點與路線目錄不在使用者請求時抓取：同步器會從 [mytransport.sg Train Status](https://www.mytransport.sg/trainstatus) 及其官方 XML 產生 [src/data/catalog/singapore.json](../src/data/catalog/singapore.json)，再把 Wikipedia 的 `zh-TW`、日文與韓文語言連結快取進同一份 JSON。更新時執行：
+
+```bash
+npm run sync:singapore-stations
+npm run catalog
+```
+
+這份目錄可以顯示完整站點，但不代表有可搜尋班次；沒有已驗證時刻表的站點會標示為 `No timetable`。
+
+6. 動態列車相關可使用：
+   - `GTFS Realtime (Train Trip Updates)`：即時到站／出發預測、延誤、取消與跳站。
    - `TrainServiceAlerts`：營運時間內的中斷與受影響路線／車站。
    - Station Crowd Density：指定網路的即時擁擠度。
    - Facilities Maintenance：電梯等設施維護。
-7. DataMall 並未在這組 API 中提供每一站的下一班列車時刻，因此不能把 service alert 或 crowd density 轉成假班次。
+7. 不能把 service alert 或 crowd density 轉成假班次；計畫班次應使用上方官方 GTFS ZIP。
 8. 依官方 Terms 保護 AccountKey、遵守用量限制，且不要在瀏覽器直接暴露 key。
 
 ## 馬來西亞：data.gov.my 與下載檔

@@ -94,7 +94,7 @@ export type SearchKind =
  * How the nightly job fills this country's data.
  * - official_source: one or more registered official sources are scraped; a
  *   route that fails keeps its previously committed file
- * - catalog_sync: station catalog only, no timetable (Malaysia)
+ * - catalog_sync: station catalog only, no timetable
  * - none: no official source is wired up, so nothing is fetched and the
  *   country has no timetable data (China)
  *
@@ -162,7 +162,14 @@ export type CountryConfigEntry = {
    * unverified rows from search, and refusing to publish them as SEO pages, are
    * now unconditional rather than a per-market migration step.
    */
-  authenticityGates: { catalog: boolean };
+  /**
+   * Whether this market publishes a complete official station/line directory
+   * that is deliberately broader than its verified timetable coverage. The
+   * menu then keeps the whole directory and the per-station coverage badges
+   * say what search can answer; trimming it would hide the operator's own map
+   * behind whatever the timetable currently reaches.
+   */
+  authenticityGates: { catalog: boolean; officialDirectory?: boolean };
   marketTopology: MarketTopology;
   resultView: ResultViewFamily;
   liveRailMarket?: LiveRailMarket;
@@ -223,8 +230,8 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     timeZone: "Asia/Singapore",
     search: { kind: "scraped" },
     scrape: "official_source",
-    authenticityGates: { catalog: true },
-    marketTopology: { regions: [{ id: "singapore", name: "Singapore", declaredLines: 6, declaredStations: 145 }] },
+    authenticityGates: { catalog: true, officialDirectory: true },
+    marketTopology: { regions: [{ id: "singapore", name: "Singapore", declaredLines: 9, declaredStations: 184 }] },
     resultView: "metro",
     serviceDay: {
       coverage: "partial",

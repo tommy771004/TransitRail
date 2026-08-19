@@ -1,25 +1,1450 @@
 {
   "country": "singapore",
-  "serviceDate": "2026-08-09",
-  "regions": [],
-  "lines": [],
-  "stations": [],
+  "serviceDate": "2026-08-19",
+  "regions": [
+    {
+      "id": "singapore",
+      "name": "Singapore",
+      "declaredLines": 9,
+      "declaredStations": 184,
+      "lines": [
+        {
+          "id": "sg-ewl",
+          "name": "East West Line",
+          "color": "#009645",
+          "stations": [
+            {
+              "name": "Joo Koon"
+            },
+            {
+              "name": "Pioneer"
+            },
+            {
+              "name": "Boon Lay"
+            },
+            {
+              "name": "Lakeside"
+            },
+            {
+              "name": "Chinese Garden"
+            },
+            {
+              "name": "Jurong East"
+            },
+            {
+              "name": "Clementi"
+            },
+            {
+              "name": "Dover"
+            },
+            {
+              "name": "Buona Vista"
+            },
+            {
+              "name": "Commonwealth"
+            },
+            {
+              "name": "Queenstown"
+            },
+            {
+              "name": "Redhill"
+            },
+            {
+              "name": "Tiong Bahru"
+            },
+            {
+              "name": "Outram Park"
+            },
+            {
+              "name": "Tanjong Pagar"
+            },
+            {
+              "name": "Raffles Place"
+            },
+            {
+              "name": "City Hall"
+            },
+            {
+              "name": "Bugis"
+            },
+            {
+              "name": "Lavender"
+            },
+            {
+              "name": "Kallang"
+            },
+            {
+              "name": "Aljunied"
+            },
+            {
+              "name": "Paya Lebar"
+            },
+            {
+              "name": "Eunos"
+            },
+            {
+              "name": "Kembangan"
+            },
+            {
+              "name": "Bedok"
+            },
+            {
+              "name": "Tanah Merah"
+            },
+            {
+              "name": "Simei"
+            },
+            {
+              "name": "Tampines"
+            },
+            {
+              "name": "Pasir Ris"
+            },
+            {
+              "name": "Expo"
+            },
+            {
+              "name": "Changi Airport"
+            },
+            {
+              "name": "Gul Circle"
+            },
+            {
+              "name": "Tuas Crescent"
+            },
+            {
+              "name": "Tuas West Road"
+            },
+            {
+              "name": "Tuas Link"
+            }
+          ]
+        },
+        {
+          "id": "sg-nsl",
+          "name": "North South Line",
+          "color": "#D42E12",
+          "stations": [
+            {
+              "name": "Bukit Batok"
+            },
+            {
+              "name": "Bukit Gombak"
+            },
+            {
+              "name": "Choa Chu Kang"
+            },
+            {
+              "name": "Yew Tee"
+            },
+            {
+              "name": "Kranji"
+            },
+            {
+              "name": "Marsiling"
+            },
+            {
+              "name": "Woodlands"
+            },
+            {
+              "name": "Admiralty"
+            },
+            {
+              "name": "Sembawang"
+            },
+            {
+              "name": "Canberra"
+            },
+            {
+              "name": "Yishun"
+            },
+            {
+              "name": "Khatib"
+            },
+            {
+              "name": "Yio Chu Kang"
+            },
+            {
+              "name": "Ang Mo Kio"
+            },
+            {
+              "name": "Bishan"
+            },
+            {
+              "name": "Braddell"
+            },
+            {
+              "name": "Toa Payoh"
+            },
+            {
+              "name": "Novena"
+            },
+            {
+              "name": "Newton"
+            },
+            {
+              "name": "Orchard"
+            },
+            {
+              "name": "Somerset"
+            },
+            {
+              "name": "Dhoby Ghaut"
+            },
+            {
+              "name": "Marina Bay"
+            },
+            {
+              "name": "Marina South Pier"
+            }
+          ]
+        },
+        {
+          "id": "sg-nel",
+          "name": "North East Line",
+          "color": "#9900AA",
+          "stations": [
+            {
+              "name": "HarbourFront"
+            },
+            {
+              "name": "Chinatown"
+            },
+            {
+              "name": "Clarke Quay"
+            },
+            {
+              "name": "Little India"
+            },
+            {
+              "name": "Farrer Park"
+            },
+            {
+              "name": "Boon Keng"
+            },
+            {
+              "name": "Potong Pasir"
+            },
+            {
+              "name": "Woodleigh"
+            },
+            {
+              "name": "Serangoon"
+            },
+            {
+              "name": "Kovan"
+            },
+            {
+              "name": "Hougang"
+            },
+            {
+              "name": "Buangkok"
+            },
+            {
+              "name": "Sengkang"
+            },
+            {
+              "name": "Punggol"
+            },
+            {
+              "name": "Punggol Coast"
+            }
+          ]
+        },
+        {
+          "id": "sg-ccl",
+          "name": "Circle Line",
+          "color": "#FA9E0D",
+          "stations": [
+            {
+              "name": "Keppel"
+            },
+            {
+              "name": "Cantonment"
+            },
+            {
+              "name": "Prince Edward Road"
+            },
+            {
+              "name": "Telok Blangah"
+            },
+            {
+              "name": "Labrador Park"
+            },
+            {
+              "name": "Pasir Panjang"
+            },
+            {
+              "name": "Haw Par Villa"
+            },
+            {
+              "name": "Kent Ridge"
+            },
+            {
+              "name": "one-north"
+            },
+            {
+              "name": "Holland Village"
+            },
+            {
+              "name": "Farrer Road"
+            },
+            {
+              "name": "Botanic Gardens"
+            },
+            {
+              "name": "Caldecott"
+            },
+            {
+              "name": "Marymount"
+            },
+            {
+              "name": "Lorong Chuan"
+            },
+            {
+              "name": "Bartley"
+            },
+            {
+              "name": "Tai Seng"
+            },
+            {
+              "name": "MacPherson"
+            },
+            {
+              "name": "Dakota"
+            },
+            {
+              "name": "Mountbatten"
+            },
+            {
+              "name": "Stadium"
+            },
+            {
+              "name": "Nicoll Highway"
+            },
+            {
+              "name": "Promenade"
+            },
+            {
+              "name": "Esplanade"
+            },
+            {
+              "name": "Bras Basah"
+            },
+            {
+              "name": "Bayfront"
+            }
+          ]
+        },
+        {
+          "id": "sg-dtl",
+          "name": "Downtown Line",
+          "color": "#005EC4",
+          "stations": [
+            {
+              "name": "Downtown"
+            },
+            {
+              "name": "Telok Ayer"
+            },
+            {
+              "name": "Rochor"
+            },
+            {
+              "name": "Stevens"
+            },
+            {
+              "name": "Tan Kah Kee"
+            },
+            {
+              "name": "Sixth Avenue"
+            },
+            {
+              "name": "King Albert Park"
+            },
+            {
+              "name": "Beauty World"
+            },
+            {
+              "name": "Hume"
+            },
+            {
+              "name": "Hillview"
+            },
+            {
+              "name": "Cashew"
+            },
+            {
+              "name": "Tampines West"
+            },
+            {
+              "name": "Bedok Reservoir"
+            },
+            {
+              "name": "Bedok North"
+            },
+            {
+              "name": "Kaki Bukit"
+            },
+            {
+              "name": "Ubi"
+            },
+            {
+              "name": "Mattar"
+            },
+            {
+              "name": "Geylang Bahru"
+            },
+            {
+              "name": "Bendemeer"
+            },
+            {
+              "name": "Jalan Besar"
+            },
+            {
+              "name": "Bencoolen"
+            },
+            {
+              "name": "Fort Canning"
+            },
+            {
+              "name": "Tampines East"
+            },
+            {
+              "name": "Upper Changi"
+            }
+          ]
+        },
+        {
+          "id": "sg-tel",
+          "name": "Thomson–East Coast Line",
+          "color": "#9D5B25",
+          "stations": [
+            {
+              "name": "Woodlands North"
+            },
+            {
+              "name": "Woodlands South"
+            },
+            {
+              "name": "Springleaf"
+            },
+            {
+              "name": "Lentor"
+            },
+            {
+              "name": "Mayflower"
+            },
+            {
+              "name": "Bright Hill"
+            },
+            {
+              "name": "Upper Thomson"
+            },
+            {
+              "name": "Napier"
+            },
+            {
+              "name": "Orchard Boulevard"
+            },
+            {
+              "name": "Great World"
+            },
+            {
+              "name": "Havelock"
+            },
+            {
+              "name": "Maxwell"
+            },
+            {
+              "name": "Shenton Way"
+            },
+            {
+              "name": "Gardens by the Bay"
+            },
+            {
+              "name": "Tanjong Rhu"
+            },
+            {
+              "name": "Katong Park"
+            },
+            {
+              "name": "Tanjong Katong"
+            },
+            {
+              "name": "Marine Parade"
+            },
+            {
+              "name": "Marine Terrace"
+            },
+            {
+              "name": "Siglap"
+            },
+            {
+              "name": "Bayshore"
+            }
+          ]
+        },
+        {
+          "id": "sg-bpl",
+          "name": "Bukit Panjang LRT",
+          "color": "#748477",
+          "stations": [
+            {
+              "name": "South View"
+            },
+            {
+              "name": "Keat Hong"
+            },
+            {
+              "name": "Teck Whye"
+            },
+            {
+              "name": "Phoenix"
+            },
+            {
+              "name": "Bukit Panjang"
+            },
+            {
+              "name": "Petir"
+            },
+            {
+              "name": "Pending"
+            },
+            {
+              "name": "Bangkit"
+            },
+            {
+              "name": "Fajar"
+            },
+            {
+              "name": "Segar"
+            },
+            {
+              "name": "Jelapang"
+            },
+            {
+              "name": "Senja"
+            }
+          ]
+        },
+        {
+          "id": "sg-stl",
+          "name": "Sengkang LRT",
+          "color": "#748477",
+          "stations": [
+            {
+              "name": "Cheng Lim"
+            },
+            {
+              "name": "Farmway"
+            },
+            {
+              "name": "Kupang"
+            },
+            {
+              "name": "Thanggam"
+            },
+            {
+              "name": "Fernvale"
+            },
+            {
+              "name": "Layar"
+            },
+            {
+              "name": "Tongkang"
+            },
+            {
+              "name": "Renjong"
+            },
+            {
+              "name": "Compassvale"
+            },
+            {
+              "name": "Rumbia"
+            },
+            {
+              "name": "Bakau"
+            },
+            {
+              "name": "Kangkar"
+            },
+            {
+              "name": "Ranggung"
+            }
+          ]
+        },
+        {
+          "id": "sg-ptl",
+          "name": "Punggol LRT",
+          "color": "#748477",
+          "stations": [
+            {
+              "name": "Cove"
+            },
+            {
+              "name": "Meridian"
+            },
+            {
+              "name": "Coral Edge"
+            },
+            {
+              "name": "Riviera"
+            },
+            {
+              "name": "Kadaloor"
+            },
+            {
+              "name": "Oasis"
+            },
+            {
+              "name": "Damai"
+            },
+            {
+              "name": "Sam Kee"
+            },
+            {
+              "name": "Teck Lee"
+            },
+            {
+              "name": "Punggol Point"
+            },
+            {
+              "name": "Samudera"
+            },
+            {
+              "name": "Nibong"
+            },
+            {
+              "name": "Sumang"
+            },
+            {
+              "name": "Soo Teck"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "lines": [
+    {
+      "id": "sg-ewl",
+      "name": "East West Line",
+      "color": "#009645",
+      "stations": [
+        {
+          "name": "Joo Koon"
+        },
+        {
+          "name": "Pioneer"
+        },
+        {
+          "name": "Boon Lay"
+        },
+        {
+          "name": "Lakeside"
+        },
+        {
+          "name": "Chinese Garden"
+        },
+        {
+          "name": "Jurong East"
+        },
+        {
+          "name": "Clementi"
+        },
+        {
+          "name": "Dover"
+        },
+        {
+          "name": "Buona Vista"
+        },
+        {
+          "name": "Commonwealth"
+        },
+        {
+          "name": "Queenstown"
+        },
+        {
+          "name": "Redhill"
+        },
+        {
+          "name": "Tiong Bahru"
+        },
+        {
+          "name": "Outram Park"
+        },
+        {
+          "name": "Tanjong Pagar"
+        },
+        {
+          "name": "Raffles Place"
+        },
+        {
+          "name": "City Hall"
+        },
+        {
+          "name": "Bugis"
+        },
+        {
+          "name": "Lavender"
+        },
+        {
+          "name": "Kallang"
+        },
+        {
+          "name": "Aljunied"
+        },
+        {
+          "name": "Paya Lebar"
+        },
+        {
+          "name": "Eunos"
+        },
+        {
+          "name": "Kembangan"
+        },
+        {
+          "name": "Bedok"
+        },
+        {
+          "name": "Tanah Merah"
+        },
+        {
+          "name": "Simei"
+        },
+        {
+          "name": "Tampines"
+        },
+        {
+          "name": "Pasir Ris"
+        },
+        {
+          "name": "Expo"
+        },
+        {
+          "name": "Changi Airport"
+        },
+        {
+          "name": "Gul Circle"
+        },
+        {
+          "name": "Tuas Crescent"
+        },
+        {
+          "name": "Tuas West Road"
+        },
+        {
+          "name": "Tuas Link"
+        }
+      ]
+    },
+    {
+      "id": "sg-nsl",
+      "name": "North South Line",
+      "color": "#D42E12",
+      "stations": [
+        {
+          "name": "Bukit Batok"
+        },
+        {
+          "name": "Bukit Gombak"
+        },
+        {
+          "name": "Choa Chu Kang"
+        },
+        {
+          "name": "Yew Tee"
+        },
+        {
+          "name": "Kranji"
+        },
+        {
+          "name": "Marsiling"
+        },
+        {
+          "name": "Woodlands"
+        },
+        {
+          "name": "Admiralty"
+        },
+        {
+          "name": "Sembawang"
+        },
+        {
+          "name": "Canberra"
+        },
+        {
+          "name": "Yishun"
+        },
+        {
+          "name": "Khatib"
+        },
+        {
+          "name": "Yio Chu Kang"
+        },
+        {
+          "name": "Ang Mo Kio"
+        },
+        {
+          "name": "Bishan"
+        },
+        {
+          "name": "Braddell"
+        },
+        {
+          "name": "Toa Payoh"
+        },
+        {
+          "name": "Novena"
+        },
+        {
+          "name": "Newton"
+        },
+        {
+          "name": "Orchard"
+        },
+        {
+          "name": "Somerset"
+        },
+        {
+          "name": "Dhoby Ghaut"
+        },
+        {
+          "name": "Marina Bay"
+        },
+        {
+          "name": "Marina South Pier"
+        }
+      ]
+    },
+    {
+      "id": "sg-nel",
+      "name": "North East Line",
+      "color": "#9900AA",
+      "stations": [
+        {
+          "name": "HarbourFront"
+        },
+        {
+          "name": "Chinatown"
+        },
+        {
+          "name": "Clarke Quay"
+        },
+        {
+          "name": "Little India"
+        },
+        {
+          "name": "Farrer Park"
+        },
+        {
+          "name": "Boon Keng"
+        },
+        {
+          "name": "Potong Pasir"
+        },
+        {
+          "name": "Woodleigh"
+        },
+        {
+          "name": "Serangoon"
+        },
+        {
+          "name": "Kovan"
+        },
+        {
+          "name": "Hougang"
+        },
+        {
+          "name": "Buangkok"
+        },
+        {
+          "name": "Sengkang"
+        },
+        {
+          "name": "Punggol"
+        },
+        {
+          "name": "Punggol Coast"
+        }
+      ]
+    },
+    {
+      "id": "sg-ccl",
+      "name": "Circle Line",
+      "color": "#FA9E0D",
+      "stations": [
+        {
+          "name": "Keppel"
+        },
+        {
+          "name": "Cantonment"
+        },
+        {
+          "name": "Prince Edward Road"
+        },
+        {
+          "name": "Telok Blangah"
+        },
+        {
+          "name": "Labrador Park"
+        },
+        {
+          "name": "Pasir Panjang"
+        },
+        {
+          "name": "Haw Par Villa"
+        },
+        {
+          "name": "Kent Ridge"
+        },
+        {
+          "name": "one-north"
+        },
+        {
+          "name": "Holland Village"
+        },
+        {
+          "name": "Farrer Road"
+        },
+        {
+          "name": "Botanic Gardens"
+        },
+        {
+          "name": "Caldecott"
+        },
+        {
+          "name": "Marymount"
+        },
+        {
+          "name": "Lorong Chuan"
+        },
+        {
+          "name": "Bartley"
+        },
+        {
+          "name": "Tai Seng"
+        },
+        {
+          "name": "MacPherson"
+        },
+        {
+          "name": "Dakota"
+        },
+        {
+          "name": "Mountbatten"
+        },
+        {
+          "name": "Stadium"
+        },
+        {
+          "name": "Nicoll Highway"
+        },
+        {
+          "name": "Promenade"
+        },
+        {
+          "name": "Esplanade"
+        },
+        {
+          "name": "Bras Basah"
+        },
+        {
+          "name": "Bayfront"
+        }
+      ]
+    },
+    {
+      "id": "sg-dtl",
+      "name": "Downtown Line",
+      "color": "#005EC4",
+      "stations": [
+        {
+          "name": "Downtown"
+        },
+        {
+          "name": "Telok Ayer"
+        },
+        {
+          "name": "Rochor"
+        },
+        {
+          "name": "Stevens"
+        },
+        {
+          "name": "Tan Kah Kee"
+        },
+        {
+          "name": "Sixth Avenue"
+        },
+        {
+          "name": "King Albert Park"
+        },
+        {
+          "name": "Beauty World"
+        },
+        {
+          "name": "Hume"
+        },
+        {
+          "name": "Hillview"
+        },
+        {
+          "name": "Cashew"
+        },
+        {
+          "name": "Tampines West"
+        },
+        {
+          "name": "Bedok Reservoir"
+        },
+        {
+          "name": "Bedok North"
+        },
+        {
+          "name": "Kaki Bukit"
+        },
+        {
+          "name": "Ubi"
+        },
+        {
+          "name": "Mattar"
+        },
+        {
+          "name": "Geylang Bahru"
+        },
+        {
+          "name": "Bendemeer"
+        },
+        {
+          "name": "Jalan Besar"
+        },
+        {
+          "name": "Bencoolen"
+        },
+        {
+          "name": "Fort Canning"
+        },
+        {
+          "name": "Tampines East"
+        },
+        {
+          "name": "Upper Changi"
+        }
+      ]
+    },
+    {
+      "id": "sg-tel",
+      "name": "Thomson–East Coast Line",
+      "color": "#9D5B25",
+      "stations": [
+        {
+          "name": "Woodlands North"
+        },
+        {
+          "name": "Woodlands South"
+        },
+        {
+          "name": "Springleaf"
+        },
+        {
+          "name": "Lentor"
+        },
+        {
+          "name": "Mayflower"
+        },
+        {
+          "name": "Bright Hill"
+        },
+        {
+          "name": "Upper Thomson"
+        },
+        {
+          "name": "Napier"
+        },
+        {
+          "name": "Orchard Boulevard"
+        },
+        {
+          "name": "Great World"
+        },
+        {
+          "name": "Havelock"
+        },
+        {
+          "name": "Maxwell"
+        },
+        {
+          "name": "Shenton Way"
+        },
+        {
+          "name": "Gardens by the Bay"
+        },
+        {
+          "name": "Tanjong Rhu"
+        },
+        {
+          "name": "Katong Park"
+        },
+        {
+          "name": "Tanjong Katong"
+        },
+        {
+          "name": "Marine Parade"
+        },
+        {
+          "name": "Marine Terrace"
+        },
+        {
+          "name": "Siglap"
+        },
+        {
+          "name": "Bayshore"
+        }
+      ]
+    },
+    {
+      "id": "sg-bpl",
+      "name": "Bukit Panjang LRT",
+      "color": "#748477",
+      "stations": [
+        {
+          "name": "South View"
+        },
+        {
+          "name": "Keat Hong"
+        },
+        {
+          "name": "Teck Whye"
+        },
+        {
+          "name": "Phoenix"
+        },
+        {
+          "name": "Bukit Panjang"
+        },
+        {
+          "name": "Petir"
+        },
+        {
+          "name": "Pending"
+        },
+        {
+          "name": "Bangkit"
+        },
+        {
+          "name": "Fajar"
+        },
+        {
+          "name": "Segar"
+        },
+        {
+          "name": "Jelapang"
+        },
+        {
+          "name": "Senja"
+        }
+      ]
+    },
+    {
+      "id": "sg-stl",
+      "name": "Sengkang LRT",
+      "color": "#748477",
+      "stations": [
+        {
+          "name": "Cheng Lim"
+        },
+        {
+          "name": "Farmway"
+        },
+        {
+          "name": "Kupang"
+        },
+        {
+          "name": "Thanggam"
+        },
+        {
+          "name": "Fernvale"
+        },
+        {
+          "name": "Layar"
+        },
+        {
+          "name": "Tongkang"
+        },
+        {
+          "name": "Renjong"
+        },
+        {
+          "name": "Compassvale"
+        },
+        {
+          "name": "Rumbia"
+        },
+        {
+          "name": "Bakau"
+        },
+        {
+          "name": "Kangkar"
+        },
+        {
+          "name": "Ranggung"
+        }
+      ]
+    },
+    {
+      "id": "sg-ptl",
+      "name": "Punggol LRT",
+      "color": "#748477",
+      "stations": [
+        {
+          "name": "Cove"
+        },
+        {
+          "name": "Meridian"
+        },
+        {
+          "name": "Coral Edge"
+        },
+        {
+          "name": "Riviera"
+        },
+        {
+          "name": "Kadaloor"
+        },
+        {
+          "name": "Oasis"
+        },
+        {
+          "name": "Damai"
+        },
+        {
+          "name": "Sam Kee"
+        },
+        {
+          "name": "Teck Lee"
+        },
+        {
+          "name": "Punggol Point"
+        },
+        {
+          "name": "Samudera"
+        },
+        {
+          "name": "Nibong"
+        },
+        {
+          "name": "Sumang"
+        },
+        {
+          "name": "Soo Teck"
+        }
+      ]
+    }
+  ],
+  "stations": [
+    "Admiralty",
+    "Aljunied",
+    "Ang Mo Kio",
+    "Bakau",
+    "Bangkit",
+    "Bartley",
+    "Bayfront",
+    "Bayshore",
+    "Beauty World",
+    "Bedok",
+    "Bedok North",
+    "Bedok Reservoir",
+    "Bencoolen",
+    "Bendemeer",
+    "Bishan",
+    "Boon Keng",
+    "Boon Lay",
+    "Botanic Gardens",
+    "Braddell",
+    "Bras Basah",
+    "Bright Hill",
+    "Buangkok",
+    "Bugis",
+    "Bukit Batok",
+    "Bukit Gombak",
+    "Bukit Panjang",
+    "Buona Vista",
+    "Caldecott",
+    "Canberra",
+    "Cantonment",
+    "Cashew",
+    "Changi Airport",
+    "Cheng Lim",
+    "Chinatown",
+    "Chinese Garden",
+    "Choa Chu Kang",
+    "City Hall",
+    "Clarke Quay",
+    "Clementi",
+    "Commonwealth",
+    "Compassvale",
+    "Coral Edge",
+    "Cove",
+    "Dakota",
+    "Damai",
+    "Dhoby Ghaut",
+    "Dover",
+    "Downtown",
+    "Esplanade",
+    "Eunos",
+    "Expo",
+    "Fajar",
+    "Farmway",
+    "Farrer Park",
+    "Farrer Road",
+    "Fernvale",
+    "Fort Canning",
+    "Gardens by the Bay",
+    "Geylang Bahru",
+    "Great World",
+    "Gul Circle",
+    "HarbourFront",
+    "Havelock",
+    "Haw Par Villa",
+    "Hillview",
+    "Holland Village",
+    "Hougang",
+    "Hume",
+    "Jalan Besar",
+    "Jelapang",
+    "Joo Koon",
+    "Jurong East",
+    "Kadaloor",
+    "Kaki Bukit",
+    "Kallang",
+    "Kangkar",
+    "Katong Park",
+    "Keat Hong",
+    "Kembangan",
+    "Kent Ridge",
+    "Keppel",
+    "Khatib",
+    "King Albert Park",
+    "Kovan",
+    "Kranji",
+    "Kupang",
+    "Labrador Park",
+    "Lakeside",
+    "Lavender",
+    "Layar",
+    "Lentor",
+    "Little India",
+    "Lorong Chuan",
+    "MacPherson",
+    "Marina Bay",
+    "Marina South Pier",
+    "Marine Parade",
+    "Marine Terrace",
+    "Marsiling",
+    "Marymount",
+    "Mattar",
+    "Maxwell",
+    "Mayflower",
+    "Meridian",
+    "Mountbatten",
+    "Napier",
+    "Newton",
+    "Nibong",
+    "Nicoll Highway",
+    "Novena",
+    "Oasis",
+    "one-north",
+    "Orchard",
+    "Orchard Boulevard",
+    "Outram Park",
+    "Pasir Panjang",
+    "Pasir Ris",
+    "Paya Lebar",
+    "Pending",
+    "Petir",
+    "Phoenix",
+    "Pioneer",
+    "Potong Pasir",
+    "Prince Edward Road",
+    "Promenade",
+    "Punggol",
+    "Punggol Coast",
+    "Punggol Point",
+    "Queenstown",
+    "Raffles Place",
+    "Ranggung",
+    "Redhill",
+    "Renjong",
+    "Riviera",
+    "Rochor",
+    "Rumbia",
+    "Sam Kee",
+    "Samudera",
+    "Segar",
+    "Sembawang",
+    "Sengkang",
+    "Senja",
+    "Serangoon",
+    "Shenton Way",
+    "Siglap",
+    "Simei",
+    "Sixth Avenue",
+    "Somerset",
+    "Soo Teck",
+    "South View",
+    "Springleaf",
+    "Stadium",
+    "Stevens",
+    "Sumang",
+    "Tai Seng",
+    "Tampines",
+    "Tampines East",
+    "Tampines West",
+    "Tan Kah Kee",
+    "Tanah Merah",
+    "Tanjong Katong",
+    "Tanjong Pagar",
+    "Tanjong Rhu",
+    "Teck Lee",
+    "Teck Whye",
+    "Telok Ayer",
+    "Telok Blangah",
+    "Thanggam",
+    "Tiong Bahru",
+    "Toa Payoh",
+    "Tongkang",
+    "Tuas Crescent",
+    "Tuas Link",
+    "Tuas West Road",
+    "Ubi",
+    "Upper Changi",
+    "Upper Thomson",
+    "Woodlands",
+    "Woodlands North",
+    "Woodlands South",
+    "Woodleigh",
+    "Yew Tee",
+    "Yio Chu Kang",
+    "Yishun"
+  ],
   "source": "https://www.lta.gov.sg/content/ltagov/en/getting_around/public_transport/rail_network.html",
+  "stationSource": "https://www.mytransport.sg/trainstatus",
   "coverage": {
     "mode": "scraped",
     "covered": [],
-    "date": "2026-08-09",
+    "date": "2026-08-19",
     "dateRange": {
-      "start": "2026-08-09",
-      "end": "2026-08-09",
+      "start": "2026-08-19",
+      "end": "2026-08-19",
       "days": 1,
       "liveOnly": false
     },
-    "message": "No verified timetable data is available for this country on the selected date.",
+    "messageKey": "stations.no_verified_timetable_for_date",
     "sourceUrl": "https://www.lta.gov.sg/content/ltagov/en/getting_around/public_transport/rail_network.html",
     "provenance": "unknown",
     "truthMode": "unusable",
     "reason": "unavailable_coverage"
-  },
-  "message": "No verified timetable data is available for this country on the selected date."
+  }
 }

@@ -6,6 +6,7 @@ export interface StationBrowserCatalogPayload {
   regions?: ServiceRegion[];
   lines?: TransitLine[];
   stations?: string[];
+  stationSource?: string;
   coverage?: StationCoverage;
 }
 

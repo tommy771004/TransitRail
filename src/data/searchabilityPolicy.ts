@@ -121,6 +121,16 @@ export function usesStrictCatalogGate(country?: Country): boolean {
   return country !== undefined && countryConfig[country].authenticityGates.catalog;
 }
 
+/**
+ * Whether the market's menu shows its whole official directory rather than
+ * only the stations its committed timetables reach. See
+ * `authenticityGates.officialDirectory`. This never widens what search will
+ * answer — it only decides how much of the operator's map stays visible.
+ */
+export function publishesFullOfficialDirectory(country?: Country): boolean {
+  return country !== undefined && countryConfig[country].authenticityGates.officialDirectory === true;
+}
+
 function equivalentStation(country: Country, left: string | undefined, right: string | undefined): boolean {
   if (!left || !right) return false;
   return stationSearchKey(resolveStationAlias(country, left))

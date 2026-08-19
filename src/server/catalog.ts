@@ -12,6 +12,7 @@ import { japanRailLines } from "../data/stations";
 import { seoulSubwayLines } from "../data/seoulSubway";
 import {
   singaporeMrtLines,
+  singaporeStationDirectorySource,
   thailandTransitLines,
   chinaRailLines,
   germanyRailLines,
@@ -25,6 +26,7 @@ import { decideSearchability } from "../data/searchabilityPolicy";
 import {
   coverageModeFor,
   hasCoverage,
+  publishesFullOfficialDirectory,
   usesStrictCatalogGate,
   type StationCoverage,
   type StationCatalogMessageKey,
@@ -44,6 +46,7 @@ import { resolveStationAlias } from "../data/stationAliases";
 import {
   addDateValueDays,
   countryConfig,
+  configuredCountryOptions,
   countryOptions,
   providerDateValue,
   searchDateRange,
@@ -52,10 +55,8 @@ import {
 import { getTflLines, getTflStations } from "./tfl";
 import { getMbtaLines, getMbtaStations } from "./mbta";
 import { getBelgiumStations } from "./belgium";
-import { getMalaysiaStations, MALAYSIA_STATION_CATALOG_SOURCE } from "./malaysia";
 import type { Country, TransitLine } from "../types";
 
-export const CATALOG_COUNTRIES = countryOptions;
 
 /** A product area whose lines and stations can be browsed together. */
 export interface ServiceRegion {
@@ -80,6 +81,8 @@ export interface ServiceRegionCatalog {
   lines: TransitLine[];
   stations: string[];
   source?: string;
+  /** Official station/line directory, separate from the timetable source. */
+  stationSource?: string;
   coverage: StationCoverage;
   messageKey?: StationCatalogMessageKey;
 }
@@ -108,6 +111,10 @@ export const officialTimetableUrls: Partial<Record<Country, string>> = {
   norway: "https://www.entur.no/",
   switzerland: "https://opentransportdata.swiss/en/",
   malaysia: "https://api.data.gov.my/gtfs-static/ktmb",
+};
+
+export const officialStationDirectoryUrls: Partial<Record<Country, string>> = {
+  singapore: singaporeStationDirectorySource,
 };
 
 const staticLineSets: Record<string, TransitLine[]> = {
@@ -363,6 +370,11 @@ export async function getLinesForCountry(
     lines = [];
   }
 
+  // A market with a complete official directory keeps its whole line map; the
+  // per-station coverage badges, not a trimmed menu, say what search can
+  // answer. Search itself stays strictly data-backed either way.
+  if (publishesFullOfficialDirectory(country as Country)) return lines;
+
   if (usesStrictCatalogGate(country as Country)) {
     lines = filterLinesByVerifiedCoverage(country, lines, date);
   }
@@ -465,6 +477,7 @@ export async function buildServiceRegionCatalog(
     lines: regions.flatMap((region) => region.lines),
     stations,
     source: officialTimetableUrls[country],
+    stationSource: officialStationDirectoryUrls[country],
     coverage: { ...coverage, date: serviceDate, ...(messageKey ? { messageKey } : {}) },
     ...(messageKey ? { messageKey } : {}),
   };
@@ -483,7 +496,9 @@ export function getStationCoverage(
   date?: string,
   origin?: string,
 ): StationCoverage | undefined {
-  if (!countryOptions.includes(country as Country)) return undefined;
+  // Hidden markets still need an internal, reviewable station catalog while
+  // their timetable source is being repaired; only the public API blocks them.
+  if (!configuredCountryOptions.includes(country as Country)) return undefined;
   const mode = coverageModeFor(country as Country);
   if (mode !== "scraped" || !usesStrictCatalogGate(country as Country)) {
     return { mode, dateRange: offeredDateRange(country as Country) };
@@ -523,8 +538,12 @@ export async function getStationsForCountry(
   let source: string | undefined;
 
   if (country === "malaysia") {
-    stations = getMalaysiaStations();
-    source = MALAYSIA_STATION_CATALOG_SOURCE;
+    // Malaysia's station menu must come from the same dated, verified KTMB
+    // snapshots that answer search. The historical ridership catalogue is a
+    // station-name source, not a timetable source, and used to make the menu
+    // claim a different provenance from the departures behind it.
+    stations = uniqueStations(await getLinesForCountry(country, date, false));
+    source = officialTimetableUrls.malaysia;
   } else if (country === "united_kingdom") {
     stations = await getTflStations();
     source = "https://api.tfl.gov.uk";
@@ -574,29 +593,33 @@ export async function getStationsForCountry(
 
   if (coverage?.mode === "scraped" && usesStrictCatalogGate(country as Country)) {
     const summary = getScrapedSearchabilitySummary(country as Country, date);
-    coverage = {
+    const gated = {
       ...coverage,
       provenance: summary.provenance,
       truthMode: summary.truthMode,
       reason: summary.reason,
     };
-  }
+    coverage = gated;
 
-  if (coverage?.mode === "scraped" && usesStrictCatalogGate(country as Country)) {
-    if (origin && date) {
-      const destinationKeys = new Set(
-        (coverage.destinations || [])
-          .map((station) => stationSearchKey(resolveStationAlias(country as Country, station))),
-      );
-      stations = stations.filter((station) => destinationKeys.has(
-        stationSearchKey(resolveStationAlias(country as Country, station)),
-      ));
-    } else {
-      stations = stations.filter((station) => hasCoverage(
-        new Set((coverage.covered || []).map((covered) => stationSearchKey(covered))),
-        station,
-        country as Country,
-      ));
+    // Only the menu trimming is waived for a full-directory market — it still
+    // reports the same provenance and truth mode as every other strict-gate
+    // market, and `coverage.covered` still marks each unsearchable station.
+    if (!publishesFullOfficialDirectory(country as Country)) {
+      if (origin && date) {
+        const destinationKeys = new Set(
+          (gated.destinations || [])
+            .map((station) => stationSearchKey(resolveStationAlias(country as Country, station))),
+        );
+        stations = stations.filter((station) => destinationKeys.has(
+          stationSearchKey(resolveStationAlias(country as Country, station)),
+        ));
+      } else {
+        stations = stations.filter((station) => hasCoverage(
+          new Set((gated.covered || []).map((covered) => stationSearchKey(covered))),
+          station,
+          country as Country,
+        ));
+      }
     }
   }
 

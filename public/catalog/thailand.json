@@ -1,6 +1,6 @@
 {
   "country": "thailand",
-  "serviceDate": "2026-08-09",
+  "serviceDate": "2026-08-19",
   "regions": [],
   "lines": [],
   "stations": [],
@@ -8,18 +8,18 @@
   "coverage": {
     "mode": "scraped",
     "covered": [],
-    "date": "2026-08-09",
+    "date": "2026-08-19",
     "dateRange": {
-      "start": "2026-08-09",
-      "end": "2026-08-09",
+      "start": "2026-08-19",
+      "end": "2026-08-19",
       "days": 1,
-      "liveOnly": false
+      "liveOnly": true
     },
-    "message": "No verified timetable data is available for this country on the selected date.",
+    "messageKey": "stations.no_verified_timetable_for_date",
     "sourceUrl": "https://metro.bemplc.co.th/Fare-Calculation?lang=en",
     "provenance": "unknown",
     "truthMode": "unusable",
     "reason": "unavailable_coverage"
   },
-  "message": "No verified timetable data is available for this country on the selected date."
+  "messageKey": "stations.no_verified_timetable_for_date"
 }

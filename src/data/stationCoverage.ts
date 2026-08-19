@@ -24,14 +24,14 @@ import {
 import type { SearchabilityRejectionReason } from "./searchabilityPolicy";
 import type { ScrapedRouteData } from "./scraped/timetableDay";
 
-export { usesStrictCatalogGate } from "./searchabilityPolicy";
+export { usesStrictCatalogGate, publishesFullOfficialDirectory } from "./searchabilityPolicy";
 
 /**
  * How a country's searchable stations are bounded.
  * - `scraped`: finite, enumerable from the committed route files.
  * - `provider`: a live journey planner answers arbitrary pairs — the menu is
  *   the contract and nothing can be pre-declared uncovered.
- * - `catalog_only`: station list without timetables at all (Malaysia).
+ * - `catalog_only`: station list without timetables at all.
  */
 export type CoverageMode = "scraped" | "provider" | "catalog_only";
 

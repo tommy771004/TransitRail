@@ -8,6 +8,7 @@
     "build": "tsx scripts/generate-station-catalog.ts && tsx scripts/generate-route-pages.ts && tsx scripts/generate-sitemaps.ts && vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "start": "node dist/server.cjs",
     "catalog": "tsx scripts/generate-station-catalog.ts",
+    "sync:singapore-stations": "tsx scripts/sync-singapore-stations.ts",
     "routes": "tsx scripts/generate-route-pages.ts",
     "sitemap": "tsx scripts/generate-sitemaps.ts",
     "redirects": "tsx scripts/generate-url-redirects.ts",

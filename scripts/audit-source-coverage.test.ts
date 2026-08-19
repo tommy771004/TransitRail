@@ -9,17 +9,24 @@ import {
 const NOW = new Date("2026-08-06T12:00:00.000Z");
 
 describe("source coverage audit", () => {
-  it("keeps no-source and frequency markets out of the searchable network", async () => {
-    for (const country of ["china", "singapore"] as const) {
-      const audit = await auditCountry(country, NOW);
-      expect(audit.network).toMatchObject({
-        state: "no-searchable-network",
-        regions: [],
-        declaredRegions: expect.any(Array),
-        lines: 0,
-        stations: 0,
-      });
-    }
+  it("keeps no-source markets out of search while retaining Singapore's directory", async () => {
+    const china = await auditCountry("china", NOW);
+    expect(china.network).toMatchObject({
+      state: "no-searchable-network",
+      regions: [],
+      declaredRegions: expect.any(Array),
+      lines: 0,
+      stations: 0,
+    });
+
+    const singapore = await auditCountry("singapore", NOW);
+    expect(singapore.network).toMatchObject({
+      state: "directory-only",
+      regions: ["singapore"],
+      declaredRegions: expect.any(Array),
+      lines: 9,
+      stations: 184,
+    });
   });
 
   it("reports bounded next-train data separately from a full-day timetable", async () => {

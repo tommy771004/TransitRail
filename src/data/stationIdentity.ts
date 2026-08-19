@@ -69,7 +69,8 @@ export function getStaticMenuStations(country: string): string[] | null {
     );
     return uniqueSorted([...newCountryStationLists[country], ...fromLines]);
   }
-  // malaysia and unknown: no pure static list in this module
+  // Malaysia is derived from its dated KTMB route snapshots in the server
+  // catalog; unknown countries have no pure static list here.
   return null;
 }
 

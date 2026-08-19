@@ -10,7 +10,11 @@ import { stationOverrides } from "../data/stationOverrides";
  * `station.<name>` i18next entry, and finally to the English name itself.
  */
 export function stationLabel(t: TFunction, name: string, country?: Country): string {
-  if (name && country && i18n.language === "zh-TW") {
+  // Read the locale off the `t` we were handed, not the global one: `getFixedT`
+  // renders a locale without switching the app to it, so a global check would
+  // silently skip the override and hand back the other network's name.
+  const locale = (t as TFunction & { lng?: string }).lng || i18n.language;
+  if (name && country && locale === "zh-TW") {
     const override = stationOverrides[country]?.[name];
     if (override) return override;
   }

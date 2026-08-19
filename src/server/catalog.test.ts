@@ -43,13 +43,40 @@ describe("station and line catalog integrity scope", () => {
   });
 
   it("does not turn source-context-only markets into searchable catalogue entries", async () => {
-    for (const country of ["singapore", "malaysia", "china"] as const) {
-      const catalog = await buildServiceRegionCatalog({ country, date: catalogDate, includeProvider: false });
-      expect(catalog.regions).toEqual([]);
-      expect(catalog.lines).toEqual([]);
-      expect(catalog.stations).toEqual([]);
-      expect(catalog.messageKey).toMatch(/^stations\./);
-    }
+    const singapore = await buildServiceRegionCatalog({ country: "singapore", date: catalogDate, includeProvider: false });
+    expect(singapore.lines).toHaveLength(9);
+    expect(singapore.stations).toHaveLength(184);
+    expect(singapore.stationSource).toBe("https://www.mytransport.sg/trainstatus");
+    expect(singapore.coverage.covered).toEqual([]);
+
+    const china = await buildServiceRegionCatalog({ country: "china", date: catalogDate, includeProvider: false });
+    expect(china.regions).toEqual([]);
+    expect(china.lines).toEqual([]);
+    expect(china.stations).toEqual([]);
+    expect(china.messageKey).toMatch(/^stations\./);
+  });
+
+  it("uses the verified KTMB snapshot for Malaysia stations and source attribution", async () => {
+    const date = [...new Set(
+      getScrapedRoutes("malaysia").flatMap((route) => route.results.map((result) => result.date)),
+    )].filter((value): value is string => Boolean(value)).sort().at(-1)!;
+
+    const stations = await getStationsForCountry("malaysia", undefined, date);
+
+    expect(stations.source).toBe("https://api.data.gov.my/gtfs-static/ktmb");
+    expect(stations.coverage).toMatchObject({
+      mode: "scraped",
+      date,
+      provenance: "official",
+      truthMode: "verified",
+    });
+    expect(stations.stations).toEqual(expect.arrayContaining([
+      "Batu Caves",
+      "Kuala Lumpur",
+      "Klang",
+      "Rawang",
+      "Subang Jaya",
+    ]));
   });
 
   it("uses the artifact-backed Korean network in the same hierarchy", async () => {

@@ -35,6 +35,7 @@ const lineNoteKeys: Partial<Record<Country, string>> = {
   korea: "stations.note_korea",
   united_states: "stations.note_united_states",
   malaysia: "stations.note_malaysia",
+  singapore: "stations.note_singapore",
 };
 
 export function StationBrowser({
@@ -63,6 +64,7 @@ export function StationBrowser({
   const [regionsCollapsed, setRegionsCollapsed] = useState(false);
   const [stations, setStations] = useState<string[]>([]);
   const [coverage, setCoverage] = useState<StationCoverage | undefined>(undefined);
+  const [stationSource, setStationSource] = useState<string | undefined>(undefined);
   const [lines, setLines] = useState<TransitLine[]>([]);
   const [regions, setRegions] = useState<ServiceRegion[]>([]);
   const [query, setQuery] = useState("");
@@ -202,11 +204,13 @@ export function StationBrowser({
       if (!active) return;
       if (response.ok) {
         setStations(response.data.stations || []);
+        setStationSource(response.data.stationSource);
         setCoverage(response.data.coverage);
         applyCatalog(response.data.regions || [], response.data.lines || []);
       }
       else {
         setStations([]);
+        setStationSource(undefined);
         setCoverage(undefined);
         setRegions([]);
         setLines([]);
@@ -534,11 +538,23 @@ export function StationBrowser({
           )}
         </div>
 
-        {noteKey && !searching && (
+        {(noteKey || stationSource) && !searching && (
           <div className="px-5 pb-1 pt-3">
-            <p className="rounded-2xl bg-amber-500/5 border border-amber-500/10 px-4 py-3 text-xs leading-relaxed text-amber-700 dark:text-amber-400/90">
-              {t(noteKey)}
-            </p>
+            {noteKey && (
+              <p className="rounded-2xl bg-amber-500/5 border border-amber-500/10 px-4 py-3 text-xs leading-relaxed text-amber-700 dark:text-amber-400/90">
+                {t(noteKey)}
+              </p>
+            )}
+            {stationSource && (
+              <a
+                href={stationSource}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 inline-block px-1 text-xs font-semibold text-emerald-700 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300"
+              >
+                {t("stations.official_station_source")}
+              </a>
+            )}
           </div>
         )}
 

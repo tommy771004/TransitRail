@@ -1,23 +1,150 @@
 {
   "country": "united_states",
-  "serviceDate": "2026-08-18",
-  "regions": [],
-  "lines": [],
-  "stations": [],
+  "serviceDate": "2026-08-19",
+  "regions": [
+    {
+      "id": "boston",
+      "name": "Boston (MBTA)",
+      "declaredLines": 6,
+      "declaredStations": 263,
+      "lines": [
+        {
+          "id": "Red",
+          "name": "Red Line",
+          "color": "#DA291C",
+          "stations": [
+            {
+              "name": "Harvard"
+            },
+            {
+              "name": "Park Street",
+              "interchanges": [
+                "Green Line B",
+                "Green Line C",
+                "Green Line D",
+                "Green Line E"
+              ]
+            },
+            {
+              "name": "South Station"
+            },
+            {
+              "name": "Andrew"
+            }
+          ]
+        },
+        {
+          "id": "Green-B",
+          "name": "Green Line B",
+          "color": "#00843D",
+          "stations": [
+            {
+              "name": "Park Street",
+              "interchanges": [
+                "Red Line",
+                "Green Line C",
+                "Green Line D",
+                "Green Line E"
+              ]
+            },
+            {
+              "name": "Boston College"
+            }
+          ]
+        },
+        {
+          "id": "united_states-route-park-street-boston-college-3",
+          "name": "Park Street → Boston College",
+          "color": "#2563EB",
+          "stations": [
+            {
+              "name": "Park Street"
+            },
+            {
+              "name": "Boston College"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "lines": [
+    {
+      "id": "Red",
+      "name": "Red Line",
+      "color": "#DA291C",
+      "stations": [
+        {
+          "name": "Harvard"
+        },
+        {
+          "name": "Park Street",
+          "interchanges": [
+            "Green Line B",
+            "Green Line C",
+            "Green Line D",
+            "Green Line E"
+          ]
+        },
+        {
+          "name": "South Station"
+        },
+        {
+          "name": "Andrew"
+        }
+      ]
+    },
+    {
+      "id": "Green-B",
+      "name": "Green Line B",
+      "color": "#00843D",
+      "stations": [
+        {
+          "name": "Park Street",
+          "interchanges": [
+            "Red Line",
+            "Green Line C",
+            "Green Line D",
+            "Green Line E"
+          ]
+        },
+        {
+          "name": "Boston College"
+        }
+      ]
+    },
+    {
+      "id": "united_states-route-park-street-boston-college-3",
+      "name": "Park Street → Boston College",
+      "color": "#2563EB",
+      "stations": [
+        {
+          "name": "Park Street"
+        },
+        {
+          "name": "Boston College"
+        }
+      ]
+    }
+  ],
+  "stations": [
+    "Andrew",
+    "Boston College",
+    "Harvard",
+    "Park Street",
+    "South Station"
+  ],
   "source": "https://www.mbta.com/schedules",
   "coverage": {
     "mode": "provider",
     "dateRange": {
-      "start": "2026-08-18",
-      "end": "2026-08-24",
+      "start": "2026-08-19",
+      "end": "2026-08-25",
       "days": 7,
       "liveOnly": false
     },
-    "provenance": "unknown",
-    "truthMode": "unusable",
-    "reason": "no_departures",
-    "date": "2026-08-18",
-    "messageKey": "stations.no_verified_timetable_for_date"
-  },
-  "messageKey": "stations.no_verified_timetable_for_date"
+    "provenance": "official",
+    "truthMode": "verified",
+    "date": "2026-08-19"
+  }
 }

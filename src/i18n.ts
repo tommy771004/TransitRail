@@ -4,6 +4,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import translations from './data/translations.json';
+import singaporeCatalog from './data/catalog/singapore-menu.json';
 import { additionalStationZhTW } from './data/stationTranslations';
 import { seoulSubwayTranslationsZhTW } from './data/seoulSubwayTranslations';
 import { transferTranslations } from './data/transfers/translations';
@@ -117,7 +118,8 @@ const resources = {
         lines_loading: "Loading lines...",
         lines_unavailable: "The line catalog is unavailable.",
         note_japan: "Major stops only. The full station list arrives with the ODPT adapter.",
-        note_malaysia: "Station names are refreshed daily from data.gov.my historical ridership files. This source has no timetable or real-time arrival data.",
+        note_singapore: "Official MRT and LRT station names and line order are cached from mytransport.sg. Stations without verified timetable data are marked.",
+        note_malaysia: "Stations are limited to the verified KTMB GTFS routes currently available for the selected date.",
         note_korea: "Seoul Metro lines 1-9. KTX and other stations are in the all-stations list.",
         note_united_states: "Subway and light rail lines. Commuter rail stations are in the all-stations list.",
         featured: "Popular Stations",
@@ -138,7 +140,8 @@ const resources = {
         no_verified_timetable_current: "No verified timetable data is currently available for this country.",
         no_verified_searchable_lines_for_date: "No verified searchable lines are available for this country on the selected date.",
         no_verified_destinations_for_origin: "No verified destinations are reachable from this station on the selected date.",
-        official_source: "Open the operator timetable"
+        official_source: "Open the operator timetable",
+        official_station_source: "Open the official station and line map"
       },
       workflow: {
         title: "Data workflow",
@@ -257,7 +260,7 @@ const resources = {
       },
       malaysia: {
         catalog_title: "Malaysia timetables are not available yet",
-        catalog_body: "The station directory is refreshed daily from official data.gov.my historical ridership downloads. Those files record past passenger demand, not scheduled or real-time train arrivals, so Rail Nation does not generate departures from them."
+        catalog_body: "Malaysia now uses the official KTMB GTFS timetable snapshots for both station selection and departures."
       },
       london: {
         official_data: "Official TfL journey data",
@@ -659,7 +662,8 @@ const resources = {
         lines_loading: "正在載入路線...",
         lines_unavailable: "目前無法讀取路線目錄。",
         note_japan: "僅列出主要停靠站，完整站點將隨 ODPT adapter 提供。",
-        note_malaysia: "站名目錄每日由 data.gov.my 的歷史運量檔更新；該來源不含時刻表或即時到站資料。",
+        note_singapore: "MRT 與 LRT 的站名及路線順序取自 mytransport.sg 的預存官方目錄；尚無已驗證時刻表的站點會特別標示。",
+        note_malaysia: "站點僅顯示所選日期目前有已驗證 KTMB GTFS 路線資料的車站。",
         note_korea: "首爾地鐵 1-9 號線；KTX 與其他車站請見全部車站。",
         note_united_states: "地鐵與輕軌路線；通勤鐵路車站請見全部車站。",
         featured: "熱門車站",
@@ -680,7 +684,8 @@ const resources = {
         no_verified_timetable_current: "此國家目前沒有已驗證的時刻表資料。",
         no_verified_searchable_lines_for_date: "此國家在所選日期沒有可搜尋且已驗證的路線。",
         no_verified_destinations_for_origin: "所選日期沒有可由此站抵達且已驗證的目的地。",
-        official_source: "開啟業者官方時刻表"
+        official_source: "開啟業者官方時刻表",
+        official_station_source: "開啟官方站點與路線圖"
       },
       workflow: {
         title: "資料流程",
@@ -797,7 +802,7 @@ const resources = {
       },
       malaysia: {
         catalog_title: "馬來西亞尚無可用時刻表",
-        catalog_body: "站名目錄每日由官方 data.gov.my 歷史運量下載檔更新。該檔案記錄過去需求，並非排定班次或即時到站資料，因此 Rail Nation 不會據此產生班次。"
+        catalog_body: "馬來西亞目前使用官方 KTMB GTFS 時刻表快照，同時提供站點選擇與班次資料。"
       },
       london: {
         official_data: "TfL 官方旅程資料",
@@ -1604,7 +1609,8 @@ const resources = {
         lines_loading: "路線情報を読み込み中...",
         lines_unavailable: "現在、路線一覧を利用できません。",
         note_japan: "主要駅のみ表示しています。全駅リストはODPTアダプター対応後に追加されます。",
-        note_malaysia: "駅名はdata.gov.myの過去乗車実績データから毎日更新されます。このデータには時刻表やリアルタイム到着情報は含まれません。",
+        note_singapore: "MRT・LRTの駅名と路線順は mytransport.sg の保存済み公式カタログを使用しています。検証済み時刻表がない駅には印が付きます。",
+        note_malaysia: "選択した日付で検証済みのKTMB GTFS路線がある駅のみ表示します。",
         note_korea: "ソウル地下鉄1〜9号線に対応。KTXやその他の駅は「全ての駅」からご確認ください。",
         note_united_states: "地下鉄・ライトレール路線に対応。近郊鉄道の駅は「全ての駅」からご確認ください。",
         featured: "人気の駅",
@@ -1625,7 +1631,8 @@ const resources = {
         no_verified_timetable_current: "この国では現在、検証済みの時刻表データはありません。",
         no_verified_searchable_lines_for_date: "選択した日付に、この国の検索可能で検証済みの路線はありません。",
         no_verified_destinations_for_origin: "選択した日付に、この駅から到達できる検証済みの目的地はありません。",
-        official_source: "運行事業者の時刻表を開く"
+        official_source: "運行事業者の時刻表を開く",
+        official_station_source: "公式の駅・路線図を開く"
       },
       workflow: {
         title: "データフロー",
@@ -1742,7 +1749,7 @@ const resources = {
       },
       malaysia: {
         catalog_title: "マレーシアの時刻表はまだ利用できません",
-        catalog_body: "駅一覧は公式data.gov.myの過去乗車実績データから毎日更新されます。このデータは過去の利用実績を記録したものであり、予定または実際の列車到着情報ではないため、Rail Nationはこれを基に発車情報を生成しません。"
+        catalog_body: "マレーシアでは公式KTMB GTFS時刻表スナップショットを駅選択と出発時刻の両方に使用します。"
       },
       london: {
         official_data: "TfL公式運行データ",
@@ -2171,7 +2178,8 @@ const resources = {
         lines_loading: "노선 정보를 불러오는 중...",
         lines_unavailable: "현재 노선 목록을 이용할 수 없습니다.",
         note_japan: "주요 역만 표시됩니다. 전체 역 목록은 ODPT 연동 후 추가될 예정입니다.",
-        note_malaysia: "역 이름은 data.gov.my의 과거 이용 실적 데이터를 기반으로 매일 갱신됩니다. 이 데이터에는 시간표나 실시간 도착 정보가 포함되어 있지 않습니다.",
+        note_singapore: "MRT·LRT 역 이름과 노선 순서는 mytransport.sg에서 저장한 공식 카탈로그를 사용합니다. 검증된 시간표가 없는 역은 표시됩니다.",
+        note_malaysia: "선택한 날짜에 검증된 KTMB GTFS 노선이 있는 역만 표시합니다.",
         note_korea: "서울 지하철 1~9호선을 지원합니다. KTX 등 기타 역은 전체 역 목록에서 확인하세요.",
         note_united_states: "지하철 및 경전철 노선을 지원합니다. 광역철도 역은 전체 역 목록에서 확인하세요.",
         featured: "인기 역",
@@ -2192,7 +2200,8 @@ const resources = {
         no_verified_timetable_current: "이 국가에는 현재 검증된 시간표 데이터가 없습니다.",
         no_verified_searchable_lines_for_date: "선택한 날짜에 이 국가의 검색 가능한 검증된 노선이 없습니다.",
         no_verified_destinations_for_origin: "선택한 날짜에 이 역에서 갈 수 있는 검증된 목적지가 없습니다.",
-        official_source: "운영사 시간표 열기"
+        official_source: "운영사 시간표 열기",
+        official_station_source: "공식 역·노선도 열기"
       },
       workflow: {
         title: "데이터 처리 과정",
@@ -2309,7 +2318,7 @@ const resources = {
       },
       malaysia: {
         catalog_title: "말레이시아 시간표는 아직 제공되지 않습니다",
-        catalog_body: "역 목록은 공식 data.gov.my의 과거 이용 실적 데이터를 기반으로 매일 갱신됩니다. 이 데이터는 과거 수요를 기록한 것으로 예정된 시간표나 실시간 도착 정보가 아니므로, Rail Nation은 이를 기반으로 출발 정보를 생성하지 않습니다."
+        catalog_body: "말레이시아는 공식 KTMB GTFS 시간표 스냅샷을 역 선택과 출발 시간 모두에 사용합니다."
       },
       london: {
         official_data: "TfL 공식 운행 데이터",
@@ -2638,6 +2647,22 @@ Object.assign(stationDict, seoulSubwayTranslationsZhTW);
 Object.entries(translations).forEach(([key, value]) => {
   if (!(key in stationDict)) stationDict[key] = value;
 });
+
+// Same rule as the generated TfL/MBTA merge above: a curated name always
+// wins. The Singapore directory is a generated file, and its labels are
+// derived from Wikipedia article titles, so letting it assign over a curated
+// key silently re-points names that two networks share — it rewrote Hong
+// Kong's "Admiralty" (金鐘) to Singapore's 海軍部 the one time it did.
+const singaporeStationI18n = (singaporeCatalog as {
+  stationTranslations?: Record<string, Partial<Record<"zh-TW" | "ja" | "ko", string>>>;
+}).stationTranslations || {};
+for (const [name, labels] of Object.entries(singaporeStationI18n)) {
+  for (const locale of ["zh-TW", "ja", "ko"] as const) {
+    const label = labels[locale];
+    const dict = resources[locale].translation.station as Record<string, string>;
+    if (label && !(name in dict)) dict[name] = label;
+  }
+}
 // The literal resource object gives `station` a fixed key set; the generated
 // TfL/MBTA names are added at runtime, so index it through the same widened
 // record shape already used for zh-TW.
