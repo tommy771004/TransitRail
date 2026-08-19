@@ -205,6 +205,10 @@ export const officialSources = {
     temporalCoverage: "sampled-service-day",
     attribution: "Powered by TfL Open Data",
   },
+  // Registered and real, but not currently readable by the scheduled job: the
+  // page is behind a Cloudflare bot challenge. London is scraped through
+  // `uk-tfl-journey-planner` instead. Kept so previously committed files that
+  // name it stay valid until a successful run replaces them.
   "uk-tfl-journey-planner-web": {
     id: "uk-tfl-journey-planner-web",
     country: "united_kingdom",

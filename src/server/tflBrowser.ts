@@ -1,3 +1,18 @@
+/**
+ * TfL's public Journey Planner page, driven with Playwright.
+ *
+ * NOT wired into the nightly run. tfl.gov.uk sits behind a Cloudflare
+ * challenge that answers an automated browser with `Just a moment…` /
+ * "Verification required" rather than journey results, which is what silently
+ * stalled London for ten days from 2026-08-09. Defeating that check is not
+ * something this project does, and it does not need to: the same journeys come
+ * from TfL's documented Unified API, which `UnitedKingdomScraper` uses instead
+ * and which the register grades tier A against this page's tier B.
+ *
+ * The module is kept — it is correct, tested, and works from networks the
+ * challenge does not target — but re-wiring it into the scheduled job would
+ * reintroduce that outage.
+ */
 import type { TransitResult } from "../types";
 import type { ScrapedRouteData } from "../data/scraped/timetableDay";
 

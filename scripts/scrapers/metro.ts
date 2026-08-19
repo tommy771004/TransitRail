@@ -1,5 +1,6 @@
 import { searchHongKongMtr } from "../../src/server/hongKongMtr";
 import { searchMbtaJourney } from "../../src/server/mbta";
+import { searchTflServiceDay } from "../../src/server/tfl";
 import { prepareSwissGtfsBatch, searchSwissGtfs } from "../../src/server/swissGtfs";
 import { searchBelgiumJourney } from "../../src/server/belgium";
 import { searchNorwayJourney } from "../../src/server/norway";
@@ -25,7 +26,6 @@ import { collectSingaporeServiceDayArtifact } from "../../src/server/singaporeSm
 import { searchSingaporeLtaGtfs } from "../../src/server/singaporeLtaGtfs";
 import { collectHongKongServiceDayArtifact } from "../../src/server/hongKongServiceHours";
 import { providerDateValue } from "../../src/data/countries";
-import { scrapeTflBrowserServiceDay } from "../../src/server/tflBrowser";
 import { scrapeMbtaBrowserServiceDay } from "../../src/server/mbtaBrowser";
 
 /**
@@ -126,17 +126,20 @@ export class HongKongScraper extends OfficialFeedScraper {
   }
 }
 
-export class UnitedKingdomScraper extends BrowserScraper {
-  readonly name = "TfL Journey Planner browser";
-  readonly country = "united_kingdom";
-  readonly routes = unitedKingdomRoutes;
-  readonly sourceId = "uk-tfl-journey-planner-web";
-  // Two independent browser pages halve route-day wall time without creating a
-  // large burst against TfL's public Journey Planner.
-  protected override readonly routeConcurrency = 2;
-
-  async scrape(route: ScrapedRoute, date: string, page: Parameters<typeof scrapeTflBrowserServiceDay>[0]) {
-    return scrapeTflBrowserServiceDay(page, route.origin, route.destination, date);
+/**
+ * London is scraped through TfL's Unified API, not its website.
+ *
+ * The website sweep ({@link ../../src/server/tflBrowser}) is kept and tested,
+ * but it is not wired here: tfl.gov.uk sits behind a Cloudflare challenge that
+ * answers an automated browser with "Just a moment… Verification required"
+ * instead of journey results. That is TfL declining to be scraped, and this
+ * project does not defeat a bot check to get at a page whose data the operator
+ * already publishes through a documented, free API. The API is tier A against
+ * the website's tier B, so the sanctioned route is also the better-graded one.
+ */
+export class UnitedKingdomScraper extends OfficialFeedScraper {
+  constructor() {
+    super("TfL", "united_kingdom", unitedKingdomRoutes, "uk-tfl-journey-planner", searchTflServiceDay);
   }
 }
 
