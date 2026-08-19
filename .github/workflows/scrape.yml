@@ -57,9 +57,11 @@ jobs:
           # Optional. Toei uses the public ODPT endpoint without this secret;
           # Tokyo Metro routes refresh when the repository secret is present.
           ODPT_API_KEY: ${{ secrets.ODPT_API_KEY }}
-          # Kept for future authenticated LTA realtime APIs. The current
-          # Singapore GTFS Schedule is an official static ZIP and does not
-          # require this secret.
+          # Required for the official LTA DataMall Singapore GTFS train feed.
+          # Only the authenticated resolver mints a usable archive link: the
+          # key-free static ZIP is a frozen copy of one response whose signed
+          # link expired 15 minutes after it was published. Without a valid
+          # secret the scraper keeps the last verified artifact.
           LTA_ACCOUNT_KEY: ${{ secrets.LTA_ACCOUNT_KEY }}
         run: npm run scrape -- ${{ github.event.inputs.date }}
 

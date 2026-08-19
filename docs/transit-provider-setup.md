@@ -9,7 +9,7 @@
 | 日本 | ODPT | API key | 等待 route adapter | 鐵路、車站、時刻與部分動態資料，依營運商授權而異 |
 | 韓國 | ODsay／TAGO／首爾開放資料 | API key | 目前為策展快照，覆蓋 9/305 站 | 見 [韓國申請流程](korea-api-registration.md)：TAGO 補城際站，首爾開放資料補地鐵站 |
 | 香港 | MTR Next Train | 不需要 | 已完成 | 支援路線的即時下一班列車、月台、終點與延誤狀態 |
-| 新加坡 | LTA DataMall GTFS Schedule + mytransport.sg station map | 靜態站點目錄不需；即時 API 仍需 AccountKey | 站點目錄已快取；班次 adapter 已接入但官方簽名 ZIP 目前回 403 | 9 條 MRT/LRT 路線、184 站；班次待 LTA 修復下載鏈 |
+| 新加坡 | LTA DataMall GTFS Schedule + mytransport.sg station map | 班次需 AccountKey；靜態站點目錄不需 | 站點目錄已快取；班次 adapter 已接入,但 DataMall 以 HTTP 401 拒絕目前的 key | 9 條 MRT/LRT 路線、184 站；班次待更新有效的 AccountKey |
 | 馬來西亞 | data.gov.my | 多數公開下載不需金鑰 | 資料評估 | Rapid Rail／KTMB 統計與下載檔；目前不應當成即時班次 |
 | 英國 | Transport for London | app_key，可匿名低流量試用 | 已完成 | 倫敦 Underground、Elizabeth line、DLR 與 Overground 的即時旅程 |
 | 德國 | Deutsche Bahn API Marketplace | Client ID／API key | 建議下一階段 | 車站時刻表、計畫班次與即時異動 |
@@ -100,13 +100,19 @@
 
 官方入口：[LTA DataMall](https://datamall.lta.gov.sg/content/datamall/en.html)
 
-目前專案的計畫班次使用官方靜態 GTFS ZIP，不需要 AccountKey：
+計畫班次**必須**有 AccountKey。DataMall 的 GTFS Schedule 端點會即時簽發一個 **15 分鐘有效**的 S3 下載連結：
 
 ```text
-https://datamall.lta.gov.sg/content/dam/datamall/datasets/PublicTransportRelated/GTFSScheduleTrain.zip
+https://datamall2.mytransport.sg/ltaodataservice/GTFSScheduleTrain
 ```
 
-若要接即時 Trip Updates 或其他動態資料，再依下列流程申請：
+⚠️ 不要改用免金鑰的靜態檔
+`datamall.lta.gov.sg/content/dam/.../GTFSScheduleTrain.zip`。它下載得到（HTTP 200），
+但裡面只是某一次端點回應的凍結副本：其簽名連結 `X-Amz-Expires=900`、簽發於
+2026-07-31，十五分鐘後就永久失效，之後只會回 403。「ZIP 回 200、archive 回 403」
+就是這個陷阱。
+
+申請流程：
 
 1. 在 DataMall 點選 `Request for API Access`。
 2. 使用有效 Email 接受 API Terms of Service 並註冊訂閱者資料。
@@ -133,7 +139,8 @@ npm run catalog
    - `TrainServiceAlerts`：營運時間內的中斷與受影響路線／車站。
    - Station Crowd Density：指定網路的即時擁擠度。
    - Facilities Maintenance：電梯等設施維護。
-7. 不能把 service alert 或 crowd density 轉成假班次；計畫班次應使用上方官方 GTFS ZIP。
+7. 不能把 service alert 或 crowd density 轉成假班次；計畫班次一律走上方需金鑰的 GTFS Schedule 端點。
+   診斷金鑰或位址問題請執行 `npx tsx scripts/diagnose-lta-gtfs.ts`（未帶金鑰時 DataMall 對任何路徑都回 404，所以無金鑰的探測不具參考價值）。
 8. 依官方 Terms 保護 AccountKey、遵守用量限制，且不要在瀏覽器直接暴露 key。
 
 ## 馬來西亞：data.gov.my 與下載檔

@@ -309,7 +309,7 @@ export const officialSources = {
     provider: "Singapore Land Transport Authority",
     sourceName: "LTA DataMall GTFS Schedule (Train)",
     sourceType: "official-gtfs",
-    sourceUrl: "https://datamall.lta.gov.sg/content/dam/datamall/datasets/PublicTransportRelated/GTFSScheduleTrain.zip",
+    sourceUrl: "https://datamall2.mytransport.sg/ltaodataservice/GTFSScheduleTrain",
     maxCompleteness: "full-timetable",
   },
   "sg-smrt-service-hours": {
