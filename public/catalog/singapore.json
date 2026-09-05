@@ -1,6 +1,6 @@
 {
   "country": "singapore",
-  "serviceDate": "2026-08-19",
+  "serviceDate": "2026-09-05",
   "regions": [
     {
       "id": "singapore",
@@ -1433,18 +1433,24 @@
   "stationSource": "https://www.mytransport.sg/trainstatus",
   "coverage": {
     "mode": "scraped",
-    "covered": [],
-    "date": "2026-08-19",
+    "covered": [
+      "Changi Airport",
+      "HarbourFront",
+      "Jurong East",
+      "Orchard",
+      "Punggol",
+      "Raffles Place",
+      "Tanah Merah",
+      "Woodlands"
+    ],
+    "date": "2026-09-05",
     "dateRange": {
-      "start": "2026-08-19",
-      "end": "2026-08-19",
-      "days": 1,
+      "start": "2026-09-05",
+      "end": "2026-09-11",
+      "days": 7,
       "liveOnly": false
     },
-    "messageKey": "stations.no_verified_timetable_for_date",
-    "sourceUrl": "https://www.lta.gov.sg/content/ltagov/en/getting_around/public_transport/rail_network.html",
-    "provenance": "unknown",
-    "truthMode": "unusable",
-    "reason": "unavailable_coverage"
+    "provenance": "official",
+    "truthMode": "verified"
   }
 }

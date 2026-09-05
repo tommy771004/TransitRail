@@ -1,6 +1,6 @@
 {
   "country": "switzerland",
-  "serviceDate": "2026-08-19",
+  "serviceDate": "2026-09-05",
   "regions": [
     {
       "id": "switzerland-intercity",
@@ -166,6 +166,43 @@
               "name": "St. Gallen",
               "interchanges": [
                 "IC1 Genève-Aéroport–St. Gallen"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ch-ir90",
+          "name": "IR90 Brig–Genève-Aéroport",
+          "color": "#1D6FA3",
+          "stations": [
+            {
+              "name": "Brig"
+            },
+            {
+              "name": "Sion"
+            },
+            {
+              "name": "Montreux"
+            },
+            {
+              "name": "Lausanne",
+              "interchanges": [
+                "IC1 Genève-Aéroport–St. Gallen",
+                "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne"
+              ]
+            },
+            {
+              "name": "Genève",
+              "interchanges": [
+                "IC1 Genève-Aéroport–St. Gallen",
+                "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne"
+              ]
+            },
+            {
+              "name": "Genève-Aéroport",
+              "interchanges": [
+                "IC1 Genève-Aéroport–St. Gallen",
+                "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne"
               ]
             }
           ]
@@ -335,6 +372,43 @@
           ]
         }
       ]
+    },
+    {
+      "id": "ch-ir90",
+      "name": "IR90 Brig–Genève-Aéroport",
+      "color": "#1D6FA3",
+      "stations": [
+        {
+          "name": "Brig"
+        },
+        {
+          "name": "Sion"
+        },
+        {
+          "name": "Montreux"
+        },
+        {
+          "name": "Lausanne",
+          "interchanges": [
+            "IC1 Genève-Aéroport–St. Gallen",
+            "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne"
+          ]
+        },
+        {
+          "name": "Genève",
+          "interchanges": [
+            "IC1 Genève-Aéroport–St. Gallen",
+            "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne"
+          ]
+        },
+        {
+          "name": "Genève-Aéroport",
+          "interchanges": [
+            "IC1 Genève-Aéroport–St. Gallen",
+            "IC5 Genève-Aéroport–St. Gallen via Biel/Bienne"
+          ]
+        }
+      ]
     }
   ],
   "stations": [
@@ -343,13 +417,18 @@
     "Bellinzona",
     "Bern",
     "Biel/Bienne",
+    "Brig",
     "Chur",
     "Fribourg/Freiburg",
     "Genève",
     "Genève-Aéroport",
+    "Interlaken Ost",
     "Lausanne",
     "Lugano",
+    "Luzern",
+    "Montreux",
     "Sargans",
+    "Sion",
     "St. Gallen",
     "Winterthur",
     "Yverdon-les-Bains",
@@ -361,11 +440,11 @@
   "coverage": {
     "mode": "provider",
     "dateRange": {
-      "start": "2026-08-19",
-      "end": "2026-08-25",
+      "start": "2026-09-05",
+      "end": "2026-09-11",
       "days": 7,
       "liveOnly": false
     },
-    "date": "2026-08-19"
+    "date": "2026-09-05"
   }
 }

@@ -1,17 +1,1505 @@
 {
   "country": "thailand",
-  "serviceDate": "2026-08-19",
-  "regions": [],
-  "lines": [],
-  "stations": [],
+  "serviceDate": "2026-09-05",
+  "regions": [
+    {
+      "id": "bangkok",
+      "name": "Bangkok",
+      "declaredLines": 5,
+      "declaredStations": 119,
+      "lines": [
+        {
+          "id": "th-bts-sukhumvit",
+          "name": "BTS Sukhumvit Line",
+          "color": "#8CC63F",
+          "stations": [
+            {
+              "name": "Khu Khot"
+            },
+            {
+              "name": "Yaek Kor Por Aor"
+            },
+            {
+              "name": "Royal Thai Air Force Museum"
+            },
+            {
+              "name": "Bhumibol Adulyadej Hospital"
+            },
+            {
+              "name": "Saphan Mai"
+            },
+            {
+              "name": "Sai Yud"
+            },
+            {
+              "name": "Phahon Yothin 59"
+            },
+            {
+              "name": "Wat Phra Sri Mahathat",
+              "interchanges": [
+                "MRT Pink Line"
+              ]
+            },
+            {
+              "name": "11th Infantry Regiment"
+            },
+            {
+              "name": "Bang Bua"
+            },
+            {
+              "name": "Royal Forest Department"
+            },
+            {
+              "name": "Kasetsart University"
+            },
+            {
+              "name": "Sena Nikhom"
+            },
+            {
+              "name": "Ratchayothin"
+            },
+            {
+              "name": "Phahon Yothin 24"
+            },
+            {
+              "name": "Ha Yaek Lat Phrao",
+              "interchanges": [
+                "MRT Blue Line"
+              ]
+            },
+            {
+              "name": "Mo Chit",
+              "interchanges": [
+                "MRT Blue Line"
+              ]
+            },
+            {
+              "name": "Saphan Khwai"
+            },
+            {
+              "name": "Ari"
+            },
+            {
+              "name": "Sanam Pao"
+            },
+            {
+              "name": "Victory Monument"
+            },
+            {
+              "name": "Phaya Thai",
+              "interchanges": [
+                "Airport Rail Link"
+              ]
+            },
+            {
+              "name": "Ratchathewi"
+            },
+            {
+              "name": "Siam",
+              "interchanges": [
+                "BTS Silom Line"
+              ]
+            },
+            {
+              "name": "Chit Lom"
+            },
+            {
+              "name": "Phloen Chit"
+            },
+            {
+              "name": "Nana"
+            },
+            {
+              "name": "Asok",
+              "interchanges": [
+                "MRT Blue Line"
+              ]
+            },
+            {
+              "name": "Phrom Phong"
+            },
+            {
+              "name": "Thong Lo"
+            },
+            {
+              "name": "Ekkamai"
+            },
+            {
+              "name": "Phra Khanong"
+            },
+            {
+              "name": "On Nut"
+            },
+            {
+              "name": "Bang Chak"
+            },
+            {
+              "name": "Punnawithi"
+            },
+            {
+              "name": "Udom Suk"
+            },
+            {
+              "name": "Bang Na"
+            },
+            {
+              "name": "Bearing"
+            },
+            {
+              "name": "Samrong",
+              "interchanges": [
+                "MRT Yellow Line"
+              ]
+            },
+            {
+              "name": "Pu Chao"
+            },
+            {
+              "name": "Chang Erawan"
+            },
+            {
+              "name": "Royal Thai Naval Academy"
+            },
+            {
+              "name": "Pak Nam"
+            },
+            {
+              "name": "Srinagarindra"
+            },
+            {
+              "name": "Phraek Sa"
+            },
+            {
+              "name": "Sai Luat"
+            },
+            {
+              "name": "Kheha"
+            }
+          ]
+        },
+        {
+          "id": "th-bts-silom",
+          "name": "BTS Silom Line",
+          "color": "#006F3B",
+          "stations": [
+            {
+              "name": "National Stadium"
+            },
+            {
+              "name": "Siam",
+              "interchanges": [
+                "BTS Sukhumvit Line"
+              ]
+            },
+            {
+              "name": "Ratchadamri"
+            },
+            {
+              "name": "Sala Daeng",
+              "interchanges": [
+                "MRT Blue Line"
+              ]
+            },
+            {
+              "name": "Chong Nonsi"
+            },
+            {
+              "name": "Saint Louis"
+            },
+            {
+              "name": "Surasak"
+            },
+            {
+              "name": "Saphan Taksin"
+            },
+            {
+              "name": "Krung Thon Buri"
+            },
+            {
+              "name": "Wongwian Yai"
+            },
+            {
+              "name": "Pho Nimit"
+            },
+            {
+              "name": "Talat Phlu"
+            },
+            {
+              "name": "Wutthakat"
+            },
+            {
+              "name": "Bang Wa",
+              "interchanges": [
+                "MRT Blue Line"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "th-mrt-blue",
+          "name": "MRT Blue Line",
+          "color": "#1E3E8F",
+          "stations": [
+            {
+              "name": "Tha Phra"
+            },
+            {
+              "name": "Charan 13"
+            },
+            {
+              "name": "Fai Chai"
+            },
+            {
+              "name": "Bang Khun Non"
+            },
+            {
+              "name": "Bang Yi Khan"
+            },
+            {
+              "name": "Sirindhorn"
+            },
+            {
+              "name": "Bang Phlat"
+            },
+            {
+              "name": "Bang O"
+            },
+            {
+              "name": "Bang Pho"
+            },
+            {
+              "name": "Tao Poon",
+              "interchanges": [
+                "MRT Purple Line"
+              ]
+            },
+            {
+              "name": "Bang Sue"
+            },
+            {
+              "name": "Kamphaeng Phet"
+            },
+            {
+              "name": "Chatuchak Park",
+              "interchanges": [
+                "BTS Sukhumvit Line"
+              ]
+            },
+            {
+              "name": "Phahon Yothin",
+              "interchanges": [
+                "BTS Sukhumvit Line"
+              ]
+            },
+            {
+              "name": "Lat Phrao",
+              "interchanges": [
+                "MRT Yellow Line"
+              ]
+            },
+            {
+              "name": "Ratchadaphisek"
+            },
+            {
+              "name": "Sutthisan"
+            },
+            {
+              "name": "Huai Khwang"
+            },
+            {
+              "name": "Thailand Cultural Centre"
+            },
+            {
+              "name": "Phra Ram 9"
+            },
+            {
+              "name": "Phetchaburi"
+            },
+            {
+              "name": "Sukhumvit",
+              "interchanges": [
+                "BTS Sukhumvit Line"
+              ]
+            },
+            {
+              "name": "Queen Sirikit National Convention Centre"
+            },
+            {
+              "name": "Khlong Toei"
+            },
+            {
+              "name": "Lumphini"
+            },
+            {
+              "name": "Si Lom",
+              "interchanges": [
+                "BTS Silom Line"
+              ]
+            },
+            {
+              "name": "Sam Yan"
+            },
+            {
+              "name": "Hua Lamphong"
+            },
+            {
+              "name": "Wat Mangkon"
+            },
+            {
+              "name": "Sam Yot"
+            },
+            {
+              "name": "Sanam Chai"
+            },
+            {
+              "name": "Itsaraphap"
+            },
+            {
+              "name": "Bang Phai"
+            },
+            {
+              "name": "Bang Wa",
+              "interchanges": [
+                "BTS Silom Line"
+              ]
+            },
+            {
+              "name": "Phetkasem 48"
+            },
+            {
+              "name": "Phasi Charoen"
+            },
+            {
+              "name": "Bang Khae"
+            },
+            {
+              "name": "Lak Song"
+            }
+          ]
+        },
+        {
+          "id": "th-mrt-purple",
+          "name": "MRT Purple Line",
+          "color": "#7C1F7F",
+          "stations": [
+            {
+              "name": "Khlong Bang Phai"
+            },
+            {
+              "name": "Talad Bang Yai"
+            },
+            {
+              "name": "Sam Yaek Bang Yai"
+            },
+            {
+              "name": "Bang Phlu"
+            },
+            {
+              "name": "Bang Rak Yai"
+            },
+            {
+              "name": "Bang Rak Noi Tha It"
+            },
+            {
+              "name": "Sai Ma"
+            },
+            {
+              "name": "Phra Nang Klao Bridge"
+            },
+            {
+              "name": "Yaek Nonthaburi 1"
+            },
+            {
+              "name": "Bang Krasor"
+            },
+            {
+              "name": "Nonthaburi Civic Center",
+              "interchanges": [
+                "MRT Pink Line"
+              ]
+            },
+            {
+              "name": "Ministry of Public Health"
+            },
+            {
+              "name": "Yaek Tiwanon"
+            },
+            {
+              "name": "Wong Sawang"
+            },
+            {
+              "name": "Bang Son"
+            },
+            {
+              "name": "Tao Poon",
+              "interchanges": [
+                "MRT Blue Line"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "th-arl",
+          "name": "Airport Rail Link",
+          "color": "#D6001C",
+          "stations": [
+            {
+              "name": "Phaya Thai",
+              "interchanges": [
+                "BTS Sukhumvit Line"
+              ]
+            },
+            {
+              "name": "Ratchaprarop"
+            },
+            {
+              "name": "Makkasan"
+            },
+            {
+              "name": "Ramkhamhaeng"
+            },
+            {
+              "name": "Hua Mak",
+              "interchanges": [
+                "MRT Yellow Line"
+              ]
+            },
+            {
+              "name": "Ban Thap Chang"
+            },
+            {
+              "name": "Lat Krabang"
+            },
+            {
+              "name": "Suvarnabhumi"
+            }
+          ]
+        },
+        {
+          "id": "th-mrt-pink",
+          "name": "MRT Pink Line",
+          "color": "#E6007E",
+          "stations": [
+            {
+              "name": "Nonthaburi Civic Center",
+              "interchanges": [
+                "MRT Purple Line"
+              ]
+            },
+            {
+              "name": "Khae Rai"
+            },
+            {
+              "name": "Sanambin Nam"
+            },
+            {
+              "name": "Samakkhi"
+            },
+            {
+              "name": "Royal Irrigation Department"
+            },
+            {
+              "name": "Yaek Pak Kret"
+            },
+            {
+              "name": "Pak Kret Bypass"
+            },
+            {
+              "name": "Chaeng Watthana - Pak Kret 28"
+            },
+            {
+              "name": "Si Rat"
+            },
+            {
+              "name": "Muang Thong Thani"
+            },
+            {
+              "name": "Chaeng Watthana 14"
+            },
+            {
+              "name": "Government Complex"
+            },
+            {
+              "name": "National Telecom"
+            },
+            {
+              "name": "Lak Si"
+            },
+            {
+              "name": "Rajabhat Phranakhon"
+            },
+            {
+              "name": "Wat Phra Sri Mahathat",
+              "interchanges": [
+                "BTS Sukhumvit Line"
+              ]
+            },
+            {
+              "name": "Ram Inthra 3"
+            },
+            {
+              "name": "Lat Pla Khao"
+            },
+            {
+              "name": "Ram Inthra Kor Mor 4"
+            },
+            {
+              "name": "Maiyalap"
+            },
+            {
+              "name": "Vacharaphol"
+            },
+            {
+              "name": "Ram Inthra Kor Mor 6"
+            },
+            {
+              "name": "Khu Bon"
+            },
+            {
+              "name": "Ram Inthra Kor Mor 9"
+            },
+            {
+              "name": "Outer Ring Road - Ram Inthra"
+            },
+            {
+              "name": "Nopparat"
+            },
+            {
+              "name": "Bang Chan"
+            },
+            {
+              "name": "Setthabutbamphen"
+            },
+            {
+              "name": "Min Buri Market"
+            },
+            {
+              "name": "Min Buri"
+            }
+          ]
+        },
+        {
+          "id": "th-mrt-yellow",
+          "name": "MRT Yellow Line",
+          "color": "#FFD100",
+          "stations": [
+            {
+              "name": "Lat Phrao",
+              "interchanges": [
+                "MRT Blue Line"
+              ]
+            },
+            {
+              "name": "Phawana"
+            },
+            {
+              "name": "Chok Chai 4"
+            },
+            {
+              "name": "Lat Phrao 71"
+            },
+            {
+              "name": "Lat Phrao 83"
+            },
+            {
+              "name": "Mahat Thai"
+            },
+            {
+              "name": "Lat Phrao 101"
+            },
+            {
+              "name": "Bang Kapi"
+            },
+            {
+              "name": "Yaek Lam Sali"
+            },
+            {
+              "name": "Si Kritha"
+            },
+            {
+              "name": "Hua Mak",
+              "interchanges": [
+                "Airport Rail Link"
+              ]
+            },
+            {
+              "name": "Kalantan"
+            },
+            {
+              "name": "Si Nut"
+            },
+            {
+              "name": "Srinagarindra 38"
+            },
+            {
+              "name": "Suan Luang Rama IX"
+            },
+            {
+              "name": "Si Udom"
+            },
+            {
+              "name": "Si Iam"
+            },
+            {
+              "name": "Si La Salle"
+            },
+            {
+              "name": "Si Bearing"
+            },
+            {
+              "name": "Si Dan"
+            },
+            {
+              "name": "Si Thepha"
+            },
+            {
+              "name": "Thipphawan"
+            },
+            {
+              "name": "Samrong",
+              "interchanges": [
+                "BTS Sukhumvit Line"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "lines": [
+    {
+      "id": "th-bts-sukhumvit",
+      "name": "BTS Sukhumvit Line",
+      "color": "#8CC63F",
+      "stations": [
+        {
+          "name": "Khu Khot"
+        },
+        {
+          "name": "Yaek Kor Por Aor"
+        },
+        {
+          "name": "Royal Thai Air Force Museum"
+        },
+        {
+          "name": "Bhumibol Adulyadej Hospital"
+        },
+        {
+          "name": "Saphan Mai"
+        },
+        {
+          "name": "Sai Yud"
+        },
+        {
+          "name": "Phahon Yothin 59"
+        },
+        {
+          "name": "Wat Phra Sri Mahathat",
+          "interchanges": [
+            "MRT Pink Line"
+          ]
+        },
+        {
+          "name": "11th Infantry Regiment"
+        },
+        {
+          "name": "Bang Bua"
+        },
+        {
+          "name": "Royal Forest Department"
+        },
+        {
+          "name": "Kasetsart University"
+        },
+        {
+          "name": "Sena Nikhom"
+        },
+        {
+          "name": "Ratchayothin"
+        },
+        {
+          "name": "Phahon Yothin 24"
+        },
+        {
+          "name": "Ha Yaek Lat Phrao",
+          "interchanges": [
+            "MRT Blue Line"
+          ]
+        },
+        {
+          "name": "Mo Chit",
+          "interchanges": [
+            "MRT Blue Line"
+          ]
+        },
+        {
+          "name": "Saphan Khwai"
+        },
+        {
+          "name": "Ari"
+        },
+        {
+          "name": "Sanam Pao"
+        },
+        {
+          "name": "Victory Monument"
+        },
+        {
+          "name": "Phaya Thai",
+          "interchanges": [
+            "Airport Rail Link"
+          ]
+        },
+        {
+          "name": "Ratchathewi"
+        },
+        {
+          "name": "Siam",
+          "interchanges": [
+            "BTS Silom Line"
+          ]
+        },
+        {
+          "name": "Chit Lom"
+        },
+        {
+          "name": "Phloen Chit"
+        },
+        {
+          "name": "Nana"
+        },
+        {
+          "name": "Asok",
+          "interchanges": [
+            "MRT Blue Line"
+          ]
+        },
+        {
+          "name": "Phrom Phong"
+        },
+        {
+          "name": "Thong Lo"
+        },
+        {
+          "name": "Ekkamai"
+        },
+        {
+          "name": "Phra Khanong"
+        },
+        {
+          "name": "On Nut"
+        },
+        {
+          "name": "Bang Chak"
+        },
+        {
+          "name": "Punnawithi"
+        },
+        {
+          "name": "Udom Suk"
+        },
+        {
+          "name": "Bang Na"
+        },
+        {
+          "name": "Bearing"
+        },
+        {
+          "name": "Samrong",
+          "interchanges": [
+            "MRT Yellow Line"
+          ]
+        },
+        {
+          "name": "Pu Chao"
+        },
+        {
+          "name": "Chang Erawan"
+        },
+        {
+          "name": "Royal Thai Naval Academy"
+        },
+        {
+          "name": "Pak Nam"
+        },
+        {
+          "name": "Srinagarindra"
+        },
+        {
+          "name": "Phraek Sa"
+        },
+        {
+          "name": "Sai Luat"
+        },
+        {
+          "name": "Kheha"
+        }
+      ]
+    },
+    {
+      "id": "th-bts-silom",
+      "name": "BTS Silom Line",
+      "color": "#006F3B",
+      "stations": [
+        {
+          "name": "National Stadium"
+        },
+        {
+          "name": "Siam",
+          "interchanges": [
+            "BTS Sukhumvit Line"
+          ]
+        },
+        {
+          "name": "Ratchadamri"
+        },
+        {
+          "name": "Sala Daeng",
+          "interchanges": [
+            "MRT Blue Line"
+          ]
+        },
+        {
+          "name": "Chong Nonsi"
+        },
+        {
+          "name": "Saint Louis"
+        },
+        {
+          "name": "Surasak"
+        },
+        {
+          "name": "Saphan Taksin"
+        },
+        {
+          "name": "Krung Thon Buri"
+        },
+        {
+          "name": "Wongwian Yai"
+        },
+        {
+          "name": "Pho Nimit"
+        },
+        {
+          "name": "Talat Phlu"
+        },
+        {
+          "name": "Wutthakat"
+        },
+        {
+          "name": "Bang Wa",
+          "interchanges": [
+            "MRT Blue Line"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "th-mrt-blue",
+      "name": "MRT Blue Line",
+      "color": "#1E3E8F",
+      "stations": [
+        {
+          "name": "Tha Phra"
+        },
+        {
+          "name": "Charan 13"
+        },
+        {
+          "name": "Fai Chai"
+        },
+        {
+          "name": "Bang Khun Non"
+        },
+        {
+          "name": "Bang Yi Khan"
+        },
+        {
+          "name": "Sirindhorn"
+        },
+        {
+          "name": "Bang Phlat"
+        },
+        {
+          "name": "Bang O"
+        },
+        {
+          "name": "Bang Pho"
+        },
+        {
+          "name": "Tao Poon",
+          "interchanges": [
+            "MRT Purple Line"
+          ]
+        },
+        {
+          "name": "Bang Sue"
+        },
+        {
+          "name": "Kamphaeng Phet"
+        },
+        {
+          "name": "Chatuchak Park",
+          "interchanges": [
+            "BTS Sukhumvit Line"
+          ]
+        },
+        {
+          "name": "Phahon Yothin",
+          "interchanges": [
+            "BTS Sukhumvit Line"
+          ]
+        },
+        {
+          "name": "Lat Phrao",
+          "interchanges": [
+            "MRT Yellow Line"
+          ]
+        },
+        {
+          "name": "Ratchadaphisek"
+        },
+        {
+          "name": "Sutthisan"
+        },
+        {
+          "name": "Huai Khwang"
+        },
+        {
+          "name": "Thailand Cultural Centre"
+        },
+        {
+          "name": "Phra Ram 9"
+        },
+        {
+          "name": "Phetchaburi"
+        },
+        {
+          "name": "Sukhumvit",
+          "interchanges": [
+            "BTS Sukhumvit Line"
+          ]
+        },
+        {
+          "name": "Queen Sirikit National Convention Centre"
+        },
+        {
+          "name": "Khlong Toei"
+        },
+        {
+          "name": "Lumphini"
+        },
+        {
+          "name": "Si Lom",
+          "interchanges": [
+            "BTS Silom Line"
+          ]
+        },
+        {
+          "name": "Sam Yan"
+        },
+        {
+          "name": "Hua Lamphong"
+        },
+        {
+          "name": "Wat Mangkon"
+        },
+        {
+          "name": "Sam Yot"
+        },
+        {
+          "name": "Sanam Chai"
+        },
+        {
+          "name": "Itsaraphap"
+        },
+        {
+          "name": "Bang Phai"
+        },
+        {
+          "name": "Bang Wa",
+          "interchanges": [
+            "BTS Silom Line"
+          ]
+        },
+        {
+          "name": "Phetkasem 48"
+        },
+        {
+          "name": "Phasi Charoen"
+        },
+        {
+          "name": "Bang Khae"
+        },
+        {
+          "name": "Lak Song"
+        }
+      ]
+    },
+    {
+      "id": "th-mrt-purple",
+      "name": "MRT Purple Line",
+      "color": "#7C1F7F",
+      "stations": [
+        {
+          "name": "Khlong Bang Phai"
+        },
+        {
+          "name": "Talad Bang Yai"
+        },
+        {
+          "name": "Sam Yaek Bang Yai"
+        },
+        {
+          "name": "Bang Phlu"
+        },
+        {
+          "name": "Bang Rak Yai"
+        },
+        {
+          "name": "Bang Rak Noi Tha It"
+        },
+        {
+          "name": "Sai Ma"
+        },
+        {
+          "name": "Phra Nang Klao Bridge"
+        },
+        {
+          "name": "Yaek Nonthaburi 1"
+        },
+        {
+          "name": "Bang Krasor"
+        },
+        {
+          "name": "Nonthaburi Civic Center",
+          "interchanges": [
+            "MRT Pink Line"
+          ]
+        },
+        {
+          "name": "Ministry of Public Health"
+        },
+        {
+          "name": "Yaek Tiwanon"
+        },
+        {
+          "name": "Wong Sawang"
+        },
+        {
+          "name": "Bang Son"
+        },
+        {
+          "name": "Tao Poon",
+          "interchanges": [
+            "MRT Blue Line"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "th-arl",
+      "name": "Airport Rail Link",
+      "color": "#D6001C",
+      "stations": [
+        {
+          "name": "Phaya Thai",
+          "interchanges": [
+            "BTS Sukhumvit Line"
+          ]
+        },
+        {
+          "name": "Ratchaprarop"
+        },
+        {
+          "name": "Makkasan"
+        },
+        {
+          "name": "Ramkhamhaeng"
+        },
+        {
+          "name": "Hua Mak",
+          "interchanges": [
+            "MRT Yellow Line"
+          ]
+        },
+        {
+          "name": "Ban Thap Chang"
+        },
+        {
+          "name": "Lat Krabang"
+        },
+        {
+          "name": "Suvarnabhumi"
+        }
+      ]
+    },
+    {
+      "id": "th-mrt-pink",
+      "name": "MRT Pink Line",
+      "color": "#E6007E",
+      "stations": [
+        {
+          "name": "Nonthaburi Civic Center",
+          "interchanges": [
+            "MRT Purple Line"
+          ]
+        },
+        {
+          "name": "Khae Rai"
+        },
+        {
+          "name": "Sanambin Nam"
+        },
+        {
+          "name": "Samakkhi"
+        },
+        {
+          "name": "Royal Irrigation Department"
+        },
+        {
+          "name": "Yaek Pak Kret"
+        },
+        {
+          "name": "Pak Kret Bypass"
+        },
+        {
+          "name": "Chaeng Watthana - Pak Kret 28"
+        },
+        {
+          "name": "Si Rat"
+        },
+        {
+          "name": "Muang Thong Thani"
+        },
+        {
+          "name": "Chaeng Watthana 14"
+        },
+        {
+          "name": "Government Complex"
+        },
+        {
+          "name": "National Telecom"
+        },
+        {
+          "name": "Lak Si"
+        },
+        {
+          "name": "Rajabhat Phranakhon"
+        },
+        {
+          "name": "Wat Phra Sri Mahathat",
+          "interchanges": [
+            "BTS Sukhumvit Line"
+          ]
+        },
+        {
+          "name": "Ram Inthra 3"
+        },
+        {
+          "name": "Lat Pla Khao"
+        },
+        {
+          "name": "Ram Inthra Kor Mor 4"
+        },
+        {
+          "name": "Maiyalap"
+        },
+        {
+          "name": "Vacharaphol"
+        },
+        {
+          "name": "Ram Inthra Kor Mor 6"
+        },
+        {
+          "name": "Khu Bon"
+        },
+        {
+          "name": "Ram Inthra Kor Mor 9"
+        },
+        {
+          "name": "Outer Ring Road - Ram Inthra"
+        },
+        {
+          "name": "Nopparat"
+        },
+        {
+          "name": "Bang Chan"
+        },
+        {
+          "name": "Setthabutbamphen"
+        },
+        {
+          "name": "Min Buri Market"
+        },
+        {
+          "name": "Min Buri"
+        }
+      ]
+    },
+    {
+      "id": "th-mrt-yellow",
+      "name": "MRT Yellow Line",
+      "color": "#FFD100",
+      "stations": [
+        {
+          "name": "Lat Phrao",
+          "interchanges": [
+            "MRT Blue Line"
+          ]
+        },
+        {
+          "name": "Phawana"
+        },
+        {
+          "name": "Chok Chai 4"
+        },
+        {
+          "name": "Lat Phrao 71"
+        },
+        {
+          "name": "Lat Phrao 83"
+        },
+        {
+          "name": "Mahat Thai"
+        },
+        {
+          "name": "Lat Phrao 101"
+        },
+        {
+          "name": "Bang Kapi"
+        },
+        {
+          "name": "Yaek Lam Sali"
+        },
+        {
+          "name": "Si Kritha"
+        },
+        {
+          "name": "Hua Mak",
+          "interchanges": [
+            "Airport Rail Link"
+          ]
+        },
+        {
+          "name": "Kalantan"
+        },
+        {
+          "name": "Si Nut"
+        },
+        {
+          "name": "Srinagarindra 38"
+        },
+        {
+          "name": "Suan Luang Rama IX"
+        },
+        {
+          "name": "Si Udom"
+        },
+        {
+          "name": "Si Iam"
+        },
+        {
+          "name": "Si La Salle"
+        },
+        {
+          "name": "Si Bearing"
+        },
+        {
+          "name": "Si Dan"
+        },
+        {
+          "name": "Si Thepha"
+        },
+        {
+          "name": "Thipphawan"
+        },
+        {
+          "name": "Samrong",
+          "interchanges": [
+            "BTS Sukhumvit Line"
+          ]
+        }
+      ]
+    }
+  ],
+  "stations": [
+    "11th Infantry Regiment",
+    "Ari",
+    "Asok",
+    "Ban Thap Chang",
+    "Bang Bua",
+    "Bang Chak",
+    "Bang Chan",
+    "Bang Kapi",
+    "Bang Khae",
+    "Bang Khun Non",
+    "Bang Krasor",
+    "Bang Na",
+    "Bang O",
+    "Bang Phai",
+    "Bang Phlat",
+    "Bang Phlu",
+    "Bang Pho",
+    "Bang Rak Noi Tha It",
+    "Bang Rak Yai",
+    "Bang Son",
+    "Bang Sue",
+    "Bang Wa",
+    "Bang Yi Khan",
+    "Bearing",
+    "Bhumibol Adulyadej Hospital",
+    "Chaeng Watthana - Pak Kret 28",
+    "Chaeng Watthana 14",
+    "Chang Erawan",
+    "Charan 13",
+    "Chatuchak Park",
+    "Chit Lom",
+    "Chok Chai 4",
+    "Chong Nonsi",
+    "Ekkamai",
+    "Fai Chai",
+    "Government Complex",
+    "Ha Yaek Lat Phrao",
+    "Hua Lamphong",
+    "Hua Mak",
+    "Huai Khwang",
+    "Itsaraphap",
+    "Kalantan",
+    "Kamphaeng Phet",
+    "Kasetsart University",
+    "Khae Rai",
+    "Kheha",
+    "Khlong Bang Phai",
+    "Khlong Toei",
+    "Khu Bon",
+    "Khu Khot",
+    "Krung Thon Buri",
+    "Lak Si",
+    "Lak Song",
+    "Lat Krabang",
+    "Lat Phrao",
+    "Lat Phrao 101",
+    "Lat Phrao 71",
+    "Lat Phrao 83",
+    "Lat Pla Khao",
+    "Lumphini",
+    "Mahat Thai",
+    "Maiyalap",
+    "Makkasan",
+    "Min Buri",
+    "Min Buri Market",
+    "Ministry of Public Health",
+    "Mo Chit",
+    "Muang Thong Thani",
+    "Nana",
+    "National Stadium",
+    "National Telecom",
+    "Nonthaburi Civic Center",
+    "Nopparat",
+    "On Nut",
+    "Outer Ring Road - Ram Inthra",
+    "Pak Kret Bypass",
+    "Pak Nam",
+    "Phahon Yothin",
+    "Phahon Yothin 24",
+    "Phahon Yothin 59",
+    "Phasi Charoen",
+    "Phawana",
+    "Phaya Thai",
+    "Phetchaburi",
+    "Phetkasem 48",
+    "Phloen Chit",
+    "Pho Nimit",
+    "Phra Khanong",
+    "Phra Nang Klao Bridge",
+    "Phra Ram 9",
+    "Phraek Sa",
+    "Phrom Phong",
+    "Pu Chao",
+    "Punnawithi",
+    "Queen Sirikit National Convention Centre",
+    "Rajabhat Phranakhon",
+    "Ram Inthra 3",
+    "Ram Inthra Kor Mor 4",
+    "Ram Inthra Kor Mor 6",
+    "Ram Inthra Kor Mor 9",
+    "Ramkhamhaeng",
+    "Ratchadamri",
+    "Ratchadaphisek",
+    "Ratchaprarop",
+    "Ratchathewi",
+    "Ratchayothin",
+    "Royal Forest Department",
+    "Royal Irrigation Department",
+    "Royal Thai Air Force Museum",
+    "Royal Thai Naval Academy",
+    "Sai Luat",
+    "Sai Ma",
+    "Sai Yud",
+    "Saint Louis",
+    "Sala Daeng",
+    "Sam Yaek Bang Yai",
+    "Sam Yan",
+    "Sam Yot",
+    "Samakkhi",
+    "Samrong",
+    "Sanam Chai",
+    "Sanam Pao",
+    "Sanambin Nam",
+    "Saphan Khwai",
+    "Saphan Mai",
+    "Saphan Taksin",
+    "Sena Nikhom",
+    "Setthabutbamphen",
+    "Si Bearing",
+    "Si Dan",
+    "Si Iam",
+    "Si Kritha",
+    "Si La Salle",
+    "Si Lom",
+    "Si Nut",
+    "Si Rat",
+    "Si Thepha",
+    "Si Udom",
+    "Siam",
+    "Sirindhorn",
+    "Srinagarindra",
+    "Srinagarindra 38",
+    "Suan Luang Rama IX",
+    "Sukhumvit",
+    "Surasak",
+    "Sutthisan",
+    "Suvarnabhumi",
+    "Talad Bang Yai",
+    "Talat Phlu",
+    "Tao Poon",
+    "Tha Phra",
+    "Thailand Cultural Centre",
+    "Thipphawan",
+    "Thong Lo",
+    "Udom Suk",
+    "Vacharaphol",
+    "Victory Monument",
+    "Wat Mangkon",
+    "Wat Phra Sri Mahathat",
+    "Wong Sawang",
+    "Wongwian Yai",
+    "Wutthakat",
+    "Yaek Kor Por Aor",
+    "Yaek Lam Sali",
+    "Yaek Nonthaburi 1",
+    "Yaek Pak Kret",
+    "Yaek Tiwanon"
+  ],
   "source": "https://metro.bemplc.co.th/Fare-Calculation?lang=en",
   "coverage": {
     "mode": "scraped",
     "covered": [],
-    "date": "2026-08-19",
+    "date": "2026-09-05",
     "dateRange": {
-      "start": "2026-08-19",
-      "end": "2026-08-19",
+      "start": "2026-09-05",
+      "end": "2026-09-05",
       "days": 1,
       "liveOnly": true
     },
@@ -20,6 +1508,5 @@
     "provenance": "unknown",
     "truthMode": "unusable",
     "reason": "unavailable_coverage"
-  },
-  "messageKey": "stations.no_verified_timetable_for_date"
+  }
 }
