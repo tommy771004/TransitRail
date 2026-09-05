@@ -4,9 +4,9 @@
   "source": "MTR official service hours",
   "sourceUrl": "https://www.mtr.com.hk/en/customer/services/service_hours_search.php",
   "timezone": "Asia/Hong_Kong",
-  "retrievedAt": "2026-09-05T12:55:53.210Z",
+  "retrievedAt": "2026-09-05T23:26:22.333Z",
   "validFrom": "2026-08-02",
-  "validTo": "2026-09-05",
+  "validTo": "2026-09-06",
   "routes": {
     "admiralty->tsim sha tsui": {
       "2026-08-02": {
@@ -484,6 +484,26 @@
         ],
         "note": "MTR publishes one first/last train per direction, not a departure timetable and not a separate set per service day. Frequency is the operator's published headway.",
         "minutesToLastDeparture": 241
+      },
+      "2026-09-06": {
+        "coverage": "partial",
+        "serviceDate": "2026-09-06",
+        "timezone": "Asia/Hong_Kong",
+        "serviceDayType": "sunday_holiday",
+        "firstDeparture": "06:07",
+        "lastDeparture": "00:56",
+        "risk": "safe",
+        "source": "MTR official service hours",
+        "sourceUrl": "https://www.mtr.com.hk/en/customer/services/service_hours_search.php",
+        "checkedAt": "2026-09-05T23:26:21.526Z",
+        "frequency": [
+          {
+            "label": "Sunday and public holidays",
+            "minutes": "3.1-5"
+          }
+        ],
+        "note": "MTR publishes one first/last train per direction, not a departure timetable and not a separate set per service day. Frequency is the operator's published headway.",
+        "minutesToLastDeparture": 1050
       }
     },
     "central->tsuen wan": {
@@ -962,6 +982,26 @@
         ],
         "note": "MTR publishes one first/last train per direction, not a departure timetable and not a separate set per service day. Frequency is the operator's published headway.",
         "minutesToLastDeparture": 239
+      },
+      "2026-09-06": {
+        "coverage": "partial",
+        "serviceDate": "2026-09-06",
+        "timezone": "Asia/Hong_Kong",
+        "serviceDayType": "sunday_holiday",
+        "firstDeparture": "06:06",
+        "lastDeparture": "00:54",
+        "risk": "safe",
+        "source": "MTR official service hours",
+        "sourceUrl": "https://www.mtr.com.hk/en/customer/services/service_hours_search.php",
+        "checkedAt": "2026-09-05T23:26:21.916Z",
+        "frequency": [
+          {
+            "label": "Sunday and public holidays",
+            "minutes": "3.1-5"
+          }
+        ],
+        "note": "MTR publishes one first/last train per direction, not a departure timetable and not a separate set per service day. Frequency is the operator's published headway.",
+        "minutesToLastDeparture": 1048
       }
     },
     "tung chung->sunny bay": {
@@ -1440,6 +1480,26 @@
         ],
         "note": "MTR publishes one first/last train per direction, not a departure timetable and not a separate set per service day. Frequency is the operator's published headway.",
         "minutesToLastDeparture": 228
+      },
+      "2026-09-06": {
+        "coverage": "partial",
+        "serviceDate": "2026-09-06",
+        "timezone": "Asia/Hong_Kong",
+        "serviceDayType": "sunday_holiday",
+        "firstDeparture": "06:02",
+        "lastDeparture": "00:43",
+        "risk": "safe",
+        "source": "MTR official service hours",
+        "sourceUrl": "https://www.mtr.com.hk/en/customer/services/service_hours_search.php",
+        "checkedAt": "2026-09-05T23:26:22.333Z",
+        "frequency": [
+          {
+            "label": "Sunday and public holidays",
+            "minutes": "6.5-10"
+          }
+        ],
+        "note": "MTR publishes one first/last train per direction, not a departure timetable and not a separate set per service day. Frequency is the operator's published headway.",
+        "minutesToLastDeparture": 1037
       }
     }
   }
