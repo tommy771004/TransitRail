@@ -1,0 +1,369 @@
+> tsc --noEmit && vitest run
+ RUN  v3.2.7 /Users/tommy/Documents/Proj/TransitRail
+ ✓ src/server/seoulSubwayCsv.test.ts (2 tests) 20ms
+ ❯ src/i18nCoverageCopy.test.ts (14 tests | 4 failed) 14ms
+   ✓ coverage copy exists in every shipped locale > en renders the not-covered block and picker badge 3ms
+   ✓ coverage copy exists in every shipped locale > zh-TW renders the not-covered block and picker badge 1ms
+   ✓ coverage copy exists in every shipped locale > ja renders the not-covered block and picker badge 0ms
+   ✓ coverage copy exists in every shipped locale > ko renders the not-covered block and picker badge 0ms
+   ✓ English subject/verb agreement > uses a singular verb for one uncovered station 0ms
+   ✓ English subject/verb agreement > uses a plural verb when both endpoints are uncovered 0ms
+   × station browser i18n coverage > en has every station-browser UI key without falling back to English 5ms
+     → en: service_region.takamatsu-kotoden: expected false to be true // Object.is equality
+   × station browser i18n coverage > zh-TW has every station-browser UI key without falling back to English 1ms
+     → zh-TW: service_region.takamatsu-kotoden: expected false to be true // Object.is equality
+   × station browser i18n coverage > ja has every station-browser UI key without falling back to English 0ms
+     → ja: service_region.takamatsu-kotoden: expected false to be true // Object.is equality
+   × station browser i18n coverage > ko has every station-browser UI key without falling back to English 0ms
+     → ko: service_region.takamatsu-kotoden: expected false to be true // Object.is equality
+   ✓ result-slice copy exists in every shipped locale > en describes displayed rows without claiming they are first/last service 1ms
+   ✓ result-slice copy exists in every shipped locale > zh-TW describes displayed rows without claiming they are first/last service 0ms
+   ✓ result-slice copy exists in every shipped locale > ja describes displayed rows without claiming they are first/last service 0ms
+   ✓ result-slice copy exists in every shipped locale > ko describes displayed rows without claiming they are first/last service 0ms
+ ✓ src/data/searchabilityPolicy.test.ts (9 tests) 20ms
+stdout | scripts/scrapers/base.test.ts > BaseScraper route concurrency > limits independent routes to the scraper's declared concurrency
+  malaysia: scraping A → B...
+  malaysia: scraping C → D...
+stdout | scripts/scrapers/base.test.ts > BaseScraper route concurrency > limits independent routes to the scraper's declared concurrency
+  malaysia: scraping E → F...
+stdout | scripts/scrapers/base.test.ts > BaseScraper route concurrency > limits independent routes to the scraper's declared concurrency
+  malaysia: scraping G → H...
+ ✓ src/data/searchabilityPolicyContract.test.ts (8 tests) 22ms
+ ✓ scripts/scrapers/base.test.ts (2 tests) 37ms
+ ✓ src/server/providerStationResolution.test.ts (8 tests) 63ms
+ ✓ src/server/tflServiceDaySweep.test.ts (11 tests) 91ms
+ ✓ src/data/generatedStationLabels.test.ts (6 tests) 311ms
+ ✓ src/server/transitSearch.test.ts (9 tests) 38ms
+ ✓ src/data/koreanSubwayArtifact.test.ts (9 tests) 20ms
+ ✓ src/server/belgium.test.ts (1 test) 15ms
+ ✓ src/data/stationCoverage.test.ts (31 tests) 24ms
+ ✓ src/utils/stationLabel.test.ts (9 tests) 28ms
+ ✓ src/server/tflBrowser.test.ts (7 tests) 13ms
+ ✓ src/server/odptTimetable.test.ts (6 tests) 16ms
+ ✓ src/server/hongKongServiceHours.test.ts (12 tests) 17ms
+ ✓ src/data/countries.test.ts (10 tests) 23ms
+ ✓ src/server/expressRuntime.test.ts (1 test) 19ms
+ ✓ src/server/singaporeSmrt.test.ts (4 tests) 14ms
+ ✓ src/data/scraped/timetableDay.test.ts (20 tests) 14ms
+ ✓ src/server/belgiumStationCache.test.ts (2 tests) 12ms
+ ✓ src/server/serviceDayWatch.test.ts (1 test) 16ms
+ ✓ scripts/lib/timetableValidation.test.ts (27 tests) 6ms
+stdout | src/data/scraped/seoulArtifactSearch.test.ts
+[scraped] Loaded 69 routes across 14 countries
+ ✓ src/server/swissGtfs.test.ts (3 tests) 6ms
+ ✓ src/server/transitApp.test.ts (6 tests) 16ms
+ ✓ src/server/franceGtfsTimetable.test.ts (10 tests) 11ms
+ ✓ src/server/seoulSubwayTimetable.test.ts (21 tests) 11ms
+ ✓ src/server/singaporeLtaGtfs.test.ts (7 tests) 9ms
+ ✓ src/data/seoulStationNames.test.ts (15 tests) 8ms
+ ✓ src/server/tflLondonTime.test.ts (4 tests) 12ms
+ ✓ src/server/swissAuth.test.ts (4 tests) 7ms
+ ✓ scripts/scrapers/merge.test.ts (9 tests) 3ms
+stdout | scripts/scrapers/japanLocalGtfs.test.ts > Japan local GTFS-JP scraper > runs nothing at all when the operator's feed URL is not configured
+  japan: no default feed and KOTODEN_GTFS_URL not set; skipping Kotoden GTFS-JP.
+stdout | scripts/scrapers/japanLocalGtfs.test.ts > Japan local GTFS-JP scraper > takes its route list and station spellings from the feed, once across dates
+  japan: Kotoden GTFS-JP published 2 route(s): 高松築港 → 琴電琴平, 琴電琴平 → 高松築港
+  japan: scraping 高松築港 → 琴電琴平...
+stdout | scripts/scrapers/japanLocalGtfs.test.ts > Japan local GTFS-JP scraper > takes its route list and station spellings from the feed, once across dates
+  japan: scraping 琴電琴平 → 高松築港...
+stdout | scripts/scrapers/japanLocalGtfs.test.ts > Japan local GTFS-JP scraper > takes its route list and station spellings from the feed, once across dates
+  japan: scraping 高松築港 → 琴電琴平...
+stdout | scripts/scrapers/japanLocalGtfs.test.ts > Japan local GTFS-JP scraper > takes its route list and station spellings from the feed, once across dates
+  japan: scraping 琴電琴平 → 高松築港...
+ ✓ scripts/scrapers/japanLocalGtfs.test.ts (3 tests) 9ms
+ ✓ src/server/germanyGtfs.test.ts (3 tests) 7ms
+ ✓ scripts/generate-station-catalog.test.ts (2 tests) 10ms
+ ✓ scripts/scrapers/japan.test.ts (8 tests) 5ms
+ ✓ scripts/scrapers/registry.test.ts (6 tests) 5ms
+ ✓ src/server/jrCentralTimetable.test.ts (3 tests) 5ms
+stdout | scripts/scrapers/kinds.test.ts > FrequencyScraper > collects the service day alongside the empty route files
+  thailand: scraping A → B...
+ ✓ scripts/scrapers/kinds.test.ts (16 tests) 14ms
+ ✓ src/data/timetableAuthenticity.test.ts (32 tests) 6ms
+ ✓ src/data/sourceRegistry.test.ts (15 tests) 6ms
+ ✓ src/data/stationIdentity.test.ts (12 tests) 3ms
+ ✓ scripts/scrapers/korea.test.ts (2 tests) 6ms
+ ✓ src/components/stationBrowserCatalog.test.ts (4 tests) 5ms
+ ✓ src/data/countryCapability.test.ts (11 tests) 5ms
+ ✓ src/server/incheonSubwayCsv.test.ts (11 tests) 6ms
+ ✓ src/server/malaysiaGtfs.test.ts (1 test) 6ms
+ ✓ src/server/gtfs/journeys.test.ts (3 tests) 5ms
+ ✓ scripts/inspect-korea-filedata.test.ts (15 tests) 5ms
+ ✓ src/server/mbtaBrowser.test.ts (4 tests) 3ms
+ ✓ src/server/requestOrigin.test.ts (8 tests) 3ms
+ ✓ src/server/errorLog.test.ts (3 tests) 5ms
+ ✓ scripts/lib/gtfsFeedSummary.test.ts (3 tests) 2ms
+ ✓ src/data/serviceDayAdvisory.test.ts (4 tests) 2ms
+ ✓ src/utils/timetableChanges.test.ts (3 tests) 2ms
+ ✓ src/server/affiliates.test.ts (2 tests) 2ms
+ ✓ src/data/hongKongMtr.test.ts (1 test) 2ms
+ ✓ src/data/transferRules.test.ts (4 tests) 2ms
+ ✓ scripts/scrape-plan.test.ts (6 tests) 2ms
+ ✓ scripts/scrapers/artifactBuilder.test.ts (2 tests) 2ms
+ ✓ src/data/providerRouteLines.test.ts (3 tests) 2ms
+ ✓ src/data/metroLines.test.ts (1 test) 1ms
+ ✓ src/server/requestAccessors.test.ts (1 test) 2ms
+ ✓ src/server/sitemapCoverage.test.ts (4 tests) 4ms
+stdout | scripts/audit-source-coverage.test.ts > source coverage audit > keeps no-source markets out of search while retaining Singapore's directory
+[scraped] Loaded 69 routes across 14 countries
+ ✓ scripts/audit-source-coverage.test.ts (4 tests) 2212ms
+   ✓ source coverage audit > keeps no-source markets out of search while retaining Singapore's directory  2203ms
+stdout | src/server/catalog.test.ts > station and line catalog integrity scope > builds a stable date-qualified metro and intercity hierarchy without pair searches
+[scraped] Loaded 69 routes across 14 countries
+stdout | src/server/transitSearchFrance.test.ts > runTransitSearch France GTFS service-day advisory
+[scraped] Loaded 69 routes across 14 countries
+stdout | src/server/transitSearchSingapore.test.ts > Singapore scheduled SMRT advisory integration > serves the scheduled artifact without fetching SMRT during traveler search
+[scraped] Loaded 69 routes across 14 countries
+ ✓ src/server/transitSearchSingapore.test.ts (1 test) 2229ms
+   ✓ Singapore scheduled SMRT advisory integration > serves the scheduled artifact without fetching SMRT during traveler search  2228ms
+stdout | src/server/searchabilityRuntimeContract.test.ts > searchability policy runtime wiring > carries the shared verified fixture through the journey coordinator
+[scraped] Loaded 69 routes across 14 countries
+ ✓ src/server/searchabilityRuntimeContract.test.ts (1 test) 2241ms
+   ✓ searchability policy runtime wiring > carries the shared verified fixture through the journey coordinator  2240ms
+stdout | src/server/transitSearchMbta.test.ts > runTransitSearch MBTA service-day advisory > returns future-date schedule journeys and a weekday first/last advisory
+[scraped] Loaded 69 routes across 14 countries
+ ✓ src/server/transitSearchMbta.test.ts (6 tests) 2266ms
+   ✓ runTransitSearch MBTA service-day advisory > returns future-date schedule journeys and a weekday first/last advisory  2251ms
+stdout | src/server/transitSearchThailand.test.ts > runTransitSearch Thailand official HTML advisory > does not fetch BEM from the journey-search request when no artifact exists
+[scraped] Loaded 69 routes across 14 countries
+ ✓ src/server/transitSearchThailand.test.ts (7 tests) 2285ms
+   ✓ runTransitSearch Thailand official HTML advisory > does not fetch BEM from the journey-search request when no artifact exists  2272ms
+stdout | src/server/transitSearchCoverage.test.ts > scheduled Seoul artifact search > answers the formerly uncovered corridor from official train runs
+[scraped] Loaded 69 routes across 14 countries
+stdout | src/data/scraped/seoulArtifactSearch.test.ts
+[scraped] Loaded 69 routes across 14 countries
+ ✓ src/data/scraped/seoulArtifactSearch.test.ts (4 tests) 2802ms
+stdout | src/server/transitSearchFrance.test.ts > runTransitSearch France GTFS service-day advisory
+[scraped] Loaded 69 routes across 14 countries
+ ✓ src/server/transitSearchFrance.test.ts (8 tests) 2787ms
+ ✓ src/server/transitSearchCoverage.test.ts (9 tests) 4001ms
+   ✓ scheduled Seoul artifact search > answers the formerly uncovered corridor from official train runs  2426ms
+   ✓ scheduled Seoul artifact search > leaves live-provider countries without a coverage gap  1213ms
+stdout | src/server/transitSearchReasons.test.ts > search no-result reasons > distinguishes a covered-but-unsupported station pair
+[scraped] Loaded 69 routes across 14 countries
+ ❯ src/server/transitSearchReasons.test.ts (6 tests | 1 failed) 8836ms
+   × search no-result reasons > distinguishes a covered-but-unsupported station pair 5216ms
+     → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+   ✓ search no-result reasons > calls a station search cannot answer for uncovered, not merely unsupported  2312ms
+   ✓ search no-result reasons > reports a future date outside a live source's today-only contract 0ms
+   ✓ search no-result reasons > reports a future date outside a scheduled source's published range 0ms
+   ✓ search no-result reasons > reports an uncovered Malaysia station pair without claiming a timetable 9ms
+   ✓ search no-result reasons > reports an otherwise covered route with no service on the selected day  1298ms
+ ❯ src/server/catalog.test.ts (16 tests | 1 failed) 9585ms
+   × station and line catalog integrity scope > builds a stable date-qualified metro and intercity hierarchy without pair searches 3580ms
+     → expected [ 'tokyo-urban', …(2) ] to deeply equal [ 'tokyo-urban', 'japan-intercity' ]
+   ✓ station and line catalog integrity scope > does not turn source-context-only markets into searchable catalogue entries 2ms
+   ✓ station and line catalog integrity scope > keeps Thailand's official directory reachable for its service-day advisory 1ms
+   ✓ station and line catalog integrity scope > uses the verified KTMB snapshot for Malaysia stations and source attribution 6ms
+   ✓ station and line catalog integrity scope > uses the artifact-backed Korean network in the same hierarchy 14ms
+   ✓ station and line catalog integrity scope > exposes verified Toei and Shinkansen lines while hiding unverified Tokyo Metro lines  1339ms
+   ✓ station and line catalog integrity scope > offers only Japanese stations a search can answer, in the menu and on the map  2729ms
+   ✓ station and line catalog integrity scope > keeps the static intercity directory without promising dated timetable coverage 2ms
+   ✓ station and line catalog integrity scope > carries the Seoul artifact's verified policy fact into station and line discovery 16ms
+   ✓ station and line catalog integrity scope > exposes snapshot-backed route catalogs for Belgium, Norway, and the United States 2ms
+   ✓ station and line catalog integrity scope > offers only the dates the committed data can answer  1850ms
+   ✓ station and line catalog integrity scope > trims a provider-then-scraped market to what its snapshots guarantee 17ms
+   ✓ station and line catalog integrity scope > does not trim a live-provider market to committed rows 3ms
+   ✓ station and line catalog integrity scope > hydrates a provider catalog from the complete live station directory 8ms
+   ✓ station and line catalog integrity scope > does not make provider line browsing depend on a committed snapshot date 1ms
+   ✓ station and line catalog integrity scope > does not use fallback snapshot pairs to hide provider-market destinations 14ms
+ Test Files  3 failed | 71 passed (74)
+      Tests  6 failed | 540 passed (546)
+   Start at  19:39:09
+   Duration  10.23s (transform 1.41s, setup 0ms, collect 12.13s, tests 40.32s, environment 6ms, prepare 3.12s)
+stderr | src/data/searchabilityPolicyContract.test.ts > Searchability policy shared output contract > publishes only what search would answer
+[route-pages] Skipping unverifiable route germany/germany.json
+[route-pages] Skipping unverifiable route hong_kong/hong_kong.json
+stderr | src/server/tflServiceDaySweep.test.ts > TfL service-day sweep > falls back to anonymous access when TfL rejects the key, rather than racing past the anonymous limit
+  TfL rejected TFL_APP_KEY (HTTP 429); falling back to anonymous access and pacing. Run `npx tsx scripts/diagnose-tfl-key.ts` to see what TfL says about the key.
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > retries a transient page navigation failure without inventing a row
+  TfL browser query retry: King's Cross St. Pancras Underground Station → Oxford Circus Underground Station on 2026-08-15 at 05:30
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > keeps the samples the planner did answer when a few are refused
+  TfL browser query retry: Leicester Square → Camden Town on 2026-08-19 at 05:30
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > keeps the samples the planner did answer when a few are refused
+  TfL sample failed: 05:30: page.waitForFunction: Timeout 12000ms exceeded.
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > keeps the samples the planner did answer when a few are refused
+  TfL browser query retry: Leicester Square → Camden Town on 2026-08-19 at 06:45
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > keeps the samples the planner did answer when a few are refused
+  TfL partial day: Leicester Square → Camden Town on 2026-08-19 — 13/15 samples answered; first failure — 05:30: page.waitForFunction: Timeout 12000ms exceeded.
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > refuses a day with material gaps rather than publishing a sparse one
+  TfL browser query retry: Leicester Square → Camden Town on 2026-08-19 at 05:30
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > refuses a day with material gaps rather than publishing a sparse one
+  TfL sample failed: 05:30: page.waitForFunction: Timeout 12000ms exceeded.
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > refuses a day with material gaps rather than publishing a sparse one
+  TfL browser query retry: Leicester Square → Camden Town on 2026-08-19 at 06:45
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > refuses a day with material gaps rather than publishing a sparse one
+  TfL browser query retry: Leicester Square → Camden Town on 2026-08-19 at 08:00
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > refuses a day with material gaps rather than publishing a sparse one
+  TfL browser query retry: Leicester Square → Camden Town on 2026-08-19 at 09:15
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > says what the page was when the results markup never appears
+  TfL browser query retry: Leicester Square → Camden Town on 2026-08-19 at 05:30
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > says what the page was when the results markup never appears
+  TfL sample failed: 05:30: page.waitForFunction: Timeout 12000ms exceeded. The page was at https://tfl.gov.uk/JourneyPlanner/ResultsAsync?x=1, title "Access denied", page says "Your request has been blocked.".
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > says what the page was when the results markup never appears
+  TfL browser query retry: Leicester Square → Camden Town on 2026-08-19 at 06:45
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > says what the page was when the results markup never appears
+  TfL browser query retry: Leicester Square → Camden Town on 2026-08-19 at 08:00
+stderr | src/server/tflBrowser.test.ts > TfL official Journey Planner browser scraper > says what the page was when the results markup never appears
+  TfL browser query retry: Leicester Square → Camden Town on 2026-08-19 at 09:15
+stderr | src/data/scraped/seoulArtifactSearch.test.ts
+[scraped] Skipping unusable thailand/mo-chit-hua-lamphong.json: empty
+[scraped] Skipping unusable thailand/siam-mo-chit.json: empty
+[scraped] Skipping unusable thailand/siam-saphan-taksin.json: empty
+[scraped] Skipping unusable thailand/sukhumvit-hua-lamphong.json: empty
+stderr | scripts/generate-station-catalog.test.ts > static station catalog generation > falls back to committed data when a live provider directory is unavailable
+  ! united_kingdom: live station directory unavailable; rebuilding from committed data (TfL rate limit exhausted)
+stderr | scripts/scrapers/korea.test.ts > Korea scheduled scraper > keeps the KTX snapshot schedule running when the Seoul download fails
+  korea: Seoul Metro timetable artifact refresh skipped: offline
+stderr | src/server/sitemapCoverage.test.ts
+[route-pages] Skipping thin route france/paris-gare-de-lyon-lyon-part-dieu.json (1 departures)
+[route-pages] Skipping unverifiable route hong_kong/admiralty-tsim-sha-tsui.json
+[route-pages] Skipping unverifiable route hong_kong/central-tsuen-wan.json
+[route-pages] Skipping unverifiable route hong_kong/hong-kong-airport.json
+[route-pages] Skipping unverifiable route hong_kong/tung-chung-sunny-bay.json
+[route-pages] Skipping thin route france/paris-gare-de-lyon-lyon-part-dieu.json (1 departures)
+[route-pages] Skipping unverifiable route hong_kong/admiralty-tsim-sha-tsui.json
+[route-pages] Skipping unverifiable route hong_kong/central-tsuen-wan.json
+[route-pages] Skipping unverifiable route hong_kong/hong-kong-airport.json
+[route-pages] Skipping unverifiable route hong_kong/tung-chung-sunny-bay.json
+stderr | scripts/audit-source-coverage.test.ts > source coverage audit > keeps no-source markets out of search while retaining Singapore's directory
+[scraped] Skipping unusable thailand/mo-chit-hua-lamphong.json: empty
+[scraped] Skipping unusable thailand/siam-mo-chit.json: empty
+[scraped] Skipping unusable thailand/siam-saphan-taksin.json: empty
+[scraped] Skipping unusable thailand/sukhumvit-hua-lamphong.json: empty
+stderr | src/server/catalog.test.ts > station and line catalog integrity scope > builds a stable date-qualified metro and intercity hierarchy without pair searches
+[scraped] Skipping unusable thailand/mo-chit-hua-lamphong.json: empty
+[scraped] Skipping unusable thailand/siam-mo-chit.json: empty
+[scraped] Skipping unusable thailand/siam-saphan-taksin.json: empty
+[scraped] Skipping unusable thailand/sukhumvit-hua-lamphong.json: empty
+stderr | src/server/transitSearchFrance.test.ts > runTransitSearch France GTFS service-day advisory
+[scraped] Skipping unusable thailand/mo-chit-hua-lamphong.json: empty
+[scraped] Skipping unusable thailand/siam-mo-chit.json: empty
+[scraped] Skipping unusable thailand/siam-saphan-taksin.json: empty
+[scraped] Skipping unusable thailand/sukhumvit-hua-lamphong.json: empty
+stderr | src/server/transitSearchSingapore.test.ts > Singapore scheduled SMRT advisory integration > serves the scheduled artifact without fetching SMRT during traveler search
+[scraped] Skipping unusable thailand/mo-chit-hua-lamphong.json: empty
+[scraped] Skipping unusable thailand/siam-mo-chit.json: empty
+[scraped] Skipping unusable thailand/siam-saphan-taksin.json: empty
+[scraped] Skipping unusable thailand/sukhumvit-hua-lamphong.json: empty
+stderr | src/server/searchabilityRuntimeContract.test.ts > searchability policy runtime wiring > carries the shared verified fixture through the journey coordinator
+[scraped] Skipping unusable thailand/mo-chit-hua-lamphong.json: empty
+[scraped] Skipping unusable thailand/siam-mo-chit.json: empty
+[scraped] Skipping unusable thailand/siam-saphan-taksin.json: empty
+[scraped] Skipping unusable thailand/sukhumvit-hua-lamphong.json: empty
+stderr | src/server/transitSearchMbta.test.ts > runTransitSearch MBTA service-day advisory > returns future-date schedule journeys and a weekday first/last advisory
+[scraped] Skipping unusable thailand/mo-chit-hua-lamphong.json: empty
+[scraped] Skipping unusable thailand/siam-mo-chit.json: empty
+[scraped] Skipping unusable thailand/siam-saphan-taksin.json: empty
+[scraped] Skipping unusable thailand/sukhumvit-hua-lamphong.json: empty
+stderr | src/server/transitSearchThailand.test.ts > runTransitSearch Thailand official HTML advisory > does not fetch BEM from the journey-search request when no artifact exists
+[scraped] Skipping unusable thailand/mo-chit-hua-lamphong.json: empty
+[scraped] Skipping unusable thailand/siam-mo-chit.json: empty
+[scraped] Skipping unusable thailand/siam-saphan-taksin.json: empty
+[scraped] Skipping unusable thailand/sukhumvit-hua-lamphong.json: empty
+stderr | src/server/transitSearchCoverage.test.ts > scheduled Seoul artifact search > answers the formerly uncovered corridor from official train runs
+[scraped] Skipping unusable thailand/mo-chit-hua-lamphong.json: empty
+[scraped] Skipping unusable thailand/siam-mo-chit.json: empty
+[scraped] Skipping unusable thailand/siam-saphan-taksin.json: empty
+[scraped] Skipping unusable thailand/sukhumvit-hua-lamphong.json: empty
+stderr | src/data/scraped/seoulArtifactSearch.test.ts
+[scraped] Skipping unusable thailand/mo-chit-hua-lamphong.json: empty
+[scraped] Skipping unusable thailand/siam-mo-chit.json: empty
+[scraped] Skipping unusable thailand/siam-saphan-taksin.json: empty
+[scraped] Skipping unusable thailand/sukhumvit-hua-lamphong.json: empty
+stderr | src/server/transitSearchFrance.test.ts > runTransitSearch France GTFS service-day advisory
+[scraped] Skipping unusable thailand/mo-chit-hua-lamphong.json: empty
+[scraped] Skipping unusable thailand/siam-mo-chit.json: empty
+[scraped] Skipping unusable thailand/siam-saphan-taksin.json: empty
+[scraped] Skipping unusable thailand/sukhumvit-hua-lamphong.json: empty
+stderr | src/server/transitSearchReasons.test.ts > search no-result reasons > distinguishes a covered-but-unsupported station pair
+[scraped] Skipping unusable thailand/mo-chit-hua-lamphong.json: empty
+[scraped] Skipping unusable thailand/siam-mo-chit.json: empty
+[scraped] Skipping unusable thailand/siam-saphan-taksin.json: empty
+[scraped] Skipping unusable thailand/sukhumvit-hua-lamphong.json: empty
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  src/i18nCoverageCopy.test.ts > station browser i18n coverage > en has every station-browser UI key without falling back to English
+AssertionError: en: service_region.takamatsu-kotoden: expected false to be true // Object.is equality
+[32m- Expected[39m
+[31m+ Received[39m
+[32m- true[39m
+[31m+ false[39m
+ ❯ src/i18nCoverageCopy.test.ts:88:81
+     86|     it(`${lng} has every station-browser UI key without falling back t…
+     87|       for (const key of [...stationKeys, ...regionKeys]) {
+     88|         expect(i18n.exists(key, { lng, fallbackLng: false }), `${lng}:…
+       |                                                                                 ^
+     89|       }
+     90|     });
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+ FAIL  src/i18nCoverageCopy.test.ts > station browser i18n coverage > zh-TW has every station-browser UI key without falling back to English
+AssertionError: zh-TW: service_region.takamatsu-kotoden: expected false to be true // Object.is equality
+[32m- Expected[39m
+[31m+ Received[39m
+[32m- true[39m
+[31m+ false[39m
+ ❯ src/i18nCoverageCopy.test.ts:88:81
+     86|     it(`${lng} has every station-browser UI key without falling back t…
+     87|       for (const key of [...stationKeys, ...regionKeys]) {
+     88|         expect(i18n.exists(key, { lng, fallbackLng: false }), `${lng}:…
+       |                                                                                 ^
+     89|       }
+     90|     });
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+ FAIL  src/i18nCoverageCopy.test.ts > station browser i18n coverage > ja has every station-browser UI key without falling back to English
+AssertionError: ja: service_region.takamatsu-kotoden: expected false to be true // Object.is equality
+[32m- Expected[39m
+[31m+ Received[39m
+[32m- true[39m
+[31m+ false[39m
+ ❯ src/i18nCoverageCopy.test.ts:88:81
+     86|     it(`${lng} has every station-browser UI key without falling back t…
+     87|       for (const key of [...stationKeys, ...regionKeys]) {
+     88|         expect(i18n.exists(key, { lng, fallbackLng: false }), `${lng}:…
+       |                                                                                 ^
+     89|       }
+     90|     });
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+ FAIL  src/i18nCoverageCopy.test.ts > station browser i18n coverage > ko has every station-browser UI key without falling back to English
+AssertionError: ko: service_region.takamatsu-kotoden: expected false to be true // Object.is equality
+[32m- Expected[39m
+[31m+ Received[39m
+[32m- true[39m
+[31m+ false[39m
+ ❯ src/i18nCoverageCopy.test.ts:88:81
+     86|     it(`${lng} has every station-browser UI key without falling back t…
+     87|       for (const key of [...stationKeys, ...regionKeys]) {
+     88|         expect(i18n.exists(key, { lng, fallbackLng: false }), `${lng}:…
+       |                                                                                 ^
+     89|       }
+     90|     });
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+ FAIL  src/server/catalog.test.ts > station and line catalog integrity scope > builds a stable date-qualified metro and intercity hierarchy without pair searches
+AssertionError: expected [ 'tokyo-urban', …(2) ] to deeply equal [ 'tokyo-urban', 'japan-intercity' ]
+[32m- Expected[39m
+[31m+ Received[39m
+[2m  [[22m
+[2m    "tokyo-urban",[22m
+[2m    "japan-intercity",[22m
+[31m+   "takamatsu-kotoden",[39m
+[2m  ][22m
+ ❯ src/server/catalog.test.ts:57:56
+     55| 
+     56|     expect(catalog.serviceDate).toBe(catalogDate);
+     57|     expect(catalog.regions.map((region) => region.id)).toEqual([
+       |                                                        ^
+     58|       "tokyo-urban",
+     59|       "japan-intercity",
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+ FAIL  src/server/transitSearchReasons.test.ts > search no-result reasons > distinguishes a covered-but-unsupported station pair
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/server/transitSearchReasons.test.ts:17:3
+     15| 
+     16| describe("search no-result reasons", () => {
+     17|   it("distinguishes a covered-but-unsupported station pair", async () …
+       |   ^
+     18|     // Both endpoints are searchable — Asakusa on the Toei Asakusa Lin…
+     19|     // Roppongi on the Oedo one — but no committed route or chain link…
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯

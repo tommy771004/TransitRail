@@ -120,8 +120,8 @@ export class JapanJrCentralScraper extends HtmlScraper {
  * A Japanese local railway that publishes GTFS-JP.
  *
  * The scrape list is read out of the feed rather than written next to it: each
- * rail route's longest complete calling pattern becomes a pair in both
- * directions, spelled the way the operator spells it. Station names are the join key between the
+ * rail route's actual trip endpoints become directed pairs, including short
+ * turns, spelled the way the operator spells it. Station names are the join key between the
  * timetable and the search index, and transcribing them by hand from anywhere
  * but the feed is how a route ends up matching nothing every night while
  * looking correctly configured.
@@ -169,7 +169,11 @@ export class JapanLocalGtfsScraper extends DownloadScraper {
       date,
       scrapedAt: new Date().toISOString(),
       source: "",
-      results: rowsOrThrow(response, this.feedSource.label, route, date),
+      // File a train only under its actual endpoints. Longer trains remain
+      // searchable via their timed legs, without copying them into every
+      // short-turn file. The provider preserves the complete calling pattern.
+      results: rowsOrThrow(response, this.feedSource.label, route, date)
+        .filter((row) => row.stops[0] === route.origin && row.stops.at(-1) === route.destination),
     };
   }
 }

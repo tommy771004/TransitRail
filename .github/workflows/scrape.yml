@@ -177,6 +177,8 @@ jobs:
         env:
           # The UK menu is built from the same TfL API the timetable scrape uses.
           TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
+        # The generator skips only rate-limited (HTTP 429) markets, preserving
+        # their dated files and continuing this job. Other fatal errors surface.
         run: npm run catalog
 
       # This audit is deterministic from committed artifacts

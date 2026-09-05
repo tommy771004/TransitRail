@@ -4,14 +4,14 @@
   "source": "JR Central official journey search",
   "sourceUrl": "https://railway.jr-central.co.jp/timetable/",
   "sourceTier": "C",
-  "fetchedAt": "2026-08-30T13:22:40.133Z",
-  "builtAt": "2026-08-30T13:24:41.822Z",
-  "recordCount": 22293,
-  "routeCount": 31,
-  "successRate": 1,
+  "fetchedAt": "2026-09-05T11:57:37.608Z",
+  "builtAt": "2026-09-05T11:58:45.906Z",
+  "recordCount": 22932,
+  "routeCount": 46,
+  "successRate": null,
   "failedRoutes": [],
   "coverage": {
-    "verifiedRoutes": 31,
+    "verifiedRoutes": 46,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
@@ -23,10 +23,16 @@
       "2026-09-04",
       "2026-09-05",
       "2026-09-06",
-      "2026-09-07"
+      "2026-09-07",
+      "2026-09-08",
+      "2026-09-09",
+      "2026-09-10",
+      "2026-09-11",
+      "2026-09-12",
+      "2026-09-13"
     ]
   },
-  "checksum": "63663c74cf5931430aa005ab608563a2061e9de4eb9a8f6c886d580f5e5697e4",
+  "checksum": "4faec56fbfa2c87b7409646ce9a835b69ade44493764b0c827a8a98a21aa6e84",
   "artifactVersion": 2,
   "routes": [
     {
@@ -280,63 +286,213 @@
       "verified": true
     },
     {
-      "origin": "琴電志度",
-      "destination": "瓦町",
-      "resultCount": 366,
-      "date": "2026-08-30..2026-09-07",
+      "origin": "一宮",
+      "destination": "高松築港",
+      "resultCount": 195,
+      "date": "2026-09-05..2026-09-13",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-30T13:12:41.113Z",
+      "fetchedAt": "2026-09-05T11:57:37.470Z",
+      "verified": true
+    },
+    {
+      "origin": "仏生山",
+      "destination": "滝宮",
+      "resultCount": 5,
+      "date": "2026-09-07..2026-09-11",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:36.876Z",
+      "verified": true
+    },
+    {
+      "origin": "仏生山",
+      "destination": "高松築港",
+      "resultCount": 19,
+      "date": "2026-09-05..2026-09-13",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:37.431Z",
+      "verified": true
+    },
+    {
+      "origin": "大町",
+      "destination": "瓦町",
+      "resultCount": 15,
+      "date": "2026-09-07..2026-09-11",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:37.102Z",
+      "verified": true
+    },
+    {
+      "origin": "平木",
+      "destination": "長尾",
+      "resultCount": 5,
+      "date": "2026-09-07..2026-09-11",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:36.994Z",
+      "verified": true
+    },
+    {
+      "origin": "平木",
+      "destination": "高松築港",
+      "resultCount": 5,
+      "date": "2026-09-07..2026-09-11",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:37.052Z",
+      "verified": true
+    },
+    {
+      "origin": "滝宮",
+      "destination": "高松築港",
+      "resultCount": 64,
+      "date": "2026-09-05..2026-09-13",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:37.441Z",
+      "verified": true
+    },
+    {
+      "origin": "琴電志度",
+      "destination": "瓦町",
+      "resultCount": 365,
+      "date": "2026-09-05..2026-09-13",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:37.608Z",
       "verified": true
     },
     {
       "origin": "琴電琴平",
       "destination": "高松築港",
       "resultCount": 306,
-      "date": "2026-08-30..2026-09-07",
+      "date": "2026-09-05..2026-09-13",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-30T13:12:41.042Z",
+      "fetchedAt": "2026-09-05T11:57:37.452Z",
+      "verified": true
+    },
+    {
+      "origin": "瓦町",
+      "destination": "大町",
+      "resultCount": 15,
+      "date": "2026-09-07..2026-09-11",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:37.077Z",
       "verified": true
     },
     {
       "origin": "瓦町",
       "destination": "琴電志度",
-      "resultCount": 366,
-      "date": "2026-08-30..2026-09-07",
+      "resultCount": 365,
+      "date": "2026-09-05..2026-09-13",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-30T13:12:41.097Z",
+      "fetchedAt": "2026-09-05T11:57:37.581Z",
+      "verified": true
+    },
+    {
+      "origin": "瓦町",
+      "destination": "長尾",
+      "resultCount": 5,
+      "date": "2026-09-07..2026-09-11",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:36.985Z",
+      "verified": true
+    },
+    {
+      "origin": "瓦町",
+      "destination": "高松築港",
+      "resultCount": 25,
+      "date": "2026-09-07..2026-09-11",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:37.042Z",
       "verified": true
     },
     {
       "origin": "長尾",
       "destination": "高松築港",
-      "resultCount": 438,
-      "date": "2026-08-30..2026-09-07",
+      "resultCount": 425,
+      "date": "2026-09-05..2026-09-13",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-30T13:12:41.078Z",
+      "fetchedAt": "2026-09-05T11:57:37.542Z",
+      "verified": true
+    },
+    {
+      "origin": "高松築港",
+      "destination": "一宮",
+      "resultCount": 199,
+      "date": "2026-09-05..2026-09-13",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:37.409Z",
+      "verified": true
+    },
+    {
+      "origin": "高松築港",
+      "destination": "仏生山",
+      "resultCount": 20,
+      "date": "2026-09-07..2026-09-11",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:36.909Z",
+      "verified": true
+    },
+    {
+      "origin": "高松築港",
+      "destination": "平木",
+      "resultCount": 5,
+      "date": "2026-09-07..2026-09-11",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:37.004Z",
+      "verified": true
+    },
+    {
+      "origin": "高松築港",
+      "destination": "滝宮",
+      "resultCount": 59,
+      "date": "2026-09-05..2026-09-13",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:37.398Z",
       "verified": true
     },
     {
       "origin": "高松築港",
       "destination": "琴電琴平",
       "resultCount": 306,
-      "date": "2026-08-30..2026-09-07",
+      "date": "2026-09-05..2026-09-13",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-30T13:12:41.024Z",
+      "fetchedAt": "2026-09-05T11:57:37.370Z",
+      "verified": true
+    },
+    {
+      "origin": "高松築港",
+      "destination": "瓦町",
+      "resultCount": 30,
+      "date": "2026-09-07..2026-09-11",
+      "sourceId": "jp-kotoden-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-05T11:57:37.014Z",
       "verified": true
     },
     {
       "origin": "高松築港",
       "destination": "長尾",
-      "resultCount": 432,
-      "date": "2026-08-30..2026-09-07",
+      "resultCount": 420,
+      "date": "2026-09-05..2026-09-13",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-08-30T13:12:41.059Z",
+      "fetchedAt": "2026-09-05T11:57:37.482Z",
       "verified": true
     }
   ]

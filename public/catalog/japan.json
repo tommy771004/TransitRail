@@ -1,6 +1,6 @@
 {
   "country": "japan",
-  "serviceDate": "2026-08-19",
+  "serviceDate": "2026-09-05",
   "regions": [
     {
       "id": "tokyo-urban",
@@ -491,6 +491,233 @@
           ]
         }
       ]
+    },
+    {
+      "id": "takamatsu-kotoden",
+      "name": "Takamatsu (Kotoden)",
+      "lineIdPrefixes": [
+        "kotoden-"
+      ],
+      "declaredLines": 3,
+      "declaredStations": 53,
+      "lines": [
+        {
+          "id": "kotoden-kotohira",
+          "name": "Kotoden Kotohira Line",
+          "color": "#FFEA19",
+          "stations": [
+            {
+              "name": "高松築港",
+              "interchanges": [
+                "Kotoden Nagao Line"
+              ]
+            },
+            {
+              "name": "片原町",
+              "interchanges": [
+                "Kotoden Nagao Line"
+              ]
+            },
+            {
+              "name": "瓦町",
+              "interchanges": [
+                "Kotoden Nagao Line",
+                "Kotoden Shido Line"
+              ]
+            },
+            {
+              "name": "栗林公園"
+            },
+            {
+              "name": "三条"
+            },
+            {
+              "name": "伏石"
+            },
+            {
+              "name": "太田"
+            },
+            {
+              "name": "仏生山"
+            },
+            {
+              "name": "空港通り"
+            },
+            {
+              "name": "一宮"
+            },
+            {
+              "name": "円座"
+            },
+            {
+              "name": "岡本"
+            },
+            {
+              "name": "挿頭丘"
+            },
+            {
+              "name": "畑田"
+            },
+            {
+              "name": "陶"
+            },
+            {
+              "name": "綾川"
+            },
+            {
+              "name": "滝宮"
+            },
+            {
+              "name": "羽床"
+            },
+            {
+              "name": "栗熊"
+            },
+            {
+              "name": "岡田"
+            },
+            {
+              "name": "羽間"
+            },
+            {
+              "name": "榎井"
+            },
+            {
+              "name": "琴電琴平"
+            }
+          ]
+        },
+        {
+          "id": "kotoden-nagao",
+          "name": "Kotoden Nagao Line",
+          "color": "#00B141",
+          "stations": [
+            {
+              "name": "高松築港",
+              "interchanges": [
+                "Kotoden Kotohira Line"
+              ]
+            },
+            {
+              "name": "片原町",
+              "interchanges": [
+                "Kotoden Kotohira Line"
+              ]
+            },
+            {
+              "name": "瓦町",
+              "interchanges": [
+                "Kotoden Kotohira Line",
+                "Kotoden Shido Line"
+              ]
+            },
+            {
+              "name": "花園"
+            },
+            {
+              "name": "林道"
+            },
+            {
+              "name": "木太東口"
+            },
+            {
+              "name": "元山"
+            },
+            {
+              "name": "水田"
+            },
+            {
+              "name": "西前田"
+            },
+            {
+              "name": "高田"
+            },
+            {
+              "name": "池戸"
+            },
+            {
+              "name": "農学部前"
+            },
+            {
+              "name": "平木"
+            },
+            {
+              "name": "学園通り"
+            },
+            {
+              "name": "白山"
+            },
+            {
+              "name": "井戸"
+            },
+            {
+              "name": "公文明"
+            },
+            {
+              "name": "長尾"
+            }
+          ]
+        },
+        {
+          "id": "kotoden-shido",
+          "name": "Kotoden Shido Line",
+          "color": "#FA00CA",
+          "stations": [
+            {
+              "name": "瓦町",
+              "interchanges": [
+                "Kotoden Kotohira Line",
+                "Kotoden Nagao Line"
+              ]
+            },
+            {
+              "name": "今橋"
+            },
+            {
+              "name": "松島二丁目"
+            },
+            {
+              "name": "沖松島"
+            },
+            {
+              "name": "春日川"
+            },
+            {
+              "name": "潟元"
+            },
+            {
+              "name": "琴電屋島"
+            },
+            {
+              "name": "古高松"
+            },
+            {
+              "name": "八栗"
+            },
+            {
+              "name": "六万寺"
+            },
+            {
+              "name": "大町"
+            },
+            {
+              "name": "八栗新道"
+            },
+            {
+              "name": "塩屋"
+            },
+            {
+              "name": "房前"
+            },
+            {
+              "name": "原"
+            },
+            {
+              "name": "琴電志度"
+            }
+          ]
+        }
+      ]
     }
   ],
   "lines": [
@@ -962,6 +1189,222 @@
           ]
         }
       ]
+    },
+    {
+      "id": "kotoden-kotohira",
+      "name": "Kotoden Kotohira Line",
+      "color": "#FFEA19",
+      "stations": [
+        {
+          "name": "高松築港",
+          "interchanges": [
+            "Kotoden Nagao Line"
+          ]
+        },
+        {
+          "name": "片原町",
+          "interchanges": [
+            "Kotoden Nagao Line"
+          ]
+        },
+        {
+          "name": "瓦町",
+          "interchanges": [
+            "Kotoden Nagao Line",
+            "Kotoden Shido Line"
+          ]
+        },
+        {
+          "name": "栗林公園"
+        },
+        {
+          "name": "三条"
+        },
+        {
+          "name": "伏石"
+        },
+        {
+          "name": "太田"
+        },
+        {
+          "name": "仏生山"
+        },
+        {
+          "name": "空港通り"
+        },
+        {
+          "name": "一宮"
+        },
+        {
+          "name": "円座"
+        },
+        {
+          "name": "岡本"
+        },
+        {
+          "name": "挿頭丘"
+        },
+        {
+          "name": "畑田"
+        },
+        {
+          "name": "陶"
+        },
+        {
+          "name": "綾川"
+        },
+        {
+          "name": "滝宮"
+        },
+        {
+          "name": "羽床"
+        },
+        {
+          "name": "栗熊"
+        },
+        {
+          "name": "岡田"
+        },
+        {
+          "name": "羽間"
+        },
+        {
+          "name": "榎井"
+        },
+        {
+          "name": "琴電琴平"
+        }
+      ]
+    },
+    {
+      "id": "kotoden-nagao",
+      "name": "Kotoden Nagao Line",
+      "color": "#00B141",
+      "stations": [
+        {
+          "name": "高松築港",
+          "interchanges": [
+            "Kotoden Kotohira Line"
+          ]
+        },
+        {
+          "name": "片原町",
+          "interchanges": [
+            "Kotoden Kotohira Line"
+          ]
+        },
+        {
+          "name": "瓦町",
+          "interchanges": [
+            "Kotoden Kotohira Line",
+            "Kotoden Shido Line"
+          ]
+        },
+        {
+          "name": "花園"
+        },
+        {
+          "name": "林道"
+        },
+        {
+          "name": "木太東口"
+        },
+        {
+          "name": "元山"
+        },
+        {
+          "name": "水田"
+        },
+        {
+          "name": "西前田"
+        },
+        {
+          "name": "高田"
+        },
+        {
+          "name": "池戸"
+        },
+        {
+          "name": "農学部前"
+        },
+        {
+          "name": "平木"
+        },
+        {
+          "name": "学園通り"
+        },
+        {
+          "name": "白山"
+        },
+        {
+          "name": "井戸"
+        },
+        {
+          "name": "公文明"
+        },
+        {
+          "name": "長尾"
+        }
+      ]
+    },
+    {
+      "id": "kotoden-shido",
+      "name": "Kotoden Shido Line",
+      "color": "#FA00CA",
+      "stations": [
+        {
+          "name": "瓦町",
+          "interchanges": [
+            "Kotoden Kotohira Line",
+            "Kotoden Nagao Line"
+          ]
+        },
+        {
+          "name": "今橋"
+        },
+        {
+          "name": "松島二丁目"
+        },
+        {
+          "name": "沖松島"
+        },
+        {
+          "name": "春日川"
+        },
+        {
+          "name": "潟元"
+        },
+        {
+          "name": "琴電屋島"
+        },
+        {
+          "name": "古高松"
+        },
+        {
+          "name": "八栗"
+        },
+        {
+          "name": "六万寺"
+        },
+        {
+          "name": "大町"
+        },
+        {
+          "name": "八栗新道"
+        },
+        {
+          "name": "塩屋"
+        },
+        {
+          "name": "房前"
+        },
+        {
+          "name": "原"
+        },
+        {
+          "name": "琴電志度"
+        }
+      ]
     }
   ],
   "stations": [
@@ -1070,7 +1513,60 @@
     "Ushigome-kagurazaka",
     "Ushigome-yanagicho",
     "Wakamatsu-kawada",
-    "Yoyogi"
+    "Yoyogi",
+    "一宮",
+    "三条",
+    "井戸",
+    "今橋",
+    "仏生山",
+    "伏石",
+    "元山",
+    "八栗",
+    "八栗新道",
+    "公文明",
+    "六万寺",
+    "円座",
+    "原",
+    "古高松",
+    "塩屋",
+    "大町",
+    "太田",
+    "学園通り",
+    "岡本",
+    "岡田",
+    "平木",
+    "房前",
+    "挿頭丘",
+    "春日川",
+    "木太東口",
+    "松島二丁目",
+    "林道",
+    "栗林公園",
+    "栗熊",
+    "榎井",
+    "水田",
+    "池戸",
+    "沖松島",
+    "滝宮",
+    "潟元",
+    "片原町",
+    "琴電屋島",
+    "琴電志度",
+    "琴電琴平",
+    "瓦町",
+    "畑田",
+    "白山",
+    "空港通り",
+    "綾川",
+    "羽床",
+    "羽間",
+    "花園",
+    "西前田",
+    "農学部前",
+    "長尾",
+    "陶",
+    "高松築港",
+    "高田"
   ],
   "source": "https://www.jreast.co.jp/e/",
   "coverage": {
@@ -1181,12 +1677,65 @@
       "Ushigome-kagurazaka",
       "Ushigome-yanagicho",
       "Wakamatsu-kawada",
-      "Yoyogi"
+      "Yoyogi",
+      "一宮",
+      "三条",
+      "井戸",
+      "今橋",
+      "仏生山",
+      "伏石",
+      "元山",
+      "八栗",
+      "八栗新道",
+      "公文明",
+      "六万寺",
+      "円座",
+      "原",
+      "古高松",
+      "塩屋",
+      "大町",
+      "太田",
+      "学園通り",
+      "岡本",
+      "岡田",
+      "平木",
+      "房前",
+      "挿頭丘",
+      "春日川",
+      "木太東口",
+      "松島二丁目",
+      "林道",
+      "栗林公園",
+      "栗熊",
+      "榎井",
+      "水田",
+      "池戸",
+      "沖松島",
+      "滝宮",
+      "潟元",
+      "片原町",
+      "琴電屋島",
+      "琴電志度",
+      "琴電琴平",
+      "瓦町",
+      "畑田",
+      "白山",
+      "空港通り",
+      "綾川",
+      "羽床",
+      "羽間",
+      "花園",
+      "西前田",
+      "農学部前",
+      "長尾",
+      "陶",
+      "高松築港",
+      "高田"
     ],
-    "date": "2026-08-19",
+    "date": "2026-09-05",
     "dateRange": {
-      "start": "2026-08-19",
-      "end": "2026-08-25",
+      "start": "2026-09-05",
+      "end": "2026-09-11",
       "days": 7,
       "liveOnly": false
     },

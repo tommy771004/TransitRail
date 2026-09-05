@@ -1,3 +1,7 @@
+import { readFileSync } from "node:fs";
+import { parseGtfsFeed } from "../../src/server/gtfs/feed";
+import { collectGtfsJourneys } from "../../src/server/gtfs/journeys";
+import { buildGtfsTimetable } from "../../src/server/gtfs/timetable";
 import { describe, expect, it } from "vitest";
 import type { TransitResult } from "../../src/types";
 import type { ScrapedRouteData } from "../../src/data/scraped/timetableDay";
@@ -160,12 +164,29 @@ describe("check 5 — unknown stations", () => {
 
 describe("check 6 — synthetic headway", () => {
   it("blocks a whole day generated at one exact interval", () => {
-    const findings = validateRoute({ country: "germany", route: route(hourly(10)) });
+    const findings = validateRoute({ country: "germany", route: route(hourly(10), { sourceMeta: undefined }) });
     expect(findings).toContainEqual(expect.objectContaining({
       check: "synthetic-headway",
       severity: "blocking",
       message: expect.stringContaining("60 minutes apart"),
     }));
+  });
+
+  it("warns without blocking Kotoden's published 34-trip half-hour timetable", () => {
+    const feed = parseGtfsFeed(readFileSync(new URL("./fixtures/kotoden-2026-09-05.zip", import.meta.url)), { label: "Official Kotoden fixture" });
+    const journeys = collectGtfsJourneys(feed, "高松築港", "琴電琴平", "2026-09-05");
+    expect(journeys).toHaveLength(34);
+    expect(new Set(journeys.map((journey) => journey.tripId)).size).toBe(34);
+    const results = buildGtfsTimetable(feed, journeys, {
+      origin: "高松築港", destination: "琴電琴平", country: "japan",
+      operator: "Kotoden", idPrefix: "jp-kotoden", serviceLabel: () => "琴平線",
+    }).map((row) => ({ ...row, date: "2026-09-05" }));
+    const sourceMeta = buildSourceMeta({ sourceId: "jp-kotoden-gtfs", fetchedAt: "2026-09-05T00:00:00Z" });
+    const snapshot = route(results, { origin: "高松築港", destination: "琴電琴平", sourceMeta });
+    const findings = validateRoute({ country: "japan", route: snapshot });
+    expect(findings).toEqual([expect.objectContaining({ check: "synthetic-headway", severity: "warning" })]);
+    expect(validateRoute({ country: "japan", route: { ...snapshot, provenance: "curated" } }))
+      .toContainEqual(expect.objectContaining({ check: "synthetic-headway", severity: "blocking" }));
   });
 
   it("does not flag a short live response that happens to be evenly spaced", () => {

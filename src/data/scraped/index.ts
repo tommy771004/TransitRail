@@ -95,7 +95,7 @@ const KOREAN_ARTIFACT_FILES = [
 ] as const;
 
 let koreanArtifacts: KoreanSubwayArtifact[] = [];
-let loaded = false;
+const loadedCountries = new Set<string>();
 
 function loadKoreanArtifacts(): KoreanSubwayArtifact[] {
   const artifacts: KoreanSubwayArtifact[] = [];
@@ -168,13 +168,21 @@ export function loadScrapedData(): void {
     totalRoutes += cache[country].length;
   }
   koreanArtifacts = loadKoreanArtifacts();
-  loaded = true;
+  for (const country of ALL_COUNTRIES) loadedCountries.add(country);
   console.log(`[scraped] Loaded ${totalRoutes} routes across ${ALL_COUNTRIES.length} countries`);
+}
+
+/** Load only the requested market on cold requests; explicit reloads still refresh all. */
+function ensureCountryLoaded(country: Country): void {
+  if (loadedCountries.has(country)) return;
+  cache[country] = loadDir(country);
+  if (country === "korea") koreanArtifacts = loadKoreanArtifacts();
+  loadedCountries.add(country);
 }
 
 /** All names backed by committed timetable data, including compact artifacts. */
 export function getScrapedCoverageNames(country: Country, date?: string): string[] {
-  if (!loaded) loadScrapedData();
+  ensureCountryLoaded(country);
   const names = coveredEndpointNames(cache[country] || [], country, date);
   if (country === "korea" && koreanArtifacts.length > 0) {
     const byKey = new Map(names.map((name) => [stationSearchKey(name), name]));
@@ -195,7 +203,7 @@ export function getScrapedCoverageNames(country: Country, date?: string): string
  * Read-only view of the boot cache — used to derive station coverage.
  */
 export function getScrapedRoutes(country: Country): readonly ScrapedRouteData[] {
-  if (!loaded) loadScrapedData();
+  ensureCountryLoaded(country);
   return cache[country] || [];
 }
 
@@ -205,7 +213,7 @@ export function getScrapedReachableStations(
   origin: string,
   date: string,
 ): string[] {
-  if (!loaded) loadScrapedData();
+  ensureCountryLoaded(country);
   const artifactDecision = country === "korea" ? koreanArtifactDecision(date) : undefined;
   const selection = searchableRoutesForContext(cache[country] || [], {
     country,
@@ -227,7 +235,7 @@ export function getScrapedReachableStations(
  * reachability was O(lines x stations x destinations) per request.
  */
 export function getArtifactLineNames(country: Country, date?: string): Set<string> {
-  if (!loaded) loadScrapedData();
+  ensureCountryLoaded(country);
   const names = new Set<string>();
   if (country !== "korea") return names;
   for (const artifact of koreanArtifacts) {
@@ -242,7 +250,7 @@ export function getArtifactLineNames(country: Country, date?: string): Set<strin
 
 /** Returns the newest route-snapshot timestamp loaded for a country, if known. */
 export function getScrapedCountryFreshness(country: Country): string | undefined {
-  if (!loaded) loadScrapedData();
+  ensureCountryLoaded(country);
 
   const newest = (cache[country] || []).reduce<number | undefined>((latest, route) => {
     const timestamp = Date.parse(route.scrapedAt);
@@ -261,7 +269,7 @@ export function getScrapedCountryFreshness(country: Country): string | undefined
 
 /** Shared provenance/truth summary for station and line discovery. */
 export function getScrapedSearchabilitySummary(country: Country, date?: string) {
-  if (!loaded) loadScrapedData();
+  ensureCountryLoaded(country);
   const selection = searchableRoutesForContext(cache[country] || [], {
     country,
     serviceDay: date,
@@ -310,7 +318,7 @@ export function findScrapedSearchability(
   destination: string,
   date?: string,
 ): ScrapedSearchabilityResult | null {
-  if (!loaded) loadScrapedData();
+  ensureCountryLoaded(country);
 
   // Ask each network in turn and take the first that can answer. A pair that
   // spans two networks is not answerable from either artifact alone — there is

@@ -1,6 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import type { SeoulTimetable } from "../../server/seoulSubwayTimetable";
-import { serviceDayArtifactFixture } from "../../server/serviceDayArtifactFixture";
 import { buildKoreanSubwayArtifact, encodeKoreanSubwayArtifact } from "../koreanSubwayArtifact";
 import {
   findScrapedResults,
@@ -41,27 +40,32 @@ const timetable: SeoulTimetable = {
   }],
 };
 
-const artifactFixture = serviceDayArtifactFixture(
-  new URL("./korea/seoul-subway-timetable.json.gz", import.meta.url),
-  { binary: true },
-);
+// Override reads in this worker only. A disk fixture can race other suites
+// that deliberately verify the real committed Seoul timetable.
+const artifactFixture = vi.hoisted(() => ({ bytes: undefined as Buffer | undefined }));
+vi.mock("fs", async () => {
+  const actual = await vi.importActual<typeof import("fs")>("fs");
+  return {
+    ...actual,
+    readFileSync: (...args: Parameters<typeof actual.readFileSync>) =>
+      artifactFixture.bytes && String(args[0]).endsWith("/korea/seoul-subway-timetable.json.gz")
+        ? artifactFixture.bytes : actual.readFileSync(...args),
+  };
+});
 const SERVICE_DATE = "2026-08-03";
 
 beforeAll(() => {
   vi.useFakeTimers({ shouldAdvanceTime: true });
   vi.setSystemTime(new Date(`${SERVICE_DATE}T04:00:00.000Z`));
-  artifactFixture.stash();
-  artifactFixture.write(
-    encodeKoreanSubwayArtifact(buildKoreanSubwayArtifact(timetable, {
+  artifactFixture.bytes = encodeKoreanSubwayArtifact(buildKoreanSubwayArtifact(timetable, {
       retrievedAt: "2026-08-01T00:00:00.000Z",
       sourceSha256: "fixture",
-    })),
-  );
+    }));
   loadScrapedData();
 });
 
 afterAll(() => {
-  artifactFixture.restore();
+  artifactFixture.bytes = undefined;
   loadScrapedData();
   vi.useRealTimers();
 });

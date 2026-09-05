@@ -225,7 +225,11 @@ function routeSegments(route: ScrapedRouteData, date?: string, country?: Country
   };
 
   addPath([route.origin, route.destination]);
+  const patterns = new Set<string>();
   for (const result of resultsForDate(route, date)) {
+    const pattern = JSON.stringify([result.origin, result.destination, result.stops]);
+    if (patterns.has(pattern)) continue;
+    patterns.add(pattern);
     addPath(resultStopPath(route, result, country));
   }
   return Array.from(segments.values());
@@ -359,6 +363,9 @@ function dedupeDepartures(results: TransitResult[]): TransitResult[] {
       result.destination,
       result.service,
       result.operator,
+      result.direct === false ? JSON.stringify(result.legs?.map((leg) => [
+        leg.origin, leg.destination, leg.lineName, leg.departureTime, leg.arrivalTime,
+      ]) ?? result.transferStations ?? result.stops) : "",
     ].join("|");
     if (seen.has(key)) return false;
     seen.add(key);
@@ -430,6 +437,13 @@ function findRoutePaths(
       { route, from, to, reversed: false },
       { route, from: to, to: from, reversed: true },
     ]));
+  const outgoing = new Map<string, Array<{ edge: RouteEdge; toKey: string }>>();
+  for (const edge of edges) {
+    const fromKey = stationKeyFor(country, edge.from);
+    const list = outgoing.get(fromKey) ?? [];
+    list.push({ edge, toKey: stationKeyFor(country, edge.to) });
+    outgoing.set(fromKey, list);
+  }
   const target = stationKeyFor(country, destination);
   const queue: Array<{ station: string; path: RouteEdge[]; visited: Set<string> }> = [{
     station: origin,
@@ -443,10 +457,10 @@ function findRoutePaths(
     const current = queue.shift()!;
     if (current.path.length >= Math.min(shortestLength, 5)) continue;
 
-    for (const edge of edges) {
-      if (stationKeyFor(country, edge.from) !== stationKeyFor(country, current.station) || current.visited.has(stationKeyFor(country, edge.to))) continue;
+    for (const { edge, toKey } of outgoing.get(stationKeyFor(country, current.station)) ?? []) {
+      if (current.visited.has(toKey)) continue;
       const path = [...current.path, edge];
-      if (stationKeyFor(country, edge.to) === target) {
+      if (toKey === target) {
         if (!followsKnownSameLineCorridor(country, origin, destination, path)) continue;
         shortestLength = path.length;
         found.push(path);
@@ -456,7 +470,7 @@ function findRoutePaths(
         queue.push({
           station: edge.to,
           path,
-          visited: new Set([...current.visited, stationKeyFor(country, edge.to)]),
+          visited: new Set([...current.visited, toKey]),
         });
       }
     }
@@ -623,38 +637,6 @@ export function findInRoutes(
 
   const oKey = stationKeyFor(country, origin);
   const dKey = stationKeyFor(country, destination);
-
-  const exact = routes.find(
-    (r) => stationKeyFor(country, r.origin) === oKey
-      && stationKeyFor(country, r.destination) === dKey
-      && resultsForDate(r, date).length > 0,
-  );
-  if (exact) {
-    const results = resultsForDate(exact, date);
-    return country ? results.map((r) => (r.country ? r : { ...r, country })) : results;
-  }
-
-  // File origin matches, but destination is only on individual results
-  // (mixed-destination snapshot files).
-  const resultMatch = routes.find(
-    (r) => stationKeyFor(country, r.origin) === oKey
-      && resultsForDate(r, date).some((res) => stationKeyFor(country, res.destination) === dKey),
-  );
-  if (resultMatch) {
-    const results = resultsForDate(resultMatch, date)
-      .filter((r) => stationKeyFor(country, r.destination) === dKey);
-    return country ? results.map((r) => (r.country ? r : { ...r, country })) : results;
-  }
-
-  const reverse = routes.find(
-    (r) => stationKeyFor(country, r.origin) === dKey
-      && stationKeyFor(country, r.destination) === oKey
-      && resultsForDate(r, date).length > 0,
-  );
-  if (reverse) {
-    const results = resultsForDate(reverse, date).map(reverseResult);
-    return country ? results.map((r) => (r.country ? r : { ...r, country })) : results;
-  }
 
   // One route's own train can serve a pair that is neither the file's endpoints
   // nor two adjacent stops: a line scraped terminal-to-terminal answers

@@ -14,9 +14,9 @@
  * Only the first is an error — the second is inherent to a curated corridor
  * set, so it is reported as coverage, not failed.
  *
- * Menu membership comes from {@link getStaticMenuStations} — the same pure
- * registry used by /api/transit/stations for static countries — so this audit
- * cannot drift from production menus.
+ * Menu membership comes from {@link getStationsForCountry}, including verified
+ * snapshot names and the runtime coverage gate. Live directories are skipped
+ * in this offline audit.
  *
  * Run: npx tsx scripts/audit-station-mapping.ts
  */
@@ -33,6 +33,7 @@ import {
   type CoverageMode,
 } from "../src/data/stationCoverage";
 import { getScrapedCoverageNames, loadScrapedData } from "../src/data/scraped";
+import { getStationsForCountry } from "../src/server/catalog";
 import { stationSearchKey } from "../src/data/stationKey";
 import type { ScrapedRouteData } from "../src/data/scraped/timetableDay";
 import type { Country } from "../src/types";
@@ -66,7 +67,9 @@ let totalEmpty = 0;
 const coverageRows: Array<{ country: string; menu: number; covered: number; mode: CoverageMode }> = [];
 
 for (const country of COUNTRIES) {
-  const menu = getStaticMenuStations(country);
+  const menu = getStaticMenuStations(country)
+    ? (await getStationsForCountry(country)).stations
+    : null;
   const routes = scrapedRoutes(country);
   const problems: string[] = [];
 

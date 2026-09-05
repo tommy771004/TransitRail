@@ -1,3 +1,4 @@
+import { collectGtfsJourneys } from "../../src/server/gtfs/journeys";
 import { describe, expect, it } from "vitest";
 import { parseGtfsFeed } from "../../src/server/gtfs/feed";
 import { zipFixture } from "../../src/server/gtfsZipFixture";
@@ -72,8 +73,17 @@ describe("GTFS feed summary", () => {
   it("proposes both directions of each rail line and leaves buses out", () => {
     expect(scrapeRoutePairs(summarizeGtfsRoutes(feed))).toEqual([
       { origin: "高松築港", destination: "琴電琴平" },
+      { origin: "高松築港", destination: "瓦町" },
+      { origin: "瓦町", destination: "高松築港" },
       { origin: "琴電琴平", destination: "高松築港" },
     ]);
+  });
+
+  it("collects short-turn trains omitted by full-line queries", () => {
+    const journeys = scrapeRoutePairs(summarizeGtfsRoutes(feed)).flatMap((pair) =>
+      collectGtfsJourneys(feed, pair.origin, pair.destination, "2026-09-04"));
+    expect([...new Set(journeys.map((journey) => journey.tripId))].sort())
+      .toEqual(["T-back", "T-full", "T-short", "T-short-back"]);
   });
 
   it("counts the extended route types European feeds file rail under", () => {

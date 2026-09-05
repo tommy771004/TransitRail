@@ -12,6 +12,7 @@ const resources = {
   en: {
     translation: {
       service_region: {
+        "takamatsu-kotoden": "Takamatsu · Kotoden",
         "tokyo-urban": "Tokyo urban rail", "japan-intercity": "Japan intercity rail", "seoul-capital": "Seoul Capital Area",
         singapore: "Singapore", "malaysia-intercity": "Malaysia rail", bangkok: "Bangkok", "hong-kong": "Hong Kong",
         london: "London (TfL)", boston: "Boston (MBTA)", "germany-intercity": "Germany intercity rail",
@@ -562,6 +563,7 @@ const resources = {
   'zh-TW': {
     translation: {
       service_region: {
+        "takamatsu-kotoden": "高松・琴電",
         "tokyo-urban": "東京都會鐵路", "japan-intercity": "日本城際鐵路", "seoul-capital": "首爾首都圈",
         singapore: "新加坡", "malaysia-intercity": "馬來西亞鐵路", bangkok: "曼谷", "hong-kong": "香港",
         london: "倫敦（TfL）", boston: "波士頓（MBTA）", "germany-intercity": "德國城際鐵路",
@@ -1515,6 +1517,7 @@ const resources = {
   ja: {
     translation: {
       service_region: {
+        "takamatsu-kotoden": "高松・ことでん",
         "tokyo-urban": "東京都市鉄道", "japan-intercity": "日本の都市間鉄道", "seoul-capital": "ソウル首都圏",
         singapore: "シンガポール", "malaysia-intercity": "マレーシア鉄道", bangkok: "バンコク", "hong-kong": "香港",
         london: "ロンドン（TfL）", boston: "ボストン（MBTA）", "germany-intercity": "ドイツ都市間鉄道",
@@ -2090,6 +2093,7 @@ const resources = {
   ko: {
     translation: {
       service_region: {
+        "takamatsu-kotoden": "다카마쓰 · 고토덴",
         "tokyo-urban": "도쿄 도시 철도", "japan-intercity": "일본 도시 간 철도", "seoul-capital": "서울 수도권",
         singapore: "싱가포르", "malaysia-intercity": "말레이시아 철도", bangkok: "방콕", "hong-kong": "홍콩",
         london: "런던(TfL)", boston: "보스턴(MBTA)", "germany-intercity": "독일 도시 간 철도",

@@ -1,0 +1,24 @@
+Warning: No project session found with id 'delegate-d1cc2c71b52ddf8072b8c13708860891'; creating a new session with that id.
+Warning: Model "gpt-6-astra" not found for provider "openai-codex". Using custom model id.
+Read-only inspection only; I could not run tests or inspect Git diffs, so commit attribution remains unverified.
+
+### Actionable findings
+
+1. **[P2] Corridor filtering also rejects valid cross-line connections**
+   - **Location:** `src/data/scraped/timetableDay.ts:390–411`, invoked at `:447`.
+   - It selects a restriction solely because the requested endpoints share a static line; it never checks which lines the itinerary actually uses.
+   - **Concrete reproduction:** supply timed routes **Asakusa → Shimbashi on Ginza**, then **Shimbashi → Daimon on Asakusa**, with a valid transfer interval and no direct snapshot. Asakusa and Daimon share both the Asakusa and Oedo lines. Shimbashi lies beyond Daimon in the Asakusa ordering and is absent from Oedo, so both checks fail and search returns `null`.
+   - Both constituent line memberships are present in `src/data/stations.ts`. This contradicts the function’s stated intention that cross-line trips remain possible.
+   - **Fix/test:** restrict monotonicity checks to paths actually staying on the selected line; add a cross-line positive test alongside the existing Okayama backtracking rejection test.
+
+2. **[P2] Departure deduplication conflates different transfer itineraries**
+   - **Location:** `src/data/scraped/timetableDay.ts:350–363`, chain application at `:701`.
+   - The key includes only endpoint clocks, O/D, service and operator. It excludes transfer stations, leg timings and fares.
+   - **Concrete reproduction:** two valid connections `A → B → D` and `A → C → D`, both departing A at 08:00 and arriving D at 09:00, using the same operator/service names. Give their intermediate legs different timings and fares. `chainResults` produces distinct journeys, but `dedupeDepartures` silently drops the second—including a potentially cheaper option.
+   - **Fix/test:** distinguish chain identities using the constituent legs/transfer stations; retain clock-based overlapping-file deduplication only where the underlying ride is demonstrably the same.
+
+### Focused completeness gap
+
+- **Exact-route return bypasses the new overlap aggregation:** `:633–636` returns the first matching file without collecting spans from other files. A fixture containing an exact `B → C` departure at 10:00 plus an independently timed `A → B → C → D` departure from B at 11:00 returns only 10:00. The new overlap test (`timetableDay.test.ts:594–623`) avoids this branch because its requested pair is not an exact file pair. Merge exact and forward-span candidates before deduplication if the intended guarantee is “all verified departures across overlapping snapshots.” **This branch may predate these commits; classify it as a feature gap unless the parent diff establishes otherwise.**
+
+I found no additional concrete regression in `legSpan`: it checks timed hops, station contiguity and consistent line names, and preserves `direct: false` for multi-leg slices of transfer journeys.

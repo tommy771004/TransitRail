@@ -23,6 +23,8 @@ export type GtfsRouteSummary = {
   terminals?: [string, string];
   /** Ordered stop names of the route's longest trip. */
   stops: string[];
+  /** Actual directed trip endpoints, including short turns. */
+  tripPairs?: Array<{ origin: string; destination: string }>;
 };
 
 /**
@@ -108,14 +110,16 @@ export function summarizeGtfsRoutes(feed: GtfsFeed): GtfsRouteSummary[] {
     lasts: Map<string, number>;
     longestTripId?: string;
     longestStopCount: number;
+    tripPairs: Map<string, { origin: string; destination: string }>;
   };
   const perRoute = new Map<string, RouteTally>();
   for (const [tripId, trip] of ends) {
     const entry: RouteTally = perRoute.get(trip.routeId)
-      || { tripCount: 0, firsts: new Map(), lasts: new Map(), longestStopCount: 0 };
+      || { tripCount: 0, firsts: new Map(), lasts: new Map(), longestStopCount: 0, tripPairs: new Map() };
     entry.tripCount += 1;
     const first = trip.first && stopNames.get(trip.first.stopId);
     const last = trip.last && stopNames.get(trip.last.stopId);
+    if (first && last && first !== last) entry.tripPairs.set(`${first}→${last}`, { origin: first, destination: last });
     if (first) entry.firsts.set(first, (entry.firsts.get(first) || 0) + 1);
     if (last) entry.lasts.set(last, (entry.lasts.get(last) || 0) + 1);
     if (trip.stopCount > entry.longestStopCount) {
@@ -163,22 +167,28 @@ export function summarizeGtfsRoutes(feed: GtfsFeed): GtfsRouteSummary[] {
       tripCount: entry.tripCount,
       terminals,
       stops,
+      tripPairs: [...entry.tripPairs.values()],
     });
   }
   return summaries.sort((left, right) => right.stops.length - left.stops.length);
 }
 
-/** The `routes.ts` entries a feed's rail lines imply, both directions. */
+/** Directed trip spans published by the rail feed, including short turns. */
 export function scrapeRoutePairs(
   summaries: readonly GtfsRouteSummary[],
 ): Array<{ origin: string; destination: string }> {
   const pairs = new Map<string, { origin: string; destination: string }>();
   for (const summary of summaries) {
     if (!isGtfsRailRouteType(summary.routeType)) continue;
-    const [origin, destination] = summary.terminals || [];
-    if (!origin || !destination || origin === destination) continue;
-    pairs.set(`${origin}→${destination}`, { origin, destination });
-    pairs.set(`${destination}→${origin}`, { origin: destination, destination: origin });
+    const terminals = summary.terminals;
+    const candidates = summary.tripPairs ?? (terminals ? [
+      { origin: terminals[0], destination: terminals[1] },
+      { origin: terminals[1], destination: terminals[0] },
+    ] : []);
+    for (const { origin, destination } of candidates) {
+      if (!origin || !destination || origin === destination) continue;
+      pairs.set(`${origin}→${destination}`, { origin, destination });
+    }
   }
   return [...pairs.values()];
 }

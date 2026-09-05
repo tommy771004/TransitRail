@@ -94,15 +94,6 @@ function byServiceDay(results: readonly TransitResult[]): Map<string, TransitRes
 }
 
 /**
- * How many departures a day needs before an unvarying gap between them means
- * anything.
- *
- * Four would flag a genuine next-train feed that happens to return four trains
- * at an even spacing. Eight consecutive departures at one exact interval, with
- * no variation anywhere in the day, is not something a real operating day does:
- * the peak differs from the shoulder, and the last hour differs from both.
- */
-/**
  * A journey longer than this is treated as a parsing error rather than a very
  * long train. The longest scheduled passenger rail journeys in the covered
  * markets are well under a day; a duration above it means a date rolled over
@@ -170,13 +161,23 @@ export function validateRoute(input: ValidationInput): ValidationFinding[] {
       }
     }
 
-    // 6. Synthetic headway: a full day at one exact interval.
+    // 6. Constant headway is a review signal, not proof of fabrication.
+    // Kotoden's official stop_times publishes 34 evenly spaced departures.
+    // Keep untraceable patterns blocking; registered published timetables
+    // still emit a warning and must pass every other provenance check.
     const headway = exactHeadwayMinutes(rows);
     if (headway !== undefined) {
       add(
         "synthetic-headway",
-        "blocking",
-        `${day}: all ${rows.length} departures are exactly ${headway} minutes apart, which is a generated pattern rather than a published timetable.`,
+        isValidSourceMeta(route.sourceMeta)
+          && route.sourceMeta.country === country
+          && route.sourceMeta.completeness === "full-timetable"
+          && route.sourceMeta.sourceUrl === findOfficialSource(route.sourceMeta.sourceId)?.sourceUrl
+          && Number.isFinite(Date.parse(route.sourceMeta.fetchedAt))
+          && route.provenance !== "curated" && route.provenance !== "llm-advisory"
+          && !rows.some((row) => row.provenance === "curated" || row.provenance === "llm-advisory")
+          ? "warning" : "blocking",
+        `${day}: all ${rows.length} departures are exactly ${headway} minutes apart; verify against published trips and stop times. Constant spacing alone does not establish fabrication.`,
       );
     }
   }

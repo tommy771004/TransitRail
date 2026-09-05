@@ -8,9 +8,19 @@ import { addDateValueDays, searchDateRange } from "../data/countries";
 let catalogDate = "2026-08-01";
 
 function firstJapanSnapshotDate(): string {
-  return [...new Set(
-    getScrapedRoutes("japan").flatMap((route) => route.results.map((result) => result.date)),
-  )].filter((date): date is string => Boolean(date)).sort()[0] || "2026-08-01";
+  const bySource = new Map<string, Set<string>>();
+  for (const route of getScrapedRoutes("japan")) {
+    const source = route.sourceMeta?.sourceId || route.source;
+    const dates = bySource.get(source) ?? new Set<string>();
+    for (const row of route.results) if (row.date) dates.add(row.date);
+    bySource.set(source, dates);
+  }
+  // Scrapers refresh independently. Exercise the hierarchy on a day shared
+  // by every shipped Japanese source, not an old day kept by just one.
+  const sources = [...bySource.values()];
+  const common = [...(sources[0] ?? [])].filter((date) => sources.every((dates) => dates.has(date))).sort();
+  if (!common[0]) throw new Error("Japanese sources have no common service day for catalog integration");
+  return common[0];
 }
 
 // The catalog is date-conditioned, so a suite pinned to a fixed service day has
@@ -57,6 +67,7 @@ describe("station and line catalog integrity scope", () => {
     expect(catalog.regions.map((region) => region.id)).toEqual([
       "tokyo-urban",
       "japan-intercity",
+      "takamatsu-kotoden",
     ]);
     expect(catalog.lines).toEqual(catalog.regions.flatMap((region) => region.lines));
     expect(catalog.regions.every((region) => region.lines.every((line) => line.stations.length >= 2))).toBe(true);

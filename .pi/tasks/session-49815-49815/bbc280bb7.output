@@ -1,0 +1,18 @@
+> tsx scripts/validate-timetables.ts
+[scraped] Loaded 69 routes across 14 countries
+Validated 73 route files across 14 countries.
+✗ synthetic-headway — 9 finding(s), 9 blocking
+    [blocking] japan/高松築港 → 琴電琴平: 2026-08-30: all 34 departures are exactly 30 minutes apart, which is a generated pattern rather than a published timetable.
+    [blocking] japan/高松築港 → 琴電琴平: 2026-08-31: all 34 departures are exactly 30 minutes apart, which is a generated pattern rather than a published timetable.
+    [blocking] japan/高松築港 → 琴電琴平: 2026-09-01: all 34 departures are exactly 30 minutes apart, which is a generated pattern rather than a published timetable.
+    [blocking] japan/高松築港 → 琴電琴平: 2026-09-02: all 34 departures are exactly 30 minutes apart, which is a generated pattern rather than a published timetable.
+    [blocking] japan/高松築港 → 琴電琴平: 2026-09-03: all 34 departures are exactly 30 minutes apart, which is a generated pattern rather than a published timetable.
+    [blocking] japan/高松築港 → 琴電琴平: 2026-09-04: all 34 departures are exactly 30 minutes apart, which is a generated pattern rather than a published timetable.
+    [blocking] japan/高松築港 → 琴電琴平: 2026-09-05: all 34 departures are exactly 30 minutes apart, which is a generated pattern rather than a published timetable.
+    [blocking] japan/高松築港 → 琴電琴平: 2026-09-06: all 34 departures are exactly 30 minutes apart, which is a generated pattern rather than a published timetable.
+    [blocking] japan/高松築港 → 琴電琴平: 2026-09-07: all 34 departures are exactly 30 minutes apart, which is a generated pattern rather than a published timetable.
+[scraped] Skipping unusable thailand/mo-chit-hua-lamphong.json: empty
+[scraped] Skipping unusable thailand/siam-mo-chit.json: empty
+[scraped] Skipping unusable thailand/siam-saphan-taksin.json: empty
+[scraped] Skipping unusable thailand/sukhumvit-hua-lamphong.json: empty
+Blocking findings present — this run must not be committed.

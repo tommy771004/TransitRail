@@ -622,6 +622,16 @@ describe("findInRoutes — a train's own calling pattern", () => {
     expect(found![0]).toMatchObject({ departureTime: "10:02", arrivalTime: "10:06" });
   });
 
+  it("merges an exact snapshot with additional departures in a longer snapshot", () => {
+    const exact = route([trip({
+      id: "short", date: "2026-07-10", origin: "Kuramae", destination: "Nihombashi",
+      departureTime: "11:02", arrivalTime: "11:06", stops: ["Kuramae", "Nihombashi"],
+      service: "Toei Asakusa Line",
+    })], "Kuramae", "Nihombashi");
+    const found = findInRoutes([exact, lineRoute(fullPattern)], "Kuramae", "Nihombashi", "2026-07-10", "japan");
+    expect(found?.map((row) => row.departureTime)).toEqual(["10:02", "11:02"]);
+  });
+
   it("refuses to span a hop the source left untimed", () => {
     const gapped = [
       fullPattern[0],
@@ -784,5 +794,22 @@ describe("normalizeResults", () => {
     expect(normalized.legs![0].headsign).toBe("Kyoto");
     expect(normalized.legs![0].departureTime).toBe("10:00");
     expect(normalized.legs![0].arrivalTime).toBe("11:40");
+  });
+});
+
+
+describe("overlapping transfer alternatives", () => {
+  it("keeps different transfer stations with identical endpoint times and services", () => {
+    const edge = (origin: string, destination: string, departureTime: string, arrivalTime: string, service: string) => route([
+      trip({ id: `${origin}-${destination}`, date: "2026-07-10", origin, destination,
+        departureTime, arrivalTime, service, stops: [origin, destination] }),
+    ], origin, destination);
+    const routes = [
+      edge("A", "B", "08:00", "08:20", "First"), edge("B", "D", "08:40", "09:00", "Second"),
+      edge("A", "C", "08:00", "08:20", "First"), edge("C", "D", "08:40", "09:00", "Second"),
+    ];
+    const found = findInRoutes([...routes, ...routes], "A", "D", "2026-07-10", "japan");
+    expect(found).toHaveLength(2);
+    expect(found?.map((row) => row.transferStations)).toEqual([["B"], ["C"]]);
   });
 });

@@ -1,0 +1,22 @@
+
+ RUN  v3.2.7 /Users/tommy/Documents/Proj/TransitRail
+
+stdout | src/server/transitSearchReasons.test.ts > search no-result reasons > distinguishes a covered-but-unsupported station pair
+[scraped] Loaded 69 routes across 14 countries
+
+stderr | src/server/transitSearchReasons.test.ts > search no-result reasons > distinguishes a covered-but-unsupported station pair
+[scraped] Skipping unusable thailand/mo-chit-hua-lamphong.json: empty
+[scraped] Skipping unusable thailand/siam-mo-chit.json: empty
+[scraped] Skipping unusable thailand/siam-saphan-taksin.json: empty
+[scraped] Skipping unusable thailand/sukhumvit-hua-lamphong.json: empty
+
+ ✓ src/server/transitSearchReasons.test.ts (6 tests) 7313ms
+   ✓ search no-result reasons > distinguishes a covered-but-unsupported station pair  3935ms
+   ✓ search no-result reasons > calls a station search cannot answer for uncovered, not merely unsupported  2143ms
+   ✓ search no-result reasons > reports an otherwise covered route with no service on the selected day  1225ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  19:43:48
+   Duration  7.80s (transform 143ms, setup 0ms, collect 335ms, tests 7.31s, environment 0ms, prepare 32ms)
+

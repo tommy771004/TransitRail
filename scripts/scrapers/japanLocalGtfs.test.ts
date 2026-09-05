@@ -15,6 +15,7 @@ const feed = zipFixture({
     "route_id,service_id,trip_id,trip_headsign",
     "R-KOTOHIRA,weekday,T-down,琴電琴平",
     "R-KOTOHIRA,weekday,T-up,高松築港",
+    "R-KOTOHIRA,weekday,T-short,瓦町",
   ].join("\n"),
   "stop_times.txt": [
     "trip_id,arrival_time,departure_time,stop_id,stop_sequence",
@@ -24,6 +25,8 @@ const feed = zipFixture({
     "T-up,08:00:00,08:00:00,S3,1",
     "T-up,08:54:00,08:54:00,S2,2",
     "T-up,09:00:00,09:00:00,S1,3",
+    "T-short,06:30:00,06:30:00,S1,1",
+    "T-short,06:36:00,06:36:00,S2,2",
   ].join("\n"),
   "calendar.txt": [
     "service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date",
@@ -82,11 +85,15 @@ describe("Japan local GTFS-JP scraper", () => {
     expect(scraper.routes).toEqual([
       { origin: "高松築港", destination: "琴電琴平" },
       { origin: "琴電琴平", destination: "高松築港" },
+      { origin: "高松築港", destination: "瓦町" },
     ]);
     expect(fetcher).toHaveBeenCalledTimes(1);
     expect(String(fetcher.mock.calls[0][0])).toBe("https://example.jp/kotoden/feed.zip");
-    expect(second.map((route) => route.date)).toEqual(["2026-08-20", "2026-08-20"]);
+    expect(second.map((route) => route.date)).toEqual(["2026-08-20", "2026-08-20", "2026-08-20"]);
 
+    expect(first.flatMap((route) => route.results)).toHaveLength(3);
+    expect(findInRoutes(first, "高松築港", "瓦町", "2026-08-19", "japan")?.map((row) => row.departureTime))
+      .toEqual(["06:00", "06:30"]);
     const down = first.find((route) => route.origin === "高松築港");
     expect(down?.results).toHaveLength(1);
     expect(down?.results[0]).toMatchObject({
