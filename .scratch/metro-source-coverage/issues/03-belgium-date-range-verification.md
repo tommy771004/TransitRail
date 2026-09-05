@@ -6,7 +6,9 @@
 
 **Blocked by:** None — 但需要 iRail 恢復服務才能驗證。
 
-**Status:** ready-for-agent
+**Status:** resolved — 2026-08-30
+
+比利時與挪威均以各自官方 provider 實測 2026-08-30 至 2026-09-12；兩者每天皆回傳 HTTP 200 與 6 組行程。`dateRangeEnforced` 已設為 `true`，第 15 天會在共用 search policy 邊界被拒絕。
 
 ## 為什麼這件事重要
 
@@ -27,12 +29,12 @@ npx tsx -e '…runTransitSearch({country:"belgium", origin:"Brussels-Central",
 ```
 對範圍內每一天執行，記錄第一個失敗的日期。
 
-- [ ] iRail 恢復後，逐日驗證比利時第 1–14 天
-- [ ] 若第 8–14 天答不出來，比照瑞士收斂日期範圍
-- [ ] 若全部可查，在 `countryConfig` 加註「已於 YYYY-MM-DD 實測」以免下次又被懷疑
-- [ ] 順帶重驗挪威（目前 14 天全通，但同樣沒有留下量測紀錄）
-- [ ] 上游故障期間的行為維持現狀：回 502 加說明訊息，不退回任何合成資料
-- [ ] `npm run lint` 綠燈
+- [x] iRail 恢復後，逐日驗證比利時第 1–14 天
+- [x] 若第 8–14 天答不出來，比照瑞士收斂日期範圍（不適用：14 天全數成功）
+- [x] 若全部可查，在 `countryConfig` 加註「已於 YYYY-MM-DD 實測」以免下次又被懷疑
+- [x] 順帶重驗挪威（14 天全數成功，量測日期已記錄於 `countryConfig`）
+- [x] 上游故障期間的行為維持現狀：回 502 加說明訊息，不退回任何合成資料
+- [x] `npm run lint` 綠燈
 
 ## 注意
 

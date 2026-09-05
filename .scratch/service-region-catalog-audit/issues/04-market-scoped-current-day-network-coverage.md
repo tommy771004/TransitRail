@@ -4,7 +4,7 @@
 
 **Blocked by:** 01 — Establish the date-qualified service-region catalog.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] Each configured market is evaluated on its own market-local current service date.
 - [ ] The report states the searchable service regions, lines, and stations relative to the product's declared market topology.

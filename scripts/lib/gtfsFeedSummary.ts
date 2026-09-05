@@ -19,7 +19,7 @@ export type GtfsRouteSummary = {
   name: string;
   routeType?: number;
   tripCount: number;
-  /** Most-served first and last stop, by the feed's `stop_name`. */
+  /** Endpoints of the longest complete calling pattern, by `stop_name`. */
   terminals?: [string, string];
   /** Ordered stop names of the route's longest trip. */
   stops: string[];
@@ -142,19 +142,27 @@ export function summarizeGtfsRoutes(feed: GtfsFeed): GtfsRouteSummary[] {
   const summaries: GtfsRouteSummary[] = [];
   for (const [routeId, entry] of perRoute) {
     const route = feed.routes.get(routeId);
-    const first = mostCommon(entry.firsts);
-    const last = mostCommon(entry.lasts);
     const path = entry.longestTripId ? calling.get(entry.longestTripId) || [] : [];
+    const stops = [...path]
+      .sort((left, right) => left.sequence - right.sequence)
+      .map((stop) => stopNames.get(stop.stopId))
+      .filter((name): name is string => Boolean(name));
+    const pathFirst = stops[0];
+    const pathLast = stops.at(-1);
+    const commonFirst = mostCommon(entry.firsts);
+    const commonLast = mostCommon(entry.lasts);
+    const terminals = pathFirst && pathLast && pathFirst !== pathLast
+      ? [pathFirst, pathLast] as [string, string]
+      : commonFirst && commonLast && commonFirst !== commonLast
+        ? [commonFirst, commonLast] as [string, string]
+        : undefined;
     summaries.push({
       routeId,
       name: route?.shortName?.trim() || route?.longName?.trim() || routeId,
       routeType: route?.routeType,
       tripCount: entry.tripCount,
-      terminals: first && last ? [first, last] : undefined,
-      stops: [...path]
-        .sort((left, right) => left.sequence - right.sequence)
-        .map((stop) => stopNames.get(stop.stopId))
-        .filter((name): name is string => Boolean(name)),
+      terminals,
+      stops,
     });
   }
   return summaries.sort((left, right) => right.stops.length - left.stops.length);

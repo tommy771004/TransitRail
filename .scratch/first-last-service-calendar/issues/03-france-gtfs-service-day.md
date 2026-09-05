@@ -4,7 +4,7 @@
 
 **Blocked by:** 01 — London first/last advisory tracer.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] The selected official feed is publicly downloadable without a key, login, partner agreement, or undocumented endpoint, and its attribution and coverage limits are recorded.
 - [ ] Scheduled collection produces a validated service-day artifact containing its validity range, source, retrieval time, source update time when available, timezone, and coverage scope.

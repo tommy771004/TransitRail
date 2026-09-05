@@ -4,9 +4,9 @@
 
 完成後：每個宣稱支援的國家，其主要地鐵網路都能查——不是拓撲上存在，而是**真的查得到班次**。
 
-**Blocked by:** None — can start immediately.
+**Blocked by:** External provider credentials/licensing for the remaining named networks (ODPT Tokyo Metro, Busan, Osaka); markets with no verified timetable stay out of the public picker.
 
-**Status:** ready-for-agent
+**Status:** partially delivered — no uncredentialed implementation remains ready-for-agent (2026-08-30)
 
 ## 現況（2026-08-02 實測）
 

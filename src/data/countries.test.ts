@@ -71,4 +71,26 @@ describe("market-local date and time values", () => {
     expect(isSearchDateAllowed("united_states", "2026-08-02", instant)).toBe(true);
     expect(isSearchDateAllowed("united_states", "2026-08-04", instant)).toBe(false);
   });
+
+  it("enforces Belgium's measured fourteen-day provider window", () => {
+    const instant = new Date("2026-08-30T10:00:00.000Z");
+    expect(searchDateRange("belgium", instant)).toMatchObject({
+      start: "2026-08-30",
+      end: "2026-09-12",
+      days: 14,
+    });
+    expect(isSearchDateAllowed("belgium", "2026-09-12", instant)).toBe(true);
+    expect(isSearchDateAllowed("belgium", "2026-09-13", instant)).toBe(false);
+  });
+
+  it("enforces Norway's measured fourteen-day provider window", () => {
+    const instant = new Date("2026-08-30T10:00:00.000Z");
+    expect(searchDateRange("norway", instant)).toMatchObject({
+      start: "2026-08-30",
+      end: "2026-09-12",
+      days: 14,
+    });
+    expect(isSearchDateAllowed("norway", "2026-09-12", instant)).toBe(true);
+    expect(isSearchDateAllowed("norway", "2026-09-13", instant)).toBe(false);
+  });
 });

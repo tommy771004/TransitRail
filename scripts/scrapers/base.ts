@@ -36,12 +36,25 @@ export interface ScrapeRunReport {
   outcomes: RouteOutcome[];
 }
 
-function stationSlug(name: string): string {
-  return name
+export function stationSlug(name: string): string {
+  const ascii = name
     .replace(/\s*\([A-Z0-9]+\)\s*/g, " ")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
+  if (ascii) return ascii;
+
+  // Do not collapse a station written entirely outside ASCII to an empty
+  // filename. That made every Japanese GTFS-JP route write `-.json`, silently
+  // replacing the previous route. Keep existing Latin slugs stable and use an
+  // operator-readable Unicode fallback only when the legacy form has no text.
+  const unicode = name
+    .normalize("NFC")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-|-$/g, "");
+  if (!unicode) throw new Error(`Station name cannot form a route filename: ${JSON.stringify(name)}`);
+  return unicode;
 }
 
 /**

@@ -120,14 +120,14 @@ export class JapanJrCentralScraper extends HtmlScraper {
  * A Japanese local railway that publishes GTFS-JP.
  *
  * The scrape list is read out of the feed rather than written next to it: each
- * rail route's two busiest terminals become a pair in both directions, spelled
- * the way the operator spells them. Station names are the join key between the
+ * rail route's longest complete calling pattern becomes a pair in both
+ * directions, spelled the way the operator spells it. Station names are the join key between the
  * timetable and the search index, and transcribing them by hand from anywhere
  * but the feed is how a route ends up matching nothing every night while
  * looking correctly configured.
  *
- * With no feed URL configured the scraper runs nothing at all, the same way the
- * ODPT scraper drops its Tokyo Metro routes without a key.
+ * The operator's stable railway feed is the default; the environment variable
+ * is an override for mirrors or emergency feed moves.
  */
 export class JapanLocalGtfsScraper extends DownloadScraper {
   readonly name: string;
@@ -144,7 +144,7 @@ export class JapanLocalGtfsScraper extends DownloadScraper {
   override async runAll(date: string, options: { keepDates?: string[] } = {}): Promise<ScrapedRouteData[]> {
     if (!japanGtfsFeedUrl(this.feedSource)) {
       console.log(
-        `  japan: ${this.feedSource.urlEnvVar} not set; skipping ${this.feedSource.label}.`,
+        `  japan: no default feed and ${this.feedSource.urlEnvVar} not set; skipping ${this.feedSource.label}.`,
       );
       return [];
     }

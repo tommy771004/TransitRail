@@ -4,7 +4,7 @@
 
 **Blocked by:** 02 — Hydrate the station browser with one catalog request.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] The left pane renders service-region headings with their nested searchable lines, and the right pane renders the selected line's stations in route order.
 - [ ] The first available region and line are selected by default when no valid prior selection exists.

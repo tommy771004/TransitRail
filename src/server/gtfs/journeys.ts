@@ -10,6 +10,13 @@ export type GtfsJourney = {
   shortName?: string;
 };
 
+export type GtfsJourneyCall = {
+  station: string;
+  sequence: number;
+  arrival?: number;
+  departure?: number;
+};
+
 export type GtfsStationMatchOptions = {
   fillerWords?: readonly string[];
   synonyms?: Readonly<Record<string, string>>;
@@ -178,6 +185,38 @@ export function collectGtfsJourneys(
     }
   }
   return journeys.sort((a, b) => a.departure - b.departure);
+}
+
+/**
+ * Read the complete calling patterns for journeys already selected by an OD
+ * query. Keeping this as one additional feed pass avoids rescanning once per
+ * train, while callers that only need endpoints pay no extra cost.
+ */
+export function collectGtfsJourneyCalls(
+  feed: GtfsFeed,
+  journeys: readonly GtfsJourney[],
+): Map<string, GtfsJourneyCall[]> {
+  const wanted = new Set(journeys.map((journey) => journey.tripId));
+  const stopNames = new Map(feed.stops.map((stop) => [stop.id, stop.name]));
+  const calls = new Map<string, GtfsJourneyCall[]>();
+  forEachGtfsCsvRow(feed.stopTimes, (row) => {
+    if (!wanted.has(row.trip_id)) return;
+    const station = stopNames.get(row.stop_id);
+    const sequence = Number(row.stop_sequence);
+    if (!station || !Number.isFinite(sequence)) return;
+    const tripCalls = calls.get(row.trip_id) || [];
+    tripCalls.push({
+      station,
+      sequence,
+      arrival: gtfsMinutes(row.arrival_time),
+      departure: gtfsMinutes(row.departure_time),
+    });
+    calls.set(row.trip_id, tripCalls);
+  });
+  for (const tripCalls of calls.values()) {
+    tripCalls.sort((left, right) => left.sequence - right.sequence);
+  }
+  return calls;
 }
 
 type GtfsRouteQuery = { origin: string; destination: string };

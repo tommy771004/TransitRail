@@ -4,7 +4,7 @@
 
 **Blocked by:** Ticket 01 — comparison requests require the same verified coverage and runtime identity resolution.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] The tool accepts an exact requested date within Transit App’s documented request bound and reports the requested date, returned date identity when present, provider/network, retrieval time, freshness, and comparison classification.
 - [ ] It classifies empty responses, non-matching dates, out-of-range requests, unknown/stale freshness, missing coverage, and Preview/API errors as `unavailable` or another explicitly non-service conclusion; none may mean “no trains”.

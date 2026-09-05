@@ -1,6 +1,6 @@
 # Spec: Searchability policy across journeys, catalogs, and route publication
 
-Status: ready-for-agent
+Status: implementation-present — acceptance audit pending
 
 ## Problem Statement
 

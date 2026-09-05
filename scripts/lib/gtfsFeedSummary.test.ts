@@ -21,6 +21,7 @@ const feed = parseGtfsFeed(zipFixture({
     "route_id,service_id,trip_id,trip_headsign",
     "R-KOTOHIRA,weekday,T-full,琴電琴平",
     "R-KOTOHIRA,weekday,T-short,瓦町",
+    "R-KOTOHIRA,weekday,T-short-back,高松築港",
     "R-KOTOHIRA,weekday,T-back,高松築港",
     "R-BUS,weekday,T-bus,空港通り",
   ].join("\n"),
@@ -33,6 +34,8 @@ const feed = parseGtfsFeed(zipFixture({
     "T-full,07:00:00,07:00:00,S5,5",
     "T-short,08:00:00,08:00:00,S1,1",
     "T-short,08:06:00,08:06:00,S3,2",
+    "T-short-back,08:20:00,08:20:00,S3,1",
+    "T-short-back,08:26:00,08:26:00,S1,2",
     "T-back,09:00:00,09:00:00,S5,1",
     "T-back,10:00:00,10:00:00,S1,2",
     "T-bus,07:00:00,07:00:00,B1,1",
@@ -57,9 +60,10 @@ describe("GTFS feed summary", () => {
     expect(summaries[0]).toMatchObject({
       name: "琴平線",
       routeType: 2,
-      tripCount: 3,
-      // Two of the three trips start at 高松築港 and two end at 琴電琴平, so the
-      // short-turn and the return working do not move the terminals.
+      tripCount: 4,
+      // Short turns make 高松築港 the most common value at both ends, exactly
+      // like Kotoden's real feed. The complete longest trip still proves the
+      // actual line terminals.
       terminals: ["高松築港", "琴電琴平"],
       stops: ["高松築港", "片原町", "瓦町", "栗林公園", "琴電琴平"],
     });

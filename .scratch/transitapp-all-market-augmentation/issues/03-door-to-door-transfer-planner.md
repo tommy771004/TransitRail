@@ -4,7 +4,7 @@
 
 **Blocked by:** Ticket 01 — planner calls must only use resolved, runtime third-party stop/network identities.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] The result page provides a deliberate user action to request a third-party journey suggestion; it must not make planner calls automatically as part of timetable search.
 - [ ] A dedicated server endpoint validates origin, destination, optional accessibility preferences, and input bounds before calling Transit App; it returns a typed plan or an explicit supplementary-data status.

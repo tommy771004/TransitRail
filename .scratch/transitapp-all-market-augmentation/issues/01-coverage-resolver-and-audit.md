@@ -4,7 +4,7 @@
 
 **Blocked by:** None — can start immediately.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] A server-only `TRANSIT_APP_API_KEY` configuration is documented and optional; a missing key produces an explicit unavailable state and never reaches browser code, public artifacts, telemetry, or logs.
 - [ ] The adapter normalizes upstream errors, timeouts, rate limits, empty responses, freshness metadata, and provider/network identity into a stable supplementary-data contract.

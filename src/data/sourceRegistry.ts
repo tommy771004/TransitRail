@@ -151,11 +151,9 @@ export const officialSources = {
     maxCompleteness: "full-timetable",
   },
   // Japan's local railways publish GTFS-JP themselves rather than through
-  // ODPT. The zip's own URL is configuration (`KOTODEN_GTFS_URL`), because it
-  // belongs to the operator's site or its repository entry rather than to this
-  // register; without it the scraper does not run. Attribution is deliberately
-  // absent until the feed's own licence file has been read — a licence line
-  // written from memory is not a licence.
+  // ODPT. The operator publishes a stable railway ZIP and explicitly
+  // licenses the feed under CC BY 4.0; `KOTODEN_GTFS_URL` may override that
+  // default without changing provenance.
   "jp-kotoden-gtfs": {
     id: "jp-kotoden-gtfs",
     country: "japan",
@@ -164,6 +162,7 @@ export const officialSources = {
     sourceType: "official-gtfs",
     sourceUrl: "https://www.kotoden.co.jp/publichtm/gtfs/index.html",
     maxCompleteness: "full-timetable",
+    attribution: "Takamatsu-Kotohira Electric Railroad (Kotoden), CC BY 4.0",
   },
 
   // --- Korea ---

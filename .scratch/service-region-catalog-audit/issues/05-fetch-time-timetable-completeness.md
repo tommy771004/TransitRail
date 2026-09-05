@@ -4,7 +4,7 @@
 
 **Blocked by:** 04 — Report market-scoped current-day network coverage.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] The audit classifies full timetable, sampled service day, bounded upcoming slice, frequency/service-hours only, catalog only, stale, and unavailable as distinct temporal states.
 - [ ] Every temporal verdict includes the relevant market-local service date and available fetch/check timestamp.

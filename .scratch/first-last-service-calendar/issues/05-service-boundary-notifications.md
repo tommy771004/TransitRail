@@ -4,7 +4,7 @@
 
 **Blocked by:** 01 — London first/last advisory tracer.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] A saved route retains the country, origin, destination, direction where applicable, service date, and selected time needed to recompute its advisory consistently.
 - [ ] The timetable fingerprint includes normalized first and last usable departures and applicable service-day identity, but excludes retrieval-only metadata.

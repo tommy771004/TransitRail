@@ -4,7 +4,7 @@
 
 **Blocked by:** None — can start immediately.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] A catalog request for a country and exact service date returns stable service-region identities with ordered lines and stations.
 - [ ] Urban networks are assigned to their product service area, while cross-area rail is assigned once to a national/intercity service region.

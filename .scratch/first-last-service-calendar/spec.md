@@ -1,6 +1,6 @@
 # First/Last Train, Service Calendar, and Last-Train Risk
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 ## Problem Statement
 

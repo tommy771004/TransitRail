@@ -177,6 +177,36 @@ const japanLineDefs: Array<{ id: string; name: string; color: string; stations: 
     color: "#E4007F",
     stations: ["Tokyo", "Sendai", "Morioka", "Kakunodate", "Akita"],
   },
+  {
+    // Operator-published GTFS-JP calling pattern and route colour.
+    id: "kotoden-kotohira",
+    name: "Kotoden Kotohira Line",
+    color: "#FFEA19",
+    stations: [
+      "高松築港", "片原町", "瓦町", "栗林公園", "三条", "伏石", "太田", "仏生山",
+      "空港通り", "一宮", "円座", "岡本", "挿頭丘", "畑田", "陶", "綾川",
+      "滝宮", "羽床", "栗熊", "岡田", "羽間", "榎井", "琴電琴平",
+    ],
+  },
+  {
+    id: "kotoden-nagao",
+    name: "Kotoden Nagao Line",
+    color: "#00B141",
+    stations: [
+      "高松築港", "片原町", "瓦町", "花園", "林道", "木太東口", "元山", "水田",
+      "西前田", "高田", "池戸", "農学部前", "平木", "学園通り", "白山", "井戸",
+      "公文明", "長尾",
+    ],
+  },
+  {
+    id: "kotoden-shido",
+    name: "Kotoden Shido Line",
+    color: "#FA00CA",
+    stations: [
+      "瓦町", "今橋", "松島二丁目", "沖松島", "春日川", "潟元", "琴電屋島", "古高松",
+      "八栗", "六万寺", "大町", "八栗新道", "塩屋", "房前", "原", "琴電志度",
+    ],
+  },
 ];
 
 export const japanRailLines: TransitLine[] = (() => {

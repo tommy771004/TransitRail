@@ -6,7 +6,9 @@
 
 **Blocked by:** None — can start immediately.
 
-**Status:** ready-for-agent
+**Status:** resolved — obsolete curated route files removed 2026-08-30
+
+現行 Singapore timetable 只接受 `sg-lta-gtfs` 的官方 departure rows。三個舊 `sg-smrt-service-hours` 空 route artifacts 已移除；它們沒有 departures、沒有票價，也不再造成 `source-not-configured` 驗證警告。SMRT 資料只保留在獨立 service-day advisory artifact，不會被展開成班次或票價。
 
 ## 現況（2026-08-02 稽核）
 

@@ -3,6 +3,7 @@ import type { TimetableAuthenticity, TimetableSourceIssue, TimetableTruthMode } 
 import type { TimetableSourceMeta } from "../sourceRegistry";
 import { stationSearchKey } from "../stationKey";
 import { resolveStationAlias } from "../stationAliases";
+import { japanRailLines } from "../stations";
 import {
   aggregateTransferFare,
   getMinimumTransferMinutes,
@@ -370,6 +371,52 @@ function resultsForEdge(edge: RouteEdge, date?: string, country?: Country): Tran
     .flatMap((result) => segmentResult(result, edge.route, edge, country) || []);
 }
 
+/**
+ * A same-line journey must make monotonic progress through that line's
+ * published station order. Endpoint-only route files otherwise let the graph
+ * connect two perfectly valid trains into a geographically absurd itinerary:
+ * Okayama → Shin-Osaka → Hiroshima, or Kyoto → Tokyo → Nagoya.
+ *
+ * Apply this only where TransitRail owns an ordered, operator-backed topology.
+ * If no single Japan line contains both requested endpoints, the ordinary
+ * transfer graph still decides the journey; cross-line trips remain possible.
+ */
+function followsKnownSameLineCorridor(
+  country: Country | undefined,
+  origin: string,
+  destination: string,
+  path: readonly RouteEdge[],
+): boolean {
+  if (country !== "japan") return true;
+
+  const originKey = stationKeyFor(country, origin);
+  const destinationKey = stationKeyFor(country, destination);
+  const pathKeys = [origin, ...path.map((edge) => edge.to)]
+    .map((station) => stationKeyFor(country, station));
+  const sharedLines = japanRailLines.filter((line) => {
+    const keys = line.stations.map((station) => stationKeyFor(country, station.name));
+    return keys.includes(originKey) && keys.includes(destinationKey);
+  });
+  if (sharedLines.length === 0) return true;
+
+  return sharedLines.some((line) => {
+    const keys = line.stations.map((station) => stationKeyFor(country, station.name));
+    const originIndex = keys.indexOf(originKey);
+    const destinationIndex = keys.indexOf(destinationKey);
+    const direction = Math.sign(destinationIndex - originIndex);
+    if (direction === 0) return false;
+
+    let previous = originIndex;
+    for (const key of pathKeys.slice(1)) {
+      const index = keys.indexOf(key);
+      if (index < 0 || (index - previous) * direction <= 0) return false;
+      if ((index - originIndex) * direction < 0 || (destinationIndex - index) * direction < 0) return false;
+      previous = index;
+    }
+    return previous === destinationIndex;
+  });
+}
+
 function findRoutePaths(
   routes: ScrapedRouteData[],
   origin: string,
@@ -400,6 +447,7 @@ function findRoutePaths(
       if (stationKeyFor(country, edge.from) !== stationKeyFor(country, current.station) || current.visited.has(stationKeyFor(country, edge.to))) continue;
       const path = [...current.path, edge];
       if (stationKeyFor(country, edge.to) === target) {
+        if (!followsKnownSameLineCorridor(country, origin, destination, path)) continue;
         shortestLength = path.length;
         found.push(path);
         continue;

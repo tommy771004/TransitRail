@@ -4,7 +4,7 @@
 
 **Blocked by:** 01 — London first/last advisory tracer.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] The selected source is an official, unauthenticated public page or download and explicitly publishes a complete service day or first/last declarations for the supported scope.
 - [ ] The adapter declares operator, route and station coverage, direction semantics, timezone, attribution, update cadence, and any limits that require a partial capability state.

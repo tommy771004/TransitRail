@@ -1,7 +1,6 @@
 # 日本市場資料覆蓋 — 交接文件
 
-**日期：** 2026-08-19
-**分支：** `claude/japan-data-issue-kskj1y`（三個 commit，均已推送）
+**最後更新：** 2026-08-30
 **範圍：** 日本市場的時刻表覆蓋、車站目錄閘門、以及兩條新的資料取得路徑
 
 ---
@@ -98,9 +97,10 @@
 ### `709542a` — 從 GTFS-JP 讀日本地方鐵道
 
 - 新來源 `jp-kotoden-gtfs`（tier A、`official-gtfs`），adapter `src/server/japanGtfsJp.ts` 沿用既有 GTFS 機制（`src/server/gtfs/*`）
-- **抓取路線由 feed 自己決定**：`scrapeRoutePairs()` 取每條鐵道路線最常見的兩個端點，雙向各一組，站名沿用業者自己的寫法。站名是時刻表與搜尋之間的比對鍵，手抄必錯
-- **feed 網址是設定不是常數**（`KOTODEN_GTFS_URL`）。沒設就整個 scraper 不執行 — 與沒有 `ODPT_API_KEY` 時跳過東京 Metro 同一種克制
+- **抓取路線由 feed 自己決定**：`scrapeRoutePairs()` 取每條鐵道路線最長完整 calling pattern 的兩個端點，雙向各一組，站名沿用業者自己的寫法。不能分別取最常見首末站；真實 feed 的短程折返會讓兩者都是高松築港
+- **feed 有業者發布的穩定預設網址**；`KOTODEN_GTFS_URL` 僅供覆寫。授權為 CC BY 4.0
 - 新工具：`npm run inspect:gtfs -- <zip 網址或路徑> --rail-only`，印出路線、端點、完整停站順序，以及可直接貼進 `routes.ts` 的條目
+- 琴平線、長尾線、志度線共 53 個唯一車站已加入 `japanRailLines`，並設為獨立的 Takamatsu (Kotoden) 市場分區。端點班次會保留 feed 的完整逐站 calling pattern 與官方到發時刻，因此中途站也能作為搜尋起訖點，不只是地圖裝飾
 
 **順帶修掉一個真 bug**
 
@@ -170,7 +170,7 @@
 - 岡山 → 新大阪 17 班
 - 山陽新幹線已自動出現在路網圖（新大阪／岡山／広島／博多）
 
-**已知問題（不是這次造成的）**：中間站對會回傳繞路的轉乘鏈。岡山 → 広島 目前答 06:00→08:28「みずほ 601 → のぞみ 2」，其實是先往東回新大阪再往西。**京都 → 名古屋 早就是同樣情形**（經東京，4 小時 39 分），這是 JR 檔案只有站對兩端、沒有逐站時刻的結構性後果。兩種解法：補抓 岡山↔広島、広島↔博多、岡山↔博多（每組 ×9 天 ×17 次取樣），或讓轉乘鏈拒絕「轉乘站不在起訖之間」的路徑。
+**已修正中間站對繞路**：日本搜尋若起訖站位於同一條已知線路，轉乘路徑現在必須沿車站順序單調前進。岡山 → 広島 不再經新大阪、京都 → 名古屋 不再經東京；沒有可驗證直達資料時會回 `no_verified_data`，不合成看似可用的錯誤路徑。
 
 ---
 
@@ -195,13 +195,9 @@
 
 失敗不會弄壞任何東西：沒有檔案 = 沒有覆蓋 = 該線維持隱藏。
 
-### 4.4 補齊 ことでん 設定
+### ~~4.4 補齊 ことでん 設定~~ — 已完成
 
-1. 從[業者開放資料頁](https://www.kotoden.co.jp/publichtm/gtfs/index.html)取得**鐵道**（非巴士）GTFS zip 的實際網址
-2. 讀該檔授權條款，把授權字串補進 `src/data/sourceRegistry.ts` 的 `jp-kotoden-gtfs.attribution`（目前刻意留空 — 憑記憶寫的授權不是授權）
-3. `KOTODEN_GTFS_URL="https://.../feed.zip"` 設進環境
-4. `npm run inspect:gtfs -- <網址> --rail-only` 確認路線與站名
-5. **把線路與站名加進 `src/data/stations.ts` 的 `japanRailLines`**，否則只有搜尋與車站選單看得到，瀏覽用的路網圖不會出現 ことでん。若要獨立分區，在 `countryConfig.japan.marketTopology.regions` 加一個 `lineIdPrefixes: ["kotoden-"]` 的區域；不加的話會落進預設的 `japan-intercity`（語意不太對）
+已用[業者開放資料頁](https://www.kotoden.co.jp/publichtm/gtfs/index.html)所連結的 railway feed 驗證網址、CC BY 4.0 授權、三條路線端點、完整站序及官方路線色。注意 `gtfsdata/latest/gtfs_kd.zip` 是已過期的 2025 檔；正確穩定網址是頁面實際連結的 `gtfsdata/gtfs_kd.zip`（目前涵蓋至 2027-02-28）。預設網址已寫入 adapter，環境變數只作覆寫。
 
 ### 4.5 其他來源（尚未動工）
 
@@ -235,11 +231,7 @@
 
 ## 6. 環境限制與驗證方式
 
-**這個開發沙箱沒有對外網路。** `api-public.odpt.org`、`kotoden.co.jp`、甚至 `railway.jr-central.co.jp` 都是 proxy 403。這是 repo 早就記錄過的狀況（`TIMETABLE_SOURCES.md` §「Verification without network access」），既有做法就是：
-
-> 對著 fixture 開發，讓排程跑真值當整合測試。
-
-因此 **`776aa3f` 與 `709542a` 都沒有落地任何真實班次**。兩者都以 fixture 驗證解析與路線推導，第一批真資料會在下次抓取（或設定好 URL 後）才出現。`e27c3c2` 加的嚴格閘門讓這件事是安全的：沒有資料的線與站一律隱藏，不會出現「看得到卻查不到」。
+2026-08-30 已在可連外環境用真實來源驗證 JR 東海／山陽、ODPT 公開端點及琴電 GTFS-JP。fixture 仍是解析器的快速回歸測試；夜間排程與本地完整抓取負責來源整合驗證。嚴格目錄閘門維持不變：沒有資料的線與站一律隱藏。
 
 ### 指令
 
@@ -255,7 +247,7 @@ npm run catalog         # 重新產生 public/catalog/*.json
 
 ### 陷阱
 
-- **`npm run audit:sources` 會即時打各家 provider。** 重跑一次，UK／HK／TH／CH 那幾列會跟著當下網路狀況漂移，跟你的改動無關。`e27c3c2` 那次已知只有 japan 那列（`105/168` → `10/168`）是本次造成的。夜間任務**不會**自動重跑這份檔案。
+- **`npm run audit:sources` 會即時打各家 provider。** 重跑一次，來源探測會跟當下網路狀況漂移。夜間任務現已在資料與目錄更新後自動重跑並提交這份檔案。
 - **`npm run sitemap` 會產生大量 `lastmod` 漂移**，與程式改動無關；除非路由真的變了，否則不要一起 commit。
 - **`src/server/providerStationResolution.test.ts`** 有一個測請求節奏的案例，在整套測試同時跑時偶爾會因負載而失敗；單獨重跑會過。
 - **JR 東海 CGI 的請求量**：每組站對每個服務日 17 次請求。目前 11 組 × 9 天 ≈ 1,700 次／完整輪。再加站對前先想清楚。
@@ -267,9 +259,9 @@ npm run catalog         # 重新產生 public/catalog/*.json
 
 - [ ] 申請 ODPT 金鑰，設定 `ODPT_API_KEY`（§4.2）
 - [x] 跑一次 `npm run scrape:japan`，確認山陽新幹線 6 組站對有沒有回資料（§3.5：有）
-- [ ] 取得 ことでん GTFS zip 網址與授權，設定 `KOTODEN_GTFS_URL`、補 `attribution`、加線路目錄（§4.4）
+- [x] 取得 ことでん GTFS zip 網址與授權、補 `attribution`、預設 feed 與線路目錄（§4.4）
 - [x] 實作 ODPT 逐站時刻 → `legs`，並把 `odptRoutes.ts` 改成整線端點（§3.4）
 - [x] 確認四條都營線的中途站真的可查（106 站），`audit-station-mapping` 名稱不符 0 筆
 - [ ] 決定逐站時刻的存法：維持 `legs`（114 MB）或改存精簡陣列（約 1/3.5）（§3.4 代價）
-- [ ] 決定中間站對的繞路轉乘鏈怎麼處理（§3.5 已知問題）
+- [x] 同線轉乘鏈拒絕逆向／越界繞路（§3.5）
 - [ ] 上述任一項落地後：`npm run validate:data`、`npm run audit:sources`、`npm run catalog`

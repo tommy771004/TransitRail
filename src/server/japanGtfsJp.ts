@@ -8,16 +8,20 @@
  * timetable, so it reads through the same GTFS machinery every other
  * feed-backed market uses.
  *
- * The feed URL is configuration, not a constant. An operator's zip lives behind
- * whatever path its own site or repository entry gives it, and a URL committed
- * from memory would fetch nothing every night while looking configured. Unset
- * means the scraper does not run, exactly as an absent `ODPT_API_KEY` drops the
- * Tokyo Metro routes rather than filling them from somewhere else.
+ * A source may declare an operator-published stable `latest` URL. Deployments
+ * can still override it through the named environment variable, which keeps
+ * mirrors and emergency migrations possible without a code release.
  */
 import type { OfficialSourceId } from "../data/sourceRegistry";
-import type { SearchResponse } from "../types";
+import type { JourneyLeg, SearchResponse, TransitResult } from "../types";
 import { createGtfsFeedSource, type GtfsFeed, type GtfsFeedSource } from "./gtfs/feed";
-import { collectGtfsJourneys, type GtfsJourney } from "./gtfs/journeys";
+import {
+  collectGtfsJourneyCalls,
+  collectGtfsJourneys,
+  formatGtfsClock,
+  type GtfsJourney,
+  type GtfsJourneyCall,
+} from "./gtfs/journeys";
 import { buildGtfsTimetable } from "./gtfs/timetable";
 
 export type JapanGtfsRailSource = {
@@ -31,6 +35,8 @@ export type JapanGtfsRailSource = {
   idPrefix: string;
   /** Environment variable holding the feed's zip URL. */
   urlEnvVar: string;
+  /** Operator-published stable URL used when no environment override exists. */
+  defaultUrl?: string;
 };
 
 /**
@@ -45,13 +51,16 @@ export const KOTODEN_GTFS_RAIL: JapanGtfsRailSource = {
   label: "Kotoden GTFS-JP",
   idPrefix: "jp-kotoden",
   urlEnvVar: "KOTODEN_GTFS_URL",
+  // The railway link on the operator page is deliberately not under `latest`;
+  // that directory currently serves an expired 2025 archive.
+  defaultUrl: "https://www.kotoden.co.jp/publichtm/gtfs/gtfsdata/gtfs_kd.zip",
 };
 
 const feedSources = new Map<string, GtfsFeedSource>();
 
 /** The configured zip URL, or undefined when this feed is not set up. */
 export function japanGtfsFeedUrl(source: JapanGtfsRailSource): string | undefined {
-  return process.env[source.urlEnvVar]?.trim() || undefined;
+  return process.env[source.urlEnvVar]?.trim() || source.defaultUrl;
 }
 
 function feedSourceFor(source: JapanGtfsRailSource): GtfsFeedSource {
@@ -81,6 +90,53 @@ function serviceLabel(source: JapanGtfsRailSource, feed: GtfsFeed, journey: Gtfs
     || route?.shortName?.trim()
     || journey.shortName?.trim()
     || source.operator;
+}
+
+function timedLegs(
+  calls: readonly GtfsJourneyCall[],
+  lineName: string,
+  headsign?: string,
+): JourneyLeg[] {
+  const legs: JourneyLeg[] = [];
+  for (let index = 0; index < calls.length - 1; index += 1) {
+    const from = calls[index];
+    const to = calls[index + 1];
+    const departure = from.departure ?? from.arrival;
+    let arrival = to.arrival ?? to.departure;
+    if (departure === undefined || arrival === undefined) continue;
+    if (arrival < departure) arrival += 24 * 60;
+    legs.push({
+      lineName,
+      mode: "train",
+      origin: from.station,
+      destination: to.station,
+      departureTime: formatGtfsClock(departure),
+      arrivalTime: formatGtfsClock(arrival),
+      durationMinutes: arrival - departure,
+      ...(headsign ? { headsign } : {}),
+    });
+  }
+  return legs;
+}
+
+function attachCallingPatterns(
+  feed: GtfsFeed,
+  journeys: readonly GtfsJourney[],
+  results: readonly TransitResult[],
+  source: JapanGtfsRailSource,
+): TransitResult[] {
+  const callsByTrip = collectGtfsJourneyCalls(feed, journeys);
+  return results.map((result, index) => {
+    const journey = journeys[index];
+    const calls = callsByTrip.get(journey.tripId) || [];
+    const lineName = serviceLabel(source, feed, journey);
+    const legs = timedLegs(calls, lineName, result.headsign);
+    return {
+      ...result,
+      stops: calls.map((call) => call.station),
+      ...(legs.length > 0 ? { legs } : {}),
+    };
+  });
 }
 
 /**
@@ -135,18 +191,20 @@ export async function searchJapanGtfsRail(
     };
   }
 
+  const results = buildGtfsTimetable(feed, journeys, {
+    idPrefix: source.idPrefix,
+    country: "japan",
+    operator: source.operator,
+    origin,
+    destination,
+    serviceLabel: (currentFeed, journey) => serviceLabel(source, currentFeed, journey),
+    headsign: (journey) => journey.headsign?.trim() || undefined,
+  });
+
   return {
     status: 200,
     body: {
-      results: buildGtfsTimetable(feed, journeys, {
-        idPrefix: source.idPrefix,
-        country: "japan",
-        operator: source.operator,
-        origin,
-        destination,
-        serviceLabel: (currentFeed, journey) => serviceLabel(source, currentFeed, journey),
-        headsign: (journey) => journey.headsign?.trim() || undefined,
-      }),
+      results: attachCallingPatterns(feed, journeys, results, source),
       source: source.label,
     },
   };

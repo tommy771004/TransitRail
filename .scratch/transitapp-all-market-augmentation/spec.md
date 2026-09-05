@@ -1,6 +1,6 @@
 # Transit App 全市場即時與轉乘增強
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 ## Problem Statement
 

@@ -217,6 +217,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     authenticityGates: { catalog: true },
     marketTopology: { regions: [
       { id: "tokyo-urban", name: "Tokyo urban rail", lineIdPrefixes: ["toei-", "tokyo-metro-"], declaredLines: 6, declaredStations: 132 },
+      { id: "takamatsu-kotoden", name: "Takamatsu (Kotoden)", lineIdPrefixes: ["kotoden-"], declaredLines: 3, declaredStations: 53 },
       { id: "japan-intercity", name: "Japan intercity rail", default: true, declaredLines: 10, declaredStations: 36 },
     ] },
     resultView: "japan",
@@ -450,7 +451,13 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "比利時",
     connected: true,
     liveOnly: false,
+    // Verified against iRail for every date from 2026-08-30 through
+    // 2026-09-12: the provider returned six real journeys on all fourteen
+    // service days. Enforce the measured boundary at the public search seam so
+    // callers cannot bypass the picker and turn an unclaimed date into an
+    // accidental provider promise.
     dateRangeDays: 14,
+    dateRangeEnforced: true,
     timeZone: "Europe/Brussels",
     search: { kind: "provider", provider: "belgium" },
     scrape: "official_source",
@@ -469,7 +476,11 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     promptName: "挪威",
     connected: true,
     liveOnly: false,
+    // Re-verified against Entur on 2026-08-30 for every offered service day
+    // through 2026-09-12. Keep direct API callers inside the same measured
+    // fourteen-day promise as the picker.
     dateRangeDays: 14,
+    dateRangeEnforced: true,
     timeZone: "Europe/Oslo",
     search: { kind: "provider", provider: "norway" },
     scrape: "official_source",

@@ -4,7 +4,7 @@
 
 **Blocked by:** Ticket 01 — it supplies the safe station-to-network resolution contract.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] The card loads only after a user has selected or viewed the relevant result, using a dedicated supplementary-data endpoint rather than the existing timetable-search endpoint.
 - [ ] The response distinguishes `available`, `uncovered`, `unavailable`, `empty-live-data`, and `error`; each status has a user-facing explanation and never implies that trains are not running.

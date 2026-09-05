@@ -4,7 +4,7 @@
 
 **Blocked by:** 02 — Boston service calendar and first/last journeys; 03 — France GTFS service-day advisory; 04 — Thailand official-page Playwright advisory; 05 — Saved-route service-boundary notifications.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] Every country and operator has an explicit supported, partial, stale, or unavailable service-day capability; missing configuration is never interpreted as supported.
 - [ ] Existing journey result renderers continue to work when no advisory is present, and the search response remains backward-compatible.

@@ -1,6 +1,6 @@
 # Spec: 地鐵資料真實性與跨線轉乘修正
 
-Status: ready-for-agent
+Status: implementation-present — acceptance audit pending
 
 前置文件：`METRO_TRANSFER_AND_INTEGRITY_AUDIT.md`（稽核報告，先於本 spec 產出，提供逐線隱藏清單）
 相關文件：`METRO_DATA_SOURCE_AUDIT.md`（外部資料源可用性評估，不同問題）

@@ -162,17 +162,35 @@ jobs:
         if: steps.validate_data.outcome == 'failure'
         run: exit 1
 
+      # Publish the validated source-of-truth artifacts before rebuilding any
+      # derived browsing catalog. A provider directory outage or catalog bug
+      # must never strand a good timetable on the ephemeral runner again.
+      - name: Commit validated transit data
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update transit scraped data [skip ci]"
+          file_pattern: "src/data/scraped/*.json src/data/scraped/*/*.json src/data/scraped/*/*.json.gz src/data/service-day/*.json src/data/catalog/*.json"
+          commit_user_name: "TransitRail Scraper Bot"
+          commit_user_email: "scraper@transitrail.app"
+
       - name: Generate static station catalog
         env:
           # The UK menu is built from the same TfL API the timetable scrape uses.
           TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
         run: npm run catalog
 
-      - name: Commit updated data
+      # This audit is deterministic from committed artifacts
+      # (`includeProvider: false`); keeping it in the nightly publication makes
+      # the maintainer-facing coverage report describe the same data passengers
+      # receive instead of the date someone last ran the command by hand.
+      - name: Refresh source coverage report
+        run: npm run audit:sources
+
+      - name: Commit generated station catalog
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: update transit scraped data [skip ci]"
-          file_pattern: "src/data/scraped/*.json src/data/scraped/*/*.json src/data/scraped/*/*.json.gz src/data/service-day/*.json src/data/catalog/*.json public/catalog/*.json"
+          commit_message: "chore: update generated station catalog [skip ci]"
+          file_pattern: "public/catalog/*.json SOURCE_COVERAGE.md"
           commit_user_name: "TransitRail Scraper Bot"
           commit_user_email: "scraper@transitrail.app"
 

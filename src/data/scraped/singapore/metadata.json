@@ -1,53 +1,245 @@
 {
   "country": "singapore",
-  "provider": "SMRT Corporation",
-  "source": "SMRT official station information",
-  "sourceUrl": "https://journey.smrt.com.sg/journey/station_info/",
-  "sourceTier": "A",
-  "fetchedAt": "2026-08-07T22:41:57.574Z",
-  "builtAt": "2026-08-19T07:37:49.678Z",
+  "provider": "LTA DataMall GTFS",
+  "source": "No registered official source",
+  "builtAt": "2026-08-30T13:24:41.822Z",
   "recordCount": 0,
-  "routeCount": 3,
-  "successRate": null,
-  "failedRoutes": [],
-  "coverage": {
-    "verifiedRoutes": 0,
-    "emptyRoutes": 3,
-    "unverifiedRoutes": 0,
-    "serviceDates": []
-  },
-  "checksum": "555ecb36f6cf5bae6e85d2a168a73a10004521933419be48006d831a27f1b7d7",
-  "artifactVersion": 2,
-  "routes": [
+  "routeCount": 0,
+  "successRate": 0,
+  "failedRoutes": [
+    {
+      "origin": "Changi Airport",
+      "destination": "Tanah Merah",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Tanah Merah",
+      "destination": "Jurong East",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
     {
       "origin": "HarbourFront",
       "destination": "Punggol",
-      "resultCount": 0,
-      "date": "2026-08-14",
-      "sourceId": "sg-smrt-service-hours",
-      "completeness": "frequency-only",
-      "fetchedAt": "2026-08-07T22:41:57.574Z",
-      "verified": true
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
     },
     {
       "origin": "Jurong East",
       "destination": "Raffles Place",
-      "resultCount": 0,
-      "date": "2026-08-14",
-      "sourceId": "sg-smrt-service-hours",
-      "completeness": "frequency-only",
-      "fetchedAt": "2026-08-07T22:41:57.574Z",
-      "verified": true
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
     },
     {
       "origin": "Woodlands",
       "destination": "Orchard",
-      "resultCount": 0,
-      "date": "2026-08-14",
-      "sourceId": "sg-smrt-service-hours",
-      "completeness": "frequency-only",
-      "fetchedAt": "2026-08-07T22:41:57.574Z",
-      "verified": true
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Changi Airport",
+      "destination": "Tanah Merah",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Tanah Merah",
+      "destination": "Jurong East",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "HarbourFront",
+      "destination": "Punggol",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Jurong East",
+      "destination": "Raffles Place",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Woodlands",
+      "destination": "Orchard",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Changi Airport",
+      "destination": "Tanah Merah",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Tanah Merah",
+      "destination": "Jurong East",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "HarbourFront",
+      "destination": "Punggol",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Jurong East",
+      "destination": "Raffles Place",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Woodlands",
+      "destination": "Orchard",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Changi Airport",
+      "destination": "Tanah Merah",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Tanah Merah",
+      "destination": "Jurong East",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "HarbourFront",
+      "destination": "Punggol",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Jurong East",
+      "destination": "Raffles Place",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Woodlands",
+      "destination": "Orchard",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Changi Airport",
+      "destination": "Tanah Merah",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Tanah Merah",
+      "destination": "Jurong East",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "HarbourFront",
+      "destination": "Punggol",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Jurong East",
+      "destination": "Raffles Place",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Woodlands",
+      "destination": "Orchard",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Changi Airport",
+      "destination": "Tanah Merah",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Tanah Merah",
+      "destination": "Jurong East",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "HarbourFront",
+      "destination": "Punggol",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Jurong East",
+      "destination": "Raffles Place",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Woodlands",
+      "destination": "Orchard",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Changi Airport",
+      "destination": "Tanah Merah",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Tanah Merah",
+      "destination": "Jurong East",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "HarbourFront",
+      "destination": "Punggol",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Jurong East",
+      "destination": "Raffles Place",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Woodlands",
+      "destination": "Orchard",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Changi Airport",
+      "destination": "Tanah Merah",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Tanah Merah",
+      "destination": "Jurong East",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "HarbourFront",
+      "destination": "Punggol",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Jurong East",
+      "destination": "Raffles Place",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Woodlands",
+      "destination": "Orchard",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Changi Airport",
+      "destination": "Tanah Merah",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Tanah Merah",
+      "destination": "Jurong East",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "HarbourFront",
+      "destination": "Punggol",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Jurong East",
+      "destination": "Raffles Place",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
+    },
+    {
+      "origin": "Woodlands",
+      "destination": "Orchard",
+      "error": "LTA DataMall GTFS Schedule (Train) needs LTA_ACCOUNT_KEY. Only the authenticated resolver mints a usable archive link."
     }
-  ]
+  ],
+  "coverage": {
+    "verifiedRoutes": 0,
+    "emptyRoutes": 0,
+    "unverifiedRoutes": 0,
+    "serviceDates": []
+  },
+  "checksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "artifactVersion": 2,
+  "routes": []
 }

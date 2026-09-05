@@ -63,17 +63,17 @@
 8. 登入資料目錄，確認目標營運商、資料類型和個別授權。不是每一家日本鐵路公司都在 ODPT 提供相同資料。
 9. 上線時需遵守 ODPT 顯示規範：動態資料要顯示資料生成時間，依 `odpt:frequency` 更新，且不得顯示超出 `dct:valid` 的舊資料。詳見 [Developer Guideline](https://developer.odpt.org/terms/data_basic_use_guideline.html)。
 
-專案後續 adapter 應將 ODPT 的站碼、時刻、列車動態與營運商資料正規化為 `TransitResult`。目前有金鑰時仍會明確回傳 `Provider Adapter Missing`，不會製造結果。
+專案已將 ODPT 駅時刻表正規化為 `TransitResult`；Toei 使用免 key 的公開端點，設定金鑰後會再啟用 Tokyo Metro 路線。未設定金鑰時只略過需要授權的路線，不會製造替代班次。
 
 ## 日本地方鐵道：GTFS-JP
 
-東京以外的鐵道業者多半不走 ODPT，而是自行（或透過 GTFS 資料倉庫）公開 GTFS-JP zip。這類來源不需要金鑰，只需要那份 zip 的實際網址。
+東京以外的鐵道業者多半不走 ODPT，而是自行（或透過 GTFS 資料倉庫）公開 GTFS-JP zip。這類來源不需要金鑰。ことでん使用業者開放資料頁實際連結的固定鐵道 feed；`KOTODEN_GTFS_URL` 只作為緊急 mirror／搬遷 override。不要改用 `gtfsdata/latest/gtfs_kd.zip`：截至 2026-08-30，該路徑仍是 2025 年底到期的舊檔。
 
 設定：
 
-1. 開啟業者的開放資料頁，例如[ことでん（高松琴平電氣鐵道）](https://www.kotoden.co.jp/publichtm/gtfs/index.html)，找到鐵道（非巴士）的 GTFS zip 網址。
-2. 先確認該檔的授權條款，並把授權字串補進 `src/data/sourceRegistry.ts` 對應來源的 `attribution`。
-3. 寫入伺服器環境：
+1. 開啟業者的開放資料頁，例如[ことでん（高松琴平電氣鐵道）](https://www.kotoden.co.jp/publichtm/gtfs/index.html)，確認鐵道（非巴士）的 GTFS zip 與授權仍有效。
+2. ことでん目前明示採 CC BY 4.0，attribution 已登記於 `src/data/sourceRegistry.ts`。
+3. 只有需要覆寫官方固定網址時才設定：
 
    ```dotenv
    KOTODEN_GTFS_URL="https://.../feed.zip"
@@ -81,7 +81,7 @@
 
 4. 用 `npm run inspect:gtfs -- <zip 網址> --rail-only` 確認路線與站名。輸出的站名就是搜尋比對用的識別字串。
 
-沒有設定網址時，該業者的 scraper 整個不執行，不會退而求其次抓別的東西。路線清單由 feed 自己決定：每條鐵道路線的兩個端點會成為雙向的抓取路線，站名沿用業者自己的寫法。
+沒有 override 時仍使用業者開放資料頁所連結的官方 URL；下載或驗證失敗會保留先前 artifact，不會退而求其次抓別的來源。路線清單由 feed 自己決定：每條鐵道路線最長完整 calling pattern 的兩個端點會成為雙向抓取路線，站名沿用業者自己的寫法。
 
 ## 韓國：ODsay
 

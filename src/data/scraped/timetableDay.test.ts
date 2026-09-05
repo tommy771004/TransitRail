@@ -222,6 +222,42 @@ describe("findInRoutes — reverse match", () => {
 });
 
 describe("findInRoutes — transfer chain", () => {
+  it("rejects a same-line chain that travels away from the destination before doubling back", () => {
+    const routes = [
+      route(
+        [trip({
+          id: "2026-07-10-okayama-shin-osaka",
+          date: "2026-07-10",
+          origin: "Okayama",
+          destination: "Shin-Osaka",
+          departureTime: "06:00",
+          arrivalTime: "06:50",
+          stops: ["Okayama", "Shin-Osaka"],
+        })],
+        "Okayama",
+        "Shin-Osaka",
+      ),
+      route(
+        [trip({
+          id: "2026-07-10-shin-osaka-hiroshima",
+          date: "2026-07-10",
+          origin: "Shin-Osaka",
+          destination: "Hiroshima",
+          departureTime: "07:08",
+          arrivalTime: "08:28",
+          stops: ["Shin-Osaka", "Hiroshima"],
+        })],
+        "Shin-Osaka",
+        "Hiroshima",
+      ),
+    ];
+
+    // Okayama and Hiroshima are on the same westbound San'yo corridor.
+    // Shin-Osaka is east of Okayama, so this is not a usable journey even
+    // though its clocks happen to form a valid connection.
+    expect(findInRoutes(routes, "Okayama", "Hiroshima", "2026-07-10", "japan")).toBeNull();
+  });
+
   it("chains two route edges and enforces the station minimum transfer floor", () => {
     const routes = [
       route(

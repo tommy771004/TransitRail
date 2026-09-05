@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { JapanLocalGtfsScraper } from "./japan";
 import { zipFixture } from "../../src/server/gtfsZipFixture";
 import { KOTODEN_GTFS_RAIL, resetJapanGtfsFeedCache } from "../../src/server/japanGtfsJp";
+import { findInRoutes } from "../../src/data/scraped/timetableDay";
 
 const feed = zipFixture({
   "stops.txt": [
@@ -49,11 +50,20 @@ afterEach(() => {
 
 describe("Japan local GTFS-JP scraper", () => {
   it("runs nothing at all when the operator's feed URL is not configured", async () => {
+    const unconfigured = { ...KOTODEN_GTFS_RAIL, defaultUrl: undefined };
     const fetcher = vi.fn();
     vi.stubGlobal("fetch", fetcher);
 
-    await expect(scraperWithoutPersistence().runAll("2026-08-19")).resolves.toEqual([]);
+    const scraper = new JapanLocalGtfsScraper(unconfigured);
+    (scraper as unknown as { saveRoute: () => void }).saveRoute = () => {};
+    await expect(scraper.runAll("2026-08-19")).resolves.toEqual([]);
     expect(fetcher).not.toHaveBeenCalled();
+  });
+
+  it("uses the operator's stable feed URL when no override is configured", () => {
+    expect(KOTODEN_GTFS_RAIL.defaultUrl).toBe(
+      "https://www.kotoden.co.jp/publichtm/gtfs/gtfsdata/gtfs_kd.zip",
+    );
   });
 
   it("takes its route list and station spellings from the feed, once across dates", async () => {
@@ -88,6 +98,11 @@ describe("Japan local GTFS-JP scraper", () => {
       durationMinutes: 60,
       origin: "高松築港",
       destination: "琴電琴平",
+      stops: ["高松築港", "瓦町", "琴電琴平"],
+      legs: [
+        expect.objectContaining({ origin: "高松築港", destination: "瓦町", departureTime: "06:00", arrivalTime: "06:06" }),
+        expect.objectContaining({ origin: "瓦町", destination: "琴電琴平", departureTime: "06:06", arrivalTime: "07:00" }),
+      ],
     });
     expect(down?.sourceMeta).toMatchObject({
       sourceId: "jp-kotoden-gtfs",
@@ -95,5 +110,7 @@ describe("Japan local GTFS-JP scraper", () => {
       sourceTier: "A",
       verified: true,
     });
+    expect(findInRoutes(down ? [down] : [], "瓦町", "琴電琴平", "2026-08-19", "japan")?.[0])
+      .toMatchObject({ departureTime: "06:06", arrivalTime: "07:00" });
   });
 });

@@ -4,7 +4,7 @@
 
 **Blocked by:** 01 — Establish the date-qualified service-region catalog.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] One stable country/date/origin browser state triggers one unified catalog request rather than separate station and line requests.
 - [ ] Reopening or rerendering the same stable state does not repeat provider access or rescan the stored timetable index unnecessarily.

@@ -4,7 +4,7 @@
 
 **Blocked by:** 01 — London first/last advisory tracer.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] A supported Boston search returns the normalized advisory alongside the existing journey results and uses the Boston transit timezone.
 - [ ] Weekday, Saturday, Sunday/holiday, and published exceptional service are classified from the official service calendar for the selected date.

@@ -4,7 +4,7 @@
 
 **Blocked by:** None — can start immediately.
 
-**Status:** ready-for-agent
+**Status:** implementation-present — acceptance audit pending
 
 - [ ] A supported London origin, destination, local service date, and selected time returns an additive service-day advisory without changing the existing journey results.
 - [ ] The advisory reports London transit timezone, service-day classification, first usable departure, last usable departure, risk state, source attribution, and freshness.
