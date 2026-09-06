@@ -1466,6 +1466,7 @@ export default function App() {
             onSortChange={setSortMode}
             onKoreaFilterChange={setKoreaFilter}
             onModify={() => setView("search")}
+            onRetry={() => void handleSearch(searchParams.origin, searchParams.destination, searchParams.date, searchParams.country, searchParams.time)}
             onSave={toggleSaveTrip}
             onSelectSeat={openSeatPicker}
             onOpenLegend={(highlight?: string) => {

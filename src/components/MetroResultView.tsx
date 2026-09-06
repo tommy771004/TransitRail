@@ -47,6 +47,7 @@ interface MetroResultViewProps {
   results: TransitResult[];
   savedIds: Set<string>;
   onModify: () => void;
+  onRetry?: () => void;
   onSave: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
@@ -66,6 +67,7 @@ export function MetroResultView({
   results,
   savedIds,
   onModify,
+  onRetry,
   onSave,
   onOpenLegend,
   formatPrice,
@@ -104,13 +106,15 @@ export function MetroResultView({
               country,
               sourceUrl: officialSourceUrl,
               errorTitle: t("result.unable_to_fetch"),
+              onModify,
+              onRetry,
             })
           ) : results.length === 0 ? (
             renderEmptyBlock(t("metro.no_departures"), t("metro.no_departures_hint"))
           ) : (
             <motion.div
               key="list-container"
-              initial={{ opacity: 0 }}
+              initial={false}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="space-y-3"
@@ -200,7 +204,7 @@ export function MetroResultView({
                               return (
                                 <motion.div
                                   key={sIdx}
-                                  initial={{ opacity: 0, x: -10 }}
+                                  initial={false}
                                   animate={{ opacity: 1, x: 0 }}
                                   transition={{ duration: 0.3, ease: "easeOut", delay: index * 0.05 + sIdx * 0.04 + 0.1 }}
                                   className="relative flex items-center justify-between text-xs"

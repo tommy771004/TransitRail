@@ -7,6 +7,8 @@ import { buildCatalogWithProviderFallback, generateStaticStationCatalogs } from 
 
 const tempDirs: string[] = [];
 afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.restoreAllMocks();
   for (const dir of tempDirs.splice(0)) rmSync(dir, { recursive: true, force: true });
 });
 
@@ -48,6 +50,7 @@ describe("static station catalog generation", () => {
   });
 
   it.each([
+    new Error("TfL returned HTTP 429. Provider said: Invalid app_key is provided."),
     new Error("TfL returned HTTP 429. Retry-After: 60."),
     new Error("Request failed with status code 429"),
     { status: 429 },
@@ -57,6 +60,30 @@ describe("static station catalog generation", () => {
     const build = vi.fn().mockRejectedValue(error);
     await expect(buildCatalogWithProviderFallback("united_kingdom", build)).resolves.toBeNull();
     expect(build).toHaveBeenCalledOnce();
+  });
+
+  it("survives the actual TfL invalid-key 429 path and generates the next market", async () => {
+    const outDir = mkdtempSync(join(tmpdir(), "transitrail-tfl-catalog-429-"));
+    tempDirs.push(outDir);
+    const previous = JSON.stringify(catalog("2026-09-04")) + "\n";
+    writeFileSync(join(outDir, "united_kingdom.json"), previous);
+    const fetcher = vi.fn(async () => new Response("Invalid app_key is provided.", {
+      status: 429,
+      // Exercise the real provider retry/error path without long test sleeps.
+      headers: { "retry-after": "0.001" },
+    }));
+    vi.stubGlobal("fetch", fetcher);
+    const warning = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    // No injected CatalogBuilder: use TfL -> getStationsForCountry ->
+    // buildServiceRegionCatalog, exactly as the failed Actions run did.
+    await expect(generateStaticStationCatalogs({
+      countries: ["united_kingdom", "china"], outDir,
+    })).resolves.toEqual({ generated: 1, skipped: 1 });
+    expect(fetcher).toHaveBeenCalled();
+    expect(warning).toHaveBeenCalledWith(expect.stringContaining("united_kingdom: HTTP 429"));
+    expect(readFileSync(join(outDir, "united_kingdom.json"), "utf8")).toBe(previous);
+    expect(JSON.parse(readFileSync(join(outDir, "china.json"), "utf8")).country).toBe("china");
   });
 
   it("also skips a 429 from fallback but propagates other fallback failures", async () => {

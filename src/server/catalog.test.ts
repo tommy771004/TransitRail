@@ -74,12 +74,21 @@ describe("station and line catalog integrity scope", () => {
     expect(catalog.stations).toEqual(expect.arrayContaining(["Tokyo", "Roppongi"]));
   });
 
-  it("does not turn source-context-only markets into searchable catalogue entries", async () => {
+  it("keeps source directories while exposing only verified route coverage", async () => {
     const singapore = await buildServiceRegionCatalog({ country: "singapore", date: catalogDate, includeProvider: false });
     expect(singapore.lines).toHaveLength(9);
     expect(singapore.stations).toHaveLength(184);
     expect(singapore.stationSource).toBe("https://www.mytransport.sg/trainstatus");
-    expect(singapore.coverage.covered).toEqual([]);
+    expect(singapore.coverage.covered).toEqual([
+      "Changi Airport",
+      "HarbourFront",
+      "Jurong East",
+      "Orchard",
+      "Punggol",
+      "Raffles Place",
+      "Tanah Merah",
+      "Woodlands",
+    ]);
 
     const china = await buildServiceRegionCatalog({ country: "china", date: catalogDate, includeProvider: false });
     expect(china.regions).toEqual([]);

@@ -28,23 +28,40 @@ import type { Country } from "../src/types";
 
 const DATA_DIR = resolve("src/data/scraped");
 
-/** The newest service day this market has committed rows for. */
+/** A fresh source must not hide another source's stale service window. */
+export function coveredThroughBySource(routes: readonly {
+  sourceMeta?: { sourceId?: string };
+  results?: { date?: string }[];
+}[]): string | undefined {
+  const newestBySource = new Map<string, string>();
+  for (const route of routes) {
+    const source = route.sourceMeta?.sourceId || "unknown";
+    for (const result of route.results || []) {
+      if (result.date && /^\d{4}-\d{2}-\d{2}$/.test(result.date)
+        && result.date > (newestBySource.get(source) || "")) {
+        newestBySource.set(source, result.date);
+      }
+    }
+  }
+  // Empty/unwired sources retain the existing no-data policy. Among sources
+  // with rows, use the least recent frontier, not the freshest one's date.
+  return [...newestBySource.values()].sort()[0];
+}
+
+/** Last service day reached by every populated source in this market. */
 function newestCommittedDate(country: Country): string | undefined {
   const dir = join(DATA_DIR, country);
   if (!existsSync(dir)) return undefined;
-  let newest: string | undefined;
+  const routes: Parameters<typeof coveredThroughBySource>[0][number][] = [];
   for (const name of readdirSync(dir)) {
     if (!name.endsWith(".json") || name === "metadata.json") continue;
     try {
-      const parsed = JSON.parse(readFileSync(join(dir, name), "utf8")) as { results?: { date?: string }[] };
-      for (const result of parsed.results || []) {
-        if (result.date && (!newest || result.date > newest)) newest = result.date;
-      }
+      routes.push(JSON.parse(readFileSync(join(dir, name), "utf8")));
     } catch {
       // An unreadable file says nothing about coverage; the validator reports it.
     }
   }
-  return newest;
+  return coveredThroughBySource(routes);
 }
 
 export interface MarketCoverage {

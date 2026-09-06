@@ -37,6 +37,7 @@ interface KoreaResultViewProps {
   savedIds: Set<string>;
   onFilterChange: (filter: KoreaFilter) => void;
   onModify: () => void;
+  onRetry?: () => void;
   onSave: (trip: TransitResult) => void;
   onSelectSeat: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
@@ -65,6 +66,7 @@ export function KoreaResultView({
   savedIds,
   onFilterChange,
   onModify,
+  onRetry,
   onSave,
   onSelectSeat,
   onOpenLegend,
@@ -130,6 +132,8 @@ export function KoreaResultView({
             country: "korea",
             sourceUrl: officialSourceUrl,
             errorTitle: t("result.unable_to_fetch"),
+            onModify,
+            onRetry,
           })}
           {!error && results.length === 0 && renderEmptyBlock(t("result.no_results"), t("result.no_results_hint"))}
         </AnimatePresence>

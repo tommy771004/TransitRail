@@ -38,6 +38,7 @@ interface JapanResultViewProps {
   savedIds: Set<string>;
   onSortChange: (mode: SortMode) => void;
   onModify: () => void;
+  onRetry?: () => void;
   onSave: (trip: TransitResult) => void;
   onSelectSeat: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
@@ -106,6 +107,7 @@ export function JapanResultView({
   savedIds,
   onSortChange,
   onModify,
+  onRetry,
   onSave,
   onSelectSeat,
   onOpenLegend,
@@ -171,6 +173,8 @@ export function JapanResultView({
             country,
             sourceUrl: officialSourceUrl,
             errorTitle: t("result.unable_to_fetch"),
+            onModify,
+            onRetry,
           })}
           {!error && results.length === 0 && renderEmptyBlock(t("result.no_results"), t("result.no_results_hint"))}
         </AnimatePresence>

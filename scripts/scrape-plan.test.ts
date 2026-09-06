@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { decideScrapePass } from "./scrape-plan";
+import { coveredThroughBySource, decideScrapePass } from "./scrape-plan";
 import { FULL_SCRAPE_INTERVAL_DAYS, SCRAPE_WINDOW_DAYS, SEARCH_WINDOW_DAYS } from "../src/data/countries";
 
 /** The window a full run collects must outlast the gap until the next one. */
@@ -10,6 +10,24 @@ describe("scrape window sizing", () => {
 });
 
 describe("nightly pass decision", () => {
+  it("does not let a fresh Kotoden window hide stale JR and ODPT dates", () => {
+    const newest = coveredThroughBySource([
+      { sourceMeta: { sourceId: "jp-kotoden-gtfs" }, results: [{ date: "2026-09-13" }] },
+      { sourceMeta: { sourceId: "jp-jr-central" }, results: [{ date: "2026-09-07" }] },
+      { sourceMeta: { sourceId: "jp-odpt-toei" }, results: [{ date: "2026-09-07" }] },
+    ]);
+    expect(newest).toBe("2026-09-07");
+    expect(decideScrapePass([{ country: "japan", newest, required: "2026-09-11" }]).pass).toBe("full");
+  });
+
+  it("combines dates within a source and keeps empty sources out of the frontier", () => {
+    expect(coveredThroughBySource([
+      { sourceMeta: { sourceId: "one" }, results: [{ date: "2026-09-05" }] },
+      { sourceMeta: { sourceId: "one" }, results: [{ date: "2026-09-13" }] },
+      { sourceMeta: { sourceId: "empty" }, results: [] },
+    ])).toBe("2026-09-13");
+    expect(coveredThroughBySource([])).toBeUndefined();
+  });
   it("stays live-only while every market still covers the offered window", () => {
     const decision = decideScrapePass([
       { country: "japan", newest: "2026-08-27", required: "2026-08-25" },

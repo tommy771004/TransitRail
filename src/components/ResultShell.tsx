@@ -110,9 +110,9 @@ export function renderWeatherBlock(destination: string, date: string, country: C
  * Distinct from the red error block on purpose: nothing failed. Titling this
  * "Unable to fetch" invited a retry that can never succeed, and implied the
  * data exists and we merely could not reach it — when the honest statement is
- * that nobody has published it.
+ * that TransitRail has no verified timetable for this query.
  */
-export function renderNoVerifiedDataBlock(message: string, sourceUrl?: string) {
+export function renderNoVerifiedDataBlock(message: string, sourceUrl?: string, title?: string) {
   return (
     <motion.div
       key="no-verified-data"
@@ -123,7 +123,7 @@ export function renderNoVerifiedDataBlock(message: string, sourceUrl?: string) {
       className="rounded-xl bg-slate-100 p-4 text-slate-700 dark:bg-slate-900 dark:text-slate-300"
     >
       <p className="text-sm font-bold">
-        {i18n.t("result.no_verified_timetable", { defaultValue: "No verified timetable available." })}
+        {title || i18n.t("result.no_verified_timetable", { defaultValue: "No verified timetable available." })}
       </p>
       <p className="mt-1 text-sm">{message}</p>
       {sourceUrl && (
@@ -156,18 +156,42 @@ export function renderMissBlock(options: {
   country: Country;
   sourceUrl?: string;
   errorTitle: string;
+  onModify?: () => void;
+  onRetry?: () => void;
 }) {
-  if (options.coverageGap) return renderCoverageBlock(options.coverageGap, options.country);
-  if (options.reason === "no_verified_data" || options.reason === "unsupported_route") {
-    return renderNoVerifiedDataBlock(options.message, options.sourceUrl);
-  }
-  return renderErrorBlock(options.errorTitle, options.message, options.sourceUrl);
+  const retryable = !options.coverageGap && !options.reason;
+  const title = options.reason === "future_date_unavailable"
+    ? i18n.t("result.date_unavailable_title")
+    : options.reason === "no_service" ? i18n.t("result.no_matching_departures") : undefined;
+  const block = options.coverageGap
+    ? renderCoverageBlock(options.coverageGap, options.country)
+    : options.reason
+      ? renderNoVerifiedDataBlock(options.message, options.sourceUrl, title)
+      : renderErrorBlock(options.errorTitle, options.message, options.sourceUrl);
+  return (
+    <motion.div key="miss" initial={false} className="space-y-3">
+      {block}
+      <div className="flex flex-wrap gap-2">
+        {retryable && options.onRetry && (
+          <button type="button" onClick={options.onRetry} className="min-h-11 rounded-lg bg-slate-900 px-4 text-sm font-semibold text-white dark:bg-slate-100 dark:text-slate-900">
+            {i18n.t("result.retry")}
+          </button>
+        )}
+        {options.onModify && (
+          <button type="button" onClick={options.onModify} className="min-h-11 rounded-lg border border-slate-300 px-4 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-200">
+            {i18n.t("result.change_search")}
+          </button>
+        )}
+      </div>
+    </motion.div>
+  );
 }
 
 export function renderErrorBlock(title: string, message: string, sourceUrl?: string) {
   return (
     <motion.div
       key="error"
+      role="alert"
       initial={false}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}

@@ -39,6 +39,7 @@ export type CountryResultsViewProps = {
   onSortChange: (mode: SortMode) => void;
   onKoreaFilterChange: (filter: KoreaFilter) => void;
   onModify: () => void;
+  onRetry?: () => void;
   onSave: (trip: TransitResult) => void;
   onSelectSeat: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
@@ -62,11 +63,15 @@ function SourceProvenanceNotice({ dataStatus }: { dataStatus?: SearchDataStatus 
   const updated = dataStatus.updatedAt || dataStatus.checkedAt;
   const completenessLabel = dataStatus.temporalCoverage === "bounded-upcoming"
     ? t("result.completeness_bounded_upcoming", { defaultValue: "Live upcoming departures only" })
+    : dataStatus.temporalCoverage === "sampled-service-day"
+    ? t("result.completeness_sampled")
     : dataStatus.completeness === "frequency-only"
     ? t("result.completeness_frequency", { defaultValue: "Service hours and frequency only — no departure list is published" })
     : dataStatus.completeness === "service-hours"
       ? t("result.completeness_service_hours", { defaultValue: "Service hours only — no departure list is published" })
-      : t("result.completeness_full", { defaultValue: "Full timetable" });
+      : dataStatus.completeness === "full-timetable" && dataStatus.temporalCoverage === "full-day"
+        ? t("result.completeness_full", { defaultValue: "Full timetable" })
+        : t("result.completeness_unknown");
 
   return (
     <aside
@@ -114,17 +119,17 @@ export function CountryResultsView(props: CountryResultsViewProps) {
     results: props.results,
     savedIds: props.savedIds,
     onModify: props.onModify,
+    onRetry: props.onRetry,
     onSave: props.onSave,
     onOpenLegend: props.onOpenLegend,
     formatPrice: props.formatPrice,
-    overview: props.overview,
+    overview: <>{notice}{props.overview}</>,
   };
   const supplementary = <TransitAppSupplement country={props.country} origin={props.origin} destination={props.destination} />;
 
   if (capability.resultView === "japan") {
     return (
       <>
-        {notice}
         <JapanResultView
           country={props.country}
           {...shared}
@@ -139,7 +144,6 @@ export function CountryResultsView(props: CountryResultsViewProps) {
   if (capability.resultView === "korea") {
     return (
       <>
-        {notice}
         <KoreaResultView
           {...shared}
           filter={props.koreaFilter}
@@ -165,7 +169,6 @@ export function CountryResultsView(props: CountryResultsViewProps) {
   if (capability.resultView === "metro") {
     return (
       <>
-        {notice}
         <MetroResultView country={props.country} {...shared} />
         {supplementary}
       </>
@@ -174,7 +177,6 @@ export function CountryResultsView(props: CountryResultsViewProps) {
   if (capability.resultView === "live_rail" && capability.liveRailMarket) {
     return (
       <>
-        {notice}
         <LiveRailResultView market={capability.liveRailMarket} {...shared} />
         {supplementary}
       </>

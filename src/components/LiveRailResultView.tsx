@@ -34,6 +34,7 @@ interface LiveRailResultViewProps {
   results: TransitResult[];
   savedIds: Set<string>;
   onModify: () => void;
+  onRetry?: () => void;
   onSave: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
@@ -62,6 +63,7 @@ export function LiveRailResultView({
   results,
   savedIds,
   onModify,
+  onRetry,
   onSave,
   onOpenLegend,
   formatPrice,
@@ -113,13 +115,15 @@ export function LiveRailResultView({
               country,
               sourceUrl: officialSourceUrl,
               errorTitle: t("result.unable_to_fetch"),
+              onModify,
+              onRetry,
             })
           ) : results.length === 0 ? (
             renderEmptyBlock(t(`${copyKey}.no_journeys`), t(`${copyKey}.no_journeys_hint`))
           ) : (
             <motion.div
               key="list-container"
-              initial={{ opacity: 0 }}
+              initial={false}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="space-y-3"

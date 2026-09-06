@@ -205,13 +205,10 @@ export function SearchForm({
     [country, offeredDays],
   );
 
-  // A day that just fell out of the offered range must not stay selected.
-  useEffect(() => {
-    if (config.liveOnly || !params.date) return;
-    if (!offeredDates.includes(params.date)) {
-      onChange({ ...params, date: offeredDates[0] });
-    }
-  }, [offeredDates, params.date, config.liveOnly]);
+  // Preserve the passenger's requested day. Never silently turn a saved/future
+  // journey into a search for today when coverage changes after hydration.
+  const dateUnavailable = !config.liveOnly && !offeredDates.includes(date);
+  const dateUnavailableMessage = t("search.date_unavailable", { date });
 
   const frequentRoutes = useMemo(() => {
     const routes = recentHistory.filter(h => h.country === country);
@@ -268,6 +265,10 @@ export function SearchForm({
     if (origin.trim() === destination.trim()) {
       triggerHaptic("error");
       setFormError(t("search.validation_same_station"));
+      return;
+    }
+    if (dateUnavailable) {
+      setFormError(dateUnavailableMessage);
       return;
     }
     triggerHaptic("medium");
@@ -434,7 +435,12 @@ export function SearchForm({
                   <span className="text-[11px] text-slate-500 dark:text-slate-400">{t("search.scroll_dates", { defaultValue: "More dates" })}</span>
                 </div>
                 
-                <div className="flex gap-2.5 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory hide-scrollbar">
+                {dateUnavailable && (
+                  <p role="status" className="rounded-lg bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
+                    {dateUnavailableMessage}
+                  </p>
+                )}
+                <div role="group" aria-label={t("search.date_of_travel")} className="flex gap-2.5 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory hide-scrollbar">
                   {offeredDates.map((dateValue, idx) => {
                     const d = new Date(`${dateValue}T12:00:00Z`);
                     const isSelected = date === dateValue;
@@ -452,6 +458,7 @@ export function SearchForm({
                         type="button"
                         onClick={() => {
                           triggerHaptic("light");
+                          setFormError(null);
                           updateParam("date", dateValue);
                         }}
                         aria-label={`${label}, ${monthStr} ${dayStr}`}

@@ -94,6 +94,13 @@ describe("station browser i18n coverage", () => {
 describe("result-slice copy exists in every shipped locale", () => {
   const keys = [
     "result.completeness_bounded_upcoming",
+    "result.completeness_sampled",
+    "result.completeness_unknown",
+    "result.retry",
+    "result.change_search",
+    "result.date_unavailable_title",
+    "result.no_matching_departures",
+    "search.date_unavailable",
     "result.overview_label",
     "result.first_shown",
     "result.last_shown",
