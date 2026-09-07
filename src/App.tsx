@@ -24,12 +24,16 @@ import { stationLabel } from "./utils/stationLabel";
 import { triggerHaptic } from "./utils/haptics";
 import { getAuditHeaders } from "./utils/audit";
 import { describeTimetableChange } from "./utils/timetableChanges";
+import { formatRelativeTime } from "./utils/relativeTime";
+import { situationsForCountries, transitAlertsOnly } from "./utils/alertFeed";
 import { RouteServiceOverview } from "./components/RouteServiceOverview";
 import { ServiceDayAdvisoryNotice } from "./components/ServiceDayAdvisoryNotice";
+import { Snackbar, type SnackbarMessage } from "./components/Snackbar";
 import { get, set } from "idb-keyval";
 import { countryConfig, providerDateTimeValue, providerDateValue, countryThemes, countryFlags, countryOptions } from "./data/countries";
 import type {
   AppAlert,
+  AppAlertCategory,
   AppView,
   Country,
   CurrencyDisplayMode,
@@ -370,7 +374,14 @@ export default function App() {
   const [pushPublicKey, setPushPublicKey] = useState<string | null>(null);
   const [pushSubscribed, setPushSubscribed] = useState(false);
   const [pushBusy, setPushBusy] = useState(false);
-  const [alerts, setAlerts] = useState<AppAlert[]>(() => loadJson("transitrail.alerts", []));
+  // Entries stored before the page was scoped carry no category: they are the
+  // "Route added" / "Search failed" receipts this page no longer keeps, so drop
+  // them on load instead of leaving the fix invisible to anyone who used the
+  // app already.
+  const [alerts, setAlerts] = useState<AppAlert[]>(
+    () => transitAlertsOnly(loadJson<AppAlert[]>("transitrail.alerts", [])),
+  );
+  const [snack, setSnack] = useState<SnackbarMessage | undefined>(undefined);
   const [situations, setSituations] = useState<TransitSituation[]>([]);
   const [situationsLoading, setSituationsLoading] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState<TransitResult | null>(null);
@@ -417,7 +428,7 @@ export default function App() {
         savedTitle: "Favorites & Saved Trips",
         savedDesc: "View your saved trips, favorite routes, and offline schedule history on Rail Nation.",
         alertsTitle: "Transit Alerts & Updates",
-        alertsDesc: "Real-time transit service alerts, platform notices, and system diagnostic updates.",
+        alertsDesc: "Service status for the networks you travel on, plus timetable changes and departure reminders for your own journeys.",
         feedbackDesc: "Send feedback to Rail Nation.",
       },
       zh: {
@@ -431,7 +442,7 @@ export default function App() {
         savedTitle: "我的最愛與已儲存行程",
         savedDesc: "在 Rail Nation 檢視您已儲存的行程、常用路線與離線時刻表紀錄。",
         alertsTitle: "交通警示與服務更新",
-        alertsDesc: "即時交通服務警示、月台公告與系統診斷更新。",
+        alertsDesc: "您搭乘路網的營運狀況，以及您自己行程的時刻表變動與出發提醒。",
         feedbackDesc: "向 Rail Nation 提供意見回饋。",
       },
       ja: {
@@ -445,7 +456,7 @@ export default function App() {
         savedTitle: "お気に入りと保存した旅程",
         savedDesc: "Rail Nationで保存した旅程、お気に入り路線、オフライン時刻表履歴を確認できます。",
         alertsTitle: "交通アラートと運行情報",
-        alertsDesc: "リアルタイムの交通サービスアラート、ホーム案内、システム診断情報。",
+        alertsDesc: "ご利用の路線の運行状況と、ご自身の旅程の時刻表変更・出発リマインダー。",
         feedbackDesc: "Rail Nationへフィードバックを送信します。",
       },
       ko: {
@@ -459,7 +470,7 @@ export default function App() {
         savedTitle: "즐겨찾기 및 저장된 여정",
         savedDesc: "Rail Nation에서 저장한 여정, 즐겨찾는 노선, 오프라인 시간표 기록을 확인하세요.",
         alertsTitle: "교통 알림 및 서비스 업데이트",
-        alertsDesc: "실시간 교통 서비스 알림, 승강장 공지, 시스템 진단 업데이트.",
+        alertsDesc: "이용하시는 노선의 운행 상황과 내 일정의 시각표 변경 및 출발 알림.",
         feedbackDesc: "Rail Nation에 피드백을 보냅니다.",
       },
     }[seoLang];
@@ -648,14 +659,37 @@ export default function App() {
   useEffect(() => saveJson("transitrail.favorites", favorites), [favorites]);
   useEffect(() => saveJson("transitrail.saved", savedTrips), [savedTrips]);
   useEffect(() => saveJson("transitrail.alerts", alerts), [alerts]);
+  /**
+   * Markets this passenger actually travels in: the one they are searching now,
+   * plus every market they have saved a trip or a favourite route in.
+   *
+   * The page used to render the unfiltered feed, so someone searching Tokyo was
+   * shown London tube severity and Boston MBTA alerts — provider status for
+   * networks they had never opened. Service status is only information if it is
+   * about a journey the passenger might take.
+   */
+  const relevantSituationCountries = useMemo(() => new Set<Country>([
+    activeCountry,
+    ...savedTrips.map((trip) => trip.country),
+    ...favorites.map((favorite) => favorite.country),
+  ]), [activeCountry, savedTrips, favorites]);
+
   useEffect(() => {
     if (view !== "alerts") return;
     let cancelled = false;
     setSituationsLoading(true);
+    // One cached request for the whole feed, narrowed here: the relevant set
+    // changes with saved trips, and re-fetching per market on every change
+    // would hit the provider far more often than the page is opened.
     fetch("/api/transit/situations")
       .then((response) => response.ok ? response.json() as Promise<{ situations?: TransitSituation[] }> : { situations: [] })
       .then((payload) => {
-        if (!cancelled) setSituations(Array.isArray(payload.situations) ? payload.situations : []);
+        if (!cancelled) {
+          setSituations(situationsForCountries(
+            Array.isArray(payload.situations) ? payload.situations : [],
+            relevantSituationCountries,
+          ));
+        }
       })
       .catch(() => {
         if (!cancelled) setSituations([]);
@@ -664,7 +698,7 @@ export default function App() {
         if (!cancelled) setSituationsLoading(false);
       });
     return () => { cancelled = true; };
-  }, [view]);
+  }, [view, relevantSituationCountries]);
   useEffect(() => {
     localStorage.setItem("transitrail.homeCurrency", homeCurrency);
   }, [homeCurrency]);
@@ -835,10 +869,16 @@ export default function App() {
   const formatTripPrice = (trip: TransitResult) =>
     formatConvertedPrice(trip.price, trip.currency);
 
-  const pushAlert = (title: string, body: string, country?: Country) => {
+  /**
+   * Store a transit fact the passenger can come back to. Everything else is a
+   * snackbar: the notifications page answers "what changed about my journeys",
+   * not "what did I just tap" or "what did the app fail to do".
+   */
+  const pushAlert = (category: AppAlertCategory, title: string, body: string, country?: Country) => {
     setAlerts((current) => [
       {
         id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        category,
         title,
         body,
         createdAt: new Date().toISOString(),
@@ -848,6 +888,9 @@ export default function App() {
       ...current,
     ].slice(0, 20));
   };
+
+  /** Confirmation for the moment it happens, kept out of the alerts list. */
+  const showSnack = (text: string) => setSnack((current) => ({ id: (current?.id ?? 0) + 1, text }));
 
   const handleSearch = async (origin: string, destination: string, date: string, country: Country, time?: string) => {
     const params: SearchParams = { origin, destination, date, country, ...(time ? { time } : {}) };
@@ -917,14 +960,17 @@ export default function App() {
         setNoResultReason(reason);
         setCoverageGap(data.coverageGap);
         setOfficialSourceUrl(data.officialSourceUrl);
-        pushAlert(t("alerts.search_failed"), data.message || t("alerts.search_failed_body"));
+        // The result view already states this miss in the passenger's language,
+        // with the source link and a retry where one can succeed. Repeating the
+        // provider's raw message as a notification duplicated it and leaked
+        // server wording into a page that should read as transit information.
       } else {
         const cachedData = await get(`transit_search_${query}`);
         const previousResults = cachedData && typeof cachedData === "object" && Array.isArray((cachedData as { results?: unknown }).results)
           ? (cachedData as { results: TransitResult[] }).results
           : undefined;
         const timetableChange = previousResults
-          ? describeTimetableChange(previousResults, resultList, i18n.language.toLowerCase().startsWith("zh"))
+          ? describeTimetableChange(previousResults, resultList, t)
           : undefined;
         setResults(resultList);
         await set(`transit_search_${query}`, {
@@ -935,8 +981,9 @@ export default function App() {
         }).catch(console.error);
         if (timetableChange) {
           pushAlert(
-            i18n.language.toLowerCase().startsWith("zh") ? "時刻表已更新" : "Timetable updated",
-            timetableChange,
+            "timetable",
+            t("alerts.timetable_updated"),
+            `${stationLabel(t, origin, country)} → ${stationLabel(t, destination, country)}\n${timetableChange}`,
             country,
           );
         }
@@ -978,7 +1025,7 @@ export default function App() {
           setResults(cached.results);
           setServiceDayAdvisory(cached.serviceDayAdvisory);
           setDataStatus(cached.dataStatus);
-          pushAlert("Offline Mode", "Showing cached results from a previous search.");
+          showSnack(t("snack.offline_cached"));
           setIsSearching(false);
           return;
         }
@@ -988,7 +1035,6 @@ export default function App() {
 
       const message = t("alerts.network_error_body");
       setError(message);
-      pushAlert(t("alerts.network_error"), message);
     } finally {
       setIsSearching(false);
     }
@@ -1010,7 +1056,7 @@ export default function App() {
       setSavedTrips((current) => current.filter((item) => item.id !== trip.id));
       return;
     }
-    pushAlert(t("alerts.trip_saved"), `${trip.origin} -> ${trip.destination}`);
+    showSnack(`${t("alerts.trip_saved")} · ${trip.origin} → ${trip.destination}`);
     setSavedTrips((current) => [
       {
         ...trip,
@@ -1050,14 +1096,13 @@ export default function App() {
 
   const triggerReminder = (trip: SavedTrip) => {
     const title = t("alerts.departure_approaching", { service: trip.service, defaultValue: `Departure approaching: ${trip.service}` });
-    const body = t("alerts.departure_approaching_body", {
-      origin: trip.origin,
-      destination: trip.destination,
-      time: trip.departureTime,
-      defaultValue: `Your trip from ${trip.origin} to ${trip.destination} departs in less than 15 minutes at ${trip.departureTime}.`,
-    });
+    // Route on its own line, then the one fact that makes this urgent. The
+    // sentence this replaced buried the departure time in the middle of a
+    // clause and repeated the stations the card was already about.
+    const route = `${stationLabel(t, trip.origin, trip.country)} → ${stationLabel(t, trip.destination, trip.country)}`;
+    const body = `${route}\n${t("alerts.departure_approaching_body", { time: trip.departureTime })}`;
 
-    pushAlert(title, body);
+    pushAlert("departure", title, body, trip.country);
 
     if ("Notification" in window && Notification.permission === "granted") {
       try {
@@ -1100,7 +1145,7 @@ export default function App() {
       if (Notification.permission === "default") {
         Notification.requestPermission().then((permission) => {
           if (permission === "granted") {
-            pushAlert(t("alerts.notifications_enabled", { defaultValue: "Browser notifications enabled" }), t("saved.reminder_limit"));
+            showSnack(t("alerts.notifications_enabled", { defaultValue: "Browser notifications enabled" }));
           }
         });
       }
@@ -1118,12 +1163,9 @@ export default function App() {
       )
     );
 
-    pushAlert(
-      isEnabling ? t("alerts.reminder_set", { defaultValue: "Reminder enabled" }) : t("alerts.reminder_removed", { defaultValue: "Reminder removed" }),
-      isEnabling
-        ? `${t("saved.reminder_limit")} ${trip.service}`
-        : t("alerts.reminder_removed_body", { service: trip.service, defaultValue: `Reminder for ${trip.service} has been turned off.` })
-    );
+    showSnack(isEnabling
+      ? `${t("alerts.reminder_set", { defaultValue: "Reminder enabled" })} · ${trip.service}`
+      : `${t("alerts.reminder_removed", { defaultValue: "Reminder removed" })} · ${trip.service}`);
   };
 
   // Web Push: notifies saved routes' timetable changes even when the app is
@@ -1196,7 +1238,7 @@ export default function App() {
           return;
         }
       } else if (Notification.permission === "denied") {
-        pushAlert(t("push.blocked_title", { defaultValue: "Notifications blocked" }), t("push.blocked_body", { defaultValue: "Enable notifications for this site in your browser settings first." }));
+        showSnack(t("push.blocked_body", { defaultValue: "Enable notifications for this site in your browser settings first." }));
         setPushBusy(false);
         return;
       }
@@ -1211,10 +1253,10 @@ export default function App() {
       }
       await syncPushSubscription(subscription);
       setPushSubscribed(true);
-      pushAlert(t("push.enabled_title", { defaultValue: "Timetable alerts enabled" }), t("push.enabled_body", { defaultValue: "You'll be notified here if a saved route's schedule changes." }));
+      showSnack(t("push.enabled_title", { defaultValue: "Timetable alerts enabled" }));
     } catch (error) {
       console.error("Failed to enable push notifications", error);
-      pushAlert(t("push.failed_title", { defaultValue: "Couldn't enable notifications" }), t("push.failed_body", { defaultValue: "Something went wrong enabling push notifications." }));
+      showSnack(t("push.failed_title", { defaultValue: "Couldn't enable notifications" }));
     } finally {
       setPushBusy(false);
     }
@@ -1289,10 +1331,10 @@ export default function App() {
     } else {
       try {
         await navigator.clipboard.writeText(`${shareText}\n${shareUrl}`);
-        pushAlert("Trip Details Copied", "Trip details copied to clipboard!");
+        showSnack(t("snack.trip_copied"));
       } catch (err) {
         console.error("Clipboard copy failed", err);
-        pushAlert("Share Failed", "Unable to share or copy trip details.");
+        showSnack(t("snack.share_failed"));
       }
     }
   };
@@ -1324,7 +1366,7 @@ export default function App() {
         ...current,
       ];
     });
-    pushAlert(t("alerts.seat_selected"), `${trip.service} / ${t(`seat.${seatChoice}`)} — ${t("seat.saved_notice")}`);
+    showSnack(`${t("alerts.seat_selected")} · ${trip.service} / ${t(`seat.${seatChoice}`)}`);
     setSelectedTrip(null);
   };
 
@@ -1351,7 +1393,7 @@ export default function App() {
           (f) => !(f.origin === origin && f.destination === destination && f.country === country)
         )
       );
-      pushAlert("Route Removed", "Removed from Favorite Routes.");
+      showSnack(t("snack.route_removed"));
     } else {
       const newFav: FavoriteRoute = {
         id: `${Date.now()}`,
@@ -1361,13 +1403,13 @@ export default function App() {
         createdAt: new Date().toISOString(),
       };
       setFavorites((current) => [newFav, ...current]);
-      pushAlert("Route Added", "Added to Favorite Routes.");
+      showSnack(t("snack.route_added"));
     }
   };
 
   const removeFavoriteById = (id: string) => {
     setFavorites((current) => current.filter((fav) => fav.id !== id));
-    pushAlert("Route Removed", "Removed from Favorite Routes.");
+    showSnack(t("snack.route_removed"));
   };
 
   const rerunFavoriteSearch = (fav: FavoriteRoute) => {
@@ -1425,7 +1467,7 @@ export default function App() {
               onTogglePinHistory={togglePinHistory}
             />
             {/* Crawlable path from the home page to the prerendered route pages. */}
-            <p className="mx-auto max-w-md px-4 pb-28 text-center">
+            <p className="mx-auto max-w-md px-4 pb-nav text-center">
               <a
                 href={i18n.language === "zh-TW" ? "/zh/routes/" : i18n.language === "ja" ? "/ja/routes/" : i18n.language === "ko" ? "/ko/routes/" : "/routes/"}
                 className="m3-button m3-state m3-label-large text-slate-400 dark:text-slate-500"
@@ -1442,7 +1484,7 @@ export default function App() {
       case "results":
         if (isSearching) {
           return (
-            <div className="pt-22 pb-28 min-h-screen bg-transparent max-w-md mx-auto">
+            <div className="pt-22 pb-nav min-h-screen bg-transparent max-w-md mx-auto">
               <ResultSkeleton />
             </div>
           );
@@ -1809,50 +1851,56 @@ export default function App() {
             <div className="space-y-5">
               <section>
                 <div className="mb-2 flex items-center justify-between gap-2 px-1">
-                  <h2 className="m3-title-medium text-slate-800 dark:text-slate-200">{i18n.language.startsWith("zh") ? "營運狀況" : "Service status"}</h2>
-                  {situationsLoading ? <span className="m3-label-small text-slate-400">{i18n.language.startsWith("zh") ? "更新中…" : "Updating…"}</span> : null}
+                  <h2 className="m3-title-medium text-slate-800 dark:text-slate-200">{t("alerts.service_status")}</h2>
+                  {situationsLoading ? <span className="m3-label-small text-slate-400">{t("alerts.updating")}</span> : null}
                 </div>
                 {situations.length === 0 && !situationsLoading ? (
-                  <p className="m3-card m3-body-medium border border-slate-200 bg-white px-4 py-3 text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">{i18n.language.startsWith("zh") ? "目前沒有來自已連接營運商的異常通報。" : "No active incidents were returned by connected transit providers."}</p>
+                  <p className="m3-card m3-body-medium border border-slate-200 bg-white px-4 py-3 text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">{t("alerts.no_situations")}</p>
                 ) : (
                   <div className="space-y-2">
                     {situations.map((situation) => (
                       <div key={situation.id} className={`m3-card border p-4 ${situation.severity === "major" ? "border-rose-200 bg-rose-50 dark:border-rose-900/60 dark:bg-rose-950/25" : "border-amber-200 bg-amber-50 dark:border-amber-900/60 dark:bg-amber-950/25"}`}>
                         <p className="m3-title-small text-slate-900 dark:text-white">{situation.title}</p>
                         {situation.description ? <p className="m3-body-medium mt-1 leading-relaxed text-slate-600 dark:text-slate-300">{situation.description}</p> : null}
-                        <p className="m3-label-small mt-2 text-slate-500 dark:text-slate-400">{countryFlags[situation.country]} {situation.source}{situation.updatedAt ? ` · ${new Date(situation.updatedAt).toLocaleString()}` : ""}</p>
+                        <p className="m3-label-small mt-2 text-slate-500 dark:text-slate-400">
+                          {[
+                            t(`alerts.severity.${situation.severity || "info"}`),
+                            situation.updatedAt ? formatRelativeTime(situation.updatedAt, i18n.language) : undefined,
+                            situation.source,
+                          ].filter(Boolean).join(" \u00b7 ")}
+                        </p>
                       </div>
                     ))}
                   </div>
                 )}
               </section>
               <section>
-                <h2 className="m3-title-medium mb-2 px-1 text-slate-800 dark:text-slate-200">{i18n.language.startsWith("zh") ? "我的通知" : "My notifications"}</h2>
+                <h2 className="m3-title-medium mb-2 px-1 text-slate-800 dark:text-slate-200">{t("alerts.my_notifications")}</h2>
                 {alerts.length === 0 ? (
-              <EmptyState title={t("alerts.empty_title")} body={t("alerts.empty_body")} />
-            ) : (
-              <div className="space-y-2">
-                {alerts.map((alert) => {
-                  const relatedSituation = alert.country
-                    ? situations.find((situation) => situation.country === alert.country)
-                    : undefined;
-                  return (
-                    <div key={alert.id} className="m3-card m3-card-large border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
-                      <p className="m3-title-medium text-slate-900 dark:text-white">{alert.title}</p>
-                      <p className="m3-body-medium mt-1 text-slate-600 dark:text-slate-400">{alert.body}</p>
-                      <p className="m3-label-medium mt-2 font-mono text-slate-400">{new Date(alert.createdAt).toLocaleString()}</p>
-                      {relatedSituation ? (
-                        <p className="m3-card m3-body-small mt-2 bg-amber-50 px-3 py-2 text-amber-800 dark:bg-amber-950/30 dark:text-amber-400">
-                          {i18n.language.startsWith("zh")
-                            ? `⚠️ 這可能與下方的營運狀況有關：${relatedSituation.title}`
-                            : `⚠️ This may be related to the service status below: ${relatedSituation.title}`}
-                        </p>
-                      ) : null}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+                  <EmptyState title={t("alerts.empty_title")} body={t("alerts.empty_body")} />
+                ) : (
+                  <div className="space-y-2">
+                    {alerts.map((alert) => {
+                      const relatedSituation = alert.country
+                        ? situations.find((situation) => situation.country === alert.country)
+                        : undefined;
+                      return (
+                        <div key={alert.id} className="m3-card m3-card-large border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+                          <p className="m3-title-medium text-slate-900 dark:text-white">{alert.title}</p>
+                          <p className="m3-body-medium mt-1 whitespace-pre-line text-slate-600 dark:text-slate-400">{alert.body}</p>
+                          {relatedSituation ? (
+                            <p className="m3-card m3-body-small mt-2 bg-amber-50 px-3 py-2 text-amber-800 dark:bg-amber-950/30 dark:text-amber-400">
+                              {t("alerts.related_situation")}
+                            </p>
+                          ) : null}
+                          {/* When last, so every card ends the same way and the
+                              eye can scan the column of times down the page. */}
+                          <p className="m3-label-medium mt-2 text-slate-400">{formatRelativeTime(alert.createdAt, i18n.language)}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </section>
             </div>
           </UtilityPage>
@@ -2162,13 +2210,15 @@ export default function App() {
           <DiagnosticOverlay diagnostic={apiDiagnostic} onClose={() => setDiagnosticOpen(false)} />
         )}
       </AnimatePresence>
+
+      <Snackbar snack={snack} onDismiss={() => setSnack(undefined)} />
     </div>
   );
 }
 
 function UtilityPage({ title, icon, action, children }: { title: string; icon: ReactNode; action?: ReactNode; children: ReactNode }) {
   return (
-    <main className="mx-auto max-w-md px-4 pb-24 pt-22">
+    <main className="mx-auto max-w-md px-4 pb-nav pt-22">
       <div className="mb-5 flex items-center justify-between gap-2">
         <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400">
           <div className="m3-shape-md bg-emerald-100 p-2 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">

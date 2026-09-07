@@ -134,7 +134,7 @@ export function TransitLegend({ onBack, highlightLine }: TransitLegendProps) {
   ];
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-transparent pb-28 pt-16 selection:bg-emerald-200 dark:selection:bg-emerald-800/40">
+    <div ref={containerRef} className="min-h-screen bg-transparent pb-nav pt-16 selection:bg-emerald-200 dark:selection:bg-emerald-800/40">
       {/* Header */}
       <section className="border-b border-slate-200/80 bg-white/95 backdrop-blur-sm px-4 py-4 dark:border-slate-700/50 dark:bg-slate-900/95 sticky top-16 z-30">
         <div className="mx-auto flex max-w-md items-center gap-3">

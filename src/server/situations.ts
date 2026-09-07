@@ -29,7 +29,7 @@ async function getTflSituations(): Promise<TransitSituation[]> {
       title: `${line.name || "TfL"}: ${status.statusSeverityDescription || "Service change"}`,
       description: status.reason,
       severity: (status.statusSeverity ?? 10) <= 5 ? "major" as const : "minor" as const,
-      source: "TfL Line Status",
+      source: "Transport for London",
     })));
 }
 
@@ -48,10 +48,15 @@ async function getMbtaSituations(): Promise<TransitSituation[]> {
     description: alert.attributes?.description,
     severity: (alert.attributes?.severity ?? 0) >= 7 ? "major" as const : "minor" as const,
     updatedAt: alert.attributes?.updated_at,
-    source: "MBTA Alerts",
+    source: "MBTA",
   }));
 }
 
+/*
+ * `source` names the operator the passenger would recognise, not the feed it
+ * arrived on. "Swiss OTD SIRI-SX" identifies a transit-data protocol and told a
+ * reader nothing; attribution still has to be there, so it says "SBB".
+ */
 async function loadSituations(): Promise<TransitSituation[]> {
   const [tfl, mbta, swiss] = await Promise.allSettled([getTflSituations(), getMbtaSituations(), getSwissSituations()]);
   return [
@@ -64,7 +69,7 @@ async function loadSituations(): Promise<TransitSituation[]> {
       description: situation.cause,
       severity: situation.severity?.toLowerCase().includes("high") ? "major" as const : "minor" as const,
       updatedAt: situation.validFrom ? new Date(situation.validFrom).toISOString() : undefined,
-      source: "Swiss OTD SIRI-SX",
+      source: "SBB",
     })) : []),
   ];
 }

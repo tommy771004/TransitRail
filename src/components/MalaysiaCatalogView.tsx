@@ -12,7 +12,7 @@ export function MalaysiaCatalogView({ origin, destination, onModify }: MalaysiaC
   const { t } = useTranslation();
 
   return (
-    <main className="min-h-screen bg-transparent pb-28 pt-16">
+    <main className="min-h-screen bg-transparent pb-nav pt-16">
       <section className="border-b border-slate-200/80 bg-white/95 px-4 py-4 backdrop-blur-sm dark:border-slate-700/50 dark:bg-slate-900/95">
         <div className="mx-auto flex max-w-md items-center justify-between gap-3">
           <div className="min-w-0">

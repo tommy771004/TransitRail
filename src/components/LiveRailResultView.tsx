@@ -79,7 +79,7 @@ export function LiveRailResultView({
   const fallbackAccent = isSwiss ? "#D52B1E" : isBelgium ? "#E2001A" : isNorway ? "#8B1D3D" : country === "united_kingdom" ? "#2563EB" : "#10B981";
 
   return (
-    <main className="min-h-screen bg-transparent pb-28 pt-16">
+    <main className="min-h-screen bg-transparent pb-nav pt-16">
       <ResultShellHeader
         country={country}
         origin={origin}

@@ -77,7 +77,7 @@ export function MetroResultView({
   const hasTransferResults = results.some((trip) => !trip.direct);
 
   return (
-    <main className="min-h-screen bg-transparent pb-28 pt-16">
+    <main className="min-h-screen bg-transparent pb-nav pt-16">
       <ResultShellHeader
         country={country}
         origin={origin}

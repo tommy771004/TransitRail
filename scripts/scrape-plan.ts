@@ -35,7 +35,12 @@ export function coveredThroughBySource(routes: readonly {
 }[]): string | undefined {
   const newestBySource = new Map<string, string>();
   for (const route of routes) {
-    const source = route.sourceMeta?.sourceId || "unknown";
+    // Only a registered source may produce searchable departures, so a file
+    // without a sourceId says nothing about what the picker can answer. Pooling
+    // those under one "unknown" bucket let an unregistered leftover become the
+    // least recent frontier and pin the whole market to a nightly full scrape.
+    const source = route.sourceMeta?.sourceId;
+    if (!source) continue;
     for (const result of route.results || []) {
       if (result.date && /^\d{4}-\d{2}-\d{2}$/.test(result.date)
         && result.date > (newestBySource.get(source) || "")) {

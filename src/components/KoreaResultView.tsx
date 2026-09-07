@@ -82,7 +82,7 @@ export function KoreaResultView({
   ];
 
   return (
-    <main className="min-h-screen bg-transparent pb-28 pt-16">
+    <main className="min-h-screen bg-transparent pb-nav pt-16">
       <ResultShellHeader
         country="korea"
         origin={origin}

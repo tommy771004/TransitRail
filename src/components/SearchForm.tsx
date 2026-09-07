@@ -209,6 +209,22 @@ export function SearchForm({
   // journey into a search for today when coverage changes after hydration.
   const dateUnavailable = !config.liveOnly && !offeredDates.includes(date);
   const dateUnavailableMessage = t("search.date_unavailable", { date });
+  /**
+   * The day the picker can answer that sits closest to the one the passenger
+   * asked for. Offered as a button, never applied on its own: silently moving
+   * the search is the behaviour this notice replaced. Nearest rather than
+   * first, so a saved trip past the end of the window lands on the last day of
+   * coverage instead of jumping back to today.
+   */
+  const nearestOfferedDate = useMemo(() => {
+    if (!dateUnavailable || offeredDates.length === 0) return undefined;
+    const target = Date.parse(`${date}T12:00:00Z`);
+    if (Number.isNaN(target)) return offeredDates[0];
+    return offeredDates.reduce((closest, candidate) => (
+      Math.abs(Date.parse(`${candidate}T12:00:00Z`) - target)
+        < Math.abs(Date.parse(`${closest}T12:00:00Z`) - target) ? candidate : closest
+    ));
+  }, [dateUnavailable, offeredDates, date]);
 
   const frequentRoutes = useMemo(() => {
     const routes = recentHistory.filter(h => h.country === country);
@@ -283,7 +299,7 @@ export function SearchForm({
   };
 
   return (
-    <main className="min-h-screen bg-transparent px-4 pb-28 pt-22 transition-all duration-500">
+    <main className="min-h-screen bg-transparent px-4 pb-nav pt-22 transition-all duration-500">
       <section className="mx-auto max-w-md">
 
         {/* Country Selector */}
@@ -436,9 +452,22 @@ export function SearchForm({
                 </div>
                 
                 {dateUnavailable && (
-                  <p role="status" className="m3-card m3-body-medium bg-amber-50 p-3 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
-                    {dateUnavailableMessage}
-                  </p>
+                  <div role="status" className="m3-card bg-amber-50 p-3 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
+                    <p className="m3-body-medium">{dateUnavailableMessage}</p>
+                    {nearestOfferedDate && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          triggerHaptic("light");
+                          setFormError(null);
+                          updateParam("date", nearestOfferedDate);
+                        }}
+                        className="m3-button m3-state mt-2 border border-amber-300 text-amber-900 dark:border-amber-700/70 dark:text-amber-200"
+                      >
+                        {t("search.date_unavailable_use_nearest", { date: nearestOfferedDate })}
+                      </button>
+                    )}
+                  </div>
                 )}
                 <div role="group" aria-label={t("search.date_of_travel")} className="flex gap-2.5 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory no-scrollbar">
                   {offeredDates.map((dateValue, idx) => {

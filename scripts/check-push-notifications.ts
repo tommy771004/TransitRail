@@ -17,9 +17,20 @@ import { pushSubscriptions, type WatchedRoute } from "../src/db/schema";
 import { findScrapedResults, loadScrapedData } from "../src/data/scraped";
 import { providerDateValue } from "../src/data/countries";
 import { describeFingerprintChange, timetableFingerprint } from "../src/utils/timetableChanges";
+import { stationLabel } from "../src/utils/stationLabel";
+import i18n from "../src/i18n";
 import type { Country, ServiceDayAdvisory } from "../src/types";
 import { recordError } from "../src/server/errorLog";
 import { serviceDayAdvisoryForWatch, unavailableServiceDayAdvisory } from "../src/server/serviceDayWatch";
+
+/** Maps a stored browser language onto a locale this app actually ships. */
+function resolveLanguage(language?: string | null): string {
+  const lower = (language || "").toLowerCase();
+  if (lower.startsWith("zh")) return "zh-TW";
+  if (lower.startsWith("ja")) return "ja";
+  if (lower.startsWith("ko")) return "ko";
+  return "en";
+}
 
 async function main() {
   const vapidPublicKey = process.env.VAPID_PUBLIC_KEY;
@@ -41,7 +52,9 @@ async function main() {
   let removed = 0;
 
   for (const subscription of subscriptions) {
-    const isChinese = (subscription.language || "").toLowerCase().startsWith("zh");
+    // The push body is the same sentence the in-app alert shows, rendered in
+    // the subscriber's own locale rather than a Chinese-or-English fork.
+    const t = i18n.getFixedT(resolveLanguage(subscription.language), "translation");
     const watchedRoutes = (subscription.watchedRoutes || []) as WatchedRoute[];
     const changedRoutes: { route: WatchedRoute; message: string; nextFingerprint: WatchedRoute["fingerprint"] }[] = [];
     const unchangedRoutes: WatchedRoute[] = [];
@@ -87,7 +100,7 @@ async function main() {
       const nextFingerprint = results ? timetableFingerprint(results, advisory) : undefined;
 
       const message = nextFingerprint && route.fingerprint
-        ? describeFingerprintChange(route.fingerprint, nextFingerprint, isChinese)
+        ? describeFingerprintChange(route.fingerprint, nextFingerprint, t)
         : undefined;
 
       if (message) {
@@ -104,10 +117,13 @@ async function main() {
     let subscriptionRemoved = false;
 
     if (changedRoutes.length > 0) {
-      const title = isChinese ? "時刻表已更新" : "Timetable updated";
-      const changes = changedRoutes.map(({ route, message }) =>
-        `${route.origin} → ${route.destination} (${route.serviceDate || providerDateValue(route.country as Country)}): ${message}`,
-      );
+      const title = t("alerts.timetable_updated");
+      // Station names the subscriber recognises, and no ISO service date: the
+      // sentence already says what changed and the notification is about today.
+      const changes = changedRoutes.map(({ route, message }) => {
+        const country = route.country as Country;
+        return `${stationLabel(t, route.origin, country)} → ${stationLabel(t, route.destination, country)}: ${message}`;
+      });
       const body = changes.join("\n");
 
       try {

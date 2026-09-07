@@ -118,3 +118,68 @@ describe("result-slice copy exists in every shipped locale", () => {
     });
   }
 });
+
+/**
+ * The notifications page is read at a glance, so a missing key there does not
+ * degrade quietly: i18next renders the key itself, and "alerts.no_situations"
+ * is exactly the kind of engineer wording this page was cleaned of. Two of
+ * these blocks shipped as inline zh/en ternaries, which meant ja and ko readers
+ * got English on their own notifications page.
+ */
+describe("notification copy exists in every shipped locale", () => {
+  const keys = [
+    "alerts.service_status",
+    "alerts.updating",
+    "alerts.no_situations",
+    "alerts.my_notifications",
+    "alerts.related_situation",
+    "alerts.timetable_updated",
+    "alerts.empty_title",
+    "alerts.empty_body",
+    "alerts.severity.major",
+    "alerts.severity.minor",
+    "alerts.severity.info",
+    "alerts.departure_approaching",
+    "alerts.departure_approaching_body",
+    "timetable_change.service_date",
+    "timetable_change.service_day",
+    "timetable_change.first_service",
+    "timetable_change.last_service",
+    "timetable_change.more_departures",
+    "timetable_change.fewer_departures",
+    "snack.offline_cached",
+    "snack.trip_copied",
+    "snack.share_failed",
+    "snack.route_added",
+    "snack.route_removed",
+  ];
+
+  for (const lng of LOCALES) {
+    it(`${lng} speaks its own language on the notifications page`, () => {
+      const t = i18n.getFixedT(lng, "translation");
+      for (const key of keys) {
+        const rendered = t(key, { count: 2, date: "Sep 8", type: "Saturday", time: "23:45", previous: "23:50", service: "Test" });
+        expect(rendered, `${lng}: ${key}`).not.toContain(key.split(".").pop());
+        expect(rendered.length, `${lng}: ${key}`).toBeGreaterThan(0);
+      }
+    });
+  }
+});
+
+/**
+ * The service-day enum is a key, never a label. It reached the notifications
+ * page verbatim ("Service day changed from weekday to saturday") because the
+ * message was built by string concatenation instead of through i18next.
+ */
+describe("service-day names are translated in every shipped locale", () => {
+  for (const lng of LOCALES) {
+    it(`${lng} names every service day`, () => {
+      const t = i18n.getFixedT(lng, "translation");
+      for (const type of ["weekday", "saturday", "sunday_holiday", "special"]) {
+        const label = t(`service_day.type.${type}`);
+        expect(label, `${lng}: ${type}`).not.toBe(type);
+        expect(label, `${lng}: ${type}`).not.toContain("_");
+      }
+    });
+  }
+});

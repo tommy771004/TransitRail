@@ -28,6 +28,16 @@ describe("nightly pass decision", () => {
     ])).toBe("2026-09-13");
     expect(coveredThroughBySource([])).toBeUndefined();
   });
+
+  it("ignores a file with no registered source rather than letting it set the frontier", () => {
+    // Only a registered source can answer a search, so an unregistered leftover
+    // must not be the least recent frontier that pins the market to a full run.
+    expect(coveredThroughBySource([
+      { sourceMeta: { sourceId: "jp-odpt-toei" }, results: [{ date: "2026-09-13" }] },
+      { results: [{ date: "2026-01-04" }] },
+      { sourceMeta: {}, results: [{ date: "2026-01-04" }] },
+    ])).toBe("2026-09-13");
+  });
   it("stays live-only while every market still covers the offered window", () => {
     const decision = decideScrapePass([
       { country: "japan", newest: "2026-08-27", required: "2026-08-25" },

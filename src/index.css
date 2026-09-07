@@ -439,6 +439,17 @@
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
   }
+  /*
+   * Clearance for the fixed navigation bar. The bar is 80dp tall and pads
+   * itself by the device's bottom inset, so a page whose last block stops at a
+   * fixed 96-112px slides its final row under the bar on any phone with a home
+   * indicator (index.html sets viewport-fit=cover, so the inset is real). Any
+   * block that can be the last one in the scroll flow uses this instead of a
+   * guessed pb-* value; the extra 16px is the gutter between the two.
+   */
+  .pb-nav {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom) + 16px);
+  }
   .route-path-glow {
     animation: route-glow 1.5s ease-in-out infinite alternate;
   }

@@ -4,6 +4,7 @@ import i18n from "../i18n";
 import { renderMissBlock } from "./ResultShell";
 import { CountryResultsView, type CountryResultsViewProps } from "./CountryResultsView";
 import { SearchForm } from "./SearchForm";
+import { countryConfig, providerDateValues } from "../data/countries";
 
 // Leaflet requires a browser; these regressions exercise search feedback, not maps.
 vi.mock("./D3LeafletRouteMap", () => ({ D3LeafletRouteMap: () => null }));
@@ -83,4 +84,32 @@ it("keeps an unavailable requested date visible instead of silently selecting to
   // with the shape/state tokens, so this tracks that prefix.
   expect(html).not.toContain('aria-pressed="true" class="m3-card m3-state');
   expect(noop).not.toHaveBeenCalled();
+});
+
+it("offers the nearest answerable day as an explicit action, never applied on its own", () => {
+  const onChange = vi.fn();
+  const props = {
+    isSearching: false, recentHistory: [], favorites: [],
+    onToggleFavorite: vi.fn(), onRemoveFavorite: vi.fn(), onRepeatFavoriteSearch: vi.fn(),
+    onChange, onSearch: async () => {}, onOpenStations: vi.fn(), onOpenWorkflow: vi.fn(),
+    onRepeatSearch: vi.fn(), onTogglePinHistory: vi.fn(),
+  };
+  const base = { country: "japan" as const, origin: "Asakusa", destination: "Shimbashi" };
+
+  // Without the station API the picker falls back to the market's contracted
+  // range, which is what renderToStaticMarkup sees.
+  const offered = providerDateValues("japan", countryConfig.japan.dateRangeDays);
+  expect(offered.length).toBeGreaterThan(1);
+
+  // Past the window: the nearest offered day is its far end, not today, which
+  // is what a naive "reset to the first date" would have picked.
+  const far = renderToStaticMarkup(<SearchForm {...props} params={{ ...base, date: "2099-01-01" }} />);
+  expect(far).toContain(`Use ${offered[offered.length - 1]} instead`);
+
+  // Before the window: the nearest is the first day the picker can answer.
+  const past = renderToStaticMarkup(<SearchForm {...props} params={{ ...base, date: "1999-01-01" }} />);
+  expect(past).toContain(`Use ${offered[0]} instead`);
+
+  // The notice and its button are the only route out; nothing moved the date.
+  expect(onChange).not.toHaveBeenCalled();
 });

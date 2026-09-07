@@ -1,3 +1,5 @@
+import type { TFunction } from "i18next";
+import i18n from "../i18n";
 import type { ServiceDayAdvisory, TransitResult } from "../types";
 
 export interface TimetableFingerprint {
@@ -32,39 +34,52 @@ export function timetableFingerprint(results: TransitResult[], advisory?: Servic
   };
 }
 
-/** Compares two already-computed fingerprints — e.g. a fingerprint persisted
- *  from a previous check against one derived from a fresh scrape — without
- *  needing the original TransitResult[] arrays on hand. */
-export function describeFingerprintChange(before: TimetableFingerprint, after: TimetableFingerprint, isChinese: boolean): string | undefined {
+/**
+ * One plain sentence a passenger can act on.
+ *
+ * This used to build its own strings, in Chinese or English only, out of the
+ * raw values it happened to be holding: the internal service-day enum
+ * ("Service day changed from weekday to saturday"), an ISO date, and a signed
+ * delta in brackets. That is a diff, not a notification. Everything user-facing
+ * now goes through i18next in the reader's own locale, and the values are
+ * spoken the way the rest of the app speaks them.
+ */
+export function describeFingerprintChange(before: TimetableFingerprint, after: TimetableFingerprint, t: TFunction): string | undefined {
+  // `getFixedT` renders a locale without switching the app to it, so read the
+  // locale off the `t` we were handed rather than off the global instance.
+  const locale = (t as TFunction & { lng?: string }).lng || i18n.language;
+
   if (before.serviceDate && after.serviceDate && before.serviceDate !== after.serviceDate) {
-    return isChinese
-      ? `服務日期由 ${before.serviceDate} 調整為 ${after.serviceDate}。`
-      : `Service date changed from ${before.serviceDate} to ${after.serviceDate}.`;
+    return t("timetable_change.service_date", { date: friendlyDate(after.serviceDate, locale) });
   }
   if (before.serviceDayType && after.serviceDayType && before.serviceDayType !== after.serviceDayType) {
-    return isChinese
-      ? `服務日由 ${before.serviceDayType} 調整為 ${after.serviceDayType}。`
-      : `Service day changed from ${before.serviceDayType} to ${after.serviceDayType}.`;
+    // The enum is a key, never a label: `sunday_holiday` reads as a variable
+    // name to everyone except the person who wrote it.
+    return t("timetable_change.service_day", { type: t(`service_day.type.${after.serviceDayType}`) });
   }
   if (before.last && after.last && before.last !== after.last) {
-    return isChinese
-      ? `末班車由 ${before.last} 調整為 ${after.last}。`
-      : `Last service changed from ${before.last} to ${after.last}.`;
+    return t("timetable_change.last_service", { time: after.last, previous: before.last });
   }
   if (before.first && after.first && before.first !== after.first) {
-    return isChinese
-      ? `首班車由 ${before.first} 調整為 ${after.first}。`
-      : `First service changed from ${before.first} to ${after.first}.`;
+    return t("timetable_change.first_service", { time: after.first, previous: before.first });
   }
   if (before.departures !== after.departures) {
     const difference = after.departures - before.departures;
-    return isChinese
-      ? `班次由 ${before.departures} 班調整為 ${after.departures} 班（${difference > 0 ? "+" : ""}${difference}）。`
-      : `Departures changed from ${before.departures} to ${after.departures} (${difference > 0 ? "+" : ""}${difference}).`;
+    return difference > 0
+      ? t("timetable_change.more_departures", { count: difference })
+      : t("timetable_change.fewer_departures", { count: -difference });
   }
   return undefined;
 }
 
-export function describeTimetableChange(previous: TransitResult[], current: TransitResult[], isChinese: boolean): string | undefined {
-  return describeFingerprintChange(timetableFingerprint(previous), timetableFingerprint(current), isChinese);
+/** A service date is read as a day, not parsed as a field: "9月8日", not
+ *  "2026-09-08". Falls back to the stored value if it is not a real date. */
+function friendlyDate(value: string, locale: string): string {
+  const parsed = new Date(`${value}T12:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) return value;
+  return new Intl.DateTimeFormat(locale, { month: "short", day: "numeric", timeZone: "UTC" }).format(parsed);
+}
+
+export function describeTimetableChange(previous: TransitResult[], current: TransitResult[], t: TFunction): string | undefined {
+  return describeFingerprintChange(timetableFingerprint(previous), timetableFingerprint(current), t);
 }

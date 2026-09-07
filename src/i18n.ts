@@ -66,6 +66,7 @@ const resources = {
         auto_detect_country: "Use detected country",
         scroll_dates: "More dates",
         date_unavailable: "{{date}} is outside the currently offered dates. Choose a date below; your search has not been changed.",
+        date_unavailable_use_nearest: "Use {{date}} instead",
         validation_required: "Enter both origin and destination.",
         validation_same_station: "Origin and destination must be different.",
         preferred_transit_types: "Preferred transit types",
@@ -360,21 +361,41 @@ const resources = {
         failed_title: "Couldn't enable notifications",
         failed_body: "Something went wrong enabling push notifications."
       },
+      timetable_change: {
+        service_date: "Now running to the {{date}} timetable.",
+        service_day: "Now running the {{type}} timetable.",
+        last_service: "Last service is now {{time}}, was {{previous}}.",
+        first_service: "First service is now {{time}}, was {{previous}}.",
+        more_departures_one: "One more departure than before.",
+        more_departures_other: "{{count}} more departures than before.",
+        fewer_departures_one: "One fewer departure than before.",
+        fewer_departures_other: "{{count}} fewer departures than before."
+      },
       alerts: {
         empty_title: "No alerts",
-        empty_body: "Search, seat, and saved-trip updates will appear here.",
-        search_failed: "Search failed",
-        search_failed_body: "The transit provider did not return data.",
-        network_error: "Network error",
+        empty_body: "Timetable changes on routes you have searched, and reminders for saved departures, appear here.",
+        service_status: "Service status",
+        updating: "Updating...",
+        no_situations: "No disruptions reported. Not every network has a live provider yet.",
+        my_notifications: "My notifications",
+        related_situation: "May be related to the service status above.",
+        severity: { major: "Major disruption", minor: "Minor disruption", info: "Notice" },
+        timetable_updated: "Timetable updated",
         network_error_body: "Could not connect to the transit service.",
         trip_saved: "Trip saved",
         seat_selected: "Seat preference saved",
         departure_approaching: "Departure approaching: {{service}}",
-        departure_approaching_body: "Your trip from {{origin}} to {{destination}} departs in less than 15 minutes at {{time}}.",
+        departure_approaching_body: "Departs {{time}}, in under 15 minutes.",
         notifications_enabled: "Browser notifications enabled",
         reminder_set: "Reminder enabled",
-        reminder_removed: "Reminder removed",
-        reminder_removed_body: "Reminder for {{service}} has been turned off."
+        reminder_removed: "Reminder removed"
+      },
+      snack: {
+        offline_cached: "Offline. Showing results cached from an earlier search.",
+        trip_copied: "Trip details copied",
+        share_failed: "Could not share or copy the trip details",
+        route_added: "Added to favourite routes",
+        route_removed: "Removed from favourite routes"
       },
       feedback: {
         title: "Feedback",
@@ -624,6 +645,7 @@ const resources = {
         auto_detect_country: "使用偵測到的國家",
         scroll_dates: "更多日期",
         date_unavailable: "{{date}} 不在目前可選日期內。請在下方重新選擇；系統未更改您的查詢日期。",
+        date_unavailable_use_nearest: "改用 {{date}}",
         validation_required: "請輸入出發地和目的地。",
         validation_same_station: "出發地和目的地不能相同。",
         preferred_transit_types: "偏好交通工具",
@@ -916,21 +938,39 @@ const resources = {
         failed_title: "無法啟用通知",
         failed_body: "啟用推播通知時發生錯誤。"
       },
+      timetable_change: {
+        service_date: "已改用 {{date}} 的時刻表。",
+        service_day: "已改用「{{type}}」時刻表。",
+        last_service: "末班車改為 {{time}}，原本是 {{previous}}。",
+        first_service: "首班車改為 {{time}}，原本是 {{previous}}。",
+        more_departures: "比先前多了 {{count}} 班車。",
+        fewer_departures: "比先前少了 {{count}} 班車。"
+      },
       alerts: {
         empty_title: "沒有通知",
-        empty_body: "搜尋、選座與儲存行程的狀態會顯示在這裡。",
-        search_failed: "搜尋失敗",
-        search_failed_body: "交通資料提供方沒有回傳資料。",
-        network_error: "網路錯誤",
+        empty_body: "您查詢過的路線時刻表有變動、或已儲存班次即將出發時，會顯示在這裡。",
+        service_status: "營運狀況",
+        updating: "更新中…",
+        no_situations: "目前沒有異常通報。並非每個路網都已接上即時來源。",
+        my_notifications: "我的通知",
+        related_situation: "可能與上方的營運狀況有關。",
+        severity: { major: "嚴重影響", minor: "輕微影響", info: "公告" },
+        timetable_updated: "時刻表已更新",
         network_error_body: "無法連線到交通服務。",
         trip_saved: "已儲存行程",
         seat_selected: "已儲存座位偏好",
         departure_approaching: "即將出發：{{service}}",
-        departure_approaching_body: "{{origin}} 前往 {{destination}} 的班次將於 {{time}} 出發，距離出發不到 15 分鐘。",
+        departure_approaching_body: "{{time}} 出發，剩不到 15 分鐘。",
         notifications_enabled: "已啟用瀏覽器通知",
         reminder_set: "已啟用提醒",
-        reminder_removed: "已移除提醒",
-        reminder_removed_body: "已關閉 {{service}} 的提醒。"
+        reminder_removed: "已移除提醒"
+      },
+      snack: {
+        offline_cached: "目前離線，顯示先前查詢的暫存結果。",
+        trip_copied: "已複製行程資訊",
+        share_failed: "無法分享或複製行程資訊",
+        route_added: "已加入常用路線",
+        route_removed: "已從常用路線移除"
       },
       feedback: {
         title: "意見回饋",
@@ -1585,6 +1625,7 @@ const resources = {
         auto_detect_country: "検出した国を使用",
         scroll_dates: "他の日付",
         date_unavailable: "{{date}} は現在選択できる日付の範囲外です。下から日付を選んでください。検索日は変更していません。",
+        date_unavailable_use_nearest: "{{date}} に変更する",
         validation_required: "出発駅と到着駅を両方入力してください。",
         validation_same_station: "出発駅と到着駅は異なる駅を選択してください。",
         preferred_transit_types: "希望する交通手段",
@@ -1877,21 +1918,39 @@ const resources = {
         failed_title: "通知を有効にできませんでした",
         failed_body: "プッシュ通知の有効化中にエラーが発生しました。"
       },
+      timetable_change: {
+        service_date: "{{date}}のダイヤに変わりました。",
+        service_day: "「{{type}}」のダイヤに変わりました。",
+        last_service: "終電が {{previous}} から {{time}} に変わりました。",
+        first_service: "始発が {{previous}} から {{time}} に変わりました。",
+        more_departures: "以前より {{count}} 本増えました。",
+        fewer_departures: "以前より {{count}} 本減りました。"
+      },
       alerts: {
         empty_title: "通知はありません",
-        empty_body: "検索、座席、保存した旅程の更新情報がここに表示されます。",
-        search_failed: "検索に失敗しました",
-        search_failed_body: "交通機関からデータが返されませんでした。",
-        network_error: "ネットワークエラー",
+        empty_body: "検索した経路の時刻表が変わったとき、保存した列車の出発が近づいたときに、ここに表示されます。",
+        service_status: "運行状況",
+        updating: "更新中…",
+        no_situations: "運行の乱れの報告はありません。すべての路線がリアルタイム情報に対応しているわけではありません。",
+        my_notifications: "マイ通知",
+        related_situation: "上の運行状況と関係している可能性があります。",
+        severity: { major: "大きな乱れ", minor: "小さな乱れ", info: "お知らせ" },
+        timetable_updated: "時刻表が更新されました",
         network_error_body: "交通機関のサービスに接続できませんでした。",
         trip_saved: "旅程を保存しました",
         seat_selected: "座席の希望を保存しました",
         departure_approaching: "まもなく出発：{{service}}",
-        departure_approaching_body: "{{origin}}から{{destination}}行きの列車が{{time}}に出発します。あと15分未満です。",
+        departure_approaching_body: "{{time}} 発、あと15分たらずです。",
         notifications_enabled: "ブラウザ通知を有効にしました",
         reminder_set: "リマインダーを設定しました",
-        reminder_removed: "リマインダーを削除しました",
-        reminder_removed_body: "{{service}}のリマインダーをオフにしました。"
+        reminder_removed: "リマインダーを削除しました"
+      },
+      snack: {
+        offline_cached: "オフラインです。前回の検索のキャッシュを表示しています。",
+        trip_copied: "旅程をコピーしました",
+        share_failed: "旅程を共有・コピーできませんでした",
+        route_added: "お気に入りの経路に追加しました",
+        route_removed: "お気に入りの経路から削除しました"
       },
       feedback: {
         title: "フィードバック",
@@ -2168,6 +2227,7 @@ const resources = {
         auto_detect_country: "감지된 국가 사용",
         scroll_dates: "다른 날짜",
         date_unavailable: "{{date}}은(는) 현재 선택 가능한 날짜 범위 밖입니다. 아래에서 날짜를 선택하세요. 검색 날짜는 변경되지 않았습니다.",
+        date_unavailable_use_nearest: "{{date}}(으)로 변경",
         validation_required: "출발역과 도착역을 모두 입력하세요.",
         validation_same_station: "출발역과 도착역은 서로 달라야 합니다.",
         preferred_transit_types: "선호하는 교통수단",
@@ -2460,21 +2520,39 @@ const resources = {
         failed_title: "알림을 활성화할 수 없습니다",
         failed_body: "푸시 알림을 활성화하는 중 오류가 발생했습니다."
       },
+      timetable_change: {
+        service_date: "{{date}} 시각표로 바뀌었습니다.",
+        service_day: "\u0027{{type}}\u0027 시각표로 바뀌었습니다.",
+        last_service: "막차가 {{previous}}에서 {{time}}(으)로 바뀌었습니다.",
+        first_service: "첫차가 {{previous}}에서 {{time}}(으)로 바뀌었습니다.",
+        more_departures: "이전보다 {{count}}편 늘었습니다.",
+        fewer_departures: "이전보다 {{count}}편 줄었습니다."
+      },
       alerts: {
         empty_title: "알림이 없습니다",
-        empty_body: "검색, 좌석, 저장한 일정 관련 업데이트가 여기에 표시됩니다.",
-        search_failed: "검색 실패",
-        search_failed_body: "교통 기관이 데이터를 반환하지 않았습니다.",
-        network_error: "네트워크 오류",
+        empty_body: "검색한 경로의 시각표가 바뀌거나 저장한 열차의 출발이 가까워지면 여기에 표시됩니다.",
+        service_status: "운행 상황",
+        updating: "업데이트 중…",
+        no_situations: "보고된 장애가 없습니다. 모든 노선이 실시간 정보를 제공하는 것은 아닙니다.",
+        my_notifications: "내 알림",
+        related_situation: "위의 운행 상황과 관련이 있을 수 있습니다.",
+        severity: { major: "심각한 지장", minor: "경미한 지장", info: "안내" },
+        timetable_updated: "시각표가 업데이트되었습니다",
         network_error_body: "교통 서비스에 연결할 수 없습니다.",
         trip_saved: "일정이 저장되었습니다",
         seat_selected: "좌석 선호가 저장되었습니다",
         departure_approaching: "곧 출발: {{service}}",
-        departure_approaching_body: "{{origin}}에서 {{destination}}행 열차가 {{time}}에 출발합니다. 출발까지 15분 미만입니다.",
+        departure_approaching_body: "{{time}} 출발, 15분도 남지 않았습니다.",
         notifications_enabled: "브라우저 알림이 활성화되었습니다",
         reminder_set: "알림이 설정되었습니다",
-        reminder_removed: "알림이 삭제되었습니다",
-        reminder_removed_body: "{{service}}의 알림이 꺼졌습니다."
+        reminder_removed: "알림이 삭제되었습니다"
+      },
+      snack: {
+        offline_cached: "오프라인입니다. 이전 검색의 캐시 결과를 표시합니다.",
+        trip_copied: "일정 정보를 복사했습니다",
+        share_failed: "일정 정보를 공유하거나 복사할 수 없습니다",
+        route_added: "즐겨찾는 경로에 추가했습니다",
+        route_removed: "즐겨찾는 경로에서 삭제했습니다"
       },
       feedback: {
         title: "피드백",

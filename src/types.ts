@@ -224,8 +224,21 @@ export interface FavoriteRoute {
   createdAt: string;
 }
 
+/**
+ * What an alert is *about*. The notifications page carries transit information
+ * only, so this is the whole list: a committed timetable that changed under a
+ * search the passenger already ran, and a saved departure coming up. Anything
+ * that merely confirms a tap ("route added", "seat saved") or reports app
+ * plumbing (a failed fetch, a browser permission) is shown in a snackbar at the
+ * moment it happens and is never stored here.
+ */
+export type AppAlertCategory = "timetable" | "departure";
+
 export interface AppAlert {
   id: string;
+  /** Absent on entries stored before the page was scoped to transit
+   *  information; those are dropped on load rather than migrated. */
+  category?: AppAlertCategory;
   title: string;
   body: string;
   createdAt: string;

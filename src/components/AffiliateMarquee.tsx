@@ -60,7 +60,7 @@ export function AffiliateMarquee() {
   ];
 
   return (
-    <aside aria-label="Affiliate offers" className="mx-auto w-full max-w-3xl px-4 pb-28 pt-5">
+    <aside aria-label="Affiliate offers" className="mx-auto w-full max-w-3xl px-4 pb-nav pt-5">
       <div className="m3-card m3-card-large m3-elevation-1 overflow-hidden border border-sky-100 bg-sky-50/70 py-2 dark:border-sky-900/60 dark:bg-sky-950/20">
         <div className="m3-label-small flex items-center gap-2 px-3 pb-1.5 text-sky-800 dark:text-sky-200">
           <span className="m3-chip m3-label-small m3-shape-full min-h-6 bg-sky-600 px-3 text-white">Affiliate offers</span>
