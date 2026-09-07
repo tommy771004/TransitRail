@@ -1,0 +1,40 @@
+name: CI
+
+# `npm run lint` is the repository's required gate, but until now nothing ran it
+# outside a developer's machine: the only workflow was the nightly scrape, which
+# validates data and never runs the suite. Four test files had been failing for
+# long enough that the failures read as normal.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# A second push to the same branch makes the earlier run's answer irrelevant.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Typecheck plus the full Vitest suite. No provider secrets are set: every
+      # scraper must degrade safely without its key, so a suite that needs one to
+      # pass is itself the finding.
+      - name: Typecheck and test
+        run: npm run lint

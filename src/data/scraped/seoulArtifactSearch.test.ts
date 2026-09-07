@@ -45,10 +45,16 @@ const timetable: SeoulTimetable = {
 const artifactFixture = vi.hoisted(() => ({ bytes: undefined as Buffer | undefined }));
 vi.mock("fs", async () => {
   const actual = await vi.importActual<typeof import("fs")>("fs");
+  // The loader builds this path with `path.join`, so the separator is platform
+  // specific. Matching a hard-coded POSIX spelling let the mock miss silently on
+  // Windows: the read fell through to the real committed artifact and the suite
+  // asserted against production data instead of the fixture above.
+  const { join } = await vi.importActual<typeof import("path")>("path");
+  const artifactSuffix = join("korea", "seoul-subway-timetable.json.gz");
   return {
     ...actual,
     readFileSync: (...args: Parameters<typeof actual.readFileSync>) =>
-      artifactFixture.bytes && String(args[0]).endsWith("/korea/seoul-subway-timetable.json.gz")
+      artifactFixture.bytes && String(args[0]).endsWith(artifactSuffix)
         ? artifactFixture.bytes : actual.readFileSync(...args),
   };
 });

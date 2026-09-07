@@ -250,12 +250,30 @@ const TFL_RATE_LIMIT_RETRIES = 3;
  */
 function createTflRateGate(intervalMs: number) {
   let nextAt = 0;
-  return async () => {
-    if (intervalMs <= 0) return;
-    const now = Date.now();
-    const startAt = Math.max(now, nextAt);
+  let lastAt = 0;
+  let queue: Promise<void> = Promise.resolve();
+  return () => {
+    if (intervalMs <= 0) return Promise.resolve();
+    // Claim the slot synchronously, for the reason above.
+    const startAt = Math.max(Date.now(), nextAt);
     nextAt = startAt + intervalMs;
-    if (startAt > now) await sleep(startAt - now);
+    // Then wait behind the previous caller rather than on a lone relative
+    // sleep. `setTimeout` promises only a floor on its delay, and the delay is
+    // computed when the slot is claimed: if the event loop stalls past several
+    // claimed slots, all of them come due at once and their sleeps resolve in
+    // the same tick — the burst this gate exists to prevent, arriving exactly
+    // when the process is already under load. Holding each caller to one
+    // interval past the previous *dispatch* re-spaces an overdue queue instead
+    // of releasing it together.
+    const wait = queue.then(async () => {
+      const due = Math.max(startAt, lastAt + intervalMs);
+      for (let remaining = due - Date.now(); remaining > 0; remaining = due - Date.now()) {
+        await sleep(remaining);
+      }
+      lastAt = Date.now();
+    });
+    queue = wait;
+    return wait;
   };
 }
 

@@ -208,14 +208,25 @@ line 77), [scripts/scrapers/metro.ts](scripts/scrapers/metro.ts) (`GermanyScrape
 ### 4a. Korea (9 routes) — largest indicative country after Japan
 
 Korail has an open API through data.go.kr, requiring registration and a service
-key. `KoreaScraper` currently extends `SnapshotScraper` despite CLAUDE.md
-describing it as a Playwright scraper — it has never fetched anything.
+key. At the time of writing `KoreaScraper` did not fetch anything: it served the
+nine curated KTX timetables this section is about.
 
 **Blocked on:** a service key, plus confirmation of which Korail endpoint covers
 KTX timetables.
 
-Files: [scripts/scrapers/korea.ts](scripts/scrapers/korea.ts),
-`koreaRoutes` ([scripts/scrapers/routes.ts](scripts/scrapers/routes.ts) line 30).
+**Since then**, and unlike most of section 4, Korea has real data — just not for
+these routes. `KoreaScraper` is now a `DownloadScraper` that refreshes the Seoul
+Metro and Incheon Transit timetable CSVs published on data.go.kr into the
+compressed artifacts search reads directly (`kr-seoul-metro-csv`,
+`kr-incheon-transit-csv` in `sourceRegistry.ts`). It carries no per-route list at
+all — `routes` is deliberately empty and `koreaRoutes` no longer exists — so the
+nine curated KTX files are gone rather than replaced. Korail itself is still out:
+it blocks automated journey search (`CODE : -8003`), so KTX pairs have no data
+and search says so. `scripts/probe-korea-providers.ts` is where the unwired TAGO
+intercity endpoint (`KOREA_TAGO_SERVICE_KEY`) is explored; see
+[docs/korea-api-registration.md](docs/korea-api-registration.md).
+
+Files: [scripts/scrapers/korea.ts](scripts/scrapers/korea.ts).
 Note the station names carry codes (`Seoul (SNC)`, `Busan (BSN)`) that
 `tidyStationName()` strips for display and slugs — a real adapter will likely need
 its own station id mapping.

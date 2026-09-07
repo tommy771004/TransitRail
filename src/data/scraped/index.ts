@@ -147,7 +147,16 @@ function loadDir(country: string): ScrapedRouteData[] {
           authenticityOptionsFor(country as Country),
         );
         if (!fact.snapshot || fact.truthMode === "unusable" || !isCompleteTimetableSnapshot(fact.snapshot)) {
-          console.warn(`[scraped] Skipping unusable ${country}/${file}: ${fact.issue || "unknown"}`);
+          // A frequency-only source publishes service windows and no departures,
+          // so an empty result set is the state it is meant to be in. Calling
+          // Thailand's four files "unusable" on every load described working data
+          // as broken — and taught the eye to skip the same line when it reports
+          // a genuinely unverified or malformed one.
+          if (fact.snapshot?.sourceMeta?.completeness === "frequency-only" && fact.issue === "empty") {
+            console.log(`[scraped] ${country}/${file}: frequency-only source, no departures to load`);
+          } else {
+            console.warn(`[scraped] Skipping unusable ${country}/${file}: ${fact.issue || "unknown"}`);
+          }
           continue;
         }
         data.push(applySourceFact(fact.snapshot, fact));
