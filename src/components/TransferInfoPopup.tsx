@@ -88,11 +88,11 @@ export function TransferInfoPopup({ isOpen, onClose, stationId, stationName, cou
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ duration: 0.2, type: "spring", bounce: 0.2 }}
-            className="fixed left-1/2 top-1/2 z-50 w-11/12 max-w-md -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-slate-900 border border-slate-200 dark:border-slate-800"
+            className="m3-dialog fixed left-1/2 top-1/2 z-50 w-11/12 max-w-md -translate-x-1/2 -translate-y-1/2 overflow-hidden border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900"
           >
             <div className="flex items-center justify-between border-b border-slate-100 p-4 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
               <div>
-                <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                <h3 className="m3-headline-small text-slate-900 dark:text-white">
                   {resolvedStationName ? stationLabel(t, resolvedStationName, country || (data?.country?.toLowerCase() as Country)) : "..."}
                 </h3>
                 <p className="text-xs font-bold text-slate-500 dark:text-slate-400">
@@ -101,7 +101,7 @@ export function TransferInfoPopup({ isOpen, onClose, stationId, stationName, cou
               </div>
               <button
                 onClick={onClose}
-                className="rounded-full bg-slate-200/50 p-2 text-slate-500 hover:bg-slate-200 hover:text-slate-700 transition-colors dark:bg-slate-800/50 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+                className="m3-icon-button m3-state bg-slate-200/50 text-slate-500 dark:bg-slate-800/50 dark:text-slate-400"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -122,7 +122,7 @@ export function TransferInfoPopup({ isOpen, onClose, stationId, stationName, cou
                   <div className="rounded-full bg-red-50 p-3 dark:bg-red-950/20 text-red-600 dark:text-red-400 mb-3">
                     <AlertCircle className="h-6 w-6" />
                   </div>
-                  <h4 className="text-sm font-black text-slate-800 dark:text-slate-200 mb-1">
+                  <h4 className="m3-title-medium mb-1 text-slate-800 dark:text-slate-200">
                     {t("result.fetch_error_title", { defaultValue: "Could Not Load Transfer Info" })}
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs leading-relaxed mb-4">
@@ -130,7 +130,7 @@ export function TransferInfoPopup({ isOpen, onClose, stationId, stationName, cou
                   </p>
                   <button
                     onClick={onClose}
-                    className="px-4 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 dark:text-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl transition-colors"
+                    className="m3-button m3-state bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
                   >
                     {t("common.close", { defaultValue: "Close" })}
                   </button>
@@ -140,19 +140,19 @@ export function TransferInfoPopup({ isOpen, onClose, stationId, stationName, cou
               {!loading && !error && data && (
                 <>
                   {data.recommendedExit && (
-                    <div className="mb-4 rounded-2xl bg-indigo-50/70 p-3.5 border border-indigo-100/40 dark:bg-indigo-950/20 dark:border-indigo-900/20">
-                      <span className="block text-[10px] font-black uppercase tracking-wider text-indigo-500 mb-1">
+                    <div className="m3-card mb-4 border border-indigo-100/40 bg-indigo-50/70 p-4 dark:border-indigo-900/20 dark:bg-indigo-950/20">
+                      <span className="m3-label-small mb-1 block uppercase text-indigo-500">
                         📍 {t("result.recommended_exit", { defaultValue: "Recommended Exit / Platform" })}
                       </span>
-                      <p className="text-sm font-black text-slate-800 dark:text-slate-100">
+                      <p className="m3-title-medium text-slate-800 dark:text-slate-100">
                         {t(`transfers.${data.stationId}.recommendedExit`, { defaultValue: data.recommendedExit })}
                       </p>
                     </div>
                   )}
 
                   {(data.guidanceZh || data.guidanceEn) && (
-                    <div className="mb-5 rounded-2xl bg-amber-50/70 p-3.5 border border-amber-100/40 dark:bg-amber-950/20 dark:border-amber-900/20">
-                      <span className="block text-[10px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-500 mb-1">
+                    <div className="m3-card mb-5 border border-amber-100/40 bg-amber-50/70 p-4 dark:border-amber-900/20 dark:bg-amber-950/20">
+                      <span className="m3-label-small mb-1 block uppercase text-amber-600 dark:text-amber-500">
                         💡 {t("result.smart_guidance", { defaultValue: "Smart Transfer Guide" })}
                       </span>
                       <div className="space-y-1 text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-bold">
@@ -213,7 +213,7 @@ export function TransferInfoPopup({ isOpen, onClose, stationId, stationName, cou
 
                       return (
                         <div key={idx}>
-                          <h4 className="mb-2.5 text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                          <h4 className="m3-label-medium mb-2.5 uppercase text-slate-400 dark:text-slate-500">
                             {translatedCategory}
                           </h4>
                           <div className="space-y-2">
@@ -229,7 +229,7 @@ export function TransferInfoPopup({ isOpen, onClose, stationId, stationName, cou
                                 : undefined;
 
                               return (
-                                <div key={lIdx} className="flex items-center gap-3 rounded-xl bg-slate-50 p-3 dark:bg-slate-800/50">
+                                <div key={lIdx} className="m3-card flex items-center gap-3 bg-slate-50 p-3 dark:bg-slate-800/50">
                                   <div
                                     className="h-3 w-3 shrink-0 rounded-full"
                                     style={{ backgroundColor: line.color || "#cbd5e1" }}

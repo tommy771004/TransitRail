@@ -76,10 +76,10 @@ function SourceProvenanceNotice({ dataStatus }: { dataStatus?: SearchDataStatus 
   return (
     <aside
       role="status"
-      className="mx-auto max-w-md border-l-2 border-slate-300 px-4 py-3 text-xs text-slate-600 dark:border-slate-600 dark:text-slate-300"
+      className="m3-body-small mx-auto max-w-md border-l-2 border-slate-300 px-4 py-3 text-slate-600 dark:border-slate-600 dark:text-slate-300"
     >
       <p>
-        <span className="font-semibold text-slate-700 dark:text-slate-200">
+        <span className="m3-label-medium text-slate-700 dark:text-slate-200">
           {t("result.data_source", { defaultValue: "Source" })}:
         </span>{" "}
         <a

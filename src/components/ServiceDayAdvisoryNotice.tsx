@@ -51,31 +51,31 @@ export function ServiceDayAdvisoryNotice({ advisory }: ServiceDayAdvisoryNoticeP
         <Icon className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1">
-            <h2 className="text-sm font-black">{t("service_day.title")}</h2>
-            <span className="text-xs font-black uppercase tracking-wide">
+            <h2 className="m3-title-small">{t("service_day.title")}</h2>
+            <span className="m3-label-medium uppercase">
               {t(`service_day.risk.${advisory.risk}`)}
             </span>
           </div>
-          <p className="mt-1 text-xs font-semibold">
+          <p className="m3-body-small mt-1">
             {t(`service_day.type.${advisory.serviceDayType}`)} · {advisory.serviceDate} · {advisory.timezone}
           </p>
-          <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
+          <div className="m3-body-small mt-2 grid grid-cols-2 gap-2">
             <p>
               <span className="block opacity-70">{t("service_day.first")}</span>
-              <strong className="font-mono text-sm">{advisory.firstDeparture || "—"}</strong>
+              <strong className="m3-title-medium font-mono">{advisory.firstDeparture || "—"}</strong>
             </p>
             <p>
               <span className="block opacity-70">{t("service_day.last")}</span>
-              <strong className="font-mono text-sm">{advisory.lastDeparture || "—"}</strong>
+              <strong className="m3-title-medium font-mono">{advisory.lastDeparture || "—"}</strong>
             </p>
           </div>
           {typeof advisory.minutesToLastDeparture === "number" && advisory.risk !== "missed" ? (
-            <p className="mt-2 text-xs font-semibold">
+            <p className="m3-body-small mt-2">
               {t("service_day.minutes_remaining", { count: Math.max(advisory.minutesToLastDeparture, 0) })}
             </p>
           ) : null}
-          {coverageNote ? <p className="mt-2 text-xs font-semibold opacity-80">{coverageNote}</p> : null}
-          <p className="mt-2 text-[10px] font-medium opacity-60">
+          {coverageNote ? <p className="m3-body-small mt-2 opacity-80">{coverageNote}</p> : null}
+          <p className="m3-label-small mt-2 opacity-60">
             {t("service_day.source", { source: advisory.source })}
             {advisory.sourceUrl ? (
               <a
@@ -89,12 +89,12 @@ export function ServiceDayAdvisoryNotice({ advisory }: ServiceDayAdvisoryNoticeP
             ) : null}
           </p>
           {formatTimestamp(advisory.checkedAt) ? (
-            <p className="text-[10px] font-medium opacity-60">
+            <p className="m3-label-small opacity-60">
               {t("service_day.checked_at", { time: formatTimestamp(advisory.checkedAt) })}
             </p>
           ) : null}
           {formatTimestamp(advisory.updatedAt) ? (
-            <p className="text-[10px] font-medium opacity-60">
+            <p className="m3-label-small opacity-60">
               {t("service_day.updated_at", { time: formatTimestamp(advisory.updatedAt) })}
             </p>
           ) : null}

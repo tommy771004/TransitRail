@@ -79,6 +79,8 @@ it("keeps an unavailable requested date visible instead of silently selecting to
     onRepeatSearch={noop} onTogglePinHistory={noop}
   />);
   expect(html).toContain("2099-01-01 is outside the currently offered dates");
-  expect(html).not.toContain('aria-pressed="true" class="flex min-h-16');
+  // No day in the rail may render selected — the M3 date chip's class opens
+  // with the shape/state tokens, so this tracks that prefix.
+  expect(html).not.toContain('aria-pressed="true" class="m3-card m3-state');
   expect(noop).not.toHaveBeenCalled();
 });

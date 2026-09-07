@@ -123,19 +123,19 @@ export function JapanResultView({
   ];
 
   return (
-    <main className="min-h-screen bg-transparent pb-28 pt-14">
+    <main className="min-h-screen bg-transparent pb-28 pt-16">
       <ResultShellHeader
         country={country}
         origin={origin}
         destination={destination}
-        meta={<p className="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">{date}{time ? ` · ≥ ${time}` : ""} · 1 {t("result.adult")}</p>}
+        meta={<p className="m3-body-small mt-1 font-mono text-slate-500 dark:text-slate-400">{date}{time ? ` · ≥ ${time}` : ""} · 1 {t("result.adult")}</p>}
         onModify={onModify}
         onOpenLegend={onOpenLegend}
       />
 
       {overview}
 
-      <nav className="sticky top-14 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-sm dark:border-slate-700/50 dark:bg-slate-900/95">
+      <nav className="sticky top-16 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-sm dark:border-slate-700/50 dark:bg-slate-900/95">
         <div className="mx-auto flex max-w-md">
           {tabs.map((tab) => (
             <button
@@ -144,7 +144,7 @@ export function JapanResultView({
                 triggerHaptic("light");
                 onSortChange(tab.mode);
               }}
-              className={`relative flex-1 py-3 text-xs font-bold transition-colors ${
+              className={`m3-state m3-title-small relative min-h-12 flex-1 ${
                 sortMode === tab.mode
                   ? "text-emerald-600 dark:text-emerald-400"
                   : "text-slate-400 dark:text-slate-500"
@@ -154,7 +154,7 @@ export function JapanResultView({
               {sortMode === tab.mode && (
                 <motion.div
                   layoutId="japanActiveTabUnderline"
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-emerald-600 dark:bg-emerald-400"
+                  className="absolute bottom-0 left-0 right-0 mx-auto h-[3px] w-16 rounded-t-full bg-emerald-600 dark:bg-emerald-400"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -192,27 +192,27 @@ export function JapanResultView({
                 <div className="mb-4 flex items-center justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-2">
                     <span
-                      className="inline-flex items-center gap-1.5 truncate rounded-xl bg-slate-50 px-3 py-1.5 text-[11px] font-black text-slate-800 dark:bg-slate-800/60 dark:text-slate-200 border border-slate-100 dark:border-slate-800"
+                      className="m3-chip m3-label-medium max-w-full truncate border border-slate-100 bg-slate-50 px-3 text-slate-800 dark:border-slate-800 dark:bg-slate-800/60 dark:text-slate-200"
                       style={{ borderLeft: `3.5px solid ${trip.lineColor || "#94a3b8"}` }}
                     >
                       <TransitIcon trip={trip} className="h-3.5 w-3.5" />
                       <span>{trip.service}</span>
                     </span>
-                    <span className="shrink-0 rounded-lg bg-emerald-500/5 dark:bg-emerald-400/10 px-2 py-0.5 font-mono text-[11px] font-bold text-emerald-700 dark:text-emerald-400">
+                    <span className="m3-chip m3-label-medium min-h-7 shrink-0 bg-emerald-500/5 px-3 font-mono text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-400">
                       {formatDuration(trip.durationMinutes)}
                     </span>
                   </div>
-                  <span className="shrink-0 rounded-2xl bg-slate-50 dark:bg-slate-800/80 px-3 py-1 text-sm font-black text-slate-900 dark:text-emerald-400 shadow-xs border border-slate-100 dark:border-slate-700/50">
+                  <span className="m3-chip m3-title-small shrink-0 border border-slate-100 bg-slate-50 px-3 text-slate-900 dark:border-slate-700/50 dark:bg-slate-800/80 dark:text-emerald-400">
                     {formatPrice ? formatPrice(trip) : formatLocalPrice(trip) || t("result.fare_unavailable")}
                   </span>
                 </div>
                 <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
                   <div className="min-w-0">
-                    <p className="font-mono text-3xl font-black leading-none tracking-tight text-slate-950 dark:text-white">{trip.departureTime}</p>
-                    <p className="mt-1.5 flex items-center gap-1.5 truncate text-xs font-bold text-slate-500 dark:text-slate-400">
+                    <p className="m3-headline-medium font-mono font-bold text-slate-950 dark:text-white">{trip.departureTime}</p>
+                    <p className="m3-body-small mt-1.5 flex items-center gap-1.5 truncate text-slate-500 dark:text-slate-400">
                       <span className="truncate">{stationLabel(t, trip.origin, trip.country)}</span>
                       {formatPlatform(trip.platform || trip.legs?.[0]?.platform, t) && (
-                        <span className="shrink-0 inline-flex items-center rounded-md bg-slate-100/80 px-1.5 py-0.5 font-mono text-[9px] font-black uppercase tracking-wider text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                        <span className="m3-label-small m3-shape-xs inline-flex shrink-0 items-center bg-slate-100/80 px-1.5 py-0.5 font-mono uppercase text-slate-500 dark:bg-slate-800 dark:text-slate-400">
                           {formatPlatform(trip.platform || trip.legs?.[0]?.platform, t)}
                         </span>
                       )}
@@ -224,14 +224,14 @@ export function JapanResultView({
                   </div>
 
                   <div className="min-w-0 text-right">
-                    <p className="font-mono text-3xl font-black leading-none tracking-tight text-slate-950 dark:text-white">{trip.arrivalTime}</p>
-                    <p className="mt-1.5 truncate text-xs font-bold text-slate-500 dark:text-slate-400">{stationLabel(t, trip.destination, trip.country)}</p>
+                    <p className="m3-headline-medium font-mono font-bold text-slate-950 dark:text-white">{trip.arrivalTime}</p>
+                    <p className="m3-body-small mt-1.5 truncate text-slate-500 dark:text-slate-400">{stationLabel(t, trip.destination, trip.country)}</p>
                   </div>
                 </div>
               </div>
               <TripDetails trip={trip} onOpenLegend={onOpenLegend} formatPrice={formatPrice} />
-              <div className="flex items-center justify-between gap-2 border-t border-slate-100 px-4 py-3 sm:px-6 dark:border-slate-800/80 bg-slate-50/30 dark:bg-slate-900/20">
-                <span className="truncate font-mono text-xs font-bold text-slate-500 dark:text-slate-400">
+              <div className="flex items-center justify-between gap-2 border-t border-slate-100 bg-slate-50/30 px-4 py-3 sm:px-6 dark:border-slate-800/80 dark:bg-slate-900/20">
+                <span className="m3-label-medium truncate font-mono text-slate-500 dark:text-slate-400">
                   {trip.direct ? t("result.direct") : `${trip.stops.length} ${t("result.stops")}`} · {t("result.reserved_seat")}
                 </span>
                 <div className="flex shrink-0 items-center gap-2">
@@ -241,7 +241,7 @@ export function JapanResultView({
                       triggerHaptic("medium");
                       onSelectSeat(trip);
                     }}
-                    className="flex h-9 items-center gap-1 rounded-2xl bg-emerald-600 px-4 text-xs font-black text-white shadow-[0_3px_10px_rgba(16,185,129,0.25)] hover:bg-emerald-500 hover:shadow-[0_4px_14px_rgba(16,185,129,0.35)] active:scale-95 transition-all duration-200"
+                    className="m3-button m3-button-small m3-state gap-1 bg-emerald-600 text-white"
                   >
                     {t("result.select_seat")}
                     <ChevronRight className="h-3.5 w-3.5" />

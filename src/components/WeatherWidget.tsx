@@ -110,11 +110,11 @@ export function WeatherWidget({ destination, date, country }: WeatherWidgetProps
   }
 
   return (
-    <div className="flex items-center gap-3 rounded-2xl bg-white/60 p-3 backdrop-blur-md border border-slate-100 shadow-sm dark:bg-slate-900/60 dark:border-slate-800">
+    <div className="m3-card m3-card-large m3-elevation-1 flex items-center gap-3 border border-slate-100 bg-white/60 p-3 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/60">
       {loading ? (
         <div className="flex items-center gap-2 text-slate-400">
           <Loader2 className="h-4 w-4 animate-spin" />
-          <span className="text-xs font-medium">{t("result.forecast_loading", { defaultValue: "Forecast..." })}</span>
+          <span className="m3-body-small">{t("result.forecast_loading", { defaultValue: "Forecast..." })}</span>
         </div>
       ) : data ? (
         <>
@@ -122,10 +122,10 @@ export function WeatherWidget({ destination, date, country }: WeatherWidgetProps
             {getWeatherIcon(data.code)}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-xs font-bold text-slate-900 dark:text-white">
+            <p className="m3-label-large truncate text-slate-900 dark:text-white">
               {t("result.forecast_title", { station: stationLabel(t, destination, country), defaultValue: `${stationLabel(t, destination, country)} Forecast` })}
             </p>
-            <p className="truncate text-[10px] text-slate-500 dark:text-slate-400">
+            <p className="m3-body-small truncate text-slate-500 dark:text-slate-400">
               {data.temp}°C • {t(`weather.${data.description.toLowerCase().replace(" ", "_")}`, { defaultValue: data.description })}
             </p>
           </div>

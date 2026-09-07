@@ -28,10 +28,10 @@ export function BottomNav({ activeView, unreadAlerts, onNavigate, onOpenSettings
 
   return (
     <nav
-      className="fixed bottom-1.5 left-2 right-2 mx-auto max-w-[290px] z-[60] rounded-[20px] border border-slate-200/40 bg-white/75 backdrop-blur-md shadow-[0_12px_32px_rgba(0,0,0,0.08)] dark:border-slate-800/40 dark:bg-[#060a13]/80 dark:backdrop-blur-md"
+      className="m3-elevation-2 fixed bottom-0 left-0 right-0 z-[60] border-t border-slate-200/70 bg-white/95 backdrop-blur-md pb-safe dark:border-slate-800/70 dark:bg-[#060a13]/95"
       aria-label={t("nav.primary")}
     >
-      <div className="grid h-13 grid-cols-5 px-1 py-0.5">
+      <div className="m3-nav-bar mx-auto max-w-md grid-cols-5">
         {items.map(({ view, label, icon: Icon }) => {
           const active = view === "search" ? searchViews.has(activeView) : view !== "settings" && activeView === view;
           return (
@@ -46,25 +46,26 @@ export function BottomNav({ activeView, unreadAlerts, onNavigate, onOpenSettings
                   onNavigate(view);
                 }
               }}
-              className={`relative flex min-w-0 flex-col items-center justify-center gap-0.5 text-[9px] font-bold transition-all duration-300 hover:scale-105 active:scale-95 ${
-                active ? theme.textActive : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-400"
+              className={`m3-nav-item ${
+                active ? theme.textActive : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
               }`}
               aria-current={active ? "page" : undefined}
               aria-label={label}
               title={label}
             >
-              <span className="relative flex items-center justify-center">
-                <Icon className="h-4.5 w-4.5" strokeWidth={active ? 2.5 : 1.8} />
-                {view === "alerts" && unreadAlerts > 0 ? (
-                  <span className={`absolute -right-2 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full px-1 font-mono text-[9px] font-bold leading-none text-white shadow-sm ${theme.buttonBg}`}>
-                    {unreadAlerts > 9 ? "9+" : unreadAlerts}
-                  </span>
-                ) : null}
+              {/* The pill is drawn by .m3-nav-indicator::before in currentColor,
+                  so it always tints itself with the country's own accent. */}
+              <span className="m3-nav-indicator m3-state">
+                <span className="relative flex items-center justify-center">
+                  <Icon aria-hidden="true" className="h-6 w-6" strokeWidth={active ? 2.2 : 1.8} />
+                  {view === "alerts" && unreadAlerts > 0 ? (
+                    <span className={`absolute -right-2.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full px-1 font-mono text-[10px] font-bold leading-none text-white ${theme.buttonBg}`}>
+                      {unreadAlerts > 9 ? "9+" : unreadAlerts}
+                    </span>
+                  ) : null}
+                </span>
               </span>
-              <span className="max-w-full truncate scale-90 tracking-tight">{label}</span>
-              {active ? (
-                <span className={`absolute bottom-0 h-1 w-1.5 rounded-full ${theme.indicatorBg}`} aria-hidden="true" />
-              ) : null}
+              <span className={`m3-label-medium max-w-full truncate px-0.5 ${active ? "font-semibold" : ""}`}>{label}</span>
             </button>
           );
         })}

@@ -76,28 +76,28 @@ export function RouteServiceOverview({ country, date, results }: RouteServiceOve
       className="mx-auto max-w-md px-4 pt-3"
       aria-label={t("result.overview_label", { defaultValue: "Displayed departures overview" })}
     >
-      <div className="grid grid-cols-2 gap-2 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-        <div className="flex items-center gap-2 rounded-xl bg-amber-50 px-3 py-2 dark:bg-amber-950/30">
+      <div className="m3-card m3-card-large m3-elevation-1 grid grid-cols-2 gap-2 border border-slate-200 bg-white p-2 dark:border-slate-800 dark:bg-slate-900">
+        <div className="m3-card flex items-center gap-2 bg-amber-50 px-3 py-2 dark:bg-amber-950/30">
           <Sunrise className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
           <div>
-            <p className="text-[10px] font-bold text-amber-700/75 dark:text-amber-300/75">
+            <p className="m3-label-small text-amber-700/75 dark:text-amber-300/75">
               {t("result.first_shown", { defaultValue: "First shown" })}
             </p>
-            <p className="font-mono text-sm font-black text-slate-900 dark:text-white">{summary.first}</p>
+            <p className="m3-title-medium font-mono text-slate-900 dark:text-white">{summary.first}</p>
           </div>
         </div>
-        <div className="flex items-center gap-2 rounded-xl bg-indigo-50 px-3 py-2 dark:bg-indigo-950/30">
+        <div className="m3-card flex items-center gap-2 bg-indigo-50 px-3 py-2 dark:bg-indigo-950/30">
           <MoonStar className="h-4 w-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
           <div>
-            <p className="text-[10px] font-bold text-indigo-700/75 dark:text-indigo-300/75">
+            <p className="m3-label-small text-indigo-700/75 dark:text-indigo-300/75">
               {t("result.last_shown", { defaultValue: "Last shown" })}
             </p>
-            <p className="font-mono text-sm font-black text-slate-900 dark:text-white">{summary.last}</p>
+            <p className="m3-title-medium font-mono text-slate-900 dark:text-white">{summary.last}</p>
           </div>
         </div>
       </div>
       {showCountdown ? (
-        <p className="mt-2 flex items-center justify-center gap-1.5 rounded-xl bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700 dark:bg-rose-950/30 dark:text-rose-300">
+        <p className="m3-card m3-label-large mt-2 flex items-center justify-center gap-1.5 bg-rose-50 px-3 py-2 text-rose-700 dark:bg-rose-950/30 dark:text-rose-300">
           <Clock3 className="h-3.5 w-3.5" />
           {formatRemaining(remaining, t)}
         </p>

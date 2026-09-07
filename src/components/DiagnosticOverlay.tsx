@@ -22,30 +22,30 @@ export function DiagnosticOverlay({ diagnostic, onClose }: DiagnosticOverlayProp
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.94, opacity: 0, y: 15 }}
         transition={{ type: "spring", damping: 28, stiffness: 280, mass: 0.8 }}
-        className="w-full max-w-2xl max-h-[80vh] flex flex-col rounded-2xl bg-white shadow-2xl dark:bg-slate-900"
+        className="m3-dialog flex max-h-[80vh] w-full max-w-2xl flex-col bg-white dark:bg-slate-900"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4 dark:border-slate-700">
           <div className="flex items-center gap-2">
             <Activity className="h-5 w-5 text-slate-500 dark:text-slate-400" />
-            <h2 className="text-base font-bold text-slate-900 dark:text-white">API Diagnostics</h2>
+            <h2 className="m3-title-large text-slate-900 dark:text-white">API Diagnostics</h2>
           </div>
-          <button onClick={onClose} className="rounded-xl p-1.5 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
+          <button onClick={onClose} className="m3-icon-button m3-state text-slate-500">
             <X className="h-5 w-5" />
           </button>
         </div>
 
         <div className="overflow-y-auto p-5 space-y-4">
           <div>
-            <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 mb-1 dark:text-slate-400">Request URL</h3>
-            <p className="font-mono text-sm text-slate-900 bg-slate-50 p-3 rounded-xl border border-slate-100 break-all dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700">
+            <h3 className="m3-label-medium mb-1 uppercase text-slate-500 dark:text-slate-400">Request URL</h3>
+            <p className="m3-card break-all border border-slate-100 bg-slate-50 p-3 font-mono text-sm text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200">
               {diagnostic.url}
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 mb-1 dark:text-slate-400">Status</h3>
+              <h3 className="m3-label-medium mb-1 uppercase text-slate-500 dark:text-slate-400">Status</h3>
               <p className="font-mono text-sm">
                 <span className={diagnostic.status >= 400 ? "text-red-600 font-bold dark:text-red-400" : "text-emerald-600 font-bold dark:text-emerald-400"}>
                   {diagnostic.status} {diagnostic.statusText}
@@ -53,14 +53,14 @@ export function DiagnosticOverlay({ diagnostic, onClose }: DiagnosticOverlayProp
               </p>
             </div>
             <div>
-              <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 mb-1 dark:text-slate-400">Duration</h3>
+              <h3 className="m3-label-medium mb-1 uppercase text-slate-500 dark:text-slate-400">Duration</h3>
               <p className="font-mono text-sm text-slate-900 dark:text-slate-200">{diagnostic.duration}ms</p>
             </div>
           </div>
 
           <div>
-            <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 mb-1 dark:text-slate-400">Response Headers</h3>
-            <div className="font-mono text-xs text-slate-800 bg-slate-50 p-3 rounded-xl border border-slate-100 overflow-x-auto dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700">
+            <h3 className="m3-label-medium mb-1 uppercase text-slate-500 dark:text-slate-400">Response Headers</h3>
+            <div className="m3-card overflow-x-auto border border-slate-100 bg-slate-50 p-3 font-mono text-xs text-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
               {Object.entries(diagnostic.headers).map(([key, value]) => (
                 <div key={key} className="flex gap-2">
                   <span className="font-bold text-slate-600 dark:text-slate-400">{key}:</span>
@@ -72,8 +72,8 @@ export function DiagnosticOverlay({ diagnostic, onClose }: DiagnosticOverlayProp
           </div>
 
           <div>
-            <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 mb-1 dark:text-slate-400">Raw Response Body</h3>
-            <pre className="font-mono text-xs bg-slate-900 text-slate-100 p-4 rounded-xl border border-slate-800 overflow-x-auto whitespace-pre-wrap max-h-60">
+            <h3 className="m3-label-medium mb-1 uppercase text-slate-500 dark:text-slate-400">Raw Response Body</h3>
+            <pre className="m3-card max-h-60 overflow-x-auto whitespace-pre-wrap border border-slate-800 bg-slate-900 p-4 font-mono text-xs text-slate-100">
               {diagnostic.rawResponse || "(Empty Response)"}
             </pre>
           </div>

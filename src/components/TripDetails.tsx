@@ -240,7 +240,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
         onClick={() => setExpanded(!expanded)}
         aria-expanded={expanded}
         aria-controls={detailsPanelId}
-        className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-lg py-2.5 text-xs font-semibold text-slate-600 transition-colors hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+        className="m3-button m3-state m3-shape-full w-full text-slate-600 dark:text-slate-300"
       >
         <ChevronRight aria-hidden="true" className={`h-4 w-4 transition-transform ${expanded ? "rotate-90" : ""}`} />
         {expanded
@@ -252,15 +252,15 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
         id={detailsPanelId}
         aria-labelledby={detailsTriggerId}
         hidden={!expanded}
-        className="rounded-b-2xl border-t border-slate-100 bg-slate-50/50 px-4 py-5 dark:border-slate-800/80 dark:bg-slate-950/30 sm:px-6"
+        className="rounded-b-[16px] border-t border-slate-100 bg-slate-50/50 px-4 py-5 sm:px-6 dark:border-slate-800/80 dark:bg-slate-950/30"
       >
-          <div className="mb-5 rounded-2xl border border-sky-200 bg-sky-50/70 p-3 dark:border-sky-900/60 dark:bg-sky-950/25">
+          <div className="m3-card mb-5 border border-sky-200 bg-sky-50/70 p-4 dark:border-sky-900/60 dark:bg-sky-950/25">
             <div className="flex items-center justify-between gap-3">
               <div className="flex min-w-0 items-center gap-2">
                 <LocateFixed className="h-4 w-4 shrink-0 text-sky-700 dark:text-sky-300" />
                 <div>
-                  <p className="text-xs font-black text-sky-950 dark:text-sky-100">{isChinese ? "下車提醒" : "Get-off reminder"}</p>
-                  <p className="text-[10px] font-medium text-sky-800/80 dark:text-sky-200/80">
+                  <p className="m3-title-small text-sky-950 dark:text-sky-100">{isChinese ? "下車提醒" : "Get-off reminder"}</p>
+                  <p className="m3-body-small text-sky-800/80 dark:text-sky-200/80">
                     {arrivalReminderState === "watching"
                       ? (arrivalDistanceKm !== undefined
                         ? (isChinese ? `距 ${stationLabel(t, destinationStation, trip.country)} 約 ${arrivalDistanceKm.toFixed(1)} 公里` : `${arrivalDistanceKm.toFixed(1)} km from ${stationLabel(t, destinationStation, trip.country)}`)
@@ -274,11 +274,11 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                 </div>
               </div>
               {arrivalReminderState === "watching" ? (
-                <button type="button" onClick={() => { stopArrivalReminder(); setArrivalReminderState("idle"); }} className="shrink-0 rounded-lg border border-sky-300 px-2.5 py-1.5 text-[10px] font-black text-sky-800 dark:border-sky-700 dark:text-sky-200">
+                <button type="button" onClick={() => { stopArrivalReminder(); setArrivalReminderState("idle"); }} className="m3-button m3-button-small m3-state shrink-0 border border-sky-300 text-sky-800 dark:border-sky-700 dark:text-sky-200">
                   {isChinese ? "停止" : "Stop"}
                 </button>
               ) : (
-                <button type="button" onClick={enableArrivalReminder} disabled={arrivalReminderState === "alerted"} className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-sky-700 px-2.5 py-1.5 text-[10px] font-black text-white disabled:cursor-not-allowed disabled:opacity-60 dark:bg-sky-500 dark:text-slate-950">
+                <button type="button" onClick={enableArrivalReminder} disabled={arrivalReminderState === "alerted"} className="m3-button m3-button-small m3-state shrink-0 gap-1 bg-sky-700 text-white disabled:cursor-not-allowed disabled:opacity-60 dark:bg-sky-500 dark:text-slate-950">
                   <BellRing className="h-3 w-3" />
                   {arrivalReminderState === "alerted" ? (isChinese ? "已提醒" : "Alerted") : (isChinese ? "開啟" : "Enable")}
                 </button>
@@ -287,12 +287,12 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
           </div>
 
           {hasPrice && (
-            <div className="mb-6 flex items-center justify-between gap-3 rounded-xl bg-white p-4 dark:bg-slate-900">
+            <div className="m3-card mb-6 flex items-center justify-between gap-3 bg-white p-4 dark:bg-slate-900">
               <div>
                 <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">{isChinese ? "此班次票價" : "Fare for this service"}</p>
                 <p className="mt-1 text-xl font-bold tabular-nums text-slate-800 dark:text-slate-100">{formatPrice?.(trip) || `${trip.price} ${trip.currency || ""}`}</p>
               </div>
-              <div className="flex max-w-52 items-start gap-1.5 text-[10px] leading-relaxed text-blue-800/80 dark:text-blue-400/80">
+              <div className="m3-body-small flex max-w-52 items-start gap-1.5 leading-relaxed text-blue-800/80 dark:text-blue-400/80">
                 <Info className="h-3 w-3 shrink-0" />
                 <span>
                   {isChinese ? "僅顯示資料來源提供的此班次票價；不同乘客、座位或優惠方案請以營運商為準。" : "Only the provider fare for this service is shown. Confirm passenger, seat, and promotional fares with the operator."}
@@ -301,12 +301,12 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
             </div>
           )}
 
-          <div className="mx-auto mb-6 flex max-w-md rounded-lg bg-slate-100 p-1 dark:bg-slate-800" role="group" aria-label={t("result.view_mode", { defaultValue: "Trip detail view" })}>
+          <div className="m3-shape-full mx-auto mb-6 flex max-w-md overflow-hidden divide-x divide-slate-300 border border-slate-300 dark:divide-slate-600 dark:border-slate-600" role="group" aria-label={t("result.view_mode", { defaultValue: "Trip detail view" })}>
             <button
               type="button"
               onClick={() => setViewMode("timeline")}
               aria-pressed={viewMode === "timeline"}
-              className={`flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-md py-2 text-xs font-semibold transition-colors ${
+              className={`m3-state m3-label-large flex min-h-10 flex-1 items-center justify-center gap-1.5 py-2 ${
                 viewMode === "timeline"
                   ? "bg-white text-slate-900 dark:bg-slate-700 dark:text-white"
                   : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
@@ -319,7 +319,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
               type="button"
               onClick={() => setViewMode("map")}
               aria-pressed={viewMode === "map"}
-              className={`flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-md py-2 text-xs font-semibold transition-colors ${
+              className={`m3-state m3-label-large flex min-h-10 flex-1 items-center justify-center gap-1.5 py-2 ${
                 viewMode === "map"
                   ? "bg-white text-slate-900 dark:bg-slate-700 dark:text-white"
                   : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
@@ -385,24 +385,24 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
 
                       <div className="flex-1 pb-4">
                         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                          <span className="text-sm font-black text-slate-800 dark:text-slate-100">
+                          <span className="m3-title-medium text-slate-800 dark:text-slate-100">
                             {stationLabel(t, item.name, trip.country)}
                           </span>
                           {item.isStart && (
-                            <span className="inline-flex items-center rounded bg-sky-50 px-1.5 py-0.5 text-[10px] font-semibold text-sky-700 dark:bg-sky-950/40 dark:text-sky-300">
+                            <span className="m3-chip m3-label-small min-h-6 bg-sky-50 px-2 text-sky-700 dark:bg-sky-950/40 dark:text-sky-300">
                               {t("search.origin", { defaultValue: "Origin" })}
                             </span>
                           )}
                           {item.isEnd && (
                             <>
-                              <span className="inline-flex items-center rounded bg-emerald-50 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+                              <span className="m3-chip m3-label-small min-h-6 bg-emerald-50 px-2 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
                                 {t("search.destination", { defaultValue: "Destination" })}
                               </span>
                               {getTransferInfo(item.name, trip.country) && (
                                 <button
                                   type="button"
                                   onClick={() => handleOpenTransferInfo(item.name, trip.country)}
-                                  className="inline-flex min-h-8 items-center gap-1 rounded-md bg-slate-100 px-2 text-[11px] font-semibold text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                                  className="m3-chip m3-state m3-label-small bg-slate-100 px-3 text-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                 >
                                   <Info aria-hidden="true" className="h-3.5 w-3.5" />
                                   {t("result.transfer_info", { defaultValue: "Transfer Info" })}
@@ -412,7 +412,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                           )}
                         </div>
                         {item.platform && (
-                          <div className="mt-1 text-[11px] font-medium tabular-nums text-slate-500 dark:text-slate-400">
+                          <div className="m3-body-small mt-1 tabular-nums text-slate-500 dark:text-slate-400">
                             {t("result.platform_label", { defaultValue: "Platform" })} {item.platform}
                           </div>
                         )}
@@ -438,7 +438,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                       </div>
 
                       <div className="flex-1 pb-4 pr-1">
-                        <div className="rounded-xl bg-white p-4 dark:bg-slate-900/70">
+                        <div className="m3-card bg-white p-4 dark:bg-slate-900/70">
                           <div className="flex items-start justify-between gap-3">
                             <div className="flex items-start gap-2.5">
                               <TrainFront aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-slate-500 dark:text-slate-300" />
@@ -447,7 +447,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                                   {leg.lineName}
                                 </h5>
                                 {leg.headsign && (
-                                  <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold mt-0.5">
+                                  <p className="m3-label-small mt-0.5 text-slate-400 dark:text-slate-500">
                                     {t("result.toward", { defaultValue: "toward" })} {stationLabel(t, leg.headsign, trip.country)}
                                   </p>
                                 )}
@@ -456,13 +456,13 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
 
                             <div className="text-right shrink-0">
                               {leg.durationMinutes != null && (
-                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold tabular-nums text-slate-700 dark:text-slate-300">
+                                <span className="m3-label-medium inline-flex items-center gap-1 tabular-nums text-slate-700 dark:text-slate-300">
                                   <Clock className="h-3 w-3 text-slate-400" />
                                   {leg.durationMinutes} {t("result.min_label", { defaultValue: "min" })}
                                 </span>
                               )}
                               {leg.stopCount != null && (
-                                <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold mt-0.5">
+                                <p className="m3-label-small mt-0.5 text-slate-400 dark:text-slate-500">
                                   {leg.stopCount} {t("result.stops", { defaultValue: "stops" })}
                                 </p>
                               )}
@@ -471,14 +471,14 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
 
                           {leg.upcomingDepartures && leg.upcomingDepartures.length > 0 && (
                             <div className="mt-3 pt-2.5 border-t border-slate-100/60 dark:border-slate-800/60">
-                              <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
+                              <span className="m3-label-small text-slate-500 dark:text-slate-400">
                                 {t("result.next_departures", { defaultValue: "Upcoming departures" })}:
                               </span>
                               <div className="flex gap-1.5 mt-1 overflow-x-auto scrollbar-none pb-0.5">
                                 {leg.upcomingDepartures.map((time: string) => (
                                   <span
                                     key={time}
-                                    className="shrink-0 rounded bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold tabular-nums text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300"
+                                    className="m3-chip m3-label-small min-h-6 shrink-0 bg-emerald-50 px-2 tabular-nums text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300"
                                   >
                                     {time}
                                   </span>
@@ -494,7 +494,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                                 onClick={() => setExpandedLegs((prev) => ({ ...prev, [item.legIndex]: !prev[item.legIndex] }))}
                                 aria-expanded={Boolean(expandedLegs[item.legIndex])}
                                 aria-controls={`${detailsPanelId}-leg-${item.legIndex}-stops`}
-                                className="flex min-h-8 items-center gap-1 text-[11px] font-semibold text-emerald-700 transition-colors hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-200"
+                                className="m3-label-medium flex min-h-8 items-center gap-1 text-emerald-700 transition-colors hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-200"
                               >
                                 <TrainFront aria-hidden="true" className="h-3.5 w-3.5" />
                                 {expandedLegs[item.legIndex]
@@ -529,7 +529,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                       key={item.id}
                       className="flex gap-x-4 relative"
                     >
-                      <div className="flex w-12 shrink-0 flex-col justify-between py-1 text-right text-[10px] font-semibold tabular-nums text-slate-500 dark:text-slate-400">
+                      <div className="m3-label-small flex w-12 shrink-0 flex-col justify-between py-1 text-right tabular-nums text-slate-500 dark:text-slate-400">
                         <div>{item.arrivalTime}</div>
                         <div className="text-slate-300 dark:text-slate-700">|</div>
                         <div>{item.departureTime}</div>
@@ -546,8 +546,8 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                       </div>
 
                       <div className="flex-1 py-1.5 pb-4">
-                        <div className="rounded-xl bg-slate-100/70 p-3 dark:bg-slate-900/60">
-                          <div className="flex items-center justify-between gap-2 text-xs font-black text-slate-700 dark:text-slate-300 flex-wrap">
+                        <div className="m3-card bg-slate-100/70 p-3 dark:bg-slate-900/60">
+                          <div className="m3-title-small flex flex-wrap items-center justify-between gap-2 text-slate-700 dark:text-slate-300">
                             <div className="flex items-center gap-1.5">
                               <ArrowRightLeft className="h-3.5 w-3.5 text-slate-400 shrink-0" />
                               <span>
@@ -561,14 +561,14 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                             <button
                                 type="button"
                                 onClick={() => handleOpenTransferInfo(item.stationName, trip.country, item.legIndex)}
-                                className="inline-flex min-h-8 shrink-0 items-center gap-1 rounded-md bg-slate-200/70 px-2 text-[11px] font-semibold text-slate-700 transition-colors hover:bg-slate-300/70 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                                className="m3-chip m3-state m3-label-small shrink-0 bg-slate-200/70 px-3 text-slate-700 dark:bg-slate-800 dark:text-slate-200"
                               >
                                 <Info aria-hidden="true" className="h-3.5 w-3.5" />
                                 {t("result.transfer_info", { defaultValue: "Transfer Info" })}
                               </button>
                           </div>
                           
-                          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                          <div className="m3-label-small mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-slate-500 dark:text-slate-400">
                             {item.durationMinutes != null && (
                               <span className="inline-flex items-center gap-1">
                                 <Clock className="h-3 w-3 text-slate-400" />

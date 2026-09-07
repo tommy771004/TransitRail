@@ -1428,7 +1428,7 @@ export default function App() {
             <p className="mx-auto max-w-md px-4 pb-28 text-center">
               <a
                 href={i18n.language === "zh-TW" ? "/zh/routes/" : i18n.language === "ja" ? "/ja/routes/" : i18n.language === "ko" ? "/ko/routes/" : "/routes/"}
-                className="text-xs font-bold text-slate-400 underline-offset-2 hover:underline dark:text-slate-500"
+                className="m3-button m3-state m3-label-large text-slate-400 dark:text-slate-500"
               >
                 {t("nav.route_directory")} →
               </a>
@@ -1442,7 +1442,7 @@ export default function App() {
       case "results":
         if (isSearching) {
           return (
-            <div className="pt-20 pb-28 min-h-screen bg-transparent max-w-md mx-auto">
+            <div className="pt-22 pb-28 min-h-screen bg-transparent max-w-md mx-auto">
               <ResultSkeleton />
             </div>
           );
@@ -1496,9 +1496,9 @@ export default function App() {
                   triggerHaptic("medium");
                   setHistory([]);
                 }}
-                className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40 rounded-xl transition-all"
+                className="m3-button m3-button-icon-leading m3-button-small m3-state bg-red-50 text-red-600 dark:bg-red-950/20 dark:text-red-400"
               >
-                <Trash2 className="h-3.5 w-3.5" />
+                <Trash2 className="h-[18px] w-[18px]" />
                 <span>{t("history.clear_all")}</span>
               </button>
             ) : undefined}
@@ -1508,14 +1508,14 @@ export default function App() {
             ) : (
               <div className="space-y-2">
                 {sortedHistoryList.map((item) => (
-                  <div key={item.id} className="flex items-center justify-between gap-3 rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+                  <div key={item.id} className="m3-card m3-card-large flex items-center justify-between gap-3 border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
+                      <p className="m3-body-large truncate text-slate-900 dark:text-white">
                         {stationLabel(t, item.origin, item.country)}
                         <span className="mx-1.5 text-slate-400">&rarr;</span>
                         {stationLabel(t, item.destination, item.country)}
                       </p>
-                      <p className="mt-0.5 font-mono text-[11px] text-slate-400">{item.date} · {countryFlags[item.country] || ""} {t(countryConfig[item.country].labelKey)} · {item.resultCount} {t("history.results")}</p>
+                      <p className="m3-label-medium mt-0.5 font-mono text-slate-400">{item.date} · {countryFlags[item.country] || ""} {t(countryConfig[item.country].labelKey)} · {item.resultCount} {t("history.results")}</p>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <button
@@ -1524,7 +1524,7 @@ export default function App() {
                           togglePinHistory(item.id);
                         }}
                         title={item.pinned ? t("history.unpin") : t("history.pin")}
-                        className={`p-2 rounded-xl border transition-all ${
+                        className={`m3-icon-button m3-state border ${
                           item.pinned
                             ? "bg-emerald-50 border-emerald-200 text-emerald-600 dark:bg-emerald-950/20 dark:border-emerald-900/30 dark:text-emerald-400"
                             : "bg-slate-50 border-slate-200 text-slate-400 hover:text-slate-600 dark:bg-slate-800/40 dark:border-slate-800 dark:text-slate-500 dark:hover:text-slate-400"
@@ -1534,7 +1534,7 @@ export default function App() {
                       </button>
                       <button
                         onClick={() => rerunHistorySearch(item)}
-                        className="rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-[0_2px_8px_rgba(16,185,129,0.25)] hover:bg-emerald-500 transition-all h-[36px]"
+                        className="m3-button m3-button-small m3-state bg-emerald-600 text-white"
                       >
                         {t("history.search_again")}
                       </button>
@@ -1556,9 +1556,9 @@ export default function App() {
                   triggerHaptic("medium");
                   setSavedTrips([]);
                 }}
-                className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40 rounded-xl transition-all"
+                className="m3-button m3-button-icon-leading m3-button-small m3-state bg-red-50 text-red-600 dark:bg-red-950/20 dark:text-red-400"
               >
-                <Trash2 className="h-3.5 w-3.5" />
+                <Trash2 className="h-[18px] w-[18px]" />
                 <span>{t("saved.clear_all")}</span>
               </button>
             ) : undefined}
@@ -1568,14 +1568,14 @@ export default function App() {
             ) : (
               <div className="space-y-4">
                 {pushPublicKey ? (
-                  <div className="flex items-center justify-between gap-3 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                  <div className="flex items-center justify-between gap-3 m3-card m3-card-large m3-elevation-1 border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
                     <div className="flex min-w-0 items-center gap-2">
                       {pushSubscribed ? <Bell className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" /> : <BellOff className="h-4 w-4 shrink-0 text-slate-400" />}
                       <div className="min-w-0">
-                        <span className="block text-sm font-bold leading-tight text-slate-900 dark:text-white">
+                        <span className="m3-title-small block text-slate-900 dark:text-white">
                           {t("push.title", { defaultValue: "Timetable change alerts" })}
                         </span>
-                        <span className="text-[10px] font-medium leading-tight text-slate-400">
+                        <span className="m3-body-small text-slate-400">
                           {t("push.subtitle", { defaultValue: "Get notified even when the app is closed" })}
                         </span>
                       </div>
@@ -1586,25 +1586,25 @@ export default function App() {
                         void (pushSubscribed ? handleDisablePush() : handleEnablePush());
                       }}
                       disabled={pushBusy}
-                      className={`shrink-0 rounded-xl px-3 py-1.5 text-xs font-bold transition-all disabled:opacity-50 ${
+                      className={`m3-button m3-button-small m3-state shrink-0 disabled:opacity-50 ${
                         pushSubscribed
-                          ? "border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-                          : "bg-emerald-600 text-white hover:bg-emerald-500"
+                          ? "border border-slate-300 text-slate-600 dark:border-slate-700 dark:text-slate-300"
+                          : "bg-emerald-600 text-white"
                       }`}
                     >
                       {pushSubscribed ? t("push.disable", { defaultValue: "Turn off" }) : t("push.enable", { defaultValue: "Enable" })}
                     </button>
                   </div>
                 ) : null}
-                <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                <div className="m3-card m3-card-large m3-elevation-1 border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
                       <Coins className="h-4 w-4 text-amber-500 shrink-0" />
                       <div>
-                        <span className="text-sm font-bold text-slate-900 block leading-tight dark:text-white">
+                        <span className="m3-title-small block text-slate-900 dark:text-white">
                           {t("profile.currency_converter", { defaultValue: "Currency Converter / 匯率轉換" })}
                         </span>
-                        <span className="text-[10px] text-slate-400 font-bold font-mono leading-none">
+                        <span className="m3-label-small font-mono text-slate-400">
                           {loadingRates 
                             ? t("profile.loading_rates", { defaultValue: "Updating live rates..." }) 
                             : t("profile.rates_relative_to", { currency: homeCurrency, defaultValue: `Rates relative to ${homeCurrency} (via Taiwan Central Bank)` })}
@@ -1612,13 +1612,13 @@ export default function App() {
                       </div>
                     </div>
                     <div className="flex items-center gap-1.5 shrink-0">
-                      <span className="text-xs text-slate-500 font-medium">
+                      <span className="m3-label-medium text-slate-500">
                         {t("profile.home_currency", { defaultValue: "Home:" })}
                       </span>
                       <select
                         value={homeCurrency}
                         onChange={(e) => setHomeCurrency(e.target.value)}
-                        className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-800 outline-none focus:border-slate-400 cursor-pointer dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                        className="m3-shape-xs m3-label-large min-h-10 cursor-pointer border border-slate-400 bg-transparent px-3 text-slate-800 outline-none focus:border-slate-600 dark:border-slate-600 dark:text-slate-200"
                       >
                         {allCurrencies.map((c) => (
                           <option key={c} value={c}>{c}</option>
@@ -1627,18 +1627,18 @@ export default function App() {
                     </div>
                   </div>
                   <div className="mt-2 flex items-center gap-2">
-                    <span className="text-[10px] text-slate-400 font-medium">
+                    <span className="m3-label-small text-slate-400">
                       {t("profile.price_display", { defaultValue: "Display" })}:
                     </span>
-                    <div className="flex rounded-lg bg-slate-100 p-0.5">
+                    <div className="m3-shape-full flex overflow-hidden divide-x divide-slate-300 border border-slate-300 dark:divide-slate-600 dark:border-slate-600">
                       {(["original", "converted", "both"] as CurrencyDisplayMode[]).map((m) => (
                         <button
                           key={m}
                           onClick={() => setPriceDisplayMode(m)}
-                          className={`rounded-md px-2 py-0.5 text-[10px] font-bold transition-all ${
+                          className={`m3-state m3-label-medium min-h-8 px-3 ${
                             priceDisplayMode === m
-                              ? "bg-white text-slate-900 shadow-xs dark:bg-slate-200 dark:text-slate-900"
-                              : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-900"
+                              ? "bg-slate-200 text-slate-900 dark:bg-slate-700 dark:text-white"
+                              : "text-slate-500 dark:text-slate-400"
                           }`}
                         >
                           {m === "original" ? "Original" : m === "converted" ? "Converted" : "Both"}
@@ -1648,26 +1648,27 @@ export default function App() {
                   </div>
                 </div>
 
-                <p className="flex items-start gap-2 rounded-2xl border border-amber-200 bg-amber-50 px-3.5 py-3 text-xs leading-relaxed text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
+                <p className="m3-card m3-body-small flex items-start gap-2 border border-amber-200 bg-amber-50 px-4 py-3 leading-relaxed text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
                   <Bell className="mt-0.5 h-4 w-4 shrink-0" />
                   {t("saved.reminder_limit")}
                 </p>
                 
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <div className="m3-search-bar m3-elevation-1 bg-white dark:bg-slate-900">
+                  <Search aria-hidden="true" className="h-5 w-5 shrink-0 text-slate-500 dark:text-slate-400" />
                   <input
                     type="text"
                     placeholder={t("saved.search_placeholder", { defaultValue: "Search by service or destination..." })}
                     value={savedTripsSearch}
                     onChange={(e) => setSavedTripsSearch(e.target.value)}
-                    className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm outline-none focus:border-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-slate-500 shadow-sm transition-all"
+                    className="m3-body-large w-full bg-transparent outline-none placeholder:text-slate-500 dark:text-white"
                   />
                   {savedTripsSearch && (
                     <button
                       onClick={() => setSavedTripsSearch("")}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                      aria-label={t("feedback.close_btn", { defaultValue: "Close" })}
+                      className="m3-icon-button m3-state shrink-0 text-slate-500 dark:text-slate-400"
                     >
-                      <X className="h-4 w-4" />
+                      <X className="h-5 w-5" />
                     </button>
                   )}
                 </div>
@@ -1700,46 +1701,46 @@ export default function App() {
                     <div key={date} className="space-y-3">
                       <div className="flex items-center gap-2 px-1">
                         <CalendarDays className="h-4 w-4 text-emerald-600 dark:text-emerald-500" />
-                        <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">{date}</h4>
+                        <h4 className="m3-title-small text-slate-800 dark:text-slate-200">{date}</h4>
                       </div>
                       <div className="space-y-2.5">
                         {(trips as SavedTrip[]).map((trip) => (
-                    <div key={trip.id} className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                    <div key={trip.id} className="m3-card m3-card-large m3-elevation-1 border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="inline-flex items-center gap-1.5 truncate rounded-lg bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-300" style={{ borderLeft: `3px solid ${trip.lineColor || "#94a3b8"}` }}>
+                            <span className="m3-chip m3-label-medium max-w-full truncate bg-slate-100 px-3 text-slate-700 dark:bg-slate-800 dark:text-slate-300" style={{ borderLeft: `3px solid ${trip.lineColor || "#94a3b8"}` }}>
                               <TransitIcon trip={trip} className="h-3 w-3" />
                               <span>{trip.service}</span>
                             </span>
                           </div>
-                          <p className="truncate text-sm font-bold text-slate-900 dark:text-white">
+                          <p className="m3-title-medium truncate text-slate-900 dark:text-white">
                             {stationLabel(t, trip.origin, trip.country)}
                             <span className="mx-1.5 text-slate-400">&rarr;</span>
                             {stationLabel(t, trip.destination, trip.country)}
                           </p>
-                          <p className="mt-1 font-mono text-xs text-slate-500 flex flex-wrap items-center gap-1.5">
+                          <p className="m3-body-small mt-1 flex flex-wrap items-center gap-1.5 font-mono text-slate-500">
                             <span className="flex items-center gap-1">
                               <Clock className="h-3 w-3 text-slate-400 shrink-0" />
                               <span>{trip.departureTime}{trip.arrivalTime ? ` - ${trip.arrivalTime}` : ""}</span>
                             </span>
                             {formatPlatform(trip.platform || (trip as any).legs?.[0]?.platform, t) && (
-                              <span className="shrink-0 inline-flex items-center rounded-md bg-slate-100/80 px-1.5 py-0.5 font-mono text-[9px] font-black uppercase tracking-wider text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                              <span className="m3-label-small m3-shape-xs inline-flex shrink-0 items-center bg-slate-100/80 px-1.5 py-0.5 font-mono uppercase text-slate-500 dark:bg-slate-800 dark:text-slate-400">
                                 {formatPlatform(trip.platform || (trip as any).legs?.[0]?.platform, t)}
                               </span>
                             )}
                           </p>
 
                           {trip.price !== undefined && trip.currency && (
-                            <div className="mt-2 text-xs font-bold text-slate-700 flex items-center gap-1 dark:text-slate-300">
-                              <span className="text-slate-400 font-normal">Fare:</span>
-                              <span className="bg-slate-50 border border-slate-200/60 rounded-lg px-2 py-0.5 font-mono dark:bg-slate-800 dark:border-slate-700">
+                            <div className="m3-label-large mt-2 flex items-center gap-1 text-slate-700 dark:text-slate-300">
+                              <span className="m3-body-small text-slate-400">Fare:</span>
+                              <span className="m3-shape-sm border border-slate-200/60 bg-slate-50 px-2 py-0.5 font-mono dark:border-slate-700 dark:bg-slate-800">
                                 {formatTripPrice(trip) || formatConvertedPrice(trip.price, trip.currency)}
                               </span>
                             </div>
                           )}
                           {trip.seatPreference ? (
-                            <p className="mt-2 text-xs font-bold text-emerald-700 dark:text-emerald-400">
+                            <p className="m3-label-large mt-2 text-emerald-700 dark:text-emerald-400">
                               {t("seat.title")}: {t(`seat.${trip.seatPreference}`)}
                             </p>
                           ) : null}
@@ -1748,46 +1749,46 @@ export default function App() {
                         <div className="flex flex-col gap-1.5 shrink-0">
                           <button
                             onClick={() => toggleTripReminder(trip)}
-                            className={`flex h-8 w-8 items-center justify-center rounded-xl border ${
+                            className={`m3-icon-button m3-state border ${
                               trip.reminderEnabled
-                                ? "border-amber-200 bg-amber-50 text-amber-600 hover:bg-amber-100 dark:border-amber-700 dark:bg-amber-900/20 dark:text-amber-400"
-                                : "border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
+                                ? "border-amber-200 bg-amber-50 text-amber-600 dark:border-amber-700 dark:bg-amber-900/20 dark:text-amber-400"
+                                : "border-slate-300 text-slate-500 dark:border-slate-700 dark:text-slate-400"
                             }`}
                             title={trip.reminderEnabled ? t("alerts.reminder_removed", { defaultValue: "Disable page-open reminder" }) : t("saved.reminder_limit")}
                             aria-label="Toggle reminder"
                           >
-                            {trip.reminderEnabled ? <Bell className="h-3.5 w-3.5 text-amber-500" /> : <BellOff className="h-3.5 w-3.5" />}
+                            {trip.reminderEnabled ? <Bell className="h-[18px] w-[18px] text-amber-500" /> : <BellOff className="h-[18px] w-[18px]" />}
                           </button>
                           <button
                             onClick={() => shareTrip(trip)}
-                            className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
+                            className="m3-icon-button m3-state border border-slate-300 text-slate-500 dark:border-slate-700 dark:text-slate-400"
                             title="Share formatted details via Web Share API"
                             aria-label="Share trip"
                           >
-                            <Share2 className="h-3.5 w-3.5" />
+                            <Share2 className="h-[18px] w-[18px]" />
                           </button>
                           <button
                             onClick={() => generateICS(trip)}
-                            className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
+                            className="m3-icon-button m3-state border border-slate-300 text-slate-500 dark:border-slate-700 dark:text-slate-400"
                             title="Download Calendar Event (.ics)"
                             aria-label="Download calendar event"
                           >
-                            <CalendarDays className="h-3.5 w-3.5" />
+                            <CalendarDays className="h-[18px] w-[18px]" />
                           </button>
                           <button
                             onClick={() => removeSavedTrip(trip.id)}
-                            className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-red-600 hover:border-red-200 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-red-400 dark:hover:border-red-800"
+                            className="m3-icon-button m3-state border border-slate-300 text-slate-500 hover:border-red-200 hover:text-red-600 dark:border-slate-700 dark:text-slate-400 dark:hover:border-red-800 dark:hover:text-red-400"
                             title="Remove saved trip"
                             aria-label={t("saved.remove")}
                           >
-                            <Trash2 className="h-3.5 w-3.5" />
+                            <Trash2 className="h-[18px] w-[18px]" />
                           </button>
                         </div>
                       </div>
                       {trip.seatClass ? (
                         <button
                           onClick={() => openSeatPicker(trip)}
-                          className={`mt-3 w-full rounded-xl py-3 text-xs font-bold text-white transition-all ${activeTheme.buttonBg} ${activeTheme.buttonShadow}`}
+                          className={`m3-button m3-state m3-elevation-1 mt-3 w-full text-white ${activeTheme.buttonBg}`}
                         >
                           {t("result.select_seat")}
                         </button>
@@ -1808,25 +1809,25 @@ export default function App() {
             <div className="space-y-5">
               <section>
                 <div className="mb-2 flex items-center justify-between gap-2 px-1">
-                  <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200">{i18n.language.startsWith("zh") ? "營運狀況" : "Service status"}</h2>
-                  {situationsLoading ? <span className="text-[10px] font-medium text-slate-400">{i18n.language.startsWith("zh") ? "更新中…" : "Updating…"}</span> : null}
+                  <h2 className="m3-title-medium text-slate-800 dark:text-slate-200">{i18n.language.startsWith("zh") ? "營運狀況" : "Service status"}</h2>
+                  {situationsLoading ? <span className="m3-label-small text-slate-400">{i18n.language.startsWith("zh") ? "更新中…" : "Updating…"}</span> : null}
                 </div>
                 {situations.length === 0 && !situationsLoading ? (
-                  <p className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-xs text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">{i18n.language.startsWith("zh") ? "目前沒有來自已連接營運商的異常通報。" : "No active incidents were returned by connected transit providers."}</p>
+                  <p className="m3-card m3-body-medium border border-slate-200 bg-white px-4 py-3 text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">{i18n.language.startsWith("zh") ? "目前沒有來自已連接營運商的異常通報。" : "No active incidents were returned by connected transit providers."}</p>
                 ) : (
                   <div className="space-y-2">
                     {situations.map((situation) => (
-                      <div key={situation.id} className={`rounded-2xl border p-3 ${situation.severity === "major" ? "border-rose-200 bg-rose-50 dark:border-rose-900/60 dark:bg-rose-950/25" : "border-amber-200 bg-amber-50 dark:border-amber-900/60 dark:bg-amber-950/25"}`}>
-                        <p className="text-sm font-bold text-slate-900 dark:text-white">{situation.title}</p>
-                        {situation.description ? <p className="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-300">{situation.description}</p> : null}
-                        <p className="mt-2 text-[10px] font-medium text-slate-500 dark:text-slate-400">{countryFlags[situation.country]} {situation.source}{situation.updatedAt ? ` · ${new Date(situation.updatedAt).toLocaleString()}` : ""}</p>
+                      <div key={situation.id} className={`m3-card border p-4 ${situation.severity === "major" ? "border-rose-200 bg-rose-50 dark:border-rose-900/60 dark:bg-rose-950/25" : "border-amber-200 bg-amber-50 dark:border-amber-900/60 dark:bg-amber-950/25"}`}>
+                        <p className="m3-title-small text-slate-900 dark:text-white">{situation.title}</p>
+                        {situation.description ? <p className="m3-body-medium mt-1 leading-relaxed text-slate-600 dark:text-slate-300">{situation.description}</p> : null}
+                        <p className="m3-label-small mt-2 text-slate-500 dark:text-slate-400">{countryFlags[situation.country]} {situation.source}{situation.updatedAt ? ` · ${new Date(situation.updatedAt).toLocaleString()}` : ""}</p>
                       </div>
                     ))}
                   </div>
                 )}
               </section>
               <section>
-                <h2 className="mb-2 px-1 text-sm font-bold text-slate-800 dark:text-slate-200">{i18n.language.startsWith("zh") ? "我的通知" : "My notifications"}</h2>
+                <h2 className="m3-title-medium mb-2 px-1 text-slate-800 dark:text-slate-200">{i18n.language.startsWith("zh") ? "我的通知" : "My notifications"}</h2>
                 {alerts.length === 0 ? (
               <EmptyState title={t("alerts.empty_title")} body={t("alerts.empty_body")} />
             ) : (
@@ -1836,12 +1837,12 @@ export default function App() {
                     ? situations.find((situation) => situation.country === alert.country)
                     : undefined;
                   return (
-                    <div key={alert.id} className="rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
-                      <p className="text-sm font-bold text-slate-900 dark:text-white">{alert.title}</p>
-                      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{alert.body}</p>
-                      <p className="mt-2 font-mono text-[11px] text-slate-400">{new Date(alert.createdAt).toLocaleString()}</p>
+                    <div key={alert.id} className="m3-card m3-card-large border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+                      <p className="m3-title-medium text-slate-900 dark:text-white">{alert.title}</p>
+                      <p className="m3-body-medium mt-1 text-slate-600 dark:text-slate-400">{alert.body}</p>
+                      <p className="m3-label-medium mt-2 font-mono text-slate-400">{new Date(alert.createdAt).toLocaleString()}</p>
                       {relatedSituation ? (
-                        <p className="mt-2 rounded-xl bg-amber-50 px-2.5 py-1.5 text-[11px] font-medium text-amber-800 dark:bg-amber-950/30 dark:text-amber-400">
+                        <p className="m3-card m3-body-small mt-2 bg-amber-50 px-3 py-2 text-amber-800 dark:bg-amber-950/30 dark:text-amber-400">
                           {i18n.language.startsWith("zh")
                             ? `⚠️ 這可能與下方的營運狀況有關：${relatedSituation.title}`
                             : `⚠️ This may be related to the service status below: ${relatedSituation.title}`}
@@ -1881,7 +1882,7 @@ export default function App() {
           className="w-full flex-1 flex flex-col"
         >
           {view === "results" ? (
-            <div className={isSearching ? undefined : "pt-14"}>
+            <div className={isSearching ? undefined : "pt-16"}>
               {!isSearching && serviceDayAdvisory ? <ServiceDayAdvisoryNotice advisory={serviceDayAdvisory} /> : null}
               {renderView()}
               <AffiliateMarquee />
@@ -1917,7 +1918,7 @@ export default function App() {
       <AnimatePresence>
         {menuOpen && (
           <Panel title={t("menu.title")} onClose={() => setMenuOpen(false)}>
-            <div className="divide-y divide-slate-100 rounded-2xl border border-slate-200 dark:divide-slate-800 dark:border-slate-700">
+            <div className="flex flex-col gap-1">
               {[
                 { icon: MapPinned, label: t("menu.new_search"), view: "search" as const },
                 { icon: Clock, label: t("nav.history"), view: "history" as const },
@@ -1936,10 +1937,10 @@ export default function App() {
                     }
                     setMenuOpen(false);
                   }}
-                  className="flex w-full items-center gap-3 p-4 text-left hover:bg-slate-50 dark:hover:bg-slate-800"
+                  className="m3-list-item m3-state m3-shape-full w-full text-left"
                 >
-                  <Icon className="h-4 w-4 text-slate-500 dark:text-slate-400" />
-                  <span className="text-sm font-bold text-slate-900 dark:text-white">{label}</span>
+                  <Icon className="h-6 w-6 shrink-0 text-slate-500 dark:text-slate-400" />
+                  <span className="m3-label-large text-slate-900 dark:text-white">{label}</span>
                 </button>
               ))}
             </div>
@@ -1960,13 +1961,13 @@ export default function App() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">{t("profile.preferred_region", { defaultValue: "Preferred Region" })}</p>
+                  <p className="m3-title-small text-slate-900 dark:text-white">{t("profile.preferred_region", { defaultValue: "Preferred Region" })}</p>
                 </div>
               </div>
               <select
                 value={preferredCountry}
                 onChange={(e) => setPreferredCountry(e.target.value as Country)}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-bold text-slate-800 outline-none focus:border-slate-400 cursor-pointer dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                className="m3-body-large m3-shape-xs min-h-14 w-full cursor-pointer border border-slate-400 bg-transparent px-4 text-slate-800 outline-none focus:border-slate-600 dark:border-slate-600 dark:text-slate-200 dark:focus:border-slate-400"
               >
                 {countryOptions.map((c) => (
                   <option key={c} value={c}>{countryFlags[c]} {t(`search.${c}`)}</option>
@@ -1977,13 +1978,13 @@ export default function App() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">{t("profile.timezone")}</p>
+                  <p className="m3-title-small text-slate-900 dark:text-white">{t("profile.timezone")}</p>
                 </div>
               </div>
               <select
                 value={timezone}
                 onChange={(e) => setTimezone(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-bold text-slate-800 outline-none focus:border-slate-400 cursor-pointer dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                className="m3-body-large m3-shape-xs min-h-14 w-full cursor-pointer border border-slate-400 bg-transparent px-4 text-slate-800 outline-none focus:border-slate-600 dark:border-slate-600 dark:text-slate-200 dark:focus:border-slate-400"
               >
                 {[
                   { id: "Asia/Taipei", name_en: "Taiwan (Taipei)", name_zh: "台灣 (Taipei)", flag: "🇹🇼" },
@@ -2007,19 +2008,19 @@ export default function App() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">{t("profile.local_currency")}</p>
+                  <p className="m3-title-small text-slate-900 dark:text-white">{t("profile.local_currency")}</p>
                 </div>
               </div>
               <select
                 value={homeCurrency}
                 onChange={(e) => setHomeCurrency(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-bold text-slate-800 outline-none focus:border-slate-400 cursor-pointer dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                className="m3-body-large m3-shape-xs min-h-14 w-full cursor-pointer border border-slate-400 bg-transparent px-4 text-slate-800 outline-none focus:border-slate-600 dark:border-slate-600 dark:text-slate-200 dark:focus:border-slate-400"
               >
                 {allCurrencies.map((c) => (
                   <option key={c} value={c}>{c}</option>
                 ))}
               </select>
-              <p className="mt-1.5 text-[10px] text-slate-400 font-mono">
+              <p className="m3-label-small mt-1.5 font-mono text-slate-400">
                 {loadingRates ? t("profile.loading_rates") : t("profile.rates_source")}
               </p>
             </div>
@@ -2027,11 +2028,11 @@ export default function App() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">{t("profile.price_display")}</p>
+                  <p className="m3-title-small text-slate-900 dark:text-white">{t("profile.price_display")}</p>
                 </div>
               </div>
-              <div className="relative flex rounded-2xl bg-slate-100 p-1 dark:bg-slate-800">
-                <div className="grid w-full grid-cols-3 gap-1 relative z-10">
+              <div className="m3-shape-full relative flex overflow-hidden border border-slate-300 dark:border-slate-600">
+                <div className="relative z-10 grid w-full grid-cols-3 divide-x divide-slate-300 dark:divide-slate-600">
                   {[
                     { id: "original" as CurrencyDisplayMode, label: "Original", desc: t("profile.display_original_sub") },
                     { id: "converted" as CurrencyDisplayMode, label: "Converted", desc: t("profile.display_converted_sub") },
@@ -2042,14 +2043,14 @@ export default function App() {
                       <button
                         key={item.id}
                         onClick={() => setPriceDisplayMode(item.id)}
-                        className={`relative flex flex-col items-center justify-center rounded-xl py-2 text-xs font-bold transition-all duration-300 ${
+                        className={`m3-state m3-label-large relative flex min-h-10 flex-col items-center justify-center py-2 ${
                           isSelected
-                            ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
-                            : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
+                            ? "bg-slate-200 text-slate-900 dark:bg-slate-700 dark:text-white"
+                            : "text-slate-500 dark:text-slate-400"
                         }`}
                       >
                         <span>{item.label}</span>
-                        <span className="text-[9px] text-slate-400 dark:text-slate-400">{item.desc}</span>
+                        <span className="m3-label-small text-slate-400 dark:text-slate-400">{item.desc}</span>
                       </button>
                     );
                   })}
@@ -2060,11 +2061,11 @@ export default function App() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">{t("profile.theme")}</p>
+                  <p className="m3-title-small text-slate-900 dark:text-white">{t("profile.theme")}</p>
                 </div>
               </div>
-              <div className="relative flex rounded-2xl bg-slate-100 p-1 dark:bg-slate-800">
-                <div className="grid w-full grid-cols-3 gap-1 relative z-10">
+              <div className="m3-shape-full relative flex overflow-hidden border border-slate-300 dark:border-slate-600">
+                <div className="relative z-10 grid w-full grid-cols-3 divide-x divide-slate-300 dark:divide-slate-600">
                   {[
                     { id: "light" as const, label: t("profile.theme_light"), icon: Sun },
                     { id: "dark" as const, label: t("profile.theme_dark"), icon: Moon },
@@ -2076,13 +2077,13 @@ export default function App() {
                       <button
                         key={item.id}
                         onClick={() => setTheme(item.id)}
-                        className={`relative flex items-center justify-center gap-1.5 rounded-xl py-2 text-xs font-bold transition-all duration-300 ${
+                        className={`m3-state m3-label-large relative flex min-h-10 items-center justify-center gap-1.5 py-2 ${
                           isSelected
-                            ? "bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
-                            : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
+                            ? "bg-slate-200 text-slate-900 dark:bg-slate-700 dark:text-white"
+                            : "text-slate-500 dark:text-slate-400"
                         }`}
                       >
-                        <Icon className="h-3.5 w-3.5 shrink-0" />
+                        <Icon className="h-[18px] w-[18px] shrink-0" />
                         <span>{item.label}</span>
                       </button>
                     );
@@ -2102,7 +2103,7 @@ export default function App() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed inset-0 z-[70] flex items-end justify-center bg-slate-900/60 backdrop-blur-sm px-4 sm:items-center"
+            className="m3-scrim fixed inset-0 z-[70] flex items-end justify-center px-4 backdrop-blur-sm sm:items-center"
             onClick={() => setSelectedTrip(null)}
           >
             <motion.div 
@@ -2110,7 +2111,7 @@ export default function App() {
               animate={{ y: 0, opacity: 1, scale: 1 }}
               exit={{ y: "40px", opacity: 0, scale: 0.94 }}
               transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
-              className="w-full max-w-md space-y-4 rounded-t-3xl bg-white p-6 sm:rounded-3xl dark:bg-slate-900 shadow-2xl"
+              className="m3-sheet-dialog m3-elevation-3 w-full max-w-md space-y-4 bg-white p-6 dark:bg-slate-900"
               onClick={(e) => e.stopPropagation()}
               role="dialog"
               aria-modal="true"
@@ -2118,18 +2119,18 @@ export default function App() {
             >
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">{selectedTrip.service}</p>
-                  <h2 id="seat-preference-title" className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">{t("seat.title")}</h2>
+                  <p className="m3-body-medium text-slate-500 dark:text-slate-400">{selectedTrip.service}</p>
+                  <h2 id="seat-preference-title" className="m3-headline-small text-slate-900 dark:text-white">{t("seat.title")}</h2>
                 </div>
                 <button
                   onClick={() => setSelectedTrip(null)}
-                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
+                  className="m3-icon-button m3-icon-button-large m3-state text-slate-500 dark:text-slate-400"
                   aria-label={t("feedback.close_btn", { defaultValue: "Close" })}
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-5 w-5" />
                 </button>
               </div>
-              <p className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
+              <p className="m3-card m3-body-small border border-amber-200 bg-amber-50 px-4 py-3 leading-relaxed text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
                 {t("seat.disclaimer")}
               </p>
               <div className="grid grid-cols-2 gap-2">
@@ -2137,16 +2138,16 @@ export default function App() {
                   <button
                     key={seat}
                     onClick={() => setSeatChoice(seat)}
-                    className={`rounded-xl border p-3 text-left text-sm font-bold ${
-                      seatChoice === seat ? `border-transparent text-white ${activeTheme.buttonBg} ${activeTheme.buttonShadow}` : "border-slate-200 bg-white text-slate-900 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+                    className={`m3-card m3-state m3-label-large border p-4 text-left ${
+                      seatChoice === seat ? `border-transparent text-white ${activeTheme.buttonBg}` : "border-slate-300 bg-transparent text-slate-900 dark:border-slate-700 dark:text-white"
                     }`}
                   >
                     {t(`seat.${seat}`)}
                   </button>
                 ))}
               </div>
-              <button onClick={confirmSeat} className={`flex h-12 w-full items-center justify-center gap-2 rounded-xl text-sm font-bold text-white transition-all ${activeTheme.buttonBg} ${activeTheme.buttonShadow}`}>
-                <Check className="h-4 w-4" />
+              <button onClick={confirmSeat} className={`m3-button m3-button-icon-leading m3-state m3-elevation-1 w-full text-white ${activeTheme.buttonBg}`}>
+                <Check className="h-[18px] w-[18px]" />
                 {t("seat.confirm")}
               </button>
             </motion.div>
@@ -2167,13 +2168,13 @@ export default function App() {
 
 function UtilityPage({ title, icon, action, children }: { title: string; icon: ReactNode; action?: ReactNode; children: ReactNode }) {
   return (
-    <main className="mx-auto max-w-md px-4 pb-24 pt-20">
+    <main className="mx-auto max-w-md px-4 pb-24 pt-22">
       <div className="mb-5 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
-          <div className="p-1.5 rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 font-bold">
+        <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400">
+          <div className="m3-shape-md bg-emerald-100 p-2 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
             {icon}
           </div>
-          <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">{title}</h1>
+          <h1 className="m3-headline-small text-slate-900 dark:text-white">{title}</h1>
         </div>
         {action}
       </div>
@@ -2184,9 +2185,9 @@ function UtilityPage({ title, icon, action, children }: { title: string; icon: R
 
 function EmptyState({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center dark:border-slate-700 dark:bg-slate-900">
-      <p className="text-sm font-bold text-slate-900 dark:text-white">{title}</p>
-      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{body}</p>
+    <div className="m3-card m3-card-large border border-slate-200 bg-white p-8 text-center dark:border-slate-700 dark:bg-slate-900">
+      <p className="m3-title-medium text-slate-900 dark:text-white">{title}</p>
+      <p className="m3-body-medium mt-1 text-slate-500 dark:text-slate-400">{body}</p>
     </div>
   );
 }
@@ -2198,7 +2199,7 @@ function Panel({ title, onClose, children }: { title: string; onClose: () => voi
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.28, ease: "easeOut" }}
-      className="fixed inset-0 z-[70] flex justify-end bg-slate-900/60 backdrop-blur-sm"
+      className="m3-scrim fixed inset-0 z-[70] flex justify-end backdrop-blur-sm"
       onClick={onClose}
     >
       <motion.div 
@@ -2206,20 +2207,20 @@ function Panel({ title, onClose, children }: { title: string; onClose: () => voi
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
         transition={{ type: "spring", damping: 28, stiffness: 260, mass: 0.85 }}
-        className="h-[100dvh] w-full max-w-sm overflow-y-auto overscroll-contain space-y-5 border-l border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900 shadow-2xl"
+        className="m3-elevation-1 h-[100dvh] w-full max-w-sm space-y-5 overflow-y-auto overscroll-contain rounded-l-[28px] border-l border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-label={title}
       >
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">{title}</h2>
+          <h2 className="m3-title-large text-slate-900 dark:text-white">{title}</h2>
           <button
             onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
+            className="m3-icon-button m3-icon-button-large m3-state text-slate-500 dark:text-slate-400"
             aria-label="Close"
           >
-            <X className="h-4 w-4" />
+            <X className="h-5 w-5" />
           </button>
         </div>
         {children}
@@ -2230,9 +2231,9 @@ function Panel({ title, onClose, children }: { title: string; onClose: () => voi
 
 function ProfileStat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-3xl border border-slate-200 p-3 text-center dark:border-slate-700">
-      <p className="font-mono text-lg font-bold text-slate-900 dark:text-white">{value}</p>
-      <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">{label}</p>
+    <div className="m3-card m3-card-large border border-slate-200 p-3 text-center dark:border-slate-700">
+      <p className="m3-headline-small font-mono text-slate-900 dark:text-white">{value}</p>
+      <p className="m3-label-medium text-slate-400">{label}</p>
     </div>
   );
 }
