@@ -89,31 +89,31 @@ export function TransitAppSupplement({ country, origin, destination }: { country
 
   return (
     <aside className="mx-auto max-w-md space-y-3 px-4 pb-8" aria-label="Transit supplementary information">
-      <div className="rounded-2xl border border-indigo-200 bg-indigo-50/70 p-4 text-sm dark:border-indigo-900/70 dark:bg-indigo-950/20">
+      <div className="m3-card m3-card-large border border-indigo-200 bg-indigo-50/70 p-4 text-sm dark:border-indigo-900/70 dark:bg-indigo-950/20">
         <p className="font-bold text-indigo-950 dark:text-indigo-100">Third-party live data from Transit</p>
         <p className="mt-1 text-xs leading-relaxed text-indigo-800 dark:text-indigo-200">
           Live departures, alerts, and journey suggestions are supplementary. They never change TransitRail’s verified timetable.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <button type="button" onClick={() => void loadLive()} disabled={liveLoading} className="rounded-xl bg-indigo-700 px-3 py-2 text-xs font-bold text-white disabled:opacity-50 dark:bg-indigo-400 dark:text-slate-950">
+          <button type="button" onClick={() => void loadLive()} disabled={liveLoading} className="m3-button m3-button-small m3-state bg-indigo-700 text-white disabled:opacity-50 dark:bg-indigo-400 dark:text-slate-950">
             {liveLoading ? "Loading live data…" : `Live data for ${origin}`}
           </button>
-          <button type="button" onClick={() => void loadPlan()} disabled={planLoading} className="rounded-xl border border-indigo-300 px-3 py-2 text-xs font-bold text-indigo-900 disabled:opacity-50 dark:border-indigo-700 dark:text-indigo-100">
+          <button type="button" onClick={() => void loadPlan()} disabled={planLoading} className="m3-button m3-button-small m3-state border border-indigo-300 text-indigo-900 disabled:opacity-50 dark:border-indigo-700 dark:text-indigo-100">
             {planLoading ? "Planning…" : "Plan complete trip with Transit"}
           </button>
         </div>
       </div>
 
       {live ? (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm dark:border-slate-700 dark:bg-slate-900">
+        <div className="m3-card m3-card-large border border-slate-200 bg-white p-4 text-sm dark:border-slate-700 dark:bg-slate-900">
           <p className="font-bold text-slate-900 dark:text-white">Live information supplied by Transit</p>
           {statusCopy[live.status] ? <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">{statusCopy[live.status]}</p> : null}
-          <p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">Retrieved {formatTime(live.retrievedAt)}{live.freshness ? ` · Provider updated ${formatTime(live.freshness)}` : ""}</p>
-          <p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">Departure times are shown in your local time zone.</p>
+          <p className="m3-body-small mt-1 text-slate-500 dark:text-slate-400">Retrieved {formatTime(live.retrievedAt)}{live.freshness ? ` · Provider updated ${formatTime(live.freshness)}` : ""}</p>
+          <p className="m3-body-small mt-1 text-slate-500 dark:text-slate-400">Departure times are shown in your local time zone.</p>
           {live.departures.length ? (
             <ul className="mt-3 space-y-2">
               {live.departures.map((departure, index) => (
-                <li key={`${departure.time || "unknown"}-${index}`} className="flex items-center justify-between gap-3 rounded-xl bg-slate-50 px-3 py-2 dark:bg-slate-800">
+                <li key={`${departure.time || "unknown"}-${index}`} className="m3-card flex items-center justify-between gap-3 bg-slate-50 px-3 py-2 dark:bg-slate-800">
                   <span className="font-mono font-bold text-slate-900 dark:text-white">{formatTime(departure.time)}</span>
                   <span className="min-w-0 flex-1 truncate text-right text-xs text-slate-700 dark:text-slate-200">{departure.route || "Route unavailable"}{departure.headsign ? ` → ${departure.headsign}` : ""}{departure.cancelled ? " · Cancelled" : ""}</span>
                 </li>
@@ -122,18 +122,18 @@ export function TransitAppSupplement({ country, origin, destination }: { country
           ) : null}
           {live.alerts.length ? (
             <ul className="mt-3 space-y-2">
-              {live.alerts.map((alert, index) => <li key={`${alert.title}-${index}`} className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-950 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-100"><strong>{alert.title}</strong>{alert.description ? ` — ${alert.description}` : ""}</li>)}
+              {live.alerts.map((alert, index) => <li key={`${alert.title}-${index}`} className="m3-card border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-950 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-100"><strong>{alert.title}</strong>{alert.description ? ` — ${alert.description}` : ""}</li>)}
             </ul>
           ) : null}
         </div>
       ) : null}
 
       {plan ? (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 text-sm dark:border-slate-700 dark:bg-slate-900">
+        <div className="m3-card m3-card-large border border-slate-200 bg-white p-4 text-sm dark:border-slate-700 dark:bg-slate-900">
           <p className="font-bold text-slate-900 dark:text-white">Third-party journey suggestion from Transit</p>
           {plan.status !== "available" ? <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">{plan.status === "empty_live_data" ? "Transit did not return a suggested journey. This does not mean there is no service." : "This journey suggestion is currently unavailable."}</p> : null}
           {plan.itineraries?.map((itinerary, index) => (
-            <div key={index} className="mt-3 rounded-xl bg-slate-50 p-3 dark:bg-slate-800">
+            <div key={index} className="m3-card mt-3 bg-slate-50 p-3 dark:bg-slate-800">
               <p className="font-bold text-slate-900 dark:text-white">{itinerary.durationMinutes ? `${itinerary.durationMinutes} min` : "Duration unavailable"}{itinerary.fare ? ` · ${itinerary.fare}` : ""}</p>
               <ul className="mt-2 space-y-1 text-xs text-slate-700 dark:text-slate-200">
                 {itinerary.legs.map((leg, legIndex) => <li key={legIndex}>{leg.mode || "Travel"}{leg.route ? ` · ${leg.route}` : ""}{leg.durationMinutes ? ` · ${leg.durationMinutes} min` : ""}</li>)}

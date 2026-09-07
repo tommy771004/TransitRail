@@ -128,12 +128,12 @@ export function FeedbackView({ onBack }: FeedbackViewProps) {
         exit={{ opacity: 0, scale: 0.95, y: 30 }}
         transition={{ type: "spring", damping: 25, stiffness: 350 }}
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-md max-h-[90vh] overflow-y-auto rounded-[32px] shadow-2xl"
+        className="m3-dialog max-h-[90vh] w-full max-w-md overflow-y-auto"
         role="dialog"
         aria-modal="true"
         aria-labelledby="feedback-title"
       >
-      <div className="overflow-hidden rounded-[32px] bg-[#FCF9F2] shadow-sm ring-1 ring-slate-200/50 dark:bg-slate-900 dark:ring-slate-800">
+      <div className="m3-dialog overflow-hidden bg-[#FCF9F2] ring-1 ring-slate-200/50 dark:bg-slate-900 dark:ring-slate-800">
         {status === "success" ? (
           <div className="p-8 text-center flex flex-col items-center justify-center min-h-[400px]">
             <motion.div
@@ -148,7 +148,7 @@ export function FeedbackView({ onBack }: FeedbackViewProps) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="mb-2 text-xl font-black text-slate-800 dark:text-white"
+              className="m3-headline-small mb-2 text-slate-800 dark:text-white"
             >
               {t("feedback.success_title", "提交成功！")}
             </motion.h3>
@@ -164,7 +164,7 @@ export function FeedbackView({ onBack }: FeedbackViewProps) {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={onBack}
-              className="w-full max-w-xs rounded-2xl bg-[#6A8B42] py-3.5 text-sm font-black text-white shadow-md shadow-[#6A8B42]/10 hover:bg-[#5A7342] dark:bg-[#72924C] dark:hover:bg-[#6A8B42]"
+              className="m3-button m3-button-large m3-state m3-elevation-1 w-full max-w-xs bg-[#6A8B42] text-white dark:bg-[#72924C]"
             >
               {t("feedback.close_btn", "關閉")}
             </motion.button>
@@ -175,13 +175,13 @@ export function FeedbackView({ onBack }: FeedbackViewProps) {
             <div className="flex items-center justify-between border-b border-[#F0EBE1] px-6 py-5 dark:border-slate-800">
               <div className="flex items-center gap-3">
                 <MessageSquare className="h-5 w-5 text-[#5A7342] dark:text-[#8CB066]" />
-                <h2 id="feedback-title" className="text-lg font-black tracking-tight text-slate-800 dark:text-white">
+                <h2 id="feedback-title" className="m3-headline-small text-slate-800 dark:text-white">
                   {t("feedback.title", "意見回饋")}
                 </h2>
               </div>
               <button
                 onClick={onBack}
-                className="rounded-full p-2 text-slate-400 transition-colors hover:bg-slate-200/50 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300"
+                className="m3-icon-button m3-icon-button-large m3-state text-slate-400"
                 aria-label={t("feedback.close_btn", "Close")}
               >
                 <X className="h-5 w-5" />
@@ -197,7 +197,7 @@ export function FeedbackView({ onBack }: FeedbackViewProps) {
               <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Category Selection */}
                 <div>
-                  <label className="mb-2.5 block text-[13px] font-black text-slate-800 dark:text-slate-200">
+                  <label className="m3-title-small mb-2.5 block text-slate-800 dark:text-slate-200">
                     {t("feedback.category", "回饋類別")}
                   </label>
                   <div className="grid grid-cols-2 gap-2.5">
@@ -210,7 +210,7 @@ export function FeedbackView({ onBack }: FeedbackViewProps) {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => setCategory(cat.id)}
-                          className={`rounded-2xl py-3 px-3 text-sm font-bold transition-all ${
+                          className={`m3-chip m3-state m3-chip-touch justify-center px-3 ${
                             isSelected
                               ? "bg-[#6A8B42] text-white shadow-md shadow-[#6A8B42]/10 dark:bg-[#72924C]"
                               : "border border-[#E5E0D8] bg-transparent text-slate-700 hover:bg-[#F3EFE7] dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
@@ -226,7 +226,7 @@ export function FeedbackView({ onBack }: FeedbackViewProps) {
                 {/* Content Textarea */}
                 <div>
                   <div className="mb-2.5 flex items-center justify-between">
-                    <label className="block text-[13px] font-black text-slate-800 dark:text-slate-200">
+                    <label className="m3-title-small block text-slate-800 dark:text-slate-200">
                       {t("feedback.content", "回饋內容")} <span className="text-red-500">*</span>
                     </label>
                     <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
@@ -240,7 +240,7 @@ export function FeedbackView({ onBack }: FeedbackViewProps) {
                     onChange={handleContentChange}
                     onBlur={handleBlur}
                     rows={4}
-                    className={`w-full resize-none rounded-2xl border bg-white px-4 py-3 text-sm font-medium text-slate-900 shadow-sm outline-none transition-all focus:ring-4 dark:bg-slate-950 dark:text-white ${
+                    className={`m3-shape-xs m3-body-large w-full resize-none border bg-white px-4 py-3 text-slate-900 outline-none transition-all dark:bg-slate-950 dark:text-white ${
                       errorMsg
                         ? "border-red-500 focus:border-red-500 focus:ring-red-500/10 dark:border-red-500/80 dark:focus:border-red-500/80 dark:focus:ring-red-500/15"
                         : "border-[#E5E0D8] focus:border-[#6A8B42] focus:ring-[#6A8B42]/10 dark:border-slate-700 dark:focus:border-[#8CB066] dark:focus:ring-[#8CB066]/10"
@@ -257,39 +257,39 @@ export function FeedbackView({ onBack }: FeedbackViewProps) {
 
                 {/* Contact Input */}
                 <div>
-                  <label className="mb-2.5 block text-[13px] font-black text-slate-800 dark:text-slate-200">
+                  <label className="m3-title-small mb-2.5 block text-slate-800 dark:text-slate-200">
                     {t("feedback.contact", "聯絡方式 (選填)")}
                   </label>
                   <input
                     type="text"
                     value={contact}
                     onChange={(e) => setContact(e.target.value)}
-                    className="w-full rounded-2xl border border-[#E5E0D8] bg-white px-4 py-3 text-sm font-medium text-slate-900 shadow-sm outline-none transition-all focus:border-[#6A8B42] focus:ring-4 focus:ring-[#6A8B42]/10 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:focus:border-[#8CB066] dark:focus:ring-[#8CB066]/10"
+                    className="m3-body-large m3-shape-xs min-h-14 w-full border border-[#E5E0D8] bg-white px-4 text-slate-900 outline-none focus:border-[#6A8B42] dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:focus:border-[#8CB066]"
                     placeholder={t("feedback.contact_placeholder", "電子信箱、LINE ID 或其它聯絡管道")}
                   />
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3.5 dark:border-slate-700 dark:bg-slate-800/50">
+                <div className="m3-card border border-slate-200 bg-slate-50/80 p-4 dark:border-slate-700 dark:bg-slate-800/50">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-xs font-black text-slate-800 dark:text-slate-200">{t("feedback.location_title", "Attach location (optional)")}</p>
-                      <p className="mt-1 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">{t("feedback.location_privacy", "Your precise location is requested only after you choose to attach it and is sent with this feedback.")}</p>
+                      <p className="m3-title-small text-slate-800 dark:text-slate-200">{t("feedback.location_title", "Attach location (optional)")}</p>
+                      <p className="m3-body-small mt-1 leading-relaxed text-slate-500 dark:text-slate-400">{t("feedback.location_privacy", "Your precise location is requested only after you choose to attach it and is sent with this feedback.")}</p>
                     </div>
                     <button
                       type="button"
                       onClick={attachLocation}
                       disabled={isLocating || locationStatus === "attached"}
-                      className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-700"
+                      className="m3-button m3-button-small m3-state shrink-0 gap-1.5 border border-slate-300 text-slate-700 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:text-slate-300"
                     >
                       <MapPin className="h-3.5 w-3.5" />
                       {isLocating ? t("feedback.location_locating", "Locating...") : locationStatus === "attached" ? t("feedback.location_attached", "Location attached") : t("feedback.location_attach", "Attach")}
                     </button>
                   </div>
-                  {locationStatus === "unavailable" ? <p className="mt-2 text-[11px] font-semibold text-amber-700 dark:text-amber-300">{t("feedback.location_unavailable", "Location was not attached. You can still send feedback.")}</p> : null}
+                  {locationStatus === "unavailable" ? <p className="m3-body-small mt-2 text-amber-700 dark:text-amber-300">{t("feedback.location_unavailable", "Location was not attached. You can still send feedback.")}</p> : null}
                 </div>
 
                 {status === "error" && (
-                  <div className="flex items-center gap-2 rounded-2xl bg-red-50 px-4 py-3 text-sm font-bold text-red-600 dark:bg-red-500/10 dark:text-red-400">
+                  <div className="m3-card m3-body-medium flex items-center gap-2 bg-red-50 px-4 py-3 text-red-600 dark:bg-red-500/10 dark:text-red-400">
                     <AlertCircle className="h-5 w-5 shrink-0" />
                     {t("feedback.error", "意見回饋送出失敗，請稍後再試。")}
                   </div>
@@ -300,7 +300,7 @@ export function FeedbackView({ onBack }: FeedbackViewProps) {
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                   disabled={isSubmitting}
-                  className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#6A8B42] px-4 py-3.5 text-sm font-black text-white shadow-sm transition-all hover:bg-[#5A7342] disabled:opacity-50 dark:bg-[#72924C] dark:hover:bg-[#6A8B42]"
+                  className="m3-button m3-button-large m3-state m3-elevation-1 mt-2 w-full bg-[#6A8B42] text-white disabled:opacity-50 dark:bg-[#72924C]"
                 >
                   {isSubmitting ? (
                     <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />

@@ -5,7 +5,7 @@ export function ResultSkeleton() {
   return (
     <div className="w-full space-y-4 px-2 py-4 animate-pulse">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
+        <div key={i} className="m3-card m3-card-large m3-elevation-1 overflow-hidden border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
           <div className="border-b border-slate-100 bg-slate-50 px-4 py-3 flex items-center justify-between dark:border-slate-800 dark:bg-slate-900">
             <div className="h-5 w-24 rounded bg-slate-200 dark:bg-slate-700"></div>
             <div className="h-4 w-16 rounded bg-slate-200 dark:bg-slate-700"></div>
@@ -43,7 +43,7 @@ export function ResultSkeleton() {
         </div>
       ))}
       <div className="flex justify-center mt-2">
-        <p className="text-sm font-bold text-slate-400 dark:text-slate-500">{t("result.searching", { defaultValue: "Searching..." })}</p>
+        <p className="m3-body-medium text-slate-400 dark:text-slate-500">{t("result.searching", { defaultValue: "Searching..." })}</p>
       </div>
     </div>
   );

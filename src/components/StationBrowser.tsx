@@ -414,7 +414,7 @@ export function StationBrowser({
       animate="visible"
       exit="hidden"
       variants={backdropVariants}
-      className="fixed inset-0 z-[80] flex items-end justify-center bg-slate-900/60 dark:bg-slate-950/75 sm:items-center sm:p-4"
+      className="m3-scrim fixed inset-0 z-[80] flex items-end justify-center sm:items-center sm:p-4"
     >
       <motion.section 
         variants={sheetVariants}
@@ -428,14 +428,14 @@ export function StationBrowser({
             handleClose();
           }
         }}
-        className="relative flex h-[88vh] w-full flex-col overflow-hidden rounded-t-2xl border border-slate-200 bg-white shadow-[0_-8px_24px_rgba(15,23,42,0.12)] dark:border-slate-800 dark:bg-[#060a13] dark:shadow-[0_-8px_24px_rgba(0,0,0,0.28)] sm:h-[80vh] sm:max-w-md sm:rounded-2xl"
+        className="m3-sheet-dialog m3-elevation-3 relative flex h-[88vh] w-full flex-col overflow-hidden bg-white dark:bg-[#060a13] sm:h-[80vh] sm:max-w-md"
       >
         <div 
           onPointerDown={(e) => dragControls.start(e)}
           className="w-full pt-3 pb-2 flex justify-center cursor-grab active:cursor-grabbing select-none shrink-0"
           style={{ touchAction: "none" }}
         >
-          <div className="w-12 h-1.5 bg-slate-300/60 dark:bg-slate-700/50 rounded-full" />
+          <div className="m3-drag-handle bg-slate-300/60 dark:bg-slate-700/50" />
         </div>
 
         <div className="shrink-0 border-b border-slate-100 dark:border-slate-800/50 px-5 pb-4">
@@ -443,18 +443,18 @@ export function StationBrowser({
             <button
               type="button"
               onClick={handleClose}
-              className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-slate-100 text-slate-700 transition-colors hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+              className="m3-icon-button m3-icon-button-large m3-state text-slate-700 dark:text-slate-200"
               aria-label={t("workflow.back")}
             >
               <ArrowLeft aria-hidden="true" className="h-5 w-5" />
             </button>
             <div className="min-w-0 flex-1">
-              <h1 className="text-base font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
+              <h1 className="m3-title-large flex items-center gap-1.5 text-slate-900 dark:text-white">
                 {target === "origin" ? t("stations.pick_origin") : t("stations.pick_destination")}
               </h1>
-              <p className="truncate text-xs text-slate-400 dark:text-slate-500 font-medium mt-0.5 flex items-center gap-1">
+              <p className="m3-body-small mt-0.5 flex items-center gap-1 truncate text-slate-400 dark:text-slate-500">
                 <span className="text-sm leading-none">{countryFlags[country] || ""}</span>
-                <span className="font-semibold text-slate-600 dark:text-slate-400">{t(countryConfig[country].labelKey)}</span>
+                <span className="text-slate-600 dark:text-slate-400">{t(countryConfig[country].labelKey)}</span>
                 <span className="text-slate-300 dark:text-slate-700">•</span>
                 <span>{countryConfig[country].provider}</span>
               </p>
@@ -462,8 +462,8 @@ export function StationBrowser({
           </div>
 
           <div className="relative">
-            <div className="relative flex min-h-12 items-center gap-2 rounded-lg border border-slate-300 bg-slate-50 px-3 transition-colors focus-within:border-emerald-700 focus-within:bg-white dark:border-slate-700 dark:bg-slate-900 dark:focus-within:border-emerald-400 dark:focus-within:bg-slate-950">
-              <Search aria-hidden="true" className="h-4.5 w-4.5 shrink-0 text-slate-500 dark:text-slate-400" />
+            <div className="m3-search-bar m3-elevation-1 relative bg-slate-50 focus-within:bg-white dark:bg-slate-900 dark:focus-within:bg-slate-950">
+              <Search aria-hidden="true" className="h-5 w-5 shrink-0 text-slate-500 dark:text-slate-400" />
               <input
                 type="search"
                 value={query}
@@ -473,7 +473,7 @@ export function StationBrowser({
                 aria-label={t("stations.search_label")}
                 enterKeyHint="search"
                 placeholder={t("stations.search_placeholder")}
-                className="w-full bg-transparent text-base font-medium text-slate-900 placeholder:text-slate-500 dark:text-slate-100 dark:placeholder:text-slate-500"
+                className="m3-body-large w-full bg-transparent text-slate-900 outline-none placeholder:text-slate-500 dark:text-slate-100 dark:placeholder:text-slate-500"
               />
               {query && (
                 <button
@@ -483,15 +483,15 @@ export function StationBrowser({
                     setQuery("");
                   }}
                   aria-label={t("stations.clear_search")}
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
+                  className="m3-icon-button m3-state shrink-0 text-slate-500 dark:text-slate-400"
                 >
-                  <X aria-hidden="true" className="h-4 w-4" />
+                  <X aria-hidden="true" className="h-5 w-5" />
                 </button>
               )}
             </div>
 
             {searching && isInputFocused && (
-              <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 max-h-72 overflow-y-auto rounded-xl border border-slate-200 bg-white p-2 shadow-[0_8px_20px_rgba(15,23,42,0.12)] dark:border-slate-800 dark:bg-[#070b14] dark:shadow-[0_8px_20px_rgba(0,0,0,0.3)]">
+              <div className="m3-card m3-card-large m3-elevation-3 absolute left-0 right-0 top-[calc(100%+8px)] z-50 max-h-72 overflow-y-auto bg-white p-2 dark:bg-[#070b14]">
                 <StationList
                   isLoading={isLoading}
                   loadFailed={loadFailed}
@@ -520,17 +520,17 @@ export function StationBrowser({
                 onClick={handleUseLocation}
                 disabled={isLocating}
                 aria-busy={isLocating}
-                className={`flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border px-4 py-3 text-sm font-semibold transition-colors disabled:cursor-wait disabled:opacity-60 ${theme.badgeBg}`}
+                className={`m3-button m3-button-icon-leading m3-state w-full border disabled:cursor-wait disabled:opacity-60 ${theme.badgeBg}`}
               >
                 {isLocating ? (
-                  <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin text-emerald-600 dark:text-emerald-400" />
+                  <Loader2 aria-hidden="true" className="h-[18px] w-[18px] animate-spin text-emerald-600 dark:text-emerald-400" />
                 ) : (
-                  <Navigation aria-hidden="true" className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
+                  <Navigation aria-hidden="true" className="h-[18px] w-[18px] text-emerald-700 dark:text-emerald-400" />
                 )}
                 {isLocating ? t("stations.locating") : t("stations.use_current_location")}
               </button>
               {locationError && (
-                <p className="mt-2 text-center text-xs font-semibold text-red-500 dark:text-red-400">
+                <p className="m3-body-small mt-2 text-center text-red-500 dark:text-red-400">
                   {locationError}
                 </p>
               )}
@@ -541,7 +541,7 @@ export function StationBrowser({
         {(noteKey || stationSource) && !searching && (
           <div className="px-5 pb-1 pt-3">
             {noteKey && (
-              <p className="rounded-2xl bg-amber-500/5 border border-amber-500/10 px-4 py-3 text-xs leading-relaxed text-amber-700 dark:text-amber-400/90">
+              <p className="m3-card m3-body-small border border-amber-500/10 bg-amber-500/5 px-4 py-3 leading-relaxed text-amber-700 dark:text-amber-400/90">
                 {t(noteKey)}
               </p>
             )}
@@ -550,7 +550,7 @@ export function StationBrowser({
                 href={stationSource}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-2 inline-block px-1 text-xs font-semibold text-emerald-700 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300"
+                className="m3-label-large mt-2 inline-block px-1 text-emerald-700 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300"
               >
                 {t("stations.official_station_source")}
               </a>
@@ -608,12 +608,12 @@ export function StationBrowser({
                           }
                         }}
                         type="button"
-                        className={`flex min-h-11 w-full items-center justify-between gap-1 px-3 py-2.5 text-left text-xs font-semibold ${
+                        className={`m3-state m3-label-large flex min-h-12 w-full items-center justify-between gap-1 rounded-r-full px-3 py-2.5 text-left ${
                           selectedRegion === region.id ? theme.textActive : "text-slate-500 dark:text-slate-400"
                         }`}
                       >
                         <span className="truncate">{t(`service_region.${region.id}`)}</span>
-                        <ChevronDown className={`h-3 w-3 shrink-0 transition-transform ${selectedRegion === region.id ? "rotate-180" : ""}`} />
+                        <ChevronDown aria-hidden="true" className={`h-4 w-4 shrink-0 transition-transform duration-300 ease-m3-emphasized ${selectedRegion === region.id ? "rotate-180" : ""}`} />
                       </button>
                       {selectedRegion === region.id && (
                         <ul className="space-y-1 pb-1">
@@ -627,16 +627,16 @@ export function StationBrowser({
                                   setSelectedCategory(line.id);
                                 }}
                                 type="button"
-                                className={`group relative flex min-h-11 w-full flex-col justify-center px-4 py-3 text-left transition-colors ${
+                                className={`m3-state group relative flex min-h-12 w-full flex-col justify-center rounded-r-full px-4 py-3 text-left ${
                                   selectedCategory === line.id
-                                    ? `${theme.badgeBg} border-l-4 ${theme.borderActive} font-semibold rounded-r-lg`
-                                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-100/50 dark:hover:bg-slate-800/40 hover:text-slate-900 dark:hover:text-slate-200"
+                                    ? `${theme.badgeBg} border-l-4 ${theme.borderActive}`
+                                    : "text-slate-600 dark:text-slate-400"
                                 }`}
                               >
-                                <span className="block truncate text-xs font-bold leading-tight">
+                                <span className="m3-label-large block truncate">
                                   {t(`line.${line.name}`, { defaultValue: line.name })}
                                 </span>
-                                <span className="mt-1.5 inline-flex w-fit items-center justify-center rounded px-1.5 py-0.5 text-[10px] font-semibold tabular-nums leading-none" style={{ backgroundColor: `${line.color}15`, color: line.color }}>
+                                <span className="m3-label-small m3-shape-xs mt-1.5 inline-flex w-fit items-center justify-center px-1.5 py-0.5 tabular-nums" style={{ backgroundColor: `${line.color}15`, color: line.color }}>
                                   {line.stations.length}
                                 </span>
                               </button>
@@ -653,18 +653,18 @@ export function StationBrowser({
                 {linesLoading ? (
                   <div className="py-12 flex flex-col items-center justify-center gap-3">
                     <Loader2 className="h-6 w-6 animate-spin text-slate-400" />
-                    <p className="text-xs font-semibold text-slate-400 dark:text-slate-500">{t("stations.loading")}</p>
+                    <p className="m3-body-medium text-slate-400 dark:text-slate-500">{t("stations.loading")}</p>
                   </div>
                 ) : linesFailed || !selectedCategory ? (
                   <div className="py-12 text-center">
-                    <p className="text-xs font-bold text-red-500 dark:text-red-400">{t("stations.unavailable")}</p>
+                    <p className="m3-body-medium text-red-500 dark:text-red-400">{t("stations.unavailable")}</p>
                   </div>
                 ) : (
                   <>
                     {featured.length > 0 && (
                       <div className="mb-4">
-                        <div className="mb-2 flex items-center gap-1.5 px-1 text-xs font-semibold text-slate-600 dark:text-slate-300">
-                          <MapPin className="h-3 w-3 text-emerald-500" />
+                        <div className="m3-title-small mb-2 flex items-center gap-1.5 px-1 text-slate-600 dark:text-slate-300">
+                          <MapPin aria-hidden="true" className="h-4 w-4 text-emerald-500" />
                           <span>{t("stations.featured")}</span>
                         </div>
                         <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
@@ -673,7 +673,7 @@ export function StationBrowser({
                               key={station}
                               type="button"
                               onClick={() => handleSelectStation(station)}
-                              className="min-h-11 shrink-0 whitespace-nowrap rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                              className="m3-chip m3-chip-touch m3-state shrink-0 border border-slate-300 bg-transparent text-slate-700 dark:border-slate-700 dark:text-slate-200"
                             >
                               {stationLabel(t, station, country)}
                             </button>
@@ -712,7 +712,7 @@ export function StationBrowser({
                             <button
                               type="button"
                               onClick={() => handleSelectStation(station.name)}
-                              className="group flex min-h-11 w-full items-center gap-3 rounded-lg px-3 py-3 text-left transition-colors hover:bg-slate-100/60 dark:hover:bg-slate-800/60"
+                              className="m3-list-item m3-state m3-shape-full group w-full gap-3 px-3 text-left"
                             >
                               <span className="flex w-2 shrink-0 flex-col items-center self-stretch">
                                 <span className={`w-[2px] flex-1 ${index === 0 ? "bg-transparent" : "bg-slate-200 dark:bg-slate-800"}`} />
@@ -723,11 +723,11 @@ export function StationBrowser({
                                 <span className={`w-[2px] flex-1 ${index === arr.length - 1 ? "bg-transparent" : "bg-slate-200 dark:bg-slate-800"}`} />
                               </span>
                               <div className="flex min-w-0 flex-1 flex-col">
-                                <span className={`block truncate text-sm font-bold flex items-center gap-1.5 ${isUncovered(station.name) ? "text-slate-400 dark:text-slate-500" : "text-slate-800 dark:text-slate-100"}`}>
+                                <span className={`m3-body-large flex items-center gap-1.5 truncate ${isUncovered(station.name) ? "text-slate-400 dark:text-slate-500" : "text-slate-800 dark:text-slate-100"}`}>
                                   {primaryLabel}
                                   {isUncovered(station.name) && <NoTimetableBadge />}
                                   {station.localName ? (
-                                    <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">{station.localName}</span>
+                                    <span className="m3-body-small text-slate-400 dark:text-slate-500">{station.localName}</span>
                                   ) : null}
                                   {station.accessible && (
                                     <span className="inline-flex items-center justify-center text-blue-700 dark:text-blue-300" title={t("stations.accessible")}>
@@ -737,7 +737,7 @@ export function StationBrowser({
                                   )}
                                 </span>
                                 {secondaryLabel && (
-                                  <span className="block truncate text-xs text-slate-400 dark:text-slate-500 font-semibold mt-0.5">
+                                  <span className="m3-body-small mt-0.5 block truncate text-slate-400 dark:text-slate-500">
                                     {secondaryLabel}
                                   </span>
                                 )}
@@ -747,12 +747,12 @@ export function StationBrowser({
                                   return (
                                     <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                                       {conn.isDirect ? (
-                                        <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border border-emerald-200/30">
+                                        <span className="m3-chip m3-label-small min-h-6 gap-1 border border-emerald-200/30 bg-emerald-50 px-2 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
                                           <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-700 dark:bg-emerald-400" />
                                           {t("stations.direct_route")}
                                         </span>
                                       ) : (
-                                        <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 border border-amber-200/30">
+                                        <span className="m3-chip m3-label-small min-h-6 gap-1 border border-amber-200/30 bg-amber-50 px-2 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400">
                                           <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
                                           {conn.transferCount} {conn.transferCount === 1 ? t("stations.transfer") : t("stations.transfers")}
                                         </span>
@@ -760,7 +760,7 @@ export function StationBrowser({
                                       {conn.lines.map((lineObj) => (
                                         <span
                                           key={lineObj.id}
-                                          className="inline-flex items-center gap-1 rounded-md bg-slate-50 dark:bg-slate-850 border border-slate-200/40 dark:border-slate-800/60 px-1.5 py-0.5 text-[10px] font-bold text-slate-600 dark:text-slate-300"
+                                          className="m3-chip m3-label-small min-h-6 gap-1 border border-slate-200/40 bg-slate-50 px-2 text-slate-600 dark:border-slate-800/60 dark:bg-slate-850 dark:text-slate-300"
                                         >
                                           <span
                                             className="h-1.5 w-1.5 rounded-full"
@@ -775,7 +775,7 @@ export function StationBrowser({
                                 {station.interchanges && station.interchanges.length > 0 && (
                                   <span className="mt-1.5 flex flex-wrap items-center gap-1.5">
                                     {station.interchanges.map((other) => (
-                                      <span key={other} className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-850 border border-slate-200/40 dark:border-slate-800/60 px-1.5 py-0.5 rounded-md">
+                                      <span key={other} className="m3-chip m3-label-small min-h-6 gap-1 border border-slate-200/40 bg-slate-50 px-2 text-slate-500 dark:border-slate-800/60 dark:bg-slate-850 dark:text-slate-400">
                                         <span
                                           className="h-1.5 w-1.5 rounded-full shrink-0"
                                           style={{ backgroundColor: lineColorByName.get(other) || "#94a3b8" }}
@@ -810,7 +810,7 @@ function NoTimetableBadge() {
   const { t } = useTranslation();
   return (
     <span
-      className="inline-flex shrink-0 items-center gap-1 rounded-md border border-slate-200/60 bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold text-slate-500 dark:border-slate-700/60 dark:bg-slate-800/60 dark:text-slate-400"
+      className="m3-chip m3-label-small min-h-6 shrink-0 gap-1 border border-slate-200/60 bg-slate-100 px-2 text-slate-500 dark:border-slate-700/60 dark:bg-slate-800/60 dark:text-slate-400"
       title={t("stations.no_timetable_hint")}
     >
       {t("stations.no_timetable")}
@@ -850,21 +850,21 @@ function StationList({
     return (
       <div className="py-12 flex flex-col items-center justify-center gap-3">
         <Loader2 className="h-6 w-6 animate-spin text-slate-400" />
-        <p className="text-xs font-semibold text-slate-400 dark:text-slate-500">{t("stations.loading")}</p>
+        <p className="m3-body-medium text-slate-400 dark:text-slate-500">{t("stations.loading")}</p>
       </div>
     );
   }
   if (loadFailed) {
     return (
       <div className="py-12 text-center">
-        <p className="text-xs font-bold text-red-500 dark:text-red-400">{t("stations.unavailable")}</p>
+        <p className="m3-body-medium text-red-500 dark:text-red-400">{t("stations.unavailable")}</p>
       </div>
     );
   }
   if (stations.length === 0) {
     return (
       <div className="py-12 text-center">
-        <p className="text-xs font-bold text-slate-500 dark:text-slate-400">
+        <p className="m3-body-medium text-slate-500 dark:text-slate-400">
           {emptyMessageKey ? t(emptyMessageKey) : t("stations.none")}
         </p>
         {sourceUrl && (
@@ -872,7 +872,7 @@ function StationList({
             href={sourceUrl}
             target="_blank"
             rel="noreferrer"
-            className="mt-3 inline-block text-xs font-semibold text-emerald-700 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300"
+            className="m3-label-large mt-3 inline-block text-emerald-700 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300"
           >
             {t("stations.official_source")}
           </a>
@@ -923,10 +923,10 @@ function StationList({
             <button
               type="button"
               onClick={() => onSelectStation(station)}
-              className="group flex min-h-11 w-full items-center justify-between rounded-lg px-3.5 py-3 text-left transition-colors hover:bg-slate-100/60 dark:hover:bg-slate-800/60"
+              className="m3-list-item m3-state m3-shape-full group w-full justify-between px-4 text-left"
             >
               <div className="flex min-w-0 flex-col">
-                <span className={`block truncate text-sm font-bold flex items-center gap-1.5 ${uncovered ? "text-slate-400 dark:text-slate-500" : "text-slate-800 dark:text-slate-100"}`}>
+                <span className={`m3-body-large flex items-center gap-1.5 truncate ${uncovered ? "text-slate-400 dark:text-slate-500" : "text-slate-800 dark:text-slate-100"}`}>
                   {primaryLabel}
                   {uncovered && <NoTimetableBadge />}
                   {accessibilityMap.get(station) && (
@@ -937,7 +937,7 @@ function StationList({
                   )}
                 </span>
                 {secondaryLabel && (
-                  <span className="block truncate text-xs text-slate-400 dark:text-slate-500 font-semibold mt-0.5">
+                  <span className="m3-body-small mt-0.5 block truncate text-slate-400 dark:text-slate-500">
                     {secondaryLabel}
                   </span>
                 )}
@@ -947,12 +947,12 @@ function StationList({
                   return (
                     <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                       {conn.isDirect ? (
-                        <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border border-emerald-200/30">
+                        <span className="m3-chip m3-label-small min-h-6 gap-1 border border-emerald-200/30 bg-emerald-50 px-2 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400">
                           <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-700 dark:bg-emerald-400" />
                           {t("stations.direct_route")}
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 border border-amber-200/30">
+                        <span className="m3-chip m3-label-small min-h-6 gap-1 border border-amber-200/30 bg-amber-50 px-2 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400">
                           <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
                           {conn.transferCount} {conn.transferCount === 1 ? t("stations.transfer") : t("stations.transfers")}
                         </span>
@@ -960,7 +960,7 @@ function StationList({
                       {conn.lines.map((lineObj) => (
                         <span
                           key={lineObj.id}
-                          className="inline-flex items-center gap-1 rounded-md bg-slate-50 dark:bg-slate-850 border border-slate-200/40 dark:border-slate-800/60 px-1.5 py-0.5 text-[10px] font-bold text-slate-600 dark:text-slate-300"
+                          className="m3-chip m3-label-small min-h-6 gap-1 border border-slate-200/40 bg-slate-50 px-2 text-slate-600 dark:border-slate-800/60 dark:bg-slate-850 dark:text-slate-300"
                         >
                           <span
                             className="h-1.5 w-1.5 rounded-full"

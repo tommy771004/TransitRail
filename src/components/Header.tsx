@@ -39,37 +39,34 @@ export function Header({ onMenuOpen, onProfileOpen, timezone, homeCurrency }: He
   };
 
   return (
-    <header className="fixed top-0 z-50 flex h-14 w-full items-center justify-between border-b border-slate-200 bg-white px-2 sm:px-4 dark:border-slate-800 dark:bg-[#060a13]">
-      <div className="flex min-w-0 items-center gap-1 sm:gap-2">
+    <header className="m3-top-app-bar m3-elevation-0 fixed top-0 z-50 w-full justify-between gap-1 border-b border-slate-200 bg-white px-1 sm:px-2 dark:border-slate-800 dark:bg-[#060a13]">
+      <div className="flex min-w-0 items-center gap-1">
         <button
           type="button"
           onClick={onMenuOpen}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+          className="m3-icon-button m3-icon-button-large m3-state text-slate-700 dark:text-slate-300"
           aria-label={t("header.open_menu")}
         >
-          <Menu aria-hidden="true" className="h-5 w-5" />
+          <Menu aria-hidden="true" className="h-6 w-6" />
         </button>
-        <span className="truncate text-base font-bold text-slate-900 dark:text-white">
+        <span className="m3-title-large truncate text-slate-900 dark:text-white">
           {t('header.title')}
         </span>
       </div>
 
-      <div className="flex shrink-0 items-center gap-0.5 sm:gap-1">
-        <div className="hidden min-h-9 items-center gap-1.5 rounded-lg bg-slate-100 px-2 sm:flex dark:bg-slate-800">
-          <Globe aria-hidden="true" className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
-          <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
-            {getTimezoneCity(timezone, i18n.language)}
-          </span>
-          <span aria-hidden="true" className="text-[10px] text-slate-400 dark:text-slate-600">|</span>
-          <span className="text-[11px] font-semibold tabular-nums text-slate-600 dark:text-slate-300">
-            {homeCurrency}
-          </span>
+      <div className="flex shrink-0 items-center gap-0.5">
+        {/* Assist chip: the passenger's home timezone and currency at a glance. */}
+        <div className="m3-chip m3-chip-icon-leading m3-label-medium hidden border border-slate-200 bg-slate-100 text-slate-600 sm:inline-flex dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
+          <Globe aria-hidden="true" className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+          <span>{getTimezoneCity(timezone, i18n.language)}</span>
+          <span aria-hidden="true" className="text-slate-300 dark:text-slate-600">|</span>
+          <span className="tabular-nums">{homeCurrency}</span>
         </div>
 
         <select
           value={i18n.language}
           onChange={(e) => i18n.changeLanguage(e.target.value)}
-          className="h-11 cursor-pointer rounded-lg bg-transparent px-2 text-xs font-semibold text-slate-600 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+          className="m3-label-large m3-shape-full h-12 cursor-pointer bg-transparent px-3 text-slate-600 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
           aria-label={t("header.switch_language")}
         >
           {LANGUAGES.map((lang) => (
@@ -79,10 +76,10 @@ export function Header({ onMenuOpen, onProfileOpen, timezone, homeCurrency }: He
         <button
           type="button"
           onClick={onProfileOpen}
-          className="flex h-11 w-11 items-center justify-center rounded-lg text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+          className="m3-icon-button m3-icon-button-large m3-state text-slate-700 dark:text-slate-300"
           aria-label={t("header.open_profile")}
         >
-          <UserCircle aria-hidden="true" className="h-5 w-5" />
+          <UserCircle aria-hidden="true" className="h-6 w-6" />
         </button>
       </div>
     </header>

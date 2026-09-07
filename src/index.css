@@ -44,6 +44,357 @@
   }
 }
 
+/* ==========================================================================
+ * Material 3 layer
+ *
+ * The palette above is deliberately untouched: every colour on this site keeps
+ * coming from the existing slate/country-accent Tailwind classes. What follows
+ * is the *structural* half of Material 3 — the shape scale, elevation levels,
+ * motion easings, type scale, state layers and component metrics — so the UI
+ * reads as Material 3 while staying in its own colours.
+ *
+ * Because these live in the `components` layer, any Tailwind utility on the
+ * same element still wins; a component opts into a metric by dropping the
+ * utility that used to set it.
+ * ========================================================================== */
+
+@theme {
+  /* Shape scale (M3 corner tokens). */
+  --radius-m3-xs: 4px;
+  --radius-m3-sm: 8px;
+  --radius-m3-md: 12px;
+  --radius-m3-lg: 16px;
+  --radius-m3-xl: 28px;
+
+  /* Easing set. `emphasized` is the M3 default for anything the user
+   * initiated; the accelerate/decelerate pair is for enters and exits. */
+  --ease-m3-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-m3-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --ease-m3-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-m3-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+}
+
+:root {
+  /* Duration scale. */
+  --m3-duration-short: 100ms;
+  --m3-duration-short-4: 200ms;
+  --m3-duration-medium-2: 300ms;
+  --m3-duration-long-2: 500ms;
+
+  /*
+   * Elevation. M3 draws elevation with two shadows (a tight key light and a
+   * wide ambient light) rather than a single soft blur. The alphas are toned
+   * down from the reference spec because this product sits on a near-white
+   * slate-50 ground, where the spec's 30% key shadow reads as a smudge.
+   */
+  --m3-elevation-0: none;
+  --m3-elevation-1: 0 1px 2px 0 rgb(15 23 42 / 0.16), 0 1px 3px 1px rgb(15 23 42 / 0.08);
+  --m3-elevation-2: 0 1px 2px 0 rgb(15 23 42 / 0.16), 0 2px 6px 2px rgb(15 23 42 / 0.08);
+  --m3-elevation-3: 0 1px 3px 0 rgb(15 23 42 / 0.16), 0 4px 8px 3px rgb(15 23 42 / 0.09);
+  --m3-elevation-4: 0 2px 3px 0 rgb(15 23 42 / 0.16), 0 6px 10px 4px rgb(15 23 42 / 0.09);
+  --m3-elevation-5: 0 4px 4px 0 rgb(15 23 42 / 0.16), 0 8px 12px 6px rgb(15 23 42 / 0.09);
+}
+
+/* On a dark surface a shadow cannot be seen; M3 keeps the same geometry but
+ * leans on a much darker, denser shadow so the layering still reads. */
+.dark {
+  --m3-elevation-1: 0 1px 2px 0 rgb(0 0 0 / 0.42), 0 1px 3px 1px rgb(0 0 0 / 0.26);
+  --m3-elevation-2: 0 1px 2px 0 rgb(0 0 0 / 0.42), 0 2px 6px 2px rgb(0 0 0 / 0.26);
+  --m3-elevation-3: 0 1px 3px 0 rgb(0 0 0 / 0.42), 0 4px 8px 3px rgb(0 0 0 / 0.28);
+  --m3-elevation-4: 0 2px 3px 0 rgb(0 0 0 / 0.42), 0 6px 10px 4px rgb(0 0 0 / 0.28);
+  --m3-elevation-5: 0 4px 4px 0 rgb(0 0 0 / 0.42), 0 8px 12px 6px rgb(0 0 0 / 0.28);
+}
+
+@layer components {
+  /* ---------------------------------------------------------------- shape */
+  .m3-shape-xs { border-radius: 4px; }
+  .m3-shape-sm { border-radius: 8px; }
+  .m3-shape-md { border-radius: 12px; }
+  .m3-shape-lg { border-radius: 16px; }
+  .m3-shape-xl { border-radius: 28px; }
+  .m3-shape-full { border-radius: 9999px; }
+
+  /* ------------------------------------------------------------ elevation */
+  .m3-elevation-0 { box-shadow: var(--m3-elevation-0); }
+  .m3-elevation-1 { box-shadow: var(--m3-elevation-1); }
+  .m3-elevation-2 { box-shadow: var(--m3-elevation-2); }
+  .m3-elevation-3 { box-shadow: var(--m3-elevation-3); }
+  .m3-elevation-4 { box-shadow: var(--m3-elevation-4); }
+  .m3-elevation-5 { box-shadow: var(--m3-elevation-5); }
+
+  /*
+   * State layer.
+   *
+   * M3 expresses hover / focus / press as a translucent wash of the element's
+   * own "on" colour rather than by swapping the container colour. Using
+   * `currentColor` means the wash is automatically correct on every existing
+   * palette here: white over a filled country-accent button, slate over a
+   * neutral surface — no new colours are introduced.
+   */
+  .m3-state {
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .m3-state::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-color: currentColor;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--m3-duration-short-4) var(--ease-m3-standard);
+  }
+  @media (hover: hover) {
+    .m3-state:hover::after { opacity: 0.08; }
+  }
+  .m3-state:focus-visible::after { opacity: 0.1; }
+  .m3-state:active::after { opacity: 0.12; }
+  .m3-state:disabled::after,
+  .m3-state[aria-disabled="true"]::after { opacity: 0; }
+
+  /* --------------------------------------------------------- type scale */
+  .m3-display-small { font-size: 2.25rem; line-height: 2.75rem; font-weight: 400; letter-spacing: 0; }
+  .m3-headline-large { font-size: 2rem; line-height: 2.5rem; font-weight: 400; letter-spacing: 0; }
+  .m3-headline-medium { font-size: 1.75rem; line-height: 2.25rem; font-weight: 400; letter-spacing: 0; }
+  .m3-headline-small { font-size: 1.5rem; line-height: 2rem; font-weight: 400; letter-spacing: 0; }
+  .m3-title-large { font-size: 1.375rem; line-height: 1.75rem; font-weight: 500; letter-spacing: 0; }
+  .m3-title-medium { font-size: 1rem; line-height: 1.5rem; font-weight: 500; letter-spacing: 0.009375em; }
+  .m3-title-small { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; letter-spacing: 0.00625em; }
+  .m3-body-large { font-size: 1rem; line-height: 1.5rem; font-weight: 400; letter-spacing: 0.03125em; }
+  .m3-body-medium { font-size: 0.875rem; line-height: 1.25rem; font-weight: 400; letter-spacing: 0.015625em; }
+  .m3-body-small { font-size: 0.75rem; line-height: 1rem; font-weight: 400; letter-spacing: 0.025em; }
+  .m3-label-large { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; letter-spacing: 0.00625em; }
+  .m3-label-medium { font-size: 0.75rem; line-height: 1rem; font-weight: 500; letter-spacing: 0.03125em; }
+  .m3-label-small { font-size: 0.6875rem; line-height: 1rem; font-weight: 500; letter-spacing: 0.03125em; }
+
+  /* ------------------------------------------------------------- buttons */
+  /*
+   * One 40dp pill covers all five M3 button variants; the variant is decided
+   * by the colour utilities the component already carries (filled = accent
+   * background, tonal = tinted background, outlined = border, text = neither).
+   */
+  .m3-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    padding-inline: 24px;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.00625em;
+    white-space: nowrap;
+    transition:
+      background-color var(--m3-duration-short-4) var(--ease-m3-standard),
+      box-shadow var(--m3-duration-short-4) var(--ease-m3-standard),
+      color var(--m3-duration-short-4) var(--ease-m3-standard);
+  }
+  /* An icon before the label eats into the leading padding (M3: 16dp/24dp). */
+  .m3-button-icon-leading { padding-inline-start: 16px; }
+  /* The 56dp CTA M3 uses when a button is the page's primary action. */
+  .m3-button-large {
+    min-height: 56px;
+    padding-inline: 32px;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+  .m3-button-small {
+    min-height: 32px;
+    padding-inline: 16px;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    letter-spacing: 0.03125em;
+  }
+
+  /* Icon button: a 40dp circle inside a 48dp touch target. */
+  .m3-icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    transition:
+      background-color var(--m3-duration-short-4) var(--ease-m3-standard),
+      color var(--m3-duration-short-4) var(--ease-m3-standard);
+  }
+  .m3-icon-button-small { width: 32px; height: 32px; }
+  .m3-icon-button-large { width: 48px; height: 48px; }
+
+  /* FAB: 56dp, large-shape corners, resting at elevation 3. */
+  .m3-fab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    box-shadow: var(--m3-elevation-3);
+    transition: box-shadow var(--m3-duration-short-4) var(--ease-m3-standard);
+  }
+  .m3-fab-small {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    box-shadow: var(--m3-elevation-1);
+  }
+
+  /* --------------------------------------------------------------- chips */
+  .m3-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 32px;
+    padding-inline: 16px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.00625em;
+    white-space: nowrap;
+    transition:
+      background-color var(--m3-duration-short-4) var(--ease-m3-standard),
+      border-color var(--m3-duration-short-4) var(--ease-m3-standard),
+      color var(--m3-duration-short-4) var(--ease-m3-standard);
+  }
+  /* A leading icon/avatar tightens the leading padding to 8dp. */
+  .m3-chip-icon-leading { padding-inline-start: 8px; }
+  /* Chips inside a scrolling rail still need a 48dp tap height on touch. */
+  .m3-chip-touch { min-height: 40px; }
+
+  /* --------------------------------------------------------------- cards */
+  .m3-card {
+    border-radius: 12px;
+    transition: box-shadow var(--m3-duration-short-4) var(--ease-m3-standard);
+  }
+  .m3-card-large { border-radius: 16px; }
+
+  /* --------------------------------------------------------- text fields */
+  /* Outlined text field: extra-small corners, 56dp tall. */
+  .m3-field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 56px;
+    padding-inline: 16px;
+    border-radius: 4px;
+    transition:
+      border-color var(--m3-duration-short-4) var(--ease-m3-standard),
+      background-color var(--m3-duration-short-4) var(--ease-m3-standard);
+  }
+  /* Search bar / view: same height, fully rounded (M3 search). */
+  .m3-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 56px;
+    padding-inline: 16px;
+    border-radius: 28px;
+    transition:
+      border-color var(--m3-duration-short-4) var(--ease-m3-standard),
+      background-color var(--m3-duration-short-4) var(--ease-m3-standard),
+      box-shadow var(--m3-duration-short-4) var(--ease-m3-standard);
+  }
+
+  /* ------------------------------------------------------- top app bar */
+  .m3-top-app-bar {
+    display: flex;
+    align-items: center;
+    height: 64px;
+    padding-inline: 4px;
+    transition: box-shadow var(--m3-duration-medium-2) var(--ease-m3-standard),
+      background-color var(--m3-duration-medium-2) var(--ease-m3-standard);
+  }
+
+  /* ---------------------------------------------------- navigation bar */
+  .m3-nav-bar {
+    display: grid;
+    height: 80px;
+    align-items: start;
+  }
+  .m3-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+    padding-top: 12px;
+    padding-bottom: 16px;
+    min-width: 0;
+  }
+  /* The pill that slides under the active destination's icon. */
+  .m3-nav-indicator {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 32px;
+    border-radius: 16px;
+  }
+  .m3-nav-indicator::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-color: currentColor;
+    opacity: 0;
+    transform: scaleX(0.4);
+    transition:
+      opacity var(--m3-duration-short-4) var(--ease-m3-standard),
+      transform var(--m3-duration-medium-2) var(--ease-m3-emphasized-decelerate);
+  }
+  .m3-nav-item[aria-current="page"] .m3-nav-indicator::before {
+    opacity: 0.16;
+    transform: scaleX(1);
+  }
+
+  /* -------------------------------------------------- dialogs & sheets */
+  .m3-dialog {
+    border-radius: 28px;
+    box-shadow: var(--m3-elevation-3);
+  }
+  .m3-sheet {
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
+    box-shadow: var(--m3-elevation-1);
+  }
+  /* Bottom sheet on a phone, centred dialog once there is room for one. */
+  .m3-sheet-dialog {
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
+  }
+  @media (min-width: 640px) {
+    .m3-sheet-dialog { border-radius: 28px; }
+  }
+  .m3-drag-handle {
+    width: 32px;
+    height: 4px;
+    border-radius: 9999px;
+  }
+  /* Scrim behind any modal surface. */
+  .m3-scrim { background-color: rgb(15 23 42 / 0.32); }
+  .dark .m3-scrim { background-color: rgb(2 6 18 / 0.6); }
+
+  /* ---------------------------------------------------------- list item */
+  .m3-list-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 56px;
+    padding-inline: 16px;
+    padding-block: 8px;
+    transition: background-color var(--m3-duration-short-4) var(--ease-m3-standard);
+  }
+  .m3-list-item-two-line { min-height: 72px; }
+}
+
 /*
  * Dark mode is driven entirely by the `dark:` utility variants authored on the
  * components (every bg/text/border already has an explicit dark: companion).
@@ -55,9 +406,11 @@
  * variants do the work.
  */
 @layer base {
+  /* M3 focus indicator: a 3dp ring held 2dp off the component's own shape.
+     CanvasText keeps it legible on either theme without adding a colour. */
   :where(button, a, input, textarea, select, summary):focus-visible {
-    outline: 2px solid CanvasText;
-    outline-offset: 3px;
+    outline: 3px solid CanvasText;
+    outline-offset: 2px;
   }
 
   html.dark {

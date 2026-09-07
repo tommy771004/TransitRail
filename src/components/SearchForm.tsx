@@ -283,11 +283,11 @@ export function SearchForm({
   };
 
   return (
-    <main className="min-h-screen bg-transparent px-4 pb-28 pt-20 transition-all duration-500">
+    <main className="min-h-screen bg-transparent px-4 pb-28 pt-22 transition-all duration-500">
       <section className="mx-auto max-w-md">
 
         {/* Country Selector */}
-        <div className="mb-4 flex gap-1.5 overflow-x-auto rounded-xl bg-slate-100/70 p-1 pb-2 soft-scrollbar dark:bg-slate-900/60">
+        <div role="group" aria-label={t("search.country", { defaultValue: "Country" })} className="mb-4 flex gap-2 overflow-x-auto px-0.5 pb-2 soft-scrollbar">
           {countryOptions.map((item) => (
             <button
               key={item}
@@ -303,10 +303,10 @@ export function SearchForm({
               }}
               aria-label={t(countryConfig[item].labelKey)}
               aria-pressed={country === item}
-              className={`shrink-0 whitespace-nowrap rounded-lg px-4 py-2.5 text-xs font-semibold transition-colors ${
+              className={`m3-chip m3-chip-touch m3-state shrink-0 border ${
                 country === item
-                  ? `${countryThemes[item].buttonBg} text-white`
-                  : "text-slate-600 hover:bg-slate-200/50 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+                  ? `border-transparent ${countryThemes[item].buttonBg} text-white`
+                  : "border-slate-300 bg-transparent text-slate-700 dark:border-slate-700 dark:text-slate-300"
               }`}
             >
               {countryFlags[item] || ""} {t(countryConfig[item].labelKey)}
@@ -324,16 +324,16 @@ export function SearchForm({
             onClick={handleAutoDetectCountry}
             disabled={isDetectingCountry}
             aria-busy={isDetectingCountry}
-            className="flex min-h-9 items-center gap-1.5 rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-200 disabled:cursor-wait disabled:text-slate-500 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+            className="m3-chip m3-chip-icon-leading m3-state border border-slate-300 bg-transparent text-slate-700 disabled:cursor-wait disabled:text-slate-500 dark:border-slate-700 dark:text-slate-200"
           >
             {isDetectingCountry ? (
               <>
-                <Loader2 className="h-3 w-3 animate-spin text-slate-400" />
+                <Loader2 className="h-4 w-4 animate-spin text-slate-400" />
                 <span>{t("search.detecting_country", { defaultValue: "Detecting country..." })}</span>
               </>
             ) : (
               <>
-                <Navigation className={`h-3 w-3 ${theme.textActive}`} />
+                <Navigation className={`h-4 w-4 ${theme.textActive}`} />
                 <span>{t("search.auto_detect_country", { defaultValue: "Detect country" })}</span>
               </>
             )}
@@ -341,7 +341,7 @@ export function SearchForm({
         </div>
 
         {/* Main Search Card */}
-        <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+        <div className="m3-card m3-card-large m3-elevation-1 relative overflow-hidden bg-white dark:bg-slate-900">
           {/* Stable progress track during network latency */}
           {isSearching && (
             <div className="absolute top-0 left-0 right-0 h-1 overflow-hidden bg-slate-100 dark:bg-slate-800 z-20">
@@ -361,16 +361,16 @@ export function SearchForm({
                   onOpenStations("origin");
                 }}
                 aria-label={origin ? `${t("search.origin")}: ${stationLabel(t, origin, country)}` : t("search.select_origin", { defaultValue: "Select Departure Station" })}
-                className="group z-10 flex min-h-24 flex-1 flex-col items-center justify-center rounded-xl py-2 text-center transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                className="m3-shape-md m3-state group z-10 flex min-h-24 flex-1 flex-col items-center justify-center py-2 text-center"
               >
-                <div className={`mb-1.5 flex items-center gap-1 text-xs font-semibold ${theme.textActive}`}>
+                <div className={`m3-label-medium mb-1.5 flex items-center gap-1 ${theme.textActive}`}>
                   <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
                   {t("search.origin")}
                 </div>
-                <div className={`max-w-full text-xl font-bold leading-tight ${origin ? "text-slate-900 dark:text-white" : "text-slate-400 dark:text-slate-500"}`}>
+                <div className={`m3-headline-small max-w-full font-medium ${origin ? "text-slate-900 dark:text-white" : "text-slate-400 dark:text-slate-500"}`}>
                   {origin ? stationLabel(t, origin, country) : t("search.select_origin", { defaultValue: "Select" })}
                 </div>
-                <div className="mt-1 max-w-full truncate text-[11px] text-slate-500 dark:text-slate-400">
+                <div className="m3-body-small mt-1 max-w-full truncate text-slate-500 dark:text-slate-400">
                   {origin || "DEP"}
                 </div>
               </button>
@@ -379,10 +379,10 @@ export function SearchForm({
                 <button
                   type="button"
                   onClick={swapStations}
-                  className={`flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 ${theme.textActive}`}
+                  className={`m3-fab m3-fab-small m3-state h-12 w-12 bg-slate-100 dark:bg-slate-800 ${theme.textActive}`}
                   aria-label={t("search.swap")}
                 >
-                  <ArrowLeftRight className="h-4.5 w-4.5" />
+                  <ArrowLeftRight aria-hidden="true" className="h-5 w-5" />
                 </button>
               </div>
 
@@ -393,16 +393,16 @@ export function SearchForm({
                   onOpenStations("destination");
                 }}
                 aria-label={destination ? `${t("search.destination")}: ${stationLabel(t, destination, country)}` : t("search.select_dest", { defaultValue: "Select Destination Station" })}
-                className="group z-10 flex min-h-24 flex-1 flex-col items-center justify-center rounded-xl py-2 text-center transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                className="m3-shape-md m3-state group z-10 flex min-h-24 flex-1 flex-col items-center justify-center py-2 text-center"
               >
-                <div className={`mb-1.5 flex items-center gap-1 text-xs font-semibold ${theme.textActive}`}>
+                <div className={`m3-label-medium mb-1.5 flex items-center gap-1 ${theme.textActive}`}>
                   <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
                   {t("search.destination")}
                 </div>
-                <div className={`max-w-full text-xl font-bold leading-tight ${destination ? "text-slate-900 dark:text-white" : "text-slate-400 dark:text-slate-500"}`}>
+                <div className={`m3-headline-small max-w-full font-medium ${destination ? "text-slate-900 dark:text-white" : "text-slate-400 dark:text-slate-500"}`}>
                   {destination ? stationLabel(t, destination, country) : t("search.select_dest", { defaultValue: "Select" })}
                 </div>
-                <div className="mt-1 max-w-full truncate text-[11px] text-slate-500 dark:text-slate-400">
+                <div className="m3-body-small mt-1 max-w-full truncate text-slate-500 dark:text-slate-400">
                   {destination || "ARR"}
                 </div>
               </button>
@@ -411,14 +411,14 @@ export function SearchForm({
 
           <div className="border-t border-slate-100/80 p-5 dark:border-slate-800/60">
             {!canSearchTimetable ? (
-              <div className="rounded-2xl border border-amber-200/80 bg-amber-50/70 px-4 py-3 text-xs font-semibold leading-relaxed text-amber-800 dark:border-amber-900/40 dark:bg-amber-950/20 dark:text-amber-300">
-                <span className="block text-xs font-semibold text-amber-700 dark:text-amber-300">
+              <div className="m3-card m3-body-small border border-amber-200/80 bg-amber-50/70 px-4 py-3 leading-relaxed text-amber-800 dark:border-amber-900/40 dark:bg-amber-950/20 dark:text-amber-300">
+                <span className="m3-label-large block text-amber-700 dark:text-amber-300">
                   {t("search.station_directory_only", { defaultValue: "Station directory & transfer guidance" })}
                 </span>
                 <span className="mt-1 block">{t("search.timetable_unavailable", { defaultValue: "這個地區目前提供站點與轉乘資料，尚未提供可查詢的時刻表。" })}</span>
               </div>
             ) : config.liveOnly ? (
-              <div className="flex items-center gap-2 rounded-xl bg-emerald-50/50 px-3 py-2 text-xs font-semibold text-emerald-800 dark:bg-emerald-950/20 dark:text-emerald-400">
+              <div className="m3-card m3-label-large flex items-center gap-2 bg-emerald-50/50 px-4 py-3 text-emerald-800 dark:bg-emerald-950/20 dark:text-emerald-400">
                 <span aria-hidden="true" className="h-2 w-2 rounded-full bg-emerald-700 dark:bg-emerald-400" />
                 <span>{t("search.live_today")}</span>
                 <span className="ml-auto tabular-nums text-slate-500 dark:text-slate-400">{date}</span>
@@ -428,19 +428,19 @@ export function SearchForm({
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <CalendarDays className="h-4 w-4 text-slate-400" />
-                    <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+                    <span className="m3-title-small text-slate-600 dark:text-slate-300">
                       {t("search.date_of_travel", { defaultValue: "出發日期" })}
                     </span>
                   </div>
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400">{t("search.scroll_dates", { defaultValue: "More dates" })}</span>
+                  <span className="m3-body-small text-slate-500 dark:text-slate-400">{t("search.scroll_dates", { defaultValue: "More dates" })}</span>
                 </div>
                 
                 {dateUnavailable && (
-                  <p role="status" className="rounded-lg bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
+                  <p role="status" className="m3-card m3-body-medium bg-amber-50 p-3 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
                     {dateUnavailableMessage}
                   </p>
                 )}
-                <div role="group" aria-label={t("search.date_of_travel")} className="flex gap-2.5 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory hide-scrollbar">
+                <div role="group" aria-label={t("search.date_of_travel")} className="flex gap-2.5 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory no-scrollbar">
                   {offeredDates.map((dateValue, idx) => {
                     const d = new Date(`${dateValue}T12:00:00Z`);
                     const isSelected = date === dateValue;
@@ -463,15 +463,15 @@ export function SearchForm({
                         }}
                         aria-label={`${label}, ${monthStr} ${dayStr}`}
                         aria-pressed={isSelected}
-                        className={`flex min-h-16 min-w-[72px] shrink-0 snap-start flex-col items-center justify-center rounded-lg border p-3 text-center transition-colors ${
+                        className={`m3-card m3-state m3-label-large flex min-h-18 min-w-[72px] shrink-0 snap-start flex-col items-center justify-center border p-3 text-center ${
                           isSelected
                             ? theme.badgeBg
-                            : "bg-transparent text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/40 border-slate-200 dark:border-slate-800"
+                            : "border-slate-300 bg-transparent text-slate-600 dark:border-slate-700 dark:text-slate-300"
                         }`}
                       >
-                        <span className={`mb-1.5 text-[10px] font-bold ${isSelected ? theme.dateLabelSelected : "text-slate-400 dark:text-slate-400"}`}>{label}</span>
-                        <span className="text-[15px] font-black leading-tight tracking-tight">{monthStr}</span>
-                        <span className="text-[15px] font-black leading-tight tracking-tight">{dayStr}</span>
+                        <span className={`m3-label-small mb-1.5 ${isSelected ? theme.dateLabelSelected : "text-slate-400 dark:text-slate-400"}`}>{label}</span>
+                        <span className="m3-title-small leading-tight">{monthStr}</span>
+                        <span className="m3-title-medium leading-tight">{dayStr}</span>
                       </button>
                     );
                   })}
@@ -484,14 +484,14 @@ export function SearchForm({
                 <div className="mb-2.5 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <Clock3 className="h-4 w-4 text-slate-400" />
-                    <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+                    <span className="m3-title-small text-slate-600 dark:text-slate-300">
                       {t("search.depart_after", { defaultValue: "最早出發時間" })}
                     </span>
-                    <span className="text-[10px] font-medium normal-case tracking-normal text-slate-400 dark:text-slate-500">
+                    <span className="m3-label-small normal-case text-slate-400 dark:text-slate-500">
                       {t("search.market_time", { timeZone: config.timeZone, defaultValue: `${config.timeZone} local time` })}
                     </span>
                   </div>
-                  <label className="flex min-h-11 items-center gap-1.5 rounded-lg bg-slate-100 px-3 text-sm font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                  <label className="m3-field m3-body-large min-h-12 gap-1.5 rounded-b-none border-b border-slate-400 bg-slate-100 px-3 text-slate-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200">
                     <span className="sr-only">{t("search.custom_time", { defaultValue: "自訂時間" })}</span>
                     <input
                       type="time"
@@ -520,10 +520,10 @@ export function SearchForm({
                           triggerHaptic("light");
                           updateParam("time", option.value);
                         }}
-                        className={`shrink-0 rounded-xl border px-3 py-2 text-xs font-bold transition-all ${
+                        className={`m3-chip m3-chip-touch m3-state shrink-0 border ${
                           selected
                             ? theme.badgeBg
-                            : "border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-slate-200"
+                            : "border-slate-300 bg-transparent text-slate-600 dark:border-slate-700 dark:text-slate-300"
                         }`}
                       >
                         {option.label}
@@ -531,7 +531,7 @@ export function SearchForm({
                     );
                   })}
                 </div>
-                <p className="mt-2 text-[11px] leading-relaxed text-slate-400 dark:text-slate-500">
+                <p className="m3-body-small mt-2 leading-relaxed text-slate-400 dark:text-slate-500">
                   {params.time
                     ? t("search.depart_after_hint", { time: params.time, defaultValue: `僅顯示 ${params.time} 起的班次` })
                     : t("search.time_any_hint", { defaultValue: "不限制出發時間，方便比較所有可用班次" })}
@@ -540,13 +540,13 @@ export function SearchForm({
             )}
 
             {formError && (
-              <p className="mt-4 rounded-xl border border-red-100 bg-red-50/75 px-4 py-2.5 text-xs font-semibold text-red-700 dark:border-red-950/40 dark:bg-red-950/20 dark:text-red-400">
+              <p className="m3-card m3-body-medium mt-4 border border-red-100 bg-red-50/75 px-4 py-3 text-red-700 dark:border-red-950/40 dark:bg-red-950/20 dark:text-red-400">
                 {formError}
               </p>
             )}
 
             {isSearching && (
-              <div role="status" className="mt-4 flex items-center justify-center gap-2.5 rounded-xl bg-sky-50 px-4 py-3.5 text-xs font-semibold text-sky-800 dark:bg-sky-950/30 dark:text-sky-300">
+              <div role="status" className="m3-card m3-body-medium mt-4 flex items-center justify-center gap-2.5 bg-sky-50 px-4 py-3.5 text-sky-800 dark:bg-sky-950/30 dark:text-sky-300">
                 <Loader2 className="h-4 w-4 animate-spin text-blue-500 dark:text-blue-400 shrink-0" />
                 <span>{t("search.fetching_live_data")}</span>
               </div>
@@ -559,7 +559,7 @@ export function SearchForm({
                 aria-label={isSearching ? t("search.searching") : canSearchTimetable ? t("search.search_timetable", { defaultValue: "查詢時刻表" }) : t("search.timetable_unavailable", { defaultValue: "時刻表尚未提供" })}
                 type="button"
                 aria-busy={isSearching}
-                className={`h-12 flex-1 rounded-lg ${theme.buttonBg} text-sm font-semibold text-white transition-colors disabled:cursor-wait disabled:opacity-60`}
+                className={`m3-button m3-button-large m3-state m3-elevation-1 flex-1 ${theme.buttonBg} text-white disabled:cursor-wait disabled:opacity-60`}
               >
                 {isSearching ? t("search.searching") : canSearchTimetable ? t("search.search_timetable", { defaultValue: "查詢時刻表" }) : t("search.timetable_unavailable_short", { defaultValue: "暫無時刻表" })}
               </button>
@@ -569,7 +569,7 @@ export function SearchForm({
                   onClick={handleToggleFavorite}
                   aria-pressed={isFavorited}
                   aria-label={isFavorited ? t("favorites.remove", { defaultValue: "Remove route from favorites" }) : t("favorites.save", { defaultValue: "Save route to favorites" })}
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-500 transition-colors hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-amber-700 dark:hover:bg-amber-950/30 dark:hover:text-amber-300"
+                  className="m3-icon-button m3-state m3-shape-full h-14 w-14 shrink-0 border border-slate-300 text-slate-500 dark:border-slate-700 dark:text-slate-300"
                   title={isFavorited ? t("favorites.remove", { defaultValue: "Remove route from favorites" }) : t("favorites.save", { defaultValue: "Save route to favorites" })}
                 >
                   <Star className={`h-5 w-5 ${isFavorited ? "fill-amber-400 text-amber-500 dark:text-amber-400" : ""}`} />
@@ -579,7 +579,7 @@ export function SearchForm({
 
             {frequentRoutes.length > 0 && (
               <div className="mt-5 pt-4 border-t border-slate-100/80 dark:border-slate-800/60">
-                <p className="mb-2.5 text-xs font-semibold text-slate-500 dark:text-slate-400">
+                <p className="m3-title-small mb-2.5 text-slate-500 dark:text-slate-400">
                   {t("search.quick_access", { defaultValue: "Quick Access" })}
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -592,7 +592,7 @@ export function SearchForm({
                         onChange({ ...params, origin: route.origin, destination: route.destination });
                       }}
                       aria-label={`${stationLabel(t, route.origin, country)} to ${stationLabel(t, route.destination, country)}`}
-                      className="flex min-h-10 items-center gap-1.5 rounded-lg bg-slate-100 px-3.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                      className="m3-chip m3-chip-touch m3-state gap-1.5 border border-slate-300 bg-transparent text-slate-700 dark:border-slate-700 dark:text-slate-300"
                     >
                       {stationLabel(t, route.origin, country)}
                       <span className="text-slate-300 dark:text-slate-600">&rarr;</span>
@@ -607,21 +607,21 @@ export function SearchForm({
 
         {/* Dynamic, humble credits/attribution under the search form instead of status bar AI-slop */}
         <div className="mt-3.5 text-center">
-          <span className="inline-flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+          <span className="m3-body-small inline-flex items-center gap-1 text-slate-500 dark:text-slate-400">
             {t("search.data_source")}: <span className="text-slate-500 dark:text-slate-400">{config.provider}</span>
           </span>
         </div>
 
         {favorites.length > 0 && (
           <section className="mt-8">
-            <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+            <h2 className="m3-title-medium px-1 text-slate-700 dark:text-slate-200">
               {t("favorites.title", { defaultValue: "Favorite Routes" })}
             </h2>
-            <div className="mt-3 divide-y divide-slate-100 overflow-hidden rounded-xl bg-white dark:divide-slate-800 dark:bg-slate-900">
+            <div className="m3-card m3-card-large m3-elevation-1 mt-3 divide-y divide-slate-100 overflow-hidden bg-white dark:divide-slate-800 dark:bg-slate-900">
               {favorites.map((fav) => (
                 <div
                   key={fav.id}
-                  className="flex items-center justify-between bg-white hover:bg-slate-50 transition-colors dark:bg-slate-900 dark:hover:bg-slate-800"
+                  className="m3-list-item m3-list-item-two-line justify-between gap-2 bg-white px-2 dark:bg-slate-900"
                 >
                   <button
                     type="button"
@@ -630,14 +630,14 @@ export function SearchForm({
                       onRepeatFavoriteSearch(fav);
                     }}
                     aria-label={`Search favorite route ${stationLabel(t, fav.origin, fav.country)} to ${stationLabel(t, fav.destination, fav.country)}`}
-                    className="flex-1 min-w-0 text-left px-5 py-3.5"
+                    className="m3-shape-md m3-state min-w-0 flex-1 px-3 py-2 text-left"
                   >
-                    <span className="block truncate text-sm font-bold text-slate-900 dark:text-white">
+                    <span className="m3-body-large block truncate text-slate-900 dark:text-white">
                       {stationLabel(t, fav.origin, fav.country)}
                       <span className="mx-1.5 text-slate-400">&rarr;</span>
                       {stationLabel(t, fav.destination, fav.country)}
                     </span>
-                    <span className={`mt-0.5 block text-[11px] font-semibold ${countryThemes[fav.country]?.textActive || "text-slate-400"}`}>
+                    <span className={`m3-label-medium mt-0.5 block ${countryThemes[fav.country]?.textActive || "text-slate-400"}`}>
                       {countryFlags[fav.country] || ""} {t(countryConfig[fav.country].labelKey)}
                     </span>
                   </button>
@@ -648,7 +648,7 @@ export function SearchForm({
                       onRemoveFavorite(fav.id);
                     }}
                     aria-label={`Remove favorite route ${stationLabel(t, fav.origin, fav.country)} to ${stationLabel(t, fav.destination, fav.country)}`}
-                    className="flex h-12 w-12 items-center justify-center text-amber-400 hover:text-slate-300 transition-colors shrink-0"
+                    className="m3-icon-button m3-icon-button-large m3-state text-amber-400"
                     title={t("favorites.remove", { defaultValue: "Remove route from favorites" })}
                   >
                     <Star className="h-4 w-4 fill-amber-400 text-amber-500" />
@@ -661,14 +661,14 @@ export function SearchForm({
 
         {sortedHistory.length > 0 && (
           <section className="mt-8">
-            <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+            <h2 className="m3-title-medium px-1 text-slate-700 dark:text-slate-200">
               {t("history.recent")}
             </h2>
-            <div className="mt-3 divide-y divide-slate-100 rounded-xl bg-white dark:divide-slate-800 dark:bg-slate-900">
+            <div className="m3-card m3-card-large m3-elevation-1 mt-3 divide-y divide-slate-100 overflow-hidden bg-white dark:divide-slate-800 dark:bg-slate-900">
               {sortedHistory.slice(0, 5).map((item) => (
                 <div
                   key={item.id}
-                  className="flex w-full items-center justify-between gap-3 px-5 py-3.5 text-left"
+                  className="m3-list-item m3-list-item-two-line w-full justify-between gap-2 px-2 text-left"
                 >
                   <button
                     onClick={() => {
@@ -676,14 +676,14 @@ export function SearchForm({
                       onRepeatSearch(item);
                     }}
                     aria-label={`Search recent route ${stationLabel(t, item.origin, item.country)} to ${stationLabel(t, item.destination, item.country)}`}
-                    className="flex-1 min-w-0 text-left"
+                    className="m3-shape-md m3-state min-w-0 flex-1 px-3 py-2 text-left"
                   >
-                    <span className="block truncate text-sm font-bold text-slate-900 dark:text-white">
+                    <span className="m3-body-large block truncate text-slate-900 dark:text-white">
                       {stationLabel(t, item.origin, item.country)}
                       <span className="mx-1.5 text-slate-400">&rarr;</span>
                       {stationLabel(t, item.destination, item.country)}
                     </span>
-                    <span className="mt-0.5 block text-[11px] tabular-nums text-slate-500 dark:text-slate-400">
+                    <span className="m3-label-medium mt-0.5 block tabular-nums text-slate-500 dark:text-slate-400">
                       {item.date} · <span className={`font-bold ${countryThemes[item.country]?.textActive || ""}`}>{countryFlags[item.country] || ""} {t(countryConfig[item.country].labelKey)}</span>
                     </span>
                   </button>
@@ -697,10 +697,10 @@ export function SearchForm({
                       }}
                       title={item.pinned ? t("history.unpin") : t("history.pin")}
                       aria-label={item.pinned ? t("history.unpin") : t("history.pin")}
-                      className={`p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${
+                      className={`m3-icon-button m3-state ${
                         item.pinned
-                          ? "text-emerald-500 hover:text-emerald-600 dark:text-emerald-400"
-                          : "text-slate-300 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400"
+                          ? "text-emerald-500 dark:text-emerald-400"
+                          : "text-slate-400 dark:text-slate-500"
                       }`}
                     >
                       <Pin className={`h-4 w-4 ${item.pinned ? "fill-current rotate-45" : ""}`} />
@@ -712,7 +712,7 @@ export function SearchForm({
                         onRepeatSearch(item);
                       }}
                       aria-label={t("search.search_timetable", { defaultValue: "Search timetable" })}
-                      className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-300 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400 transition-colors"
+                      className="m3-icon-button m3-state text-slate-400 dark:text-slate-500"
                     >
                       <Search className="h-4 w-4" />
                     </button>
@@ -728,9 +728,9 @@ export function SearchForm({
             href="https://roam-jelly-web.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg bg-emerald-50 px-3 py-3 text-center text-[13px] font-semibold text-emerald-800 transition-colors hover:bg-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-300 dark:hover:bg-emerald-950/50"
+            className="m3-button m3-button-icon-leading m3-state flex-1 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300"
           >
-            <Sparkles aria-hidden="true" className="h-5 w-5 shrink-0" />
+            <Sparkles aria-hidden="true" className="h-[18px] w-[18px] shrink-0" />
             <span className="truncate">{t("search.plan_ai", { defaultValue: "AI 行程規劃" })}</span>
           </a>
 
@@ -738,29 +738,29 @@ export function SearchForm({
             href="https://taiwanrail.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg bg-sky-50 px-3 py-3 text-center text-[13px] font-semibold text-sky-800 transition-colors hover:bg-sky-100 dark:bg-sky-950/30 dark:text-sky-300 dark:hover:bg-sky-950/50"
+            className="m3-button m3-button-icon-leading m3-state flex-1 bg-sky-50 text-sky-800 dark:bg-sky-950/30 dark:text-sky-300"
           >
-            <MapPin aria-hidden="true" className="h-5 w-5 shrink-0" />
+            <MapPin aria-hidden="true" className="h-[18px] w-[18px] shrink-0" />
             <span className="truncate">{t("search.taiwan_rail_link", { defaultValue: "台/鐵/捷運 查詢" })}</span>
           </a>
         </div>
 
         {/* About Section */}
         <div className="mt-12 pt-6 border-t border-slate-200/60 dark:border-slate-800/60">
-          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">
+          <h2 className="m3-headline-small mb-3 text-slate-900 dark:text-white">
             {t("search.about_title", { defaultValue: "關於全球鐵道查詢" })}
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+          <p className="m3-body-medium leading-relaxed text-slate-500 dark:text-slate-400">
             {t("search.about_body", { defaultValue: "TransitRail 是一個免費的跨國鐵道與大眾運輸時刻表查詢工具，提供日本、新加坡、泰國、香港、英國、美國、德國、法國、中國等市場的鐵路與地鐵資訊。無需註冊即可查詢站點班次、行車日期、營運商與轉乘資訊。" })}
           </p>
-          <p className="mt-3 text-[11px] font-medium text-slate-400 dark:text-slate-500">
+          <p className="m3-body-small mt-3 text-slate-400 dark:text-slate-500">
             {t("search.data_source_detail", { defaultValue: "班次、票價與即時狀態資料來源：各國大眾運輸系統與第三方 API（如 Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF 等）。" })}
           </p>
         </div>
 
         {/* Popular Routes Section */}
         <div className="mt-10 overflow-hidden">
-          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white mb-4">
+          <h2 className="m3-headline-small mb-4 text-slate-900 dark:text-white">
             {t("search.popular_routes", { defaultValue: "熱門路線" })}
           </h2>
           
@@ -788,9 +788,9 @@ export function SearchForm({
                         });
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       }}
-                      className="mr-3 inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
+                      className="m3-chip m3-chip-touch m3-state m3-elevation-1 mr-3 shrink-0 bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-300"
                     >
-                      <span className={`text-[10px] font-semibold ${routeTheme.textActive}`}>
+                      <span className={`m3-label-small ${routeTheme.textActive}`}>
                         {countryFlags[route.country] || ""} {t(countryConfig[route.country as Country].labelKey)}
                       </span>
                       <span>{route.label}</span>
@@ -823,9 +823,9 @@ export function SearchForm({
                         });
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       }}
-                      className="mr-3 inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
+                      className="m3-chip m3-chip-touch m3-state m3-elevation-1 mr-3 shrink-0 bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-300"
                     >
-                      <span className={`text-[10px] font-semibold ${routeTheme.textActive}`}>
+                      <span className={`m3-label-small ${routeTheme.textActive}`}>
                         {countryFlags[route.country] || ""} {t(countryConfig[route.country as Country].labelKey)}
                       </span>
                       <span>{route.label}</span>
@@ -839,7 +839,7 @@ export function SearchForm({
 
         {/* FAQ Section */}
         <div className="mt-10 mb-12">
-          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white mb-4">
+          <h2 className="m3-headline-small mb-4 text-slate-900 dark:text-white">
             {t("search.faq_title", { defaultValue: "常見問題 FAQ" })}
           </h2>
           <div className="space-y-3">
@@ -848,7 +848,7 @@ export function SearchForm({
               return (
                 <div
                   key={idx}
-                  className="overflow-hidden rounded-2xl border border-slate-200 bg-white/90 dark:border-slate-800 dark:bg-slate-900/90 transition-all duration-300"
+                  className="m3-card m3-card-large overflow-hidden border border-slate-200 bg-white/90 dark:border-slate-800 dark:bg-slate-900/90"
                 >
                   <button
                     type="button"
@@ -856,21 +856,21 @@ export function SearchForm({
                       triggerHaptic("light");
                       setOpenFaq(isOpen ? null : idx);
                     }}
-                    className="flex w-full items-center justify-between px-5 py-4 text-left font-bold text-slate-800 dark:text-slate-200 text-sm hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors"
+                    className="m3-state m3-title-medium flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-slate-800 dark:text-slate-200"
                   >
                     <span>{faq.q}</span>
                     <ChevronDown
-                      className={`h-4.5 w-4.5 shrink-0 text-slate-400 dark:text-slate-500 transition-transform duration-300 ${
+                      className={`h-5 w-5 shrink-0 text-slate-400 transition-transform duration-300 ease-m3-emphasized dark:text-slate-500 ${
                         isOpen ? "rotate-180 text-blue-500 dark:text-blue-400" : ""
                       }`}
                     />
                   </button>
                   <div
-                    className={`transition-all duration-350 ease-in-out ${
+                    className={`overflow-hidden transition-all duration-300 ease-m3-emphasized ${
                       isOpen ? "max-h-48 border-t border-slate-100 dark:border-slate-800/60" : "max-h-0"
                     }`}
                   >
-                    <div className="p-5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                    <div className="m3-body-medium p-5 leading-relaxed text-slate-500 dark:text-slate-400">
                       {faq.a}
                     </div>
                   </div>

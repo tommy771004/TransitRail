@@ -82,19 +82,19 @@ export function KoreaResultView({
   ];
 
   return (
-    <main className="min-h-screen bg-transparent pb-28 pt-14">
+    <main className="min-h-screen bg-transparent pb-28 pt-16">
       <ResultShellHeader
         country="korea"
         origin={origin}
         destination={destination}
-        meta={<p className="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">{date}{time ? ` · ≥ ${time}` : ""} · 1 {t("result.adult")}</p>}
+        meta={<p className="m3-body-small mt-1 font-mono text-slate-500 dark:text-slate-400">{date}{time ? ` · ≥ ${time}` : ""} · 1 {t("result.adult")}</p>}
         onModify={onModify}
         onOpenLegend={onOpenLegend}
       />
 
       {overview}
 
-      <div className="sticky top-14 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-sm dark:border-slate-700/50 dark:bg-slate-900/95">
+      <div className="sticky top-16 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-sm dark:border-slate-700/50 dark:bg-slate-900/95">
         <div className="mx-auto flex max-w-md gap-2 overflow-x-auto px-4 py-3 no-scrollbar">
           {filters.map((item) => (
             <button
@@ -103,7 +103,7 @@ export function KoreaResultView({
                 triggerHaptic("light");
                 onFilterChange(item.key);
               }}
-              className={`relative shrink-0 whitespace-nowrap px-4 py-1.5 text-xs font-bold transition-colors rounded-full ${
+              className={`m3-chip m3-chip-touch m3-state relative shrink-0 ${
                 filter === item.key
                   ? "text-white"
                   : "text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700"
@@ -113,7 +113,7 @@ export function KoreaResultView({
               {filter === item.key && (
                 <motion.div
                   layoutId="koreaActiveFilterBg"
-                  className="absolute inset-0 rounded-full bg-emerald-600 shadow-[0_2px_8px_rgba(16,185,129,0.25)]"
+                  className="m3-shape-sm absolute inset-0 bg-emerald-600"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -152,20 +152,20 @@ export function KoreaResultView({
                   <div className="flex min-w-0 flex-col gap-1">
                     <div className="flex items-center gap-2">
                       <span
-                        className="inline-flex items-center gap-1.5 truncate rounded-xl bg-slate-50 px-3 py-1.5 text-[11px] font-black text-slate-800 dark:bg-slate-800/60 dark:text-slate-200 border border-slate-100 dark:border-slate-800"
+                        className="m3-chip m3-label-medium max-w-full truncate border border-slate-100 bg-slate-50 px-3 text-slate-800 dark:border-slate-800 dark:bg-slate-800/60 dark:text-slate-200"
                         style={{ borderLeft: `3.5px solid ${trip.lineColor || "#94a3b8"}` }}
                       >
                         <TransitIcon trip={trip} className="h-3.5 w-3.5" />
                         <span>{trip.service}</span>
                       </span>
-                      <span className="truncate font-mono text-[10px] font-bold text-slate-400 dark:text-slate-500">{trip.trainType || trip.operator}</span>
+                      <span className="m3-label-small truncate font-mono text-slate-400 dark:text-slate-500">{trip.trainType || trip.operator}</span>
                     </div>
                   </div>
                   <div className="shrink-0 text-right">
-                    <span className="block rounded-2xl bg-slate-50 dark:bg-slate-800/80 px-3 py-1 text-sm font-black text-slate-900 dark:text-emerald-400 shadow-xs border border-slate-100 dark:border-slate-700/50">
+                    <span className="m3-chip m3-title-small border border-slate-100 bg-slate-50 px-3 text-slate-900 dark:border-slate-700/50 dark:bg-slate-800/80 dark:text-emerald-400">
                       {formatPrice ? formatPrice(trip) : formatLocalPrice(trip) || t("result.fare_unavailable")}
                     </span>
-                    <p className="mt-1 text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                    <p className="m3-label-small mt-1 uppercase text-slate-400 dark:text-slate-500">
                       {trip.seatClass === "first" ? t("result.first_class") : t("result.economy_class")}
                     </p>
                   </div>
@@ -173,11 +173,11 @@ export function KoreaResultView({
 
                 <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 py-1">
                   <div className="min-w-0">
-                    <p className="font-mono text-3xl font-black leading-none tracking-tight text-slate-950 dark:text-white">{trip.departureTime}</p>
-                    <p className="mt-1.5 flex items-center gap-1.5 truncate text-xs font-bold text-slate-500 dark:text-slate-400">
+                    <p className="m3-headline-medium font-mono font-bold text-slate-950 dark:text-white">{trip.departureTime}</p>
+                    <p className="m3-body-small mt-1.5 flex items-center gap-1.5 truncate text-slate-500 dark:text-slate-400">
                       <span className="truncate">{stationLabel(t, trip.origin, trip.country)}</span>
                       {formatPlatform(trip.platform || trip.legs?.[0]?.platform, t) && (
-                        <span className="shrink-0 inline-flex items-center rounded-md bg-slate-100/80 px-1.5 py-0.5 font-mono text-[9px] font-black uppercase tracking-wider text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                        <span className="m3-label-small m3-shape-xs inline-flex shrink-0 items-center bg-slate-100/80 px-1.5 py-0.5 font-mono uppercase text-slate-500 dark:bg-slate-800 dark:text-slate-400">
                           {formatPlatform(trip.platform || trip.legs?.[0]?.platform, t)}
                         </span>
                       )}
@@ -185,7 +185,7 @@ export function KoreaResultView({
                   </div>
 
                   <div className="relative flex min-w-[75px] flex-col items-center">
-                    <span className="font-mono text-[10px] font-bold text-emerald-600 dark:text-emerald-400 mb-1">
+                    <span className="m3-label-small mb-1 font-mono text-emerald-600 dark:text-emerald-400">
                       {formatDuration(trip.durationMinutes)}
                     </span>
                     <TimelineBar color={trip.lineColor || "#10b981"} direct={!!trip.direct} />
@@ -195,8 +195,8 @@ export function KoreaResultView({
                   </div>
 
                   <div className="min-w-0 text-right">
-                    <p className="font-mono text-3xl font-black leading-none tracking-tight text-slate-950 dark:text-white">{trip.arrivalTime}</p>
-                    <p className="mt-1.5 truncate text-xs font-bold text-slate-500 dark:text-slate-400">{stationLabel(t, trip.destination, trip.country)}</p>
+                    <p className="m3-headline-medium font-mono font-bold text-slate-950 dark:text-white">{trip.arrivalTime}</p>
+                    <p className="m3-body-small mt-1.5 truncate text-slate-500 dark:text-slate-400">{stationLabel(t, trip.destination, trip.country)}</p>
                   </div>
                 </div>
               </div>
@@ -207,7 +207,7 @@ export function KoreaResultView({
                   {(trip.amenities || []).includes("power") && <Zap className="h-4 w-4 shrink-0 text-slate-400" />}
                   {(trip.amenities || []).includes("food") && <Utensils className="h-4 w-4 shrink-0 text-slate-400" />}
                   {trip.warning && (
-                    <p className="flex items-center gap-1 truncate text-[11px] font-medium text-amber-800 dark:text-amber-400">
+                    <p className="m3-body-small flex items-center gap-1 truncate text-amber-800 dark:text-amber-400">
                       <AlertTriangle className="h-3 w-3 shrink-0" />
                       {trip.warning}
                     </p>
@@ -220,7 +220,7 @@ export function KoreaResultView({
                       triggerHaptic("medium");
                       onSelectSeat(trip);
                     }}
-                    className="flex h-9 items-center gap-1 rounded-2xl bg-emerald-600 px-4 text-xs font-black text-white shadow-[0_3px_10px_rgba(16,185,129,0.25)] hover:bg-emerald-500 hover:shadow-[0_4px_14px_rgba(16,185,129,0.35)] active:scale-95 transition-all duration-200"
+                    className="m3-button m3-button-small m3-state gap-1 bg-emerald-600 text-white"
                   >
                     {t("result.select_seat")}
                   </button>

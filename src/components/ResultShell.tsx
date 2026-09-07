@@ -51,7 +51,7 @@ export function ResultShellHeader({
     <section className={sectionClassName || defaultHeaderSectionClass}>
       <div className="mx-auto flex max-w-md flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0 flex-1">
-          <h1 className="flex min-w-0 items-center gap-2 text-base font-bold leading-snug text-slate-900 dark:text-white">
+          <h1 className="m3-title-large flex min-w-0 items-center gap-2 text-slate-900 dark:text-white">
             <span className="min-w-0 break-words">{stationLabel(t, origin, country)}</span>
             <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400" />
             <span className="min-w-0 break-words">{stationLabel(t, destination, country)}</span>
@@ -66,11 +66,11 @@ export function ResultShellHeader({
                 triggerHaptic("light");
                 onOpenLegend();
               }}
-              className="flex h-11 w-11 items-center justify-center rounded-lg bg-slate-100 text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+              className="m3-icon-button m3-icon-button-large m3-state bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
               title={t("result.transit_legend", { defaultValue: "Transit legend" })}
               aria-label={t("result.transit_legend", { defaultValue: "Transit legend" })}
             >
-              <Compass aria-hidden="true" className="h-4 w-4" />
+              <Compass aria-hidden="true" className="h-5 w-5" />
             </button>
           )}
           <button
@@ -79,9 +79,9 @@ export function ResultShellHeader({
               triggerHaptic("light");
               onModify();
             }}
-            className="flex min-h-11 shrink-0 items-center gap-1.5 rounded-lg bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+            className="m3-button m3-button-icon-leading m3-state shrink-0 bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
           >
-            <Edit2 aria-hidden="true" className="h-3.5 w-3.5" />
+            <Edit2 aria-hidden="true" className="h-[18px] w-[18px]" />
             {t("result.modify")}
           </button>
         </div>
@@ -120,18 +120,18 @@ export function renderNoVerifiedDataBlock(message: string, sourceUrl?: string, t
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.3 }}
-      className="rounded-xl bg-slate-100 p-4 text-slate-700 dark:bg-slate-900 dark:text-slate-300"
+      className="m3-card bg-slate-100 p-4 text-slate-700 dark:bg-slate-900 dark:text-slate-300"
     >
-      <p className="text-sm font-bold">
+      <p className="m3-title-medium">
         {title || i18n.t("result.no_verified_timetable", { defaultValue: "No verified timetable available." })}
       </p>
-      <p className="mt-1 text-sm">{message}</p>
+      <p className="m3-body-medium mt-1">{message}</p>
       {sourceUrl && (
         <a
           href={sourceUrl}
           target="_blank"
           rel="noreferrer"
-          className="mt-3 inline-block text-xs font-semibold underline underline-offset-2"
+          className="m3-label-large mt-3 inline-block underline underline-offset-2"
         >
           {i18n.t("stations.official_source", { defaultValue: "Open the operator timetable" })}
         </a>
@@ -173,12 +173,12 @@ export function renderMissBlock(options: {
       {block}
       <div className="flex flex-wrap gap-2">
         {retryable && options.onRetry && (
-          <button type="button" onClick={options.onRetry} className="min-h-11 rounded-lg bg-slate-900 px-4 text-sm font-semibold text-white dark:bg-slate-100 dark:text-slate-900">
+          <button type="button" onClick={options.onRetry} className="m3-button m3-state bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900">
             {i18n.t("result.retry")}
           </button>
         )}
         {options.onModify && (
-          <button type="button" onClick={options.onModify} className="min-h-11 rounded-lg border border-slate-300 px-4 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-200">
+          <button type="button" onClick={options.onModify} className="m3-button m3-state border border-slate-300 text-slate-700 dark:border-slate-700 dark:text-slate-200">
             {i18n.t("result.change_search")}
           </button>
         )}
@@ -196,16 +196,16 @@ export function renderErrorBlock(title: string, message: string, sourceUrl?: str
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.3 }}
-      className="rounded-xl bg-red-50 p-4 text-red-800 dark:bg-red-950 dark:text-red-300"
+      className="m3-card bg-red-50 p-4 text-red-800 dark:bg-red-950 dark:text-red-300"
     >
-      <p className="text-sm font-bold">{title}</p>
-      <p className="mt-1 text-sm">{message}</p>
+      <p className="m3-title-medium">{title}</p>
+      <p className="m3-body-medium mt-1">{message}</p>
       {sourceUrl && (
         <a
           href={sourceUrl}
           target="_blank"
           rel="noreferrer"
-          className="mt-3 inline-block text-xs font-semibold underline underline-offset-2"
+          className="m3-label-large mt-3 inline-block underline underline-offset-2"
         >
           {i18n.t("stations.official_source", { defaultValue: "Open the operator timetable" })}
         </a>
@@ -237,16 +237,16 @@ function CoverageBlock({ gap, country }: { gap: CoverageGap; country: Country })
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.3 }}
-      className="rounded-xl bg-amber-50 p-4 text-amber-900 dark:bg-amber-950/40 dark:text-amber-300"
+      className="m3-card bg-amber-50 p-4 text-amber-900 dark:bg-amber-950/40 dark:text-amber-300"
     >
-      <p className="text-sm font-bold">
+      <p className="m3-title-medium">
         {t("result.not_covered_title", {
           count: uncovered.length,
           defaultValue_one: "This station has no timetable yet",
           defaultValue_other: "These stations have no timetable yet",
         })}
       </p>
-      <p className="mt-1 text-sm">
+      <p className="m3-body-medium mt-1">
         {t("result.not_covered_body", {
           count: uncovered.length,
           stations: uncovered.join(t("result.station_separator", "、")),
@@ -258,14 +258,14 @@ function CoverageBlock({ gap, country }: { gap: CoverageGap; country: Country })
       </p>
       {suggestions.length > 0 && (
         <div className="mt-3">
-          <p className="text-xs font-bold opacity-80">
+          <p className="m3-label-large opacity-80">
             {t("result.not_covered_suggestions", "Stations with timetable data:")}
           </p>
           <div className="mt-1.5 flex flex-wrap gap-1.5">
             {suggestions.map((name) => (
               <span
                 key={name}
-                className="rounded-md border border-amber-300/50 bg-amber-100/60 px-1.5 py-0.5 text-[11px] font-bold dark:border-amber-700/50 dark:bg-amber-900/40"
+                className="m3-chip m3-label-medium min-h-8 border border-amber-300/50 bg-amber-100/60 px-3 dark:border-amber-700/50 dark:bg-amber-900/40"
               >
                 {name}
               </span>
@@ -285,23 +285,24 @@ export function renderEmptyBlock(title: string, hint: string) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.3 }}
-      className="rounded-xl bg-white p-6 text-center dark:bg-slate-900"
+      className="m3-card m3-card-large m3-elevation-1 bg-white p-6 text-center dark:bg-slate-900"
     >
-      <p className="text-sm font-bold text-slate-900 dark:text-white">{title}</p>
-      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{hint}</p>
+      <p className="m3-title-medium text-slate-900 dark:text-white">{title}</p>
+      <p className="m3-body-medium mt-1 text-slate-500 dark:text-slate-400">{hint}</p>
     </motion.div>
   );
 }
 
 export const tripCardClass =
-  "overflow-hidden rounded-xl bg-white dark:bg-slate-900";
+  "m3-card m3-card-large m3-elevation-1 overflow-hidden bg-white dark:bg-slate-900";
 
 export function tripCardMotion(index: number, withExit = false): MotionProps {
   return {
     layout: true,
     initial: false,
     ...(withExit ? { exit: { opacity: 0, y: -12 } } : {}),
-    transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1], delay: index * 0.03 },
+    // M3 "emphasized" easing — cubic-bezier(0.2, 0, 0, 1) — matches --ease-m3-emphasized.
+    transition: { duration: 0.3, ease: [0.2, 0, 0, 1], delay: index * 0.03 },
   };
 }
 
@@ -353,8 +354,8 @@ export function SaveTripButton({ isSaved, onSave, labeled = false, saveLabel }: 
         onSave();
       }}
       aria-pressed={isSaved}
-      className={`flex min-h-11 items-center rounded-lg transition-colors ${
-        labeled ? "gap-1.5 px-4 text-xs font-semibold" : "w-11 justify-center"
+      className={`m3-state ${
+        labeled ? "m3-button m3-button-icon-leading" : "m3-icon-button m3-icon-button-large m3-shape-full"
       } ${stateClass}`}
       aria-label={label}
     >

@@ -77,13 +77,13 @@ export function MetroResultView({
   const hasTransferResults = results.some((trip) => !trip.direct);
 
   return (
-    <main className="min-h-screen bg-transparent pb-28 pt-14">
+    <main className="min-h-screen bg-transparent pb-28 pt-16">
       <ResultShellHeader
         country={country}
         origin={origin}
         destination={destination}
         meta={
-          <p className="mt-1 flex items-center gap-1.5 text-xs font-bold text-slate-500 dark:text-slate-400">
+          <p className="m3-body-small mt-1 flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
             <span className="font-mono">{date}</span>
             {time ? <span className="font-mono text-slate-400 dark:text-slate-500">≥ {time}</span> : null}
           </p>
@@ -120,7 +120,7 @@ export function MetroResultView({
               className="space-y-3"
             >
               {hasTransferResults && (
-                <p className="rounded-xl bg-slate-200/60 px-4 py-2.5 text-xs leading-relaxed text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+                <p className="m3-card m3-body-small bg-slate-200/60 px-4 py-3 leading-relaxed text-slate-600 dark:bg-slate-800 dark:text-slate-400">
                   {t("metro.transfer_hint")}
                 </p>
               )}
@@ -145,7 +145,7 @@ export function MetroResultView({
                         <div className="flex items-center justify-between gap-3">
                           <div className="min-w-0">
                             <div className="flex items-center gap-2">
-                              <span className="p-1 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0">
+                              <span className="m3-shape-sm shrink-0 bg-slate-100 p-1 dark:bg-slate-800">
                                 <TransitIcon trip={trip} className="h-3.5 w-3.5" />
                               </span>
                               <p className="truncate text-sm font-bold text-slate-900 dark:text-white">{trip.service}</p>
@@ -155,7 +155,7 @@ export function MetroResultView({
                             </p>
                           </div>
                           {trip.realtime ? (
-                            <span className="flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-500/5 dark:bg-emerald-400/10 px-2.5 py-1 text-[10px] font-black text-emerald-700 dark:text-emerald-400">
+                            <span className="m3-chip m3-label-small min-h-7 shrink-0 gap-1.5 bg-emerald-500/5 px-3 text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-400">
                               <span className="relative flex h-2 w-2">
                                 <span className="absolute h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
                                 <span className="h-2 w-2 rounded-full bg-emerald-600" />
@@ -167,17 +167,17 @@ export function MetroResultView({
 
                         <div className="mt-4 flex items-end justify-between gap-4">
                           <div>
-                            <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                            <p className="m3-label-small uppercase text-slate-400 dark:text-slate-500">
                               {t("metro.next_departure")}
                             </p>
-                            <p className="font-mono text-4xl font-black leading-none tracking-tight text-slate-950 dark:text-white mt-1">
+                            <p className="m3-headline-large mt-1 font-mono font-bold text-slate-950 dark:text-white">
                               {trip.departureTime}
                             </p>
                           </div>
                           {formatPlatform(trip.platform || trip.legs?.[0]?.platform, t) && (
-                            <div className="rounded-2xl bg-slate-50 px-4.5 py-2 text-center border border-slate-100 dark:bg-slate-800/60 dark:border-slate-800/80">
-                              <p className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">{t("metro.platform")}</p>
-                              <p className="font-mono text-base font-black text-slate-900 dark:text-white mt-0.5">
+                            <div className="m3-card border border-slate-100 bg-slate-50 px-4.5 py-2 text-center dark:border-slate-800/80 dark:bg-slate-800/60">
+                              <p className="m3-label-small uppercase text-slate-400 dark:text-slate-500">{t("metro.platform")}</p>
+                              <p className="m3-title-medium mt-0.5 font-mono text-slate-900 dark:text-white">
                                 {formatPlatform(trip.platform || trip.legs?.[0]?.platform, t)}
                               </p>
                             </div>
@@ -186,8 +186,8 @@ export function MetroResultView({
                       </div>
 
                       {pathData && (
-                        <div className="mx-5 mb-5 sm:mx-6 p-4 rounded-2xl bg-slate-50/50 dark:bg-slate-800/20 border border-slate-100/50 dark:border-slate-800/50">
-                          <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3 flex items-center gap-1.5">
+                        <div className="m3-card mx-5 mb-5 border border-slate-100/50 bg-slate-50/50 p-4 sm:mx-6 dark:border-slate-800/50 dark:bg-slate-800/20">
+                          <p className="m3-label-small mb-3 flex items-center gap-1.5 uppercase text-slate-400 dark:text-slate-500">
                             <span>🗺️</span>
                             {pathData.name} Stops
                           </p>
@@ -223,7 +223,7 @@ export function MetroResultView({
                                       {station.interchanges.map((ic, icIdx) => (
                                         <span
                                           key={icIdx}
-                                          className="text-[9px] px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium truncate"
+                                          className="m3-label-small m3-shape-xs truncate bg-slate-100 px-1.5 py-0.5 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
                                         >
                                           {ic}
                                         </span>
@@ -240,7 +240,7 @@ export function MetroResultView({
                       <TripDetails trip={trip} onOpenLegend={onOpenLegend} formatPrice={formatPrice} />
 
                       {trip.warning ? (
-                        <p className="mx-4 sm:mx-6 mb-4 flex items-center gap-1.5 rounded-2xl bg-amber-50 px-3.5 py-2.5 text-xs font-semibold text-amber-800 dark:bg-amber-900/10 dark:text-amber-400 border border-amber-100/50 dark:border-amber-900/30">
+                        <p className="mx-4 sm:mx-6 m3-card m3-body-small mb-4 flex items-center gap-1.5 border border-amber-100/50 bg-amber-50 px-4 py-3 text-amber-800 dark:border-amber-900/30 dark:bg-amber-900/10 dark:text-amber-400">
                           <AlertTriangle className="h-4 w-4 shrink-0" />
                           {trip.warning}
                         </p>

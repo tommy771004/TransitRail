@@ -134,19 +134,19 @@ export function TransitLegend({ onBack, highlightLine }: TransitLegendProps) {
   ];
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-transparent pb-28 pt-14 selection:bg-emerald-200 dark:selection:bg-emerald-800/40">
+    <div ref={containerRef} className="min-h-screen bg-transparent pb-28 pt-16 selection:bg-emerald-200 dark:selection:bg-emerald-800/40">
       {/* Header */}
-      <section className="border-b border-slate-200/80 bg-white/95 backdrop-blur-sm px-4 py-4 dark:border-slate-700/50 dark:bg-slate-900/95 sticky top-14 z-30">
+      <section className="border-b border-slate-200/80 bg-white/95 backdrop-blur-sm px-4 py-4 dark:border-slate-700/50 dark:bg-slate-900/95 sticky top-16 z-30">
         <div className="mx-auto flex max-w-md items-center gap-3">
           <button
             onClick={onBack}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
+            className="m3-icon-button m3-icon-button-large m3-state text-slate-600 dark:text-slate-400"
             aria-label="Back to search"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
           <div>
-            <h1 className="text-base font-bold tracking-tight text-slate-900 dark:text-white">
+            <h1 className="m3-title-large text-slate-900 dark:text-white">
               {t("legend.title", { defaultValue: "Transit Legend / 乘車指南" })}
             </h1>
             <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -163,15 +163,15 @@ export function TransitLegend({ onBack, highlightLine }: TransitLegendProps) {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="rounded-3xl border border-emerald-100 bg-emerald-50/50 p-4 dark:border-emerald-950 dark:bg-emerald-950/20"
+          className="m3-card m3-card-large border border-emerald-100 bg-emerald-50/50 p-4 dark:border-emerald-950 dark:bg-emerald-950/20"
         >
           <div className="flex gap-3">
             <Compass className="h-5 w-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
             <div>
-              <h2 className="text-xs font-bold text-emerald-800 dark:text-emerald-300">
+              <h2 className="m3-title-small text-emerald-800 dark:text-emerald-300">
                 {t("legend.banner_title", { defaultValue: "Cross-Border Journey Guide / 跨國交通指南" })}
               </h2>
-              <p className="mt-1 text-[11px] text-emerald-700/90 dark:text-emerald-400/80 leading-relaxed">
+              <p className="m3-body-small mt-1 leading-relaxed text-emerald-700/90 dark:text-emerald-400/80">
                 {t("legend.banner_desc", { defaultValue: "Our live routing engine tracks official schedules and matches transit markers across multiple countries. Refer below to understand line colors and indicators used in result workflows." })}
               </p>
             </div>
@@ -185,10 +185,10 @@ export function TransitLegend({ onBack, highlightLine }: TransitLegendProps) {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, delay: 0.05 * (catIdx + 1) }}
-            className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+            className="m3-card m3-card-large m3-elevation-1 border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900"
           >
             <div className="mb-4">
-              <h2 className="text-sm font-bold text-slate-900 dark:text-white">{cat.title}</h2>
+              <h2 className="m3-title-medium text-slate-900 dark:text-white">{cat.title}</h2>
               <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{cat.description}</p>
             </div>
 
@@ -197,12 +197,12 @@ export function TransitLegend({ onBack, highlightLine }: TransitLegendProps) {
               <div className="space-y-4">
                 {cat.items.map((item, idx) => (
                   <div key={idx} className="flex gap-3.5 items-start">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-950/40">
+                    <div className="m3-shape-full flex h-10 w-10 shrink-0 items-center justify-center bg-slate-50 dark:bg-slate-950/40">
                       {item.icon}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-xs font-bold text-slate-800 dark:text-slate-200">{item.label}</h3>
-                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">{item.desc}</p>
+                      <h3 className="m3-title-small text-slate-800 dark:text-slate-200">{item.label}</h3>
+                      <p className="m3-body-small mt-0.5 leading-relaxed text-slate-500 dark:text-slate-400">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -214,7 +214,7 @@ export function TransitLegend({ onBack, highlightLine }: TransitLegendProps) {
               <div className="space-y-5">
                 {cat.sections.map((sec, secIdx) => (
                   <div key={secIdx} className="border-t border-slate-100 dark:border-slate-800 pt-3.5 first:border-t-0 first:pt-0">
-                    <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2.5 flex items-center gap-1.5">
+                    <h3 className="m3-title-small mb-2.5 flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
                       <Layers className="h-3.5 w-3.5 text-slate-400" />
                       <span>{sec.region}</span>
                     </h3>
@@ -223,13 +223,13 @@ export function TransitLegend({ onBack, highlightLine }: TransitLegendProps) {
                         <div
                           key={lineIdx}
                           data-line={line.name}
-                          className="flex items-center gap-2 rounded-xl bg-slate-50/50 p-2 border border-slate-100 transition-all duration-500 dark:bg-slate-950/20 dark:border-slate-800/80"
+                          className="m3-card flex items-center gap-2 border border-slate-100 bg-slate-50/50 p-2 transition-all duration-500 dark:border-slate-800/80 dark:bg-slate-950/20"
                         >
                           <span
                             className="h-3 w-3 shrink-0 rounded-full"
                             style={{ backgroundColor: line.color }}
                           />
-                          <span className="truncate text-[11px] text-slate-600 dark:text-slate-400 font-medium">
+                          <span className="m3-body-small truncate text-slate-600 dark:text-slate-400">
                             {line.name}
                           </span>
                         </div>
@@ -243,7 +243,7 @@ export function TransitLegend({ onBack, highlightLine }: TransitLegendProps) {
         ))}
 
         {/* Footer info */}
-        <div className="text-center pb-4 text-[10px] text-slate-400 dark:text-slate-500 flex items-center justify-center gap-1">
+        <div className="m3-label-small flex items-center justify-center gap-1 pb-4 text-center text-slate-400 dark:text-slate-500">
           <HelpCircle className="h-3.5 w-3.5" />
           <span>{t("legend.footer", { defaultValue: "Schedules and colors are periodically synced with open data portals." })}</span>
         </div>
