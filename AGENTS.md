@@ -44,5 +44,11 @@ publication rules.
 
 ## Conventions
 
+UI follows Material 3 in structure only: `src/index.css` carries the M3 layer (shape, elevation,
+motion, type scale, state layers, component metrics as `m3-*` classes) and every colour still comes
+from the existing slate/country-accent utilities. Build new surfaces from those classes rather than
+new one-off radii, shadows, or font sizes; a Tailwind utility on the same element still wins, so
+drop the utility a component is meant to inherit from `m3-*`.
+
 Use ESM, `tsx` for scripts, and `@/` for the repository alias. API keys are optional; failure must
 degrade safely or preserve the prior snapshot. Keep unrelated dirty-worktree changes intact.
