@@ -4,7 +4,7 @@
  * Description: Component for browsing and selecting origin or destination stations with auto-fill logic
  */
 import { Accessibility, ArrowLeft, ChevronDown, Search, X, MapPin, Loader2, Navigation } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "../i18n";
 import { motion, AnimatePresence, useDragControls, type Variants } from "motion/react";
@@ -48,6 +48,9 @@ export function StationBrowser({
   selectedDate,
 }: StationBrowserProps) {
   const { t } = useTranslation();
+  const dialogRef = useRef<HTMLElement>(null);
+  const onBackRef = useRef(onBack);
+  onBackRef.current = onBack;
   const theme = countryThemes[country] || countryThemes.japan;
   const stationKeyForCountry = (name: string) => stationSearchKey(resolveStationAlias(country, name));
   const buildAuditHeaders = () => getAuditHeaders(i18n.language, resolveAuditTimezone());
@@ -74,6 +77,59 @@ export function StationBrowser({
   const [linesFailed, setLinesFailed] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const previouslyFocused = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+    const dialog = dialogRef.current;
+    const focusableSelector = [
+      "button:not([disabled])",
+      "input:not([disabled])",
+      "select:not([disabled])",
+      "textarea:not([disabled])",
+      "a[href]",
+      "[tabindex]:not([tabindex='-1'])",
+    ].join(",");
+    const focusableElements = () => Array.from(
+      dialog?.querySelectorAll<HTMLElement>(focusableSelector) ?? [],
+    ).filter((element) => element.getClientRects().length > 0);
+
+    (focusableElements()[0] ?? dialog)?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        triggerHaptic("light");
+        onBackRef.current();
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const focusable = focusableElements();
+      if (focusable.length === 0) {
+        event.preventDefault();
+        dialog?.focus();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      previouslyFocused?.focus();
+    };
+  }, []);
 
   const handleSelectStation = (station: string) => {
     triggerHaptic("medium");
@@ -417,6 +473,8 @@ export function StationBrowser({
       className="m3-scrim fixed inset-0 z-[80] flex items-end justify-center sm:items-center sm:p-4"
     >
       <motion.section 
+        ref={dialogRef}
+        tabIndex={-1}
         variants={sheetVariants}
         role="dialog"
         aria-modal="true"

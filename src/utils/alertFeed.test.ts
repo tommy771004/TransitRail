@@ -40,6 +40,17 @@ describe("the notifications page carries transit information only", () => {
     ])).toEqual([]);
   });
 
+  it("treats malformed local storage as an empty feed without discarding valid rows", () => {
+    expect(migrateTransitAlerts({ alerts: [] })).toEqual([]);
+    expect(migrateTransitAlerts("not an alert array")).toEqual([]);
+    expect(migrateTransitAlerts([
+      null,
+      { id: "missing-fields" },
+      alert({ id: "bad-country", category: "timetable", country: "unknown" as AppAlert["country"] }),
+      alert({ id: "valid", category: "departure" }),
+    ])).toEqual([alert({ id: "valid", category: "departure" })]);
+  });
+
   it("is idempotent once alerts use the versioned categories", () => {
     const current = [alert({ id: "1", category: "timetable" })];
     expect(migrateTransitAlerts(migrateTransitAlerts(current))).toEqual(current);

@@ -209,6 +209,11 @@ jobs:
       - name: Refresh source coverage report
         run: npm run audit:sources
 
+      # Validate the generated files themselves after both generators finish.
+      # These commits skip CI, so this is their final semantic publication gate.
+      - name: Verify generated publication
+        run: npx vitest run scripts/generated-publication.test.ts
+
       - name: Check generated output formatting
         run: git diff --check
 

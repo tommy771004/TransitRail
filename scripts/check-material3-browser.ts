@@ -7,12 +7,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { chromium } from "playwright";
 
 const dir = await mkdtemp(resolve(".material3-browser-"));
-const server = await createServer({
-  configFile: false,
-  plugins: [tailwindcss()],
-  esbuild: { jsx: "automatic" },
-  server: { host: "127.0.0.1", port: 0 },
-});
+let server: Awaited<ReturnType<typeof createServer>> | undefined;
 let browser: Awaited<ReturnType<typeof chromium.launch>> | undefined;
 
 try {
@@ -46,6 +41,26 @@ try {
     createRoot(document.getElementById('root')).render(<Harness />);
   `);
 
+  server = await createServer({
+    configFile: false,
+    plugins: [tailwindcss()],
+    esbuild: { jsx: "automatic" },
+    cacheDir: resolve(dir, ".vite-cache"),
+    optimizeDeps: {
+      entries: resolve(dir, "harness.tsx"),
+      include: [
+        "i18next",
+        "lucide-react",
+        "motion/react",
+        "react",
+        "react-dom/client",
+        "react-i18next",
+        "react/jsx-dev-runtime",
+        "react/jsx-runtime",
+      ],
+    },
+    server: { host: "127.0.0.1", port: 0 },
+  });
   await server.listen();
   const address = server.httpServer!.address();
   if (!address || typeof address === "string") throw new Error("Missing local server port");
@@ -82,9 +97,11 @@ try {
         return route.continue();
       });
 
-      await page.goto(`${base}/${relative(resolve(), dir)}/index.html`);
-      await page.evaluate((dark) => document.documentElement.classList.toggle("dark", dark), colorScheme === "dark");
+      await page.goto(`${base}/${relative(resolve(), dir).replaceAll("\\", "/")}/index.html`, {
+        waitUntil: "networkidle",
+      });
       await page.locator("header").waitFor();
+      await page.evaluate((dark) => document.documentElement.classList.toggle("dark", dark), colorScheme === "dark");
       const shell = await page.evaluate(() => ({
         header: Math.round(document.querySelector("header")!.getBoundingClientRect().height),
         nav: Math.round(document.querySelector("nav > div")!.getBoundingClientRect().height),
@@ -110,11 +127,29 @@ try {
       await page.locator("#open-stations").click();
       const dialog = page.getByRole("dialog", { name: /station|駅|역|車站/i });
       await dialog.waitFor();
+      if (!await dialog.evaluate((element) => element.contains(document.activeElement))) {
+        throw new Error("Station dialog did not receive focus when opened");
+      }
       const dialogFits = await dialog.evaluate((element) => {
         const box = element.getBoundingClientRect();
         return box.left >= 0 && box.right <= window.innerWidth && box.bottom <= window.innerHeight;
       });
       if (!dialogFits) throw new Error(`Station dialog escapes viewport at ${width}px/${colorScheme}`);
+      await dialog.evaluate((element) => {
+        const focusable = Array.from(element.querySelectorAll<HTMLElement>(
+          "button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex='-1'])",
+        )).filter((candidate) => candidate.getClientRects().length > 0);
+        focusable.at(-1)?.focus();
+      });
+      await page.keyboard.press("Tab");
+      if (!await dialog.evaluate((element) => element.contains(document.activeElement))) {
+        throw new Error("Tab escaped the station dialog");
+      }
+      await page.keyboard.press("Escape");
+      await dialog.waitFor({ state: "detached" });
+      if (await page.evaluate(() => document.activeElement?.id) !== "open-stations") {
+        throw new Error("Station dialog did not restore focus when closed");
+      }
       if (errors.length) throw new Error(errors.join("\n"));
       await page.close();
     }
@@ -123,6 +158,6 @@ try {
   console.log("PASS: M3 shell, four locales, navigation, snackbar and station dialog across mobile/desktop and light/dark.");
 } finally {
   await browser?.close();
-  await server.close();
+  await server?.close();
   await rm(dir, { recursive: true, force: true });
 }

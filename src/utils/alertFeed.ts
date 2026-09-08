@@ -1,6 +1,8 @@
 import type { AppAlert, AppAlertCategory, Country, TransitSituation } from "../types";
+import { configuredCountryOptions } from "../data/countries";
 
 const USER_ALERT_CATEGORIES = new Set<AppAlertCategory>(["timetable", "departure"]);
+const CONFIGURED_COUNTRIES = new Set<Country>(configuredCountryOptions);
 
 // Frozen strings from the unversioned alert format. They are deliberately kept
 // here instead of reading today's translations: migration must continue to
@@ -27,8 +29,21 @@ const LEGACY_DEPARTURE_TITLE_PREFIXES = [
  * information, and burying two real notices under fifteen receipts is the same
  * as not showing them.
  */
-export function migrateTransitAlerts(alerts: readonly AppAlert[]): AppAlert[] {
+function isStoredAlert(value: unknown): value is AppAlert {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
+  const alert = value as Record<string, unknown>;
+  return typeof alert.id === "string"
+    && typeof alert.title === "string"
+    && typeof alert.body === "string"
+    && typeof alert.createdAt === "string"
+    && typeof alert.read === "boolean"
+    && (alert.country === undefined || CONFIGURED_COUNTRIES.has(alert.country as Country));
+}
+
+export function migrateTransitAlerts(alerts: unknown): AppAlert[] {
+  if (!Array.isArray(alerts)) return [];
   return alerts.flatMap((alert) => {
+    if (!isStoredAlert(alert)) return [];
     if (alert.category && USER_ALERT_CATEGORIES.has(alert.category)) return [alert];
 
     // The old format mixed passenger notices with provider errors, permission
