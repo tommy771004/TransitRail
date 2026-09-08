@@ -25,7 +25,7 @@ import { triggerHaptic } from "./utils/haptics";
 import { getAuditHeaders } from "./utils/audit";
 import { describeTimetableChange } from "./utils/timetableChanges";
 import { formatRelativeTime } from "./utils/relativeTime";
-import { situationsForCountries, transitAlertsOnly } from "./utils/alertFeed";
+import { countriesForSituationFeed, migrateTransitAlerts, situationsForCountries } from "./utils/alertFeed";
 import { RouteServiceOverview } from "./components/RouteServiceOverview";
 import { ServiceDayAdvisoryNotice } from "./components/ServiceDayAdvisoryNotice";
 import { Snackbar, type SnackbarMessage } from "./components/Snackbar";
@@ -60,6 +60,8 @@ const emptySearch: SearchParams = {
   country: "japan",
   preferredTransitTypes: [],
 };
+
+const USER_ALERTS_STORAGE_KEY = "transitrail.alerts.user-v2";
 
 const seoCountryPathMap: Record<Country, string> = {
   japan: "/japan",
@@ -374,12 +376,13 @@ export default function App() {
   const [pushPublicKey, setPushPublicKey] = useState<string | null>(null);
   const [pushSubscribed, setPushSubscribed] = useState(false);
   const [pushBusy, setPushBusy] = useState(false);
-  // Entries stored before the page was scoped carry no category: they are the
-  // "Route added" / "Search failed" receipts this page no longer keeps, so drop
-  // them on load instead of leaving the fix invisible to anyone who used the
-  // app already.
+  // Migrate the two legacy passenger-facing transit events and discard old IT,
+  // system and tap-receipt entries before this user-facing feed is rendered.
   const [alerts, setAlerts] = useState<AppAlert[]>(
-    () => transitAlertsOnly(loadJson<AppAlert[]>("transitrail.alerts", [])),
+    () => {
+      const versioned = loadJson<AppAlert[] | null>(USER_ALERTS_STORAGE_KEY, null);
+      return migrateTransitAlerts(versioned ?? loadJson<AppAlert[]>("transitrail.alerts", []));
+    },
   );
   const [snack, setSnack] = useState<SnackbarMessage | undefined>(undefined);
   const [situations, setSituations] = useState<TransitSituation[]>([]);
@@ -658,21 +661,22 @@ export default function App() {
   useEffect(() => saveJson("transitrail.history", history), [history]);
   useEffect(() => saveJson("transitrail.favorites", favorites), [favorites]);
   useEffect(() => saveJson("transitrail.saved", savedTrips), [savedTrips]);
-  useEffect(() => saveJson("transitrail.alerts", alerts), [alerts]);
+  // Keep the unversioned key untouched: it is the only recovery source for a
+  // passenger who has not opened a build with the scoped notification feed.
+  useEffect(() => saveJson(USER_ALERTS_STORAGE_KEY, alerts), [alerts]);
   /**
    * Markets this passenger actually travels in: the one they are searching now,
-   * plus every market they have saved a trip or a favourite route in.
+   * plus every market in their recent searches, saved trips or favourites.
    *
    * The page used to render the unfiltered feed, so someone searching Tokyo was
    * shown London tube severity and Boston MBTA alerts — provider status for
    * networks they had never opened. Service status is only information if it is
    * about a journey the passenger might take.
    */
-  const relevantSituationCountries = useMemo(() => new Set<Country>([
-    activeCountry,
-    ...savedTrips.map((trip) => trip.country),
-    ...favorites.map((favorite) => favorite.country),
-  ]), [activeCountry, savedTrips, favorites]);
+  const relevantSituationCountries = useMemo(
+    () => countriesForSituationFeed(activeCountry, savedTrips, favorites, history),
+    [activeCountry, savedTrips, favorites, history],
+  );
 
   useEffect(() => {
     if (view !== "alerts") return;

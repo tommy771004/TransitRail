@@ -25,6 +25,7 @@
     "audit:sources": "tsx scripts/audit-source-coverage.ts",
     "audit:station-i18n": "tsx scripts/audit-station-i18n.ts",
     "audit:transit-app": "tsx scripts/audit-transitapp-coverage.ts",
+    "check:ui": "tsx scripts/check-material3-browser.ts",
     "compare:transit-app": "tsx scripts/compare-transitapp-schedule.ts",
     "scrape:japan": "tsx scripts/scrape-country.ts japan",
     "scrape:korea": "tsx scripts/scrape-country.ts korea",

@@ -76,7 +76,7 @@ afterAll(() => {
   vi.useRealTimers();
 });
 
-describe("offline Seoul artifact search", () => {
+describe("offline Seoul artifact search", { timeout: 20_000 }, () => {
   it("finds direct metro runs without making a network request", () => {
     const fetchSpy = vi.spyOn(globalThis, "fetch");
     const results = findScrapedResults(

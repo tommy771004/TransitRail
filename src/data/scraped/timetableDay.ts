@@ -32,6 +32,18 @@ export interface ScrapedRouteData {
   results: TransitResult[];
 }
 
+/** Describe exactly the service dates carried by a route's stored rows. */
+export function timetableDateLabel(
+  results: readonly Pick<TransitResult, "date">[],
+  fallback: string,
+): string {
+  const dates = [...new Set(
+    results.map((result) => (result.date || "").trim()).filter(Boolean),
+  )].sort();
+  if (dates.length > 1) return `${dates[0]}..${dates[dates.length - 1]}`;
+  return dates[0] || fallback;
+}
+
 function parseTime(t: string): number {
   const [h, m] = t.split(":").map(Number);
   return h * 60 + m;

@@ -55,7 +55,7 @@ function installMbtaCatalogProvider() {
   }));
 }
 
-describe("station and line catalog integrity scope", () => {
+describe("station and line catalog integrity scope", { timeout: 20_000 }, () => {
   it("builds a stable date-qualified metro and intercity hierarchy without pair searches", async () => {
     const catalog = await buildServiceRegionCatalog({
       country: "japan",

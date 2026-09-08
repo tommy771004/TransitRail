@@ -15,11 +15,29 @@ import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { configuredCountryOptions, providerDateValue } from "../src/data/countries";
 import type { Country } from "../src/types";
+import { timetableDateLabel } from "../src/data/scraped/timetableDay";
 
 const DATA_DIR = resolve("src/data/scraped");
 
 interface DatedResult { date?: string }
-interface RouteFile { results?: DatedResult[] }
+interface RouteFile { date: string; results?: DatedResult[] }
+
+export function pruneRouteData(route: RouteFile, cutoff: string) {
+  const results = route.results;
+  if (!Array.isArray(results)) return { route, removed: 0, changed: false };
+
+  // A row with no date cannot be shown to belong to a past service day, and
+  // dateless rows are rejected elsewhere as a separate concern — leave them.
+  const kept = results.filter((result) => !result.date || result.date >= cutoff);
+  const date = timetableDateLabel(kept, route.date);
+  const removed = results.length - kept.length;
+  const changed = removed > 0 || (kept.length > 0 && date !== route.date);
+  return {
+    route: changed ? { ...route, date, results: kept } : route,
+    removed,
+    changed,
+  };
+}
 
 /** Today in the market's own time zone — a service day is local, not UTC. */
 function todayFor(country: Country): string {
@@ -28,10 +46,11 @@ function todayFor(country: Country): string {
 
 function pruneCountry(country: Country, apply: boolean) {
   const dir = join(DATA_DIR, country);
-  if (!existsSync(dir)) return { files: 0, removed: 0 };
+  if (!existsSync(dir)) return { files: 0, removed: 0, normalized: 0 };
   const cutoff = todayFor(country);
   let files = 0;
   let removed = 0;
+  let normalized = 0;
 
   for (const name of readdirSync(dir)) {
     if (!name.endsWith(".json") || name === "metadata.json") continue;
@@ -43,38 +62,36 @@ function pruneCountry(country: Country, apply: boolean) {
       console.warn(`  skipped unreadable ${country}/${name}`);
       continue;
     }
-    const results = parsed.results;
-    if (!Array.isArray(results)) continue;
+    const pruned = pruneRouteData(parsed, cutoff);
+    if (!pruned.changed) continue;
 
-    // A row with no date cannot be shown to belong to a past service day, and
-    // dateless rows are rejected elsewhere as a separate concern — leave them.
-    const kept = results.filter((result) => !result.date || result.date >= cutoff);
-    if (kept.length === results.length) continue;
-
-    removed += results.length - kept.length;
+    removed += pruned.removed;
+    if (pruned.route.date !== parsed.date) normalized += 1;
     files += 1;
-    if (apply) writeFileSync(path, `${JSON.stringify({ ...parsed, results: kept }, null, 2)}\n`, "utf8");
+    if (apply) writeFileSync(path, `${JSON.stringify(pruned.route, null, 2)}\n`, "utf8");
   }
 
-  return { files, removed };
+  return { files, removed, normalized };
 }
 
 function main() {
   const apply = !process.argv.includes("--dry-run");
   let totalFiles = 0;
   let totalRemoved = 0;
+  let totalNormalized = 0;
 
   for (const country of configuredCountryOptions) {
-    const { files, removed } = pruneCountry(country, apply);
-    if (removed === 0) continue;
+    const { files, removed, normalized } = pruneCountry(country, apply);
+    if (files === 0) continue;
     totalFiles += files;
     totalRemoved += removed;
-    console.log(`  ${country}: removed ${removed} row(s) before ${todayFor(country)} from ${files} file(s)`);
+    totalNormalized += normalized;
+    console.log(`  ${country}: removed ${removed} past row(s), normalized ${normalized} date label(s) in ${files} file(s)`);
   }
 
-  console.log(totalRemoved === 0
-    ? "No timetable rows predate today."
-    : `${apply ? "Removed" : "Would remove"} ${totalRemoved} row(s) across ${totalFiles} file(s).`);
+  console.log(totalFiles === 0
+    ? "No timetable rows predate today and all date labels are current."
+    : `${apply ? "Updated" : "Would update"} ${totalFiles} file(s): removed ${totalRemoved} row(s), normalized ${totalNormalized} date label(s).`);
 }
 
-main();
+if (process.argv[1]?.endsWith("prune-past-dates.ts")) main();

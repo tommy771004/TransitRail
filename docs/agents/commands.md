@@ -8,6 +8,7 @@ npm run dev                         # Express + Vite
 npm run build                       # Frontend and server bundle
 npm run lint                        # Typecheck + all Vitest tests; required gate
 npm test                            # Tests only
+npm run check:ui                    # Material 3 browser smoke check
 ```
 
 ## Scraping

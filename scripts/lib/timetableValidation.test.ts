@@ -93,6 +93,32 @@ describe("check 1 — empty data", () => {
   });
 });
 
+describe("file date range", () => {
+  it("blocks a label that claims dates not carried by its rows", () => {
+    const findings = validateRoute({
+      country: "germany",
+      route: route([
+        row({ id: "a", date: "2026-08-02" }),
+        row({ id: "b", date: "2026-08-03", departureTime: "09:10", arrivalTime: "11:10" }),
+      ], { date: "2026-08-01..2026-08-03" }),
+    });
+    expect(findings).toContainEqual(expect.objectContaining({
+      check: "date-range-mismatch",
+      severity: "blocking",
+      message: expect.stringContaining("2026-08-02..2026-08-03"),
+    }));
+  });
+
+  it("does not invent coverage for an empty frequency-only file", () => {
+    const serviceHours = buildSourceMeta({ sourceId: "th-bem-service-hours", fetchedAt: "2026-08-01T00:00:00.000Z" });
+    const findings = validateRoute({
+      country: "thailand",
+      route: route([], { date: "2026-08-01", sourceMeta: serviceHours, source: serviceHours.sourceName }),
+    });
+    expect(checksFrom(findings)).not.toContain("date-range-mismatch");
+  });
+});
+
 describe("check 2 — duplicate departures", () => {
   it("blocks the same departure stored under two ids", () => {
     const findings = validateRoute({
@@ -182,7 +208,7 @@ describe("check 6 — synthetic headway", () => {
       operator: "Kotoden", idPrefix: "jp-kotoden", serviceLabel: () => "琴平線",
     }).map((row) => ({ ...row, date: "2026-09-05" }));
     const sourceMeta = buildSourceMeta({ sourceId: "jp-kotoden-gtfs", fetchedAt: "2026-09-05T00:00:00Z" });
-    const snapshot = route(results, { origin: "高松築港", destination: "琴電琴平", sourceMeta });
+    const snapshot = route(results, { origin: "高松築港", destination: "琴電琴平", date: "2026-09-05", sourceMeta });
     const findings = validateRoute({ country: "japan", route: snapshot });
     expect(findings).toEqual([expect.objectContaining({ check: "synthetic-headway", severity: "warning" })]);
     expect(validateRoute({ country: "japan", route: { ...snapshot, provenance: "curated" } }))

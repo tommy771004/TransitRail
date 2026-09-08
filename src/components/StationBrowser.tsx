@@ -418,6 +418,9 @@ export function StationBrowser({
     >
       <motion.section 
         variants={sheetVariants}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="station-browser-title"
         drag="y"
         dragControls={dragControls}
         dragListener={false}
@@ -449,7 +452,7 @@ export function StationBrowser({
               <ArrowLeft aria-hidden="true" className="h-5 w-5" />
             </button>
             <div className="min-w-0 flex-1">
-              <h1 className="m3-title-large flex items-center gap-1.5 text-slate-900 dark:text-white">
+              <h1 id="station-browser-title" className="m3-title-large flex items-center gap-1.5 text-slate-900 dark:text-white">
                 {target === "origin" ? t("stations.pick_origin") : t("stations.pick_destination")}
               </h1>
               <p className="m3-body-small mt-0.5 flex items-center gap-1 truncate text-slate-400 dark:text-slate-500">

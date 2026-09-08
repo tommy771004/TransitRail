@@ -28,6 +28,7 @@ import {
   exactHeadwayMinutes,
   parseClockMinutes,
 } from "../../src/data/timetableAuthenticity";
+import { timetableDateLabel } from "../../src/data/scraped/timetableDay";
 
 export type ValidationSeverity = "blocking" | "warning";
 
@@ -41,6 +42,7 @@ export interface ValidationFinding {
 
 export type ValidationCheckId =
   | "empty-data"
+  | "date-range-mismatch"
   | "duplicate-departures"
   | "reversed-times"
   | "over-24-hours"
@@ -55,6 +57,7 @@ export type ValidationCheckId =
 /** Every check, in the order they are reported. */
 export const VALIDATION_CHECKS: ValidationCheckId[] = [
   "empty-data",
+  "date-range-mismatch",
   "duplicate-departures",
   "reversed-times",
   "over-24-hours",
@@ -117,6 +120,20 @@ export function validateRoute(input: ValidationInput): ValidationFinding[] {
     const completeness = route.sourceMeta?.completeness;
     if (completeness === "full-timetable" || completeness === undefined) {
       add("empty-data", "warning", "No departures stored for any service day.");
+    }
+  }
+
+  // The file-level label is audit metadata, while search reads exact dates
+  // from each row. Letting those disagree makes a snapshot claim coverage it
+  // cannot answer, so generated non-empty files must keep the two in lockstep.
+  if (route.results.length > 0) {
+    const expectedDate = timetableDateLabel(route.results, route.date);
+    if (route.date !== expectedDate) {
+      add(
+        "date-range-mismatch",
+        "blocking",
+        `File date says "${route.date}" but stored rows cover "${expectedDate}".`,
+      );
     }
   }
 

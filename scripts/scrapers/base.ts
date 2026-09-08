@@ -4,6 +4,7 @@ import type { ScrapedRoute, ScrapedRouteData, ScraperAdapter } from "./types";
 import { recordError } from "../../src/server/errorLog";
 import { dedupeScrapedResults, describingRoute, replaceDateSlice } from "./merge";
 import type { Country } from "../../src/types";
+import { timetableDateLabel } from "../../src/data/scraped/timetableDay";
 import {
   buildSourceMeta,
   findOfficialSource,
@@ -289,8 +290,7 @@ export abstract class BaseScraper implements ScraperAdapter {
         if (dateCompare !== 0) return dateCompare;
         return a.departureTime.localeCompare(b.departureTime);
       });
-    const dates = Array.from(new Set(mergedResults.map((result) => result.date).filter(Boolean))).sort();
-    const dateLabel = dates.length > 1 ? `${dates[0]}..${dates[dates.length - 1]}` : (dates[0] || data.date);
+    const dateLabel = timetableDateLabel(mergedResults, data.date);
 
     const describedBy = describingRoute(existing ?? undefined, data, mergedResults.length);
 

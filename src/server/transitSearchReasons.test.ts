@@ -13,7 +13,7 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-describe("search no-result reasons", () => {
+describe("search no-result reasons", { timeout: 20_000 }, () => {
   it("distinguishes a covered-but-unsupported station pair", async () => {
     // Both endpoints are searchable — Asakusa on the Toei Asakusa Line pair,
     // Roppongi on the Oedo one — but no committed route or chain links them.

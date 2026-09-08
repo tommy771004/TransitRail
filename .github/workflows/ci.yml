@@ -38,3 +38,9 @@ jobs:
       # pass is itself the finding.
       - name: Typecheck and test
         run: npm run lint
+
+      - name: Install browser for UI smoke check
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify Material 3 UI flows
+        run: npm run check:ui

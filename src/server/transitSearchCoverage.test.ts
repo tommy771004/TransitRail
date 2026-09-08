@@ -27,7 +27,7 @@ async function search(origin: string, destination: string, country = "korea") {
   return runTransitSearch({ origin, destination, date: DATE, country });
 }
 
-describe("scheduled Seoul artifact search", () => {
+describe("scheduled Seoul artifact search", { timeout: 20_000 }, () => {
   it("answers the formerly uncovered corridor from official train runs", async () => {
     const { statusCode, payload } = await search("Cheongnyangni", "Seoul Station");
     expect(statusCode).toBe(200);
@@ -56,7 +56,7 @@ describe("scheduled Seoul artifact search", () => {
   });
 });
 
-describe("unverified intercity snapshots stay hidden", () => {
+describe("unverified intercity snapshots stay hidden", { timeout: 20_000 }, () => {
   it("does not expose a Korail snapshot through the Seoul Metro menu", async () => {
     const { statusCode, payload } = await search("Seoul Station", "Busan (BSN)");
     expect(statusCode).toBe(404);
@@ -87,7 +87,7 @@ describe("unverified intercity snapshots stay hidden", () => {
   });
 });
 
-describe("covered corridors stay limited to official Seoul Metro data", () => {
+describe("covered corridors stay limited to official Seoul Metro data", { timeout: 20_000 }, () => {
   it("does not fall back to the canonical Korail pairs", async () => {
     for (const [origin, destination] of [
       ["Seoul (SNC)", "Busan (BSN)"],

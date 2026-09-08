@@ -94,11 +94,26 @@ jobs:
           # secret the scraper keeps the last verified artifact.
           LTA_ACCOUNT_KEY: ${{ secrets.LTA_ACCOUNT_KEY }}
         run: |
+          set -o pipefail
           if [ "${{ steps.plan.outputs.mode }}" = "live-only" ]; then
-            npm run scrape -- --live-only ${{ github.event.inputs.date }}
+            npm run scrape -- --live-only ${{ github.event.inputs.date }} 2>&1 | tee scrape-report.txt
           else
-            npm run scrape -- ${{ github.event.inputs.date }}
+            npm run scrape -- ${{ github.event.inputs.date }} 2>&1 | tee scrape-report.txt
           fi
+
+      - name: Publish scraper timing and rate-limit summary
+        if: always()
+        run: |
+          {
+            echo "## Scraper timing and rate limits"
+            echo '```text'
+            if [ -f scrape-report.txt ]; then
+              grep -E 'Done:|HTTP 429|rate limit|rate-limit' scrape-report.txt || echo "No timing or rate-limit lines were emitted."
+            else
+              echo "The scraper did not produce a report."
+            fi
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       # A scrape only prunes the dates it collected, so between full passes the
       # snapshot markets keep yesterday's slice. Those rows can never answer a
@@ -162,6 +177,12 @@ jobs:
         if: steps.validate_data.outcome == 'failure'
         run: exit 1
 
+      # Bot commits carry [skip ci] so the two publication commits do not start
+      # and cancel overlapping CI runs. Run the repository's complete gate here
+      # instead, against the exact scraped files about to be published.
+      - name: Typecheck and test scraped output
+        run: npm run lint
+
       # Publish the validated source-of-truth artifacts before rebuilding any
       # derived browsing catalog. A provider directory outage or catalog bug
       # must never strand a good timetable on the ephemeral runner again.
@@ -187,6 +208,9 @@ jobs:
       # receive instead of the date someone last ran the command by hand.
       - name: Refresh source coverage report
         run: npm run audit:sources
+
+      - name: Check generated output formatting
+        run: git diff --check
 
       - name: Commit generated station catalog
         uses: stefanzweifel/git-auto-commit-action@v5

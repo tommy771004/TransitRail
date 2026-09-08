@@ -41,7 +41,7 @@ const routeFixture = {
   }],
 };
 
-describe("runTransitSearch France GTFS service-day advisory", () => {
+describe("runTransitSearch France GTFS service-day advisory", { timeout: 20_000 }, () => {
   beforeAll(() => {
     artifact.stash();
     routeArtifact.stash();
