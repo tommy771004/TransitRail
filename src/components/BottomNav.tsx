@@ -28,7 +28,7 @@ export function BottomNav({ activeView, unreadAlerts, onNavigate, onOpenSettings
 
   return (
     <nav
-      className="m3-elevation-2 fixed bottom-0 left-0 right-0 z-[60] border-t border-slate-200/70 bg-white/95 backdrop-blur-md pb-safe dark:border-slate-800/70 dark:bg-[#060a13]/95"
+      className="m3-nav-surface m3-elevation-2 fixed z-[60] border-slate-200/70 bg-white/95 backdrop-blur-md dark:border-slate-800/70 dark:bg-[#060a13]/95"
       aria-label={t("nav.primary")}
     >
       <div className="m3-nav-bar mx-auto max-w-md grid-cols-5">
@@ -65,7 +65,7 @@ export function BottomNav({ activeView, unreadAlerts, onNavigate, onOpenSettings
                   ) : null}
                 </span>
               </span>
-              <span className={`m3-label-medium max-w-full truncate px-0.5 ${active ? "font-semibold" : ""}`}>{label}</span>
+              <span className={`m3-nav-label m3-label-medium max-w-full truncate px-0.5 ${active ? "font-semibold" : ""}`}>{label}</span>
             </button>
           );
         })}

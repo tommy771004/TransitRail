@@ -313,6 +313,13 @@
   }
 
   /* ---------------------------------------------------- navigation bar */
+  .m3-nav-surface {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+    border-top-width: 1px;
+  }
   .m3-nav-bar {
     display: grid;
     height: 80px;
@@ -353,6 +360,29 @@
   .m3-nav-item[aria-current="page"] .m3-nav-indicator::before {
     opacity: 0.16;
     transform: scaleX(1);
+  }
+
+  @media (max-width: 767px) {
+    .m3-nav-surface {
+      width: min(360px, calc(100% - 32px));
+      margin-inline: auto;
+      bottom: calc(env(safe-area-inset-bottom) + 8px);
+      padding: 0 8px;
+      border-width: 1px;
+      border-radius: 9999px;
+    }
+    .m3-nav-surface .m3-nav-item {
+      height: 100%;
+      justify-content: center;
+      padding-block: 8px;
+    }
+    .m3-nav-surface .m3-nav-indicator {
+      max-width: 100%;
+      flex-shrink: 0;
+    }
+    .m3-nav-item:not([aria-current="page"]) .m3-nav-label {
+      display: none;
+    }
   }
 
   /* -------------------------------------------------- dialogs & sheets */
@@ -449,6 +479,11 @@
    */
   .pb-nav {
     padding-bottom: calc(80px + env(safe-area-inset-bottom) + 16px);
+  }
+  @media (max-width: 767px) {
+    .pb-nav {
+      padding-bottom: calc(80px + env(safe-area-inset-bottom) + 24px);
+    }
   }
   .route-path-glow {
     animation: route-glow 1.5s ease-in-out infinite alternate;
