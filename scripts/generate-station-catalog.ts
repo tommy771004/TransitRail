@@ -9,7 +9,8 @@
  *
  * Run: npx tsx scripts/generate-station-catalog.ts
  */
-import { mkdirSync, writeFileSync } from "fs";
+import { mkdirSync, writeFileSync, readFileSync, appendFileSync } from "fs";
+import { isServiceRegionCatalog } from "../src/data/serviceRegionCatalog";
 import { resolve } from "path";
 import { configuredCountryOptions, providerDateValue } from "../src/data/countries";
 import { buildServiceRegionCatalog, type BuildServiceRegionCatalogOptions, type ServiceRegionCatalog } from "../src/server/catalog";
@@ -41,14 +42,14 @@ export async function buildCatalogWithProviderFallback(
 ): Promise<ServiceRegionCatalog | null> {
   const date = providerDateValue(country);
   try {
-    return await build({ country, date, includeProvider: true });
+    return await build({ country, date, includeProvider: true, includeDestinations: true });
   } catch (error) {
     if (isRateLimited(error)) return null;
     console.warn(
       `  ! ${country}: live station directory unavailable; rebuilding from committed data (${error instanceof Error ? error.message : String(error)})`,
     );
     try {
-      return await build({ country, date, includeProvider: false });
+      return await build({ country, date, includeProvider: false, includeDestinations: true });
     } catch (fallbackError) {
       if (isRateLimited(fallbackError)) return null;
       throw fallbackError;
@@ -72,9 +73,13 @@ export async function generateStaticStationCatalogs({
     if (!catalog) {
       console.warn(`  ! ${country}: HTTP 429; skipping catalog refresh and keeping any existing file unchanged.`);
       skipped += 1;
+      let retainedDate = "missing";
+      try { retainedDate = JSON.parse(readFileSync(resolve(outDir, `${country}.json`), "utf8")).serviceDate; } catch { /* Publication gate rejects missing/broken artifacts. */ }
+      if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, `\n- ${country}: HTTP 429; retained catalog service date: ${retainedDate}\n`);
       continue;
     }
     const serviceDate = catalog.serviceDate;
+    if (!isServiceRegionCatalog(catalog, { country })) throw new Error(`Invalid catalog: ${country}`);
     writeFileSync(resolve(outDir, `${country}.json`), JSON.stringify(catalog, null, 2) + "\n", "utf-8");
     const covered = catalog.coverage?.covered;
     const coverageNote = covered

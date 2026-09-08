@@ -23,9 +23,9 @@ import { generateICS } from "./utils/ics";
 import { stationLabel } from "./utils/stationLabel";
 import { triggerHaptic } from "./utils/haptics";
 import { getAuditHeaders } from "./utils/audit";
-import { describeTimetableChange } from "./utils/timetableChanges";
+import { describeTimetableChange, timetableFingerprint } from "./utils/timetableChanges";
 import { formatRelativeTime } from "./utils/relativeTime";
-import { countriesForSituationFeed, migrateTransitAlerts, situationsForCountries } from "./utils/alertFeed";
+import { countriesForSituationFeed, migrateTransitAlerts, situationsForCountries, saveJsonSafely, persistTransitAlerts, renderTransitAlert } from "./utils/alertFeed";
 import { RouteServiceOverview } from "./components/RouteServiceOverview";
 import { ServiceDayAdvisoryNotice } from "./components/ServiceDayAdvisoryNotice";
 import { Snackbar, type SnackbarMessage } from "./components/Snackbar";
@@ -218,7 +218,7 @@ function loadJson<T>(key: string, fallback: T): T {
 }
 
 function saveJson<T>(key: string, value: T) {
-  window.localStorage.setItem(key, JSON.stringify(value));
+  saveJsonSafely(key, value);
 }
 
 function filterByTransitTypes(results: TransitResult[], preferred: string[] | undefined) {
@@ -663,7 +663,7 @@ export default function App() {
   useEffect(() => saveJson("transitrail.saved", savedTrips), [savedTrips]);
   // Keep the unversioned key untouched: it is the only recovery source for a
   // passenger who has not opened a build with the scoped notification feed.
-  useEffect(() => saveJson(USER_ALERTS_STORAGE_KEY, alerts), [alerts]);
+  useEffect(() => { persistTransitAlerts(alerts); }, [alerts]);
   /**
    * Markets this passenger actually travels in: the one they are searching now,
    * plus every market in their recent searches, saved trips or favourites.
@@ -878,19 +878,20 @@ export default function App() {
    * snackbar: the notifications page answers "what changed about my journeys",
    * not "what did I just tap" or "what did the app fail to do".
    */
-  const pushAlert = (category: AppAlertCategory, title: string, body: string, country?: Country) => {
-    setAlerts((current) => [
+  const pushAlert = (category: AppAlertCategory, title: string, body: string, country?: Country, event?: AppAlert["event"]) => {
+    setAlerts((current) => migrateTransitAlerts([
       {
         id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
         category,
-        title,
-        body,
+        event,
+        title: event ? event.kind : title,
+        body: event ? event.kind : body,
         createdAt: new Date().toISOString(),
         read: false,
         country,
       },
       ...current,
-    ].slice(0, 20));
+    ]));
   };
 
   /** Confirmation for the moment it happens, kept out of the alerts list. */
@@ -989,6 +990,7 @@ export default function App() {
             t("alerts.timetable_updated"),
             `${stationLabel(t, origin, country)} → ${stationLabel(t, destination, country)}\n${timetableChange}`,
             country,
+            { kind: "timetable", origin, destination, before: timetableFingerprint(previousResults!), after: timetableFingerprint(resultList) },
           );
         }
       }
@@ -1106,7 +1108,7 @@ export default function App() {
     const route = `${stationLabel(t, trip.origin, trip.country)} → ${stationLabel(t, trip.destination, trip.country)}`;
     const body = `${route}\n${t("alerts.departure_approaching_body", { time: trip.departureTime })}`;
 
-    pushAlert("departure", title, body, trip.country);
+    pushAlert("departure", title, body, trip.country, { kind: "departure", origin: trip.origin, destination: trip.destination, service: trip.service, time: trip.departureTime });
 
     if ("Notification" in window && Notification.permission === "granted") {
       try {
@@ -1885,13 +1887,14 @@ export default function App() {
                 ) : (
                   <div className="space-y-2">
                     {alerts.map((alert) => {
+                      const display = renderTransitAlert(alert, t);
                       const relatedSituation = alert.country
                         ? situations.find((situation) => situation.country === alert.country)
                         : undefined;
                       return (
                         <div key={alert.id} className="m3-card m3-card-large border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
-                          <p className="m3-title-medium text-slate-900 dark:text-white">{alert.title}</p>
-                          <p className="m3-body-medium mt-1 whitespace-pre-line text-slate-600 dark:text-slate-400">{alert.body}</p>
+                          <p className="m3-title-medium text-slate-900 dark:text-white">{display.title}</p>
+                          <p className="m3-body-medium mt-1 whitespace-pre-line text-slate-600 dark:text-slate-400">{display.body}</p>
                           {relatedSituation ? (
                             <p className="m3-card m3-body-small mt-2 bg-amber-50 px-3 py-2 text-amber-800 dark:bg-amber-950/30 dark:text-amber-400">
                               {t("alerts.related_situation")}

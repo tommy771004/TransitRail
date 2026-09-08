@@ -1,6 +1,9 @@
 import type { TransitLine } from "../types";
 import type { StationCoverage } from "../data/stationCoverage";
 import type { ServiceRegion } from "../server/catalog";
+import { isServiceRegionCatalog } from "../data/serviceRegionCatalog";
+import { configuredCountryOptions, providerDateValue } from "../data/countries";
+import type { Country } from "../types";
 
 export interface StationBrowserCatalogPayload {
   regions?: ServiceRegion[];
@@ -32,11 +35,33 @@ export function loadStationBrowserCatalog(
   request: StationBrowserCatalogRequest,
   fetcher: typeof fetch = fetch,
 ): Promise<{ ok: boolean; data: StationBrowserCatalogPayload }> {
-  const key = requestKey(request);
+  if (!configuredCountryOptions.includes(request.country as Country)) return Promise.resolve({ ok: false, data: {} });
+  const serviceDate = request.date || providerDateValue(request.country as Country);
+  const key = requestKey({ ...request, date: serviceDate });
   const existing = requests.get(key);
   if (existing) return existing;
-  const pending = fetcher(`/api/transit/catalog?${key}`, { headers: request.headers })
-    .then((response) => response.json().then((data) => ({ ok: response.ok, data: data as StationBrowserCatalogPayload })))
+  const pending = (async () => {
+    let response: Response;
+    let fallback = false;
+    try {
+      response = await fetcher(`/api/transit/catalog?${key}`, { headers: request.headers });
+      fallback = response.status >= 500 && response.status <= 599;
+    } catch {
+      fallback = true;
+    }
+    if (fallback) response = await fetcher(`/catalog/${request.country}.json`);
+    if (!response!.ok) return { ok: false, data: {} };
+    const data: unknown = await response!.json();
+    if (!isServiceRegionCatalog(data, { country: request.country, serviceDate, allowStationSubset: !fallback && Boolean(request.origin) })) return { ok: false, data: {} };
+    if (fallback && request.origin && data.coverage.mode !== "provider") {
+      const destinations = Object.hasOwn(data.destinationsByOrigin ?? {}, request.origin)
+        ? data.destinationsByOrigin![request.origin] : [];
+      data.stations = data.stations.filter(station => destinations.includes(station));
+      data.coverage = { ...data.coverage, destinations: data.stations };
+      if (!data.stations.length) data.coverage.messageKey = "stations.no_verified_destinations_for_origin";
+    }
+    return { ok: true, data };
+  })()
     .then((result) => {
       if (!result.ok) requests.delete(key);
       return result;

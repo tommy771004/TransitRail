@@ -235,6 +235,8 @@ export interface FavoriteRoute {
 export type AppAlertCategory = "timetable" | "departure";
 
 export interface AppAlert {
+  event?: { kind: "departure"; origin: string; destination: string; service: string; time: string }
+    | { kind: "timetable"; origin: string; destination: string; before: import("./utils/timetableChanges").TimetableFingerprint; after: import("./utils/timetableChanges").TimetableFingerprint };
   id: string;
   /** Absent on entries stored before the page was scoped to transit
    *  information; those are dropped on load rather than migrated. */

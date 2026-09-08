@@ -14,10 +14,11 @@ import type { StationCoverage } from "./src/data/stationCoverage";
 import { db } from "./src/db";
 import { feedbacks, tnAuditLog, pushSubscriptions, type WatchedRoute } from "./src/db/schema";
 import { buildServiceRegionCatalog, getStationsForCountry } from "./src/server/catalog";
+import { isServiceRegionCatalog, isCalendarDate } from "./src/data/serviceRegionCatalog";
 import { transferCatalog, getTransferInfo } from "./src/data/transfers";
 import { findNearestKnownStation } from "./src/utils/geoCoordinates";
 import { getTransitSituations } from "./src/server/situations";
-import { countryOptions, providerDateValue } from "./src/data/countries";
+import { countryOptions, providerDateValue, searchDateRange } from "./src/data/countries";
 import { runTransitSearch } from "./src/server/transitSearch";
 import { timetableFingerprint } from "./src/utils/timetableChanges";
 import { recordError } from "./src/server/errorLog";
@@ -589,7 +590,7 @@ async function logTransitSearch(
     if (!country || !countryOptions.includes(country as Country)) {
       return res.status(400).json({ error: "Invalid country", regions: [], lines: [], stations: [] });
     }
-    if (!date) {
+    if (!date || !isCalendarDate(date)) {
       return res.status(400).json({
         error: "Service date required",
         message: "A catalog is only valid for one exact YYYY-MM-DD service date.",
@@ -599,7 +600,11 @@ async function logTransitSearch(
       });
     }
     try {
-      return res.json(await buildServiceRegionCatalog({ country: country as Country, date, origin }));
+      const catalog = await buildServiceRegionCatalog({ country: country as Country, date, origin });
+      const range = catalog.coverage.dateRange ?? searchDateRange(country as Country);
+      if (date < range.start || date > range.end) return res.status(400).json({ error: "Service date outside catalog range", regions: [], lines: [], stations: [] });
+      if (!isServiceRegionCatalog(catalog, { country: country as string, serviceDate: date, allowStationSubset: Boolean(origin) })) throw new Error("Invalid service region catalog");
+      return res.json(catalog);
     } catch (error) {
       await recordError({
         severity: "error",

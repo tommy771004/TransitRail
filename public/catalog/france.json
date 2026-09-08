@@ -156,6 +156,29 @@
     "Strasbourg"
   ],
   "source": "https://www.sncf.com/en",
+  "destinationsByOrigin": {
+    "Arras": [],
+    "Avignon TGV": [],
+    "Le Creusot TGV": [],
+    "Lille Europe": [],
+    "Lille Flandres": [],
+    "Lyon Part-Dieu": [],
+    "Lyon Perrache": [],
+    "Mâcon-Loché TGV": [],
+    "Marseille St-Charles": [],
+    "Nice": [],
+    "Paris Gare de l'Est": [
+      "Strasbourg"
+    ],
+    "Paris Gare de Lyon": [
+      "Lyon Part-Dieu",
+      "Marseille St-Charles"
+    ],
+    "Paris Gare du Nord": [
+      "Lille Europe"
+    ],
+    "Strasbourg": []
+  },
   "coverage": {
     "mode": "scraped",
     "dateRange": {

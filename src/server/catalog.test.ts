@@ -75,10 +75,16 @@ describe("station and line catalog integrity scope", { timeout: 20_000 }, () => 
   });
 
   it("keeps source directories while exposing only verified route coverage", async () => {
-    const singapore = await buildServiceRegionCatalog({ country: "singapore", date: catalogDate, includeProvider: false });
+    const singapore = await buildServiceRegionCatalog({ country: "singapore", date: catalogDate, includeProvider: false, includeDestinations: true });
     expect(singapore.lines).toHaveLength(9);
     expect(singapore.stations).toHaveLength(184);
     expect(singapore.stationSource).toBe("https://www.mytransport.sg/trainstatus");
+    const uncovered = singapore.stations.find(station => !singapore.coverage.covered?.includes(station))!;
+    expect(singapore.destinationsByOrigin?.[uncovered]).toEqual([]);
+    expect(Object.values(singapore.destinationsByOrigin!).flat().length).toBeGreaterThan(0);
+    for (const destinations of Object.values(singapore.destinationsByOrigin!)) {
+      expect(destinations.every(station => singapore.coverage.covered?.includes(station))).toBe(true);
+    }
     expect(singapore.coverage.covered).toEqual([
       "Changi Airport",
       "HarbourFront",

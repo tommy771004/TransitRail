@@ -18,7 +18,7 @@ const catalog = (serviceDate: string): ServiceRegionCatalog => ({
   regions: [],
   lines: [],
   stations: ["Waterloo Underground Station"],
-  coverage: { mode: "provider" },
+  coverage: { mode: "provider", date: serviceDate },
 });
 
 describe("static station catalog generation", () => {
@@ -102,7 +102,7 @@ describe("static station catalog generation", () => {
     writeFileSync(join(outDir, "united_kingdom.json"), previous);
     const build = vi.fn(async ({ country }) => {
       if (country !== "japan") throw new Error("Provider returned HTTP 429.");
-      return { ...catalog("2026-08-30"), country: "japan" as const };
+      return { ...catalog("2026-08-30"), country: "japan" as const, stations: [], coverage: { mode: "scraped" as const, date: "2026-08-30" } };
     });
 
     await expect(generateStaticStationCatalogs({

@@ -19,6 +19,7 @@ import { fuzzyMatch } from "../utils/fuzzy";
 import { getAuditHeaders, postAuditEvent, resolveAuditTimezone } from "../utils/audit";
 import type { ServiceRegion } from "../server/catalog";
 import { loadStationBrowserCatalog, resolveCatalogSelection } from "./stationBrowserCatalog";
+import { useModalFocusTrap } from "../hooks/useModalFocusTrap";
 
 interface StationBrowserProps {
   country: Country;
@@ -49,8 +50,6 @@ export function StationBrowser({
 }: StationBrowserProps) {
   const { t } = useTranslation();
   const dialogRef = useRef<HTMLElement>(null);
-  const onBackRef = useRef(onBack);
-  onBackRef.current = onBack;
   const theme = countryThemes[country] || countryThemes.japan;
   const stationKeyForCountry = (name: string) => stationSearchKey(resolveStationAlias(country, name));
   const buildAuditHeaders = () => getAuditHeaders(i18n.language, resolveAuditTimezone());
@@ -78,58 +77,7 @@ export function StationBrowser({
   const [isLocating, setIsLocating] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const previouslyFocused = document.activeElement instanceof HTMLElement
-      ? document.activeElement
-      : null;
-    const dialog = dialogRef.current;
-    const focusableSelector = [
-      "button:not([disabled])",
-      "input:not([disabled])",
-      "select:not([disabled])",
-      "textarea:not([disabled])",
-      "a[href]",
-      "[tabindex]:not([tabindex='-1'])",
-    ].join(",");
-    const focusableElements = () => Array.from(
-      dialog?.querySelectorAll<HTMLElement>(focusableSelector) ?? [],
-    ).filter((element) => element.getClientRects().length > 0);
-
-    (focusableElements()[0] ?? dialog)?.focus();
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        triggerHaptic("light");
-        onBackRef.current();
-        return;
-      }
-      if (event.key !== "Tab") return;
-
-      const focusable = focusableElements();
-      if (focusable.length === 0) {
-        event.preventDefault();
-        dialog?.focus();
-        return;
-      }
-
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      previouslyFocused?.focus();
-    };
-  }, []);
+  useModalFocusTrap(dialogRef, () => { triggerHaptic("light"); onBack(); });
 
   const handleSelectStation = (station: string) => {
     triggerHaptic("medium");
@@ -155,6 +103,8 @@ export function StationBrowser({
         }
       }
     }
+    // A line endpoint alone does not prove that a dated snapshot can answer it.
+    if (coverage?.mode !== "provider") autoFillDest = undefined;
     void postAuditEvent({
       event: "station.select",
       country,

@@ -2,7 +2,7 @@
 // OS support: Linux, macOS, Windows
 // Description: Interactive search form for transit route selection
 
-import { ArrowLeftRight, CalendarDays, Clock3, DatabaseZap, Star, Search, MapPin, History, ChevronDown, Loader2, Navigation, Pin, Sparkles } from "lucide-react";
+import { ArrowLeftRight, CalendarDays, Clock3, DatabaseZap, Star, Search, MapPin, History, ChevronDown, Loader2, Pin, Sparkles } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { countryConfig, countryOptions, providerDateValue, providerDateValues, countryThemes, countryFlags } from "../data/countries";
@@ -62,67 +62,6 @@ export function SearchForm({
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [aiResult, setAiResult] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [isDetectingCountry, setIsDetectingCountry] = useState(false);
-  const [detectError, setDetectError] = useState<string | null>(null);
-
-  const handleAutoDetectCountry = () => {
-    triggerHaptic("medium");
-    if (!navigator.geolocation) {
-      setDetectError(t("stations.geolocation_unsupported", { defaultValue: "Geolocation is not supported by your browser." }));
-      return;
-    }
-    setIsDetectingCountry(true);
-    setDetectError(null);
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        const countryCenters: Record<Country, { lat: number; lng: number }> = {
-          japan: { lat: 36.2048, lng: 138.2529 },
-          korea: { lat: 35.9078, lng: 127.7669 },
-          hong_kong: { lat: 22.3193, lng: 114.1694 },
-          singapore: { lat: 1.3521, lng: 103.8198 },
-          malaysia: { lat: 4.2105, lng: 101.9758 },
-          thailand: { lat: 15.8700, lng: 100.9925 },
-          united_kingdom: { lat: 55.3781, lng: -3.4360 },
-          united_states: { lat: 37.0902, lng: -95.7129 },
-          germany: { lat: 51.1657, lng: 10.4515 },
-          france: { lat: 46.2276, lng: 2.2137 },
-          belgium: { lat: 50.5039, lng: 4.4699 },
-          norway: { lat: 60.472, lng: 8.4689 },
-          switzerland: { lat: 46.8182, lng: 8.2275 },
-          china: { lat: 35.8617, lng: 104.1954 },
-        };
-
-        let closestCountry: Country = "japan";
-        let minDistance = Infinity;
-
-        for (const c of countryOptions) {
-          const center = countryCenters[c];
-          const dist = Math.pow(latitude - center.lat, 2) + Math.pow(longitude - center.lng, 2);
-          if (dist < minDistance) {
-            minDistance = dist;
-            closestCountry = c as Country;
-          }
-        }
-
-        triggerHaptic("success");
-        onChange({
-          origin: "",
-          destination: "",
-          date: providerDateValue(closestCountry),
-          country: closestCountry,
-        });
-        setIsDetectingCountry(false);
-      },
-      (error) => {
-        setDetectError(t("stations.location_permission_denied", { defaultValue: "Location access denied or failed." }));
-        setIsDetectingCountry(false);
-      },
-      { enableHighAccuracy: false, timeout: 5000, maximumAge: 300000 }
-    );
-  };
-
   const hotRoutes = useMemo(() => [
     { country: "japan", origin: "Tokyo", destination: "Shin-Osaka", label: t("hot_routes.tokyo_osaka", { defaultValue: "東京 ➔ 新大阪" }) },
     { country: "korea", origin: "Seoul (SNC)", destination: "Busan (BSN)", label: t("hot_routes.seoul_busan", { defaultValue: "首爾 ➔ 釜山" }) },
@@ -328,32 +267,6 @@ export function SearchForm({
               {countryFlags[item] || ""} {t(countryConfig[item].labelKey)}
             </button>
           ))}
-        </div>
-
-        {/* Location detection */}
-        <div className="flex justify-between items-center px-1 mb-4">
-          <div className="text-[10px] text-slate-400 dark:text-slate-500">
-            {detectError && <span className="text-red-500 font-semibold">{detectError}</span>}
-          </div>
-          <button
-            type="button"
-            onClick={handleAutoDetectCountry}
-            disabled={isDetectingCountry}
-            aria-busy={isDetectingCountry}
-            className="m3-chip m3-chip-icon-leading m3-state border border-slate-300 bg-transparent text-slate-700 disabled:cursor-wait disabled:text-slate-500 dark:border-slate-700 dark:text-slate-200"
-          >
-            {isDetectingCountry ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin text-slate-400" />
-                <span>{t("search.detecting_country", { defaultValue: "Detecting country..." })}</span>
-              </>
-            ) : (
-              <>
-                <Navigation className={`h-4 w-4 ${theme.textActive}`} />
-                <span>{t("search.auto_detect_country", { defaultValue: "Detect country" })}</span>
-              </>
-            )}
-          </button>
         </div>
 
         {/* Main Search Card */}

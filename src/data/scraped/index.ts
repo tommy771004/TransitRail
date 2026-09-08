@@ -217,6 +217,13 @@ export function getScrapedRoutes(country: Country): readonly ScrapedRouteData[] 
 }
 
 /** Date-conditioned destinations exposed by the same search implementation. */
+export function getScrapedArtifactReachableStations(country: Country, origin: string, date: string): string[] {
+  ensureCountryLoaded(country);
+  if (country !== "korea" || !koreanArtifactDecision(date)?.searchable) return [];
+  return koreanArtifacts.flatMap(artifact => koreanArtifactReachableNames(artifact, origin, date));
+}
+
+/** Date-conditioned destinations exposed by the same search implementation. */
 export function getScrapedReachableStations(
   country: Country,
   origin: string,

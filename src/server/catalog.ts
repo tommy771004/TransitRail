@@ -38,6 +38,7 @@ import {
   getScrapedCoverageNames,
   getScrapedRoutes,
   getScrapedReachableStations,
+  getScrapedArtifactReachableStations,
   getScrapedSearchabilitySummary,
 } from "../data/scraped";
 import { getCountryCapability } from "../data/countryCapability";
@@ -58,34 +59,8 @@ import { getBelgiumStations } from "./belgium";
 import type { Country, TransitLine } from "../types";
 
 
-/** A product area whose lines and stations can be browsed together. */
-export interface ServiceRegion {
-  /** Stable machine identity. Never derive this from a translated label. */
-  id: string;
-  /** Source-language fallback displayed when a locale has no translation. */
-  name: string;
-  lines: TransitLine[];
-}
-
-/**
- * The date-qualified station-browser contract.
- *
- * `stations` is the selectable set (possibly narrowed to destinations from
- * `origin`); region line station arrays deliberately remain complete so that
- * their ordering and identity do not flicker when a passenger switches pane.
- */
-export interface ServiceRegionCatalog {
-  country: Country;
-  serviceDate: string;
-  regions: ServiceRegion[];
-  lines: TransitLine[];
-  stations: string[];
-  source?: string;
-  /** Official station/line directory, separate from the timetable source. */
-  stationSource?: string;
-  coverage: StationCoverage;
-  messageKey?: StationCatalogMessageKey;
-}
+export type { ServiceRegion, ServiceRegionCatalog } from "../data/serviceRegionCatalog";
+import type { ServiceRegion, ServiceRegionCatalog } from "../data/serviceRegionCatalog";
 
 export interface BuildServiceRegionCatalogOptions {
   country: Country;
@@ -94,6 +69,7 @@ export interface BuildServiceRegionCatalogOptions {
   origin?: string;
   /** Audit/report callers use committed data and must never call providers. */
   includeProvider?: boolean;
+  includeDestinations?: boolean;
 }
 
 export const officialTimetableUrls: Partial<Record<Country, string>> = {
@@ -455,6 +431,24 @@ export async function buildServiceRegionCatalog(
       ? "stations.no_verified_destinations_for_origin"
       : undefined;
 
+  let destinationsByOrigin: Record<string, string[]> | undefined;
+  if (options.includeDestinations && coverage.mode !== "provider") {
+    const key = (name: string) => stationSearchKey(resolveStationAlias(country, name));
+    const pairs = new Map<string, Set<string>>();
+    for (const pair of answerablePairs(country, serviceDate)) {
+      const destinations = pairs.get(key(pair.origin)) ?? new Set<string>();
+      destinations.add(key(pair.destination));
+      pairs.set(key(pair.origin), destinations);
+    }
+    destinationsByOrigin = Object.fromEntries(allStations.map(origin => {
+      const reachable = new Set([
+        ...pairs.get(key(origin)) ?? [],
+        ...getScrapedArtifactReachableStations(country, origin, serviceDate).map(key),
+      ]);
+      return [origin, allStations.filter(name => key(name) !== key(origin) && reachable.has(key(name)))];
+    }));
+  }
+
   return {
     country,
     serviceDate,
@@ -462,6 +456,7 @@ export async function buildServiceRegionCatalog(
     lines: regions.flatMap((region) => region.lines),
     stations,
     source: officialTimetableUrls[country],
+    ...(destinationsByOrigin ? { destinationsByOrigin } : {}),
     stationSource: providerDirectory?.source || officialStationDirectoryUrls[country],
     coverage: { ...coverage, date: serviceDate, ...(messageKey ? { messageKey } : {}) },
     ...(messageKey ? { messageKey } : {}),

@@ -1,6 +1,6 @@
 # Source coverage and audit
 
-Generated 2026-09-07T23:51:45.323Z by `npm run audit:sources`. Do not edit by hand.
+Generated 2026-09-08T02:53:59.972Z by `npm run audit:sources`. Do not edit by hand.
 
 Every departure TransitRail serves comes from a source in
 [`src/data/sourceRegistry.ts`](src/data/sourceRegistry.ts). A route with no registered source

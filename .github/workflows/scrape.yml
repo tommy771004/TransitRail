@@ -200,7 +200,9 @@ jobs:
           TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
         # The generator skips only rate-limited (HTTP 429) markets, preserving
         # their dated files and continuing this job. Other fatal errors surface.
-        run: npm run catalog
+        run: |
+          echo "PUBLICATION_STARTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
+          npm run catalog
 
       # This audit is deterministic from committed artifacts
       # (`includeProvider: false`); keeping it in the nightly publication makes

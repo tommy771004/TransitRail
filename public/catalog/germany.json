@@ -270,6 +270,27 @@
     "Stuttgart Hbf"
   ],
   "source": "https://www.gtfs.de/",
+  "destinationsByOrigin": {
+    "Berlin Hbf": [
+      "Hamburg Hbf",
+      "Munich Hbf"
+    ],
+    "Büchen": [],
+    "Cologne Hbf": [],
+    "Frankfurt Hbf": [
+      "Cologne Hbf"
+    ],
+    "Freiburg Hbf": [],
+    "Hamburg Hbf": [],
+    "Hanover Hbf": [],
+    "Leipzig Hbf": [],
+    "Mannheim Hbf": [],
+    "Munich Hbf": [
+      "Frankfurt Hbf"
+    ],
+    "Nuremberg Hbf": [],
+    "Stuttgart Hbf": []
+  },
   "coverage": {
     "mode": "scraped",
     "dateRange": {
