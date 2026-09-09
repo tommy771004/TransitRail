@@ -1,0 +1,6492 @@
+{
+  "origin": "Jecheon",
+  "destination": "Cheongnyangni",
+  "date": "2026-09-10..2026-09-18",
+  "scrapedAt": "2026-09-09T17:29:09.363Z",
+  "source": "Korail official KTX and regular train timetables",
+  "sourceDocuments": [
+    {
+      "title": "KTX 시간표(2026. 9. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036897009480.xlsx",
+      "effectiveFrom": "2026-09-01",
+      "retrievedAt": "2026-09-09T17:29:07.649Z",
+      "sha256": "cf69ea35e0b6ad9fb82c0e0b44f60833e34eadab55ea610eaf6784622351e9d0",
+      "exclusions": []
+    },
+    {
+      "title": "일반열차 시간표(2026. 9. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
+      "effectiveFrom": "2026-09-01",
+      "retrievedAt": "2026-09-09T17:29:08.229Z",
+      "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
+      "exclusions": [
+        "Korail excluded 서해선 1237: stop outside published start/end span"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "korail-2026-09-10-regular-중앙선-9-20",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "무궁화 1652",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "05:27",
+      "arrivalTime": "07:21",
+      "durationMinutes": 114,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "05:27",
+          "arrivalTime": "05:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "05:35",
+          "arrivalTime": "05:54",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "05:54",
+          "arrivalTime": "06:02",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "06:02",
+          "arrivalTime": "06:08",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "06:08",
+          "arrivalTime": "06:13",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "06:13",
+          "arrivalTime": "06:18",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "06:18",
+          "arrivalTime": "06:27",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "06:27",
+          "arrivalTime": "06:32",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "06:32",
+          "arrivalTime": "06:37",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "06:37",
+          "arrivalTime": "06:43",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "06:43",
+          "arrivalTime": "06:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "06:51",
+          "arrivalTime": "07:08",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "07:08",
+          "arrivalTime": "07:21",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-regular-중앙선-9-23",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "무궁화 1672",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "08:48",
+      "arrivalTime": "10:31",
+      "durationMinutes": 103,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "ilsin",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "08:48",
+          "arrivalTime": "09:13",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "09:13",
+          "arrivalTime": "09:21",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "09:21",
+          "arrivalTime": "09:28",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "09:28",
+          "arrivalTime": "09:33",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "ilsin",
+          "departureTime": "09:33",
+          "arrivalTime": "09:41",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Jipyeong",
+          "departureTime": "09:41",
+          "arrivalTime": "09:48",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "09:48",
+          "arrivalTime": "09:54",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "09:54",
+          "arrivalTime": "10:01",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "10:01",
+          "arrivalTime": "10:18",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:18",
+          "arrivalTime": "10:31",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-regular-중앙선-9-25",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "ITX-마음 1642",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "10:31",
+      "arrivalTime": "11:46",
+      "durationMinutes": 75,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "10:31",
+          "arrivalTime": "10:55",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:55",
+          "arrivalTime": "11:46",
+          "durationMinutes": 51
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-regular-중앙선-9-28",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "무궁화 1674",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "16:37",
+      "arrivalTime": "18:35",
+      "durationMinutes": 118,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "16:37",
+          "arrivalTime": "16:45",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "16:45",
+          "arrivalTime": "17:04",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "17:04",
+          "arrivalTime": "17:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "17:12",
+          "arrivalTime": "17:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "17:19",
+          "arrivalTime": "17:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "17:24",
+          "arrivalTime": "17:28",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "17:28",
+          "arrivalTime": "17:35",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "17:35",
+          "arrivalTime": "17:41",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "17:41",
+          "arrivalTime": "17:50",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "17:50",
+          "arrivalTime": "17:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "17:56",
+          "arrivalTime": "18:04",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "18:04",
+          "arrivalTime": "18:21",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "18:21",
+          "arrivalTime": "18:35",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-regular-중앙선-9-29",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "무궁화 1676",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "18:02",
+      "arrivalTime": "19:55",
+      "durationMinutes": 113,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "18:02",
+          "arrivalTime": "18:27",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "18:27",
+          "arrivalTime": "18:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "18:35",
+          "arrivalTime": "18:43",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "18:43",
+          "arrivalTime": "18:53",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "18:53",
+          "arrivalTime": "18:59",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "18:59",
+          "arrivalTime": "19:03",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "19:03",
+          "arrivalTime": "19:08",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "19:08",
+          "arrivalTime": "19:12",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "19:12",
+          "arrivalTime": "19:17",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "19:17",
+          "arrivalTime": "19:25",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "19:25",
+          "arrivalTime": "19:42",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "19:42",
+          "arrivalTime": "19:55",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-regular-중앙선-9-32",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "무궁화 1678",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "21:19",
+      "arrivalTime": "22:49",
+      "durationMinutes": 90,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Yangdong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "21:19",
+          "arrivalTime": "21:43",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "21:43",
+          "arrivalTime": "21:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Yangdong",
+          "departureTime": "21:51",
+          "arrivalTime": "21:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Yongmun",
+          "departureTime": "21:59",
+          "arrivalTime": "22:11",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "22:11",
+          "arrivalTime": "22:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "22:19",
+          "arrivalTime": "22:36",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "22:36",
+          "arrivalTime": "22:49",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-중앙선-9-20",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "무궁화 1652",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "05:27",
+      "arrivalTime": "07:21",
+      "durationMinutes": 114,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "05:27",
+          "arrivalTime": "05:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "05:35",
+          "arrivalTime": "05:54",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "05:54",
+          "arrivalTime": "06:02",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "06:02",
+          "arrivalTime": "06:08",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "06:08",
+          "arrivalTime": "06:13",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "06:13",
+          "arrivalTime": "06:18",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "06:18",
+          "arrivalTime": "06:27",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "06:27",
+          "arrivalTime": "06:32",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "06:32",
+          "arrivalTime": "06:37",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "06:37",
+          "arrivalTime": "06:43",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "06:43",
+          "arrivalTime": "06:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "06:51",
+          "arrivalTime": "07:08",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "07:08",
+          "arrivalTime": "07:21",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-중앙선-9-23",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "무궁화 1672",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "08:48",
+      "arrivalTime": "10:31",
+      "durationMinutes": 103,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "ilsin",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "08:48",
+          "arrivalTime": "09:13",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "09:13",
+          "arrivalTime": "09:21",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "09:21",
+          "arrivalTime": "09:28",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "09:28",
+          "arrivalTime": "09:33",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "ilsin",
+          "departureTime": "09:33",
+          "arrivalTime": "09:41",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Jipyeong",
+          "departureTime": "09:41",
+          "arrivalTime": "09:48",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "09:48",
+          "arrivalTime": "09:54",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "09:54",
+          "arrivalTime": "10:01",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "10:01",
+          "arrivalTime": "10:18",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:18",
+          "arrivalTime": "10:31",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-중앙선-9-25",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "ITX-마음 1642",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "10:31",
+      "arrivalTime": "11:46",
+      "durationMinutes": 75,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "10:31",
+          "arrivalTime": "10:55",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:55",
+          "arrivalTime": "11:46",
+          "durationMinutes": 51
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-중앙선-9-28",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "무궁화 1674",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "16:37",
+      "arrivalTime": "18:35",
+      "durationMinutes": 118,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "16:37",
+          "arrivalTime": "16:45",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "16:45",
+          "arrivalTime": "17:04",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "17:04",
+          "arrivalTime": "17:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "17:12",
+          "arrivalTime": "17:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "17:19",
+          "arrivalTime": "17:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "17:24",
+          "arrivalTime": "17:28",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "17:28",
+          "arrivalTime": "17:35",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "17:35",
+          "arrivalTime": "17:41",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "17:41",
+          "arrivalTime": "17:50",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "17:50",
+          "arrivalTime": "17:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "17:56",
+          "arrivalTime": "18:04",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "18:04",
+          "arrivalTime": "18:21",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "18:21",
+          "arrivalTime": "18:35",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-중앙선-9-29",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "무궁화 1676",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "18:02",
+      "arrivalTime": "19:55",
+      "durationMinutes": 113,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "18:02",
+          "arrivalTime": "18:27",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "18:27",
+          "arrivalTime": "18:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "18:35",
+          "arrivalTime": "18:43",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "18:43",
+          "arrivalTime": "18:53",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "18:53",
+          "arrivalTime": "18:59",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "18:59",
+          "arrivalTime": "19:03",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "19:03",
+          "arrivalTime": "19:08",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "19:08",
+          "arrivalTime": "19:12",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "19:12",
+          "arrivalTime": "19:17",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "19:17",
+          "arrivalTime": "19:25",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "19:25",
+          "arrivalTime": "19:42",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "19:42",
+          "arrivalTime": "19:55",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-중앙선-9-32",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "무궁화 1678",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "21:19",
+      "arrivalTime": "22:49",
+      "durationMinutes": 90,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Yangdong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "21:19",
+          "arrivalTime": "21:43",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "21:43",
+          "arrivalTime": "21:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Yangdong",
+          "departureTime": "21:51",
+          "arrivalTime": "21:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Yongmun",
+          "departureTime": "21:59",
+          "arrivalTime": "22:11",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "22:11",
+          "arrivalTime": "22:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "22:19",
+          "arrivalTime": "22:36",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "22:36",
+          "arrivalTime": "22:49",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-중앙선-9-23",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "무궁화 1672",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "08:48",
+      "arrivalTime": "10:31",
+      "durationMinutes": 103,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "ilsin",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "08:48",
+          "arrivalTime": "09:13",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "09:13",
+          "arrivalTime": "09:21",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "09:21",
+          "arrivalTime": "09:28",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "09:28",
+          "arrivalTime": "09:33",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "ilsin",
+          "departureTime": "09:33",
+          "arrivalTime": "09:41",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Jipyeong",
+          "departureTime": "09:41",
+          "arrivalTime": "09:48",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "09:48",
+          "arrivalTime": "09:54",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "09:54",
+          "arrivalTime": "10:01",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "10:01",
+          "arrivalTime": "10:18",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:18",
+          "arrivalTime": "10:31",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-중앙선-9-25",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "ITX-마음 1642",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "10:31",
+      "arrivalTime": "11:46",
+      "durationMinutes": 75,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "10:31",
+          "arrivalTime": "10:55",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:55",
+          "arrivalTime": "11:46",
+          "durationMinutes": 51
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-중앙선-9-28",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "무궁화 1674",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "16:37",
+      "arrivalTime": "18:35",
+      "durationMinutes": 118,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "16:37",
+          "arrivalTime": "16:45",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "16:45",
+          "arrivalTime": "17:04",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "17:04",
+          "arrivalTime": "17:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "17:12",
+          "arrivalTime": "17:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "17:19",
+          "arrivalTime": "17:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "17:24",
+          "arrivalTime": "17:28",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "17:28",
+          "arrivalTime": "17:35",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "17:35",
+          "arrivalTime": "17:41",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "17:41",
+          "arrivalTime": "17:50",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "17:50",
+          "arrivalTime": "17:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "17:56",
+          "arrivalTime": "18:04",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "18:04",
+          "arrivalTime": "18:21",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "18:21",
+          "arrivalTime": "18:35",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-중앙선-9-29",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "무궁화 1676",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "18:02",
+      "arrivalTime": "19:55",
+      "durationMinutes": 113,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "18:02",
+          "arrivalTime": "18:27",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "18:27",
+          "arrivalTime": "18:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "18:35",
+          "arrivalTime": "18:43",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "18:43",
+          "arrivalTime": "18:53",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "18:53",
+          "arrivalTime": "18:59",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "18:59",
+          "arrivalTime": "19:03",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "19:03",
+          "arrivalTime": "19:08",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "19:08",
+          "arrivalTime": "19:12",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "19:12",
+          "arrivalTime": "19:17",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "19:17",
+          "arrivalTime": "19:25",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "19:25",
+          "arrivalTime": "19:42",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "19:42",
+          "arrivalTime": "19:55",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-중앙선-9-32",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "무궁화 1678",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "21:19",
+      "arrivalTime": "22:49",
+      "durationMinutes": 90,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Yangdong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "21:19",
+          "arrivalTime": "21:43",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "21:43",
+          "arrivalTime": "21:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Yangdong",
+          "departureTime": "21:51",
+          "arrivalTime": "21:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Yongmun",
+          "departureTime": "21:59",
+          "arrivalTime": "22:11",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "22:11",
+          "arrivalTime": "22:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "22:19",
+          "arrivalTime": "22:36",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "22:36",
+          "arrivalTime": "22:49",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-중앙선-9-23",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "무궁화 1672",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "08:48",
+      "arrivalTime": "10:31",
+      "durationMinutes": 103,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "ilsin",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "08:48",
+          "arrivalTime": "09:13",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "09:13",
+          "arrivalTime": "09:21",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "09:21",
+          "arrivalTime": "09:28",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "09:28",
+          "arrivalTime": "09:33",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "ilsin",
+          "departureTime": "09:33",
+          "arrivalTime": "09:41",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Jipyeong",
+          "departureTime": "09:41",
+          "arrivalTime": "09:48",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "09:48",
+          "arrivalTime": "09:54",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "09:54",
+          "arrivalTime": "10:01",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "10:01",
+          "arrivalTime": "10:18",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:18",
+          "arrivalTime": "10:31",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-중앙선-9-25",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "ITX-마음 1642",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "10:31",
+      "arrivalTime": "11:46",
+      "durationMinutes": 75,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "10:31",
+          "arrivalTime": "10:55",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:55",
+          "arrivalTime": "11:46",
+          "durationMinutes": 51
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-중앙선-9-28",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "무궁화 1674",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "16:37",
+      "arrivalTime": "18:35",
+      "durationMinutes": 118,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "16:37",
+          "arrivalTime": "16:45",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "16:45",
+          "arrivalTime": "17:04",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "17:04",
+          "arrivalTime": "17:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "17:12",
+          "arrivalTime": "17:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "17:19",
+          "arrivalTime": "17:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "17:24",
+          "arrivalTime": "17:28",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "17:28",
+          "arrivalTime": "17:35",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "17:35",
+          "arrivalTime": "17:41",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "17:41",
+          "arrivalTime": "17:50",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "17:50",
+          "arrivalTime": "17:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "17:56",
+          "arrivalTime": "18:04",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "18:04",
+          "arrivalTime": "18:21",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "18:21",
+          "arrivalTime": "18:35",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-중앙선-9-29",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "무궁화 1676",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "18:02",
+      "arrivalTime": "19:55",
+      "durationMinutes": 113,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "18:02",
+          "arrivalTime": "18:27",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "18:27",
+          "arrivalTime": "18:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "18:35",
+          "arrivalTime": "18:43",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "18:43",
+          "arrivalTime": "18:53",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "18:53",
+          "arrivalTime": "18:59",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "18:59",
+          "arrivalTime": "19:03",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "19:03",
+          "arrivalTime": "19:08",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "19:08",
+          "arrivalTime": "19:12",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "19:12",
+          "arrivalTime": "19:17",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "19:17",
+          "arrivalTime": "19:25",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "19:25",
+          "arrivalTime": "19:42",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "19:42",
+          "arrivalTime": "19:55",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-중앙선-9-32",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "무궁화 1678",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "21:19",
+      "arrivalTime": "22:49",
+      "durationMinutes": 90,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Yangdong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "21:19",
+          "arrivalTime": "21:43",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "21:43",
+          "arrivalTime": "21:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Yangdong",
+          "departureTime": "21:51",
+          "arrivalTime": "21:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Yongmun",
+          "departureTime": "21:59",
+          "arrivalTime": "22:11",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "22:11",
+          "arrivalTime": "22:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "22:19",
+          "arrivalTime": "22:36",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "22:36",
+          "arrivalTime": "22:49",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-중앙선-9-20",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "무궁화 1652",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "05:27",
+      "arrivalTime": "07:21",
+      "durationMinutes": 114,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "05:27",
+          "arrivalTime": "05:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "05:35",
+          "arrivalTime": "05:54",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "05:54",
+          "arrivalTime": "06:02",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "06:02",
+          "arrivalTime": "06:08",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "06:08",
+          "arrivalTime": "06:13",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "06:13",
+          "arrivalTime": "06:18",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "06:18",
+          "arrivalTime": "06:27",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "06:27",
+          "arrivalTime": "06:32",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "06:32",
+          "arrivalTime": "06:37",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "06:37",
+          "arrivalTime": "06:43",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "06:43",
+          "arrivalTime": "06:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "06:51",
+          "arrivalTime": "07:08",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "07:08",
+          "arrivalTime": "07:21",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-중앙선-9-23",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "무궁화 1672",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "08:48",
+      "arrivalTime": "10:31",
+      "durationMinutes": 103,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "ilsin",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "08:48",
+          "arrivalTime": "09:13",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "09:13",
+          "arrivalTime": "09:21",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "09:21",
+          "arrivalTime": "09:28",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "09:28",
+          "arrivalTime": "09:33",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "ilsin",
+          "departureTime": "09:33",
+          "arrivalTime": "09:41",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Jipyeong",
+          "departureTime": "09:41",
+          "arrivalTime": "09:48",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "09:48",
+          "arrivalTime": "09:54",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "09:54",
+          "arrivalTime": "10:01",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "10:01",
+          "arrivalTime": "10:18",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:18",
+          "arrivalTime": "10:31",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-중앙선-9-25",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "ITX-마음 1642",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "10:31",
+      "arrivalTime": "11:46",
+      "durationMinutes": 75,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "10:31",
+          "arrivalTime": "10:55",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:55",
+          "arrivalTime": "11:46",
+          "durationMinutes": 51
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-중앙선-9-28",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "무궁화 1674",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "16:37",
+      "arrivalTime": "18:35",
+      "durationMinutes": 118,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "16:37",
+          "arrivalTime": "16:45",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "16:45",
+          "arrivalTime": "17:04",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "17:04",
+          "arrivalTime": "17:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "17:12",
+          "arrivalTime": "17:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "17:19",
+          "arrivalTime": "17:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "17:24",
+          "arrivalTime": "17:28",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "17:28",
+          "arrivalTime": "17:35",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "17:35",
+          "arrivalTime": "17:41",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "17:41",
+          "arrivalTime": "17:50",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "17:50",
+          "arrivalTime": "17:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "17:56",
+          "arrivalTime": "18:04",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "18:04",
+          "arrivalTime": "18:21",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "18:21",
+          "arrivalTime": "18:35",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-중앙선-9-29",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "무궁화 1676",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "18:02",
+      "arrivalTime": "19:55",
+      "durationMinutes": 113,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "18:02",
+          "arrivalTime": "18:27",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "18:27",
+          "arrivalTime": "18:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "18:35",
+          "arrivalTime": "18:43",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "18:43",
+          "arrivalTime": "18:53",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "18:53",
+          "arrivalTime": "18:59",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "18:59",
+          "arrivalTime": "19:03",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "19:03",
+          "arrivalTime": "19:08",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "19:08",
+          "arrivalTime": "19:12",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "19:12",
+          "arrivalTime": "19:17",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "19:17",
+          "arrivalTime": "19:25",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "19:25",
+          "arrivalTime": "19:42",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "19:42",
+          "arrivalTime": "19:55",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-중앙선-9-32",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "무궁화 1678",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "21:19",
+      "arrivalTime": "22:49",
+      "durationMinutes": 90,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Yangdong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "21:19",
+          "arrivalTime": "21:43",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "21:43",
+          "arrivalTime": "21:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Yangdong",
+          "departureTime": "21:51",
+          "arrivalTime": "21:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Yongmun",
+          "departureTime": "21:59",
+          "arrivalTime": "22:11",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "22:11",
+          "arrivalTime": "22:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "22:19",
+          "arrivalTime": "22:36",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "22:36",
+          "arrivalTime": "22:49",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-중앙선-9-20",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "무궁화 1652",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "05:27",
+      "arrivalTime": "07:21",
+      "durationMinutes": 114,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "05:27",
+          "arrivalTime": "05:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "05:35",
+          "arrivalTime": "05:54",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "05:54",
+          "arrivalTime": "06:02",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "06:02",
+          "arrivalTime": "06:08",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "06:08",
+          "arrivalTime": "06:13",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "06:13",
+          "arrivalTime": "06:18",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "06:18",
+          "arrivalTime": "06:27",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "06:27",
+          "arrivalTime": "06:32",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "06:32",
+          "arrivalTime": "06:37",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "06:37",
+          "arrivalTime": "06:43",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "06:43",
+          "arrivalTime": "06:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "06:51",
+          "arrivalTime": "07:08",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "07:08",
+          "arrivalTime": "07:21",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-중앙선-9-23",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "무궁화 1672",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "08:48",
+      "arrivalTime": "10:31",
+      "durationMinutes": 103,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "ilsin",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "08:48",
+          "arrivalTime": "09:13",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "09:13",
+          "arrivalTime": "09:21",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "09:21",
+          "arrivalTime": "09:28",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "09:28",
+          "arrivalTime": "09:33",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "ilsin",
+          "departureTime": "09:33",
+          "arrivalTime": "09:41",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Jipyeong",
+          "departureTime": "09:41",
+          "arrivalTime": "09:48",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "09:48",
+          "arrivalTime": "09:54",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "09:54",
+          "arrivalTime": "10:01",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "10:01",
+          "arrivalTime": "10:18",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:18",
+          "arrivalTime": "10:31",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-중앙선-9-25",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "ITX-마음 1642",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "10:31",
+      "arrivalTime": "11:46",
+      "durationMinutes": 75,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "10:31",
+          "arrivalTime": "10:55",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:55",
+          "arrivalTime": "11:46",
+          "durationMinutes": 51
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-중앙선-9-28",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "무궁화 1674",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "16:37",
+      "arrivalTime": "18:35",
+      "durationMinutes": 118,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "16:37",
+          "arrivalTime": "16:45",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "16:45",
+          "arrivalTime": "17:04",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "17:04",
+          "arrivalTime": "17:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "17:12",
+          "arrivalTime": "17:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "17:19",
+          "arrivalTime": "17:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "17:24",
+          "arrivalTime": "17:28",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "17:28",
+          "arrivalTime": "17:35",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "17:35",
+          "arrivalTime": "17:41",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "17:41",
+          "arrivalTime": "17:50",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "17:50",
+          "arrivalTime": "17:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "17:56",
+          "arrivalTime": "18:04",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "18:04",
+          "arrivalTime": "18:21",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "18:21",
+          "arrivalTime": "18:35",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-중앙선-9-29",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "무궁화 1676",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "18:02",
+      "arrivalTime": "19:55",
+      "durationMinutes": 113,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "18:02",
+          "arrivalTime": "18:27",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "18:27",
+          "arrivalTime": "18:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "18:35",
+          "arrivalTime": "18:43",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "18:43",
+          "arrivalTime": "18:53",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "18:53",
+          "arrivalTime": "18:59",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "18:59",
+          "arrivalTime": "19:03",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "19:03",
+          "arrivalTime": "19:08",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "19:08",
+          "arrivalTime": "19:12",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "19:12",
+          "arrivalTime": "19:17",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "19:17",
+          "arrivalTime": "19:25",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "19:25",
+          "arrivalTime": "19:42",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "19:42",
+          "arrivalTime": "19:55",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-중앙선-9-32",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "무궁화 1678",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "21:19",
+      "arrivalTime": "22:49",
+      "durationMinutes": 90,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Yangdong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "21:19",
+          "arrivalTime": "21:43",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "21:43",
+          "arrivalTime": "21:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Yangdong",
+          "departureTime": "21:51",
+          "arrivalTime": "21:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Yongmun",
+          "departureTime": "21:59",
+          "arrivalTime": "22:11",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "22:11",
+          "arrivalTime": "22:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "22:19",
+          "arrivalTime": "22:36",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "22:36",
+          "arrivalTime": "22:49",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-중앙선-9-20",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "무궁화 1652",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "05:27",
+      "arrivalTime": "07:21",
+      "durationMinutes": 114,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "05:27",
+          "arrivalTime": "05:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "05:35",
+          "arrivalTime": "05:54",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "05:54",
+          "arrivalTime": "06:02",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "06:02",
+          "arrivalTime": "06:08",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "06:08",
+          "arrivalTime": "06:13",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "06:13",
+          "arrivalTime": "06:18",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "06:18",
+          "arrivalTime": "06:27",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "06:27",
+          "arrivalTime": "06:32",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "06:32",
+          "arrivalTime": "06:37",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "06:37",
+          "arrivalTime": "06:43",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "06:43",
+          "arrivalTime": "06:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "06:51",
+          "arrivalTime": "07:08",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "07:08",
+          "arrivalTime": "07:21",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-중앙선-9-23",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "무궁화 1672",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "08:48",
+      "arrivalTime": "10:31",
+      "durationMinutes": 103,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "ilsin",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "08:48",
+          "arrivalTime": "09:13",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "09:13",
+          "arrivalTime": "09:21",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "09:21",
+          "arrivalTime": "09:28",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "09:28",
+          "arrivalTime": "09:33",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "ilsin",
+          "departureTime": "09:33",
+          "arrivalTime": "09:41",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Jipyeong",
+          "departureTime": "09:41",
+          "arrivalTime": "09:48",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "09:48",
+          "arrivalTime": "09:54",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "09:54",
+          "arrivalTime": "10:01",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "10:01",
+          "arrivalTime": "10:18",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:18",
+          "arrivalTime": "10:31",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-중앙선-9-25",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "ITX-마음 1642",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "10:31",
+      "arrivalTime": "11:46",
+      "durationMinutes": 75,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "10:31",
+          "arrivalTime": "10:55",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:55",
+          "arrivalTime": "11:46",
+          "durationMinutes": 51
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-중앙선-9-28",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "무궁화 1674",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "16:37",
+      "arrivalTime": "18:35",
+      "durationMinutes": 118,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "16:37",
+          "arrivalTime": "16:45",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "16:45",
+          "arrivalTime": "17:04",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "17:04",
+          "arrivalTime": "17:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "17:12",
+          "arrivalTime": "17:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "17:19",
+          "arrivalTime": "17:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "17:24",
+          "arrivalTime": "17:28",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "17:28",
+          "arrivalTime": "17:35",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "17:35",
+          "arrivalTime": "17:41",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "17:41",
+          "arrivalTime": "17:50",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "17:50",
+          "arrivalTime": "17:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "17:56",
+          "arrivalTime": "18:04",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "18:04",
+          "arrivalTime": "18:21",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "18:21",
+          "arrivalTime": "18:35",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-중앙선-9-29",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "무궁화 1676",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "18:02",
+      "arrivalTime": "19:55",
+      "durationMinutes": 113,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "18:02",
+          "arrivalTime": "18:27",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "18:27",
+          "arrivalTime": "18:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "18:35",
+          "arrivalTime": "18:43",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "18:43",
+          "arrivalTime": "18:53",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "18:53",
+          "arrivalTime": "18:59",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "18:59",
+          "arrivalTime": "19:03",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "19:03",
+          "arrivalTime": "19:08",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "19:08",
+          "arrivalTime": "19:12",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "19:12",
+          "arrivalTime": "19:17",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "19:17",
+          "arrivalTime": "19:25",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "19:25",
+          "arrivalTime": "19:42",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "19:42",
+          "arrivalTime": "19:55",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-중앙선-9-32",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "무궁화 1678",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "21:19",
+      "arrivalTime": "22:49",
+      "durationMinutes": 90,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Yangdong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "21:19",
+          "arrivalTime": "21:43",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "21:43",
+          "arrivalTime": "21:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Yangdong",
+          "departureTime": "21:51",
+          "arrivalTime": "21:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Yongmun",
+          "departureTime": "21:59",
+          "arrivalTime": "22:11",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "22:11",
+          "arrivalTime": "22:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "22:19",
+          "arrivalTime": "22:36",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "22:36",
+          "arrivalTime": "22:49",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-중앙선-9-20",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "무궁화 1652",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "05:27",
+      "arrivalTime": "07:21",
+      "durationMinutes": 114,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "05:27",
+          "arrivalTime": "05:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "05:35",
+          "arrivalTime": "05:54",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "05:54",
+          "arrivalTime": "06:02",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "06:02",
+          "arrivalTime": "06:08",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "06:08",
+          "arrivalTime": "06:13",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "06:13",
+          "arrivalTime": "06:18",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "06:18",
+          "arrivalTime": "06:27",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "06:27",
+          "arrivalTime": "06:32",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "06:32",
+          "arrivalTime": "06:37",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "06:37",
+          "arrivalTime": "06:43",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "06:43",
+          "arrivalTime": "06:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "06:51",
+          "arrivalTime": "07:08",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "07:08",
+          "arrivalTime": "07:21",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-중앙선-9-23",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "무궁화 1672",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "08:48",
+      "arrivalTime": "10:31",
+      "durationMinutes": 103,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "ilsin",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "08:48",
+          "arrivalTime": "09:13",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "09:13",
+          "arrivalTime": "09:21",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "09:21",
+          "arrivalTime": "09:28",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "09:28",
+          "arrivalTime": "09:33",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "ilsin",
+          "departureTime": "09:33",
+          "arrivalTime": "09:41",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Jipyeong",
+          "departureTime": "09:41",
+          "arrivalTime": "09:48",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "09:48",
+          "arrivalTime": "09:54",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "09:54",
+          "arrivalTime": "10:01",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "10:01",
+          "arrivalTime": "10:18",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:18",
+          "arrivalTime": "10:31",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-중앙선-9-25",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "ITX-마음 1642",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "10:31",
+      "arrivalTime": "11:46",
+      "durationMinutes": 75,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "10:31",
+          "arrivalTime": "10:55",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:55",
+          "arrivalTime": "11:46",
+          "durationMinutes": 51
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-중앙선-9-28",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "무궁화 1674",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "16:37",
+      "arrivalTime": "18:35",
+      "durationMinutes": 118,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "16:37",
+          "arrivalTime": "16:45",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "16:45",
+          "arrivalTime": "17:04",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "17:04",
+          "arrivalTime": "17:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "17:12",
+          "arrivalTime": "17:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "17:19",
+          "arrivalTime": "17:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "17:24",
+          "arrivalTime": "17:28",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "17:28",
+          "arrivalTime": "17:35",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "17:35",
+          "arrivalTime": "17:41",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "17:41",
+          "arrivalTime": "17:50",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "17:50",
+          "arrivalTime": "17:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "17:56",
+          "arrivalTime": "18:04",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "18:04",
+          "arrivalTime": "18:21",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "18:21",
+          "arrivalTime": "18:35",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-중앙선-9-29",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "무궁화 1676",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "18:02",
+      "arrivalTime": "19:55",
+      "durationMinutes": 113,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "18:02",
+          "arrivalTime": "18:27",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "18:27",
+          "arrivalTime": "18:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "18:35",
+          "arrivalTime": "18:43",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "18:43",
+          "arrivalTime": "18:53",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "18:53",
+          "arrivalTime": "18:59",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "18:59",
+          "arrivalTime": "19:03",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "19:03",
+          "arrivalTime": "19:08",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "19:08",
+          "arrivalTime": "19:12",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "19:12",
+          "arrivalTime": "19:17",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "19:17",
+          "arrivalTime": "19:25",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "19:25",
+          "arrivalTime": "19:42",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "19:42",
+          "arrivalTime": "19:55",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-중앙선-9-32",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "무궁화 1678",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "21:19",
+      "arrivalTime": "22:49",
+      "durationMinutes": 90,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Yangdong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "21:19",
+          "arrivalTime": "21:43",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "21:43",
+          "arrivalTime": "21:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Yangdong",
+          "departureTime": "21:51",
+          "arrivalTime": "21:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Yongmun",
+          "departureTime": "21:59",
+          "arrivalTime": "22:11",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "22:11",
+          "arrivalTime": "22:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "22:19",
+          "arrivalTime": "22:36",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "22:36",
+          "arrivalTime": "22:49",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-중앙선-9-20",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "무궁화 1652",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "05:27",
+      "arrivalTime": "07:21",
+      "durationMinutes": 114,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "05:27",
+          "arrivalTime": "05:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "05:35",
+          "arrivalTime": "05:54",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "05:54",
+          "arrivalTime": "06:02",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "06:02",
+          "arrivalTime": "06:08",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "06:08",
+          "arrivalTime": "06:13",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "06:13",
+          "arrivalTime": "06:18",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "06:18",
+          "arrivalTime": "06:27",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "06:27",
+          "arrivalTime": "06:32",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "06:32",
+          "arrivalTime": "06:37",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "06:37",
+          "arrivalTime": "06:43",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "06:43",
+          "arrivalTime": "06:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "06:51",
+          "arrivalTime": "07:08",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1652",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "07:08",
+          "arrivalTime": "07:21",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-중앙선-9-23",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "무궁화 1672",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "08:48",
+      "arrivalTime": "10:31",
+      "durationMinutes": 103,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "ilsin",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "08:48",
+          "arrivalTime": "09:13",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "09:13",
+          "arrivalTime": "09:21",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "09:21",
+          "arrivalTime": "09:28",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "09:28",
+          "arrivalTime": "09:33",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "ilsin",
+          "departureTime": "09:33",
+          "arrivalTime": "09:41",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Jipyeong",
+          "departureTime": "09:41",
+          "arrivalTime": "09:48",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "09:48",
+          "arrivalTime": "09:54",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "09:54",
+          "arrivalTime": "10:01",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "10:01",
+          "arrivalTime": "10:18",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1672",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:18",
+          "arrivalTime": "10:31",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-중앙선-9-25",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "ITX-마음 1642",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "10:31",
+      "arrivalTime": "11:46",
+      "durationMinutes": 75,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "10:31",
+          "arrivalTime": "10:55",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-마음 1642",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Cheongnyangni",
+          "departureTime": "10:55",
+          "arrivalTime": "11:46",
+          "durationMinutes": 51
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-중앙선-9-28",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "무궁화 1674",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "16:37",
+      "arrivalTime": "18:35",
+      "durationMinutes": 118,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Bongyang",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Bongyang",
+          "departureTime": "16:37",
+          "arrivalTime": "16:45",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Bongyang",
+          "destination": "Wonju",
+          "departureTime": "16:45",
+          "arrivalTime": "17:04",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "17:04",
+          "arrivalTime": "17:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "17:12",
+          "arrivalTime": "17:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "17:19",
+          "arrivalTime": "17:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "17:24",
+          "arrivalTime": "17:28",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "17:28",
+          "arrivalTime": "17:35",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "17:35",
+          "arrivalTime": "17:41",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "17:41",
+          "arrivalTime": "17:50",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "17:50",
+          "arrivalTime": "17:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "17:56",
+          "arrivalTime": "18:04",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "18:04",
+          "arrivalTime": "18:21",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1674",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "18:21",
+          "arrivalTime": "18:35",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-중앙선-9-29",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "무궁화 1676",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "18:02",
+      "arrivalTime": "19:55",
+      "durationMinutes": 113,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Samsan",
+        "Yangdong",
+        "Maegok",
+        "ilsin",
+        "Seokbul",
+        "Jipyeong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "18:02",
+          "arrivalTime": "18:27",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "18:27",
+          "arrivalTime": "18:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Samsan",
+          "departureTime": "18:35",
+          "arrivalTime": "18:43",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Samsan",
+          "destination": "Yangdong",
+          "departureTime": "18:43",
+          "arrivalTime": "18:53",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Maegok",
+          "departureTime": "18:53",
+          "arrivalTime": "18:59",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Maegok",
+          "destination": "ilsin",
+          "departureTime": "18:59",
+          "arrivalTime": "19:03",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "ilsin",
+          "destination": "Seokbul",
+          "departureTime": "19:03",
+          "arrivalTime": "19:08",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seokbul",
+          "destination": "Jipyeong",
+          "departureTime": "19:08",
+          "arrivalTime": "19:12",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jipyeong",
+          "destination": "Yongmun",
+          "departureTime": "19:12",
+          "arrivalTime": "19:17",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "19:17",
+          "arrivalTime": "19:25",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "19:25",
+          "arrivalTime": "19:42",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1676",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "19:42",
+          "arrivalTime": "19:55",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-중앙선-9-32",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "무궁화 1678",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "departureTime": "21:19",
+      "arrivalTime": "22:49",
+      "durationMinutes": 90,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Wonju",
+        "Seowonju",
+        "Yangdong",
+        "Yongmun",
+        "Yangpyeong",
+        "Deokso",
+        "Cheongnyangni"
+      ],
+      "headsign": "Cheongnyangni",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Wonju",
+          "departureTime": "21:19",
+          "arrivalTime": "21:43",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Seowonju",
+          "departureTime": "21:43",
+          "arrivalTime": "21:51",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Yangdong",
+          "departureTime": "21:51",
+          "arrivalTime": "21:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangdong",
+          "destination": "Yongmun",
+          "departureTime": "21:59",
+          "arrivalTime": "22:11",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yongmun",
+          "destination": "Yangpyeong",
+          "departureTime": "22:11",
+          "arrivalTime": "22:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Deokso",
+          "departureTime": "22:19",
+          "arrivalTime": "22:36",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1678",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Cheongnyangni",
+          "departureTime": "22:36",
+          "arrivalTime": "22:49",
+          "durationMinutes": 13
+        }
+      ]
+    }
+  ],
+  "sourceMeta": {
+    "sourceId": "kr-korail-timetable-xlsx",
+    "sourceType": "official-download",
+    "sourceTier": "A",
+    "sourceName": "Korail official KTX and regular train timetables",
+    "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
+    "provider": "Korail",
+    "country": "korea",
+    "fetchedAt": "2026-09-09T17:29:09.270Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official"
+}

@@ -7,6 +7,7 @@
       "name": "Seoul Capital Area",
       "declaredLines": 12,
       "declaredStations": 332,
+      "default": true,
       "lines": [
         {
           "id": "01호선",
@@ -1561,6 +1562,1422 @@
             {
               "name": "VHS Medical Center",
               "localName": "중앙보훈병원"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "korail-intercity",
+      "name": "Korail intercity rail",
+      "lineIdPrefixes": [
+        "korea-route-"
+      ],
+      "declaredLines": 19,
+      "declaredStations": 255,
+      "lines": [
+        {
+          "id": "korea-route-korail-ac15-b989-c120",
+          "name": "Korail · 강릉선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Cheongnyangni"
+            },
+            {
+              "name": "Sangbong"
+            },
+            {
+              "name": "Yangpyeong"
+            },
+            {
+              "name": "Manjong"
+            },
+            {
+              "name": "Hoengseong"
+            },
+            {
+              "name": "Pyeongchang"
+            },
+            {
+              "name": "Jinbu(Odaesan)"
+            },
+            {
+              "name": "Jeongdongjin"
+            },
+            {
+              "name": "Mukho"
+            },
+            {
+              "name": "Donghae"
+            },
+            {
+              "name": "Seowonju"
+            },
+            {
+              "name": "Gangneung"
+            },
+            {
+              "name": "Dunnae"
+            },
+            {
+              "name": "Seoul"
+            },
+            {
+              "name": "Haengsin"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-acbd-bd80-c120",
+          "name": "Korail · 경부선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Busan"
+            },
+            {
+              "name": "Gupo"
+            },
+            {
+              "name": "Mulgeum"
+            },
+            {
+              "name": "Wondong"
+            },
+            {
+              "name": "Samnangjin"
+            },
+            {
+              "name": "Miryang"
+            },
+            {
+              "name": "Sangdong"
+            },
+            {
+              "name": "Cheongdo"
+            },
+            {
+              "name": "Gyeongsan"
+            },
+            {
+              "name": "Dongdaegu"
+            },
+            {
+              "name": "Daegu"
+            },
+            {
+              "name": "Waegwan"
+            },
+            {
+              "name": "Yangmok"
+            },
+            {
+              "name": "Gumi"
+            },
+            {
+              "name": "Gimcheon"
+            },
+            {
+              "name": "Chupungnyeong"
+            },
+            {
+              "name": "Hwanggan"
+            },
+            {
+              "name": "Yeongdong"
+            },
+            {
+              "name": "Daejeon"
+            },
+            {
+              "name": "Hwamyeong"
+            },
+            {
+              "name": "Sindong"
+            },
+            {
+              "name": "Gakgye"
+            },
+            {
+              "name": "Simcheon"
+            },
+            {
+              "name": "Okcheon"
+            },
+            {
+              "name": "Sasang"
+            },
+            {
+              "name": "Namseonghyeon"
+            },
+            {
+              "name": "Ulsan"
+            },
+            {
+              "name": "Gyeongju"
+            },
+            {
+              "name": "Osong"
+            },
+            {
+              "name": "Gwangmyeong"
+            },
+            {
+              "name": "Seoul"
+            },
+            {
+              "name": "Haengsin"
+            },
+            {
+              "name": "Gimcheon(Gumi)"
+            },
+            {
+              "name": "Cheonan-Asan"
+            },
+            {
+              "name": "Iwon"
+            },
+            {
+              "name": "Sintanjin"
+            },
+            {
+              "name": "Jochiwon"
+            },
+            {
+              "name": "Cheonan"
+            },
+            {
+              "name": "Pyeongtaek"
+            },
+            {
+              "name": "Suwon"
+            },
+            {
+              "name": "Yeongdeungpo"
+            },
+            {
+              "name": "Bugang"
+            },
+            {
+              "name": "Seodaegu"
+            },
+            {
+              "name": "Seonghwan"
+            },
+            {
+              "name": "Anyang"
+            },
+            {
+              "name": "Jeonui"
+            },
+            {
+              "name": "Seojeong-ri"
+            },
+            {
+              "name": "Osan"
+            },
+            {
+              "name": "PyeongtaekJije"
+            },
+            {
+              "name": "Dongtan"
+            },
+            {
+              "name": "Suseo"
+            },
+            {
+              "name": "Jitan"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-acbd-bd81-c120",
+          "name": "Korail · 경북선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Gimcheon"
+            },
+            {
+              "name": "Oksan"
+            },
+            {
+              "name": "Cheongni"
+            },
+            {
+              "name": "Sangju"
+            },
+            {
+              "name": "Hamchang"
+            },
+            {
+              "name": "Jeomchon"
+            },
+            {
+              "name": "Yonggung"
+            },
+            {
+              "name": "Gaepo"
+            },
+            {
+              "name": "Yecheon"
+            },
+            {
+              "name": "Yeongju"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-acbd-c804-c120",
+          "name": "Korail · 경전선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Bujeon"
+            },
+            {
+              "name": "Sasang"
+            },
+            {
+              "name": "Gupo"
+            },
+            {
+              "name": "Hwamyeong"
+            },
+            {
+              "name": "Mulgeum"
+            },
+            {
+              "name": "Wondong"
+            },
+            {
+              "name": "Samnangjin"
+            },
+            {
+              "name": "Hallimjeong"
+            },
+            {
+              "name": "Jinyeong"
+            },
+            {
+              "name": "Changwonjungang"
+            },
+            {
+              "name": "Changwon"
+            },
+            {
+              "name": "Masan"
+            },
+            {
+              "name": "Jung-ri"
+            },
+            {
+              "name": "Haman"
+            },
+            {
+              "name": "Gunbuk"
+            },
+            {
+              "name": "Banseong"
+            },
+            {
+              "name": "Jinju"
+            },
+            {
+              "name": "Wansa"
+            },
+            {
+              "name": "Bukcheon"
+            },
+            {
+              "name": "Hoengcheon"
+            },
+            {
+              "name": "Hadong"
+            },
+            {
+              "name": "Jinsang"
+            },
+            {
+              "name": "Gwangyang"
+            },
+            {
+              "name": "Suncheon"
+            },
+            {
+              "name": "Beolgyo"
+            },
+            {
+              "name": "Deungnyang"
+            },
+            {
+              "name": "Jillye"
+            },
+            {
+              "name": "Daejeon"
+            },
+            {
+              "name": "Osong"
+            },
+            {
+              "name": "Dongtan"
+            },
+            {
+              "name": "Suseo"
+            },
+            {
+              "name": "Yedang"
+            },
+            {
+              "name": "Dongdaegu"
+            },
+            {
+              "name": "Gyeongsan"
+            },
+            {
+              "name": "Cheongdo"
+            },
+            {
+              "name": "Sangdong"
+            },
+            {
+              "name": "Miryang"
+            },
+            {
+              "name": "Namseonghyeon"
+            },
+            {
+              "name": "Gwangju songjeong"
+            },
+            {
+              "name": "Seogwangju"
+            },
+            {
+              "name": "Hyocheon"
+            },
+            {
+              "name": "Hwasun"
+            },
+            {
+              "name": "Neungju"
+            },
+            {
+              "name": "Iyang"
+            },
+            {
+              "name": "Myeongbong"
+            },
+            {
+              "name": "Boseong"
+            },
+            {
+              "name": "Joseong"
+            },
+            {
+              "name": "Gwangmyeong"
+            },
+            {
+              "name": "Seoul"
+            },
+            {
+              "name": "Haengsin"
+            },
+            {
+              "name": "Cheonan-Asan"
+            },
+            {
+              "name": "Seodaegu"
+            },
+            {
+              "name": "Gimcheon(Gumi)"
+            },
+            {
+              "name": "PyeongtaekJije"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-ad50-c678-c120",
+          "name": "Korail · 교외선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Daegok"
+            },
+            {
+              "name": "Wolleung"
+            },
+            {
+              "name": "Iryeong"
+            },
+            {
+              "name": "Jangheung"
+            },
+            {
+              "name": "Songchu"
+            },
+            {
+              "name": "Uijeongbu"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-b300-ad6c-c120",
+          "name": "Korail · 대구선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Dongdaegu"
+            },
+            {
+              "name": "Hayang"
+            },
+            {
+              "name": "Yeongcheon"
+            },
+            {
+              "name": "Ahwa"
+            },
+            {
+              "name": "Gyeongju"
+            },
+            {
+              "name": "Seogyeongju"
+            },
+            {
+              "name": "Angang"
+            },
+            {
+              "name": "Pohang"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-b3d9-d574-c120",
+          "name": "Korail · 동해선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Bujeon"
+            },
+            {
+              "name": "Centum"
+            },
+            {
+              "name": "Sinhaeundae"
+            },
+            {
+              "name": "Gijang"
+            },
+            {
+              "name": "Namchang"
+            },
+            {
+              "name": "Taehwagang"
+            },
+            {
+              "name": "Bugulsan"
+            },
+            {
+              "name": "Gyeongju"
+            },
+            {
+              "name": "Seogyeongju"
+            },
+            {
+              "name": "Pohang"
+            },
+            {
+              "name": "Jangsa"
+            },
+            {
+              "name": "Yeongdeok"
+            },
+            {
+              "name": "Goraebul"
+            },
+            {
+              "name": "Hupo"
+            },
+            {
+              "name": "Giseong"
+            },
+            {
+              "name": "Maehwa"
+            },
+            {
+              "name": "Uljin"
+            },
+            {
+              "name": "Jukbyeon"
+            },
+            {
+              "name": "Heungbu"
+            },
+            {
+              "name": "Samcheok"
+            },
+            {
+              "name": "Donghae"
+            },
+            {
+              "name": "Wolpo"
+            },
+            {
+              "name": "Yeonghae"
+            },
+            {
+              "name": "Pyeonghae"
+            },
+            {
+              "name": "Geundeok"
+            },
+            {
+              "name": "Angang"
+            },
+            {
+              "name": "Okwon"
+            },
+            {
+              "name": "Imwon"
+            },
+            {
+              "name": "Mukho"
+            },
+            {
+              "name": "Jeongdongjin"
+            },
+            {
+              "name": "Gangneung"
+            },
+            {
+              "name": "Ganggu"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-b3d9-d574-c120-28-bd80-c804-2d-ac15-b989-29",
+          "name": "Korail · 동해선(부전-강릉)",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Bujeon"
+            },
+            {
+              "name": "Taehwagang"
+            },
+            {
+              "name": "Gyeongju"
+            },
+            {
+              "name": "Pohang"
+            },
+            {
+              "name": "Yeongdeok"
+            },
+            {
+              "name": "Uljin"
+            },
+            {
+              "name": "Samcheok"
+            },
+            {
+              "name": "Donghae"
+            },
+            {
+              "name": "Mukho"
+            },
+            {
+              "name": "Jeongdongjin"
+            },
+            {
+              "name": "Gangneung"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-b3d9-d574-c120-28-c11c-c6b8-7e-d3ec-d56d-29",
+          "name": "Korail · 동해선(서울~포항)",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Dongdaegu"
+            },
+            {
+              "name": "Pohang"
+            },
+            {
+              "name": "Haengsin"
+            },
+            {
+              "name": "Seoul"
+            },
+            {
+              "name": "Gwangmyeong"
+            },
+            {
+              "name": "Cheonan-Asan"
+            },
+            {
+              "name": "Osong"
+            },
+            {
+              "name": "Daejeon"
+            },
+            {
+              "name": "Seodaegu"
+            },
+            {
+              "name": "Gimcheon(Gumi)"
+            },
+            {
+              "name": "PyeongtaekJije"
+            },
+            {
+              "name": "Dongtan"
+            },
+            {
+              "name": "Suseo"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-baa9-d3ec-bcf4-c131-c120",
+          "name": "Korail · 목포보성선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Mokpo"
+            },
+            {
+              "name": "Yeongam"
+            },
+            {
+              "name": "Haenam"
+            },
+            {
+              "name": "Gangjin"
+            },
+            {
+              "name": "Jeonnam jangheung"
+            },
+            {
+              "name": "Sinboseong"
+            },
+            {
+              "name": "Suncheon"
+            },
+            {
+              "name": "Imseong-ri"
+            },
+            {
+              "name": "Jangdong"
+            },
+            {
+              "name": "Deungnyang"
+            },
+            {
+              "name": "Beolgyo"
+            },
+            {
+              "name": "Yedang"
+            },
+            {
+              "name": "Joseong"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-c11c-d574-c120",
+          "name": "Korail · 서해선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Hongseong"
+            },
+            {
+              "name": "Sapgyo"
+            },
+            {
+              "name": "Yesan"
+            },
+            {
+              "name": "Sillyewon"
+            },
+            {
+              "name": "Onyang oncheon"
+            },
+            {
+              "name": "Asan"
+            },
+            {
+              "name": "Cheonan"
+            },
+            {
+              "name": "Pyeongtaek"
+            },
+            {
+              "name": "Anjung"
+            },
+            {
+              "name": "Inju"
+            },
+            {
+              "name": "Hapdeok"
+            },
+            {
+              "name": "Hyangnam"
+            },
+            {
+              "name": "Hwaseong City Hall"
+            },
+            {
+              "name": "Seohwaseong"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-c601-b3d9-c120",
+          "name": "Korail · 영동선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Dogye"
+            },
+            {
+              "name": "Donghae"
+            },
+            {
+              "name": "Dongbaeksan"
+            },
+            {
+              "name": "Singi"
+            },
+            {
+              "name": "Cheoram"
+            },
+            {
+              "name": "Seokpo"
+            },
+            {
+              "name": "Seungbu"
+            },
+            {
+              "name": "Yangwon"
+            },
+            {
+              "name": "Buncheon"
+            },
+            {
+              "name": "Hyeondong"
+            },
+            {
+              "name": "Imgi"
+            },
+            {
+              "name": "Chunyang"
+            },
+            {
+              "name": "Bonghwa"
+            },
+            {
+              "name": "Yeongju"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-c7a5-d56d-c120",
+          "name": "Korail · 장항선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Hongseong"
+            },
+            {
+              "name": "Sapgyo"
+            },
+            {
+              "name": "Yesan"
+            },
+            {
+              "name": "Sillyewon"
+            },
+            {
+              "name": "Onyang oncheon"
+            },
+            {
+              "name": "Asan"
+            },
+            {
+              "name": "Cheonan"
+            },
+            {
+              "name": "Pyeongtaek"
+            },
+            {
+              "name": "Singchang"
+            },
+            {
+              "name": "Suwon"
+            },
+            {
+              "name": "Yeongdeungpo"
+            },
+            {
+              "name": "Yongsan"
+            },
+            {
+              "name": "Iksan"
+            },
+            {
+              "name": "Gunsan"
+            },
+            {
+              "name": "Janghang"
+            },
+            {
+              "name": "Seocheon"
+            },
+            {
+              "name": "Pangyo"
+            },
+            {
+              "name": "Ungcheon"
+            },
+            {
+              "name": "Daecheon"
+            },
+            {
+              "name": "Gwangcheon"
+            },
+            {
+              "name": "Dogo oncheon"
+            },
+            {
+              "name": "Anyang"
+            },
+            {
+              "name": "Daeya"
+            },
+            {
+              "name": "Cheongso"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-c804-b77c-c120",
+          "name": "Korail · 전라선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Haengsin"
+            },
+            {
+              "name": "Seoul"
+            },
+            {
+              "name": "Yongsan"
+            },
+            {
+              "name": "Gwangmyeong"
+            },
+            {
+              "name": "Cheonan-Asan"
+            },
+            {
+              "name": "Seodaejeon"
+            },
+            {
+              "name": "Gyeryong"
+            },
+            {
+              "name": "Nonsan"
+            },
+            {
+              "name": "Iksan"
+            },
+            {
+              "name": "Jeonju"
+            },
+            {
+              "name": "Namwon"
+            },
+            {
+              "name": "Guryegu"
+            },
+            {
+              "name": "Suncheon"
+            },
+            {
+              "name": "Yeocheon"
+            },
+            {
+              "name": "Yeosu-Expo"
+            },
+            {
+              "name": "Osong"
+            },
+            {
+              "name": "Gokseong"
+            },
+            {
+              "name": "Samnye"
+            },
+            {
+              "name": "Imsil"
+            },
+            {
+              "name": "Osu"
+            },
+            {
+              "name": "Jochiwon"
+            },
+            {
+              "name": "Sintanjin"
+            },
+            {
+              "name": "Gongju"
+            },
+            {
+              "name": "Cheonan"
+            },
+            {
+              "name": "Suwon"
+            },
+            {
+              "name": "Yeongdeungpo"
+            },
+            {
+              "name": "Pyeongtaek"
+            },
+            {
+              "name": "Suseo"
+            },
+            {
+              "name": "Dongtan"
+            },
+            {
+              "name": "PyeongtaekJije"
+            },
+            {
+              "name": "Hamyeol"
+            },
+            {
+              "name": "Ganggyeong"
+            },
+            {
+              "name": "Yeonsan"
+            },
+            {
+              "name": "Bugang"
+            },
+            {
+              "name": "Anyang"
+            },
+            {
+              "name": "Jeonui"
+            },
+            {
+              "name": "Seojeong-ri"
+            },
+            {
+              "name": "Seonghwan"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-c911-bd80-b0b4-b959-c120",
+          "name": "Korail · 중부내륙선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Mungyeong"
+            },
+            {
+              "name": "Yeonpung"
+            },
+            {
+              "name": "Suanbo oncheon"
+            },
+            {
+              "name": "Salmi"
+            },
+            {
+              "name": "Chungju"
+            },
+            {
+              "name": "AngseongOncheon"
+            },
+            {
+              "name": "GamgokJanghowon"
+            },
+            {
+              "name": "Ganam"
+            },
+            {
+              "name": "Bubal"
+            },
+            {
+              "name": "Pangyo"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-c911-c559-c120",
+          "name": "Korail · 중앙선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Andong"
+            },
+            {
+              "name": "Yeongju"
+            },
+            {
+              "name": "Punggi"
+            },
+            {
+              "name": "Danyang"
+            },
+            {
+              "name": "Jecheon"
+            },
+            {
+              "name": "Wonju"
+            },
+            {
+              "name": "Seowonju"
+            },
+            {
+              "name": "Yangdong"
+            },
+            {
+              "name": "Yongmun"
+            },
+            {
+              "name": "Yangpyeong"
+            },
+            {
+              "name": "Deokso"
+            },
+            {
+              "name": "Cheongnyangni"
+            },
+            {
+              "name": "Seoul"
+            },
+            {
+              "name": "Bujeon"
+            },
+            {
+              "name": "Centum"
+            },
+            {
+              "name": "Sinhaeundae"
+            },
+            {
+              "name": "Gijang"
+            },
+            {
+              "name": "Namchang"
+            },
+            {
+              "name": "Taehwagang"
+            },
+            {
+              "name": "Bugulsan"
+            },
+            {
+              "name": "Gyeongju"
+            },
+            {
+              "name": "Ahwa"
+            },
+            {
+              "name": "Yeongcheon"
+            },
+            {
+              "name": "Tap-ri"
+            },
+            {
+              "name": "Uiseong"
+            },
+            {
+              "name": "Maegok"
+            },
+            {
+              "name": "ilsin"
+            },
+            {
+              "name": "Jipyeong"
+            },
+            {
+              "name": "Sangbong"
+            },
+            {
+              "name": "Bongyang"
+            },
+            {
+              "name": "Seokbul"
+            },
+            {
+              "name": "Samsan"
+            },
+            {
+              "name": "Dongdaegu"
+            },
+            {
+              "name": "Hayang"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-cda9-bd81-c120",
+          "name": "Korail · 충북선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Daejeon"
+            },
+            {
+              "name": "Sintanjin"
+            },
+            {
+              "name": "Jochiwon"
+            },
+            {
+              "name": "Osong"
+            },
+            {
+              "name": "Cheongju"
+            },
+            {
+              "name": "Ogeunjang"
+            },
+            {
+              "name": "Cheongju Int'l Airport"
+            },
+            {
+              "name": "Jeungpyeong"
+            },
+            {
+              "name": "Eumseong"
+            },
+            {
+              "name": "Judeok"
+            },
+            {
+              "name": "Chungju"
+            },
+            {
+              "name": "Bongyang"
+            },
+            {
+              "name": "Jecheon"
+            },
+            {
+              "name": "Samtan"
+            },
+            {
+              "name": "Bugang"
+            },
+            {
+              "name": "Danyang"
+            },
+            {
+              "name": "Punggi"
+            },
+            {
+              "name": "Yeongju"
+            },
+            {
+              "name": "Seodaejeon"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-d0dc-bc31-c120",
+          "name": "Korail · 태백선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Donghae"
+            },
+            {
+              "name": "Dogye"
+            },
+            {
+              "name": "Taebaek"
+            },
+            {
+              "name": "Gohan"
+            },
+            {
+              "name": "Sabuk"
+            },
+            {
+              "name": "Mindungsan"
+            },
+            {
+              "name": "Yemi"
+            },
+            {
+              "name": "Yeongwol"
+            },
+            {
+              "name": "Ssangnyong"
+            },
+            {
+              "name": "Jecheon"
+            },
+            {
+              "name": "Singi"
+            },
+            {
+              "name": "Dongbaeksan"
+            }
+          ]
+        },
+        {
+          "id": "korea-route-korail-d638-b0a8-c120",
+          "name": "Korail · 호남선",
+          "color": "#005BAC",
+          "stations": [
+            {
+              "name": "Cheonan-Asan"
+            },
+            {
+              "name": "Dongtan"
+            },
+            {
+              "name": "Suseo"
+            },
+            {
+              "name": "Gwangju"
+            },
+            {
+              "name": "Jangseong"
+            },
+            {
+              "name": "Baegyangsa"
+            },
+            {
+              "name": "Jeongeup"
+            },
+            {
+              "name": "Sintaein"
+            },
+            {
+              "name": "Gimje"
+            },
+            {
+              "name": "Iksan"
+            },
+            {
+              "name": "Ganggyeong"
+            },
+            {
+              "name": "Nonsan"
+            },
+            {
+              "name": "Gyeryong"
+            },
+            {
+              "name": "Seodaejeon"
+            },
+            {
+              "name": "Sintanjin"
+            },
+            {
+              "name": "Jochiwon"
+            },
+            {
+              "name": "Geungnakgang"
+            },
+            {
+              "name": "Gwangju songjeong"
+            },
+            {
+              "name": "Naju"
+            },
+            {
+              "name": "Dasi"
+            },
+            {
+              "name": "Hampyeong"
+            },
+            {
+              "name": "Muan"
+            },
+            {
+              "name": "Mongtan"
+            },
+            {
+              "name": "Illo"
+            },
+            {
+              "name": "Imseong-ri"
+            },
+            {
+              "name": "Mokpo"
+            },
+            {
+              "name": "Hamyeol"
+            },
+            {
+              "name": "Yeonsan"
+            },
+            {
+              "name": "Gwangmyeong"
+            },
+            {
+              "name": "Yongsan"
+            },
+            {
+              "name": "Haengsin"
+            },
+            {
+              "name": "Osong"
+            },
+            {
+              "name": "Seoul"
+            },
+            {
+              "name": "Gongju"
+            },
+            {
+              "name": "PyeongtaekJije"
+            },
+            {
+              "name": "Cheonan"
+            },
+            {
+              "name": "Pyeongtaek"
+            },
+            {
+              "name": "Suwon"
+            },
+            {
+              "name": "Yeongdeungpo"
+            },
+            {
+              "name": "Jeonui"
+            },
+            {
+              "name": "Bugang"
+            },
+            {
+              "name": "Seonghwan"
+            },
+            {
+              "name": "Seojeong-ri"
+            },
+            {
+              "name": "Osan"
+            },
+            {
+              "name": "Anyang"
             }
           ]
         }
@@ -3123,109 +4540,1605 @@
           "localName": "중앙보훈병원"
         }
       ]
+    },
+    {
+      "id": "korea-route-korail-ac15-b989-c120",
+      "name": "Korail · 강릉선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Cheongnyangni"
+        },
+        {
+          "name": "Sangbong"
+        },
+        {
+          "name": "Yangpyeong"
+        },
+        {
+          "name": "Manjong"
+        },
+        {
+          "name": "Hoengseong"
+        },
+        {
+          "name": "Pyeongchang"
+        },
+        {
+          "name": "Jinbu(Odaesan)"
+        },
+        {
+          "name": "Jeongdongjin"
+        },
+        {
+          "name": "Mukho"
+        },
+        {
+          "name": "Donghae"
+        },
+        {
+          "name": "Seowonju"
+        },
+        {
+          "name": "Gangneung"
+        },
+        {
+          "name": "Dunnae"
+        },
+        {
+          "name": "Seoul"
+        },
+        {
+          "name": "Haengsin"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-acbd-bd80-c120",
+      "name": "Korail · 경부선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Busan"
+        },
+        {
+          "name": "Gupo"
+        },
+        {
+          "name": "Mulgeum"
+        },
+        {
+          "name": "Wondong"
+        },
+        {
+          "name": "Samnangjin"
+        },
+        {
+          "name": "Miryang"
+        },
+        {
+          "name": "Sangdong"
+        },
+        {
+          "name": "Cheongdo"
+        },
+        {
+          "name": "Gyeongsan"
+        },
+        {
+          "name": "Dongdaegu"
+        },
+        {
+          "name": "Daegu"
+        },
+        {
+          "name": "Waegwan"
+        },
+        {
+          "name": "Yangmok"
+        },
+        {
+          "name": "Gumi"
+        },
+        {
+          "name": "Gimcheon"
+        },
+        {
+          "name": "Chupungnyeong"
+        },
+        {
+          "name": "Hwanggan"
+        },
+        {
+          "name": "Yeongdong"
+        },
+        {
+          "name": "Daejeon"
+        },
+        {
+          "name": "Hwamyeong"
+        },
+        {
+          "name": "Sindong"
+        },
+        {
+          "name": "Gakgye"
+        },
+        {
+          "name": "Simcheon"
+        },
+        {
+          "name": "Okcheon"
+        },
+        {
+          "name": "Sasang"
+        },
+        {
+          "name": "Namseonghyeon"
+        },
+        {
+          "name": "Ulsan"
+        },
+        {
+          "name": "Gyeongju"
+        },
+        {
+          "name": "Osong"
+        },
+        {
+          "name": "Gwangmyeong"
+        },
+        {
+          "name": "Seoul"
+        },
+        {
+          "name": "Haengsin"
+        },
+        {
+          "name": "Gimcheon(Gumi)"
+        },
+        {
+          "name": "Cheonan-Asan"
+        },
+        {
+          "name": "Iwon"
+        },
+        {
+          "name": "Sintanjin"
+        },
+        {
+          "name": "Jochiwon"
+        },
+        {
+          "name": "Cheonan"
+        },
+        {
+          "name": "Pyeongtaek"
+        },
+        {
+          "name": "Suwon"
+        },
+        {
+          "name": "Yeongdeungpo"
+        },
+        {
+          "name": "Bugang"
+        },
+        {
+          "name": "Seodaegu"
+        },
+        {
+          "name": "Seonghwan"
+        },
+        {
+          "name": "Anyang"
+        },
+        {
+          "name": "Jeonui"
+        },
+        {
+          "name": "Seojeong-ri"
+        },
+        {
+          "name": "Osan"
+        },
+        {
+          "name": "PyeongtaekJije"
+        },
+        {
+          "name": "Dongtan"
+        },
+        {
+          "name": "Suseo"
+        },
+        {
+          "name": "Jitan"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-acbd-bd81-c120",
+      "name": "Korail · 경북선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Gimcheon"
+        },
+        {
+          "name": "Oksan"
+        },
+        {
+          "name": "Cheongni"
+        },
+        {
+          "name": "Sangju"
+        },
+        {
+          "name": "Hamchang"
+        },
+        {
+          "name": "Jeomchon"
+        },
+        {
+          "name": "Yonggung"
+        },
+        {
+          "name": "Gaepo"
+        },
+        {
+          "name": "Yecheon"
+        },
+        {
+          "name": "Yeongju"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-acbd-c804-c120",
+      "name": "Korail · 경전선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Bujeon"
+        },
+        {
+          "name": "Sasang"
+        },
+        {
+          "name": "Gupo"
+        },
+        {
+          "name": "Hwamyeong"
+        },
+        {
+          "name": "Mulgeum"
+        },
+        {
+          "name": "Wondong"
+        },
+        {
+          "name": "Samnangjin"
+        },
+        {
+          "name": "Hallimjeong"
+        },
+        {
+          "name": "Jinyeong"
+        },
+        {
+          "name": "Changwonjungang"
+        },
+        {
+          "name": "Changwon"
+        },
+        {
+          "name": "Masan"
+        },
+        {
+          "name": "Jung-ri"
+        },
+        {
+          "name": "Haman"
+        },
+        {
+          "name": "Gunbuk"
+        },
+        {
+          "name": "Banseong"
+        },
+        {
+          "name": "Jinju"
+        },
+        {
+          "name": "Wansa"
+        },
+        {
+          "name": "Bukcheon"
+        },
+        {
+          "name": "Hoengcheon"
+        },
+        {
+          "name": "Hadong"
+        },
+        {
+          "name": "Jinsang"
+        },
+        {
+          "name": "Gwangyang"
+        },
+        {
+          "name": "Suncheon"
+        },
+        {
+          "name": "Beolgyo"
+        },
+        {
+          "name": "Deungnyang"
+        },
+        {
+          "name": "Jillye"
+        },
+        {
+          "name": "Daejeon"
+        },
+        {
+          "name": "Osong"
+        },
+        {
+          "name": "Dongtan"
+        },
+        {
+          "name": "Suseo"
+        },
+        {
+          "name": "Yedang"
+        },
+        {
+          "name": "Dongdaegu"
+        },
+        {
+          "name": "Gyeongsan"
+        },
+        {
+          "name": "Cheongdo"
+        },
+        {
+          "name": "Sangdong"
+        },
+        {
+          "name": "Miryang"
+        },
+        {
+          "name": "Namseonghyeon"
+        },
+        {
+          "name": "Gwangju songjeong"
+        },
+        {
+          "name": "Seogwangju"
+        },
+        {
+          "name": "Hyocheon"
+        },
+        {
+          "name": "Hwasun"
+        },
+        {
+          "name": "Neungju"
+        },
+        {
+          "name": "Iyang"
+        },
+        {
+          "name": "Myeongbong"
+        },
+        {
+          "name": "Boseong"
+        },
+        {
+          "name": "Joseong"
+        },
+        {
+          "name": "Gwangmyeong"
+        },
+        {
+          "name": "Seoul"
+        },
+        {
+          "name": "Haengsin"
+        },
+        {
+          "name": "Cheonan-Asan"
+        },
+        {
+          "name": "Seodaegu"
+        },
+        {
+          "name": "Gimcheon(Gumi)"
+        },
+        {
+          "name": "PyeongtaekJije"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-ad50-c678-c120",
+      "name": "Korail · 교외선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Daegok"
+        },
+        {
+          "name": "Wolleung"
+        },
+        {
+          "name": "Iryeong"
+        },
+        {
+          "name": "Jangheung"
+        },
+        {
+          "name": "Songchu"
+        },
+        {
+          "name": "Uijeongbu"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-b300-ad6c-c120",
+      "name": "Korail · 대구선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Dongdaegu"
+        },
+        {
+          "name": "Hayang"
+        },
+        {
+          "name": "Yeongcheon"
+        },
+        {
+          "name": "Ahwa"
+        },
+        {
+          "name": "Gyeongju"
+        },
+        {
+          "name": "Seogyeongju"
+        },
+        {
+          "name": "Angang"
+        },
+        {
+          "name": "Pohang"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-b3d9-d574-c120",
+      "name": "Korail · 동해선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Bujeon"
+        },
+        {
+          "name": "Centum"
+        },
+        {
+          "name": "Sinhaeundae"
+        },
+        {
+          "name": "Gijang"
+        },
+        {
+          "name": "Namchang"
+        },
+        {
+          "name": "Taehwagang"
+        },
+        {
+          "name": "Bugulsan"
+        },
+        {
+          "name": "Gyeongju"
+        },
+        {
+          "name": "Seogyeongju"
+        },
+        {
+          "name": "Pohang"
+        },
+        {
+          "name": "Jangsa"
+        },
+        {
+          "name": "Yeongdeok"
+        },
+        {
+          "name": "Goraebul"
+        },
+        {
+          "name": "Hupo"
+        },
+        {
+          "name": "Giseong"
+        },
+        {
+          "name": "Maehwa"
+        },
+        {
+          "name": "Uljin"
+        },
+        {
+          "name": "Jukbyeon"
+        },
+        {
+          "name": "Heungbu"
+        },
+        {
+          "name": "Samcheok"
+        },
+        {
+          "name": "Donghae"
+        },
+        {
+          "name": "Wolpo"
+        },
+        {
+          "name": "Yeonghae"
+        },
+        {
+          "name": "Pyeonghae"
+        },
+        {
+          "name": "Geundeok"
+        },
+        {
+          "name": "Angang"
+        },
+        {
+          "name": "Okwon"
+        },
+        {
+          "name": "Imwon"
+        },
+        {
+          "name": "Mukho"
+        },
+        {
+          "name": "Jeongdongjin"
+        },
+        {
+          "name": "Gangneung"
+        },
+        {
+          "name": "Ganggu"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-b3d9-d574-c120-28-bd80-c804-2d-ac15-b989-29",
+      "name": "Korail · 동해선(부전-강릉)",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Bujeon"
+        },
+        {
+          "name": "Taehwagang"
+        },
+        {
+          "name": "Gyeongju"
+        },
+        {
+          "name": "Pohang"
+        },
+        {
+          "name": "Yeongdeok"
+        },
+        {
+          "name": "Uljin"
+        },
+        {
+          "name": "Samcheok"
+        },
+        {
+          "name": "Donghae"
+        },
+        {
+          "name": "Mukho"
+        },
+        {
+          "name": "Jeongdongjin"
+        },
+        {
+          "name": "Gangneung"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-b3d9-d574-c120-28-c11c-c6b8-7e-d3ec-d56d-29",
+      "name": "Korail · 동해선(서울~포항)",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Dongdaegu"
+        },
+        {
+          "name": "Pohang"
+        },
+        {
+          "name": "Haengsin"
+        },
+        {
+          "name": "Seoul"
+        },
+        {
+          "name": "Gwangmyeong"
+        },
+        {
+          "name": "Cheonan-Asan"
+        },
+        {
+          "name": "Osong"
+        },
+        {
+          "name": "Daejeon"
+        },
+        {
+          "name": "Seodaegu"
+        },
+        {
+          "name": "Gimcheon(Gumi)"
+        },
+        {
+          "name": "PyeongtaekJije"
+        },
+        {
+          "name": "Dongtan"
+        },
+        {
+          "name": "Suseo"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-baa9-d3ec-bcf4-c131-c120",
+      "name": "Korail · 목포보성선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Mokpo"
+        },
+        {
+          "name": "Yeongam"
+        },
+        {
+          "name": "Haenam"
+        },
+        {
+          "name": "Gangjin"
+        },
+        {
+          "name": "Jeonnam jangheung"
+        },
+        {
+          "name": "Sinboseong"
+        },
+        {
+          "name": "Suncheon"
+        },
+        {
+          "name": "Imseong-ri"
+        },
+        {
+          "name": "Jangdong"
+        },
+        {
+          "name": "Deungnyang"
+        },
+        {
+          "name": "Beolgyo"
+        },
+        {
+          "name": "Yedang"
+        },
+        {
+          "name": "Joseong"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-c11c-d574-c120",
+      "name": "Korail · 서해선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Hongseong"
+        },
+        {
+          "name": "Sapgyo"
+        },
+        {
+          "name": "Yesan"
+        },
+        {
+          "name": "Sillyewon"
+        },
+        {
+          "name": "Onyang oncheon"
+        },
+        {
+          "name": "Asan"
+        },
+        {
+          "name": "Cheonan"
+        },
+        {
+          "name": "Pyeongtaek"
+        },
+        {
+          "name": "Anjung"
+        },
+        {
+          "name": "Inju"
+        },
+        {
+          "name": "Hapdeok"
+        },
+        {
+          "name": "Hyangnam"
+        },
+        {
+          "name": "Hwaseong City Hall"
+        },
+        {
+          "name": "Seohwaseong"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-c601-b3d9-c120",
+      "name": "Korail · 영동선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Dogye"
+        },
+        {
+          "name": "Donghae"
+        },
+        {
+          "name": "Dongbaeksan"
+        },
+        {
+          "name": "Singi"
+        },
+        {
+          "name": "Cheoram"
+        },
+        {
+          "name": "Seokpo"
+        },
+        {
+          "name": "Seungbu"
+        },
+        {
+          "name": "Yangwon"
+        },
+        {
+          "name": "Buncheon"
+        },
+        {
+          "name": "Hyeondong"
+        },
+        {
+          "name": "Imgi"
+        },
+        {
+          "name": "Chunyang"
+        },
+        {
+          "name": "Bonghwa"
+        },
+        {
+          "name": "Yeongju"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-c7a5-d56d-c120",
+      "name": "Korail · 장항선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Hongseong"
+        },
+        {
+          "name": "Sapgyo"
+        },
+        {
+          "name": "Yesan"
+        },
+        {
+          "name": "Sillyewon"
+        },
+        {
+          "name": "Onyang oncheon"
+        },
+        {
+          "name": "Asan"
+        },
+        {
+          "name": "Cheonan"
+        },
+        {
+          "name": "Pyeongtaek"
+        },
+        {
+          "name": "Singchang"
+        },
+        {
+          "name": "Suwon"
+        },
+        {
+          "name": "Yeongdeungpo"
+        },
+        {
+          "name": "Yongsan"
+        },
+        {
+          "name": "Iksan"
+        },
+        {
+          "name": "Gunsan"
+        },
+        {
+          "name": "Janghang"
+        },
+        {
+          "name": "Seocheon"
+        },
+        {
+          "name": "Pangyo"
+        },
+        {
+          "name": "Ungcheon"
+        },
+        {
+          "name": "Daecheon"
+        },
+        {
+          "name": "Gwangcheon"
+        },
+        {
+          "name": "Dogo oncheon"
+        },
+        {
+          "name": "Anyang"
+        },
+        {
+          "name": "Daeya"
+        },
+        {
+          "name": "Cheongso"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-c804-b77c-c120",
+      "name": "Korail · 전라선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Haengsin"
+        },
+        {
+          "name": "Seoul"
+        },
+        {
+          "name": "Yongsan"
+        },
+        {
+          "name": "Gwangmyeong"
+        },
+        {
+          "name": "Cheonan-Asan"
+        },
+        {
+          "name": "Seodaejeon"
+        },
+        {
+          "name": "Gyeryong"
+        },
+        {
+          "name": "Nonsan"
+        },
+        {
+          "name": "Iksan"
+        },
+        {
+          "name": "Jeonju"
+        },
+        {
+          "name": "Namwon"
+        },
+        {
+          "name": "Guryegu"
+        },
+        {
+          "name": "Suncheon"
+        },
+        {
+          "name": "Yeocheon"
+        },
+        {
+          "name": "Yeosu-Expo"
+        },
+        {
+          "name": "Osong"
+        },
+        {
+          "name": "Gokseong"
+        },
+        {
+          "name": "Samnye"
+        },
+        {
+          "name": "Imsil"
+        },
+        {
+          "name": "Osu"
+        },
+        {
+          "name": "Jochiwon"
+        },
+        {
+          "name": "Sintanjin"
+        },
+        {
+          "name": "Gongju"
+        },
+        {
+          "name": "Cheonan"
+        },
+        {
+          "name": "Suwon"
+        },
+        {
+          "name": "Yeongdeungpo"
+        },
+        {
+          "name": "Pyeongtaek"
+        },
+        {
+          "name": "Suseo"
+        },
+        {
+          "name": "Dongtan"
+        },
+        {
+          "name": "PyeongtaekJije"
+        },
+        {
+          "name": "Hamyeol"
+        },
+        {
+          "name": "Ganggyeong"
+        },
+        {
+          "name": "Yeonsan"
+        },
+        {
+          "name": "Bugang"
+        },
+        {
+          "name": "Anyang"
+        },
+        {
+          "name": "Jeonui"
+        },
+        {
+          "name": "Seojeong-ri"
+        },
+        {
+          "name": "Seonghwan"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-c911-bd80-b0b4-b959-c120",
+      "name": "Korail · 중부내륙선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Mungyeong"
+        },
+        {
+          "name": "Yeonpung"
+        },
+        {
+          "name": "Suanbo oncheon"
+        },
+        {
+          "name": "Salmi"
+        },
+        {
+          "name": "Chungju"
+        },
+        {
+          "name": "AngseongOncheon"
+        },
+        {
+          "name": "GamgokJanghowon"
+        },
+        {
+          "name": "Ganam"
+        },
+        {
+          "name": "Bubal"
+        },
+        {
+          "name": "Pangyo"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-c911-c559-c120",
+      "name": "Korail · 중앙선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Andong"
+        },
+        {
+          "name": "Yeongju"
+        },
+        {
+          "name": "Punggi"
+        },
+        {
+          "name": "Danyang"
+        },
+        {
+          "name": "Jecheon"
+        },
+        {
+          "name": "Wonju"
+        },
+        {
+          "name": "Seowonju"
+        },
+        {
+          "name": "Yangdong"
+        },
+        {
+          "name": "Yongmun"
+        },
+        {
+          "name": "Yangpyeong"
+        },
+        {
+          "name": "Deokso"
+        },
+        {
+          "name": "Cheongnyangni"
+        },
+        {
+          "name": "Seoul"
+        },
+        {
+          "name": "Bujeon"
+        },
+        {
+          "name": "Centum"
+        },
+        {
+          "name": "Sinhaeundae"
+        },
+        {
+          "name": "Gijang"
+        },
+        {
+          "name": "Namchang"
+        },
+        {
+          "name": "Taehwagang"
+        },
+        {
+          "name": "Bugulsan"
+        },
+        {
+          "name": "Gyeongju"
+        },
+        {
+          "name": "Ahwa"
+        },
+        {
+          "name": "Yeongcheon"
+        },
+        {
+          "name": "Tap-ri"
+        },
+        {
+          "name": "Uiseong"
+        },
+        {
+          "name": "Maegok"
+        },
+        {
+          "name": "ilsin"
+        },
+        {
+          "name": "Jipyeong"
+        },
+        {
+          "name": "Sangbong"
+        },
+        {
+          "name": "Bongyang"
+        },
+        {
+          "name": "Seokbul"
+        },
+        {
+          "name": "Samsan"
+        },
+        {
+          "name": "Dongdaegu"
+        },
+        {
+          "name": "Hayang"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-cda9-bd81-c120",
+      "name": "Korail · 충북선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Daejeon"
+        },
+        {
+          "name": "Sintanjin"
+        },
+        {
+          "name": "Jochiwon"
+        },
+        {
+          "name": "Osong"
+        },
+        {
+          "name": "Cheongju"
+        },
+        {
+          "name": "Ogeunjang"
+        },
+        {
+          "name": "Cheongju Int'l Airport"
+        },
+        {
+          "name": "Jeungpyeong"
+        },
+        {
+          "name": "Eumseong"
+        },
+        {
+          "name": "Judeok"
+        },
+        {
+          "name": "Chungju"
+        },
+        {
+          "name": "Bongyang"
+        },
+        {
+          "name": "Jecheon"
+        },
+        {
+          "name": "Samtan"
+        },
+        {
+          "name": "Bugang"
+        },
+        {
+          "name": "Danyang"
+        },
+        {
+          "name": "Punggi"
+        },
+        {
+          "name": "Yeongju"
+        },
+        {
+          "name": "Seodaejeon"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-d0dc-bc31-c120",
+      "name": "Korail · 태백선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Donghae"
+        },
+        {
+          "name": "Dogye"
+        },
+        {
+          "name": "Taebaek"
+        },
+        {
+          "name": "Gohan"
+        },
+        {
+          "name": "Sabuk"
+        },
+        {
+          "name": "Mindungsan"
+        },
+        {
+          "name": "Yemi"
+        },
+        {
+          "name": "Yeongwol"
+        },
+        {
+          "name": "Ssangnyong"
+        },
+        {
+          "name": "Jecheon"
+        },
+        {
+          "name": "Singi"
+        },
+        {
+          "name": "Dongbaeksan"
+        }
+      ]
+    },
+    {
+      "id": "korea-route-korail-d638-b0a8-c120",
+      "name": "Korail · 호남선",
+      "color": "#005BAC",
+      "stations": [
+        {
+          "name": "Cheonan-Asan"
+        },
+        {
+          "name": "Dongtan"
+        },
+        {
+          "name": "Suseo"
+        },
+        {
+          "name": "Gwangju"
+        },
+        {
+          "name": "Jangseong"
+        },
+        {
+          "name": "Baegyangsa"
+        },
+        {
+          "name": "Jeongeup"
+        },
+        {
+          "name": "Sintaein"
+        },
+        {
+          "name": "Gimje"
+        },
+        {
+          "name": "Iksan"
+        },
+        {
+          "name": "Ganggyeong"
+        },
+        {
+          "name": "Nonsan"
+        },
+        {
+          "name": "Gyeryong"
+        },
+        {
+          "name": "Seodaejeon"
+        },
+        {
+          "name": "Sintanjin"
+        },
+        {
+          "name": "Jochiwon"
+        },
+        {
+          "name": "Geungnakgang"
+        },
+        {
+          "name": "Gwangju songjeong"
+        },
+        {
+          "name": "Naju"
+        },
+        {
+          "name": "Dasi"
+        },
+        {
+          "name": "Hampyeong"
+        },
+        {
+          "name": "Muan"
+        },
+        {
+          "name": "Mongtan"
+        },
+        {
+          "name": "Illo"
+        },
+        {
+          "name": "Imseong-ri"
+        },
+        {
+          "name": "Mokpo"
+        },
+        {
+          "name": "Hamyeol"
+        },
+        {
+          "name": "Yeonsan"
+        },
+        {
+          "name": "Gwangmyeong"
+        },
+        {
+          "name": "Yongsan"
+        },
+        {
+          "name": "Haengsin"
+        },
+        {
+          "name": "Osong"
+        },
+        {
+          "name": "Seoul"
+        },
+        {
+          "name": "Gongju"
+        },
+        {
+          "name": "PyeongtaekJije"
+        },
+        {
+          "name": "Cheonan"
+        },
+        {
+          "name": "Pyeongtaek"
+        },
+        {
+          "name": "Suwon"
+        },
+        {
+          "name": "Yeongdeungpo"
+        },
+        {
+          "name": "Jeonui"
+        },
+        {
+          "name": "Bugang"
+        },
+        {
+          "name": "Seonghwan"
+        },
+        {
+          "name": "Seojeong-ri"
+        },
+        {
+          "name": "Osan"
+        },
+        {
+          "name": "Anyang"
+        }
+      ]
     }
   ],
   "stations": [
     "Achasan",
     "Aeogae",
+    "Ahwa",
     "Ahyeon",
     "Airport Market",
     "Amsa",
     "Amsa History Park",
     "Anam",
+    "Andong",
+    "Angang",
+    "AngseongOncheon",
     "Anguk",
+    "Anjung",
+    "Anyang",
     "Apgujeong",
+    "Asan",
+    "Baegyangsa",
     "Balsan",
     "Bangbae",
     "Banghwa",
     "Banpo",
+    "Banseong",
+    "Beolgyo",
     "Beotigogae",
     "Bokjeong",
     "Bomun",
     "Bongcheon",
     "Bongeunsa",
+    "Bonghwa",
     "Bonghwasan",
+    "Bongyang",
     "Boramae",
+    "Boseong",
+    "Bubal",
+    "Bugang",
+    "Bugulsan",
+    "Bujeon",
+    "Bukcheon",
     "Bulgwang",
+    "Buncheon",
     "Buramsan",
+    "Busan",
     "Byeollae",
     "Byeollae Byeolgaram",
+    "Centum",
     "Chang-dong",
     "Changsin",
+    "Changwon",
+    "Changwonjungang",
     "Cheolsan",
+    "Cheonan",
+    "Cheonan-Asan",
     "Cheongdam",
+    "Cheongdo",
     "Cheonggu",
+    "Cheongju",
+    "Cheongju Int'l Airport",
+    "Cheongni",
     "Cheongnyangni",
+    "Cheongso",
     "Cheonho",
     "Cheonwang",
+    "Cheoram",
     "Children's Grand Park",
     "Chongshin Univ.",
     "Chungjeongno",
+    "Chungju",
     "Chungmuro",
+    "Chunyang",
+    "Chupungnyeong",
     "City Hall",
+    "Daecheon",
     "Daecheong",
     "Daechi",
+    "Daegok",
+    "Daegu",
     "Daeheung",
+    "Daejeon",
     "Daerim",
+    "Daeya",
     "Dandaeogeori",
     "Dangsan",
+    "Danyang",
     "Dapsimni",
     "Dasan",
+    "Dasi",
+    "Deokso",
     "Deungchon",
+    "Deungnyang",
     "Digital Media City",
     "Dobongsan",
+    "Dogo oncheon",
     "Dogok",
+    "Dogye",
     "Dokbawi",
     "Dolgoji",
+    "Dongbaeksan",
+    "Dongdaegu",
     "Dongdaemun",
     "Dongdaemun History & Culture Park",
     "Dongguk Univ.",
     "Donggureung",
+    "Donghae",
     "Dongjak",
     "Dongmyo",
     "Dongnimmun",
+    "Dongtan",
     "Dunchon Oryun",
+    "Dunnae",
     "Eonju",
     "Euljiro 1(il)-ga",
     "Euljiro 3(sam)-ga",
     "Euljiro 4(sa)-ga",
+    "Eumseong",
     "Eungam",
     "Ewha Womans Univ.",
     "Express Bus Terminal",
     "Gaehwa",
     "Gaehwasan",
+    "Gaepo",
+    "Gakgye",
+    "GamgokJanghowon",
+    "Ganam",
     "Gangbyeon",
     "Gangdong",
     "Gangdong-gu Office",
+    "Ganggu",
+    "Ganggyeong",
     "Gangil",
+    "Gangjin",
     "Gangnam",
     "Gangnam-gu Office",
+    "Gangneung",
     "Garak Market",
     "Gasan Digital Complex",
     "Gayang",
     "Geumho",
+    "Geundeok",
+    "Geungnakgang",
+    "Gijang",
     "Gil-dong",
+    "Gimcheon",
+    "Gimcheon(Gumi)",
+    "Gimje",
     "Gimpo Int'l Airport",
     "Gireum",
+    "Giseong",
     "Godeok",
+    "Gohan",
+    "Gokseong",
     "Gongdeok",
+    "Gongju",
     "Gongneung",
+    "Goraebul",
     "Gubanpo",
     "Gubeundari",
+    "Gumi",
+    "Gunbuk",
     "Gunja",
+    "Gunsan",
     "Gupabal",
+    "Gupo",
     "Guri",
     "Guro Digital Complex",
+    "Guryegu",
     "Gusan",
     "Guui",
+    "Gwangcheon",
     "Gwangheungchang",
     "Gwanghwamun",
+    "Gwangju",
+    "Gwangju songjeong",
+    "Gwangmyeong",
     "Gwangmyeongsageori",
     "Gwangnaru",
+    "Gwangyang",
     "Gyeongbokgung",
+    "Gyeongju",
+    "Gyeongsan",
+    "Gyeryong",
+    "Hadong",
+    "Haenam",
     "Haengdang",
+    "Haengsin",
     "Hagye",
     "Hak-dong",
+    "Hallimjeong",
+    "Haman",
+    "Hamchang",
+    "Hampyeong",
+    "Hamyeol",
     "Hanam City Hall",
     "Hanam Geomdansan",
     "Hanam Pungsan",
@@ -3234,36 +6147,86 @@
     "Hanseong Baekje",
     "Hansung Univ.",
     "Hanyang Univ.",
+    "Hapdeok",
     "Hapjeong",
+    "Hayang",
     "Heukseok",
+    "Heungbu",
     "Hoehyeon",
+    "Hoengcheon",
+    "Hoengseong",
     "Hongik Univ.",
     "Hongje",
+    "Hongseong",
+    "Hupo",
     "Hwagok",
+    "Hwamyeong",
+    "Hwanggan",
     "Hwarangdae",
+    "Hwaseong City Hall",
+    "Hwasun",
+    "Hyangnam",
     "Hyehwa",
+    "Hyeondong",
     "Hyochang Park",
+    "Hyocheon",
     "Ichon",
+    "Iksan",
+    "Illo",
+    "ilsin",
+    "Imgi",
+    "Imseong-ri",
+    "Imsil",
+    "Imwon",
+    "Inju",
     "Irwon",
+    "Iryeong",
     "Isu",
     "Itaewon",
+    "Iwon",
+    "Iyang",
     "Jamsil",
     "Jamsillaru",
     "Jamsilsaenae",
     "Jamwon",
     "Jangam",
+    "Jangdong",
+    "Janghang",
     "Janghanpyeong",
+    "Jangheung",
     "Jangja Lake Park",
     "Jangji",
+    "Jangsa",
+    "Jangseong",
     "Jangseungbaegi",
+    "Jecheon",
     "Jegi-dong",
+    "Jeomchon",
+    "Jeongdongjin",
+    "Jeongeup",
+    "Jeonju",
+    "Jeonnam jangheung",
+    "Jeonui",
     "Jeungmi",
+    "Jeungpyeong",
     "Jeungsan",
     "Jichuk",
+    "Jillye",
+    "Jinbu(Odaesan)",
     "Jinjeop",
+    "Jinju",
+    "Jinsang",
+    "Jinyeong",
+    "Jipyeong",
+    "Jitan",
+    "Jochiwon",
     "Jonggak",
     "Jongno 3(sam)-ga",
     "Jongno 5(o)-ga",
+    "Joseong",
+    "Judeok",
+    "Jukbyeon",
+    "Jung-ri",
     "Junggok",
     "Junggye",
     "Junghwa",
@@ -3272,86 +6235,151 @@
     "Korea Univ.",
     "Madeul",
     "Maebong",
+    "Maegok",
+    "Maehwa",
     "Magok",
     "Magongnaru",
     "Majang",
     "Mangwon",
+    "Manjong",
     "Mapo",
     "Mapo-gu Office",
+    "Masan",
     "Meokgol",
     "Mia",
     "Miasageori",
+    "Mindungsan",
+    "Miryang",
     "Misa",
     "Mok-dong",
+    "Mokpo",
     "Mongchontoseong",
+    "Mongtan",
     "Moran",
     "Muakjae",
+    "Muan",
+    "Mukho",
+    "Mulgeum",
     "Mullae",
+    "Mungyeong",
     "Munjeong",
     "Myeong-dong",
+    "Myeongbong",
     "Myeongil",
     "Myeonmok",
     "Naebang",
+    "Naju",
     "Nakseongdae",
     "Nambu Bus Terminal",
+    "Namchang",
     "Namguro",
     "Namhansanseong",
     "Namseong",
+    "Namseonghyeon",
     "Namtaeryeong",
     "Namwirye",
+    "Namwon",
     "National Assembly",
+    "Neungju",
     "Nodeul",
     "Nokbeon",
     "Noksapyeong",
     "Nonhyeon",
+    "Nonsan",
     "Noryangjin",
     "Nowon",
     "Ogeum",
+    "Ogeunjang",
+    "Okcheon",
+    "Oksan",
     "Oksu",
+    "Okwon",
     "Olympic Park",
     "Omokgyo",
     "Onam",
     "Onsu",
+    "Onyang oncheon",
+    "Osan",
+    "Osong",
+    "Osu",
+    "Pangyo",
+    "Pohang",
     "Police Hospital",
+    "Punggi",
+    "Pyeongchang",
+    "Pyeonghae",
+    "Pyeongtaek",
+    "PyeongtaekJije",
+    "Sabuk",
     "Sadang",
     "Saejeol",
     "Saetgang",
     "Sagajeong",
+    "Salmi",
+    "Samcheok",
     "Samgakji",
     "Samjeon",
+    "Samnangjin",
+    "Samnye",
+    "Samsan",
     "Samseong",
     "Samseong Jungang",
+    "Samtan",
     "Sangbong",
     "Sangdo",
+    "Sangdong",
     "Sanggye",
     "Sangil-dong",
+    "Sangju",
     "Sangsu",
     "Sangwangsimni",
     "Sangwolgok",
     "Sanseong",
+    "Sapgyo",
     "Sapyeong",
+    "Sasang",
+    "Seocheon",
     "Seocho",
+    "Seodaegu",
+    "Seodaejeon",
     "Seodaemun",
+    "Seogwangju",
+    "Seogyeongju",
+    "Seohwaseong",
+    "Seojeong-ri",
+    "Seokbul",
     "Seokchon",
     "Seokchon Gobun",
     "Seokgye",
+    "Seokpo",
     "Seolleung",
+    "Seonghwan",
     "Seongsu",
     "Seonjeongneung",
     "Seonyudo",
+    "Seoul",
     "Seoul Nat'l Univ.",
     "Seoul Nat'l Univ. of Education",
     "Seoul Station",
+    "Seowonju",
+    "Seungbu",
     "Sillim",
+    "Sillyewon",
+    "Simcheon",
     "Sinbanghwa",
     "Sinbanpo",
+    "Sinboseong",
     "Sinchon",
     "Sindaebang",
     "Sindaebangsamgeori",
     "Sindang",
+    "Sindong",
     "Sindorim",
+    "Singchang",
     "Singeumho",
+    "Singi",
     "Singil",
+    "Sinhaeundae",
     "Sinheung",
     "Sinjeong",
     "Sinmokdong",
@@ -3360,7 +6388,10 @@
     "Sinpung",
     "Sinsa",
     "Sinseol-dong",
+    "Sintaein",
+    "Sintanjin",
     "Sinyongsan",
+    "Songchu",
     "Songjeong",
     "Songpa",
     "Songpanaru",
@@ -3368,32 +6399,72 @@
     "Soongsil Univ.",
     "Sports Complex",
     "Ssangmun",
+    "Ssangnyong",
+    "Suanbo oncheon",
     "Sujin",
+    "Suncheon",
     "Sungshin Women's Univ.",
     "Suraksan",
     "Suseo",
+    "Suwon",
     "Suyu",
+    "Taebaek",
+    "Taehwagang",
     "Taereung",
+    "Tap-ri",
     "Ttukseom",
     "Ttukseom Resort",
+    "Uijeongbu",
+    "Uiseong",
     "Ujangsan",
+    "Uljin",
+    "Ulsan",
+    "Ungcheon",
     "VHS Medical Center",
+    "Waegwan",
     "Wangsimni",
+    "Wansa",
     "Wolgok",
+    "Wolleung",
+    "Wolpo",
+    "Wondong",
+    "Wonju",
     "World Cup Stadium",
     "Yaksu",
     "Yangcheon Hyanggyo",
+    "Yangdong",
     "Yangjae",
+    "Yangmok",
     "Yangpyeong",
+    "Yangwon",
+    "Yecheon",
+    "Yedang",
+    "Yemi",
+    "Yeocheon",
     "Yeokchon",
     "Yeoksam",
     "Yeomchang",
+    "Yeongam",
+    "Yeongcheon",
+    "Yeongdeok",
+    "Yeongdeungpo",
     "Yeongdeungpo Market",
     "Yeongdeungpo-gu Office",
+    "Yeongdong",
+    "Yeonghae",
+    "Yeongju",
+    "Yeongwol",
+    "Yeonpung",
+    "Yeonsan",
     "Yeonsinnae",
+    "Yeosu-Expo",
     "Yeouido",
     "Yeouinaru",
-    "Yongmasan"
+    "Yesan",
+    "Yonggung",
+    "Yongmasan",
+    "Yongmun",
+    "Yongsan"
   ],
   "source": "https://english.seoulmetro.co.kr/",
   "destinationsByOrigin": {
@@ -3608,6 +6679,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -3874,6 +6946,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -3929,6 +7002,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Ahwa": [],
     "Ahyeon": [
       "Achasan",
       "Aeogae",
@@ -4140,6 +7214,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -4384,6 +7459,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -4952,6 +8028,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -4996,6 +8073,13 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Andong": [
+      "Cheongnyangni",
+      "Seoul",
+      "Seoul Station"
+    ],
+    "Angang": [],
+    "AngseongOncheon": [],
     "Anguk": [
       "Achasan",
       "Aeogae",
@@ -5209,6 +8293,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -5264,6 +8349,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Anjung": [],
+    "Anyang": [],
     "Apgujeong": [
       "Achasan",
       "Aeogae",
@@ -5477,6 +8564,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -5532,6 +8620,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Asan": [],
+    "Baegyangsa": [],
     "Balsan": [
       "Achasan",
       "Aeogae",
@@ -5743,6 +8833,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -6009,6 +9100,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -6275,6 +9367,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -6524,6 +9617,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -6576,6 +9670,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Banseong": [],
+    "Beolgyo": [],
     "Beotigogae": [
       "Achasan",
       "Aeogae",
@@ -6748,6 +9844,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -7136,6 +10233,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -7391,6 +10489,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -7635,6 +10734,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -7687,6 +10787,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Bonghwa": [],
     "Bonghwasan": [
       "Achasan",
       "Aeogae",
@@ -7859,6 +10960,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -7903,6 +11005,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Bongyang": [],
     "Boramae": [
       "Achasan",
       "Aeogae",
@@ -8097,6 +11200,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -8149,6 +11253,22 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Boseong": [],
+    "Bubal": [],
+    "Bugang": [],
+    "Bugulsan": [],
+    "Bujeon": [
+      "Cheongnyangni",
+      "Deungnyang",
+      "Donghae",
+      "Gangneung",
+      "Gyeongju",
+      "Pohang",
+      "Seoul",
+      "Seoul Station",
+      "Suncheon"
+    ],
+    "Bukcheon": [],
     "Bulgwang": [
       "Achasan",
       "Aeogae",
@@ -8362,6 +11482,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -8417,6 +11538,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Buncheon": [],
     "Buramsan": [
       "Achasan",
       "Aeogae",
@@ -8611,6 +11733,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -8662,6 +11785,14 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Busan": [
+      "Daejeon",
+      "Dongdaegu",
+      "Haengsin",
+      "Seoul",
+      "Seoul Station",
+      "Suseo"
     ],
     "Byeollae": [
       "Achasan",
@@ -9028,6 +12159,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -9080,6 +12212,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Centum": [],
     "Chang-dong": [
       "Achasan",
       "Aeogae",
@@ -9274,6 +12407,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -9498,6 +12632,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -9542,6 +12677,10 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Changwon": [
+      "Jinju"
+    ],
+    "Changwonjungang": [],
     "Cheolsan": [
       "Achasan",
       "Aeogae",
@@ -9736,6 +12875,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -9787,6 +12927,13 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Cheonan": [],
+    "Cheonan-Asan": [
+      "Daejeon",
+      "Seoul",
+      "Seoul Station",
+      "Suseo"
     ],
     "Cheongdam": [
       "Achasan",
@@ -9982,6 +13129,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -10034,6 +13182,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Cheongdo": [],
     "Cheonggu": [
       "Achasan",
       "Aeogae",
@@ -10245,6 +13394,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -10300,12 +13450,16 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Cheongju": [],
+    "Cheongju Int'l Airport": [],
+    "Cheongni": [],
     "Cheongnyangni": [
       "Achasan",
       "Aeogae",
       "Ahyeon",
       "Airport Market",
       "Anam",
+      "Andong",
       "Anguk",
       "Apgujeong",
       "Balsan",
@@ -10318,6 +13472,7 @@
       "Bongeunsa",
       "Bonghwasan",
       "Boramae",
+      "Bujeon",
       "Bulgwang",
       "Buramsan",
       "Byeollae Byeolgaram",
@@ -10347,6 +13502,7 @@
       "Dongdaemun",
       "Dongdaemun History & Culture Park",
       "Dongguk Univ.",
+      "Donghae",
       "Dongjak",
       "Dongmyo",
       "Dongnimmun",
@@ -10365,6 +13521,7 @@
       "Gangil",
       "Gangnam",
       "Gangnam-gu Office",
+      "Gangneung",
       "Garak Market",
       "Gasan Digital Complex",
       "Gayang",
@@ -10417,6 +13574,7 @@
       "Jangam",
       "Janghanpyeong",
       "Jangseungbaegi",
+      "Jecheon",
       "Jegi-dong",
       "Jeungmi",
       "Jeungsan",
@@ -10494,6 +13652,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -10541,11 +13700,13 @@
       "Yeomchang",
       "Yeongdeungpo Market",
       "Yeongdeungpo-gu Office",
+      "Yeongju",
       "Yeonsinnae",
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Cheongso": [],
     "Cheonho": [
       "Achasan",
       "Aeogae",
@@ -10757,6 +13918,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -11006,6 +14168,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -11058,6 +14221,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Cheoram": [],
     "Children's Grand Park": [
       "Achasan",
       "Aeogae",
@@ -11252,6 +14416,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -11498,6 +14663,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -11761,6 +14927,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -11816,6 +14983,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Chungju": [],
     "Chungmuro": [
       "Achasan",
       "Aeogae",
@@ -12029,6 +15197,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -12084,6 +15253,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Chunyang": [],
+    "Chupungnyeong": [],
     "City Hall": [
       "Achasan",
       "Aeogae",
@@ -12295,6 +15466,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -12350,6 +15522,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Daecheon": [],
     "Daecheong": [
       "Achasan",
       "Aeogae",
@@ -12563,6 +15736,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -12831,6 +16005,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -12886,6 +16061,10 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Daegok": [
+      "Uijeongbu"
+    ],
+    "Daegu": [],
     "Daeheung": [
       "Achasan",
       "Aeogae",
@@ -13058,6 +16237,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -13101,6 +16281,15 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Daejeon": [
+      "Busan",
+      "Dongdaegu",
+      "Jecheon",
+      "Seoul",
+      "Seoul Station",
+      "Suseo",
+      "Yeongju"
     ],
     "Daerim": [
       "Achasan",
@@ -13313,6 +16502,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -13368,6 +16558,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Daeya": [],
     "Dandaeogeori": [
       "Achasan",
       "Aeogae",
@@ -13751,6 +16942,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -13806,6 +16998,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Danyang": [],
     "Dapsimni": [
       "Achasan",
       "Aeogae",
@@ -14017,6 +17210,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -14244,6 +17438,8 @@
       "Yeouido",
       "Yeouinaru"
     ],
+    "Dasi": [],
+    "Deokso": [],
     "Deungchon": [
       "Achasan",
       "Aeogae",
@@ -14433,6 +17629,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -14484,6 +17681,10 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Deungnyang": [
+      "Bujeon",
+      "Suncheon"
     ],
     "Digital Media City": [
       "Achasan",
@@ -14657,6 +17858,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -14895,6 +18097,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -14947,6 +18150,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Dogo oncheon": [],
     "Dogok": [
       "Achasan",
       "Aeogae",
@@ -15160,6 +18364,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -15214,6 +18419,9 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Dogye": [
+      "Donghae"
     ],
     "Dokbawi": [
       "Achasan",
@@ -15389,6 +18597,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -15605,6 +18814,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -15648,6 +18858,19 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Dongbaeksan": [
+      "Donghae"
+    ],
+    "Dongdaegu": [
+      "Busan",
+      "Gyeongju",
+      "Jinju",
+      "Jochiwon",
+      "Pohang",
+      "Seoul",
+      "Seoul Station",
+      "Yeongju"
     ],
     "Dongdaemun": [
       "Achasan",
@@ -15843,6 +19066,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -16106,6 +19330,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -16374,6 +19599,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -16601,6 +19827,17 @@
       "Yeouido",
       "Yeouinaru"
     ],
+    "Donghae": [
+      "Bujeon",
+      "Cheongnyangni",
+      "Dogye",
+      "Dongbaeksan",
+      "Gangneung",
+      "Jecheon",
+      "Seoul",
+      "Seoul Station",
+      "Yeongju"
+    ],
     "Dongjak": [
       "Achasan",
       "Aeogae",
@@ -16812,6 +20049,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -17061,6 +20299,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -17326,6 +20565,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -17380,6 +20620,9 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Dongtan": [
+      "Suseo"
     ],
     "Dunchon Oryun": [
       "Achasan",
@@ -17570,6 +20813,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -17622,6 +20866,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Dunnae": [],
     "Eonju": [
       "Achasan",
       "Aeogae",
@@ -17811,6 +21056,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -18074,6 +21320,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -18342,6 +21589,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -18608,6 +21856,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -18663,6 +21912,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Eumseong": [],
     "Eungam": [
       "Achasan",
       "Aeogae",
@@ -18837,6 +22087,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -19093,6 +22344,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -19361,6 +22613,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -19605,6 +22858,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -19868,6 +23122,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -19923,6 +23178,10 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Gaepo": [],
+    "Gakgye": [],
+    "GamgokJanghowon": [],
+    "Ganam": [],
     "Gangbyeon": [
       "Achasan",
       "Aeogae",
@@ -20134,6 +23393,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -20400,6 +23660,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -20627,6 +23888,8 @@
       "Yeouido",
       "Yeouinaru"
     ],
+    "Ganggu": [],
+    "Ganggyeong": [],
     "Gangil": [
       "Achasan",
       "Aeogae",
@@ -20838,6 +24101,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -20893,6 +24157,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Gangjin": [],
     "Gangnam": [
       "Achasan",
       "Aeogae",
@@ -21104,6 +24369,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -21353,6 +24619,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -21404,6 +24671,15 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Gangneung": [
+      "Bujeon",
+      "Cheongnyangni",
+      "Donghae",
+      "Haengsin",
+      "Seogyeongju",
+      "Seoul",
+      "Seoul Station"
     ],
     "Garak Market": [
       "Achasan",
@@ -21618,6 +24894,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -21867,6 +25144,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -22108,6 +25386,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -22373,6 +25652,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -22428,6 +25708,9 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Geundeok": [],
+    "Geungnakgang": [],
+    "Gijang": [],
     "Gil-dong": [
       "Achasan",
       "Aeogae",
@@ -22639,6 +25922,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -22694,6 +25978,11 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Gimcheon": [
+      "Yeongju"
+    ],
+    "Gimcheon(Gumi)": [],
+    "Gimje": [],
     "Gimpo Int'l Airport": [
       "Achasan",
       "Aeogae",
@@ -22905,6 +26194,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -23154,6 +26444,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -23206,6 +26497,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Giseong": [],
     "Godeok": [
       "Achasan",
       "Aeogae",
@@ -23417,6 +26709,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -23472,6 +26765,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Gohan": [],
+    "Gokseong": [],
     "Gongdeok": [
       "Achasan",
       "Aeogae",
@@ -23683,6 +26978,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -23738,6 +27034,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Gongju": [],
     "Gongneung": [
       "Achasan",
       "Aeogae",
@@ -23932,6 +27229,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -23984,6 +27282,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Goraebul": [],
     "Gubanpo": [
       "Achasan",
       "Aeogae",
@@ -24173,6 +27472,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -24436,6 +27736,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -24491,6 +27792,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Gumi": [],
+    "Gunbuk": [],
     "Gunja": [
       "Achasan",
       "Aeogae",
@@ -24702,6 +28005,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -24757,6 +28061,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Gunsan": [],
     "Gupabal": [
       "Achasan",
       "Aeogae",
@@ -24970,6 +28275,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -25024,6 +28330,9 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Gupo": [
+      "Busan"
     ],
     "Guri": [
       "Achasan",
@@ -25408,6 +28717,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -25463,6 +28773,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Guryegu": [],
     "Gusan": [
       "Achasan",
       "Aeogae",
@@ -25636,6 +28947,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -25891,6 +29203,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -25946,6 +29259,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Gwangcheon": [],
     "Gwangheungchang": [
       "Achasan",
       "Aeogae",
@@ -26118,6 +29432,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -26373,6 +29688,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -26427,6 +29743,25 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Gwangju": [
+      "Iksan",
+      "Jochiwon",
+      "Mokpo",
+      "Seodaejeon",
+      "Yongsan"
+    ],
+    "Gwangju songjeong": [
+      "Haengsin",
+      "Seoul",
+      "Seoul Station",
+      "Suncheon",
+      "Suseo",
+      "Yongsan"
+    ],
+    "Gwangmyeong": [
+      "Seoul",
+      "Seoul Station"
     ],
     "Gwangmyeongsageori": [
       "Achasan",
@@ -26622,6 +29957,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -26885,6 +30221,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -26940,6 +30277,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Gwangyang": [],
     "Gyeongbokgung": [
       "Achasan",
       "Aeogae",
@@ -27153,6 +30491,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -27208,6 +30547,18 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Gyeongju": [
+      "Bujeon",
+      "Dongdaegu",
+      "Pohang",
+      "Taehwagang"
+    ],
+    "Gyeongsan": [
+      "Dongdaegu"
+    ],
+    "Gyeryong": [],
+    "Hadong": [],
+    "Haenam": [],
     "Haengdang": [
       "Achasan",
       "Aeogae",
@@ -27419,6 +30770,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -27473,6 +30825,16 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Haengsin": [
+      "Busan",
+      "Gangneung",
+      "Gwangju songjeong",
+      "Jinju",
+      "Masan",
+      "Mokpo",
+      "Pohang",
+      "Yeosu-Expo"
     ],
     "Hagye": [
       "Achasan",
@@ -27668,6 +31030,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -27914,6 +31277,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -27966,6 +31330,11 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Hallimjeong": [],
+    "Haman": [],
+    "Hamchang": [],
+    "Hampyeong": [],
+    "Hamyeol": [],
     "Hanam City Hall": [
       "Achasan",
       "Aeogae",
@@ -28177,6 +31546,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -28443,6 +31813,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -28709,6 +32080,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -28936,6 +32308,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -29193,6 +32566,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -29437,6 +32811,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -29683,6 +33058,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -29946,6 +33322,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -30001,6 +33378,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Hapdeok": [],
     "Hapjeong": [
       "Achasan",
       "Aeogae",
@@ -30212,6 +33590,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -30267,6 +33646,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Hayang": [],
     "Heukseok": [
       "Achasan",
       "Aeogae",
@@ -30456,6 +33836,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -30508,6 +33889,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Heungbu": [],
     "Hoehyeon": [
       "Achasan",
       "Aeogae",
@@ -30702,6 +34084,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -30754,6 +34137,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Hoengcheon": [],
+    "Hoengseong": [],
     "Hongik Univ.": [
       "Achasan",
       "Aeogae",
@@ -30965,6 +34350,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -31233,6 +34619,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -31288,6 +34675,12 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Hongseong": [
+      "Pyeongtaek",
+      "Seohwaseong",
+      "Yongsan"
+    ],
+    "Hupo": [],
     "Hwagok": [
       "Achasan",
       "Aeogae",
@@ -31499,6 +34892,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -31554,6 +34948,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Hwamyeong": [],
+    "Hwanggan": [],
     "Hwarangdae": [
       "Achasan",
       "Aeogae",
@@ -31726,6 +35122,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -31770,6 +35167,9 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Hwaseong City Hall": [],
+    "Hwasun": [],
+    "Hyangnam": [],
     "Hyehwa": [
       "Achasan",
       "Aeogae",
@@ -31964,6 +35364,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -32016,6 +35417,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Hyeondong": [],
     "Hyochang Park": [
       "Achasan",
       "Aeogae",
@@ -32188,6 +35590,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -32232,6 +35635,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Hyocheon": [],
     "Ichon": [
       "Achasan",
       "Aeogae",
@@ -32426,6 +35830,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -32478,6 +35883,20 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Iksan": [
+      "Gwangju",
+      "Gwangju songjeong",
+      "Mokpo",
+      "Yeosu-Expo",
+      "Yongsan"
+    ],
+    "Illo": [],
+    "ilsin": [],
+    "Imgi": [],
+    "Imseong-ri": [],
+    "Imsil": [],
+    "Imwon": [],
+    "Inju": [],
     "Irwon": [
       "Achasan",
       "Aeogae",
@@ -32691,6 +36110,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -32746,6 +36166,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Iryeong": [],
     "Isu": [
       "Achasan",
       "Aeogae",
@@ -32940,6 +36361,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -33164,6 +36586,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -33208,6 +36631,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Iwon": [],
+    "Iyang": [],
     "Jamsil": [
       "Achasan",
       "Aeogae",
@@ -33419,6 +36844,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -33685,6 +37111,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -33951,6 +37378,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -34219,6 +37647,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -34468,6 +37897,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -34520,6 +37950,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Jangdong": [],
+    "Janghang": [],
     "Janghanpyeong": [
       "Achasan",
       "Aeogae",
@@ -34731,6 +38163,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -34786,6 +38219,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Jangheung": [],
     "Jangja Lake Park": [
       "Achasan",
       "Aeogae",
@@ -35130,6 +38564,8 @@
       "Yeouido",
       "Yeouinaru"
     ],
+    "Jangsa": [],
+    "Jangseong": [],
     "Jangseungbaegi": [
       "Achasan",
       "Aeogae",
@@ -35324,6 +38760,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -35375,6 +38812,13 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Jecheon": [
+      "Cheongnyangni",
+      "Daejeon",
+      "Donghae",
+      "Osong",
+      "Seodaejeon"
     ],
     "Jegi-dong": [
       "Achasan",
@@ -35570,6 +39014,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -35621,6 +39066,20 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Jeomchon": [],
+    "Jeongdongjin": [],
+    "Jeongeup": [
+      "Gwangju songjeong"
+    ],
+    "Jeonju": [
+      "Iksan",
+      "Yongsan"
+    ],
+    "Jeonnam jangheung": [],
+    "Jeonui": [
+      "Seoul",
+      "Seoul Station"
     ],
     "Jeungmi": [
       "Achasan",
@@ -35811,6 +39270,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -35863,6 +39323,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Jeungpyeong": [],
     "Jeungsan": [
       "Achasan",
       "Aeogae",
@@ -36035,6 +39496,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -36292,6 +39754,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -36347,6 +39810,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Jillye": [],
+    "Jinbu(Odaesan)": [],
     "Jinjeop": [
       "Achasan",
       "Aeogae",
@@ -36540,6 +40005,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -36591,6 +40057,22 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Jinju": [
+      "Dongdaegu",
+      "Haengsin",
+      "Seoul",
+      "Seoul Station",
+      "Suseo"
+    ],
+    "Jinsang": [],
+    "Jinyeong": [],
+    "Jipyeong": [],
+    "Jitan": [],
+    "Jochiwon": [
+      "Dongdaegu",
+      "Gwangju",
+      "Yeosu-Expo"
     ],
     "Jonggak": [
       "Achasan",
@@ -36786,6 +40268,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -37051,6 +40534,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -37300,6 +40784,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -37352,6 +40837,10 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Joseong": [],
+    "Judeok": [],
+    "Jukbyeon": [],
+    "Jung-ri": [],
     "Junggok": [
       "Achasan",
       "Aeogae",
@@ -37546,6 +41035,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -37792,6 +41282,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -38038,6 +41529,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -38301,6 +41793,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -38567,6 +42060,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -38794,6 +42288,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -39032,6 +42527,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -39297,6 +42793,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -39352,6 +42849,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Maegok": [],
+    "Maehwa": [],
     "Magok": [
       "Achasan",
       "Aeogae",
@@ -39563,6 +43062,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -39807,6 +43307,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -40070,6 +43571,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -40297,6 +43799,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -40341,6 +43844,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Manjong": [],
     "Mapo": [
       "Achasan",
       "Aeogae",
@@ -40552,6 +44056,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -40779,6 +44284,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -40822,6 +44328,10 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Masan": [
+      "Seoul",
+      "Seoul Station"
     ],
     "Meokgol": [
       "Achasan",
@@ -41017,6 +44527,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -41263,6 +44774,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -41509,6 +45021,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -41560,6 +45073,13 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Mindungsan": [],
+    "Miryang": [
+      "Busan",
+      "Masan",
+      "Seoul",
+      "Seoul Station"
     ],
     "Misa": [
       "Achasan",
@@ -41772,6 +45292,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -42038,6 +45559,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -42092,6 +45614,16 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Mokpo": [
+      "Gwangju",
+      "Haengsin",
+      "Iksan",
+      "Seoul",
+      "Seoul Station",
+      "Suncheon",
+      "Suseo",
+      "Yongsan"
     ],
     "Mongchontoseong": [
       "Achasan",
@@ -42265,6 +45797,7 @@
       "Yeouido",
       "Yeouinaru"
     ],
+    "Mongtan": [],
     "Moran": [
       "Achasan",
       "Aeogae",
@@ -42650,6 +46183,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -42705,6 +46239,9 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Muan": [],
+    "Mukho": [],
+    "Mulgeum": [],
     "Mullae": [
       "Achasan",
       "Aeogae",
@@ -42916,6 +46453,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -42970,6 +46508,9 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Mungyeong": [
+      "Pangyo"
     ],
     "Munjeong": [
       "Achasan",
@@ -43337,6 +46878,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -43389,6 +46931,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Myeongbong": [],
     "Myeongil": [
       "Achasan",
       "Aeogae",
@@ -43600,6 +47143,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -43849,6 +47393,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -44095,6 +47640,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -44147,6 +47693,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Naju": [],
     "Nakseongdae": [
       "Achasan",
       "Aeogae",
@@ -44358,6 +47905,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -44626,6 +48174,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -44681,6 +48230,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Namchang": [],
     "Namguro": [
       "Achasan",
       "Aeogae",
@@ -44875,6 +48425,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -45293,6 +48844,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -45345,6 +48897,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Namseonghyeon": [],
     "Namtaeryeong": [
       "Achasan",
       "Aeogae",
@@ -45539,6 +49092,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -45763,6 +49317,7 @@
       "Yeouido",
       "Yeouinaru"
     ],
+    "Namwon": [],
     "National Assembly": [
       "Achasan",
       "Aeogae",
@@ -45952,6 +49507,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -46004,6 +49560,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Neungju": [],
     "Nodeul": [
       "Achasan",
       "Aeogae",
@@ -46193,6 +49750,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -46458,6 +50016,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -46685,6 +50244,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -46923,6 +50483,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -46974,6 +50535,9 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Nonsan": [
+      "Iksan"
     ],
     "Noryangjin": [
       "Achasan",
@@ -47186,6 +50750,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -47435,6 +51000,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -47700,6 +51266,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -47755,6 +51322,9 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Ogeunjang": [],
+    "Okcheon": [],
+    "Oksan": [],
     "Oksu": [
       "Achasan",
       "Aeogae",
@@ -47968,6 +51538,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -48023,6 +51594,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Okwon": [],
     "Olympic Park": [
       "Achasan",
       "Aeogae",
@@ -48234,6 +51806,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -48500,6 +52073,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -48748,6 +52322,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -48994,6 +52569,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -49045,6 +52621,25 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Onyang oncheon": [],
+    "Osan": [],
+    "Osong": [
+      "Jecheon"
+    ],
+    "Osu": [],
+    "Pangyo": [
+      "Mungyeong"
+    ],
+    "Pohang": [
+      "Bujeon",
+      "Dongdaegu",
+      "Gyeongju",
+      "Haengsin",
+      "Seogyeongju",
+      "Seoul",
+      "Seoul Station",
+      "Suseo"
     ],
     "Police Hospital": [
       "Achasan",
@@ -49259,6 +52854,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -49314,6 +52910,16 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Punggi": [
+      "Yeongju"
+    ],
+    "Pyeongchang": [],
+    "Pyeonghae": [],
+    "Pyeongtaek": [
+      "Hongseong"
+    ],
+    "PyeongtaekJije": [],
+    "Sabuk": [],
     "Sadang": [
       "Achasan",
       "Aeogae",
@@ -49525,6 +53131,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -49752,6 +53359,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -49985,6 +53593,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -50231,6 +53840,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -50283,6 +53893,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Salmi": [],
+    "Samcheok": [],
     "Samgakji": [
       "Achasan",
       "Aeogae",
@@ -50477,6 +54089,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -50718,6 +54331,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -50770,6 +54384,9 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Samnangjin": [],
+    "Samnye": [],
+    "Samsan": [],
     "Samseong": [
       "Achasan",
       "Aeogae",
@@ -50981,6 +54598,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -51225,6 +54843,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -51277,6 +54896,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Samtan": [],
     "Sangbong": [
       "Achasan",
       "Aeogae",
@@ -51471,6 +55091,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -51717,6 +55338,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -51769,6 +55391,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Sangdong": [],
     "Sanggye": [
       "Achasan",
       "Aeogae",
@@ -51963,6 +55586,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -52226,6 +55850,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -52281,6 +55906,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Sangju": [],
     "Sangsu": [
       "Achasan",
       "Aeogae",
@@ -52453,6 +56079,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -52708,6 +56335,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -52935,6 +56563,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -53151,6 +56780,9 @@
       "Yeouido",
       "Yeouinaru"
     ],
+    "Sapgyo": [
+      "Pyeongtaek"
+    ],
     "Sapyeong": [
       "Achasan",
       "Aeogae",
@@ -53340,6 +56972,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -53391,6 +57024,10 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Sasang": [],
+    "Seocheon": [
+      "Iksan"
     ],
     "Seocho": [
       "Achasan",
@@ -53603,6 +57240,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -53657,6 +57295,11 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Seodaegu": [],
+    "Seodaejeon": [
+      "Gwangju",
+      "Jecheon"
     ],
     "Seodaemun": [
       "Achasan",
@@ -53869,6 +57512,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -53924,6 +57568,16 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Seogwangju": [],
+    "Seogyeongju": [
+      "Gangneung",
+      "Pohang"
+    ],
+    "Seohwaseong": [
+      "Hongseong"
+    ],
+    "Seojeong-ri": [],
+    "Seokbul": [],
     "Seokchon": [
       "Achasan",
       "Aeogae",
@@ -54113,6 +57767,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -54354,6 +58009,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -54600,6 +58256,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -54652,6 +58309,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Seokpo": [],
     "Seolleung": [
       "Achasan",
       "Aeogae",
@@ -54863,6 +58521,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -54918,6 +58577,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Seonghwan": [],
     "Seongsu": [
       "Achasan",
       "Aeogae",
@@ -55129,6 +58789,7 @@
       "Seolleung",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -55373,6 +59034,7 @@
       "Seolleung",
       "Seongsu",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -55614,6 +59276,7 @@
       "Seolleung",
       "Seongsu",
       "Seonjeongneung",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -55662,6 +59325,266 @@
       "Yeongdeungpo Market",
       "Yeongdeungpo-gu Office",
       "Yeonsinnae",
+      "Yeouido",
+      "Yeouinaru",
+      "Yongmasan"
+    ],
+    "Seoul": [
+      "Achasan",
+      "Aeogae",
+      "Ahyeon",
+      "Airport Market",
+      "Anam",
+      "Andong",
+      "Anguk",
+      "Apgujeong",
+      "Balsan",
+      "Bangbae",
+      "Banghwa",
+      "Banpo",
+      "Beotigogae",
+      "Bomun",
+      "Bongcheon",
+      "Bongeunsa",
+      "Bonghwasan",
+      "Boramae",
+      "Bujeon",
+      "Bulgwang",
+      "Buramsan",
+      "Busan",
+      "Byeollae Byeolgaram",
+      "Chang-dong",
+      "Changsin",
+      "Cheolsan",
+      "Cheongdam",
+      "Cheonggu",
+      "Cheongnyangni",
+      "Cheonho",
+      "Cheonwang",
+      "Children's Grand Park",
+      "Chongshin Univ.",
+      "Chungjeongno",
+      "Chungmuro",
+      "City Hall",
+      "Daecheong",
+      "Daechi",
+      "Daeheung",
+      "Daejeon",
+      "Daerim",
+      "Dangsan",
+      "Dapsimni",
+      "Deungchon",
+      "Digital Media City",
+      "Dobongsan",
+      "Dogok",
+      "Dolgoji",
+      "Dongdaegu",
+      "Dongdaemun",
+      "Dongdaemun History & Culture Park",
+      "Dongguk Univ.",
+      "Donghae",
+      "Dongjak",
+      "Dongmyo",
+      "Dongnimmun",
+      "Dunchon Oryun",
+      "Eonju",
+      "Euljiro 1(il)-ga",
+      "Euljiro 3(sam)-ga",
+      "Euljiro 4(sa)-ga",
+      "Eungam",
+      "Ewha Womans Univ.",
+      "Express Bus Terminal",
+      "Gaehwa",
+      "Gaehwasan",
+      "Gangbyeon",
+      "Gangdong",
+      "Gangil",
+      "Gangnam",
+      "Gangnam-gu Office",
+      "Gangneung",
+      "Garak Market",
+      "Gasan Digital Complex",
+      "Gayang",
+      "Geumho",
+      "Gil-dong",
+      "Gimpo Int'l Airport",
+      "Gireum",
+      "Godeok",
+      "Gongdeok",
+      "Gongneung",
+      "Gubanpo",
+      "Gubeundari",
+      "Gunja",
+      "Gupabal",
+      "Guro Digital Complex",
+      "Guui",
+      "Gwangheungchang",
+      "Gwanghwamun",
+      "Gwangmyeongsageori",
+      "Gwangnaru",
+      "Gyeongbokgung",
+      "Haengdang",
+      "Hagye",
+      "Hak-dong",
+      "Hanam City Hall",
+      "Hanam Geomdansan",
+      "Hanam Pungsan",
+      "Hangangjin",
+      "Hangnyeoul",
+      "Hanseong Baekje",
+      "Hansung Univ.",
+      "Hanyang Univ.",
+      "Hapjeong",
+      "Heukseok",
+      "Hoehyeon",
+      "Hongik Univ.",
+      "Hongje",
+      "Hwagok",
+      "Hwarangdae",
+      "Hyehwa",
+      "Hyochang Park",
+      "Ichon",
+      "Irwon",
+      "Isu",
+      "Itaewon",
+      "Jamsil",
+      "Jamsillaru",
+      "Jamsilsaenae",
+      "Jamwon",
+      "Jangam",
+      "Janghanpyeong",
+      "Jangseungbaegi",
+      "Jegi-dong",
+      "Jeonui",
+      "Jeungmi",
+      "Jeungsan",
+      "Jichuk",
+      "Jinjeop",
+      "Jinju",
+      "Jonggak",
+      "Jongno 3(sam)-ga",
+      "Jongno 5(o)-ga",
+      "Junggok",
+      "Junggye",
+      "Junghwa",
+      "Kkachisan",
+      "Konkuk Univ.",
+      "Korea Univ.",
+      "Madeul",
+      "Maebong",
+      "Magok",
+      "Magongnaru",
+      "Majang",
+      "Mangwon",
+      "Mapo",
+      "Mapo-gu Office",
+      "Masan",
+      "Meokgol",
+      "Mia",
+      "Miasageori",
+      "Miryang",
+      "Misa",
+      "Mok-dong",
+      "Mokpo",
+      "Muakjae",
+      "Mullae",
+      "Myeong-dong",
+      "Myeongil",
+      "Myeonmok",
+      "Naebang",
+      "Nakseongdae",
+      "Nambu Bus Terminal",
+      "Namguro",
+      "Namseong",
+      "Namtaeryeong",
+      "National Assembly",
+      "Nodeul",
+      "Nokbeon",
+      "Noksapyeong",
+      "Nonhyeon",
+      "Noryangjin",
+      "Nowon",
+      "Ogeum",
+      "Oksu",
+      "Olympic Park",
+      "Omokgyo",
+      "Onam",
+      "Onsu",
+      "Pohang",
+      "Police Hospital",
+      "Sadang",
+      "Saejeol",
+      "Saetgang",
+      "Sagajeong",
+      "Samgakji",
+      "Samjeon",
+      "Samseong",
+      "Samseong Jungang",
+      "Sangbong",
+      "Sangdo",
+      "Sanggye",
+      "Sangil-dong",
+      "Sangsu",
+      "Sangwangsimni",
+      "Sangwolgok",
+      "Sapyeong",
+      "Seocho",
+      "Seodaemun",
+      "Seokchon",
+      "Seokchon Gobun",
+      "Seokgye",
+      "Seolleung",
+      "Seongsu",
+      "Seonjeongneung",
+      "Seonyudo",
+      "Seoul Nat'l Univ.",
+      "Seoul Nat'l Univ. of Education",
+      "Sillim",
+      "Sinbanghwa",
+      "Sinbanpo",
+      "Sinchon",
+      "Sindaebang",
+      "Sindaebangsamgeori",
+      "Sindang",
+      "Sindorim",
+      "Singeumho",
+      "Singil",
+      "Sinjeong",
+      "Sinmokdong",
+      "Sinnae",
+      "Sinnonhyeon",
+      "Sinpung",
+      "Sinsa",
+      "Sinseol-dong",
+      "Sinyongsan",
+      "Songjeong",
+      "Songpanaru",
+      "Sookmyung Women's Univ.",
+      "Soongsil Univ.",
+      "Sports Complex",
+      "Ssangmun",
+      "Sungshin Women's Univ.",
+      "Suraksan",
+      "Suseo",
+      "Suyu",
+      "Taereung",
+      "Ttukseom",
+      "Ttukseom Resort",
+      "Ujangsan",
+      "VHS Medical Center",
+      "Wangsimni",
+      "Wolgok",
+      "World Cup Stadium",
+      "Yaksu",
+      "Yangcheon Hyanggyo",
+      "Yangjae",
+      "Yangpyeong",
+      "Yeoksam",
+      "Yeomchang",
+      "Yeongdeungpo Market",
+      "Yeongdeungpo-gu Office",
+      "Yeonsinnae",
+      "Yeosu-Expo",
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
@@ -55878,6 +59801,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
       "Sillim",
@@ -56146,6 +60070,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Station",
       "Sillim",
@@ -56206,6 +60131,7 @@
       "Ahyeon",
       "Airport Market",
       "Anam",
+      "Andong",
       "Anguk",
       "Apgujeong",
       "Balsan",
@@ -56218,8 +60144,10 @@
       "Bongeunsa",
       "Bonghwasan",
       "Boramae",
+      "Bujeon",
       "Bulgwang",
       "Buramsan",
+      "Busan",
       "Byeollae Byeolgaram",
       "Chang-dong",
       "Changsin",
@@ -56237,6 +60165,7 @@
       "Daecheong",
       "Daechi",
       "Daeheung",
+      "Daejeon",
       "Daerim",
       "Dangsan",
       "Dapsimni",
@@ -56245,9 +60174,11 @@
       "Dobongsan",
       "Dogok",
       "Dolgoji",
+      "Dongdaegu",
       "Dongdaemun",
       "Dongdaemun History & Culture Park",
       "Dongguk Univ.",
+      "Donghae",
       "Dongjak",
       "Dongmyo",
       "Dongnimmun",
@@ -56266,6 +60197,7 @@
       "Gangil",
       "Gangnam",
       "Gangnam-gu Office",
+      "Gangneung",
       "Garak Market",
       "Gasan Digital Complex",
       "Gayang",
@@ -56319,10 +60251,12 @@
       "Janghanpyeong",
       "Jangseungbaegi",
       "Jegi-dong",
+      "Jeonui",
       "Jeungmi",
       "Jeungsan",
       "Jichuk",
       "Jinjeop",
+      "Jinju",
       "Jonggak",
       "Jongno 3(sam)-ga",
       "Jongno 5(o)-ga",
@@ -56340,11 +60274,14 @@
       "Mangwon",
       "Mapo",
       "Mapo-gu Office",
+      "Masan",
       "Meokgol",
       "Mia",
       "Miasageori",
+      "Miryang",
       "Misa",
       "Mok-dong",
+      "Mokpo",
       "Muakjae",
       "Mullae",
       "Myeong-dong",
@@ -56369,6 +60306,7 @@
       "Omokgyo",
       "Onam",
       "Onsu",
+      "Pohang",
       "Police Hospital",
       "Sadang",
       "Saejeol",
@@ -56442,10 +60380,13 @@
       "Yeongdeungpo Market",
       "Yeongdeungpo-gu Office",
       "Yeonsinnae",
+      "Yeosu-Expo",
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Seowonju": [],
+    "Seungbu": [],
     "Sillim": [
       "Achasan",
       "Aeogae",
@@ -56658,6 +60599,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -56712,6 +60654,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Sillyewon": [],
+    "Simcheon": [],
     "Sinbanghwa": [
       "Achasan",
       "Aeogae",
@@ -56902,6 +60846,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -57143,6 +61088,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -57194,6 +61140,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Sinboseong": [],
     "Sinchon": [
       "Achasan",
       "Aeogae",
@@ -57406,6 +61353,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -57672,6 +61620,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -57921,6 +61870,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -58184,6 +62134,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -58238,6 +62189,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Sindong": [],
     "Sindorim": [
       "Achasan",
       "Aeogae",
@@ -58450,6 +62402,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -58504,6 +62457,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Singchang": [],
     "Singeumho": [
       "Achasan",
       "Aeogae",
@@ -58716,6 +62670,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -58770,6 +62725,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Singi": [],
     "Singil": [
       "Achasan",
       "Aeogae",
@@ -58982,6 +62938,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -59036,6 +62993,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Sinhaeundae": [],
     "Sinheung": [
       "Achasan",
       "Aeogae",
@@ -59420,6 +63378,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -59664,6 +63623,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -59888,6 +63848,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -60121,6 +64082,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -60367,6 +64329,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -60632,6 +64595,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -60881,6 +64845,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -60932,6 +64897,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Sintaein": [],
+    "Sintanjin": [],
     "Sinyongsan": [
       "Achasan",
       "Aeogae",
@@ -61127,6 +65094,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -61178,6 +65146,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Songchu": [],
     "Songjeong": [
       "Achasan",
       "Aeogae",
@@ -61390,6 +65359,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -61806,6 +65776,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -62052,6 +66023,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -62298,6 +66270,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -62561,6 +66534,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -62810,6 +66784,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -62861,6 +66836,8 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Ssangnyong": [],
+    "Suanbo oncheon": [],
     "Sujin": [
       "Achasan",
       "Aeogae",
@@ -63032,6 +67009,14 @@
       "Yeonsinnae",
       "Yeouido",
       "Yeouinaru"
+    ],
+    "Suncheon": [
+      "Bujeon",
+      "Deungnyang",
+      "Gwangju songjeong",
+      "Mokpo",
+      "Yeosu-Expo",
+      "Yongsan"
     ],
     "Sungshin Women's Univ.": [
       "Achasan",
@@ -63228,6 +67213,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -63474,6 +67460,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -63548,6 +67535,7 @@
       "Boramae",
       "Bulgwang",
       "Buramsan",
+      "Busan",
       "Byeollae",
       "Byeollae Byeolgaram",
       "Chang-dong",
@@ -63620,6 +67608,7 @@
       "Guui",
       "Gwangheungchang",
       "Gwanghwamun",
+      "Gwangju songjeong",
       "Gwangmyeongsageori",
       "Gwangnaru",
       "Gyeongbokgung",
@@ -63661,6 +67650,7 @@
       "Jeungsan",
       "Jichuk",
       "Jinjeop",
+      "Jinju",
       "Jonggak",
       "Jongno 3(sam)-ga",
       "Jongno 5(o)-ga",
@@ -63683,6 +67673,7 @@
       "Miasageori",
       "Misa",
       "Mok-dong",
+      "Mokpo",
       "Mongchontoseong",
       "Moran",
       "Muakjae",
@@ -63712,6 +67703,7 @@
       "Omokgyo",
       "Onam",
       "Onsu",
+      "Pohang",
       "Police Hospital",
       "Sadang",
       "Saejeol",
@@ -63739,6 +67731,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -63789,9 +67782,13 @@
       "Yeongdeungpo Market",
       "Yeongdeungpo-gu Office",
       "Yeonsinnae",
+      "Yeosu-Expo",
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Suwon": [
+      "Yongsan"
     ],
     "Suyu": [
       "Achasan",
@@ -63988,6 +67985,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -64038,6 +68036,10 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Taebaek": [],
+    "Taehwagang": [
+      "Gyeongju"
     ],
     "Taereung": [
       "Achasan",
@@ -64234,6 +68236,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -64285,6 +68288,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Tap-ri": [],
     "Ttukseom": [
       "Achasan",
       "Aeogae",
@@ -64497,6 +68501,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -64746,6 +68751,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -64797,6 +68803,10 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Uijeongbu": [
+      "Daegok"
+    ],
+    "Uiseong": [],
     "Ujangsan": [
       "Achasan",
       "Aeogae",
@@ -65009,6 +69019,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -65063,6 +69074,11 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Uljin": [],
+    "Ulsan": [
+      "Busan"
+    ],
+    "Ungcheon": [],
     "VHS Medical Center": [
       "Achasan",
       "Aeogae",
@@ -65253,6 +69269,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -65304,6 +69321,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Waegwan": [],
     "Wangsimni": [
       "Achasan",
       "Aeogae",
@@ -65516,6 +69534,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -65570,6 +69589,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Wansa": [],
     "Wolgok": [
       "Achasan",
       "Aeogae",
@@ -65743,6 +69763,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -65786,6 +69807,10 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Wolleung": [],
+    "Wolpo": [],
+    "Wondong": [],
+    "Wonju": [],
     "World Cup Stadium": [
       "Achasan",
       "Aeogae",
@@ -65959,6 +69984,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -66216,6 +70242,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -66460,6 +70487,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -66511,6 +70539,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Yangdong": [],
     "Yangjae": [
       "Achasan",
       "Aeogae",
@@ -66725,6 +70754,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -66779,6 +70809,7 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Yangmok": [],
     "Yangpyeong": [
       "Achasan",
       "Aeogae",
@@ -66991,6 +71022,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -67045,6 +71077,11 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Yangwon": [],
+    "Yecheon": [],
+    "Yedang": [],
+    "Yemi": [],
+    "Yeocheon": [],
     "Yeokchon": [
       "Achasan",
       "Aeogae",
@@ -67220,6 +71257,7 @@
       "Seokgye",
       "Seolleung",
       "Seongsu",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -67476,6 +71514,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -67720,6 +71759,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -67771,6 +71811,10 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Yeongam": [],
+    "Yeongcheon": [],
+    "Yeongdeok": [],
+    "Yeongdeungpo": [],
     "Yeongdeungpo Market": [
       "Achasan",
       "Aeogae",
@@ -67983,6 +72027,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -68249,6 +72294,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -68303,6 +72349,20 @@
       "Yeouinaru",
       "Yongmasan"
     ],
+    "Yeongdong": [
+      "Daejeon"
+    ],
+    "Yeonghae": [],
+    "Yeongju": [
+      "Cheongnyangni",
+      "Daejeon",
+      "Dongdaegu",
+      "Donghae",
+      "Gimcheon"
+    ],
+    "Yeongwol": [],
+    "Yeonpung": [],
+    "Yeonsan": [],
     "Yeonsinnae": [
       "Achasan",
       "Aeogae",
@@ -68517,6 +72577,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -68570,6 +72631,15 @@
       "Yeouido",
       "Yeouinaru",
       "Yongmasan"
+    ],
+    "Yeosu-Expo": [
+      "Haengsin",
+      "Iksan",
+      "Jochiwon",
+      "Seoul",
+      "Seoul Station",
+      "Suseo",
+      "Yongsan"
     ],
     "Yeouido": [
       "Achasan",
@@ -68783,6 +72853,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -69049,6 +73120,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -69103,6 +73175,8 @@
       "Yeouido",
       "Yongmasan"
     ],
+    "Yesan": [],
+    "Yonggung": [],
     "Yongmasan": [
       "Achasan",
       "Aeogae",
@@ -69298,6 +73372,7 @@
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
@@ -69348,6 +73423,18 @@
       "Yeonsinnae",
       "Yeouido",
       "Yeouinaru"
+    ],
+    "Yongmun": [],
+    "Yongsan": [
+      "Gwangju",
+      "Gwangju songjeong",
+      "Haengsin",
+      "Hongseong",
+      "Iksan",
+      "Jeonju",
+      "Mokpo",
+      "Suncheon",
+      "Yeosu-Expo"
     ]
   },
   "coverage": {
@@ -69355,104 +73442,195 @@
     "covered": [
       "Achasan",
       "Aeogae",
+      "Ahwa",
       "Ahyeon",
       "Airport Market",
       "Amsa",
       "Amsa History Park",
       "Anam",
+      "Andong",
+      "Angang",
+      "AngseongOncheon",
       "Anguk",
+      "Anjung",
+      "Anyang",
       "Apgujeong",
+      "Asan",
+      "Baegyangsa",
       "Balsan",
       "Bangbae",
       "Banghwa",
       "Banpo",
+      "Banseong",
+      "Beolgyo",
       "Beotigogae",
       "Bokjeong",
       "Bomun",
       "Bongcheon",
       "Bongeunsa",
+      "Bonghwa",
       "Bonghwasan",
+      "Bongyang",
       "Boramae",
+      "Boseong",
+      "Bubal",
+      "Bugang",
+      "Bugulsan",
+      "Bujeon",
+      "Bukcheon",
       "Bulgwang",
+      "Buncheon",
       "Buramsan",
+      "Busan",
       "Byeollae",
       "Byeollae Byeolgaram",
+      "Centum",
       "Chang-dong",
       "Changsin",
+      "Changwon",
+      "Changwonjungang",
       "Cheolsan",
+      "Cheonan",
+      "Cheonan-Asan",
       "Cheongdam",
+      "Cheongdo",
       "Cheonggu",
+      "Cheongju",
+      "Cheongju Int'l Airport",
+      "Cheongni",
       "Cheongnyangni",
+      "Cheongso",
       "Cheonho",
       "Cheonwang",
+      "Cheoram",
       "Children's Grand Park",
       "Chongshin Univ.",
       "Chungjeongno",
+      "Chungju",
       "Chungmuro",
+      "Chunyang",
+      "Chupungnyeong",
       "City Hall",
+      "Daecheon",
       "Daecheong",
       "Daechi",
+      "Daegok",
+      "Daegu",
       "Daeheung",
+      "Daejeon",
       "Daerim",
+      "Daeya",
       "Dandaeogeori",
       "Dangsan",
+      "Danyang",
       "Dapsimni",
       "Dasan",
+      "Dasi",
+      "Deokso",
       "Deungchon",
+      "Deungnyang",
       "Digital Media City",
       "Dobongsan",
+      "Dogo oncheon",
       "Dogok",
+      "Dogye",
       "Dokbawi",
       "Dolgoji",
+      "Dongbaeksan",
+      "Dongdaegu",
       "Dongdaemun",
       "Dongdaemun History & Culture Park",
       "Dongguk Univ.",
       "Donggureung",
+      "Donghae",
       "Dongjak",
       "Dongmyo",
       "Dongnimmun",
+      "Dongtan",
       "Dunchon Oryun",
+      "Dunnae",
       "Eonju",
       "Euljiro 1(il)-ga",
       "Euljiro 3(sam)-ga",
       "Euljiro 4(sa)-ga",
+      "Eumseong",
       "Eungam",
       "Ewha Womans Univ.",
       "Express Bus Terminal",
       "Gaehwa",
       "Gaehwasan",
+      "Gaepo",
+      "Gakgye",
+      "GamgokJanghowon",
+      "Ganam",
       "Gangbyeon",
       "Gangdong",
       "Gangdong-gu Office",
+      "Ganggu",
+      "Ganggyeong",
       "Gangil",
+      "Gangjin",
       "Gangnam",
       "Gangnam-gu Office",
+      "Gangneung",
       "Garak Market",
       "Gasan Digital Complex",
       "Gayang",
       "Geumho",
+      "Geundeok",
+      "Geungnakgang",
+      "Gijang",
       "Gil-dong",
+      "Gimcheon",
+      "Gimcheon(Gumi)",
+      "Gimje",
       "Gimpo Int'l Airport",
       "Gireum",
+      "Giseong",
       "Godeok",
+      "Gohan",
+      "Gokseong",
       "Gongdeok",
+      "Gongju",
       "Gongneung",
+      "Goraebul",
       "Gubanpo",
       "Gubeundari",
+      "Gumi",
+      "Gunbuk",
       "Gunja",
+      "Gunsan",
       "Gupabal",
+      "Gupo",
       "Guri",
       "Guro Digital Complex",
+      "Guryegu",
       "Gusan",
       "Guui",
+      "Gwangcheon",
       "Gwangheungchang",
       "Gwanghwamun",
+      "Gwangju",
+      "Gwangju songjeong",
+      "Gwangmyeong",
       "Gwangmyeongsageori",
       "Gwangnaru",
+      "Gwangyang",
       "Gyeongbokgung",
+      "Gyeongju",
+      "Gyeongsan",
+      "Gyeryong",
+      "Hadong",
+      "Haenam",
       "Haengdang",
+      "Haengsin",
       "Hagye",
       "Hak-dong",
+      "Hallimjeong",
+      "Haman",
+      "Hamchang",
+      "Hampyeong",
+      "Hamyeol",
       "Hanam City Hall",
       "Hanam Geomdansan",
       "Hanam Pungsan",
@@ -69461,36 +73639,86 @@
       "Hanseong Baekje",
       "Hansung Univ.",
       "Hanyang Univ.",
+      "Hapdeok",
       "Hapjeong",
+      "Hayang",
       "Heukseok",
+      "Heungbu",
       "Hoehyeon",
+      "Hoengcheon",
+      "Hoengseong",
       "Hongik Univ.",
       "Hongje",
+      "Hongseong",
+      "Hupo",
       "Hwagok",
+      "Hwamyeong",
+      "Hwanggan",
       "Hwarangdae",
+      "Hwaseong City Hall",
+      "Hwasun",
+      "Hyangnam",
       "Hyehwa",
+      "Hyeondong",
       "Hyochang Park",
+      "Hyocheon",
       "Ichon",
+      "Iksan",
+      "Illo",
+      "ilsin",
+      "Imgi",
+      "Imseong-ri",
+      "Imsil",
+      "Imwon",
+      "Inju",
       "Irwon",
+      "Iryeong",
       "Isu",
       "Itaewon",
+      "Iwon",
+      "Iyang",
       "Jamsil",
       "Jamsillaru",
       "Jamsilsaenae",
       "Jamwon",
       "Jangam",
+      "Jangdong",
+      "Janghang",
       "Janghanpyeong",
+      "Jangheung",
       "Jangja Lake Park",
       "Jangji",
+      "Jangsa",
+      "Jangseong",
       "Jangseungbaegi",
+      "Jecheon",
       "Jegi-dong",
+      "Jeomchon",
+      "Jeongdongjin",
+      "Jeongeup",
+      "Jeonju",
+      "Jeonnam jangheung",
+      "Jeonui",
       "Jeungmi",
+      "Jeungpyeong",
       "Jeungsan",
       "Jichuk",
+      "Jillye",
+      "Jinbu(Odaesan)",
       "Jinjeop",
+      "Jinju",
+      "Jinsang",
+      "Jinyeong",
+      "Jipyeong",
+      "Jitan",
+      "Jochiwon",
       "Jonggak",
       "Jongno 3(sam)-ga",
       "Jongno 5(o)-ga",
+      "Joseong",
+      "Judeok",
+      "Jukbyeon",
+      "Jung-ri",
       "Junggok",
       "Junggye",
       "Junghwa",
@@ -69499,86 +73727,151 @@
       "Korea Univ.",
       "Madeul",
       "Maebong",
+      "Maegok",
+      "Maehwa",
       "Magok",
       "Magongnaru",
       "Majang",
       "Mangwon",
+      "Manjong",
       "Mapo",
       "Mapo-gu Office",
+      "Masan",
       "Meokgol",
       "Mia",
       "Miasageori",
+      "Mindungsan",
+      "Miryang",
       "Misa",
       "Mok-dong",
+      "Mokpo",
       "Mongchontoseong",
+      "Mongtan",
       "Moran",
       "Muakjae",
+      "Muan",
+      "Mukho",
+      "Mulgeum",
       "Mullae",
+      "Mungyeong",
       "Munjeong",
       "Myeong-dong",
+      "Myeongbong",
       "Myeongil",
       "Myeonmok",
       "Naebang",
+      "Naju",
       "Nakseongdae",
       "Nambu Bus Terminal",
+      "Namchang",
       "Namguro",
       "Namhansanseong",
       "Namseong",
+      "Namseonghyeon",
       "Namtaeryeong",
       "Namwirye",
+      "Namwon",
       "National Assembly",
+      "Neungju",
       "Nodeul",
       "Nokbeon",
       "Noksapyeong",
       "Nonhyeon",
+      "Nonsan",
       "Noryangjin",
       "Nowon",
       "Ogeum",
+      "Ogeunjang",
+      "Okcheon",
+      "Oksan",
       "Oksu",
+      "Okwon",
       "Olympic Park",
       "Omokgyo",
       "Onam",
       "Onsu",
+      "Onyang oncheon",
+      "Osan",
+      "Osong",
+      "Osu",
+      "Pangyo",
+      "Pohang",
       "Police Hospital",
+      "Punggi",
+      "Pyeongchang",
+      "Pyeonghae",
+      "Pyeongtaek",
+      "PyeongtaekJije",
+      "Sabuk",
       "Sadang",
       "Saejeol",
       "Saetgang",
       "Sagajeong",
+      "Salmi",
+      "Samcheok",
       "Samgakji",
       "Samjeon",
+      "Samnangjin",
+      "Samnye",
+      "Samsan",
       "Samseong",
       "Samseong Jungang",
+      "Samtan",
       "Sangbong",
       "Sangdo",
+      "Sangdong",
       "Sanggye",
       "Sangil-dong",
+      "Sangju",
       "Sangsu",
       "Sangwangsimni",
       "Sangwolgok",
       "Sanseong",
+      "Sapgyo",
       "Sapyeong",
+      "Sasang",
+      "Seocheon",
       "Seocho",
+      "Seodaegu",
+      "Seodaejeon",
       "Seodaemun",
+      "Seogwangju",
+      "Seogyeongju",
+      "Seohwaseong",
+      "Seojeong-ri",
+      "Seokbul",
       "Seokchon",
       "Seokchon Gobun",
       "Seokgye",
+      "Seokpo",
       "Seolleung",
+      "Seonghwan",
       "Seongsu",
       "Seonjeongneung",
       "Seonyudo",
+      "Seoul",
       "Seoul Nat'l Univ.",
       "Seoul Nat'l Univ. of Education",
       "Seoul Station",
+      "Seowonju",
+      "Seungbu",
       "Sillim",
+      "Sillyewon",
+      "Simcheon",
       "Sinbanghwa",
       "Sinbanpo",
+      "Sinboseong",
       "Sinchon",
       "Sindaebang",
       "Sindaebangsamgeori",
       "Sindang",
+      "Sindong",
       "Sindorim",
+      "Singchang",
       "Singeumho",
+      "Singi",
       "Singil",
+      "Sinhaeundae",
       "Sinheung",
       "Sinjeong",
       "Sinmokdong",
@@ -69587,7 +73880,10 @@
       "Sinpung",
       "Sinsa",
       "Sinseol-dong",
+      "Sintaein",
+      "Sintanjin",
       "Sinyongsan",
+      "Songchu",
       "Songjeong",
       "Songpa",
       "Songpanaru",
@@ -69595,32 +73891,72 @@
       "Soongsil Univ.",
       "Sports Complex",
       "Ssangmun",
+      "Ssangnyong",
+      "Suanbo oncheon",
       "Sujin",
+      "Suncheon",
       "Sungshin Women's Univ.",
       "Suraksan",
       "Suseo",
+      "Suwon",
       "Suyu",
+      "Taebaek",
+      "Taehwagang",
       "Taereung",
+      "Tap-ri",
       "Ttukseom",
       "Ttukseom Resort",
+      "Uijeongbu",
+      "Uiseong",
       "Ujangsan",
+      "Uljin",
+      "Ulsan",
+      "Ungcheon",
       "VHS Medical Center",
+      "Waegwan",
       "Wangsimni",
+      "Wansa",
       "Wolgok",
+      "Wolleung",
+      "Wolpo",
+      "Wondong",
+      "Wonju",
       "World Cup Stadium",
       "Yaksu",
       "Yangcheon Hyanggyo",
+      "Yangdong",
       "Yangjae",
+      "Yangmok",
       "Yangpyeong",
+      "Yangwon",
+      "Yecheon",
+      "Yedang",
+      "Yemi",
+      "Yeocheon",
       "Yeokchon",
       "Yeoksam",
       "Yeomchang",
+      "Yeongam",
+      "Yeongcheon",
+      "Yeongdeok",
+      "Yeongdeungpo",
       "Yeongdeungpo Market",
       "Yeongdeungpo-gu Office",
+      "Yeongdong",
+      "Yeonghae",
+      "Yeongju",
+      "Yeongwol",
+      "Yeonpung",
+      "Yeonsan",
       "Yeonsinnae",
+      "Yeosu-Expo",
       "Yeouido",
       "Yeouinaru",
-      "Yongmasan"
+      "Yesan",
+      "Yonggung",
+      "Yongmasan",
+      "Yongmun",
+      "Yongsan"
     ],
     "date": "2026-09-09",
     "dateRange": {
