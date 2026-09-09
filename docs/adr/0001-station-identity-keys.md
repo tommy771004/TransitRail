@@ -51,7 +51,7 @@ return queryKeys.some((queryKey) => key.includes(queryKey) || queryKey.includes(
 | 🇨🇭 瑞士（OJP 即時） | `StopPlaceRef` | **ID** | 低 |
 | 🇨🇭 瑞士（GTFS 離線） | DIDOK（`didok` 欄位） | **登錄號** ✅ 已完成 | 低 |
 | 🇰🇷 韓國 | `역사코드`，**有但丟棄** | 英文名字串 | **高** |
-| 🇩🇪 德國 | GTFS `stop_id`，有但未用 | 名稱 | 中 |
+| 🇩🇪 德國 | **無穩定識別**（見下） | 名稱 | 中 |
 | 🇫🇷 法國 | GTFS `stop_id`，有但未用 | 名稱 | 中 |
 | 🇲🇾 馬來西亞 | GTFS `stop_id`，有但未用 | 名稱 | 中 |
 | 🇯🇵 日本 | ODPT `odpt:Station` id | 名稱 | 中 |
@@ -94,11 +94,33 @@ CLAUDE.md 的規則不變。
      只會默默沒命中並退回名稱比對。
    - 守門測試不能拿設定檔自己的鍵當查詢（循環論證，永遠通過）。要比對該市場路線
      實際使用的站名集合，並用「只有登錄號能找到的探針站」驗證。
-3. **德／法／馬** —— 沿用瑞士那次的做法。
+3. **法／馬** —— 識別碼已確認可用，但**卡在既有測試**（見下）。
+   - 法國：`StopArea:OCE<UIC>`，7 個路線端點全數解析
+     （巴黎東站 `87113001`、巴黎里昂 `87686006`、馬賽聖夏爾 `87751008` 等）
+   - 馬來西亞：KTMB `stop_id` 為站級 5 碼，一列一站，5 個端點全數解析
+
+   **德國要移出這份清單**：gtfs.de 免費 feed 的 `stop_id` / `parent_station` 是
+   自產的合成值（Aachen Hbf = `366170` / `646823`），不帶 IBNR 或 UIC，無法確認
+   跨 feed 版本穩定。用它當鍵會比用名稱更糟。與該 feed 沒有 `trip_short_name`
+   是同一個限制：免費層不發布穩定識別。
 4. **日本、香港** —— 最後，兩者目前都有靜態站表擋著。
 
 每一步都要跑 `npm run lint`、`npm run validate:data`，以及
 `npx tsx scripts/audit-station-mapping.ts`。
+
+## 法／馬卡在哪裡
+
+實作後 11 個既有測試失敗，而且不是補 fixture 資料就能解決。其中兩個是：
+
+- `resolves a station the feed names the operator's way`
+- `matches a station the feed spells out where the route list abbreviates`
+
+它們存在的目的就是驗證**名稱比對**能處理拼法差異（feed 寫 `Paris Est`，路線清單寫
+`Paris Gare de l'Est`）。改用登錄號後這些案例會靠 id 通過，測試的原意被掏空 ——
+`FRANCE_STATION_MATCH` 的 `fillerWords` 與 `synonyms` 也會變成死碼。
+
+這不是「照 ADR 修」的範圍，是要重新決定那些測試該保障什麼。建議獨立處理，並在動手
+前先決定：登錄號涵蓋的站是否還需要保留名稱比對作為第二層。
 
 ## 為什麼現在不做
 
