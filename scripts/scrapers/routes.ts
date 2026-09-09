@@ -117,12 +117,31 @@ export const norwayRoutes: ScrapedRoute[] = [
   { origin: "Trondheim S", destination: "Bodø stasjon" },
 ];
 
+/**
+ * Switzerland answers arbitrary pairs live through OJP, so these files are the
+ * fallback for when it cannot — no credential configured, or an outage. The
+ * fallback was five pairs covering six stations while the station menu offered
+ * twenty-three, so a keyless build sent most of the menu to an empty result.
+ *
+ * The additions below follow the lines the destination picker actually badges
+ * as direct: the IC1/IC5 corridor end to end, IC3 to Chur, and the IR90 valley.
+ * They do not make every pair answerable — only a live OJP token does that —
+ * but they cover the corridors a passenger is most likely to pick from the menu.
+ */
 export const switzerlandRoutes: ScrapedRoute[] = [
   { origin: "Zürich HB", destination: "Bern" },
   { origin: "Zürich HB", destination: "Genève" },
   { origin: "Zürich HB", destination: "Basel SBB" },
   { origin: "Zürich HB", destination: "Lugano" },
   { origin: "Bern", destination: "Lausanne" },
+  { origin: "Zürich HB", destination: "St. Gallen" },
+  { origin: "Zürich HB", destination: "Winterthur" },
+  { origin: "Zürich HB", destination: "Genève-Aéroport" },
+  { origin: "Zürich HB", destination: "Luzern" },
+  { origin: "Zürich HB", destination: "Chur" },
+  { origin: "Genève", destination: "Lausanne" },
+  { origin: "Bern", destination: "Interlaken Ost" },
+  { origin: "Lausanne", destination: "Brig" },
 ];
 
 /**
