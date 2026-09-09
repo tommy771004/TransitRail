@@ -272,12 +272,27 @@ export function StationBrowser({
     setSelectedCategory(visibleLines[0].id);
   }, [regions, selectedRegion, regionsCollapsed, visibleLines, selectedCategory, scrollToLineId]);
 
+  /**
+   * The stations this picker may actually offer.
+   *
+   * A journey to the station you are standing at is not a journey, and the
+   * search rejects it outright ("origin and destination must be different"), so
+   * listing the chosen origin among the destinations only invites a dead end.
+   * Matched on the station key, because the two lists can name the same platform
+   * differently ("Zürich HB" against the alias the catalog carries).
+   */
+  const selectableStations = useMemo(() => {
+    if (target !== "destination" || !selectedOrigin) return stations;
+    const originKey = stationKeyForCountry(selectedOrigin);
+    return stations.filter((station) => stationKeyForCountry(station) !== originKey);
+  }, [stations, target, selectedOrigin, country]);
+
   const stationsToRender = useMemo(() => {
     const line = lines.find((l) => l.id === selectedCategory);
     if (!line) return [];
-    const stationKeys = new Set(stations.map(stationKeyForCountry));
+    const stationKeys = new Set(selectableStations.map(stationKeyForCountry));
     return line.stations.filter((station) => stationKeys.has(stationKeyForCountry(station.name)));
-  }, [lines, selectedCategory, stations, country]);
+  }, [lines, selectedCategory, selectableStations, country]);
 
   const lineColorByName = useMemo(() => {
     const map = new Map<string, string | undefined>();
@@ -340,7 +355,7 @@ export function StationBrowser({
 
   const filteredStations = useMemo(() => {
     const value = query.trim().toLowerCase();
-    const baseStations = stations;
+    const baseStations = selectableStations;
     if (!value) return baseStations;
     
     const tZh = i18n.getFixedT("zh-TW", "translation");
@@ -356,11 +371,11 @@ export function StationBrowser({
              fuzzyMatch(value, zhLabel) || 
              (localName && fuzzyMatch(value, localName));
     });
-  }, [query, stations, t, country, localNameMap]);
+  }, [query, selectableStations, t, country, localNameMap]);
 
   const featured = useMemo(() => {
     const origFeatured = countryConfig[country].featuredStations;
-    const stationKeys = new Set(stations.map(stationKeyForCountry));
+    const stationKeys = new Set(selectableStations.map(stationKeyForCountry));
     return origFeatured.filter((station) => stationKeys.has(stationKeyForCountry(station)));
   }, [country, stations]);
 
