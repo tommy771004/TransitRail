@@ -1,6 +1,8 @@
 # ADR 0001：以來源識別碼作為車站對應鍵
 
-- 狀態：**提案（Proposed）** —— 尚未實作，尚未取得決議
+- 狀態：**進行中（Accepted, partially implemented）**
+- 已完成：步驟 2 瑞士（commit `1cae367`）
+- 未完成：步驟 1 韓國、步驟 3 德／法／馬、步驟 4 日本／香港
 - 日期：2026-09-09
 - 發現於：`/qa` 各國查詢流程驗證（`.gstack/qa-reports/qa-report-localhost-2026-09-09.md`）
 
@@ -47,7 +49,7 @@ return queryKeys.some((queryKey) => key.includes(queryKey) || queryKey.includes(
 | 🇧🇪 比利時 | iRail station id | **ID** | 低 |
 | 🇳🇴 挪威 | Entur NSR id | **ID** | 低 |
 | 🇨🇭 瑞士（OJP 即時） | `StopPlaceRef` | **ID** | 低 |
-| 🇨🇭 瑞士（GTFS 離線） | `stop_id`，**有但未用** | 名稱四層模糊比對 | **高** |
+| 🇨🇭 瑞士（GTFS 離線） | DIDOK（`didok` 欄位） | **登錄號** ✅ 已完成 | 低 |
 | 🇰🇷 韓國 | `역사코드`，**有但丟棄** | 英文名字串 | **高** |
 | 🇩🇪 德國 | GTFS `stop_id`，有但未用 | 名稱 | 中 |
 | 🇫🇷 法國 | GTFS `stop_id`，有但未用 | 名稱 | 中 |
@@ -82,8 +84,16 @@ CLAUDE.md 的規則不變。
 1. **韓國** —— 改動最小、風險最高。`SeoulTimetable.stations` 由 `string[]` 改為
    `{ id: string; name: string }[]`，`resolveStation()` 回傳兩者。**需重跑
    `npm run scrape:korea`**，成品格式會變。
-2. **瑞士** —— 第二高風險。`stationStopIds()` 收到 `stop_id` 時直接命中。
-   **需重跑 `npm run scrape:switzerland`**（76 個路線檔會重生，約 13 分鐘）。
+2. ~~**瑞士**~~ —— **已完成**（`1cae367`）。用的是 DIDOK 而非 `stop_id`：feed 的
+   `didok` 欄位每站一個值且跨版本穩定，平台層級的 `stop_id` 光蘇黎世中央就有 27 個。
+   重爬後輸出與名稱比對逐列一致（76 檔 / 529 route-date / 28364 筆 / 0 差異）。
+
+   **實作時踩到的兩個坑，其他市場照做時要避開：**
+   - `registerIds` 以**車站名稱**為鍵，由 `stationStopIds` 自行正規化。不要讓呼叫端
+     傳正規化後的鍵 —— `normalizeStation` 把標點換成空格而非刪除，寫錯的鍵不會報錯，
+     只會默默沒命中並退回名稱比對。
+   - 守門測試不能拿設定檔自己的鍵當查詢（循環論證，永遠通過）。要比對該市場路線
+     實際使用的站名集合，並用「只有登錄號能找到的探針站」驗證。
 3. **德／法／馬** —— 沿用瑞士那次的做法。
 4. **日本、香港** —— 最後，兩者目前都有靜態站表擋著。
 
