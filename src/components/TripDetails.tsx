@@ -8,6 +8,7 @@ import { TransferInfoPopup } from "./TransferInfoPopup";
 import { getTransferInfo, type TransferInfo } from "../data/transfers";
 import { findNearestKnownStation } from "../utils/geoCoordinates";
 import { triggerHaptic } from "../utils/haptics";
+import { formatDuration } from "./ResultShell";
 
 interface TripDetailsProps {
   trip: TransitResult;
@@ -458,7 +459,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                               {leg.durationMinutes != null && (
                                 <span className="m3-label-medium inline-flex items-center gap-1 tabular-nums text-slate-700 dark:text-slate-300">
                                   <Clock className="h-3 w-3 text-slate-400" />
-                                  {leg.durationMinutes} {t("result.min_label", { defaultValue: "min" })}
+                                  {formatDuration(t, leg.durationMinutes)}
                                 </span>
                               )}
                               {leg.stopCount != null && (

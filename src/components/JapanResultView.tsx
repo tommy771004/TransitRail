@@ -199,7 +199,7 @@ export function JapanResultView({
                       <span>{trip.service}</span>
                     </span>
                     <span className="m3-chip m3-label-medium min-h-7 shrink-0 bg-emerald-500/5 px-3 font-mono text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-400">
-                      {formatDuration(trip.durationMinutes)}
+                      {formatDuration(t, trip.durationMinutes)}
                     </span>
                   </div>
                   <span className="m3-chip m3-title-small shrink-0 border border-slate-100 bg-slate-50 px-3 text-slate-900 dark:border-slate-700/50 dark:bg-slate-800/80 dark:text-emerald-400">

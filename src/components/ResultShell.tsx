@@ -7,6 +7,7 @@
 
 import { ArrowRight, Bookmark, Check, Compass, Edit2 } from "lucide-react";
 import type { ReactNode } from "react";
+import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { motion, type MotionProps } from "motion/react";
 import type { Country, CoverageGap, NoResultReason } from "../types";
@@ -15,11 +16,22 @@ import { WeatherWidget } from "./WeatherWidget";
 import { stationLabel } from "../utils/stationLabel";
 import i18n from "../i18n";
 
-export const formatDuration = (minutes?: number) => {
+/**
+ * One journey duration, written the same way in every market.
+ *
+ * Seven spellings used to reach the same page — `2h 24m` from here, `42 min`
+ * from the live-rail view's own label, `120 分` from another, `173 分鐘` from a
+ * third — because each result view formatted its own. The unit words are
+ * translated; the shape is not, so a passenger comparing Tokyo with Zürich
+ * compares like with like.
+ */
+export const formatDuration = (t: TFunction, minutes?: number) => {
   if (minutes === undefined) return null;
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
-  return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+  const hourLabel = t("result.hour_label", { defaultValue: "h" });
+  const minLabel = t("result.min_label", { defaultValue: "min" });
+  return hours > 0 ? `${hours}${hourLabel} ${mins}${minLabel}` : `${mins}${minLabel}`;
 };
 
 const defaultHeaderSectionClass =

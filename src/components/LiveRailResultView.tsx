@@ -19,6 +19,7 @@ import {
   renderWeatherBlock,
   tripCardClass,
   tripCardMotion,
+  formatDuration,
 } from "./ResultShell";
 
 interface LiveRailResultViewProps {
@@ -189,7 +190,7 @@ export function LiveRailResultView({
 
                           <div className="relative flex min-w-[75px] flex-col items-center">
                             <span className="m3-label-small mb-1 font-mono text-slate-400 dark:text-slate-500">
-                              {trip.durationMinutes ?? "-"} {t(`${copyKey}.minutes`, { defaultValue: "min" })}
+                              {formatDuration(t, trip.durationMinutes) ?? "-"}
                             </span>
                             <TimelineBar color={trip.lineColor || fallbackAccent} direct={!!trip.direct} />
                           </div>
