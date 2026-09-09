@@ -56,15 +56,15 @@ describe("scheduled Seoul artifact search", { timeout: 20_000 }, () => {
   });
 });
 
-describe("unverified intercity snapshots stay hidden", { timeout: 20_000 }, () => {
-  it("does not expose a Korail snapshot through the Seoul Metro menu", async () => {
+describe("Korail dates without verified snapshots stay hidden", { timeout: 20_000 }, () => {
+  it("does not reuse a later Korail snapshot through the Seoul Metro menu", async () => {
     const { statusCode, payload } = await search("Seoul Station", "Busan (BSN)");
     expect(statusCode).toBe(404);
     expect(payload.noResultReason).toBe("no_verified_data");
     expect(payload.officialSourceUrl).toContain("seoulmetro.co.kr");
   });
 
-  it("does not expose unverified intercity endpoints in either direction", async () => {
+  it("does not reuse other service dates in either direction", async () => {
     const forward = await search("Seoul Station", "Gangneung");
     const reverse = await search("Busan Station", "Seoul Station");
     expect(forward.statusCode).toBe(404);
@@ -87,7 +87,7 @@ describe("unverified intercity snapshots stay hidden", { timeout: 20_000 }, () =
   });
 });
 
-describe("covered corridors stay limited to official Seoul Metro data", { timeout: 20_000 }, () => {
+describe("historical dates stay limited to their available official data", { timeout: 20_000 }, () => {
   it("does not fall back to the canonical Korail pairs", async () => {
     for (const [origin, destination] of [
       ["Seoul (SNC)", "Busan (BSN)"],

@@ -15,6 +15,7 @@
 import type { Country } from "../../src/types";
 import { getCountryCapability, timetableScrapeCountries } from "../../src/data/countryCapability";
 import { JapanLocalGtfsScraper, JapanOdptScraper, JapanJrCentralScraper } from "./japan";
+import { KorailTimetableScraper } from "./korailTimetable";
 import { KoreaScraper } from "./korea";
 import { MalaysiaKtmbScraper } from "./malaysiaTimetable";
 import {
@@ -39,7 +40,7 @@ const FACTORIES: Record<string, Array<() => BaseScraper>> = {
     () => new JapanJrCentralScraper(),
     () => new JapanLocalGtfsScraper(),
   ],
-  korea: [() => new KoreaScraper()],
+  korea: [() => new KoreaScraper(), () => new KorailTimetableScraper()],
   singapore: [() => new SingaporeScraper()],
   malaysia: [() => new MalaysiaKtmbScraper()],
   thailand: [() => new ThailandScraper()],

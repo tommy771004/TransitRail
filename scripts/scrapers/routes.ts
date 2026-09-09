@@ -28,12 +28,8 @@ export const japanJrCentralRoutes: ScrapedRoute[] = [
   { origin: "Hakata", destination: "Shin-Osaka" },
 ];
 
-/**
- * Korail has no listed routes. Its journey search blocks automated access, and
- * the nine KTX route files that used to stand in for it were curated snapshots.
- * Korea's data now comes from the Seoul Metro and Incheon Transit timetable
- * CSVs, which are artifacts rather than per-route files.
- */
+// Korea's subway CSV artifacts and dynamically discovered Korail XLSX routes
+// are owned by KoreaScraper and KorailTimetableScraper respectively.
 
 export const singaporeRoutes: ScrapedRoute[] = [
   // Changi Airport → Jurong East is not a single service: the airport branch

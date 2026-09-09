@@ -295,7 +295,7 @@ export async function getLinesForCountry(
 ): Promise<TransitLine[]> {
   let lines: TransitLine[];
   if (country === "japan") lines = japanRailLines;
-  else if (country === "korea") lines = seoulSubwayLines;
+  else if (country === "korea") lines = mergeCatalogLines(seoulSubwayLines, getProviderRouteLines(country, getScrapedRoutes(country), date));
   else if (country === "hong_kong") lines = hongKongLines();
   else if (staticLineSets[country]) lines = staticLineSets[country];
   else if (country === "united_states") {

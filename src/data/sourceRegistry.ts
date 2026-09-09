@@ -166,6 +166,15 @@ export const officialSources = {
   },
 
   // --- Korea ---
+  "kr-korail-timetable-xlsx": {
+    id: "kr-korail-timetable-xlsx",
+    country: "korea",
+    provider: "Korail",
+    sourceName: "Korail official KTX and regular train timetables",
+    sourceType: "official-download",
+    sourceUrl: "https://www.korail.com/ticket/reserve/train-timeTable",
+    maxCompleteness: "full-timetable",
+  },
   "kr-seoul-metro-csv": {
     id: "kr-seoul-metro-csv",
     country: "korea",

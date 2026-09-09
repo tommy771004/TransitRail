@@ -28,6 +28,7 @@ export interface ScrapedRouteData {
   authenticity?: TimetableAuthenticity;
   truthMode?: TimetableTruthMode;
   sourceServiceDay?: string;
+  sourceDocuments?: Array<{ exclusions?: string[]; title: string; url: string; sha256: string; retrievedAt: string; effectiveFrom: string; effectiveUntil?: string }>;
   sourceIssue?: TimetableSourceIssue;
   results: TransitResult[];
 }
@@ -301,6 +302,8 @@ function segmentResult(
   edge: RouteEdge,
   country?: Country,
 ): TransitResult | null {
+  const korail = route.sourceMeta?.sourceId === "kr-korail-timetable-xlsx";
+  if (korail && edge.reversed) return null;
   const oriented = edge.reversed ? reverseResult(result) : result;
   const path = resultStopPath(route, oriented, country);
   const fromKey = stationKeyFor(country, edge.from);
@@ -327,6 +330,8 @@ function segmentResult(
   const arrivalTime = last.arrivalTime!;
   const departureMinutes = parseTime(departureTime);
   const arrivalMinutes = parseTime(arrivalTime);
+  // Post-midnight boarding belongs to the separately materialized next date.
+  if (korail && departureMinutes >= 1440) return null;
   const durationMinutes = span.length === 1
     ? first.durationMinutes ?? spanDuration(departureMinutes, arrivalMinutes)
     : spanDuration(departureMinutes, arrivalMinutes);
@@ -537,7 +542,9 @@ function chainResults(
         const connections = nextResults
           .map((result) => {
             const departure = parseTime(result.departureTime);
-            const wait = departure - previousArrival + (departure < previousArrival ? 1440 : 0);
+            const wrapsUnverifiedDay = departure < previousArrival
+              && (previous.operator === "Korail" || result.operator === "Korail");
+            const wait = wrapsUnverifiedDay ? -1 : departure - previousArrival + (departure < previousArrival ? 1440 : 0);
             return { result, wait };
           })
           .filter(({ wait }) => {
