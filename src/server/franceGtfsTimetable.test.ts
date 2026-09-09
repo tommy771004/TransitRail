@@ -84,7 +84,7 @@ describe("searchFranceGtfs", () => {
 
   // The live run fell back on every date for this route because "Paris Gare de
   // l'Est" and the feed's "Paris Est" share no substring in either direction.
-  it("resolves a station the feed names the operator's way", async () => {
+  it("resolves a station by UIC code when the feed names it the operator's way", async () => {
     stubFeed();
     const { status, body } = await searchFranceGtfs("Paris Gare de l'Est", "Strasbourg", "2026-08-03");
 
@@ -100,7 +100,7 @@ describe("searchFranceGtfs", () => {
 
   // Only 1-2 Paris → Marseille departures survived the live run, which tripped
   // the thin-content guard and deleted the page entirely.
-  it("matches a station the feed spells out where the route list abbreviates", async () => {
+  it("resolves a station by UIC code where the feed spells out what the route list abbreviates", async () => {
     stubFeed();
     const { status, body } = await searchFranceGtfs("Paris Gare de Lyon", "Marseille St-Charles", "2026-08-03");
 

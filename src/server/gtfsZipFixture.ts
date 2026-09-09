@@ -72,19 +72,22 @@ export function zipFixture(files: Record<string, string>): Uint8Array {
 export const franceGtfsFixture = zipFixture({
   "stops.txt": [
     "stop_id,stop_name,parent_station",
-    "area-paris,Paris Gare de Lyon Hall 1 - 2,",
-    "point-paris,Paris Gare de Lyon Hall 1 - 2,area-paris",
-    "area-lyon,Lyon Part Dieu,",
-    "point-lyon,Lyon Part Dieu,area-lyon",
+    // Real SNCF ids: `StopArea:OCE<UIC>` is the station, `StopPoint:` its
+    // platforms. Search matches the UIC code, so the station names below can be
+    // spelled however the operator spells them.
+    "StopArea:OCE87686006,Paris Gare de Lyon Hall 1 - 2,",
+    "StopPoint:OCE87686006-1,Paris Gare de Lyon Hall 1 - 2,StopArea:OCE87686006",
+    "StopArea:OCE87723197,Lyon Part Dieu,",
+    "StopPoint:OCE87723197-1,Lyon Part Dieu,StopArea:OCE87723197",
     // SNCF names these stations the way the operator does, which is not how the
     // route list names them: "Paris Est", not "Paris Gare de l'Est".
-    "area-paris-est,Paris Est,",
-    "point-paris-est,Paris Est,area-paris-est",
-    "area-strasbourg,Strasbourg-Ville,",
-    "point-strasbourg,Strasbourg-Ville,area-strasbourg",
+    "StopArea:OCE87113001,Paris Est,",
+    "StopPoint:OCE87113001-1,Paris Est,StopArea:OCE87113001",
+    "StopArea:OCE87212027,Strasbourg-Ville,",
+    "StopPoint:OCE87212027-1,Strasbourg-Ville,StopArea:OCE87212027",
     // The feed spells out Saint where the route list abbreviates it to St.
-    "area-marseille,Marseille-Saint-Charles,",
-    "point-marseille,Marseille-Saint-Charles,area-marseille",
+    "StopArea:OCE87751008,Marseille-Saint-Charles,",
+    "StopPoint:OCE87751008-1,Marseille-Saint-Charles,StopArea:OCE87751008",
   ].join("\n"),
   // SNCF puts the train number in trip_headsign, not the destination.
   "trips.txt": [
@@ -98,18 +101,18 @@ export const franceGtfsFixture = zipFixture({
   ].join("\n"),
   "stop_times.txt": [
     "trip_id,arrival_time,departure_time,stop_id,stop_sequence",
-    "trip-weekday,23:50:00,23:50:00,point-paris,1",
-    "trip-weekday,25:15:00,25:15:00,point-lyon,2",
-    "trip-cancelled,08:00:00,08:00:00,point-paris,1",
-    "trip-cancelled,09:00:00,09:00:00,point-lyon,2",
-    "trip-holiday-addition,08:00:00,08:00:00,point-paris,1",
-    "trip-holiday-addition,09:55:00,09:55:00,point-lyon,2",
-    "trip-slow,07:34:00,07:34:00,point-paris,1",
-    "trip-slow,12:44:00,12:44:00,point-lyon,2",
-    "trip-est,06:55:00,06:55:00,point-paris-est,1",
-    "trip-est,08:41:00,08:41:00,point-strasbourg,2",
-    "trip-med,07:14:00,07:14:00,point-paris,1",
-    "trip-med,11:20:00,11:20:00,point-marseille,2",
+    "trip-weekday,23:50:00,23:50:00,StopPoint:OCE87686006-1,1",
+    "trip-weekday,25:15:00,25:15:00,StopPoint:OCE87723197-1,2",
+    "trip-cancelled,08:00:00,08:00:00,StopPoint:OCE87686006-1,1",
+    "trip-cancelled,09:00:00,09:00:00,StopPoint:OCE87723197-1,2",
+    "trip-holiday-addition,08:00:00,08:00:00,StopPoint:OCE87686006-1,1",
+    "trip-holiday-addition,09:55:00,09:55:00,StopPoint:OCE87723197-1,2",
+    "trip-slow,07:34:00,07:34:00,StopPoint:OCE87686006-1,1",
+    "trip-slow,12:44:00,12:44:00,StopPoint:OCE87723197-1,2",
+    "trip-est,06:55:00,06:55:00,StopPoint:OCE87113001-1,1",
+    "trip-est,08:41:00,08:41:00,StopPoint:OCE87212027-1,2",
+    "trip-med,07:14:00,07:14:00,StopPoint:OCE87686006-1,1",
+    "trip-med,11:20:00,11:20:00,StopPoint:OCE87751008-1,2",
   ].join("\n"),
   "calendar.txt": [
     "service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date",

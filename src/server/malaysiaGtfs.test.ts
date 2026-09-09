@@ -7,12 +7,14 @@ import {
 import { zipFixture } from "./gtfsZipFixture";
 
 const fixture = zipFixture({
-  "stops.txt": ["stop_id,stop_name", "rawang,Rawang", "kuala,Kuala Lumpur"].join("\n"),
+  // Real KTMB station codes: the feed publishes one row per station, so the stop
+  // id is the station identity and is what search matches on.
+  "stops.txt": ["stop_id,stop_name", "17800,Rawang", "19000,Kuala Lumpur"].join("\n"),
   "trips.txt": ["route_id,service_id,trip_id,trip_short_name", "komuter,weekday,rawang-kl,KD 12"].join("\n"),
   "stop_times.txt": [
     "trip_id,arrival_time,departure_time,stop_id,stop_sequence",
-    "rawang-kl,07:10:00,07:10:00,rawang,1",
-    "rawang-kl,07:58:00,07:58:00,kuala,2",
+    "rawang-kl,07:10:00,07:10:00,17800,1",
+    "rawang-kl,07:58:00,07:58:00,19000,2",
   ].join("\n"),
   "calendar.txt": [
     "service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date",

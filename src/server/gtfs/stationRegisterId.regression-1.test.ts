@@ -9,7 +9,9 @@ import { describe, expect, it } from "vitest";
 import type { GtfsStop } from "./feed";
 import { stationStopIds } from "./journeys";
 import { SWISS_REGISTER_IDS } from "../swissGtfs";
-import { switzerlandRoutes } from "../../../scripts/scrapers/routes";
+import { FRANCE_REGISTER_IDS } from "../franceGtfs";
+import { MALAYSIA_REGISTER_IDS } from "../malaysiaGtfs";
+import { franceRoutes, malaysiaKtmbRoutes, switzerlandRoutes } from "../../../scripts/scrapers/routes";
 
 /** Two stations whose names are substrings of one another, as Switzerland has. */
 const STOPS: GtfsStop[] = [
@@ -62,6 +64,8 @@ describe("station register numbers", () => {
   // both cases below then hold it to the same contract as Switzerland.
   const MARKETS = [
     ["switzerland", SWISS_REGISTER_IDS, switzerlandRoutes],
+    ["france", FRANCE_REGISTER_IDS, franceRoutes],
+    ["malaysia", MALAYSIA_REGISTER_IDS, malaysiaKtmbRoutes],
   ] as const;
 
   it.each(MARKETS)("%s covers exactly the stations its routes name", (_market, register, routes) => {
