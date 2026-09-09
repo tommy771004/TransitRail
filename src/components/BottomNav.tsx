@@ -28,7 +28,7 @@ export function BottomNav({ activeView, unreadAlerts, onNavigate, onOpenSettings
 
   return (
     <nav
-      className="m3-nav-surface m3-elevation-2 fixed z-[60] border-slate-200/70 bg-white/95 backdrop-blur-md dark:border-slate-800/70 dark:bg-[#060a13]/95"
+      className="m3-nav-surface m3-elevation-2 fixed z-[60] border-slate-200/70 bg-white/40 backdrop-blur-md md:bg-white/95 dark:border-slate-800/70 dark:bg-[#060a13]/65 md:dark:bg-[#060a13]/95"
       aria-label={t("nav.primary")}
     >
       <div className="m3-nav-bar mx-auto max-w-md grid-cols-5">

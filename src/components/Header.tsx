@@ -39,7 +39,7 @@ export function Header({ onMenuOpen, onProfileOpen, timezone, homeCurrency }: He
   };
 
   return (
-    <header className="m3-top-app-bar m3-elevation-0 fixed top-0 z-50 w-full justify-between gap-1 border-b border-slate-200 bg-white px-1 sm:px-2 dark:border-slate-800 dark:bg-[#060a13]">
+    <header className="m3-top-app-bar m3-elevation-0 fixed top-0 z-50 w-full justify-between gap-1 border-b border-slate-200 bg-white/40 px-1 sm:px-2 dark:border-slate-800 dark:bg-[#060a13]/40">
       <div className="flex min-w-0 items-center gap-1">
         <button
           type="button"
