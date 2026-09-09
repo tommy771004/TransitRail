@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { Country } from "../types";
+import { stationLabel } from "../utils/stationLabel";
 
 type LiveContext = {
   status: "available" | "uncovered" | "unavailable" | "ambiguous" | "empty_live_data" | "error";
@@ -20,13 +22,14 @@ type Plan = {
   itineraries?: Array<{ durationMinutes?: number; legs: Array<{ mode?: string; route?: string; durationMinutes?: number; instructions?: string[] }>; fare?: string }>;
 };
 
-const statusCopy: Record<LiveContext["status"], string> = {
-  available: "",
-  uncovered: "Transit does not currently confirm coverage for this station. This does not mean that service is unavailable.",
-  unavailable: "Third-party live data is not configured right now.",
-  ambiguous: "Transit coverage for this station could not be resolved safely.",
-  empty_live_data: "Transit currently has no live departures or alerts to show. This is not a no-service notice.",
-  error: "Third-party live data is temporarily unavailable.",
+/** Every status but `available` explains itself; `available` needs no caption. */
+const statusKey: Record<LiveContext["status"], string | null> = {
+  available: null,
+  uncovered: "transit_supplement.status_uncovered",
+  unavailable: "transit_supplement.status_unavailable",
+  ambiguous: "transit_supplement.status_ambiguous",
+  empty_live_data: "transit_supplement.status_empty_live_data",
+  error: "transit_supplement.status_error",
 };
 
 function isLiveContext(value: unknown): value is LiveContext {
@@ -41,14 +44,15 @@ function isPlan(value: unknown): value is Plan {
   return typeof plan.status === "string" && plan.kind === "third_party_plan";
 }
 
-function formatTime(value?: string) {
-  if (!value) return "Time unavailable";
+function formatTime(value: string | undefined, fallback: string) {
+  if (!value) return fallback;
   const parsed = new Date(value);
   return Number.isNaN(parsed.getTime()) ? value : parsed.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
 /** A separately attributed UI boundary; none of this data is a verified timetable. */
 export function TransitAppSupplement({ country, origin, destination }: { country: Country; origin: string; destination: string }) {
+  const { t } = useTranslation();
   const [live, setLive] = useState<LiveContext>();
   const [liveLoading, setLiveLoading] = useState(false);
   const [plan, setPlan] = useState<Plan>();
@@ -88,34 +92,34 @@ export function TransitAppSupplement({ country, origin, destination }: { country
   };
 
   return (
-    <aside className="mx-auto max-w-md space-y-3 px-4 pb-8" aria-label="Transit supplementary information">
+    <aside className="mx-auto max-w-md space-y-3 px-4 pb-8" aria-label={t("transit_supplement.title")}>
       <div className="m3-card m3-card-large border border-indigo-200 bg-indigo-50/70 p-4 text-sm dark:border-indigo-900/70 dark:bg-indigo-950/20">
-        <p className="font-bold text-indigo-950 dark:text-indigo-100">Third-party live data from Transit</p>
+        <p className="font-bold text-indigo-950 dark:text-indigo-100">{t("transit_supplement.title")}</p>
         <p className="mt-1 text-xs leading-relaxed text-indigo-800 dark:text-indigo-200">
-          Live departures, alerts, and journey suggestions are supplementary. They never change TransitRail’s verified timetable.
+          {t("transit_supplement.disclaimer")}
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           <button type="button" onClick={() => void loadLive()} disabled={liveLoading} className="m3-button m3-button-small m3-state bg-indigo-700 text-white disabled:opacity-50 dark:bg-indigo-400 dark:text-slate-950">
-            {liveLoading ? "Loading live data…" : `Live data for ${origin}`}
+            {liveLoading ? t("transit_supplement.loading_live") : t("transit_supplement.load_live", { station: stationLabel(t, origin, country) })}
           </button>
           <button type="button" onClick={() => void loadPlan()} disabled={planLoading} className="m3-button m3-button-small m3-state border border-indigo-300 text-indigo-900 disabled:opacity-50 dark:border-indigo-700 dark:text-indigo-100">
-            {planLoading ? "Planning…" : "Plan complete trip with Transit"}
+            {planLoading ? t("transit_supplement.planning") : t("transit_supplement.plan_trip")}
           </button>
         </div>
       </div>
 
       {live ? (
         <div className="m3-card m3-card-large border border-slate-200 bg-white p-4 text-sm dark:border-slate-700 dark:bg-slate-900">
-          <p className="font-bold text-slate-900 dark:text-white">Live information supplied by Transit</p>
-          {statusCopy[live.status] ? <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">{statusCopy[live.status]}</p> : null}
-          <p className="m3-body-small mt-1 text-slate-500 dark:text-slate-400">Retrieved {formatTime(live.retrievedAt)}{live.freshness ? ` · Provider updated ${formatTime(live.freshness)}` : ""}</p>
-          <p className="m3-body-small mt-1 text-slate-500 dark:text-slate-400">Departure times are shown in your local time zone.</p>
+          <p className="font-bold text-slate-900 dark:text-white">{t("transit_supplement.live_title")}</p>
+          {statusKey[live.status] ? <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">{t(statusKey[live.status] as string)}</p> : null}
+          <p className="m3-body-small mt-1 text-slate-500 dark:text-slate-400">{t("transit_supplement.retrieved", { time: formatTime(live.retrievedAt, t("transit_supplement.time_unavailable")) })}{live.freshness ? ` · ${t("transit_supplement.provider_updated", { time: formatTime(live.freshness, t("transit_supplement.time_unavailable")) })}` : ""}</p>
+          <p className="m3-body-small mt-1 text-slate-500 dark:text-slate-400">{t("transit_supplement.local_timezone")}</p>
           {live.departures.length ? (
             <ul className="mt-3 space-y-2">
               {live.departures.map((departure, index) => (
                 <li key={`${departure.time || "unknown"}-${index}`} className="m3-card flex items-center justify-between gap-3 bg-slate-50 px-3 py-2 dark:bg-slate-800">
-                  <span className="font-mono font-bold text-slate-900 dark:text-white">{formatTime(departure.time)}</span>
-                  <span className="min-w-0 flex-1 truncate text-right text-xs text-slate-700 dark:text-slate-200">{departure.route || "Route unavailable"}{departure.headsign ? ` → ${departure.headsign}` : ""}{departure.cancelled ? " · Cancelled" : ""}</span>
+                  <span className="font-mono font-bold text-slate-900 dark:text-white">{formatTime(departure.time, t("transit_supplement.time_unavailable"))}</span>
+                  <span className="min-w-0 flex-1 truncate text-right text-xs text-slate-700 dark:text-slate-200">{departure.route || t("transit_supplement.route_unavailable")}{departure.headsign ? ` → ${departure.headsign}` : ""}{departure.cancelled ? ` · ${t("transit_supplement.cancelled")}` : ""}</span>
                 </li>
               ))}
             </ul>
@@ -130,13 +134,13 @@ export function TransitAppSupplement({ country, origin, destination }: { country
 
       {plan ? (
         <div className="m3-card m3-card-large border border-slate-200 bg-white p-4 text-sm dark:border-slate-700 dark:bg-slate-900">
-          <p className="font-bold text-slate-900 dark:text-white">Third-party journey suggestion from Transit</p>
-          {plan.status !== "available" ? <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">{plan.status === "empty_live_data" ? "Transit did not return a suggested journey. This does not mean there is no service." : "This journey suggestion is currently unavailable."}</p> : null}
+          <p className="font-bold text-slate-900 dark:text-white">{t("transit_supplement.plan_title")}</p>
+          {plan.status !== "available" ? <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">{plan.status === "empty_live_data" ? t("transit_supplement.plan_empty") : t("transit_supplement.plan_unavailable")}</p> : null}
           {plan.itineraries?.map((itinerary, index) => (
             <div key={index} className="m3-card mt-3 bg-slate-50 p-3 dark:bg-slate-800">
-              <p className="font-bold text-slate-900 dark:text-white">{itinerary.durationMinutes ? `${itinerary.durationMinutes} min` : "Duration unavailable"}{itinerary.fare ? ` · ${itinerary.fare}` : ""}</p>
+              <p className="font-bold text-slate-900 dark:text-white">{itinerary.durationMinutes ? t("transit_supplement.minutes", { count: itinerary.durationMinutes }) : t("transit_supplement.duration_unavailable")}{itinerary.fare ? ` · ${itinerary.fare}` : ""}</p>
               <ul className="mt-2 space-y-1 text-xs text-slate-700 dark:text-slate-200">
-                {itinerary.legs.map((leg, legIndex) => <li key={legIndex}>{leg.mode || "Travel"}{leg.route ? ` · ${leg.route}` : ""}{leg.durationMinutes ? ` · ${leg.durationMinutes} min` : ""}</li>)}
+                {itinerary.legs.map((leg, legIndex) => <li key={legIndex}>{leg.mode || t("transit_supplement.travel")}{leg.route ? ` · ${leg.route}` : ""}{leg.durationMinutes ? ` · ${t("transit_supplement.minutes", { count: leg.durationMinutes })}` : ""}</li>)}
               </ul>
             </div>
           ))}
