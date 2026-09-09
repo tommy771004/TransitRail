@@ -170,15 +170,21 @@ function loadDir(country: string): ScrapedRouteData[] {
   return data;
 }
 
+/**
+ * Drop everything loaded so far; the next read of a market re-reads it.
+ *
+ * This used to parse all fourteen markets up front. The corpus is now ~150 MB on
+ * disk and several times that as objects, so holding every market at once
+ * exhausted the default V8 heap — first in the server at boot, then in a Vitest
+ * worker once Korail's intercity routes landed. Callers all want the same thing
+ * ("forget what you read, the files changed"), and `ensureCountryLoaded` already
+ * re-reads a market on first touch, so resetting gives them that for the cost of
+ * the markets they actually go on to query.
+ */
 export function loadScrapedData(): void {
-  let totalRoutes = 0;
-  for (const country of ALL_COUNTRIES) {
-    cache[country] = loadDir(country);
-    totalRoutes += cache[country].length;
-  }
-  koreanArtifacts = loadKoreanArtifacts();
-  for (const country of ALL_COUNTRIES) loadedCountries.add(country);
-  console.log(`[scraped] Loaded ${totalRoutes} routes across ${ALL_COUNTRIES.length} countries`);
+  for (const country of ALL_COUNTRIES) cache[country] = [];
+  koreanArtifacts = [];
+  loadedCountries.clear();
 }
 
 /** Load only the requested market on cold requests; explicit reloads still refresh all. */
