@@ -289,7 +289,7 @@ export function SearchForm({
                   triggerHaptic("light");
                   onOpenStations("origin");
                 }}
-                aria-label={origin ? `${t("search.origin")}: ${stationLabel(t, origin, country)}` : t("search.select_origin", { defaultValue: "Select Departure Station" })}
+                aria-label={origin ? `${t("search.origin")}: ${stationLabel(t, origin, country)}` : t("stations.pick_origin", { defaultValue: "Select Departure Station" })}
                 className="m3-shape-md m3-state group z-10 flex min-h-24 flex-1 flex-col items-center justify-center py-2 text-center"
               >
                 <div className={`m3-label-medium mb-1.5 flex items-center gap-1 ${theme.textActive}`}>
@@ -321,7 +321,7 @@ export function SearchForm({
                   triggerHaptic("light");
                   onOpenStations("destination");
                 }}
-                aria-label={destination ? `${t("search.destination")}: ${stationLabel(t, destination, country)}` : t("search.select_dest", { defaultValue: "Select Destination Station" })}
+                aria-label={destination ? `${t("search.destination")}: ${stationLabel(t, destination, country)}` : t("stations.pick_destination", { defaultValue: "Select Destination Station" })}
                 className="m3-shape-md m3-state group z-10 flex min-h-24 flex-1 flex-col items-center justify-center py-2 text-center"
               >
                 <div className={`m3-label-medium mb-1.5 flex items-center gap-1 ${theme.textActive}`}>
