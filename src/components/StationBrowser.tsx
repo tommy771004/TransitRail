@@ -720,7 +720,7 @@ export function StationBrowser({
                       {stationsToRender.map((station, index, arr) => {
                         const line = lines.find((l) => l.id === selectedCategory);
                         const primaryLabel = stationLabel(t, station.name, country);
-                        
+
                         let secondaryLabel: string | null = null;
                         if (i18n.language === "zh-TW") {
                           if (primaryLabel !== station.name) {
@@ -732,6 +732,18 @@ export function StationBrowser({
                           if (zhLabel !== station.name) {
                             secondaryLabel = zhLabel;
                           }
+                        }
+                        // A row carries up to three names, and they collide often
+                        // enough to print the same word twice: reading Korean, the
+                        // localised label and the operator's own local name are
+                        // both 시청; reading Japanese, a kanji station's Japanese
+                        // and Chinese labels are both 練馬春日町. Show each
+                        // spelling once.
+                        const localName = station.localName && station.localName !== primaryLabel
+                          ? station.localName
+                          : null;
+                        if (secondaryLabel && (secondaryLabel === primaryLabel || secondaryLabel === localName)) {
+                          secondaryLabel = null;
                         }
 
                         return (
@@ -756,8 +768,8 @@ export function StationBrowser({
                                 <span className={`m3-body-large flex items-center gap-1.5 truncate ${isUncovered(station.name) ? "text-slate-400 dark:text-slate-500" : "text-slate-800 dark:text-slate-100"}`}>
                                   {primaryLabel}
                                   {isUncovered(station.name) && <NoTimetableBadge />}
-                                  {station.localName ? (
-                                    <span className="m3-body-small text-slate-400 dark:text-slate-500">{station.localName}</span>
+                                  {localName ? (
+                                    <span className="m3-body-small text-slate-400 dark:text-slate-500">{localName}</span>
                                   ) : null}
                                   {station.accessible && (
                                     <span className="inline-flex items-center justify-center text-blue-700 dark:text-blue-300" title={t("stations.accessible")}>
@@ -944,6 +956,8 @@ function StationList({
             secondaryLabel = zhLabel;
           }
         }
+        // Same collision as the browse list: never print one spelling twice.
+        if (secondaryLabel === primaryLabel) secondaryLabel = null;
 
         return (
           <motion.li 
