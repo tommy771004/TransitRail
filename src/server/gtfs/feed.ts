@@ -6,6 +6,8 @@ export type GtfsStop = {
   id: string;
   name: string;
   parentStation?: string;
+  /** National station register number, when the publisher carries one. */
+  registerId?: string;
 };
 
 export type GtfsTrip = {
@@ -193,6 +195,11 @@ export function parseGtfsFeed(
         id: row.stop_id,
         name: row.stop_name,
         parentStation: row.parent_station || undefined,
+        // Some publishers carry the national station register number beside the
+        // feed's own stop id (Switzerland's `didok`). It names the station
+        // rather than one of its platforms and does not change when the feed is
+        // rebuilt, which is what makes it usable as a matching key.
+        registerId: row.didok || undefined,
       });
     }
   });

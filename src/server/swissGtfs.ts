@@ -14,12 +14,40 @@ export const SWISS_GTFS_CATALOG_URL =
 const SWISS_SOURCE = "OpenTransportData Swiss GTFS Static";
 const SWISS_DATA_HOST = "data.opentransportdata.swiss";
 
+/** Exported so a test can prove every key is one the matcher can look up. */
+export const SWISS_REGISTER_IDS: Readonly<Record<string, readonly string[]>> = {
+  "Arth-Goldau": ["8505004"],
+  "Basel SBB": ["8500010"],
+  "Bellinzona": ["8505213"],
+  "Bern": ["8507000"],
+  "Biel/Bienne": ["8504300"],
+  "Brig": ["8501609"],
+  "Chur": ["8509000"],
+  "Fribourg/Freiburg": ["8504100"],
+  "Genève": ["8501008"],
+  "Genève-Aéroport": ["8501026"],
+  "Interlaken Ost": ["8507492"],
+  "Lausanne": ["8501120"],
+  "Lugano": ["8505300"],
+  "Luzern": ["8505000"],
+  "Montreux": ["8501300"],
+  "Sargans": ["8509411"],
+  "Sion": ["8501506"],
+  "St. Gallen": ["8506302"],
+  "Winterthur": ["8506000"],
+  "Yverdon-les-Bains": ["8504200"],
+  "Zug": ["8502204"],
+  "Zürich Flughafen": ["8503016"],
+  "Zürich HB": ["8503000"],
+};
+
 const SWISS_STATION_MATCH: GtfsStationMatchOptions = {
   aliases: {
     "zürich hb": ["Zürich Hauptbahnhof", "Zürich HB"],
     "geneve": ["Genève", "Geneva"],
     "genève": ["Genève", "Geneva"],
   },
+  registerIds: SWISS_REGISTER_IDS,
 };
 
 let feedSource: GtfsFeedSource | null = null;
