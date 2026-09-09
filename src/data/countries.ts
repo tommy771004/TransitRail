@@ -225,17 +225,14 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
   },
   korea: {
     labelKey: "search.korea",
-    // Korail is not a registered source: `sourceRegistry` holds only the Seoul
-    // Metro and Incheon Transit timetable CSVs, and the committed data contains
-    // no intercity station at all. Naming Korail here, and offering Busan,
-    // Daejeon and Dongdaegu as featured stations, advertised a network the
-    // product cannot answer for — every one of those five stations 404s, and
-    // the picker headline promised "Korail" above a menu of Seoul metro stops.
-    // Registering a TAGO intercity source is what brings them back.
-    provider: "Scheduled Seoul Metro + Incheon Transit data",
-    originPlaceholder: "City Hall",
-    destinationPlaceholder: "Jamsil",
-    featuredStations: ["Seoul Station", "City Hall", "Gangnam", "Hongik Univ.", "Jamsil"],
+    provider: "Scheduled Korail + Seoul Metro + Incheon Transit data",
+    originPlaceholder: "Seoul",
+    destinationPlaceholder: "Busan",
+    // Both networks the market now answers for: Korail's intercity hubs and the
+    // Seoul metro. Every name here must be one search can answer — the previous
+    // set named five intercity stations while only the metro was registered, so
+    // all five 404'd from the picker's own "popular stations" row.
+    featuredStations: ["Seoul", "Busan", "Dongdaegu", "City Hall", "Gangnam"],
     promptName: "韓國",
     connected: true,
     liveOnly: false,
@@ -245,7 +242,10 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     search: { kind: "scraped" },
     scrape: "official_source",
     authenticityGates: { catalog: true },
-    marketTopology: { regions: [{ id: "seoul-capital", name: "Seoul Capital Area", declaredLines: 12, declaredStations: 332 }] },
+    marketTopology: { regions: [
+      { id: "seoul-capital", name: "Seoul Capital Area", declaredLines: 12, declaredStations: 332, default: true },
+      { id: "korail-intercity", name: "Korail intercity rail", lineIdPrefixes: ["korea-route-"], declaredLines: 19, declaredStations: 255 },
+    ] },
     resultView: "korea",
     serviceDay: { coverage: "unavailable", source: "No qualifying official full-day source", scope: "No service-day advisory" },
   },

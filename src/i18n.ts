@@ -13,7 +13,7 @@ const resources = {
     translation: {
       service_region: {
         "takamatsu-kotoden": "Takamatsu · Kotoden",
-        "tokyo-urban": "Tokyo urban rail", "japan-intercity": "Japan intercity rail", "seoul-capital": "Seoul Capital Area",
+        "tokyo-urban": "Tokyo urban rail", "japan-intercity": "Japan intercity rail", "seoul-capital": "Seoul Capital Area", "korail-intercity": "Korail intercity rail",
         singapore: "Singapore", "malaysia-intercity": "Malaysia rail", bangkok: "Bangkok", "hong-kong": "Hong Kong",
         london: "London (TfL)", boston: "Boston (MBTA)", "germany-intercity": "Germany intercity rail",
         "france-intercity": "France intercity rail", "belgium-intercity": "Belgium intercity rail",
@@ -120,7 +120,7 @@ const resources = {
         note_japan: "Major stops only. The full station list arrives with the ODPT adapter.",
         note_singapore: "Official MRT and LRT station names and line order are cached from mytransport.sg. Stations without verified timetable data are marked.",
         note_malaysia: "Stations are limited to the verified KTMB GTFS routes currently available for the selected date.",
-        note_korea: "Seoul Metro lines 1-9 and Incheon Transit. Intercity rail is not covered yet.",
+        note_korea: "Seoul Metro lines 1-9, Incheon Transit, and Korail intercity rail.",
         note_united_states: "Subway and light rail lines. Commuter rail stations are in the all-stations list.",
         featured: "Popular Stations",
         locating: "Locating...",
@@ -476,7 +476,7 @@ const resources = {
       },
       hot_routes: {
         tokyo_osaka: "Tokyo ➔ Shin-Osaka",
-        seoul_cityhall_jamsil: "City Hall ➔ Jamsil",
+        seoul_busan: "Seoul ➔ Busan",
         central_tsuenwan: "Central ➔ Tsuen Wan",
         jurong_raffles: "Jurong East ➔ Raffles Place",
         beijing_shanghai: "Beijing South ➔ Shanghai Hongqiao",
@@ -617,7 +617,7 @@ const resources = {
     translation: {
       service_region: {
         "takamatsu-kotoden": "高松・琴電",
-        "tokyo-urban": "東京都會鐵路", "japan-intercity": "日本城際鐵路", "seoul-capital": "首爾首都圈",
+        "tokyo-urban": "東京都會鐵路", "japan-intercity": "日本城際鐵路", "seoul-capital": "首爾首都圈", "korail-intercity": "Korail 城際鐵路",
         singapore: "新加坡", "malaysia-intercity": "馬來西亞鐵路", bangkok: "曼谷", "hong-kong": "香港",
         london: "倫敦（TfL）", boston: "波士頓（MBTA）", "germany-intercity": "德國城際鐵路",
         "france-intercity": "法國城際鐵路", "belgium-intercity": "比利時城際鐵路",
@@ -724,7 +724,7 @@ const resources = {
         note_japan: "僅列出主要停靠站，完整站點將隨 ODPT adapter 提供。",
         note_singapore: "MRT 與 LRT 的站名及路線順序取自 mytransport.sg 的預存官方目錄；尚無已驗證時刻表的站點會特別標示。",
         note_malaysia: "站點僅顯示所選日期目前有已驗證 KTMB GTFS 路線資料的車站。",
-        note_korea: "首爾地鐵 1-9 號線與仁川交通公社；城際鐵路尚未收錄。",
+        note_korea: "首爾地鐵 1-9 號線、仁川交通公社，以及 Korail 城際鐵路。",
         note_united_states: "地鐵與輕軌路線；通勤鐵路車站請見全部車站。",
         featured: "熱門車站",
         locating: "正在取得定位...",
@@ -1076,7 +1076,7 @@ const resources = {
       },
       hot_routes: {
         tokyo_osaka: "東京 ➔ 新大阪",
-        seoul_cityhall_jamsil: "市廳 ➔ 蠶室",
+        seoul_busan: "首爾 ➔ 釜山",
         central_tsuenwan: "中環 ➔ 荃灣",
         jurong_raffles: "裕廊東 ➔ 萊佛士坊",
         beijing_shanghai: "北京南 ➔ 上海虹橋",
@@ -1622,7 +1622,7 @@ const resources = {
     translation: {
       service_region: {
         "takamatsu-kotoden": "高松・ことでん",
-        "tokyo-urban": "東京都市鉄道", "japan-intercity": "日本の都市間鉄道", "seoul-capital": "ソウル首都圏",
+        "tokyo-urban": "東京都市鉄道", "japan-intercity": "日本の都市間鉄道", "seoul-capital": "ソウル首都圏", "korail-intercity": "Korail 都市間鉄道",
         singapore: "シンガポール", "malaysia-intercity": "マレーシア鉄道", bangkok: "バンコク", "hong-kong": "香港",
         london: "ロンドン（TfL）", boston: "ボストン（MBTA）", "germany-intercity": "ドイツ都市間鉄道",
         "france-intercity": "フランス都市間鉄道", "belgium-intercity": "ベルギー都市間鉄道",
@@ -1729,7 +1729,7 @@ const resources = {
         note_japan: "主要駅のみ表示しています。全駅リストはODPTアダプター対応後に追加されます。",
         note_singapore: "MRT・LRTの駅名と路線順は mytransport.sg の保存済み公式カタログを使用しています。検証済み時刻表がない駅には印が付きます。",
         note_malaysia: "選択した日付で検証済みのKTMB GTFS路線がある駅のみ表示します。",
-        note_korea: "ソウル地下鉄1〜9号線と仁川交通公社に対応。都市間鉄道は未収録です。",
+        note_korea: "ソウル地下鉄1〜9号線、仁川交通公社、韓国鉄道公社の都市間鉄道に対応。",
         note_united_states: "地下鉄・ライトレール路線に対応。近郊鉄道の駅は「全ての駅」からご確認ください。",
         featured: "人気の駅",
         locating: "現在地を取得中...",
@@ -2081,7 +2081,7 @@ const resources = {
       },
       hot_routes: {
         tokyo_osaka: "東京 ➔ 新大阪",
-        seoul_cityhall_jamsil: "市庁 ➔ 蚕室",
+        seoul_busan: "ソウル ➔ 釜山",
         central_tsuenwan: "セントラル ➔ 荃湾",
         jurong_raffles: "ジュロン・イースト ➔ ラッフルズ・プレイス",
         beijing_shanghai: "北京南 ➔ 上海虹橋",
@@ -2249,7 +2249,7 @@ const resources = {
     translation: {
       service_region: {
         "takamatsu-kotoden": "다카마쓰 · 고토덴",
-        "tokyo-urban": "도쿄 도시 철도", "japan-intercity": "일본 도시 간 철도", "seoul-capital": "서울 수도권",
+        "tokyo-urban": "도쿄 도시 철도", "japan-intercity": "일본 도시 간 철도", "seoul-capital": "서울 수도권", "korail-intercity": "코레일 일반철도",
         singapore: "싱가포르", "malaysia-intercity": "말레이시아 철도", bangkok: "방콕", "hong-kong": "홍콩",
         london: "런던(TfL)", boston: "보스턴(MBTA)", "germany-intercity": "독일 도시 간 철도",
         "france-intercity": "프랑스 도시 간 철도", "belgium-intercity": "벨기에 도시 간 철도",
@@ -2356,7 +2356,7 @@ const resources = {
         note_japan: "주요 역만 표시됩니다. 전체 역 목록은 ODPT 연동 후 추가될 예정입니다.",
         note_singapore: "MRT·LRT 역 이름과 노선 순서는 mytransport.sg에서 저장한 공식 카탈로그를 사용합니다. 검증된 시간표가 없는 역은 표시됩니다.",
         note_malaysia: "선택한 날짜에 검증된 KTMB GTFS 노선이 있는 역만 표시합니다.",
-        note_korea: "서울 지하철 1~9호선과 인천교통공사를 지원합니다. 도시 간 철도는 아직 수록되지 않았습니다.",
+        note_korea: "서울 지하철 1~9호선, 인천교통공사, 코레일 간선 철도를 지원합니다.",
         note_united_states: "지하철 및 경전철 노선을 지원합니다. 광역철도 역은 전체 역 목록에서 확인하세요.",
         featured: "인기 역",
         locating: "위치 확인 중...",
@@ -2708,7 +2708,7 @@ const resources = {
       },
       hot_routes: {
         tokyo_osaka: "도쿄 ➔ 신오사카",
-        seoul_cityhall_jamsil: "시청 ➔ 잠실",
+        seoul_busan: "서울 ➔ 부산",
         central_tsuenwan: "센트럴 ➔ 취안완",
         jurong_raffles: "주롱 이스트 ➔ 래플즈 플레이스",
         beijing_shanghai: "베이징남 ➔ 상하이훙차오",
