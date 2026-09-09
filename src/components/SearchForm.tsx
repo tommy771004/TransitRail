@@ -713,7 +713,7 @@ export function SearchForm({
               <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
               <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
               
-              <div className="flex shrink-0 animate-marquee-right hover:[animation-play-state:paused] whitespace-nowrap">
+              <div className="flex shrink-0 animate-marquee-right hover:[animation-play-state:paused] active:[animation-play-state:paused] focus-within:[animation-play-state:paused] motion-reduce:[animation-play-state:paused] whitespace-nowrap">
                 {row1.concat(row1).map((route, idx) => {
                   const routeTheme = countryThemes[route.country as Country] || theme;
                   return (
@@ -748,7 +748,7 @@ export function SearchForm({
               <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
               <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
               
-              <div className="flex shrink-0 animate-marquee-left hover:[animation-play-state:paused] whitespace-nowrap">
+              <div className="flex shrink-0 animate-marquee-left hover:[animation-play-state:paused] active:[animation-play-state:paused] focus-within:[animation-play-state:paused] motion-reduce:[animation-play-state:paused] whitespace-nowrap">
                 {row2.concat(row2).map((route, idx) => {
                   const routeTheme = countryThemes[route.country as Country] || theme;
                   return (
