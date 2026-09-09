@@ -6,7 +6,7 @@ import express from "express";
 import path from "path";
 import dotenv from "dotenv";
 import { eq } from "drizzle-orm";
-import { findScrapedResults, loadScrapedData } from "./src/data/scraped";
+import { findScrapedResults } from "./src/data/scraped";
 import { getCbcRates } from "./src/server/cbc";
 import { getExternalExchangeRates } from "./src/server/exchangeRates";
 import type { Country, ServiceDayAdvisory } from "./src/types";
@@ -32,7 +32,12 @@ dotenv.config();
 
 const app = express();
 
-loadScrapedData();
+// Markets load on first use through `ensureCountryLoaded`, which every read in
+// `src/data/scraped` already calls. Pre-warming all fourteen at boot pulled the
+// whole 152 MB corpus into one heap and, once Korail's intercity routes landed,
+// killed the process outright ("Reached heap limit"). Vercel's entry point never
+// did this — `api/index.ts` has always relied on the lazy path — so dropping it
+// also makes the two servers behave the same way.
 app.use(express.json());
 
 function eventGroup(value: string | undefined) {
