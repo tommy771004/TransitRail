@@ -249,7 +249,10 @@ export function MetroResultView({
                       <div className="flex items-center justify-between gap-3 border-t border-slate-100 px-4 py-3 sm:px-6 dark:border-slate-800/80 bg-slate-50/30 dark:bg-slate-900/20">
                         <p className="font-mono text-xs font-bold text-slate-500 dark:text-slate-400">
                           {trip.direct
-                            ? `${trip.stops.length} ${t("result.stops")}`
+                            ? (trip.stops.length > 0
+                              ? `${trip.stops.length} ${t("result.stops")}`
+                              // No stop list from the source is not zero stops.
+                              : t("result.direct"))
                             : `${t("result.transfer")} · ${stationListLabel(t, trip.transferStations || [], country)}`}
                         </p>
                         <SaveTripButton

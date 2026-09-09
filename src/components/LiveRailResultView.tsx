@@ -215,9 +215,20 @@ export function LiveRailResultView({
                           {isBoston ? (
                             <p className="truncate font-mono text-xs font-bold text-slate-400 dark:text-slate-500">{trip.trainType || "MBTA Rail"}</p>
                           ) : (
+                            // A source that publishes no intermediate stops leaves
+                            // `stops` empty. Printing its length said "0 stops",
+                            // which reads as a claim about the train rather than
+                            // about the data — Entur, Swiss GTFS and KTMB all
+                            // answer without a stop list.
+                            trip.stops.length > 0 ? (
                             <p className="font-mono text-xs font-bold text-slate-400 dark:text-slate-500">
                               {trip.stops.length} {t("result.stops")}
                             </p>
+                            ) : trip.direct ? (
+                            <p className="font-mono text-xs font-bold text-slate-400 dark:text-slate-500">
+                              {t("result.direct")}
+                            </p>
+                            ) : null
                           )}
                           {fare ? (
                             <p className={`m3-title-medium mt-1 ${isSwiss ? "text-rose-700 dark:text-rose-300" : "text-slate-950 dark:text-emerald-400"}`}>
