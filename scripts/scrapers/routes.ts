@@ -118,30 +118,103 @@ export const norwayRoutes: ScrapedRoute[] = [
 ];
 
 /**
- * Switzerland answers arbitrary pairs live through OJP, so these files are the
+ * Every pair the destination picker marks as a direct connection.
+ *
+ * Switzerland answers arbitrary pairs live through OJP, and these files are the
  * fallback for when it cannot — no credential configured, or an outage. The
  * fallback was five pairs covering six stations while the station menu offered
- * twenty-three, so a keyless build sent most of the menu to an empty result.
+ * twenty-three, so a keyless build sent most of the menu to an empty result and
+ * the picker promised an "IC1 direct" the search then called unsupported.
  *
- * The additions below follow the lines the destination picker actually badges
- * as direct: the IC1/IC5 corridor end to end, IC3 to Chur, and the IR90 valley.
- * They do not make every pair answerable — only a live OJP token does that —
- * but they cover the corridors a passenger is most likely to pick from the menu.
+ * The list is derived from the market topology: one entry per pair of stations
+ * that share a line, which is exactly the set the picker badges. A stored route
+ * answers both directions, so each pair is listed once.
+ *
+ * The OJP token buys live answers for pairs beyond these lines; it is not what
+ * makes these work. The GTFS static feed behind them needs no credential.
  */
 export const switzerlandRoutes: ScrapedRoute[] = [
-  { origin: "Zürich HB", destination: "Bern" },
-  { origin: "Zürich HB", destination: "Genève" },
-  { origin: "Zürich HB", destination: "Basel SBB" },
-  { origin: "Zürich HB", destination: "Lugano" },
-  { origin: "Bern", destination: "Lausanne" },
-  { origin: "Zürich HB", destination: "St. Gallen" },
-  { origin: "Zürich HB", destination: "Winterthur" },
-  { origin: "Zürich HB", destination: "Genève-Aéroport" },
-  { origin: "Zürich HB", destination: "Luzern" },
-  { origin: "Zürich HB", destination: "Chur" },
-  { origin: "Genève", destination: "Lausanne" },
+  // off-line hub pairs
   { origin: "Bern", destination: "Interlaken Ost" },
-  { origin: "Lausanne", destination: "Brig" },
+  { origin: "Luzern", destination: "Zürich HB" },
+  // IC1 Genève-Aéroport–St. Gallen
+  { origin: "Bern", destination: "Fribourg/Freiburg" },
+  { origin: "Bern", destination: "Genève" },
+  { origin: "Bern", destination: "Genève-Aéroport" },
+  { origin: "Bern", destination: "Lausanne" },
+  { origin: "Bern", destination: "St. Gallen" },
+  { origin: "Bern", destination: "Winterthur" },
+  { origin: "Bern", destination: "Zürich HB" },
+  { origin: "Fribourg/Freiburg", destination: "Genève" },
+  { origin: "Fribourg/Freiburg", destination: "Genève-Aéroport" },
+  { origin: "Fribourg/Freiburg", destination: "Lausanne" },
+  { origin: "Fribourg/Freiburg", destination: "St. Gallen" },
+  { origin: "Fribourg/Freiburg", destination: "Winterthur" },
+  { origin: "Fribourg/Freiburg", destination: "Zürich HB" },
+  { origin: "Genève", destination: "Genève-Aéroport" },
+  { origin: "Genève", destination: "Lausanne" },
+  { origin: "Genève", destination: "St. Gallen" },
+  { origin: "Genève", destination: "Winterthur" },
+  { origin: "Genève", destination: "Zürich HB" },
+  { origin: "Genève-Aéroport", destination: "Lausanne" },
+  { origin: "Genève-Aéroport", destination: "St. Gallen" },
+  { origin: "Genève-Aéroport", destination: "Winterthur" },
+  { origin: "Genève-Aéroport", destination: "Zürich HB" },
+  { origin: "Lausanne", destination: "St. Gallen" },
+  { origin: "Lausanne", destination: "Winterthur" },
+  { origin: "Lausanne", destination: "Zürich HB" },
+  { origin: "St. Gallen", destination: "Winterthur" },
+  { origin: "St. Gallen", destination: "Zürich HB" },
+  { origin: "Winterthur", destination: "Zürich HB" },
+  // IC2 Zürich HB–Lugano
+  { origin: "Arth-Goldau", destination: "Bellinzona" },
+  { origin: "Arth-Goldau", destination: "Lugano" },
+  { origin: "Arth-Goldau", destination: "Zug" },
+  { origin: "Arth-Goldau", destination: "Zürich HB" },
+  { origin: "Bellinzona", destination: "Lugano" },
+  { origin: "Bellinzona", destination: "Zug" },
+  { origin: "Bellinzona", destination: "Zürich HB" },
+  { origin: "Lugano", destination: "Zug" },
+  { origin: "Lugano", destination: "Zürich HB" },
+  { origin: "Zug", destination: "Zürich HB" },
+  // IC3 Basel SBB–Chur
+  { origin: "Basel SBB", destination: "Chur" },
+  { origin: "Basel SBB", destination: "Sargans" },
+  { origin: "Basel SBB", destination: "Zürich Flughafen" },
+  { origin: "Basel SBB", destination: "Zürich HB" },
+  { origin: "Chur", destination: "Sargans" },
+  { origin: "Chur", destination: "Zürich Flughafen" },
+  { origin: "Chur", destination: "Zürich HB" },
+  { origin: "Sargans", destination: "Zürich Flughafen" },
+  { origin: "Sargans", destination: "Zürich HB" },
+  { origin: "Zürich Flughafen", destination: "Zürich HB" },
+  // IC5 Genève-Aéroport–St. Gallen via Biel/Bienne
+  { origin: "Biel/Bienne", destination: "Genève" },
+  { origin: "Biel/Bienne", destination: "Genève-Aéroport" },
+  { origin: "Biel/Bienne", destination: "Lausanne" },
+  { origin: "Biel/Bienne", destination: "St. Gallen" },
+  { origin: "Biel/Bienne", destination: "Winterthur" },
+  { origin: "Biel/Bienne", destination: "Yverdon-les-Bains" },
+  { origin: "Biel/Bienne", destination: "Zürich HB" },
+  { origin: "Genève", destination: "Yverdon-les-Bains" },
+  { origin: "Genève-Aéroport", destination: "Yverdon-les-Bains" },
+  { origin: "Lausanne", destination: "Yverdon-les-Bains" },
+  { origin: "St. Gallen", destination: "Yverdon-les-Bains" },
+  { origin: "Winterthur", destination: "Yverdon-les-Bains" },
+  { origin: "Yverdon-les-Bains", destination: "Zürich HB" },
+  // IR90 Brig–Genève-Aéroport
+  { origin: "Brig", destination: "Genève" },
+  { origin: "Brig", destination: "Genève-Aéroport" },
+  { origin: "Brig", destination: "Lausanne" },
+  { origin: "Brig", destination: "Montreux" },
+  { origin: "Brig", destination: "Sion" },
+  { origin: "Genève", destination: "Montreux" },
+  { origin: "Genève", destination: "Sion" },
+  { origin: "Genève-Aéroport", destination: "Montreux" },
+  { origin: "Genève-Aéroport", destination: "Sion" },
+  { origin: "Lausanne", destination: "Montreux" },
+  { origin: "Lausanne", destination: "Sion" },
+  { origin: "Montreux", destination: "Sion" },
 ];
 
 /**

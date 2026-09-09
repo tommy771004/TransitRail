@@ -4,14 +4,745 @@
   "source": "OpenTransportData Swiss GTFS Static",
   "sourceUrl": "https://opentransportdata.swiss/en/dataset/timetable-2025-gtfs2020",
   "sourceTier": "A",
-  "fetchedAt": "2026-09-09T12:43:29.100Z",
-  "builtAt": "2026-09-09T12:43:29.101Z",
-  "recordCount": 7869,
-  "routeCount": 13,
-  "successRate": 1,
-  "failedRoutes": [],
+  "fetchedAt": "2026-09-09T14:17:03.400Z",
+  "builtAt": "2026-09-09T14:17:03.401Z",
+  "recordCount": 34702,
+  "routeCount": 76,
+  "successRate": 0.7837,
+  "failedRoutes": [
+    {
+      "origin": "Bern",
+      "destination": "Genève",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Bern → Genève on 2026-09-09"
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève-Aéroport",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Bern → Genève-Aéroport on 2026-09-09"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Fribourg/Freiburg → Genève on 2026-09-09"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève-Aéroport",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Fribourg/Freiburg → Genève-Aéroport on 2026-09-09"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "St. Gallen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Fribourg/Freiburg → St. Gallen on 2026-09-09"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Winterthur",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Fribourg/Freiburg → Winterthur on 2026-09-09"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Fribourg/Freiburg → Zürich HB on 2026-09-09"
+    },
+    {
+      "origin": "Arth-Goldau",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (35 departures every 30 minutes) for Arth-Goldau → Zürich HB on 2026-09-09"
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Basel SBB → Zürich Flughafen on 2026-09-09"
+    },
+    {
+      "origin": "Chur",
+      "destination": "Zürich Flughafen",
+      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-09."
+    },
+    {
+      "origin": "Sargans",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (17 departures every 60 minutes) for Sargans → Zürich Flughafen on 2026-09-09"
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-09."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-09."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Lausanne",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (37 departures every 30 minutes) for Biel/Bienne → Lausanne on 2026-09-09"
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Yverdon-les-Bains",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for St. Gallen → Yverdon-les-Bains on 2026-09-09"
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Yverdon-les-Bains",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for Winterthur → Yverdon-les-Bains on 2026-09-09"
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Yverdon-les-Bains → Zürich HB on 2026-09-09"
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Bern → Genève on 2026-09-10"
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève-Aéroport",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Bern → Genève-Aéroport on 2026-09-10"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Fribourg/Freiburg → Genève on 2026-09-10"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève-Aéroport",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Fribourg/Freiburg → Genève-Aéroport on 2026-09-10"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "St. Gallen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Fribourg/Freiburg → St. Gallen on 2026-09-10"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Winterthur",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Fribourg/Freiburg → Winterthur on 2026-09-10"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Fribourg/Freiburg → Zürich HB on 2026-09-10"
+    },
+    {
+      "origin": "Arth-Goldau",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (35 departures every 30 minutes) for Arth-Goldau → Zürich HB on 2026-09-10"
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Basel SBB → Zürich Flughafen on 2026-09-10"
+    },
+    {
+      "origin": "Chur",
+      "destination": "Zürich Flughafen",
+      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-10."
+    },
+    {
+      "origin": "Sargans",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (17 departures every 60 minutes) for Sargans → Zürich Flughafen on 2026-09-10"
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-10."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-10."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Lausanne",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (37 departures every 30 minutes) for Biel/Bienne → Lausanne on 2026-09-10"
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Yverdon-les-Bains",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for St. Gallen → Yverdon-les-Bains on 2026-09-10"
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Yverdon-les-Bains",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for Winterthur → Yverdon-les-Bains on 2026-09-10"
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Yverdon-les-Bains → Zürich HB on 2026-09-10"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "St. Gallen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Fribourg/Freiburg → St. Gallen on 2026-09-11"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Winterthur",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Fribourg/Freiburg → Winterthur on 2026-09-11"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Fribourg/Freiburg → Zürich HB on 2026-09-11"
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Basel SBB → Zürich Flughafen on 2026-09-11"
+    },
+    {
+      "origin": "Chur",
+      "destination": "Zürich Flughafen",
+      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-11."
+    },
+    {
+      "origin": "Sargans",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (17 departures every 60 minutes) for Sargans → Zürich Flughafen on 2026-09-11"
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-11."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-11."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Yverdon-les-Bains",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for St. Gallen → Yverdon-les-Bains on 2026-09-11"
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Yverdon-les-Bains",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for Winterthur → Yverdon-les-Bains on 2026-09-11"
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Yverdon-les-Bains → Zürich HB on 2026-09-11"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Fribourg/Freiburg → Zürich HB on 2026-09-12"
+    },
+    {
+      "origin": "Lausanne",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (17 departures every 60 minutes) for Lausanne → Zürich HB on 2026-09-12"
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Basel SBB → Zürich Flughafen on 2026-09-12"
+    },
+    {
+      "origin": "Chur",
+      "destination": "Zürich Flughafen",
+      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-12."
+    },
+    {
+      "origin": "Sargans",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (17 departures every 60 minutes) for Sargans → Zürich Flughafen on 2026-09-12"
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-12."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-12."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Biel/Bienne → St. Gallen service for 2026-09-12."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Winterthur",
+      "error": "Swiss GTFS published no Biel/Bienne → Winterthur service for 2026-09-12."
+    },
+    {
+      "origin": "Genève",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no Genève → Yverdon-les-Bains service for 2026-09-12."
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no Genève-Aéroport → Yverdon-les-Bains service for 2026-09-12."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no St. Gallen → Yverdon-les-Bains service for 2026-09-12."
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no Winterthur → Yverdon-les-Bains service for 2026-09-12."
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Zürich HB",
+      "error": "Swiss GTFS published no Yverdon-les-Bains → Zürich HB service for 2026-09-12."
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for Bern → Genève on 2026-09-13"
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève-Aéroport",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for Bern → Genève-Aéroport on 2026-09-13"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for Fribourg/Freiburg → Genève on 2026-09-13"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève-Aéroport",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for Fribourg/Freiburg → Genève-Aéroport on 2026-09-13"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Fribourg/Freiburg → Zürich HB on 2026-09-13"
+    },
+    {
+      "origin": "Lausanne",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (17 departures every 60 minutes) for Lausanne → Zürich HB on 2026-09-13"
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Basel SBB → Zürich Flughafen on 2026-09-13"
+    },
+    {
+      "origin": "Chur",
+      "destination": "Zürich Flughafen",
+      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-13."
+    },
+    {
+      "origin": "Sargans",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (17 departures every 60 minutes) for Sargans → Zürich Flughafen on 2026-09-13"
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-13."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-13."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Biel/Bienne → St. Gallen service for 2026-09-13."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Winterthur",
+      "error": "Swiss GTFS published no Biel/Bienne → Winterthur service for 2026-09-13."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Zürich HB",
+      "error": "Swiss GTFS published no Biel/Bienne → Zürich HB service for 2026-09-13."
+    },
+    {
+      "origin": "Genève",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no Genève → Yverdon-les-Bains service for 2026-09-13."
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no Genève-Aéroport → Yverdon-les-Bains service for 2026-09-13."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no St. Gallen → Yverdon-les-Bains service for 2026-09-13."
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no Winterthur → Yverdon-les-Bains service for 2026-09-13."
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Zürich HB",
+      "error": "Swiss GTFS published no Yverdon-les-Bains → Zürich HB service for 2026-09-13."
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Bern → Genève on 2026-09-14"
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève-Aéroport",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Bern → Genève-Aéroport on 2026-09-14"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Fribourg/Freiburg → Genève on 2026-09-14"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève-Aéroport",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Fribourg/Freiburg → Genève-Aéroport on 2026-09-14"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "St. Gallen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Fribourg/Freiburg → St. Gallen on 2026-09-14"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Winterthur",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Fribourg/Freiburg → Winterthur on 2026-09-14"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Fribourg/Freiburg → Zürich HB on 2026-09-14"
+    },
+    {
+      "origin": "Arth-Goldau",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (35 departures every 30 minutes) for Arth-Goldau → Zürich HB on 2026-09-14"
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Basel SBB → Zürich Flughafen on 2026-09-14"
+    },
+    {
+      "origin": "Chur",
+      "destination": "Zürich Flughafen",
+      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-14."
+    },
+    {
+      "origin": "Sargans",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (17 departures every 60 minutes) for Sargans → Zürich Flughafen on 2026-09-14"
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-14."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-14."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Lausanne",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (37 departures every 30 minutes) for Biel/Bienne → Lausanne on 2026-09-14"
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Yverdon-les-Bains",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for St. Gallen → Yverdon-les-Bains on 2026-09-14"
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Yverdon-les-Bains",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for Winterthur → Yverdon-les-Bains on 2026-09-14"
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Yverdon-les-Bains → Zürich HB on 2026-09-14"
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Bern → Genève on 2026-09-15"
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève-Aéroport",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Bern → Genève-Aéroport on 2026-09-15"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Fribourg/Freiburg → Genève on 2026-09-15"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève-Aéroport",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Fribourg/Freiburg → Genève-Aéroport on 2026-09-15"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "St. Gallen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Fribourg/Freiburg → St. Gallen on 2026-09-15"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Winterthur",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Fribourg/Freiburg → Winterthur on 2026-09-15"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Fribourg/Freiburg → Zürich HB on 2026-09-15"
+    },
+    {
+      "origin": "Arth-Goldau",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (35 departures every 30 minutes) for Arth-Goldau → Zürich HB on 2026-09-15"
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Basel SBB → Zürich Flughafen on 2026-09-15"
+    },
+    {
+      "origin": "Chur",
+      "destination": "Zürich Flughafen",
+      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-15."
+    },
+    {
+      "origin": "Sargans",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (17 departures every 60 minutes) for Sargans → Zürich Flughafen on 2026-09-15"
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-15."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-15."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Lausanne",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (37 departures every 30 minutes) for Biel/Bienne → Lausanne on 2026-09-15"
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Yverdon-les-Bains",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for St. Gallen → Yverdon-les-Bains on 2026-09-15"
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Yverdon-les-Bains",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for Winterthur → Yverdon-les-Bains on 2026-09-15"
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Yverdon-les-Bains → Zürich HB on 2026-09-15"
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Bern → Genève on 2026-09-16"
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève-Aéroport",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Bern → Genève-Aéroport on 2026-09-16"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Fribourg/Freiburg → Genève on 2026-09-16"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève-Aéroport",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Fribourg/Freiburg → Genève-Aéroport on 2026-09-16"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "St. Gallen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Fribourg/Freiburg → St. Gallen on 2026-09-16"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Winterthur",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Fribourg/Freiburg → Winterthur on 2026-09-16"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Fribourg/Freiburg → Zürich HB on 2026-09-16"
+    },
+    {
+      "origin": "Arth-Goldau",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (35 departures every 30 minutes) for Arth-Goldau → Zürich HB on 2026-09-16"
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Basel SBB → Zürich Flughafen on 2026-09-16"
+    },
+    {
+      "origin": "Chur",
+      "destination": "Zürich Flughafen",
+      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-16."
+    },
+    {
+      "origin": "Sargans",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (17 departures every 60 minutes) for Sargans → Zürich Flughafen on 2026-09-16"
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-16."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-16."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Lausanne",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (37 departures every 30 minutes) for Biel/Bienne → Lausanne on 2026-09-16"
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Yverdon-les-Bains",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for St. Gallen → Yverdon-les-Bains on 2026-09-16"
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Yverdon-les-Bains",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for Winterthur → Yverdon-les-Bains on 2026-09-16"
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Yverdon-les-Bains → Zürich HB on 2026-09-16"
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Bern → Genève on 2026-09-17"
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève-Aéroport",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Bern → Genève-Aéroport on 2026-09-17"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Fribourg/Freiburg → Genève on 2026-09-17"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève-Aéroport",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (30 departures every 30 minutes) for Fribourg/Freiburg → Genève-Aéroport on 2026-09-17"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "St. Gallen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Fribourg/Freiburg → St. Gallen on 2026-09-17"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Winterthur",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Fribourg/Freiburg → Winterthur on 2026-09-17"
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Fribourg/Freiburg → Zürich HB on 2026-09-17"
+    },
+    {
+      "origin": "Arth-Goldau",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (35 departures every 30 minutes) for Arth-Goldau → Zürich HB on 2026-09-17"
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (16 departures every 60 minutes) for Basel SBB → Zürich Flughafen on 2026-09-17"
+    },
+    {
+      "origin": "Chur",
+      "destination": "Zürich Flughafen",
+      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-17."
+    },
+    {
+      "origin": "Sargans",
+      "destination": "Zürich Flughafen",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (17 departures every 60 minutes) for Sargans → Zürich Flughafen on 2026-09-17"
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-17."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-17."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Lausanne",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (37 departures every 30 minutes) for Biel/Bienne → Lausanne on 2026-09-17"
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Yverdon-les-Bains",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for St. Gallen → Yverdon-les-Bains on 2026-09-17"
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Yverdon-les-Bains",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (15 departures every 60 minutes) for Winterthur → Yverdon-les-Bains on 2026-09-17"
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Zürich HB",
+      "error": "OpenTransportData Swiss GTFS returned a generated exact-headway day (18 departures every 60 minutes) for Yverdon-les-Bains → Zürich HB on 2026-09-17"
+    }
+  ],
   "coverage": {
-    "verifiedRoutes": 13,
+    "verifiedRoutes": 76,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
@@ -26,9 +757,139 @@
       "2026-09-17"
     ]
   },
-  "checksum": "af8e13f479e872a25af2f001196f7040b666a8d23194a19713af16a111e4133b",
+  "checksum": "d361b78323f9d5fb410c4a2c5459ea16d8533456f822f970909f1e9b38fbd253",
   "artifactVersion": 2,
   "routes": [
+    {
+      "origin": "Arth-Goldau",
+      "destination": "Bellinzona",
+      "resultCount": 435,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.344Z",
+      "verified": true
+    },
+    {
+      "origin": "Arth-Goldau",
+      "destination": "Lugano",
+      "resultCount": 292,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.345Z",
+      "verified": true
+    },
+    {
+      "origin": "Arth-Goldau",
+      "destination": "Zug",
+      "resultCount": 504,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.346Z",
+      "verified": true
+    },
+    {
+      "origin": "Arth-Goldau",
+      "destination": "Zürich HB",
+      "resultCount": 108,
+      "date": "2026-09-11..2026-09-13",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:02.988Z",
+      "verified": true
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Chur",
+      "resultCount": 166,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.357Z",
+      "verified": true
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Sargans",
+      "resultCount": 166,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.358Z",
+      "verified": true
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Zürich HB",
+      "resultCount": 833,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.359Z",
+      "verified": true
+    },
+    {
+      "origin": "Bellinzona",
+      "destination": "Lugano",
+      "resultCount": 703,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.348Z",
+      "verified": true
+    },
+    {
+      "origin": "Bellinzona",
+      "destination": "Zug",
+      "resultCount": 298,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.349Z",
+      "verified": true
+    },
+    {
+      "origin": "Bellinzona",
+      "destination": "Zürich HB",
+      "resultCount": 300,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.350Z",
+      "verified": true
+    },
+    {
+      "origin": "Bern",
+      "destination": "Fribourg/Freiburg",
+      "resultCount": 794,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.297Z",
+      "verified": true
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève",
+      "resultCount": 48,
+      "date": "2026-09-11..2026-09-12",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:02.884Z",
+      "verified": true
+    },
+    {
+      "origin": "Bern",
+      "destination": "Genève-Aéroport",
+      "resultCount": 48,
+      "date": "2026-09-11..2026-09-12",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:02.884Z",
+      "verified": true
+    },
     {
       "origin": "Bern",
       "destination": "Interlaken Ost",
@@ -36,7 +897,7 @@
       "date": "2026-09-09..2026-09-17",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-09T12:43:29.099Z",
+      "fetchedAt": "2026-09-09T14:17:03.295Z",
       "verified": true
     },
     {
@@ -46,7 +907,287 @@
       "date": "2026-09-09..2026-09-17",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-09T12:43:29.086Z",
+      "fetchedAt": "2026-09-09T14:17:03.300Z",
+      "verified": true
+    },
+    {
+      "origin": "Bern",
+      "destination": "St. Gallen",
+      "resultCount": 143,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.301Z",
+      "verified": true
+    },
+    {
+      "origin": "Bern",
+      "destination": "Winterthur",
+      "resultCount": 289,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.302Z",
+      "verified": true
+    },
+    {
+      "origin": "Bern",
+      "destination": "Zürich HB",
+      "resultCount": 646,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.303Z",
+      "verified": true
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Lausanne",
+      "resultCount": 113,
+      "date": "2026-09-11..2026-09-13",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.011Z",
+      "verified": true
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "St. Gallen",
+      "resultCount": 98,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.378Z",
+      "verified": true
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Winterthur",
+      "resultCount": 98,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.379Z",
+      "verified": true
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Yverdon-les-Bains",
+      "resultCount": 483,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.379Z",
+      "verified": true
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Zürich HB",
+      "resultCount": 247,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.380Z",
+      "verified": true
+    },
+    {
+      "origin": "Brig",
+      "destination": "Genève",
+      "resultCount": 331,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.384Z",
+      "verified": true
+    },
+    {
+      "origin": "Brig",
+      "destination": "Genève-Aéroport",
+      "resultCount": 285,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.385Z",
+      "verified": true
+    },
+    {
+      "origin": "Brig",
+      "destination": "Lausanne",
+      "resultCount": 353,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.386Z",
+      "verified": true
+    },
+    {
+      "origin": "Brig",
+      "destination": "Montreux",
+      "resultCount": 317,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.387Z",
+      "verified": true
+    },
+    {
+      "origin": "Brig",
+      "destination": "Sion",
+      "resultCount": 662,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.388Z",
+      "verified": true
+    },
+    {
+      "origin": "Chur",
+      "destination": "Sargans",
+      "resultCount": 936,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.361Z",
+      "verified": true
+    },
+    {
+      "origin": "Chur",
+      "destination": "Zürich HB",
+      "resultCount": 446,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.364Z",
+      "verified": true
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève",
+      "resultCount": 48,
+      "date": "2026-09-11..2026-09-12",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:02.887Z",
+      "verified": true
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Genève-Aéroport",
+      "resultCount": 48,
+      "date": "2026-09-11..2026-09-12",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:02.887Z",
+      "verified": true
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Lausanne",
+      "resultCount": 664,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.305Z",
+      "verified": true
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "St. Gallen",
+      "resultCount": 22,
+      "date": "2026-09-12..2026-09-13",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:02.964Z",
+      "verified": true
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Winterthur",
+      "resultCount": 22,
+      "date": "2026-09-12..2026-09-13",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:02.964Z",
+      "verified": true
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "Lausanne",
+      "resultCount": 657,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.320Z",
+      "verified": true
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "Montreux",
+      "resultCount": 354,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.393Z",
+      "verified": true
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "Sion",
+      "resultCount": 302,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.395Z",
+      "verified": true
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "St. Gallen",
+      "resultCount": 125,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.322Z",
+      "verified": true
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "Winterthur",
+      "resultCount": 125,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.322Z",
+      "verified": true
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "Yverdon-les-Bains",
+      "resultCount": 42,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.381Z",
+      "verified": true
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "Zürich HB",
+      "resultCount": 144,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.323Z",
+      "verified": true
+    },
+    {
+      "origin": "Genève",
+      "destination": "Genève-Aéroport",
+      "resultCount": 726,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.308Z",
       "verified": true
     },
     {
@@ -56,7 +1197,67 @@
       "date": "2026-09-09..2026-09-17",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-09T12:43:29.097Z",
+      "fetchedAt": "2026-09-09T14:17:03.310Z",
+      "verified": true
+    },
+    {
+      "origin": "Genève",
+      "destination": "Montreux",
+      "resultCount": 644,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.390Z",
+      "verified": true
+    },
+    {
+      "origin": "Genève",
+      "destination": "Sion",
+      "resultCount": 361,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.392Z",
+      "verified": true
+    },
+    {
+      "origin": "Genève",
+      "destination": "St. Gallen",
+      "resultCount": 125,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.317Z",
+      "verified": true
+    },
+    {
+      "origin": "Genève",
+      "destination": "Winterthur",
+      "resultCount": 125,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.319Z",
+      "verified": true
+    },
+    {
+      "origin": "Genève",
+      "destination": "Yverdon-les-Bains",
+      "resultCount": 42,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.381Z",
+      "verified": true
+    },
+    {
+      "origin": "Genève",
+      "destination": "Zürich HB",
+      "resultCount": 144,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.319Z",
       "verified": true
     },
     {
@@ -67,6 +1268,166 @@
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
       "fetchedAt": "2026-09-09T12:43:29.100Z",
+      "verified": true
+    },
+    {
+      "origin": "Lausanne",
+      "destination": "Montreux",
+      "resultCount": 1033,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.396Z",
+      "verified": true
+    },
+    {
+      "origin": "Lausanne",
+      "destination": "Sion",
+      "resultCount": 391,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.398Z",
+      "verified": true
+    },
+    {
+      "origin": "Lausanne",
+      "destination": "St. Gallen",
+      "resultCount": 216,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.324Z",
+      "verified": true
+    },
+    {
+      "origin": "Lausanne",
+      "destination": "Winterthur",
+      "resultCount": 216,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.326Z",
+      "verified": true
+    },
+    {
+      "origin": "Lausanne",
+      "destination": "Yverdon-les-Bains",
+      "resultCount": 698,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.382Z",
+      "verified": true
+    },
+    {
+      "origin": "Lausanne",
+      "destination": "Zürich HB",
+      "resultCount": 245,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.327Z",
+      "verified": true
+    },
+    {
+      "origin": "Lugano",
+      "destination": "Zug",
+      "resultCount": 218,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.352Z",
+      "verified": true
+    },
+    {
+      "origin": "Lugano",
+      "destination": "Zürich HB",
+      "resultCount": 220,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.352Z",
+      "verified": true
+    },
+    {
+      "origin": "Luzern",
+      "destination": "Zürich HB",
+      "resultCount": 364,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.296Z",
+      "verified": true
+    },
+    {
+      "origin": "Montreux",
+      "destination": "Sion",
+      "resultCount": 391,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.400Z",
+      "verified": true
+    },
+    {
+      "origin": "Sargans",
+      "destination": "Zürich HB",
+      "resultCount": 599,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.366Z",
+      "verified": true
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Winterthur",
+      "resultCount": 639,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.328Z",
+      "verified": true
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Zürich HB",
+      "resultCount": 622,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.330Z",
+      "verified": true
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Zürich HB",
+      "resultCount": 2665,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.336Z",
+      "verified": true
+    },
+    {
+      "origin": "Zug",
+      "destination": "Zürich HB",
+      "resultCount": 1359,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.353Z",
+      "verified": true
+    },
+    {
+      "origin": "Zürich Flughafen",
+      "destination": "Zürich HB",
+      "resultCount": 2095,
+      "date": "2026-09-09..2026-09-17",
+      "sourceId": "ch-opentransportdata-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T14:17:03.368Z",
       "verified": true
     },
     {

@@ -125,6 +125,21 @@ function responseForJourneys(
 }
 
 /** Precompute all configured Swiss routes and scrape dates in one stop_times pass. */
+/**
+ * How many routes one collection pass may hold.
+ *
+ * `collectGtfsJourneysForDates` keeps a trip index per route, and a hub appears
+ * in many routes at once — every Zürich HB stop time is recorded against each of
+ * the ~20 routes that end there. Collecting all 75 configured routes in one pass
+ * exhausted the default V8 heap ("Ineffective mark-compacts near heap limit")
+ * and took the whole scrape with it.
+ *
+ * Chunking bounds that index to a slice of the route list. The cost is one extra
+ * scan of `stop_times` per chunk, which re-reads nothing: the parsed feed is
+ * cached in {@link loadSwissGtfs} and shared across passes.
+ */
+const PREPARE_ROUTE_CHUNK = 16;
+
 export async function prepareSwissGtfsBatch(
   routes: readonly { origin: string; destination: string }[],
   dates: readonly string[],
@@ -134,19 +149,22 @@ export async function prepareSwissGtfsBatch(
   if (missing.length === 0) return;
 
   const feed = await loadSwissGtfs();
-  const journeys = collectGtfsJourneysForDates(feed, routes, dates, SWISS_STATION_MATCH);
-  routes.forEach((route, index) => {
-    dates.forEach((date) => {
-      const key = `${route.origin}\u0000${route.destination}\u0000${date}`;
-      preparedResults.set(key, responseForJourneys(
-        feed,
-        route.origin,
-        route.destination,
-        date,
-        journeys.get(`${index}:${date}`) || [],
-      ));
+  for (let offset = 0; offset < routes.length; offset += PREPARE_ROUTE_CHUNK) {
+    const chunk = routes.slice(offset, offset + PREPARE_ROUTE_CHUNK);
+    const journeys = collectGtfsJourneysForDates(feed, chunk, dates, SWISS_STATION_MATCH);
+    chunk.forEach((route, index) => {
+      dates.forEach((date) => {
+        const key = `${route.origin}\u0000${route.destination}\u0000${date}`;
+        preparedResults.set(key, responseForJourneys(
+          feed,
+          route.origin,
+          route.destination,
+          date,
+          journeys.get(`${index}:${date}`) || [],
+        ));
+      });
     });
-  });
+  }
 }
 
 export async function searchSwissGtfs(
@@ -154,6 +172,9 @@ export async function searchSwissGtfs(
   destination: string,
   date: string,
 ): Promise<{ status: number; body: SearchResponse & { error?: string } }> {
+  // Kept, not consumed: one warm-up covers the whole window, and the scrape then
+  // asks for each service day in turn. Deleting on read made every later day
+  // look unprepared and re-collect the entire feed.
   const prepared = preparedResults.get(`${origin}\u0000${destination}\u0000${date}`);
   if (prepared) return prepared;
 

@@ -72,10 +72,13 @@ jobs:
 
       - name: Run scrapers
         env:
-          # Enables the Switzerland OJP scrape. The token must additionally be
-          # subscribed to OJP 2.0 in the opentransportdata.swiss portal — a key
+          # Switzerland's live OJP answers at query time, not its scrape. The
+          # nightly collection reads the public GTFS static feed, which needs no
+          # credential and runs with or without this secret — so the committed
+          # fallback stays fresh either way. The token must additionally be
+          # subscribed to OJP 2.0 in the opentransportdata.swiss portal: a key
           # that exists but is not gets HTTP 403 "Access to this API has been
-          # disallowed" on every route. Without the secret the scraper is skipped.
+          # disallowed" on every request.
           SWISS_OJP_URL: https://api.opentransportdata.swiss/ojp20
           SWISS_OJP_TOKEN: ${{ secrets.SWISS_OJP_TOKEN }}
           SWISS_OJP_REQUESTOR_REF: TransitRail_prod
