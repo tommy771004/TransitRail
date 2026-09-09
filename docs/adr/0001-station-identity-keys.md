@@ -1,8 +1,9 @@
 # ADR 0001：以來源識別碼作為車站對應鍵
 
 - 狀態：**進行中（Accepted, partially implemented）**
-- 已完成：步驟 2 瑞士（commit `1cae367`）
-- 未完成：步驟 1 韓國、步驟 3 德／法／馬、步驟 4 日本／香港
+- 已完成：步驟 1 韓國（`00bb1a5`）、步驟 2 瑞士（`1cae367`）、步驟 3 法／馬（`f209819`）
+- 不適用：德國、日本（無穩定識別，見下）
+- 已安全：香港（本來就以站碼呼叫 API，見下）
 - 日期：2026-09-09
 - 發現於：`/qa` 各國查詢流程驗證（`.gstack/qa-reports/qa-report-localhost-2026-09-09.md`）
 
@@ -50,12 +51,12 @@ return queryKeys.some((queryKey) => key.includes(queryKey) || queryKey.includes(
 | 🇳🇴 挪威 | Entur NSR id | **ID** | 低 |
 | 🇨🇭 瑞士（OJP 即時） | `StopPlaceRef` | **ID** | 低 |
 | 🇨🇭 瑞士（GTFS 離線） | DIDOK（`didok` 欄位） | **登錄號** ✅ 已完成 | 低 |
-| 🇰🇷 韓國 | `역사코드`，**有但丟棄** | 英文名字串 | **高** |
+| 🇰🇷 韓國 | `역사코드` | **已保留於 artifact 供交叉驗證** ✅ | 低 |
 | 🇩🇪 德國 | **無穩定識別**（見下） | 名稱 | 中 |
-| 🇫🇷 法國 | GTFS `stop_id`，有但未用 | 名稱 | 中 |
-| 🇲🇾 馬來西亞 | GTFS `stop_id`，有但未用 | 名稱 | 中 |
-| 🇯🇵 日本 | ODPT `odpt:Station` id | 名稱 | 中 |
-| 🇭🇰 香港 | MTR station code | 名稱（`src/data/stationIdentity.ts`） | 中 |
+| 🇫🇷 法國 | `StopArea:OCE<UIC>` | **UIC 代碼** ✅ 已完成 | 低 |
+| 🇲🇾 馬來西亞 | KTMB `stop_id` | **站碼** ✅ 已完成 | 低 |
+| 🇯🇵 日本 | **無穩定識別**（見下） | 名稱 | 中 |
+| 🇭🇰 香港 | MTR station code | **站碼**（本來就是） | 低 |
 
 驗證指令：
 
@@ -103,7 +104,16 @@ CLAUDE.md 的規則不變。
    自產的合成值（Aachen Hbf = `366170` / `646823`），不帶 IBNR 或 UIC，無法確認
    跨 feed 版本穩定。用它當鍵會比用名稱更糟。與該 feed 沒有 `trip_short_name`
    是同一個限制：免費層不發布穩定識別。
-4. **日本、香港** —— 最後，兩者目前都有靜態站表擋著。
+4. ~~**日本、香港**~~ —— **不需要動作**，原因各不相同：
+
+   - **香港本來就安全。** `findMtrJourney` 對策劃拓樸做 `stationSearchKey` 的
+     **精確相等**比對，沒有任何模糊後備，比中的站物件直接帶 `code`，MTR API 請求用
+     的就是那個 code（`journey.origin.code`）。先前列為「中」風險是基於它靠名稱鬆散
+     比對的假設，讀過 `src/data/hongKongMtr.ts:272` 後確認並非如此。
+   - **日本沒有可用的識別。** 實際在跑的三個來源都拿不出獨立站碼：Kotoden GTFS 的
+     `stop_id` 是站名衍生的（`高松築港_駅`），拿它當鍵等於拿名字當鍵；ODPT 有真正的
+     `odpt:Station` URI，但 `ODPT_API_KEY` 未設定，無從驗證；JR Central 是旅程查詢
+     爬取，回應裡沒有站碼。等 ODPT 金鑰配置後再評估。
 
 每一步都要跑 `npm run lint`、`npm run validate:data`，以及
 `npx tsx scripts/audit-station-mapping.ts`。
