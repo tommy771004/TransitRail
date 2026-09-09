@@ -1428,14 +1428,10 @@ export default function App() {
     setShowStations(true);
   };
 
-  const selectStation = (station: string, autoFillDest?: string, lineId?: string) => {
-    setDraftSearch((current) => {
-      const next = { ...current, [stationPickTarget]: station };
-      if (stationPickTarget === "origin" && autoFillDest) {
-        next.destination = autoFillDest;
-      }
-      return next;
-    });
+  const selectStation = (station: string, lineId?: string) => {
+    // Sets exactly the field the passenger opened the picker for. It also used
+    // to fill in a destination of its own choosing; see StationBrowser.
+    setDraftSearch((current) => ({ ...current, [stationPickTarget]: station }));
 
     if (stationPickTarget === "origin" && lineId) {
       setOriginLineId(lineId);

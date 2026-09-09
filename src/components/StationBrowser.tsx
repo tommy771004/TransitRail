@@ -1,7 +1,7 @@
 /**
  * Author: AI Coding Agent
  * OS support: Linux
- * Description: Component for browsing and selecting origin or destination stations with auto-fill logic
+ * Description: Component for browsing and selecting origin or destination stations
  */
 import { Accessibility, ArrowLeft, ChevronDown, Search, X, MapPin, Loader2, Navigation } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -25,7 +25,7 @@ interface StationBrowserProps {
   country: Country;
   target: "origin" | "destination";
   onBack: () => void;
-  onSelectStation: (station: string, autoFillDest?: string, lineId?: string) => void;
+  onSelectStation: (station: string, lineId?: string) => void;
   scrollToLineId?: string;
   selectedOrigin?: string;
   selectedDate?: string;
@@ -79,32 +79,28 @@ export function StationBrowser({
 
   useModalFocusTrap(dialogRef, () => { triggerHaptic("light"); onBack(); });
 
+  /**
+   * Picking an origin used to also write a destination: the far end of whatever
+   * line the origin sat on. Nothing marked it as a guess, so the field read
+   * exactly like a station the passenger had chosen, and searching without
+   * noticing ran a route they never asked for — Bern to St. Gallen, Oslo
+   * lufthavn to Bergen, Brugge to Liège-Guillemins, depending on the market.
+   *
+   * The destination picker already answers "where can I get to from here", and
+   * answers it better: it marks the reachable stations as direct connections.
+   * That is a suggestion the passenger can see and accept, rather than a choice
+   * made on their behalf.
+   */
   const handleSelectStation = (station: string) => {
     triggerHaptic("medium");
-    let autoFillDest: string | undefined;
     let selectedLineId: string | undefined;
     if (target === "origin") {
       const stationKey = stationKeyForCountry(station);
       const activeLine = lines.find(l => l.id === selectedCategory);
-      if (activeLine && activeLine.stations.some(s => stationKeyForCountry(s.name) === stationKey)) {
-        const first = activeLine.stations[0].name;
-        const last = activeLine.stations[activeLine.stations.length - 1].name;
-        autoFillDest = stationKeyForCountry(last) === stationKey ? first : last;
-        selectedLineId = activeLine.id;
-      } else {
-        for (const line of lines) {
-          if (line.stations.some(s => stationKeyForCountry(s.name) === stationKey)) {
-            const first = line.stations[0].name;
-            const last = line.stations[line.stations.length - 1].name;
-            autoFillDest = stationKeyForCountry(last) === stationKey ? first : last;
-            selectedLineId = line.id;
-            break;
-          }
-        }
-      }
+      selectedLineId = activeLine && activeLine.stations.some(s => stationKeyForCountry(s.name) === stationKey)
+        ? activeLine.id
+        : lines.find((line) => line.stations.some(s => stationKeyForCountry(s.name) === stationKey))?.id;
     }
-    // A line endpoint alone does not prove that a dated snapshot can answer it.
-    if (coverage?.mode !== "provider") autoFillDest = undefined;
     void postAuditEvent({
       event: "station.select",
       country,
@@ -113,7 +109,7 @@ export function StationBrowser({
       lineId: selectedLineId,
       regionId: regions.find((region) => region.lines.some((line) => line.id === selectedLineId))?.id,
     }, { language: i18n.language });
-    onSelectStation(station, autoFillDest, selectedLineId);
+    onSelectStation(station, selectedLineId);
   };
 
   const handleUseLocation = () => {
