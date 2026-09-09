@@ -225,10 +225,17 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
   },
   korea: {
     labelKey: "search.korea",
-    provider: "Scheduled Korail + Seoul Metro data",
-    originPlaceholder: "Seoul (SNC)",
-    destinationPlaceholder: "Busan (BSN)",
-    featuredStations: ["Seoul (SNC)", "Yongsan", "Daejeon", "Dongdaegu", "Busan (BSN)"],
+    // Korail is not a registered source: `sourceRegistry` holds only the Seoul
+    // Metro and Incheon Transit timetable CSVs, and the committed data contains
+    // no intercity station at all. Naming Korail here, and offering Busan,
+    // Daejeon and Dongdaegu as featured stations, advertised a network the
+    // product cannot answer for — every one of those five stations 404s, and
+    // the picker headline promised "Korail" above a menu of Seoul metro stops.
+    // Registering a TAGO intercity source is what brings them back.
+    provider: "Scheduled Seoul Metro + Incheon Transit data",
+    originPlaceholder: "City Hall",
+    destinationPlaceholder: "Jamsil",
+    featuredStations: ["Seoul Station", "City Hall", "Gangnam", "Hongik Univ.", "Jamsil"],
     promptName: "韓國",
     connected: true,
     liveOnly: false,

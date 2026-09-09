@@ -64,7 +64,7 @@ export function SearchForm({
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const hotRoutes = useMemo(() => [
     { country: "japan", origin: "Tokyo", destination: "Shin-Osaka", label: t("hot_routes.tokyo_osaka", { defaultValue: "東京 ➔ 新大阪" }) },
-    { country: "korea", origin: "Seoul (SNC)", destination: "Busan (BSN)", label: t("hot_routes.seoul_busan", { defaultValue: "首爾 ➔ 釜山" }) },
+    { country: "korea", origin: "City Hall", destination: "Jamsil", label: t("hot_routes.seoul_cityhall_jamsil", { defaultValue: "市廳 ➔ 蠶室" }) },
     { country: "hong_kong", origin: "Central", destination: "Tsuen Wan", label: t("hot_routes.central_tsuenwan", { defaultValue: "中環 ➔ 荃灣" }) },
     { country: "singapore", origin: "Jurong East", destination: "Raffles Place", label: t("hot_routes.jurong_raffles", { defaultValue: "裕廊東 ➔ 萊佛士坊" }) },
     { country: "china", origin: "Beijing South", destination: "Shanghai Hongqiao", label: t("hot_routes.beijing_shanghai", { defaultValue: "北京南 ➔ 上海虹橋" }) },
