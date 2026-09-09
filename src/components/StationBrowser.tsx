@@ -570,7 +570,15 @@ export function StationBrowser({
         )}
 
         <div className="flex flex-1 overflow-hidden">
-          {searching ? (
+          {/*
+            Only one list of matches at a time. The focused dropdown above and
+            this body list render the same `filteredStations`, so while both were
+            mounted every match appeared as two buttons and an empty search said
+            "no matching station" twice. The dropdown is the richer of the two —
+            it alone receives `target`, `selectedOrigin` and `dependencyMap`, and
+            so is the one that can mark a destination as a direct connection.
+          */}
+          {searching && !isInputFocused ? (
             <div className="w-full overflow-y-auto px-5 pb-12 pt-2">
               <StationList
                 isLoading={isLoading}
@@ -584,7 +592,7 @@ export function StationBrowser({
                 isUncovered={isUncovered}
               />
             </div>
-          ) : lines.length === 0 && !linesLoading && !linesFailed ? (
+          ) : searching ? null : lines.length === 0 && !linesLoading && !linesFailed ? (
             <div className="w-full overflow-y-auto px-5 pb-12 pt-2">
               <StationList
                 isLoading={isLoading}
