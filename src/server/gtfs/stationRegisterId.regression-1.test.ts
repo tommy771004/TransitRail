@@ -58,28 +58,34 @@ describe("station register numbers", () => {
     expect([...stationStopIds(STOPS, "Lausanne", {})]).toEqual(["lausanne-1"]);
   });
 
-  it("covers exactly the stations the Swiss routes name", () => {
-    // The silent failure this guards: an entry the matcher cannot look up never
-    // matches, the name fallbacks answer, and the market looks healthy while
-    // running on exactly the matching this replaces. Checking the map against
-    // itself cannot catch that — a wrong key still matches itself — so compare
-    // it with the names the scrape actually queries.
-    const queried = new Set(switzerlandRoutes.flatMap((route) => [route.origin, route.destination]));
-    expect(new Set(Object.keys(SWISS_REGISTER_IDS))).toEqual(queried);
+  // Markets keyed by register number. Adding one here is the whole checklist:
+  // both cases below then hold it to the same contract as Switzerland.
+  const MARKETS = [
+    ["switzerland", SWISS_REGISTER_IDS, switzerlandRoutes],
+  ] as const;
+
+  it.each(MARKETS)("%s covers exactly the stations its routes name", (_market, register, routes) => {
+    const queried = new Set(routes.flatMap((route) => [route.origin, route.destination]));
+    expect(new Set(Object.keys(register))).toEqual(queried);
   });
 
-  it("resolves every Swiss route endpoint through its register number", () => {
-    for (const name of new Set(switzerlandRoutes.flatMap((r) => [r.origin, r.destination]))) {
-      const numbers = SWISS_REGISTER_IDS[name];
+  // Scope: this proves each entry is *reachable* — the key is a name the matcher
+  // can look up, so the register path runs instead of the name fallbacks. It
+  // cannot prove the number is the *right* one: the probe carries whatever is
+  // configured, so a wrong number still matches itself. Only the feed can settle
+  // that, which is why adding a market re-runs its scrape and compares the rows.
+  it.each(MARKETS)("%s resolves every route endpoint through its register number", (_market, register, routes) => {
+    for (const name of new Set(routes.flatMap((r) => [r.origin, r.destination]))) {
+      const numbers = register[name];
       const probe = [
-        // Named for nothing the query resembles: only the number can reach it.
         { id: "wanted", name: "a spelling the query never uses", registerId: numbers?.[0] },
         { id: "decoy", name, registerId: "0000000" },
       ] as GtfsStop[];
       expect(
-        [...stationStopIds(probe, name, { registerIds: SWISS_REGISTER_IDS })],
+        [...stationStopIds(probe, name, { registerIds: register })],
         `${JSON.stringify(name)} did not resolve through its register number`,
       ).toEqual(["wanted"]);
     }
   });
+
 });

@@ -95,9 +95,17 @@ export function stationStopIds(
       .flatMap(([, numbers]) => numbers)
     : [];
   if (registerIds.length > 0) {
+    // Publishers put the station-level identifier in different places: a column
+    // of its own (Switzerland's `didok`), the stop id itself where one row is
+    // one station (Malaysia's KTMB code), or the parent of the platform rows
+    // (France's `StopArea:OCE…`). One configured number is checked against all
+    // three rather than each market carrying its own extraction rule.
     const wanted = new Set(registerIds);
     return new Set(
-      stops.filter((stop) => stop.registerId && wanted.has(stop.registerId)).map((stop) => stop.id),
+      stops
+        .filter((stop) => [stop.registerId, stop.id, stop.parentStation]
+          .some((value) => value && wanted.has(value)))
+        .map((stop) => stop.id),
     );
   }
 
