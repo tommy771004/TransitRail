@@ -146,16 +146,27 @@ describe("station and line catalog integrity scope", { timeout: 20_000 }, () => 
     expect(catalog.stations).toContain("Seoul Station");
   });
 
-  it("exposes verified Toei and Shinkansen lines while hiding unverified Tokyo Metro lines", async () => {
+  it("exposes only lines and stations the committed data can answer for", async () => {
     const lines = await getLinesForCountry("japan", catalogDate);
     const stations = await getStationsForCountry("japan", undefined, catalogDate);
+    const covered = new Set(getScrapedCoverageNames("japan", catalogDate));
 
+    // Toei runs off the keyless ODPT endpoint and JR Central always collects, so
+    // both are shipped whatever else is configured.
     expect(lines.some((line) => line.id.startsWith("toei-"))).toBe(true);
-    expect(lines.every((line) => !line.id.startsWith("tokyo-metro-"))).toBe(true);
     expect(lines.some((line) => line.id === "tokaido-shinkansen")).toBe(true);
     expect(stations.stations).toContain("Tokyo");
-    expect(stations.stations).toContain("Roppongi");
-    expect(stations.stations).not.toContain("Shibuya");
+
+    // The bar, stated as the rule rather than as a list of today's names: a line
+    // is exposed only when the committed data can answer for a station on it,
+    // and the menu offers only stations it can answer for.
+    //
+    // This used to name Tokyo Metro and Shibuya as the things that must stay
+    // hidden. They are hidden only while ODPT_API_KEY is unset — the nightly job
+    // does pass that secret, so the first scrape that ran with it turned four
+    // assertions here into failures without anything being wrong.
+    expect(lines.filter((line) => !line.stations.some((station) => covered.has(station.name)))).toEqual([]);
+    expect(stations.stations.filter((station) => !covered.has(station))).toEqual([]);
   });
 
   it("offers only Japanese stations a search can answer, in the menu and on the map", async () => {
@@ -193,15 +204,14 @@ describe("station and line catalog integrity scope", { timeout: 20_000 }, () => 
     // The station the report opened on: on the map, and answerable.
     expect(mapped.has("Nishi-magome")).toBe(true);
     expect(findInRoutes(routes, "Nishi-magome", "Oshiage", catalogDate, "japan")?.length).toBeGreaterThan(0);
-    expect(mapped.has("Shibuya")).toBe(false);
 
     const menu = await getStationsForCountry("japan", undefined, catalogDate);
     expect(menu.stations).toEqual(expect.arrayContaining(["Asakusa", "Jimbocho", "Shin-Osaka", "Akebonobashi"]));
-    // A Tokyo Metro line has no committed run without a key, so its stations
-    // are held to the same bar however complete the line map is.
-    expect(menu.stations).not.toContain("Shibuya");
-    // Shinkansen stations no committed run reaches are held to it too.
-    expect(menu.stations).not.toContain("Himeji");
+    // Whatever a line map draws, the menu offers only what a search can answer.
+    // Named stations used to stand in for this rule — Shibuya for a Tokyo Metro
+    // line with no committed run, Himeji for a Shinkansen stop none reaches —
+    // but which stations those are moves with the data and with ODPT_API_KEY.
+    expect(menu.stations.filter((station) => !suggestions.includes(station))).toEqual([]);
   });
 
   it("keeps the static intercity directory without promising dated timetable coverage", async () => {

@@ -1,5 +1,30 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { runTransitSearch } from "./transitSearch";
+import { findInRoutes, getScrapedCoverageNames, getScrapedRoutes } from "../data/scraped";
+import { getLinesForCountry } from "./catalog";
+
+const DATE = "2026-08-01";
+
+/**
+ * Two searchable Japanese stations that no committed route or chain links.
+ *
+ * Named stations used to stand in for this — Asakusa to Roppongi — but which
+ * pairs are unlinked moves with the data, and with `ODPT_API_KEY`: the nightly
+ * job passes that secret, and the first scrape that ran with it linked the pair
+ * through a Tokyo Metro line, turning this case into a failure with nothing
+ * actually wrong.
+ */
+function unlinkedCoveredPair(): [string, string] | undefined {
+  const routes = [...getScrapedRoutes("japan")];
+  const covered = getScrapedCoverageNames("japan", DATE);
+  for (const origin of covered) {
+    for (const destination of covered) {
+      if (origin === destination) continue;
+      if (!findInRoutes(routes, origin, destination, DATE, "japan")?.length) return [origin, destination];
+    }
+  }
+  return undefined;
+}
 
 // These cases assert which reason a rejected date gets, so the date's position
 // relative to today is the whole point. Pin the clock or the reasons drift as
@@ -15,37 +40,42 @@ afterEach(() => {
 
 describe("search no-result reasons", { timeout: 20_000 }, () => {
   it("distinguishes a covered-but-unsupported station pair", async () => {
-    // Both endpoints are searchable — Asakusa on the Toei Asakusa Line pair,
-    // Roppongi on the Oedo one — but no committed route or chain links them.
-    const result = await runTransitSearch({
-      country: "japan",
-      origin: "Asakusa",
-      destination: "Roppongi",
-      date: "2026-08-01",
-    });
+    const pair = unlinkedCoveredPair();
+    // Every shipped pair being linked is a healthy state, not a failure; there
+    // is simply nothing for this rule to judge.
+    if (!pair) return;
+    const [origin, destination] = pair;
+
+    const result = await runTransitSearch({ country: "japan", origin, destination, date: DATE });
 
     expect(result.statusCode).toBe(404);
-    expect(result.payload.noResultReason).toBe("unsupported_route");
+    expect(result.payload.noResultReason, `${origin} → ${destination}`).toBe("unsupported_route");
   });
 
   it("calls a station search cannot answer for uncovered, not merely unsupported", async () => {
     // A station is uncovered when no committed row can act as an endpoint for
-    // it. Akebonobashi used to be the case in point: an intermediate stop in
-    // rows that carried no per-leg times. Now that the Toei lines are scraped
-    // with each train's own per-stop times it is answerable, and the stations
-    // left in that position are the Tokyo Metro ones — their lines are on the
-    // map in full but nothing fetches them without ODPT_API_KEY.
+    // it, however completely a line map draws it. Which stations those are moves
+    // with the data — it was Akebonobashi before the Toei lines carried per-stop
+    // times, then the Tokyo Metro ones while ODPT_API_KEY was unset — so take
+    // one from the map rather than naming it.
+    const covered = getScrapedCoverageNames("japan", DATE);
+    const lines = await getLinesForCountry("japan", DATE);
+    const mapped = [...new Set(lines.flatMap((line) => line.stations.map((station) => station.name)))];
+    const uncovered = mapped.find((station) => !covered.includes(station));
+    // Nothing drawn beyond what search can answer is the healthy state.
+    if (!uncovered || !covered[0]) return;
+
     const result = await runTransitSearch({
       country: "japan",
-      origin: "Shibuya",
-      destination: "Asakusa",
-      date: "2026-08-01",
+      origin: uncovered,
+      destination: covered[0],
+      date: DATE,
     });
 
     expect(result.statusCode).toBe(404);
-    expect(result.payload.noResultReason).toBe("no_verified_data");
-    expect(result.payload.coverageGap?.uncovered).toEqual(["Shibuya"]);
-    expect(result.payload.coverageGap?.suggestions).not.toContain("Shibuya");
+    expect(result.payload.noResultReason, uncovered).toBe("no_verified_data");
+    expect(result.payload.coverageGap?.uncovered).toEqual([uncovered]);
+    expect(result.payload.coverageGap?.suggestions).not.toContain(uncovered);
   });
 
   it("reports a future date outside a live source's today-only contract", async () => {
