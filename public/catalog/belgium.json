@@ -1,6 +1,6 @@
 {
   "country": "belgium",
-  "serviceDate": "2026-09-09",
+  "serviceDate": "2026-09-10",
   "regions": [
     {
       "id": "belgium-intercity",
@@ -57,13 +57,16 @@
         {
           "id": "belgium-route-brussels-central-antwerpen-centraal-2",
           "name": "Brussels-Central → Antwerp-Central",
-          "color": "#0055A4",
+          "color": "#4B5563",
           "stations": [
             {
               "name": "Brussels-Central"
             },
             {
               "name": "Brussels-North"
+            },
+            {
+              "name": "Brussels Airport - Zaventem"
             },
             {
               "name": "Mechelen"
@@ -79,19 +82,13 @@
         {
           "id": "belgium-route-brussels-luxembourg-antwerpen-centraal-3",
           "name": "Brussels-Luxemburg/Brussels-Luxembourg → Antwerp-Central",
-          "color": "#4B5563",
+          "color": "#0055A4",
           "stations": [
             {
               "name": "Brussels-Luxemburg/Brussels-Luxembourg"
             },
             {
               "name": "Brussels-Schuman"
-            },
-            {
-              "name": "Brussels-North"
-            },
-            {
-              "name": "Brussels-Central"
             },
             {
               "name": "Mechelen"
@@ -142,9 +139,6 @@
           "stations": [
             {
               "name": "Ghent-Sint-Pieters"
-            },
-            {
-              "name": "Brussels-South/Brussels-Midi"
             },
             {
               "name": "Brussels-Central"
@@ -210,13 +204,16 @@
     {
       "id": "belgium-route-brussels-central-antwerpen-centraal-2",
       "name": "Brussels-Central → Antwerp-Central",
-      "color": "#0055A4",
+      "color": "#4B5563",
       "stations": [
         {
           "name": "Brussels-Central"
         },
         {
           "name": "Brussels-North"
+        },
+        {
+          "name": "Brussels Airport - Zaventem"
         },
         {
           "name": "Mechelen"
@@ -232,19 +229,13 @@
     {
       "id": "belgium-route-brussels-luxembourg-antwerpen-centraal-3",
       "name": "Brussels-Luxemburg/Brussels-Luxembourg → Antwerp-Central",
-      "color": "#4B5563",
+      "color": "#0055A4",
       "stations": [
         {
           "name": "Brussels-Luxemburg/Brussels-Luxembourg"
         },
         {
           "name": "Brussels-Schuman"
-        },
-        {
-          "name": "Brussels-North"
-        },
-        {
-          "name": "Brussels-Central"
         },
         {
           "name": "Mechelen"
@@ -295,9 +286,6 @@
       "stations": [
         {
           "name": "Ghent-Sint-Pieters"
-        },
-        {
-          "name": "Brussels-South/Brussels-Midi"
         },
         {
           "name": "Brussels-Central"
@@ -891,6 +879,7 @@
     "Saint-Ghislain",
     "Saint-Louis-Haut-Rhin",
     "Saint-Raphaël-Valescure",
+    "SALZINNES-A.C.",
     "Sart-Bernard",
     "Saverne",
     "Schaarbeek/Schaerbeek",
@@ -1032,11 +1021,11 @@
   "coverage": {
     "mode": "provider",
     "dateRange": {
-      "start": "2026-09-09",
-      "end": "2026-09-22",
+      "start": "2026-09-10",
+      "end": "2026-09-23",
       "days": 14,
       "liveOnly": false
     },
-    "date": "2026-09-09"
+    "date": "2026-09-10"
   }
 }
