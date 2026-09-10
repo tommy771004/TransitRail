@@ -1,7 +1,7 @@
 {
   "origin": "Daejeon",
   "destination": "Dongdaegu",
-  "date": "2026-09-10..2026-09-18",
+  "date": "2026-09-11..2026-09-18",
   "scrapedAt": "2026-09-10T12:03:06.990Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
@@ -25,60 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-09-ktx-경부선-129-2-next-day",
-      "country": "korea",
-      "date": "2026-09-10",
-      "operator": "Korail",
-      "service": "KTX 137",
-      "trainType": "KTX",
-      "origin": "Daejeon",
-      "destination": "Dongdaegu",
-      "departureTime": "00:09",
-      "arrivalTime": "01:05",
-      "durationMinutes": 56,
-      "direct": true,
-      "stops": [
-        "Daejeon",
-        "Gimcheon(Gumi)",
-        "Seodaegu",
-        "Dongdaegu"
-      ],
-      "headsign": "Dongdaegu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 137",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Daejeon",
-          "destination": "Gimcheon(Gumi)",
-          "departureTime": "00:09",
-          "arrivalTime": "00:33",
-          "durationMinutes": 24
-        },
-        {
-          "lineName": "KTX 137",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gimcheon(Gumi)",
-          "destination": "Seodaegu",
-          "departureTime": "00:33",
-          "arrivalTime": "00:57",
-          "durationMinutes": 24
-        },
-        {
-          "lineName": "KTX 137",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Seodaegu",
-          "destination": "Dongdaegu",
-          "departureTime": "00:57",
-          "arrivalTime": "01:05",
-          "durationMinutes": 8
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-10-ktx-경부선-129-2-next-day",
       "country": "korea",

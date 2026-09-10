@@ -5,57 +5,11 @@
   "sourceUrl": "https://api-v3.mbta.com",
   "sourceTier": "A",
   "fetchedAt": "2026-09-10T12:22:01.081Z",
-  "builtAt": "2026-09-10T12:22:01.129Z",
+  "builtAt": "2026-09-10T23:30:24.180Z",
   "recordCount": 5694,
   "routeCount": 4,
-  "successRate": 0.75,
-  "failedRoutes": [
-    {
-      "origin": "Park Street",
-      "destination": "Andrew",
-      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
-    },
-    {
-      "origin": "Harvard",
-      "destination": "Logan International Airport",
-      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
-    },
-    {
-      "origin": "Park Street",
-      "destination": "Andrew",
-      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
-    },
-    {
-      "origin": "South Station",
-      "destination": "Harvard",
-      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
-    },
-    {
-      "origin": "Harvard",
-      "destination": "Logan International Airport",
-      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
-    },
-    {
-      "origin": "Park Street",
-      "destination": "Andrew",
-      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
-    },
-    {
-      "origin": "South Station",
-      "destination": "Harvard",
-      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
-    },
-    {
-      "origin": "Park Street",
-      "destination": "Boston College",
-      "error": "MBTA Trip Planner did not settle for 10:45 (10:45 am). Page state: Trip Planner From Swap origin and destination locations To When Now Leave at Arrive by 1 2 3 4 5 6 7 8 9 10 11 12 00 05 10 15 20 25 30 35 40 45 50 55 AM PM Modes All modes Prefer accessible routes Trips from Park Street to Boston College Leaving at 10:45 am on Thursday, September 10th MOST DIRECT 10:50 – 11:38 am 48 min GL B 0.1 mi $2.40 Similar trips depart at 10:58 am, 11:06 am, 11:14 am Details A B MapLibre | © OpenStreetMap"
-    },
-    {
-      "origin": "Park Street",
-      "destination": "Boston College",
-      "error": "MBTA Trip Planner did not settle for 21:10 (9:10 pm). Page state: Trip Planner From Swap origin and destination locations To When Now Leave at Arrive by 1 2 3 4 5 6 7 8 9 10 11 12 00 05 10 15 20 25 30 35 40 45 50 55 AM PM Modes All modes Prefer accessible routes Trips from Park Street to Boston College Leaving at 9:10 pm on Saturday, September 12th MOST DIRECT 9:18 – 10:06 pm 48 min GL B 0.1 mi $2.40 Similar trips depart at 9:29 pm, 9:39 pm, 9:50 pm Details A B MapLibre | © OpenStreetMap"
-    }
-  ],
+  "successRate": null,
+  "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 4,
     "emptyRoutes": 0,
