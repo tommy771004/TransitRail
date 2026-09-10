@@ -146,13 +146,15 @@ const COUNTRY_VALUES = new Set<Country>([
  * read from a source?
  *
  * Two independent tells: an explicit curated/LLM marker, or a departure list
- * whose every gap is identical. The second is the one that catches a synthetic
- * timetable nobody labelled — a real operator varies its interval across the
- * peak, the shoulder, and the last hour of service, so a run of four or more
- * departures at one exact spacing is a generator's signature.
+ * whose every gap is identical.
  *
- * This is a detector for validation and publication gates, not a
- * classification: nothing it flags is publishable at any confidence.
+ * The second tell is only decisive for a source that cannot substantiate a
+ * timetable. Constant spacing on its own is not fabrication: a clock-face
+ * network publishes exactly that shape on purpose, which is why the Swiss
+ * Taktfahrplan and Kotoden's half-hourly line both trip it. Callers that see
+ * registered `full-timetable` provenance must weigh it the way
+ * `scripts/lib/timetableValidation.ts` does — a warning to review, not a
+ * rejection — so use this only where no provenance is available.
  */
 export function isSyntheticTimetable(source: string, results: TransitResult[]): boolean {
   if (

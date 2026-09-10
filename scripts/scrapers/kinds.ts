@@ -215,8 +215,19 @@ export abstract class OfficialFeedScraper extends DownloadScraper {
     if (results.length === 0) {
       throw new Error(`${this.name} returned no departures for ${route.origin} → ${route.destination} on ${date}`);
     }
+    // Constant spacing is a review signal, not proof of fabrication, and the
+    // publish validator already settled which is which: from a registered
+    // `full-timetable` source it is a warning, from anything weaker it blocks.
+    // Throwing here regardless made this scraper stricter than the gate it was
+    // meant to pre-empt, and it rejected real clock-face days — a Swiss
+    // Taktfahrplan run (Fribourg → Zürich HB, 18 trains at :03) and Kotoden's
+    // published 34-trip half-hour line are timetables, not generated ones. So
+    // mirror the validator: only a source that cannot substantiate a full
+    // timetable fails the fetch.
     const headway = exactHeadwayMinutes(results as ScrapedRouteData["results"]);
-    if (headway !== undefined) {
+    const sourceId = this.sourceIdFor(route);
+    const completeness = this.completenessFor(route) ?? findOfficialSource(sourceId)?.maxCompleteness;
+    if (headway !== undefined && completeness !== "full-timetable") {
       throw new Error(
         `${this.name} returned a generated exact-headway day (${results.length} departures every ${headway} minutes) for ${route.origin} → ${route.destination} on ${date}`,
       );

@@ -133,24 +133,46 @@ describe("OfficialFeedScraper", () => {
     await expect(scraper.scrape(ROUTE, "2026-08-01")).rejects.toThrow(expected);
   });
 
-  it("rejects a generated exact-headway day before it reaches the publish validator", async () => {
-    // Regression for the Swiss GTFS Bern → Lausanne slice that reached the
-    // action with 35 half-hourly rows and tripped validation after all scrapers
-    // had finished.
-    const generated = Array.from({ length: 35 }, (_, index) => {
-      const departureMinutes = 5 * 60 + index * 30;
+  const evenlySpaced = (count: number, everyMinutes: number) =>
+    Array.from({ length: count }, (_, index) => {
+      const departureMinutes = 5 * 60 + index * everyMinutes;
       const arrivalMinutes = departureMinutes + 60;
       const clock = (minutes: number) => `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
       return {
-      ...row,
-      id: `generated-${index}`,
+        ...row,
+        id: `trip-${index}`,
         departureTime: clock(departureMinutes),
         arrivalTime: clock(arrivalMinutes),
       };
     });
-    const scraper = new TestFeedScraper(async () => ({ status: 200, body: { results: generated } }));
+
+  it("rejects a generated exact-headway day from a source that cannot substantiate a timetable", async () => {
+    // A frequency-only source publishes a headway, so a full day at one exact
+    // interval is that headway expanded into departures nobody scheduled.
+    class FrequencyOnlyFeed extends OfficialFeedScraper {
+      constructor(query: Parameters<typeof buildFeed>[0]) {
+        super("smrt", "singapore", [ROUTE], "sg-smrt-service-hours", query);
+      }
+      protected override completenessFor() {
+        return "frequency-only" as const;
+      }
+    }
+    const scraper = new FrequencyOnlyFeed(async () => ({ status: 200, body: { results: evenlySpaced(35, 30) } }));
 
     await expect(scraper.scrape(ROUTE, "2026-08-01")).rejects.toThrow(/generated exact-headway/);
+  });
+
+  it("keeps a clock-face day from a full-timetable source instead of discarding it", async () => {
+    // Regression: the Swiss GTFS Taktfahrplan publishes real trains at one
+    // exact interval all day (Fribourg → Zürich HB, 18 at :03), and Kotoden
+    // publishes 34 half-hourly trips. Throwing here made the scraper stricter
+    // than the publish validator, which downgrades constant spacing from a
+    // registered full-timetable source to a warning — so every weekday the
+    // nightly run threw the real fetch away and kept a stale file.
+    const clockFace = evenlySpaced(18, 60);
+    const scraper = new TestFeedScraper(async () => ({ status: 200, body: { results: clockFace } }));
+
+    await expect(scraper.scrape(ROUTE, "2026-08-01")).resolves.toMatchObject({ results: clockFace });
   });
 
   it("never calls a live-only provider about another service day", async () => {
