@@ -1,11 +1,12 @@
 # i18n and publication
 
 The hard rules in [CLAUDE.md](../../CLAUDE.md) govern everything here; this file carries the
-sourcing chain behind them.
+sourcing chain and the task-specific rules behind them.
 
 ## Station labels
 
-Generated translations must not overwrite curated keys.
+Generated translations must not overwrite curated keys. Display goes through `stationLabel()` and
+the country overrides; the raw provider name stays the query identity.
 
 zh-TW, ja and ko labels are sourced, never transliterated by us.
 `scripts/sync-station-translations.ts` reads the market's own station directory and takes the label

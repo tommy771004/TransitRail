@@ -3,52 +3,32 @@
 TransitRail is a React 19 SPA backed by one Express server. `server.ts` serves the API and
 Vite/static assets; `api/index.ts` exports the same app for Vercel. `src/data/countries.ts`
 (`countryConfig`) is the authority for each market's scraper, search mode, live/date capability,
-and selectable date range.
+and selectable date range. Terminology is defined in [CONTEXT.md](CONTEXT.md).
 
-## Commands
-
-```bash
-npm run dev             # Express + Vite
-npm run lint            # Typecheck + all Vitest tests; required gate
-npm test                # Tests only
-npm run validate:data   # Data integrity gate; required for timetable changes
-```
-
-Read [docs/agents/commands.md](docs/agents/commands.md) before scraping, regenerating SEO pages, or
-re-sourcing station labels — those tasks have their own commands and ordering.
+`npm run lint` — typecheck plus all Vitest tests — is the required gate for every change.
 
 ## Hard rules
 
 - Only a source registered in `src/data/sourceRegistry.ts`, with valid `sourceMeta`, may produce
   searchable departures. Reject curated, LLM, aggregator, estimated, or unregistered schedules.
 - Search never synthesizes a timetable. A miss means **no verified timetable**, not "no service."
-- Stored rows answer only their exact service date; a failed fetch keeps the previous verified
-  file. Never edit `SEARCH_WINDOW_DAYS` and `SCRAPE_WINDOW_DAYS` apart.
-- New France/Thailand service-day suites must use `serviceDayArtifactFixture()`; never delete their
-  committed artifact during tests.
 - Never hand-edit generated output: route directories under `public/`, or
   `src/data/catalog/station-i18n/labels.json`. A slug change requires regenerated redirects
   committed with `vercel.json`.
 - Display station names through `stationLabel()` and country overrides; raw provider names stay
   the query identity.
-- Run `scripts/audit-station-mapping.ts` after changing routes or station lists.
+- Use ESM, `tsx` for scripts, and `@/` for the repository alias. API keys are optional; failure
+  must degrade safely or preserve the prior snapshot. Keep unrelated dirty-worktree changes intact.
 
-Before changing scrapers, scrape scripts, search, the catalog, the date picker, or the scrape
-windows, read [docs/agents/data-pipeline.md](docs/agents/data-pipeline.md) — it carries the storage
-semantics, adapter list, window derivation, and nightly cadence those changes depend on.
-Terminology is defined in [CONTEXT.md](CONTEXT.md).
+## Read before you work
 
-Before changing station labels, translations, slugs, or route pages, read
-[docs/agents/i18n-publication.md](docs/agents/i18n-publication.md) for the label sourcing chain and
-publication rules.
+Each file below carries the rules for its own area — reach for it when the change touches it.
 
-## Conventions
-
-UI follows Material 3 in structure only: `src/index.css` carries the M3 layer (shape, elevation,
-motion, type scale, state layers, component metrics as `m3-*` classes) and every colour still comes
-from the existing slate/country-accent utilities. Build new surfaces from those classes rather than
-new one-off radii, shadows, or font sizes; a Tailwind utility on the same element still wins, so
-drop the utility a component is meant to inherit from `m3-*`.
-
-Use ESM, `tsx` for scripts, and `@/` for the repository alias. API keys are optional; failure must
-degrade safely or preserve the prior snapshot. Keep unrelated dirty-worktree changes intact.
+- [docs/agents/commands.md](docs/agents/commands.md) — before scraping, running data-integrity
+  audits, regenerating SEO pages, or re-sourcing station labels; those tasks have their own
+  commands and ordering.
+- [docs/agents/data-pipeline.md](docs/agents/data-pipeline.md) — before changing scrapers, scrape
+  scripts, search, the catalog, the date picker, the scrape windows, or their service-day tests.
+- [docs/agents/i18n-publication.md](docs/agents/i18n-publication.md) — before changing station
+  labels, translations, slugs, or route pages.
+- [docs/agents/ui.md](docs/agents/ui.md) — before touching components, styles, or `src/index.css`.
