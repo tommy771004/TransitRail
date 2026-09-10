@@ -1,7 +1,7 @@
 /**
  * Author: AI Coding Agent
  * OS support: Linux
- * Description: Component for browsing and selecting origin or destination stations with auto-fill logic
+ * Description: Component for browsing and selecting origin or destination stations
  */
 import { Accessibility, ArrowLeft, ChevronDown, Search, X, MapPin, Loader2, Navigation } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -25,7 +25,7 @@ interface StationBrowserProps {
   country: Country;
   target: "origin" | "destination";
   onBack: () => void;
-  onSelectStation: (station: string, autoFillDest?: string, lineId?: string) => void;
+  onSelectStation: (station: string, lineId?: string) => void;
   scrollToLineId?: string;
   selectedOrigin?: string;
   selectedDate?: string;
@@ -79,32 +79,28 @@ export function StationBrowser({
 
   useModalFocusTrap(dialogRef, () => { triggerHaptic("light"); onBack(); });
 
+  /**
+   * Picking an origin used to also write a destination: the far end of whatever
+   * line the origin sat on. Nothing marked it as a guess, so the field read
+   * exactly like a station the passenger had chosen, and searching without
+   * noticing ran a route they never asked for — Bern to St. Gallen, Oslo
+   * lufthavn to Bergen, Brugge to Liège-Guillemins, depending on the market.
+   *
+   * The destination picker already answers "where can I get to from here", and
+   * answers it better: it marks the reachable stations as direct connections.
+   * That is a suggestion the passenger can see and accept, rather than a choice
+   * made on their behalf.
+   */
   const handleSelectStation = (station: string) => {
     triggerHaptic("medium");
-    let autoFillDest: string | undefined;
     let selectedLineId: string | undefined;
     if (target === "origin") {
       const stationKey = stationKeyForCountry(station);
       const activeLine = lines.find(l => l.id === selectedCategory);
-      if (activeLine && activeLine.stations.some(s => stationKeyForCountry(s.name) === stationKey)) {
-        const first = activeLine.stations[0].name;
-        const last = activeLine.stations[activeLine.stations.length - 1].name;
-        autoFillDest = stationKeyForCountry(last) === stationKey ? first : last;
-        selectedLineId = activeLine.id;
-      } else {
-        for (const line of lines) {
-          if (line.stations.some(s => stationKeyForCountry(s.name) === stationKey)) {
-            const first = line.stations[0].name;
-            const last = line.stations[line.stations.length - 1].name;
-            autoFillDest = stationKeyForCountry(last) === stationKey ? first : last;
-            selectedLineId = line.id;
-            break;
-          }
-        }
-      }
+      selectedLineId = activeLine && activeLine.stations.some(s => stationKeyForCountry(s.name) === stationKey)
+        ? activeLine.id
+        : lines.find((line) => line.stations.some(s => stationKeyForCountry(s.name) === stationKey))?.id;
     }
-    // A line endpoint alone does not prove that a dated snapshot can answer it.
-    if (coverage?.mode !== "provider") autoFillDest = undefined;
     void postAuditEvent({
       event: "station.select",
       country,
@@ -113,7 +109,7 @@ export function StationBrowser({
       lineId: selectedLineId,
       regionId: regions.find((region) => region.lines.some((line) => line.id === selectedLineId))?.id,
     }, { language: i18n.language });
-    onSelectStation(station, autoFillDest, selectedLineId);
+    onSelectStation(station, selectedLineId);
   };
 
   const handleUseLocation = () => {
@@ -276,12 +272,27 @@ export function StationBrowser({
     setSelectedCategory(visibleLines[0].id);
   }, [regions, selectedRegion, regionsCollapsed, visibleLines, selectedCategory, scrollToLineId]);
 
+  /**
+   * The stations this picker may actually offer.
+   *
+   * A journey to the station you are standing at is not a journey, and the
+   * search rejects it outright ("origin and destination must be different"), so
+   * listing the chosen origin among the destinations only invites a dead end.
+   * Matched on the station key, because the two lists can name the same platform
+   * differently ("Zürich HB" against the alias the catalog carries).
+   */
+  const selectableStations = useMemo(() => {
+    if (target !== "destination" || !selectedOrigin) return stations;
+    const originKey = stationKeyForCountry(selectedOrigin);
+    return stations.filter((station) => stationKeyForCountry(station) !== originKey);
+  }, [stations, target, selectedOrigin, country]);
+
   const stationsToRender = useMemo(() => {
     const line = lines.find((l) => l.id === selectedCategory);
     if (!line) return [];
-    const stationKeys = new Set(stations.map(stationKeyForCountry));
+    const stationKeys = new Set(selectableStations.map(stationKeyForCountry));
     return line.stations.filter((station) => stationKeys.has(stationKeyForCountry(station.name)));
-  }, [lines, selectedCategory, stations, country]);
+  }, [lines, selectedCategory, selectableStations, country]);
 
   const lineColorByName = useMemo(() => {
     const map = new Map<string, string | undefined>();
@@ -344,7 +355,7 @@ export function StationBrowser({
 
   const filteredStations = useMemo(() => {
     const value = query.trim().toLowerCase();
-    const baseStations = stations;
+    const baseStations = selectableStations;
     if (!value) return baseStations;
     
     const tZh = i18n.getFixedT("zh-TW", "translation");
@@ -360,11 +371,11 @@ export function StationBrowser({
              fuzzyMatch(value, zhLabel) || 
              (localName && fuzzyMatch(value, localName));
     });
-  }, [query, stations, t, country, localNameMap]);
+  }, [query, selectableStations, t, country, localNameMap]);
 
   const featured = useMemo(() => {
     const origFeatured = countryConfig[country].featuredStations;
-    const stationKeys = new Set(stations.map(stationKeyForCountry));
+    const stationKeys = new Set(selectableStations.map(stationKeyForCountry));
     return origFeatured.filter((station) => stationKeys.has(stationKeyForCountry(station)));
   }, [country, stations]);
 
@@ -570,7 +581,15 @@ export function StationBrowser({
         )}
 
         <div className="flex flex-1 overflow-hidden">
-          {searching ? (
+          {/*
+            Only one list of matches at a time. The focused dropdown above and
+            this body list render the same `filteredStations`, so while both were
+            mounted every match appeared as two buttons and an empty search said
+            "no matching station" twice. The dropdown is the richer of the two —
+            it alone receives `target`, `selectedOrigin` and `dependencyMap`, and
+            so is the one that can mark a destination as a direct connection.
+          */}
+          {searching && !isInputFocused ? (
             <div className="w-full overflow-y-auto px-5 pb-12 pt-2">
               <StationList
                 isLoading={isLoading}
@@ -584,7 +603,7 @@ export function StationBrowser({
                 isUncovered={isUncovered}
               />
             </div>
-          ) : lines.length === 0 && !linesLoading && !linesFailed ? (
+          ) : searching ? null : lines.length === 0 && !linesLoading && !linesFailed ? (
             <div className="w-full overflow-y-auto px-5 pb-12 pt-2">
               <StationList
                 isLoading={isLoading}
@@ -701,7 +720,7 @@ export function StationBrowser({
                       {stationsToRender.map((station, index, arr) => {
                         const line = lines.find((l) => l.id === selectedCategory);
                         const primaryLabel = stationLabel(t, station.name, country);
-                        
+
                         let secondaryLabel: string | null = null;
                         if (i18n.language === "zh-TW") {
                           if (primaryLabel !== station.name) {
@@ -713,6 +732,18 @@ export function StationBrowser({
                           if (zhLabel !== station.name) {
                             secondaryLabel = zhLabel;
                           }
+                        }
+                        // A row carries up to three names, and they collide often
+                        // enough to print the same word twice: reading Korean, the
+                        // localised label and the operator's own local name are
+                        // both 시청; reading Japanese, a kanji station's Japanese
+                        // and Chinese labels are both 練馬春日町. Show each
+                        // spelling once.
+                        const localName = station.localName && station.localName !== primaryLabel
+                          ? station.localName
+                          : null;
+                        if (secondaryLabel && (secondaryLabel === primaryLabel || secondaryLabel === localName)) {
+                          secondaryLabel = null;
                         }
 
                         return (
@@ -737,8 +768,8 @@ export function StationBrowser({
                                 <span className={`m3-body-large flex items-center gap-1.5 truncate ${isUncovered(station.name) ? "text-slate-400 dark:text-slate-500" : "text-slate-800 dark:text-slate-100"}`}>
                                   {primaryLabel}
                                   {isUncovered(station.name) && <NoTimetableBadge />}
-                                  {station.localName ? (
-                                    <span className="m3-body-small text-slate-400 dark:text-slate-500">{station.localName}</span>
+                                  {localName ? (
+                                    <span className="m3-body-small text-slate-400 dark:text-slate-500">{localName}</span>
                                   ) : null}
                                   {station.accessible && (
                                     <span className="inline-flex items-center justify-center text-blue-700 dark:text-blue-300" title={t("stations.accessible")}>
@@ -925,6 +956,8 @@ function StationList({
             secondaryLabel = zhLabel;
           }
         }
+        // Same collision as the browse list: never print one spelling twice.
+        if (secondaryLabel === primaryLabel) secondaryLabel = null;
 
         return (
           <motion.li 

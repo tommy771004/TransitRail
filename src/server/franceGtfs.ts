@@ -42,10 +42,32 @@ function normalizeStation(value: string) {
 
 /** Words that differ between how we name a station and how SNCF does, and carry
  *  no distinguishing information ("Paris Gare de l'Est" vs "Paris Est"). */
+/**
+ * UIC station codes, as SNCF publishes them: `StopArea:OCE…` rows are stations,
+ * `StopPoint:` rows their platforms. Keyed by the route list's own spelling; the
+ * matcher normalizes.
+ *
+ * The spellings never line up — the feed says "Paris Est" where the route list
+ * says "Paris Gare de l'Est", and "Marseille Saint-Charles" where it abbreviates
+ * to "St-Charles" — so the filler-word and synonym rules below were carrying the
+ * whole market. A code says which station it is whatever either side calls it.
+ */
+export const FRANCE_REGISTER_IDS: Readonly<Record<string, readonly string[]>> = {
+  "Paris Gare de l'Est": ["StopArea:OCE87113001"],
+  "Strasbourg": ["StopArea:OCE87212027"],
+  "Paris Gare de Lyon": ["StopArea:OCE87686006"],
+  "Lyon Part-Dieu": ["StopArea:OCE87723197"],
+  "Marseille St-Charles": ["StopArea:OCE87751008"],
+  "Paris Gare du Nord": ["StopArea:OCE87271007"],
+  "Lille Europe": ["StopArea:OCE87223263"],
+};
+
 const FRANCE_STATION_MATCH: GtfsStationMatchOptions = {
+  // Kept for any station not yet carrying a code: the register answers first,
+  // and these only run when it has nothing to say.
   fillerWords: ["gare", "station", "de", "du", "des", "d", "la", "le", "les", "l", "sncf", "ville"],
-  // The route list abbreviates Marseille St-Charles while SNCF spells out Saint.
   synonyms: { st: "saint", ste: "sainte", sts: "saints" },
+  registerIds: FRANCE_REGISTER_IDS,
 };
 
 const franceFeedSource = createGtfsFeedSource({

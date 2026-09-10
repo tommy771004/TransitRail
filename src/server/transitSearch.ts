@@ -284,13 +284,32 @@ function tryScraped(query: ResolvedQuery): TransitSearchPayload | undefined {
  * station" rather than "the fetch failed". Returns undefined when both
  * endpoints are covered — then the pair itself is the gap, not the stations.
  */
+/**
+ * Whether the committed files are the coverage that applies to this request.
+ *
+ * `coverageModeFor` calls a `provider_then_scraped` market provider-backed
+ * because its live source answers arbitrary pairs — true only while that source
+ * answers at all. Both callers below run when nothing was found, so for such a
+ * market the live source produced nothing (no credential, an outage, a pair it
+ * does not hold) and the files are what actually bounded the answer.
+ *
+ * Read as provider-backed regardless, Switzerland reported every uncovered pair
+ * as "not in the supported network" while both stations sat plainly on IC1. The
+ * honest answer is the one Korea already gives: the station is in the network,
+ * its timetable is not collected yet.
+ */
+function fileCoverageApplies(country: Country): boolean {
+  return coverageModeFor(country) === "scraped"
+    || getCountryCapability(country).search.kind === "provider_then_scraped";
+}
+
 function findCoverageGap(
   country: Country | undefined,
   origin: string,
   destination: string,
   date?: string,
 ): CoverageGap | undefined {
-  if (!country || coverageModeFor(country) !== "scraped") return undefined;
+  if (!country || !fileCoverageApplies(country)) return undefined;
 
   // A date with no rows does not mean the endpoints disappeared from the
   // network. Fall back to all dated slices so the response can distinguish an
@@ -374,7 +393,7 @@ function noResultPolicyDecision(
   destination: string,
   date: string,
 ): SearchabilityDecision | undefined {
-  if (!country || coverageModeFor(country) !== "scraped") return undefined;
+  if (!country || !fileCoverageApplies(country)) return undefined;
   return decideRouteContextSearchability(getScrapedRoutes(country), {
     country,
     serviceDay: date,

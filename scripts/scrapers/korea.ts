@@ -6,18 +6,15 @@ import { recordError } from "../../src/server/errorLog";
 import type { OfficialSourceId } from "../../src/data/sourceRegistry";
 
 /**
- * Korea is served entirely from the operators' own published timetable CSVs.
+ * Korean subway services are read from the operators' own published timetable CSVs.
  *
  * Seoul Metro and Incheon Transit Corporation both publish full timetables on
  * data.go.kr, and those become compressed artifacts that search reads directly.
  * There are no per-route files: this scraper's job is to refresh the artifacts,
  * so {@link routes} is deliberately empty.
  *
- * Korail is absent. It blocks automated access to its journey search
- * ("CODE : -8003"), and the previous build answered that by serving nine
- * curated KTX timetables — 231 invented departures per route — under a Korail
- * label. Those files are gone. Until an official Korail feed or a permitted
- * scrape exists, KTX routes have no data and search says so.
+ * Korail intercity trains are collected separately by KorailTimetableScraper
+ * from the operator's public KTX and regular-train XLSX downloads.
  */
 export class KoreaScraper extends DownloadScraper {
   readonly name = "Seoul Metro + Incheon Transit CSV";

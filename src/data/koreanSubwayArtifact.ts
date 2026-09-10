@@ -1,4 +1,5 @@
 import { gunzipSync, gzipSync } from "node:zlib";
+import { seoulStationNameFromCode } from "./seoulStationNames";
 import type { ServiceDayType, TransitResult } from "../types";
 import { getMinimumTransferMinutes } from "./transferRules";
 import type { OfficialSourceId } from "./sourceRegistry";
@@ -10,7 +11,7 @@ import {
 } from "../server/seoulSubwayTimetable";
 import { stationSearchKey } from "./stationKey";
 
-export const KOREAN_SUBWAY_ARTIFACT_SCHEMA_VERSION = 1 as const;
+export const KOREAN_SUBWAY_ARTIFACT_SCHEMA_VERSION = 2 as const;
 
 type ArtifactCall = [stationIndex: number, arrival: number | null, departure: number | null];
 type ArtifactRun = [
@@ -57,6 +58,16 @@ export interface KoreanSubwayArtifact {
   retrievedAt: string;
   sourceSha256: string;
   stations: string[];
+  /**
+   * 역사코드 per station, aligned with {@link stations} by index.
+   *
+   * Search matches the name; this is the cross-check. The name is *derived* from
+   * the published 역사명, so a rename upstream silently produces a station the
+   * menu can no longer find. Holding the code the row actually carried lets an
+   * audit ask whether the pair still agrees with the station list, which a name
+   * on its own cannot answer. `null` where the file published no code.
+   */
+  stationCodes: (string | null)[];
   runs: ArtifactRun[];
 }
 
@@ -67,17 +78,34 @@ export interface KoreanSubwayArtifactMetadata {
   source?: KoreanSubwayArtifactSource;
 }
 
+/** A 역사코드 is kept only while it still resolves to the station it is filed under. */
+function agreeingCode(station: string, code?: string): string | null {
+  if (!code) return null;
+  const named = seoulStationNameFromCode(code);
+  return named === undefined || named === station ? code : null;
+}
+
 export function buildKoreanSubwayArtifact(
   timetable: SeoulTimetable,
   metadata: KoreanSubwayArtifactMetadata,
 ): KoreanSubwayArtifact {
   const stations: string[] = [];
+  const stationCodes: (string | null)[] = [];
   const stationIndexes = new Map<string, number>();
-  const stationIndex = (station: string) => {
+  const stationIndex = (station: string, code?: string) => {
     const existing = stationIndexes.get(station);
-    if (existing !== undefined) return existing;
+    if (existing !== undefined) {
+      if (stationCodes[existing] === null) stationCodes[existing] = agreeingCode(station, code);
+      return existing;
+    }
     const index = stations.length;
     stations.push(station);
+    // Only a code that still names this station is worth keeping. The published
+    // file does contain rows whose 역사코드 and 역사명 disagree — 0321 arrives
+    // filed under Chungmuro while the station list calls it Euljiro 3(sam)-ga —
+    // and the name is the one search matches on, so a disagreeing code is
+    // dropped rather than stored as a second, contradictory identity.
+    stationCodes.push(agreeingCode(station, code));
     stationIndexes.set(station, index);
     return index;
   };
@@ -89,13 +117,14 @@ export function buildKoreanSubwayArtifact(
     retrievedAt: metadata.retrievedAt,
     sourceSha256: metadata.sourceSha256,
     stations,
+    stationCodes,
     runs: timetable.runs.map((run) => [
       run.line ?? "Seoul Subway",
       run.trainNo,
       run.dayType,
       run.direction ?? null,
       run.calls.map((call) => [
-        stationIndex(call.station),
+        stationIndex(call.station, call.stationCode),
         call.arrival ?? null,
         call.departure ?? null,
       ]),
@@ -137,6 +166,12 @@ export function validateKoreanSubwayArtifact(value: unknown): KoreanSubwayArtifa
   }
   if (new Set(artifact.stations).size !== artifact.stations.length) {
     throw new Error("Korean subway artifact station dictionary contains duplicates.");
+  }
+  if (!Array.isArray(artifact.stationCodes) || artifact.stationCodes.length !== artifact.stations.length) {
+    throw new Error("Korean subway artifact station codes do not line up with its stations.");
+  }
+  if (artifact.stationCodes.some((code) => code !== null && (typeof code !== "string" || code.length === 0))) {
+    throw new Error("Korean subway artifact station code is invalid.");
   }
   if (!Array.isArray(artifact.runs) || artifact.runs.length === 0) {
     throw new Error("Korean subway artifact has no train runs.");

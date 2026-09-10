@@ -7,7 +7,7 @@
 | 國家／地區 | 資料來源 | 憑證 | 專案狀態 | 可提供內容 |
 | --- | --- | --- | --- | --- |
 | 日本 | ODPT | API key | 等待 route adapter | 鐵路、車站、時刻與部分動態資料，依營運商授權而異 |
-| 韓國 | ODsay／TAGO／首爾開放資料 | API key | 目前為策展快照，覆蓋 9/305 站 | 見 [韓國申請流程](korea-api-registration.md)：TAGO 補城際站，首爾開放資料補地鐵站 |
+| 韓國 | Korail 官方 XLSX 時刻表＋首爾／仁川地鐵 CSV | 不需要 | 已完成，覆蓋 581/583 站 | KTX／ITX／무궁화 城際走廊與首爾地鐵 1–9 號線、仁川。TAGO 與首爾開放資料改為選用，見 [韓國申請流程](korea-api-registration.md) |
 | 香港 | MTR Next Train | 不需要 | 已完成 | 支援路線的即時下一班列車、月台、終點與延誤狀態 |
 | 新加坡 | LTA DataMall GTFS Schedule + mytransport.sg station map | 班次需 AccountKey；靜態站點目錄不需 | 站點目錄已快取；班次 adapter 已接入,但 DataMall 以 HTTP 401 拒絕目前的 key | 9 條 MRT/LRT 路線、184 站；班次待更新有效的 AccountKey |
 | 馬來西亞 | data.gov.my | 多數公開下載不需金鑰 | 資料評估 | Rapid Rail／KTMB 統計與下載檔；目前不應當成即時班次 |

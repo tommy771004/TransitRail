@@ -4,68 +4,69 @@
   "source": "SNCF Open Data GTFS",
   "sourceUrl": "https://ressources.data.sncf.com/explore/dataset/horaires-des-train-voyages-tgvinouiouigo/",
   "sourceTier": "A",
-  "fetchedAt": "2026-09-06T23:56:31.935Z",
-  "builtAt": "2026-09-08T23:44:10.062Z",
-  "recordCount": 585,
+  "fetchedAt": "2026-09-09T15:56:31.076Z",
+  "builtAt": "2026-09-09T15:56:32.303Z",
+  "recordCount": 665,
   "routeCount": 4,
-  "successRate": null,
+  "successRate": 1,
   "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 4,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-09-08",
       "2026-09-09",
       "2026-09-10",
       "2026-09-11",
       "2026-09-12",
       "2026-09-13",
       "2026-09-14",
-      "2026-09-15"
+      "2026-09-15",
+      "2026-09-16",
+      "2026-09-17"
     ]
   },
-  "checksum": "14e731dcb891598969be5092aefe6a71e93c905ce192561850d98435a262136c",
+  "checksum": "5effb9e2090f4d81767b12194678c23f7dba1692433da2a103b6388dcd1b4059",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Paris Gare de l'Est",
       "destination": "Strasbourg",
-      "resultCount": 191,
-      "date": "2026-09-08..2026-09-15",
+      "resultCount": 217,
+      "date": "2026-09-09..2026-09-17",
       "sourceId": "fr-sncf-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-06T23:56:28.627Z",
+      "fetchedAt": "2026-09-09T15:56:30.144Z",
       "verified": true
     },
     {
       "origin": "Paris Gare de Lyon",
       "destination": "Lyon Part-Dieu",
-      "resultCount": 165,
-      "date": "2026-09-08..2026-09-15",
+      "resultCount": 187,
+      "date": "2026-09-09..2026-09-17",
       "sourceId": "fr-sncf-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-06T23:56:29.741Z",
+      "fetchedAt": "2026-09-09T15:56:30.450Z",
       "verified": true
     },
     {
       "origin": "Paris Gare de Lyon",
       "destination": "Marseille St-Charles",
-      "resultCount": 147,
-      "date": "2026-09-08..2026-09-15",
+      "resultCount": 167,
+      "date": "2026-09-09..2026-09-17",
       "sourceId": "fr-sncf-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-06T23:56:30.858Z",
+      "fetchedAt": "2026-09-09T15:56:30.769Z",
       "verified": true
     },
     {
       "origin": "Paris Gare du Nord",
       "destination": "Lille Europe",
-      "resultCount": 82,
-      "date": "2026-09-08..2026-09-15",
+      "resultCount": 94,
+      "date": "2026-09-09..2026-09-17",
       "sourceId": "fr-sncf-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-06T23:56:31.935Z",
+      "fetchedAt": "2026-09-09T15:56:31.076Z",
       "verified": true
     }
   ]

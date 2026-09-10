@@ -1,0 +1,1321 @@
+{
+  "origin": "Seoul",
+  "destination": "Miryang",
+  "date": "2026-09-10..2026-09-18",
+  "scrapedAt": "2026-09-09T17:29:09.350Z",
+  "source": "Korail official KTX and regular train timetables",
+  "sourceDocuments": [
+    {
+      "title": "KTX 시간표(2026. 9. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036897009480.xlsx",
+      "effectiveFrom": "2026-09-01",
+      "retrievedAt": "2026-09-09T17:29:07.649Z",
+      "sha256": "cf69ea35e0b6ad9fb82c0e0b44f60833e34eadab55ea610eaf6784622351e9d0",
+      "exclusions": []
+    },
+    {
+      "title": "일반열차 시간표(2026. 9. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
+      "effectiveFrom": "2026-09-01",
+      "retrievedAt": "2026-09-09T17:29:08.229Z",
+      "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
+      "exclusions": [
+        "Korail excluded 서해선 1237: stop outside published start/end span"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "korail-2026-09-10-regular-경부선-9-35",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "ITX-새마을 1111",
+      "trainType": "ITX-새마을",
+      "origin": "Seoul",
+      "destination": "Miryang",
+      "departureTime": "19:25",
+      "arrivalTime": "23:28",
+      "durationMinutes": 243,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Yeongdeungpo",
+        "Suwon",
+        "Cheonan",
+        "Jochiwon",
+        "Daejeon",
+        "Gimcheon",
+        "Gumi",
+        "Waegwan",
+        "Daegu",
+        "Dongdaegu",
+        "Miryang"
+      ],
+      "headsign": "Miryang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Yeongdeungpo",
+          "departureTime": "19:25",
+          "arrivalTime": "19:35",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Yeongdeungpo",
+          "destination": "Suwon",
+          "departureTime": "19:35",
+          "arrivalTime": "19:57",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Suwon",
+          "destination": "Cheonan",
+          "departureTime": "19:57",
+          "arrivalTime": "20:26",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Jochiwon",
+          "departureTime": "20:26",
+          "arrivalTime": "20:47",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Jochiwon",
+          "destination": "Daejeon",
+          "departureTime": "20:47",
+          "arrivalTime": "21:11",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gimcheon",
+          "departureTime": "21:11",
+          "arrivalTime": "22:02",
+          "durationMinutes": 51
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gimcheon",
+          "destination": "Gumi",
+          "departureTime": "22:02",
+          "arrivalTime": "22:18",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gumi",
+          "destination": "Waegwan",
+          "departureTime": "22:18",
+          "arrivalTime": "22:31",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Waegwan",
+          "destination": "Daegu",
+          "departureTime": "22:31",
+          "arrivalTime": "22:50",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daegu",
+          "destination": "Dongdaegu",
+          "departureTime": "22:50",
+          "arrivalTime": "22:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Miryang",
+          "departureTime": "22:56",
+          "arrivalTime": "23:28",
+          "durationMinutes": 32
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-경부선-9-35",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "ITX-새마을 1111",
+      "trainType": "ITX-새마을",
+      "origin": "Seoul",
+      "destination": "Miryang",
+      "departureTime": "19:25",
+      "arrivalTime": "23:28",
+      "durationMinutes": 243,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Yeongdeungpo",
+        "Suwon",
+        "Cheonan",
+        "Jochiwon",
+        "Daejeon",
+        "Gimcheon",
+        "Gumi",
+        "Waegwan",
+        "Daegu",
+        "Dongdaegu",
+        "Miryang"
+      ],
+      "headsign": "Miryang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Yeongdeungpo",
+          "departureTime": "19:25",
+          "arrivalTime": "19:35",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Yeongdeungpo",
+          "destination": "Suwon",
+          "departureTime": "19:35",
+          "arrivalTime": "19:57",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Suwon",
+          "destination": "Cheonan",
+          "departureTime": "19:57",
+          "arrivalTime": "20:26",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Jochiwon",
+          "departureTime": "20:26",
+          "arrivalTime": "20:47",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Jochiwon",
+          "destination": "Daejeon",
+          "departureTime": "20:47",
+          "arrivalTime": "21:11",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gimcheon",
+          "departureTime": "21:11",
+          "arrivalTime": "22:02",
+          "durationMinutes": 51
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gimcheon",
+          "destination": "Gumi",
+          "departureTime": "22:02",
+          "arrivalTime": "22:18",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gumi",
+          "destination": "Waegwan",
+          "departureTime": "22:18",
+          "arrivalTime": "22:31",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Waegwan",
+          "destination": "Daegu",
+          "departureTime": "22:31",
+          "arrivalTime": "22:50",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daegu",
+          "destination": "Dongdaegu",
+          "departureTime": "22:50",
+          "arrivalTime": "22:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Miryang",
+          "departureTime": "22:56",
+          "arrivalTime": "23:28",
+          "durationMinutes": 32
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-경부선-9-35",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "ITX-새마을 1111",
+      "trainType": "ITX-새마을",
+      "origin": "Seoul",
+      "destination": "Miryang",
+      "departureTime": "19:25",
+      "arrivalTime": "23:28",
+      "durationMinutes": 243,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Yeongdeungpo",
+        "Suwon",
+        "Cheonan",
+        "Jochiwon",
+        "Daejeon",
+        "Gimcheon",
+        "Gumi",
+        "Waegwan",
+        "Daegu",
+        "Dongdaegu",
+        "Miryang"
+      ],
+      "headsign": "Miryang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Yeongdeungpo",
+          "departureTime": "19:25",
+          "arrivalTime": "19:35",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Yeongdeungpo",
+          "destination": "Suwon",
+          "departureTime": "19:35",
+          "arrivalTime": "19:57",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Suwon",
+          "destination": "Cheonan",
+          "departureTime": "19:57",
+          "arrivalTime": "20:26",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Jochiwon",
+          "departureTime": "20:26",
+          "arrivalTime": "20:47",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Jochiwon",
+          "destination": "Daejeon",
+          "departureTime": "20:47",
+          "arrivalTime": "21:11",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gimcheon",
+          "departureTime": "21:11",
+          "arrivalTime": "22:02",
+          "durationMinutes": 51
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gimcheon",
+          "destination": "Gumi",
+          "departureTime": "22:02",
+          "arrivalTime": "22:18",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gumi",
+          "destination": "Waegwan",
+          "departureTime": "22:18",
+          "arrivalTime": "22:31",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Waegwan",
+          "destination": "Daegu",
+          "departureTime": "22:31",
+          "arrivalTime": "22:50",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daegu",
+          "destination": "Dongdaegu",
+          "departureTime": "22:50",
+          "arrivalTime": "22:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Miryang",
+          "departureTime": "22:56",
+          "arrivalTime": "23:28",
+          "durationMinutes": 32
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-경부선-9-35",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "ITX-새마을 1111",
+      "trainType": "ITX-새마을",
+      "origin": "Seoul",
+      "destination": "Miryang",
+      "departureTime": "19:25",
+      "arrivalTime": "23:28",
+      "durationMinutes": 243,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Yeongdeungpo",
+        "Suwon",
+        "Cheonan",
+        "Jochiwon",
+        "Daejeon",
+        "Gimcheon",
+        "Gumi",
+        "Waegwan",
+        "Daegu",
+        "Dongdaegu",
+        "Miryang"
+      ],
+      "headsign": "Miryang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Yeongdeungpo",
+          "departureTime": "19:25",
+          "arrivalTime": "19:35",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Yeongdeungpo",
+          "destination": "Suwon",
+          "departureTime": "19:35",
+          "arrivalTime": "19:57",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Suwon",
+          "destination": "Cheonan",
+          "departureTime": "19:57",
+          "arrivalTime": "20:26",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Jochiwon",
+          "departureTime": "20:26",
+          "arrivalTime": "20:47",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Jochiwon",
+          "destination": "Daejeon",
+          "departureTime": "20:47",
+          "arrivalTime": "21:11",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gimcheon",
+          "departureTime": "21:11",
+          "arrivalTime": "22:02",
+          "durationMinutes": 51
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gimcheon",
+          "destination": "Gumi",
+          "departureTime": "22:02",
+          "arrivalTime": "22:18",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gumi",
+          "destination": "Waegwan",
+          "departureTime": "22:18",
+          "arrivalTime": "22:31",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Waegwan",
+          "destination": "Daegu",
+          "departureTime": "22:31",
+          "arrivalTime": "22:50",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daegu",
+          "destination": "Dongdaegu",
+          "departureTime": "22:50",
+          "arrivalTime": "22:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Miryang",
+          "departureTime": "22:56",
+          "arrivalTime": "23:28",
+          "durationMinutes": 32
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-경부선-9-35",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "ITX-새마을 1111",
+      "trainType": "ITX-새마을",
+      "origin": "Seoul",
+      "destination": "Miryang",
+      "departureTime": "19:25",
+      "arrivalTime": "23:28",
+      "durationMinutes": 243,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Yeongdeungpo",
+        "Suwon",
+        "Cheonan",
+        "Jochiwon",
+        "Daejeon",
+        "Gimcheon",
+        "Gumi",
+        "Waegwan",
+        "Daegu",
+        "Dongdaegu",
+        "Miryang"
+      ],
+      "headsign": "Miryang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Yeongdeungpo",
+          "departureTime": "19:25",
+          "arrivalTime": "19:35",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Yeongdeungpo",
+          "destination": "Suwon",
+          "departureTime": "19:35",
+          "arrivalTime": "19:57",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Suwon",
+          "destination": "Cheonan",
+          "departureTime": "19:57",
+          "arrivalTime": "20:26",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Jochiwon",
+          "departureTime": "20:26",
+          "arrivalTime": "20:47",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Jochiwon",
+          "destination": "Daejeon",
+          "departureTime": "20:47",
+          "arrivalTime": "21:11",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gimcheon",
+          "departureTime": "21:11",
+          "arrivalTime": "22:02",
+          "durationMinutes": 51
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gimcheon",
+          "destination": "Gumi",
+          "departureTime": "22:02",
+          "arrivalTime": "22:18",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gumi",
+          "destination": "Waegwan",
+          "departureTime": "22:18",
+          "arrivalTime": "22:31",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Waegwan",
+          "destination": "Daegu",
+          "departureTime": "22:31",
+          "arrivalTime": "22:50",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daegu",
+          "destination": "Dongdaegu",
+          "departureTime": "22:50",
+          "arrivalTime": "22:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Miryang",
+          "departureTime": "22:56",
+          "arrivalTime": "23:28",
+          "durationMinutes": 32
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-경부선-9-35",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "ITX-새마을 1111",
+      "trainType": "ITX-새마을",
+      "origin": "Seoul",
+      "destination": "Miryang",
+      "departureTime": "19:25",
+      "arrivalTime": "23:28",
+      "durationMinutes": 243,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Yeongdeungpo",
+        "Suwon",
+        "Cheonan",
+        "Jochiwon",
+        "Daejeon",
+        "Gimcheon",
+        "Gumi",
+        "Waegwan",
+        "Daegu",
+        "Dongdaegu",
+        "Miryang"
+      ],
+      "headsign": "Miryang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Yeongdeungpo",
+          "departureTime": "19:25",
+          "arrivalTime": "19:35",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Yeongdeungpo",
+          "destination": "Suwon",
+          "departureTime": "19:35",
+          "arrivalTime": "19:57",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Suwon",
+          "destination": "Cheonan",
+          "departureTime": "19:57",
+          "arrivalTime": "20:26",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Jochiwon",
+          "departureTime": "20:26",
+          "arrivalTime": "20:47",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Jochiwon",
+          "destination": "Daejeon",
+          "departureTime": "20:47",
+          "arrivalTime": "21:11",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gimcheon",
+          "departureTime": "21:11",
+          "arrivalTime": "22:02",
+          "durationMinutes": 51
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gimcheon",
+          "destination": "Gumi",
+          "departureTime": "22:02",
+          "arrivalTime": "22:18",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gumi",
+          "destination": "Waegwan",
+          "departureTime": "22:18",
+          "arrivalTime": "22:31",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Waegwan",
+          "destination": "Daegu",
+          "departureTime": "22:31",
+          "arrivalTime": "22:50",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daegu",
+          "destination": "Dongdaegu",
+          "departureTime": "22:50",
+          "arrivalTime": "22:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Miryang",
+          "departureTime": "22:56",
+          "arrivalTime": "23:28",
+          "durationMinutes": 32
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-경부선-9-35",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "ITX-새마을 1111",
+      "trainType": "ITX-새마을",
+      "origin": "Seoul",
+      "destination": "Miryang",
+      "departureTime": "19:25",
+      "arrivalTime": "23:28",
+      "durationMinutes": 243,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Yeongdeungpo",
+        "Suwon",
+        "Cheonan",
+        "Jochiwon",
+        "Daejeon",
+        "Gimcheon",
+        "Gumi",
+        "Waegwan",
+        "Daegu",
+        "Dongdaegu",
+        "Miryang"
+      ],
+      "headsign": "Miryang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Yeongdeungpo",
+          "departureTime": "19:25",
+          "arrivalTime": "19:35",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Yeongdeungpo",
+          "destination": "Suwon",
+          "departureTime": "19:35",
+          "arrivalTime": "19:57",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Suwon",
+          "destination": "Cheonan",
+          "departureTime": "19:57",
+          "arrivalTime": "20:26",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Jochiwon",
+          "departureTime": "20:26",
+          "arrivalTime": "20:47",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Jochiwon",
+          "destination": "Daejeon",
+          "departureTime": "20:47",
+          "arrivalTime": "21:11",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gimcheon",
+          "departureTime": "21:11",
+          "arrivalTime": "22:02",
+          "durationMinutes": 51
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gimcheon",
+          "destination": "Gumi",
+          "departureTime": "22:02",
+          "arrivalTime": "22:18",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gumi",
+          "destination": "Waegwan",
+          "departureTime": "22:18",
+          "arrivalTime": "22:31",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Waegwan",
+          "destination": "Daegu",
+          "departureTime": "22:31",
+          "arrivalTime": "22:50",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daegu",
+          "destination": "Dongdaegu",
+          "departureTime": "22:50",
+          "arrivalTime": "22:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Miryang",
+          "departureTime": "22:56",
+          "arrivalTime": "23:28",
+          "durationMinutes": 32
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-경부선-9-35",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "ITX-새마을 1111",
+      "trainType": "ITX-새마을",
+      "origin": "Seoul",
+      "destination": "Miryang",
+      "departureTime": "19:25",
+      "arrivalTime": "23:28",
+      "durationMinutes": 243,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Yeongdeungpo",
+        "Suwon",
+        "Cheonan",
+        "Jochiwon",
+        "Daejeon",
+        "Gimcheon",
+        "Gumi",
+        "Waegwan",
+        "Daegu",
+        "Dongdaegu",
+        "Miryang"
+      ],
+      "headsign": "Miryang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Yeongdeungpo",
+          "departureTime": "19:25",
+          "arrivalTime": "19:35",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Yeongdeungpo",
+          "destination": "Suwon",
+          "departureTime": "19:35",
+          "arrivalTime": "19:57",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Suwon",
+          "destination": "Cheonan",
+          "departureTime": "19:57",
+          "arrivalTime": "20:26",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Jochiwon",
+          "departureTime": "20:26",
+          "arrivalTime": "20:47",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Jochiwon",
+          "destination": "Daejeon",
+          "departureTime": "20:47",
+          "arrivalTime": "21:11",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gimcheon",
+          "departureTime": "21:11",
+          "arrivalTime": "22:02",
+          "durationMinutes": 51
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gimcheon",
+          "destination": "Gumi",
+          "departureTime": "22:02",
+          "arrivalTime": "22:18",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gumi",
+          "destination": "Waegwan",
+          "departureTime": "22:18",
+          "arrivalTime": "22:31",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Waegwan",
+          "destination": "Daegu",
+          "departureTime": "22:31",
+          "arrivalTime": "22:50",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daegu",
+          "destination": "Dongdaegu",
+          "departureTime": "22:50",
+          "arrivalTime": "22:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Miryang",
+          "departureTime": "22:56",
+          "arrivalTime": "23:28",
+          "durationMinutes": 32
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-경부선-9-35",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "ITX-새마을 1111",
+      "trainType": "ITX-새마을",
+      "origin": "Seoul",
+      "destination": "Miryang",
+      "departureTime": "19:25",
+      "arrivalTime": "23:28",
+      "durationMinutes": 243,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Yeongdeungpo",
+        "Suwon",
+        "Cheonan",
+        "Jochiwon",
+        "Daejeon",
+        "Gimcheon",
+        "Gumi",
+        "Waegwan",
+        "Daegu",
+        "Dongdaegu",
+        "Miryang"
+      ],
+      "headsign": "Miryang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Yeongdeungpo",
+          "departureTime": "19:25",
+          "arrivalTime": "19:35",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Yeongdeungpo",
+          "destination": "Suwon",
+          "departureTime": "19:35",
+          "arrivalTime": "19:57",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Suwon",
+          "destination": "Cheonan",
+          "departureTime": "19:57",
+          "arrivalTime": "20:26",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Jochiwon",
+          "departureTime": "20:26",
+          "arrivalTime": "20:47",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Jochiwon",
+          "destination": "Daejeon",
+          "departureTime": "20:47",
+          "arrivalTime": "21:11",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gimcheon",
+          "departureTime": "21:11",
+          "arrivalTime": "22:02",
+          "durationMinutes": 51
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gimcheon",
+          "destination": "Gumi",
+          "departureTime": "22:02",
+          "arrivalTime": "22:18",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gumi",
+          "destination": "Waegwan",
+          "departureTime": "22:18",
+          "arrivalTime": "22:31",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Waegwan",
+          "destination": "Daegu",
+          "departureTime": "22:31",
+          "arrivalTime": "22:50",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daegu",
+          "destination": "Dongdaegu",
+          "departureTime": "22:50",
+          "arrivalTime": "22:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1111",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Miryang",
+          "departureTime": "22:56",
+          "arrivalTime": "23:28",
+          "durationMinutes": 32
+        }
+      ]
+    }
+  ],
+  "sourceMeta": {
+    "sourceId": "kr-korail-timetable-xlsx",
+    "sourceType": "official-download",
+    "sourceTier": "A",
+    "sourceName": "Korail official KTX and regular train timetables",
+    "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
+    "provider": "Korail",
+    "country": "korea",
+    "fetchedAt": "2026-09-09T17:29:09.270Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official"
+}

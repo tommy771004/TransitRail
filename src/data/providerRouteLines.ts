@@ -4,6 +4,7 @@ import type { ScrapedRouteData } from "./scraped/timetableDay";
 /** Provider markets whose line catalog is built from verified route snapshots. */
 export const snapshotRouteCountries: readonly Country[] = [
   "belgium",
+  "korea",
   "malaysia",
   "norway",
   "united_states",
@@ -77,6 +78,22 @@ export function getProviderRouteLines(
   date?: string,
 ): TransitLine[] {
   if (!snapshotRouteCountries.includes(country)) return [];
+  if (country === "korea") {
+    const corridors = new Map<string, string[]>();
+    for (const route of routes) {
+      if (route.sourceMeta?.sourceId !== "kr-korail-timetable-xlsx") continue;
+      for (const result of route.results) {
+        if (date && result.date !== date) continue;
+        const code = result.legs?.[0]?.lineCode;
+        if (!code) continue;
+        corridors.set(code, uniqueStations([...(corridors.get(code) || []), ...result.stops]));
+      }
+    }
+    return [...corridors].sort(([a], [b]) => a.localeCompare(b)).map(([code, names]) => ({
+      id: `korea-route-korail-${[...code].map((char) => char.codePointAt(0)!.toString(16)).join("-")}`,
+      name: `Korail · ${code}`, color: "#005BAC", stations: names.map((name) => ({ name })),
+    }));
+  }
   return snapshotLines(country, routes, date);
 }
 

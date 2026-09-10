@@ -18,6 +18,15 @@ import type { ServiceDayType, TransitResult } from "../types";
 /** One call: minutes since the start of the service day (may exceed 24h). */
 export interface SeoulCall {
   station: string;
+  /**
+   * 역사코드 as the file wrote it, kept as a string.
+   *
+   * The name is what search matches on, and it is derived — 역사명 first, the
+   * code only as a fallback. Keeping the code alongside it is what lets a later
+   * run notice that a station's published name has moved: the pair either still
+   * agrees with the station list or it does not.
+   */
+  stationCode?: string;
   arrival?: number;
   departure?: number;
 }
@@ -114,7 +123,8 @@ export function parseSeoulSubwayTimetable(buffer: Buffer): SeoulTimetable {
   const byRun = new Map<string, SeoulTrainRun>();
 
   for (const row of table.rows) {
-    const station = resolveStation(cell(row, col.station), cell(row, col.stationCode));
+    const stationCode = cell(row, col.stationCode);
+    const station = resolveStation(cell(row, col.station), stationCode);
     if (!station) {
       drop("station not in menu");
       continue;
@@ -153,7 +163,7 @@ export function parseSeoulSubwayTimetable(buffer: Buffer): SeoulTimetable {
       };
       byRun.set(key, run);
     }
-    run.calls.push({ station, arrival, departure });
+    run.calls.push({ station, stationCode: stationCode || undefined, arrival, departure });
   }
 
   // The official CSV groups rows by station rather than by a train's call

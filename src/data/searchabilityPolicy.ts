@@ -458,7 +458,11 @@ export function decideRouteContextSearchability(
   const reason: SearchabilityRejectionReason = !originCovered || !destinationCovered
     ? "unavailable_coverage"
     : historicalResult?.length
-      ? "no_departures"
+      // Korail snapshots prove only their materialized dates. An absent
+      // boarding date is not evidence that the operator runs no trains.
+      ? historicalResult.every((result) => result.operator === "Korail")
+        ? "unavailable_coverage"
+        : "no_departures"
       : "unavailable_route";
   return {
     ...empty,

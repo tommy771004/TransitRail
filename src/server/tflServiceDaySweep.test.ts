@@ -49,11 +49,26 @@ function installTflStub(latencyMs = 0) {
       }), { status: 200 });
     }
 
+    // Service-day bounds are the line's published timetable, not a journey
+    // query: TfL ignores `adjustment=TripFirst`/`TripLast` on the planner.
+    if (url.pathname.includes("/Timetable/")) {
+      calls.push("bounds:timetable");
+      return new Response(JSON.stringify({
+        timetable: {
+          routes: [{
+            schedules: [{
+              name: "Monday - Friday",
+              knownJourneys: [{ hour: "5", minute: "30" }, { hour: "23", minute: "45" }],
+            }],
+          }],
+        },
+      }), { status: 200 });
+    }
+
     if (url.pathname.startsWith("/Journey/JourneyResults/")) {
-      const adjustment = url.searchParams.get("adjustment");
       const time = url.searchParams.get("time") || "";
-      calls.push(adjustment ? `bounds:${adjustment}` : `journey:${time}`);
-      return new Response(JSON.stringify({ journeys: [journeyAt(adjustment ? "0530" : time)] }), { status: 200 });
+      calls.push(`journey:${time}`);
+      return new Response(JSON.stringify({ journeys: [journeyAt(time)] }), { status: 200 });
     }
 
     throw new Error(`Unexpected TfL fixture request: ${url}`);
@@ -92,15 +107,14 @@ describe("TfL service-day sweep", () => {
     expect(calls.filter((call) => call === "resolve:Oxford Circus")).toHaveLength(1);
   });
 
-  it("fetches the service day's first and last trip once for the whole sweep", async () => {
+  it("fetches the service day's first and last departure once for the whole sweep", async () => {
     const calls = installTflStub();
 
     await runSweep();
 
-    // One pair for the day, not one pair per sampled hour: TripFirst and
-    // TripLast do not depend on the time being sampled.
-    expect(calls.filter((call) => call === "bounds:TripFirst")).toHaveLength(1);
-    expect(calls.filter((call) => call === "bounds:TripLast")).toHaveLength(1);
+    // One timetable for the day, not one per sampled hour: a line's published
+    // service day does not depend on the time being sampled.
+    expect(calls.filter((call) => call === "bounds:timetable")).toHaveLength(1);
   });
 
   it("still samples every hour of the operating day exactly once", async () => {
@@ -122,16 +136,15 @@ describe("TfL service-day sweep", () => {
     installTflStub(3_000);
 
     // Count only the per-sample journey queries. A single sample already fetches
-    // its two stations and its two trip bounds in parallel, so counting every
-    // request in flight would look concurrent even when the samples themselves
-    // run strictly one after another.
+    // its two stations in parallel, so counting every request in flight would
+    // look concurrent even when the samples themselves run strictly one after
+    // another.
     let inFlight = 0;
     let peakInFlight = 0;
     const underlying = globalThis.fetch as typeof fetch;
     vi.stubGlobal("fetch", async (input: RequestInfo | URL) => {
       const url = new URL(String(input));
-      const isSample = url.pathname.startsWith("/Journey/JourneyResults/")
-        && !url.searchParams.get("adjustment");
+      const isSample = url.pathname.startsWith("/Journey/JourneyResults/");
       if (isSample) {
         inFlight += 1;
         peakInFlight = Math.max(peakInFlight, inFlight);
@@ -148,14 +161,16 @@ describe("TfL service-day sweep", () => {
     expect(peakInFlight).toBeGreaterThan(1);
   });
 
-  it("costs the sweep 15 requests rather than one set per sampled hour", async () => {
+  it("costs the sweep 14 requests rather than one set per sampled hour", async () => {
     const calls = installTflStub();
 
     await runSweep();
 
-    // Two station lookups and one first/last pair for the route and date, plus
-    // the eleven samples that are the point of the sweep. It was 55.
-    expect(calls).toHaveLength(15);
+    // Two station lookups and one line timetable for the route and date, plus
+    // the eleven samples that are the point of the sweep. It was 55, then 15
+    // while two of those requests asked the journey planner for bounds it does
+    // not publish.
+    expect(calls).toHaveLength(14);
   });
 
   it("paces itself against the anonymous rate limit by default", async () => {
@@ -165,8 +180,8 @@ describe("TfL service-day sweep", () => {
     await runSweep();
 
     // TfL allows ~50 requests/min without a subscription key, and the sweep's
-    // fifteen requests are spread across that rate.
-    expect(Date.now() - startedAt).toBeGreaterThanOrEqual(14 * 1_200);
+    // fourteen requests are spread across that rate.
+    expect(Date.now() - startedAt).toBeGreaterThanOrEqual(13 * 1_200);
   });
 
   it("never lets requests bunch up, however they were scheduled", async () => {
@@ -186,7 +201,7 @@ describe("TfL service-day sweep", () => {
 
     await runSweep();
 
-    expect(startTimes.length).toBe(15);
+    expect(startTimes.length).toBe(14);
     const gaps = startTimes.slice(1).map((at, index) => at - startTimes[index]);
     expect(Math.min(...gaps)).toBeGreaterThanOrEqual(1_200);
   });
@@ -210,7 +225,7 @@ describe("TfL service-day sweep", () => {
     expect(seenKeys).toEqual(new Set(["test-app-key"]));
     // Fifteen for the sweep, plus the one idle request that established the key
     // is worth pacing against. That probe is per process, not per route.
-    expect(calls).toHaveLength(16);
+    expect(calls).toHaveLength(15);
   });
 
   it("falls back to anonymous access when TfL rejects the key, rather than racing past the anonymous limit", async () => {
@@ -237,7 +252,7 @@ describe("TfL service-day sweep", () => {
     // route failed. Now the sweep completes at the anonymous rate.
     expect(status).toBe(200);
     expect(seenKeys).toEqual(new Set([null]));
-    expect(Date.now() - startedAt).toBeGreaterThanOrEqual(14 * 1_200);
+    expect(Date.now() - startedAt).toBeGreaterThanOrEqual(13 * 1_200);
   });
 
   it("keeps using a good key when a single request fails for an unrelated reason", async () => {

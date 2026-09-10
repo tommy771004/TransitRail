@@ -1,0 +1,4252 @@
+{
+  "origin": "Dongdaegu",
+  "destination": "Busan",
+  "date": "2026-09-10..2026-09-18",
+  "scrapedAt": "2026-09-09T17:29:09.348Z",
+  "source": "Korail official KTX and regular train timetables",
+  "sourceDocuments": [
+    {
+      "title": "KTX 시간표(2026. 9. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036897009480.xlsx",
+      "effectiveFrom": "2026-09-01",
+      "retrievedAt": "2026-09-09T17:29:07.649Z",
+      "sha256": "cf69ea35e0b6ad9fb82c0e0b44f60833e34eadab55ea610eaf6784622351e9d0",
+      "exclusions": []
+    },
+    {
+      "title": "일반열차 시간표(2026. 9. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
+      "effectiveFrom": "2026-09-01",
+      "retrievedAt": "2026-09-09T17:29:08.229Z",
+      "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
+      "exclusions": [
+        "Korail excluded 서해선 1237: stop outside published start/end span"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "korail-2026-09-09-ktx-경부선-126-2-next-day",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "KTX 83",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:18",
+      "arrivalTime": "01:04",
+      "durationMinutes": 46,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Ulsan",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Ulsan",
+          "departureTime": "00:18",
+          "arrivalTime": "00:43",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Ulsan",
+          "destination": "Busan",
+          "departureTime": "00:43",
+          "arrivalTime": "01:04",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-09-ktx-경부선-127-2-next-day",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "KTX-산천 367",
+      "trainType": "KTX-산천",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:28",
+      "arrivalTime": "01:08",
+      "durationMinutes": 40,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 367",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Busan",
+          "departureTime": "00:28",
+          "arrivalTime": "01:08",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-regular-경부선-9-2",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "ITX-새마을 1141",
+      "trainType": "ITX-새마을",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "06:00",
+      "arrivalTime": "07:40",
+      "durationMinutes": 100,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Namseonghyeon",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "06:00",
+          "arrivalTime": "06:11",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Namseonghyeon",
+          "departureTime": "06:11",
+          "arrivalTime": "06:22",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Namseonghyeon",
+          "destination": "Cheongdo",
+          "departureTime": "06:22",
+          "arrivalTime": "06:30",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "06:30",
+          "arrivalTime": "06:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "06:39",
+          "arrivalTime": "06:47",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "06:47",
+          "arrivalTime": "06:57",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "06:57",
+          "arrivalTime": "07:04",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "07:04",
+          "arrivalTime": "07:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "07:12",
+          "arrivalTime": "07:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "07:19",
+          "arrivalTime": "07:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "07:24",
+          "arrivalTime": "07:30",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "07:30",
+          "arrivalTime": "07:40",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-regular-경부선-9-3",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "ITX-마음 1143",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "07:09",
+      "arrivalTime": "08:48",
+      "durationMinutes": 99,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "07:09",
+          "arrivalTime": "07:20",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "07:20",
+          "arrivalTime": "07:36",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "07:36",
+          "arrivalTime": "07:45",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "07:45",
+          "arrivalTime": "07:53",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "07:53",
+          "arrivalTime": "08:03",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "08:03",
+          "arrivalTime": "08:11",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "08:11",
+          "arrivalTime": "08:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "08:19",
+          "arrivalTime": "08:26",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "08:26",
+          "arrivalTime": "08:32",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "08:32",
+          "arrivalTime": "08:38",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "08:38",
+          "arrivalTime": "08:48",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-regular-경부선-9-20",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "ITX-마음 1145",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "15:45",
+      "arrivalTime": "17:07",
+      "durationMinutes": 82,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Miryang",
+        "Mulgeum",
+        "Gupo",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "15:45",
+          "arrivalTime": "15:57",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "15:57",
+          "arrivalTime": "16:11",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Miryang",
+          "departureTime": "16:11",
+          "arrivalTime": "16:25",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Mulgeum",
+          "departureTime": "16:25",
+          "arrivalTime": "16:45",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Gupo",
+          "departureTime": "16:45",
+          "arrivalTime": "16:54",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Busan",
+          "departureTime": "16:54",
+          "arrivalTime": "17:07",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-ktx-경부선-126-2-next-day",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "KTX 83",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:18",
+      "arrivalTime": "01:04",
+      "durationMinutes": 46,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Ulsan",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Ulsan",
+          "departureTime": "00:18",
+          "arrivalTime": "00:43",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Ulsan",
+          "destination": "Busan",
+          "departureTime": "00:43",
+          "arrivalTime": "01:04",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-ktx-경부선-127-2-next-day",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "KTX-산천 367",
+      "trainType": "KTX-산천",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:28",
+      "arrivalTime": "01:08",
+      "durationMinutes": 40,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 367",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Busan",
+          "departureTime": "00:28",
+          "arrivalTime": "01:08",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-경부선-9-2",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "ITX-새마을 1141",
+      "trainType": "ITX-새마을",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "06:00",
+      "arrivalTime": "07:40",
+      "durationMinutes": 100,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Namseonghyeon",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "06:00",
+          "arrivalTime": "06:11",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Namseonghyeon",
+          "departureTime": "06:11",
+          "arrivalTime": "06:22",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Namseonghyeon",
+          "destination": "Cheongdo",
+          "departureTime": "06:22",
+          "arrivalTime": "06:30",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "06:30",
+          "arrivalTime": "06:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "06:39",
+          "arrivalTime": "06:47",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "06:47",
+          "arrivalTime": "06:57",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "06:57",
+          "arrivalTime": "07:04",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "07:04",
+          "arrivalTime": "07:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "07:12",
+          "arrivalTime": "07:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "07:19",
+          "arrivalTime": "07:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "07:24",
+          "arrivalTime": "07:30",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "07:30",
+          "arrivalTime": "07:40",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-경부선-9-3",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "ITX-마음 1143",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "07:09",
+      "arrivalTime": "08:48",
+      "durationMinutes": 99,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "07:09",
+          "arrivalTime": "07:20",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "07:20",
+          "arrivalTime": "07:36",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "07:36",
+          "arrivalTime": "07:45",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "07:45",
+          "arrivalTime": "07:53",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "07:53",
+          "arrivalTime": "08:03",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "08:03",
+          "arrivalTime": "08:11",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "08:11",
+          "arrivalTime": "08:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "08:19",
+          "arrivalTime": "08:26",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "08:26",
+          "arrivalTime": "08:32",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "08:32",
+          "arrivalTime": "08:38",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "08:38",
+          "arrivalTime": "08:48",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-경부선-9-20",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "ITX-마음 1145",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "15:45",
+      "arrivalTime": "17:07",
+      "durationMinutes": 82,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Miryang",
+        "Mulgeum",
+        "Gupo",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "15:45",
+          "arrivalTime": "15:57",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "15:57",
+          "arrivalTime": "16:11",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Miryang",
+          "departureTime": "16:11",
+          "arrivalTime": "16:25",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Mulgeum",
+          "departureTime": "16:25",
+          "arrivalTime": "16:45",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Gupo",
+          "departureTime": "16:45",
+          "arrivalTime": "16:54",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Busan",
+          "departureTime": "16:54",
+          "arrivalTime": "17:07",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-ktx-경부선-126-2-next-day",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "KTX 83",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:18",
+      "arrivalTime": "01:04",
+      "durationMinutes": 46,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Ulsan",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Ulsan",
+          "departureTime": "00:18",
+          "arrivalTime": "00:43",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Ulsan",
+          "destination": "Busan",
+          "departureTime": "00:43",
+          "arrivalTime": "01:04",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-ktx-경부선-127-2-next-day",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "KTX-산천 367",
+      "trainType": "KTX-산천",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:28",
+      "arrivalTime": "01:08",
+      "durationMinutes": 40,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 367",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Busan",
+          "departureTime": "00:28",
+          "arrivalTime": "01:08",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-ktx-경부선-128-2-next-day",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "KTX 159",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:32",
+      "arrivalTime": "01:12",
+      "durationMinutes": 40,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 159",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Busan",
+          "departureTime": "00:32",
+          "arrivalTime": "01:12",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-경부선-9-2",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "ITX-새마을 1141",
+      "trainType": "ITX-새마을",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "06:00",
+      "arrivalTime": "07:40",
+      "durationMinutes": 100,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Namseonghyeon",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "06:00",
+          "arrivalTime": "06:11",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Namseonghyeon",
+          "departureTime": "06:11",
+          "arrivalTime": "06:22",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Namseonghyeon",
+          "destination": "Cheongdo",
+          "departureTime": "06:22",
+          "arrivalTime": "06:30",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "06:30",
+          "arrivalTime": "06:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "06:39",
+          "arrivalTime": "06:47",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "06:47",
+          "arrivalTime": "06:57",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "06:57",
+          "arrivalTime": "07:04",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "07:04",
+          "arrivalTime": "07:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "07:12",
+          "arrivalTime": "07:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "07:19",
+          "arrivalTime": "07:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "07:24",
+          "arrivalTime": "07:30",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "07:30",
+          "arrivalTime": "07:40",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-경부선-9-3",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "ITX-마음 1143",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "07:09",
+      "arrivalTime": "08:48",
+      "durationMinutes": 99,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "07:09",
+          "arrivalTime": "07:20",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "07:20",
+          "arrivalTime": "07:36",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "07:36",
+          "arrivalTime": "07:45",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "07:45",
+          "arrivalTime": "07:53",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "07:53",
+          "arrivalTime": "08:03",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "08:03",
+          "arrivalTime": "08:11",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "08:11",
+          "arrivalTime": "08:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "08:19",
+          "arrivalTime": "08:26",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "08:26",
+          "arrivalTime": "08:32",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "08:32",
+          "arrivalTime": "08:38",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "08:38",
+          "arrivalTime": "08:48",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-경부선-9-20",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "ITX-마음 1145",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "15:45",
+      "arrivalTime": "17:07",
+      "durationMinutes": 82,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Miryang",
+        "Mulgeum",
+        "Gupo",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "15:45",
+          "arrivalTime": "15:57",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "15:57",
+          "arrivalTime": "16:11",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Miryang",
+          "departureTime": "16:11",
+          "arrivalTime": "16:25",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Mulgeum",
+          "departureTime": "16:25",
+          "arrivalTime": "16:45",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Gupo",
+          "departureTime": "16:45",
+          "arrivalTime": "16:54",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Busan",
+          "departureTime": "16:54",
+          "arrivalTime": "17:07",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-ktx-경부선-126-2-next-day",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "KTX 83",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:18",
+      "arrivalTime": "01:04",
+      "durationMinutes": 46,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Ulsan",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Ulsan",
+          "departureTime": "00:18",
+          "arrivalTime": "00:43",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Ulsan",
+          "destination": "Busan",
+          "departureTime": "00:43",
+          "arrivalTime": "01:04",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-ktx-경부선-127-2-next-day",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "KTX-산천 367",
+      "trainType": "KTX-산천",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:28",
+      "arrivalTime": "01:08",
+      "durationMinutes": 40,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 367",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Busan",
+          "departureTime": "00:28",
+          "arrivalTime": "01:08",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-ktx-경부선-128-2-next-day",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "KTX 159",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:32",
+      "arrivalTime": "01:12",
+      "durationMinutes": 40,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 159",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Busan",
+          "departureTime": "00:32",
+          "arrivalTime": "01:12",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-경부선-9-2",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "ITX-새마을 1141",
+      "trainType": "ITX-새마을",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "06:00",
+      "arrivalTime": "07:40",
+      "durationMinutes": 100,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Namseonghyeon",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "06:00",
+          "arrivalTime": "06:11",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Namseonghyeon",
+          "departureTime": "06:11",
+          "arrivalTime": "06:22",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Namseonghyeon",
+          "destination": "Cheongdo",
+          "departureTime": "06:22",
+          "arrivalTime": "06:30",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "06:30",
+          "arrivalTime": "06:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "06:39",
+          "arrivalTime": "06:47",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "06:47",
+          "arrivalTime": "06:57",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "06:57",
+          "arrivalTime": "07:04",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "07:04",
+          "arrivalTime": "07:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "07:12",
+          "arrivalTime": "07:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "07:19",
+          "arrivalTime": "07:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "07:24",
+          "arrivalTime": "07:30",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "07:30",
+          "arrivalTime": "07:40",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-경부선-9-3",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "ITX-마음 1143",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "07:09",
+      "arrivalTime": "08:48",
+      "durationMinutes": 99,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "07:09",
+          "arrivalTime": "07:20",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "07:20",
+          "arrivalTime": "07:36",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "07:36",
+          "arrivalTime": "07:45",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "07:45",
+          "arrivalTime": "07:53",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "07:53",
+          "arrivalTime": "08:03",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "08:03",
+          "arrivalTime": "08:11",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "08:11",
+          "arrivalTime": "08:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "08:19",
+          "arrivalTime": "08:26",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "08:26",
+          "arrivalTime": "08:32",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "08:32",
+          "arrivalTime": "08:38",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "08:38",
+          "arrivalTime": "08:48",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-경부선-9-20",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "ITX-마음 1145",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "15:45",
+      "arrivalTime": "17:07",
+      "durationMinutes": 82,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Miryang",
+        "Mulgeum",
+        "Gupo",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "15:45",
+          "arrivalTime": "15:57",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "15:57",
+          "arrivalTime": "16:11",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Miryang",
+          "departureTime": "16:11",
+          "arrivalTime": "16:25",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Mulgeum",
+          "departureTime": "16:25",
+          "arrivalTime": "16:45",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Gupo",
+          "departureTime": "16:45",
+          "arrivalTime": "16:54",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Busan",
+          "departureTime": "16:54",
+          "arrivalTime": "17:07",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-ktx-경부선-126-2-next-day",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "KTX 83",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:18",
+      "arrivalTime": "01:04",
+      "durationMinutes": 46,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Ulsan",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Ulsan",
+          "departureTime": "00:18",
+          "arrivalTime": "00:43",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Ulsan",
+          "destination": "Busan",
+          "departureTime": "00:43",
+          "arrivalTime": "01:04",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-ktx-경부선-127-2-next-day",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "KTX-산천 367",
+      "trainType": "KTX-산천",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:28",
+      "arrivalTime": "01:08",
+      "durationMinutes": 40,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 367",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Busan",
+          "departureTime": "00:28",
+          "arrivalTime": "01:08",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-ktx-경부선-128-2-next-day",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "KTX 159",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:32",
+      "arrivalTime": "01:12",
+      "durationMinutes": 40,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 159",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Busan",
+          "departureTime": "00:32",
+          "arrivalTime": "01:12",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-경부선-9-2",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "ITX-새마을 1141",
+      "trainType": "ITX-새마을",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "06:00",
+      "arrivalTime": "07:40",
+      "durationMinutes": 100,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Namseonghyeon",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "06:00",
+          "arrivalTime": "06:11",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Namseonghyeon",
+          "departureTime": "06:11",
+          "arrivalTime": "06:22",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Namseonghyeon",
+          "destination": "Cheongdo",
+          "departureTime": "06:22",
+          "arrivalTime": "06:30",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "06:30",
+          "arrivalTime": "06:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "06:39",
+          "arrivalTime": "06:47",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "06:47",
+          "arrivalTime": "06:57",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "06:57",
+          "arrivalTime": "07:04",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "07:04",
+          "arrivalTime": "07:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "07:12",
+          "arrivalTime": "07:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "07:19",
+          "arrivalTime": "07:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "07:24",
+          "arrivalTime": "07:30",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "07:30",
+          "arrivalTime": "07:40",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-경부선-9-3",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "ITX-마음 1143",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "07:09",
+      "arrivalTime": "08:48",
+      "durationMinutes": 99,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "07:09",
+          "arrivalTime": "07:20",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "07:20",
+          "arrivalTime": "07:36",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "07:36",
+          "arrivalTime": "07:45",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "07:45",
+          "arrivalTime": "07:53",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "07:53",
+          "arrivalTime": "08:03",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "08:03",
+          "arrivalTime": "08:11",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "08:11",
+          "arrivalTime": "08:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "08:19",
+          "arrivalTime": "08:26",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "08:26",
+          "arrivalTime": "08:32",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "08:32",
+          "arrivalTime": "08:38",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "08:38",
+          "arrivalTime": "08:48",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-경부선-9-20",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "ITX-마음 1145",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "15:45",
+      "arrivalTime": "17:07",
+      "durationMinutes": 82,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Miryang",
+        "Mulgeum",
+        "Gupo",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "15:45",
+          "arrivalTime": "15:57",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "15:57",
+          "arrivalTime": "16:11",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Miryang",
+          "departureTime": "16:11",
+          "arrivalTime": "16:25",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Mulgeum",
+          "departureTime": "16:25",
+          "arrivalTime": "16:45",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Gupo",
+          "departureTime": "16:45",
+          "arrivalTime": "16:54",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Busan",
+          "departureTime": "16:54",
+          "arrivalTime": "17:07",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-ktx-경부선-126-2-next-day",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "KTX 83",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:18",
+      "arrivalTime": "01:04",
+      "durationMinutes": 46,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Ulsan",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Ulsan",
+          "departureTime": "00:18",
+          "arrivalTime": "00:43",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Ulsan",
+          "destination": "Busan",
+          "departureTime": "00:43",
+          "arrivalTime": "01:04",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-ktx-경부선-127-2-next-day",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "KTX-산천 367",
+      "trainType": "KTX-산천",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:28",
+      "arrivalTime": "01:08",
+      "durationMinutes": 40,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 367",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Busan",
+          "departureTime": "00:28",
+          "arrivalTime": "01:08",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-경부선-9-2",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "ITX-새마을 1141",
+      "trainType": "ITX-새마을",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "06:00",
+      "arrivalTime": "07:40",
+      "durationMinutes": 100,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Namseonghyeon",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "06:00",
+          "arrivalTime": "06:11",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Namseonghyeon",
+          "departureTime": "06:11",
+          "arrivalTime": "06:22",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Namseonghyeon",
+          "destination": "Cheongdo",
+          "departureTime": "06:22",
+          "arrivalTime": "06:30",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "06:30",
+          "arrivalTime": "06:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "06:39",
+          "arrivalTime": "06:47",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "06:47",
+          "arrivalTime": "06:57",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "06:57",
+          "arrivalTime": "07:04",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "07:04",
+          "arrivalTime": "07:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "07:12",
+          "arrivalTime": "07:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "07:19",
+          "arrivalTime": "07:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "07:24",
+          "arrivalTime": "07:30",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "07:30",
+          "arrivalTime": "07:40",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-경부선-9-3",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "ITX-마음 1143",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "07:09",
+      "arrivalTime": "08:48",
+      "durationMinutes": 99,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "07:09",
+          "arrivalTime": "07:20",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "07:20",
+          "arrivalTime": "07:36",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "07:36",
+          "arrivalTime": "07:45",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "07:45",
+          "arrivalTime": "07:53",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "07:53",
+          "arrivalTime": "08:03",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "08:03",
+          "arrivalTime": "08:11",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "08:11",
+          "arrivalTime": "08:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "08:19",
+          "arrivalTime": "08:26",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "08:26",
+          "arrivalTime": "08:32",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "08:32",
+          "arrivalTime": "08:38",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "08:38",
+          "arrivalTime": "08:48",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-경부선-9-20",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "ITX-마음 1145",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "15:45",
+      "arrivalTime": "17:07",
+      "durationMinutes": 82,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Miryang",
+        "Mulgeum",
+        "Gupo",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "15:45",
+          "arrivalTime": "15:57",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "15:57",
+          "arrivalTime": "16:11",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Miryang",
+          "departureTime": "16:11",
+          "arrivalTime": "16:25",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Mulgeum",
+          "departureTime": "16:25",
+          "arrivalTime": "16:45",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Gupo",
+          "departureTime": "16:45",
+          "arrivalTime": "16:54",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Busan",
+          "departureTime": "16:54",
+          "arrivalTime": "17:07",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-ktx-경부선-126-2-next-day",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "KTX 83",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:18",
+      "arrivalTime": "01:04",
+      "durationMinutes": 46,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Ulsan",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Ulsan",
+          "departureTime": "00:18",
+          "arrivalTime": "00:43",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Ulsan",
+          "destination": "Busan",
+          "departureTime": "00:43",
+          "arrivalTime": "01:04",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-ktx-경부선-127-2-next-day",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "KTX-산천 367",
+      "trainType": "KTX-산천",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:28",
+      "arrivalTime": "01:08",
+      "durationMinutes": 40,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 367",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Busan",
+          "departureTime": "00:28",
+          "arrivalTime": "01:08",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-경부선-9-2",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "ITX-새마을 1141",
+      "trainType": "ITX-새마을",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "06:00",
+      "arrivalTime": "07:40",
+      "durationMinutes": 100,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Namseonghyeon",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "06:00",
+          "arrivalTime": "06:11",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Namseonghyeon",
+          "departureTime": "06:11",
+          "arrivalTime": "06:22",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Namseonghyeon",
+          "destination": "Cheongdo",
+          "departureTime": "06:22",
+          "arrivalTime": "06:30",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "06:30",
+          "arrivalTime": "06:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "06:39",
+          "arrivalTime": "06:47",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "06:47",
+          "arrivalTime": "06:57",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "06:57",
+          "arrivalTime": "07:04",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "07:04",
+          "arrivalTime": "07:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "07:12",
+          "arrivalTime": "07:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "07:19",
+          "arrivalTime": "07:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "07:24",
+          "arrivalTime": "07:30",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "07:30",
+          "arrivalTime": "07:40",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-경부선-9-3",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "ITX-마음 1143",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "07:09",
+      "arrivalTime": "08:48",
+      "durationMinutes": 99,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "07:09",
+          "arrivalTime": "07:20",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "07:20",
+          "arrivalTime": "07:36",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "07:36",
+          "arrivalTime": "07:45",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "07:45",
+          "arrivalTime": "07:53",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "07:53",
+          "arrivalTime": "08:03",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "08:03",
+          "arrivalTime": "08:11",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "08:11",
+          "arrivalTime": "08:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "08:19",
+          "arrivalTime": "08:26",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "08:26",
+          "arrivalTime": "08:32",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "08:32",
+          "arrivalTime": "08:38",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "08:38",
+          "arrivalTime": "08:48",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-경부선-9-20",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "ITX-마음 1145",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "15:45",
+      "arrivalTime": "17:07",
+      "durationMinutes": 82,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Miryang",
+        "Mulgeum",
+        "Gupo",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "15:45",
+          "arrivalTime": "15:57",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "15:57",
+          "arrivalTime": "16:11",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Miryang",
+          "departureTime": "16:11",
+          "arrivalTime": "16:25",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Mulgeum",
+          "departureTime": "16:25",
+          "arrivalTime": "16:45",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Gupo",
+          "departureTime": "16:45",
+          "arrivalTime": "16:54",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Busan",
+          "departureTime": "16:54",
+          "arrivalTime": "17:07",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-ktx-경부선-126-2-next-day",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "KTX 83",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:18",
+      "arrivalTime": "01:04",
+      "durationMinutes": 46,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Ulsan",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Ulsan",
+          "departureTime": "00:18",
+          "arrivalTime": "00:43",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Ulsan",
+          "destination": "Busan",
+          "departureTime": "00:43",
+          "arrivalTime": "01:04",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-ktx-경부선-127-2-next-day",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "KTX-산천 367",
+      "trainType": "KTX-산천",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:28",
+      "arrivalTime": "01:08",
+      "durationMinutes": 40,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 367",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Busan",
+          "departureTime": "00:28",
+          "arrivalTime": "01:08",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-경부선-9-2",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "ITX-새마을 1141",
+      "trainType": "ITX-새마을",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "06:00",
+      "arrivalTime": "07:40",
+      "durationMinutes": 100,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Namseonghyeon",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "06:00",
+          "arrivalTime": "06:11",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Namseonghyeon",
+          "departureTime": "06:11",
+          "arrivalTime": "06:22",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Namseonghyeon",
+          "destination": "Cheongdo",
+          "departureTime": "06:22",
+          "arrivalTime": "06:30",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "06:30",
+          "arrivalTime": "06:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "06:39",
+          "arrivalTime": "06:47",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "06:47",
+          "arrivalTime": "06:57",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "06:57",
+          "arrivalTime": "07:04",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "07:04",
+          "arrivalTime": "07:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "07:12",
+          "arrivalTime": "07:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "07:19",
+          "arrivalTime": "07:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "07:24",
+          "arrivalTime": "07:30",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "07:30",
+          "arrivalTime": "07:40",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-경부선-9-3",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "ITX-마음 1143",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "07:09",
+      "arrivalTime": "08:48",
+      "durationMinutes": 99,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "07:09",
+          "arrivalTime": "07:20",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "07:20",
+          "arrivalTime": "07:36",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "07:36",
+          "arrivalTime": "07:45",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "07:45",
+          "arrivalTime": "07:53",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "07:53",
+          "arrivalTime": "08:03",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "08:03",
+          "arrivalTime": "08:11",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "08:11",
+          "arrivalTime": "08:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "08:19",
+          "arrivalTime": "08:26",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "08:26",
+          "arrivalTime": "08:32",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "08:32",
+          "arrivalTime": "08:38",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "08:38",
+          "arrivalTime": "08:48",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-경부선-9-20",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "ITX-마음 1145",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "15:45",
+      "arrivalTime": "17:07",
+      "durationMinutes": 82,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Miryang",
+        "Mulgeum",
+        "Gupo",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "15:45",
+          "arrivalTime": "15:57",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "15:57",
+          "arrivalTime": "16:11",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Miryang",
+          "departureTime": "16:11",
+          "arrivalTime": "16:25",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Mulgeum",
+          "departureTime": "16:25",
+          "arrivalTime": "16:45",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Gupo",
+          "departureTime": "16:45",
+          "arrivalTime": "16:54",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Busan",
+          "departureTime": "16:54",
+          "arrivalTime": "17:07",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-ktx-경부선-126-2-next-day",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "KTX 83",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:18",
+      "arrivalTime": "01:04",
+      "durationMinutes": 46,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Ulsan",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Ulsan",
+          "departureTime": "00:18",
+          "arrivalTime": "00:43",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX 83",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Ulsan",
+          "destination": "Busan",
+          "departureTime": "00:43",
+          "arrivalTime": "01:04",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-ktx-경부선-127-2-next-day",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "KTX-산천 367",
+      "trainType": "KTX-산천",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "00:28",
+      "arrivalTime": "01:08",
+      "durationMinutes": 40,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 367",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Busan",
+          "departureTime": "00:28",
+          "arrivalTime": "01:08",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-경부선-9-2",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "ITX-새마을 1141",
+      "trainType": "ITX-새마을",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "06:00",
+      "arrivalTime": "07:40",
+      "durationMinutes": 100,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Namseonghyeon",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "06:00",
+          "arrivalTime": "06:11",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Namseonghyeon",
+          "departureTime": "06:11",
+          "arrivalTime": "06:22",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Namseonghyeon",
+          "destination": "Cheongdo",
+          "departureTime": "06:22",
+          "arrivalTime": "06:30",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "06:30",
+          "arrivalTime": "06:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "06:39",
+          "arrivalTime": "06:47",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "06:47",
+          "arrivalTime": "06:57",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "06:57",
+          "arrivalTime": "07:04",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "07:04",
+          "arrivalTime": "07:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "07:12",
+          "arrivalTime": "07:19",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "07:19",
+          "arrivalTime": "07:24",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "07:24",
+          "arrivalTime": "07:30",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-새마을 1141",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "07:30",
+          "arrivalTime": "07:40",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-경부선-9-3",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "ITX-마음 1143",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "07:09",
+      "arrivalTime": "08:48",
+      "durationMinutes": 99,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Sangdong",
+        "Miryang",
+        "Samnangjin",
+        "Wondong",
+        "Mulgeum",
+        "Hwamyeong",
+        "Gupo",
+        "Sasang",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "07:09",
+          "arrivalTime": "07:20",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "07:20",
+          "arrivalTime": "07:36",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Sangdong",
+          "departureTime": "07:36",
+          "arrivalTime": "07:45",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sangdong",
+          "destination": "Miryang",
+          "departureTime": "07:45",
+          "arrivalTime": "07:53",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Samnangjin",
+          "departureTime": "07:53",
+          "arrivalTime": "08:03",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Samnangjin",
+          "destination": "Wondong",
+          "departureTime": "08:03",
+          "arrivalTime": "08:11",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Wondong",
+          "destination": "Mulgeum",
+          "departureTime": "08:11",
+          "arrivalTime": "08:19",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Hwamyeong",
+          "departureTime": "08:19",
+          "arrivalTime": "08:26",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Hwamyeong",
+          "destination": "Gupo",
+          "departureTime": "08:26",
+          "arrivalTime": "08:32",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Sasang",
+          "departureTime": "08:32",
+          "arrivalTime": "08:38",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1143",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Sasang",
+          "destination": "Busan",
+          "departureTime": "08:38",
+          "arrivalTime": "08:48",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-경부선-9-20",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "ITX-마음 1145",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "departureTime": "15:45",
+      "arrivalTime": "17:07",
+      "durationMinutes": 82,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Gyeongsan",
+        "Cheongdo",
+        "Miryang",
+        "Mulgeum",
+        "Gupo",
+        "Busan"
+      ],
+      "headsign": "Busan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gyeongsan",
+          "departureTime": "15:45",
+          "arrivalTime": "15:57",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gyeongsan",
+          "destination": "Cheongdo",
+          "departureTime": "15:57",
+          "arrivalTime": "16:11",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheongdo",
+          "destination": "Miryang",
+          "departureTime": "16:11",
+          "arrivalTime": "16:25",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Mulgeum",
+          "departureTime": "16:25",
+          "arrivalTime": "16:45",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Mulgeum",
+          "destination": "Gupo",
+          "departureTime": "16:45",
+          "arrivalTime": "16:54",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1145",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gupo",
+          "destination": "Busan",
+          "departureTime": "16:54",
+          "arrivalTime": "17:07",
+          "durationMinutes": 13
+        }
+      ]
+    }
+  ],
+  "sourceMeta": {
+    "sourceId": "kr-korail-timetable-xlsx",
+    "sourceType": "official-download",
+    "sourceTier": "A",
+    "sourceName": "Korail official KTX and regular train timetables",
+    "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
+    "provider": "Korail",
+    "country": "korea",
+    "fetchedAt": "2026-09-09T17:29:09.270Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official"
+}

@@ -64,7 +64,7 @@ export function SearchForm({
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const hotRoutes = useMemo(() => [
     { country: "japan", origin: "Tokyo", destination: "Shin-Osaka", label: t("hot_routes.tokyo_osaka", { defaultValue: "東京 ➔ 新大阪" }) },
-    { country: "korea", origin: "Seoul (SNC)", destination: "Busan (BSN)", label: t("hot_routes.seoul_busan", { defaultValue: "首爾 ➔ 釜山" }) },
+    { country: "korea", origin: "Seoul", destination: "Busan", label: t("hot_routes.seoul_busan", { defaultValue: "首爾 ➔ 釜山" }) },
     { country: "hong_kong", origin: "Central", destination: "Tsuen Wan", label: t("hot_routes.central_tsuenwan", { defaultValue: "中環 ➔ 荃灣" }) },
     { country: "singapore", origin: "Jurong East", destination: "Raffles Place", label: t("hot_routes.jurong_raffles", { defaultValue: "裕廊東 ➔ 萊佛士坊" }) },
     { country: "china", origin: "Beijing South", destination: "Shanghai Hongqiao", label: t("hot_routes.beijing_shanghai", { defaultValue: "北京南 ➔ 上海虹橋" }) },
@@ -289,7 +289,7 @@ export function SearchForm({
                   triggerHaptic("light");
                   onOpenStations("origin");
                 }}
-                aria-label={origin ? `${t("search.origin")}: ${stationLabel(t, origin, country)}` : t("search.select_origin", { defaultValue: "Select Departure Station" })}
+                aria-label={origin ? `${t("search.origin")}: ${stationLabel(t, origin, country)}` : t("stations.pick_origin", { defaultValue: "Select Departure Station" })}
                 className="m3-shape-md m3-state group z-10 flex min-h-24 flex-1 flex-col items-center justify-center py-2 text-center"
               >
                 <div className={`m3-label-medium mb-1.5 flex items-center gap-1 ${theme.textActive}`}>
@@ -321,7 +321,7 @@ export function SearchForm({
                   triggerHaptic("light");
                   onOpenStations("destination");
                 }}
-                aria-label={destination ? `${t("search.destination")}: ${stationLabel(t, destination, country)}` : t("search.select_dest", { defaultValue: "Select Destination Station" })}
+                aria-label={destination ? `${t("search.destination")}: ${stationLabel(t, destination, country)}` : t("stations.pick_destination", { defaultValue: "Select Destination Station" })}
                 className="m3-shape-md m3-state group z-10 flex min-h-24 flex-1 flex-col items-center justify-center py-2 text-center"
               >
                 <div className={`m3-label-medium mb-1.5 flex items-center gap-1 ${theme.textActive}`}>
@@ -713,7 +713,7 @@ export function SearchForm({
               <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
               <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
               
-              <div className="flex shrink-0 animate-marquee-right hover:[animation-play-state:paused] whitespace-nowrap">
+              <div className="flex shrink-0 animate-marquee-right hover:[animation-play-state:paused] active:[animation-play-state:paused] focus-within:[animation-play-state:paused] motion-reduce:[animation-play-state:paused] whitespace-nowrap">
                 {row1.concat(row1).map((route, idx) => {
                   const routeTheme = countryThemes[route.country as Country] || theme;
                   return (
@@ -748,7 +748,7 @@ export function SearchForm({
               <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
               <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
               
-              <div className="flex shrink-0 animate-marquee-left hover:[animation-play-state:paused] whitespace-nowrap">
+              <div className="flex shrink-0 animate-marquee-left hover:[animation-play-state:paused] active:[animation-play-state:paused] focus-within:[animation-play-state:paused] motion-reduce:[animation-play-state:paused] whitespace-nowrap">
                 {row2.concat(row2).map((route, idx) => {
                   const routeTheme = countryThemes[route.country as Country] || theme;
                   return (

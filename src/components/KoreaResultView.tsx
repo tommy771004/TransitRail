@@ -186,7 +186,7 @@ export function KoreaResultView({
 
                   <div className="relative flex min-w-[75px] flex-col items-center">
                     <span className="m3-label-small mb-1 font-mono text-emerald-600 dark:text-emerald-400">
-                      {formatDuration(trip.durationMinutes)}
+                      {formatDuration(t, trip.durationMinutes)}
                     </span>
                     <TimelineBar color={trip.lineColor || "#10b981"} direct={!!trip.direct} />
                     <span className="mt-1 font-mono text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">

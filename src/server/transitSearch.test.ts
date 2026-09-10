@@ -25,6 +25,37 @@ function journey(startDateTime: string, arrivalDateTime: string) {
   };
 }
 
+/**
+ * The London wall clock of a UTC instant, in the hour numbering TfL publishes.
+ *
+ * A departure after midnight still belongs to the service day it started in, and
+ * the timetable says so by counting past 23: 00:30 on the morning after
+ * `serviceDate` is published as hour 24. Collapsing it to hour 0 would sort it
+ * before the first train instead of after the last one.
+ */
+function londonClock(iso: string, serviceDate: string): [number, number] {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", hourCycle: "h23",
+  }).formatToParts(new Date(iso));
+  const value = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  const days = Math.round(
+    (Date.parse(`${value.year}-${value.month}-${value.day}T00:00:00Z`) - Date.parse(`${serviceDate}T00:00:00Z`))
+    / 86_400_000,
+  );
+  return [Number(value.hour) + days * 24, Number(value.minute)];
+}
+
+/** TfL names each schedule after the days it runs, in prose. */
+function serviceDayName(date: string) {
+  const weekday = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/London", weekday: "long",
+  }).format(new Date(`${date}T12:00:00Z`));
+  if (weekday === "Saturday") return "Saturdays and Public Holidays";
+  if (weekday === "Sunday") return "Sunday";
+  return "Monday - Friday";
+}
+
 function installLondonFixtures(
   lastStart: string | undefined = undefined,
   failServiceDay = false,
@@ -45,20 +76,37 @@ function installLondonFixtures(
       }), { status: 200 });
     }
 
-    if (url.pathname.startsWith("/Journey/JourneyResults/")) {
-      const adjustment = url.searchParams.get("adjustment");
-      if (failServiceDay && adjustment) {
+    // Service-day bounds come from the line's published timetable. The journey
+    // planner cannot answer them: TfL ignores `adjustment=TripFirst`/`TripLast`,
+    // so a fixture that honoured it described an API that does not exist.
+    if (url.pathname.includes("/Timetable/")) {
+      if (failServiceDay) {
         return new Response(JSON.stringify({ error: "fixture provider failure" }), { status: 503 });
       }
-      if (failJourney && !adjustment) {
+      const [lastHour, lastMinute] = londonClock(lastStart || `${serviceDate}T22:45:00Z`, serviceDate);
+      return new Response(JSON.stringify({
+        timetable: {
+          routes: [{
+            schedules: [
+              {
+                name: serviceDayName(serviceDate),
+                knownJourneys: [
+                  { hour: "5", minute: "30" },
+                  { hour: String(lastHour), minute: String(lastMinute).padStart(2, "0") },
+                ],
+              },
+            ],
+          }],
+        },
+      }), { status: 200 });
+    }
+
+    if (url.pathname.startsWith("/Journey/JourneyResults/")) {
+      if (failJourney) {
         return new Response(JSON.stringify({ error: "fixture provider secret" }), { status: 503 });
       }
-      const selected = adjustment === "TripFirst"
-        ? journey(`${serviceDate}T04:30:00Z`, `${serviceDate}T04:50:00Z`)
-        : adjustment === "TripLast"
-          ? journey(lastStart || `${serviceDate}T22:45:00Z`, `${serviceDate}T23:05:00Z`)
-          : journey(`${serviceDate}T08:00:00Z`, `${serviceDate}T08:20:00Z`);
-      return new Response(JSON.stringify({ journeys: emptyJourney && !adjustment ? [] : [selected] }), { status: 200 });
+      const selected = journey(`${serviceDate}T08:00:00Z`, `${serviceDate}T08:20:00Z`);
+      return new Response(JSON.stringify({ journeys: emptyJourney ? [] : [selected] }), { status: 200 });
     }
 
     if (url.pathname.startsWith("/Line/Mode/")) {

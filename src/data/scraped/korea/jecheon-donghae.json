@@ -1,0 +1,6622 @@
+{
+  "origin": "Jecheon",
+  "destination": "Donghae",
+  "date": "2026-09-10..2026-09-18",
+  "scrapedAt": "2026-09-09T17:29:09.387Z",
+  "source": "Korail official KTX and regular train timetables",
+  "sourceDocuments": [
+    {
+      "title": "KTX 시간표(2026. 9. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036897009480.xlsx",
+      "effectiveFrom": "2026-09-01",
+      "retrievedAt": "2026-09-09T17:29:07.649Z",
+      "sha256": "cf69ea35e0b6ad9fb82c0e0b44f60833e34eadab55ea610eaf6784622351e9d0",
+      "exclusions": []
+    },
+    {
+      "title": "일반열차 시간표(2026. 9. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
+      "effectiveFrom": "2026-09-01",
+      "retrievedAt": "2026-09-09T17:29:08.229Z",
+      "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
+      "exclusions": [
+        "Korail excluded 서해선 1237: stop outside published start/end span"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "korail-2026-09-10-regular-태백선-9-2",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "무궁화 1671",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "09:31",
+      "arrivalTime": "12:25",
+      "durationMinutes": 174,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "09:31",
+          "arrivalTime": "10:05",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "10:05",
+          "arrivalTime": "10:25",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "10:25",
+          "arrivalTime": "10:47",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "10:47",
+          "arrivalTime": "10:56",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "10:56",
+          "arrivalTime": "11:03",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "11:03",
+          "arrivalTime": "11:17",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "11:17",
+          "arrivalTime": "11:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:45",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "11:45",
+          "arrivalTime": "12:02",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "12:02",
+          "arrivalTime": "12:25",
+          "durationMinutes": 23
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-regular-태백선-9-3",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "무궁화 1673",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "11:29",
+      "arrivalTime": "14:28",
+      "durationMinutes": 179,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "11:29",
+          "arrivalTime": "12:00",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "12:00",
+          "arrivalTime": "12:24",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "12:24",
+          "arrivalTime": "12:46",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "12:46",
+          "arrivalTime": "12:55",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "12:55",
+          "arrivalTime": "13:02",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "13:02",
+          "arrivalTime": "13:17",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "13:17",
+          "arrivalTime": "13:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "13:29",
+          "arrivalTime": "13:46",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "13:46",
+          "arrivalTime": "14:28",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-regular-태백선-9-4",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "무궁화 1675",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:07",
+      "arrivalTime": "17:05",
+      "durationMinutes": 178,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:07",
+          "arrivalTime": "14:22",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "14:22",
+          "arrivalTime": "14:40",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "14:40",
+          "arrivalTime": "15:01",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:01",
+          "arrivalTime": "15:23",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "15:23",
+          "arrivalTime": "15:32",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "15:32",
+          "arrivalTime": "15:39",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "15:39",
+          "arrivalTime": "15:54",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "15:54",
+          "arrivalTime": "16:05",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "16:05",
+          "arrivalTime": "16:23",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "16:23",
+          "arrivalTime": "17:05",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-regular-태백선-9-5",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "무궁화 1681",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:55",
+      "arrivalTime": "17:58",
+      "durationMinutes": 183,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:55",
+          "arrivalTime": "15:09",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "15:09",
+          "arrivalTime": "15:27",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "15:27",
+          "arrivalTime": "15:55",
+          "durationMinutes": 28
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:55",
+          "arrivalTime": "16:17",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "16:17",
+          "arrivalTime": "16:26",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "16:26",
+          "arrivalTime": "16:33",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "16:33",
+          "arrivalTime": "16:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "16:48",
+          "arrivalTime": "17:00",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "17:00",
+          "arrivalTime": "17:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "17:16",
+          "arrivalTime": "17:33",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "17:33",
+          "arrivalTime": "17:58",
+          "durationMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-regular-태백선-9-6",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "ITX-마음 1641",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "18:26",
+      "arrivalTime": "21:08",
+      "durationMinutes": 162,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Mindungsan",
+        "Sabuk",
+        "Taebaek",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "18:26",
+          "arrivalTime": "18:56",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Mindungsan",
+          "departureTime": "18:56",
+          "arrivalTime": "19:35",
+          "durationMinutes": 39
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "19:35",
+          "arrivalTime": "19:44",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Taebaek",
+          "departureTime": "19:44",
+          "arrivalTime": "20:04",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dogye",
+          "departureTime": "20:04",
+          "arrivalTime": "20:30",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "20:30",
+          "arrivalTime": "21:08",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-10-regular-태백선-9-7",
+      "country": "korea",
+      "date": "2026-09-10",
+      "operator": "Korail",
+      "service": "무궁화 1677",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "21:01",
+      "arrivalTime": "23:50",
+      "durationMinutes": 169,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "21:01",
+          "arrivalTime": "21:32",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "21:32",
+          "arrivalTime": "21:52",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "21:52",
+          "arrivalTime": "22:13",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "22:13",
+          "arrivalTime": "22:22",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "22:22",
+          "arrivalTime": "22:29",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "22:29",
+          "arrivalTime": "22:44",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "22:44",
+          "arrivalTime": "22:56",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "22:56",
+          "arrivalTime": "23:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "23:12",
+          "arrivalTime": "23:50",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-태백선-9-2",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "무궁화 1671",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "09:31",
+      "arrivalTime": "12:25",
+      "durationMinutes": 174,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "09:31",
+          "arrivalTime": "10:05",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "10:05",
+          "arrivalTime": "10:25",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "10:25",
+          "arrivalTime": "10:47",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "10:47",
+          "arrivalTime": "10:56",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "10:56",
+          "arrivalTime": "11:03",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "11:03",
+          "arrivalTime": "11:17",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "11:17",
+          "arrivalTime": "11:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:45",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "11:45",
+          "arrivalTime": "12:02",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "12:02",
+          "arrivalTime": "12:25",
+          "durationMinutes": 23
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-태백선-9-3",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "무궁화 1673",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "11:29",
+      "arrivalTime": "14:28",
+      "durationMinutes": 179,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "11:29",
+          "arrivalTime": "12:00",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "12:00",
+          "arrivalTime": "12:24",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "12:24",
+          "arrivalTime": "12:46",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "12:46",
+          "arrivalTime": "12:55",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "12:55",
+          "arrivalTime": "13:02",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "13:02",
+          "arrivalTime": "13:17",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "13:17",
+          "arrivalTime": "13:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "13:29",
+          "arrivalTime": "13:46",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "13:46",
+          "arrivalTime": "14:28",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-태백선-9-4",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "무궁화 1675",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:07",
+      "arrivalTime": "17:05",
+      "durationMinutes": 178,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:07",
+          "arrivalTime": "14:22",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "14:22",
+          "arrivalTime": "14:40",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "14:40",
+          "arrivalTime": "15:01",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:01",
+          "arrivalTime": "15:23",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "15:23",
+          "arrivalTime": "15:32",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "15:32",
+          "arrivalTime": "15:39",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "15:39",
+          "arrivalTime": "15:54",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "15:54",
+          "arrivalTime": "16:05",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "16:05",
+          "arrivalTime": "16:23",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "16:23",
+          "arrivalTime": "17:05",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-태백선-9-5",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "무궁화 1681",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:55",
+      "arrivalTime": "17:58",
+      "durationMinutes": 183,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:55",
+          "arrivalTime": "15:09",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "15:09",
+          "arrivalTime": "15:27",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "15:27",
+          "arrivalTime": "15:55",
+          "durationMinutes": 28
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:55",
+          "arrivalTime": "16:17",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "16:17",
+          "arrivalTime": "16:26",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "16:26",
+          "arrivalTime": "16:33",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "16:33",
+          "arrivalTime": "16:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "16:48",
+          "arrivalTime": "17:00",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "17:00",
+          "arrivalTime": "17:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "17:16",
+          "arrivalTime": "17:33",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "17:33",
+          "arrivalTime": "17:58",
+          "durationMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-태백선-9-6",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "ITX-마음 1641",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "18:26",
+      "arrivalTime": "21:08",
+      "durationMinutes": 162,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Mindungsan",
+        "Sabuk",
+        "Taebaek",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "18:26",
+          "arrivalTime": "18:56",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Mindungsan",
+          "departureTime": "18:56",
+          "arrivalTime": "19:35",
+          "durationMinutes": 39
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "19:35",
+          "arrivalTime": "19:44",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Taebaek",
+          "departureTime": "19:44",
+          "arrivalTime": "20:04",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dogye",
+          "departureTime": "20:04",
+          "arrivalTime": "20:30",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "20:30",
+          "arrivalTime": "21:08",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-11-regular-태백선-9-7",
+      "country": "korea",
+      "date": "2026-09-11",
+      "operator": "Korail",
+      "service": "무궁화 1677",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "21:01",
+      "arrivalTime": "23:50",
+      "durationMinutes": 169,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "21:01",
+          "arrivalTime": "21:32",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "21:32",
+          "arrivalTime": "21:52",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "21:52",
+          "arrivalTime": "22:13",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "22:13",
+          "arrivalTime": "22:22",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "22:22",
+          "arrivalTime": "22:29",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "22:29",
+          "arrivalTime": "22:44",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "22:44",
+          "arrivalTime": "22:56",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "22:56",
+          "arrivalTime": "23:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "23:12",
+          "arrivalTime": "23:50",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-태백선-9-2",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "무궁화 1671",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "09:31",
+      "arrivalTime": "12:25",
+      "durationMinutes": 174,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "09:31",
+          "arrivalTime": "10:05",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "10:05",
+          "arrivalTime": "10:25",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "10:25",
+          "arrivalTime": "10:47",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "10:47",
+          "arrivalTime": "10:56",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "10:56",
+          "arrivalTime": "11:03",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "11:03",
+          "arrivalTime": "11:17",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "11:17",
+          "arrivalTime": "11:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:45",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "11:45",
+          "arrivalTime": "12:02",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "12:02",
+          "arrivalTime": "12:25",
+          "durationMinutes": 23
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-태백선-9-3",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "무궁화 1673",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "11:29",
+      "arrivalTime": "14:28",
+      "durationMinutes": 179,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "11:29",
+          "arrivalTime": "12:00",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "12:00",
+          "arrivalTime": "12:24",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "12:24",
+          "arrivalTime": "12:46",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "12:46",
+          "arrivalTime": "12:55",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "12:55",
+          "arrivalTime": "13:02",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "13:02",
+          "arrivalTime": "13:17",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "13:17",
+          "arrivalTime": "13:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "13:29",
+          "arrivalTime": "13:46",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "13:46",
+          "arrivalTime": "14:28",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-태백선-9-4",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "무궁화 1675",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:07",
+      "arrivalTime": "17:05",
+      "durationMinutes": 178,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:07",
+          "arrivalTime": "14:22",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "14:22",
+          "arrivalTime": "14:40",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "14:40",
+          "arrivalTime": "15:01",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:01",
+          "arrivalTime": "15:23",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "15:23",
+          "arrivalTime": "15:32",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "15:32",
+          "arrivalTime": "15:39",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "15:39",
+          "arrivalTime": "15:54",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "15:54",
+          "arrivalTime": "16:05",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "16:05",
+          "arrivalTime": "16:23",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "16:23",
+          "arrivalTime": "17:05",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-태백선-9-5",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "무궁화 1681",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:55",
+      "arrivalTime": "17:58",
+      "durationMinutes": 183,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:55",
+          "arrivalTime": "15:09",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "15:09",
+          "arrivalTime": "15:27",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "15:27",
+          "arrivalTime": "15:55",
+          "durationMinutes": 28
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:55",
+          "arrivalTime": "16:17",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "16:17",
+          "arrivalTime": "16:26",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "16:26",
+          "arrivalTime": "16:33",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "16:33",
+          "arrivalTime": "16:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "16:48",
+          "arrivalTime": "17:00",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "17:00",
+          "arrivalTime": "17:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "17:16",
+          "arrivalTime": "17:33",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "17:33",
+          "arrivalTime": "17:58",
+          "durationMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-태백선-9-6",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "ITX-마음 1641",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "18:26",
+      "arrivalTime": "21:08",
+      "durationMinutes": 162,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Mindungsan",
+        "Sabuk",
+        "Taebaek",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "18:26",
+          "arrivalTime": "18:56",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Mindungsan",
+          "departureTime": "18:56",
+          "arrivalTime": "19:35",
+          "durationMinutes": 39
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "19:35",
+          "arrivalTime": "19:44",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Taebaek",
+          "departureTime": "19:44",
+          "arrivalTime": "20:04",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dogye",
+          "departureTime": "20:04",
+          "arrivalTime": "20:30",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "20:30",
+          "arrivalTime": "21:08",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-12-regular-태백선-9-7",
+      "country": "korea",
+      "date": "2026-09-12",
+      "operator": "Korail",
+      "service": "무궁화 1677",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "21:01",
+      "arrivalTime": "23:50",
+      "durationMinutes": 169,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "21:01",
+          "arrivalTime": "21:32",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "21:32",
+          "arrivalTime": "21:52",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "21:52",
+          "arrivalTime": "22:13",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "22:13",
+          "arrivalTime": "22:22",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "22:22",
+          "arrivalTime": "22:29",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "22:29",
+          "arrivalTime": "22:44",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "22:44",
+          "arrivalTime": "22:56",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "22:56",
+          "arrivalTime": "23:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "23:12",
+          "arrivalTime": "23:50",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-태백선-9-2",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "무궁화 1671",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "09:31",
+      "arrivalTime": "12:25",
+      "durationMinutes": 174,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "09:31",
+          "arrivalTime": "10:05",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "10:05",
+          "arrivalTime": "10:25",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "10:25",
+          "arrivalTime": "10:47",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "10:47",
+          "arrivalTime": "10:56",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "10:56",
+          "arrivalTime": "11:03",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "11:03",
+          "arrivalTime": "11:17",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "11:17",
+          "arrivalTime": "11:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:45",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "11:45",
+          "arrivalTime": "12:02",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "12:02",
+          "arrivalTime": "12:25",
+          "durationMinutes": 23
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-태백선-9-3",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "무궁화 1673",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "11:29",
+      "arrivalTime": "14:28",
+      "durationMinutes": 179,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "11:29",
+          "arrivalTime": "12:00",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "12:00",
+          "arrivalTime": "12:24",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "12:24",
+          "arrivalTime": "12:46",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "12:46",
+          "arrivalTime": "12:55",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "12:55",
+          "arrivalTime": "13:02",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "13:02",
+          "arrivalTime": "13:17",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "13:17",
+          "arrivalTime": "13:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "13:29",
+          "arrivalTime": "13:46",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "13:46",
+          "arrivalTime": "14:28",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-태백선-9-4",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "무궁화 1675",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:07",
+      "arrivalTime": "17:05",
+      "durationMinutes": 178,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:07",
+          "arrivalTime": "14:22",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "14:22",
+          "arrivalTime": "14:40",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "14:40",
+          "arrivalTime": "15:01",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:01",
+          "arrivalTime": "15:23",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "15:23",
+          "arrivalTime": "15:32",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "15:32",
+          "arrivalTime": "15:39",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "15:39",
+          "arrivalTime": "15:54",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "15:54",
+          "arrivalTime": "16:05",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "16:05",
+          "arrivalTime": "16:23",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "16:23",
+          "arrivalTime": "17:05",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-태백선-9-5",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "무궁화 1681",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:55",
+      "arrivalTime": "17:58",
+      "durationMinutes": 183,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:55",
+          "arrivalTime": "15:09",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "15:09",
+          "arrivalTime": "15:27",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "15:27",
+          "arrivalTime": "15:55",
+          "durationMinutes": 28
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:55",
+          "arrivalTime": "16:17",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "16:17",
+          "arrivalTime": "16:26",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "16:26",
+          "arrivalTime": "16:33",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "16:33",
+          "arrivalTime": "16:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "16:48",
+          "arrivalTime": "17:00",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "17:00",
+          "arrivalTime": "17:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "17:16",
+          "arrivalTime": "17:33",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "17:33",
+          "arrivalTime": "17:58",
+          "durationMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-태백선-9-6",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "ITX-마음 1641",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "18:26",
+      "arrivalTime": "21:08",
+      "durationMinutes": 162,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Mindungsan",
+        "Sabuk",
+        "Taebaek",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "18:26",
+          "arrivalTime": "18:56",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Mindungsan",
+          "departureTime": "18:56",
+          "arrivalTime": "19:35",
+          "durationMinutes": 39
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "19:35",
+          "arrivalTime": "19:44",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Taebaek",
+          "departureTime": "19:44",
+          "arrivalTime": "20:04",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dogye",
+          "departureTime": "20:04",
+          "arrivalTime": "20:30",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "20:30",
+          "arrivalTime": "21:08",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-13-regular-태백선-9-7",
+      "country": "korea",
+      "date": "2026-09-13",
+      "operator": "Korail",
+      "service": "무궁화 1677",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "21:01",
+      "arrivalTime": "23:50",
+      "durationMinutes": 169,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "21:01",
+          "arrivalTime": "21:32",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "21:32",
+          "arrivalTime": "21:52",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "21:52",
+          "arrivalTime": "22:13",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "22:13",
+          "arrivalTime": "22:22",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "22:22",
+          "arrivalTime": "22:29",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "22:29",
+          "arrivalTime": "22:44",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "22:44",
+          "arrivalTime": "22:56",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "22:56",
+          "arrivalTime": "23:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "23:12",
+          "arrivalTime": "23:50",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-태백선-9-2",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "무궁화 1671",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "09:31",
+      "arrivalTime": "12:25",
+      "durationMinutes": 174,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "09:31",
+          "arrivalTime": "10:05",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "10:05",
+          "arrivalTime": "10:25",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "10:25",
+          "arrivalTime": "10:47",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "10:47",
+          "arrivalTime": "10:56",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "10:56",
+          "arrivalTime": "11:03",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "11:03",
+          "arrivalTime": "11:17",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "11:17",
+          "arrivalTime": "11:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:45",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "11:45",
+          "arrivalTime": "12:02",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "12:02",
+          "arrivalTime": "12:25",
+          "durationMinutes": 23
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-태백선-9-3",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "무궁화 1673",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "11:29",
+      "arrivalTime": "14:28",
+      "durationMinutes": 179,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "11:29",
+          "arrivalTime": "12:00",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "12:00",
+          "arrivalTime": "12:24",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "12:24",
+          "arrivalTime": "12:46",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "12:46",
+          "arrivalTime": "12:55",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "12:55",
+          "arrivalTime": "13:02",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "13:02",
+          "arrivalTime": "13:17",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "13:17",
+          "arrivalTime": "13:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "13:29",
+          "arrivalTime": "13:46",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "13:46",
+          "arrivalTime": "14:28",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-태백선-9-4",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "무궁화 1675",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:07",
+      "arrivalTime": "17:05",
+      "durationMinutes": 178,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:07",
+          "arrivalTime": "14:22",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "14:22",
+          "arrivalTime": "14:40",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "14:40",
+          "arrivalTime": "15:01",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:01",
+          "arrivalTime": "15:23",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "15:23",
+          "arrivalTime": "15:32",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "15:32",
+          "arrivalTime": "15:39",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "15:39",
+          "arrivalTime": "15:54",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "15:54",
+          "arrivalTime": "16:05",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "16:05",
+          "arrivalTime": "16:23",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "16:23",
+          "arrivalTime": "17:05",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-태백선-9-5",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "무궁화 1681",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:55",
+      "arrivalTime": "17:58",
+      "durationMinutes": 183,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:55",
+          "arrivalTime": "15:09",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "15:09",
+          "arrivalTime": "15:27",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "15:27",
+          "arrivalTime": "15:55",
+          "durationMinutes": 28
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:55",
+          "arrivalTime": "16:17",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "16:17",
+          "arrivalTime": "16:26",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "16:26",
+          "arrivalTime": "16:33",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "16:33",
+          "arrivalTime": "16:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "16:48",
+          "arrivalTime": "17:00",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "17:00",
+          "arrivalTime": "17:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "17:16",
+          "arrivalTime": "17:33",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "17:33",
+          "arrivalTime": "17:58",
+          "durationMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-태백선-9-6",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "ITX-마음 1641",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "18:26",
+      "arrivalTime": "21:08",
+      "durationMinutes": 162,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Mindungsan",
+        "Sabuk",
+        "Taebaek",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "18:26",
+          "arrivalTime": "18:56",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Mindungsan",
+          "departureTime": "18:56",
+          "arrivalTime": "19:35",
+          "durationMinutes": 39
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "19:35",
+          "arrivalTime": "19:44",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Taebaek",
+          "departureTime": "19:44",
+          "arrivalTime": "20:04",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dogye",
+          "departureTime": "20:04",
+          "arrivalTime": "20:30",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "20:30",
+          "arrivalTime": "21:08",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-14-regular-태백선-9-7",
+      "country": "korea",
+      "date": "2026-09-14",
+      "operator": "Korail",
+      "service": "무궁화 1677",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "21:01",
+      "arrivalTime": "23:50",
+      "durationMinutes": 169,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "21:01",
+          "arrivalTime": "21:32",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "21:32",
+          "arrivalTime": "21:52",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "21:52",
+          "arrivalTime": "22:13",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "22:13",
+          "arrivalTime": "22:22",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "22:22",
+          "arrivalTime": "22:29",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "22:29",
+          "arrivalTime": "22:44",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "22:44",
+          "arrivalTime": "22:56",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "22:56",
+          "arrivalTime": "23:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "23:12",
+          "arrivalTime": "23:50",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-태백선-9-2",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "무궁화 1671",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "09:31",
+      "arrivalTime": "12:25",
+      "durationMinutes": 174,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "09:31",
+          "arrivalTime": "10:05",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "10:05",
+          "arrivalTime": "10:25",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "10:25",
+          "arrivalTime": "10:47",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "10:47",
+          "arrivalTime": "10:56",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "10:56",
+          "arrivalTime": "11:03",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "11:03",
+          "arrivalTime": "11:17",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "11:17",
+          "arrivalTime": "11:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:45",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "11:45",
+          "arrivalTime": "12:02",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "12:02",
+          "arrivalTime": "12:25",
+          "durationMinutes": 23
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-태백선-9-3",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "무궁화 1673",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "11:29",
+      "arrivalTime": "14:28",
+      "durationMinutes": 179,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "11:29",
+          "arrivalTime": "12:00",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "12:00",
+          "arrivalTime": "12:24",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "12:24",
+          "arrivalTime": "12:46",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "12:46",
+          "arrivalTime": "12:55",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "12:55",
+          "arrivalTime": "13:02",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "13:02",
+          "arrivalTime": "13:17",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "13:17",
+          "arrivalTime": "13:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "13:29",
+          "arrivalTime": "13:46",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "13:46",
+          "arrivalTime": "14:28",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-태백선-9-4",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "무궁화 1675",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:07",
+      "arrivalTime": "17:05",
+      "durationMinutes": 178,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:07",
+          "arrivalTime": "14:22",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "14:22",
+          "arrivalTime": "14:40",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "14:40",
+          "arrivalTime": "15:01",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:01",
+          "arrivalTime": "15:23",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "15:23",
+          "arrivalTime": "15:32",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "15:32",
+          "arrivalTime": "15:39",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "15:39",
+          "arrivalTime": "15:54",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "15:54",
+          "arrivalTime": "16:05",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "16:05",
+          "arrivalTime": "16:23",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "16:23",
+          "arrivalTime": "17:05",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-태백선-9-5",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "무궁화 1681",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:55",
+      "arrivalTime": "17:58",
+      "durationMinutes": 183,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:55",
+          "arrivalTime": "15:09",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "15:09",
+          "arrivalTime": "15:27",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "15:27",
+          "arrivalTime": "15:55",
+          "durationMinutes": 28
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:55",
+          "arrivalTime": "16:17",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "16:17",
+          "arrivalTime": "16:26",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "16:26",
+          "arrivalTime": "16:33",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "16:33",
+          "arrivalTime": "16:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "16:48",
+          "arrivalTime": "17:00",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "17:00",
+          "arrivalTime": "17:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "17:16",
+          "arrivalTime": "17:33",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "17:33",
+          "arrivalTime": "17:58",
+          "durationMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-태백선-9-6",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "ITX-마음 1641",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "18:26",
+      "arrivalTime": "21:08",
+      "durationMinutes": 162,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Mindungsan",
+        "Sabuk",
+        "Taebaek",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "18:26",
+          "arrivalTime": "18:56",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Mindungsan",
+          "departureTime": "18:56",
+          "arrivalTime": "19:35",
+          "durationMinutes": 39
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "19:35",
+          "arrivalTime": "19:44",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Taebaek",
+          "departureTime": "19:44",
+          "arrivalTime": "20:04",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dogye",
+          "departureTime": "20:04",
+          "arrivalTime": "20:30",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "20:30",
+          "arrivalTime": "21:08",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-15-regular-태백선-9-7",
+      "country": "korea",
+      "date": "2026-09-15",
+      "operator": "Korail",
+      "service": "무궁화 1677",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "21:01",
+      "arrivalTime": "23:50",
+      "durationMinutes": 169,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "21:01",
+          "arrivalTime": "21:32",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "21:32",
+          "arrivalTime": "21:52",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "21:52",
+          "arrivalTime": "22:13",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "22:13",
+          "arrivalTime": "22:22",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "22:22",
+          "arrivalTime": "22:29",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "22:29",
+          "arrivalTime": "22:44",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "22:44",
+          "arrivalTime": "22:56",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "22:56",
+          "arrivalTime": "23:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "23:12",
+          "arrivalTime": "23:50",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-태백선-9-2",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "무궁화 1671",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "09:31",
+      "arrivalTime": "12:25",
+      "durationMinutes": 174,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "09:31",
+          "arrivalTime": "10:05",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "10:05",
+          "arrivalTime": "10:25",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "10:25",
+          "arrivalTime": "10:47",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "10:47",
+          "arrivalTime": "10:56",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "10:56",
+          "arrivalTime": "11:03",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "11:03",
+          "arrivalTime": "11:17",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "11:17",
+          "arrivalTime": "11:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:45",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "11:45",
+          "arrivalTime": "12:02",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "12:02",
+          "arrivalTime": "12:25",
+          "durationMinutes": 23
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-태백선-9-3",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "무궁화 1673",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "11:29",
+      "arrivalTime": "14:28",
+      "durationMinutes": 179,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "11:29",
+          "arrivalTime": "12:00",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "12:00",
+          "arrivalTime": "12:24",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "12:24",
+          "arrivalTime": "12:46",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "12:46",
+          "arrivalTime": "12:55",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "12:55",
+          "arrivalTime": "13:02",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "13:02",
+          "arrivalTime": "13:17",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "13:17",
+          "arrivalTime": "13:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "13:29",
+          "arrivalTime": "13:46",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "13:46",
+          "arrivalTime": "14:28",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-태백선-9-4",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "무궁화 1675",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:07",
+      "arrivalTime": "17:05",
+      "durationMinutes": 178,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:07",
+          "arrivalTime": "14:22",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "14:22",
+          "arrivalTime": "14:40",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "14:40",
+          "arrivalTime": "15:01",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:01",
+          "arrivalTime": "15:23",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "15:23",
+          "arrivalTime": "15:32",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "15:32",
+          "arrivalTime": "15:39",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "15:39",
+          "arrivalTime": "15:54",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "15:54",
+          "arrivalTime": "16:05",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "16:05",
+          "arrivalTime": "16:23",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "16:23",
+          "arrivalTime": "17:05",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-태백선-9-5",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "무궁화 1681",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:55",
+      "arrivalTime": "17:58",
+      "durationMinutes": 183,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:55",
+          "arrivalTime": "15:09",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "15:09",
+          "arrivalTime": "15:27",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "15:27",
+          "arrivalTime": "15:55",
+          "durationMinutes": 28
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:55",
+          "arrivalTime": "16:17",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "16:17",
+          "arrivalTime": "16:26",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "16:26",
+          "arrivalTime": "16:33",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "16:33",
+          "arrivalTime": "16:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "16:48",
+          "arrivalTime": "17:00",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "17:00",
+          "arrivalTime": "17:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "17:16",
+          "arrivalTime": "17:33",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "17:33",
+          "arrivalTime": "17:58",
+          "durationMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-태백선-9-6",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "ITX-마음 1641",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "18:26",
+      "arrivalTime": "21:08",
+      "durationMinutes": 162,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Mindungsan",
+        "Sabuk",
+        "Taebaek",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "18:26",
+          "arrivalTime": "18:56",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Mindungsan",
+          "departureTime": "18:56",
+          "arrivalTime": "19:35",
+          "durationMinutes": 39
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "19:35",
+          "arrivalTime": "19:44",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Taebaek",
+          "departureTime": "19:44",
+          "arrivalTime": "20:04",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dogye",
+          "departureTime": "20:04",
+          "arrivalTime": "20:30",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "20:30",
+          "arrivalTime": "21:08",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-16-regular-태백선-9-7",
+      "country": "korea",
+      "date": "2026-09-16",
+      "operator": "Korail",
+      "service": "무궁화 1677",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "21:01",
+      "arrivalTime": "23:50",
+      "durationMinutes": 169,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "21:01",
+          "arrivalTime": "21:32",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "21:32",
+          "arrivalTime": "21:52",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "21:52",
+          "arrivalTime": "22:13",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "22:13",
+          "arrivalTime": "22:22",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "22:22",
+          "arrivalTime": "22:29",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "22:29",
+          "arrivalTime": "22:44",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "22:44",
+          "arrivalTime": "22:56",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "22:56",
+          "arrivalTime": "23:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "23:12",
+          "arrivalTime": "23:50",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-태백선-9-2",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "무궁화 1671",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "09:31",
+      "arrivalTime": "12:25",
+      "durationMinutes": 174,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "09:31",
+          "arrivalTime": "10:05",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "10:05",
+          "arrivalTime": "10:25",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "10:25",
+          "arrivalTime": "10:47",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "10:47",
+          "arrivalTime": "10:56",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "10:56",
+          "arrivalTime": "11:03",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "11:03",
+          "arrivalTime": "11:17",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "11:17",
+          "arrivalTime": "11:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:45",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "11:45",
+          "arrivalTime": "12:02",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "12:02",
+          "arrivalTime": "12:25",
+          "durationMinutes": 23
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-태백선-9-3",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "무궁화 1673",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "11:29",
+      "arrivalTime": "14:28",
+      "durationMinutes": 179,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "11:29",
+          "arrivalTime": "12:00",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "12:00",
+          "arrivalTime": "12:24",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "12:24",
+          "arrivalTime": "12:46",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "12:46",
+          "arrivalTime": "12:55",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "12:55",
+          "arrivalTime": "13:02",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "13:02",
+          "arrivalTime": "13:17",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "13:17",
+          "arrivalTime": "13:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "13:29",
+          "arrivalTime": "13:46",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "13:46",
+          "arrivalTime": "14:28",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-태백선-9-4",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "무궁화 1675",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:07",
+      "arrivalTime": "17:05",
+      "durationMinutes": 178,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:07",
+          "arrivalTime": "14:22",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "14:22",
+          "arrivalTime": "14:40",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "14:40",
+          "arrivalTime": "15:01",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:01",
+          "arrivalTime": "15:23",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "15:23",
+          "arrivalTime": "15:32",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "15:32",
+          "arrivalTime": "15:39",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "15:39",
+          "arrivalTime": "15:54",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "15:54",
+          "arrivalTime": "16:05",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "16:05",
+          "arrivalTime": "16:23",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "16:23",
+          "arrivalTime": "17:05",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-태백선-9-5",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "무궁화 1681",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:55",
+      "arrivalTime": "17:58",
+      "durationMinutes": 183,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:55",
+          "arrivalTime": "15:09",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "15:09",
+          "arrivalTime": "15:27",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "15:27",
+          "arrivalTime": "15:55",
+          "durationMinutes": 28
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:55",
+          "arrivalTime": "16:17",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "16:17",
+          "arrivalTime": "16:26",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "16:26",
+          "arrivalTime": "16:33",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "16:33",
+          "arrivalTime": "16:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "16:48",
+          "arrivalTime": "17:00",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "17:00",
+          "arrivalTime": "17:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "17:16",
+          "arrivalTime": "17:33",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "17:33",
+          "arrivalTime": "17:58",
+          "durationMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-태백선-9-6",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "ITX-마음 1641",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "18:26",
+      "arrivalTime": "21:08",
+      "durationMinutes": 162,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Mindungsan",
+        "Sabuk",
+        "Taebaek",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "18:26",
+          "arrivalTime": "18:56",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Mindungsan",
+          "departureTime": "18:56",
+          "arrivalTime": "19:35",
+          "durationMinutes": 39
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "19:35",
+          "arrivalTime": "19:44",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Taebaek",
+          "departureTime": "19:44",
+          "arrivalTime": "20:04",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dogye",
+          "departureTime": "20:04",
+          "arrivalTime": "20:30",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "20:30",
+          "arrivalTime": "21:08",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-17-regular-태백선-9-7",
+      "country": "korea",
+      "date": "2026-09-17",
+      "operator": "Korail",
+      "service": "무궁화 1677",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "21:01",
+      "arrivalTime": "23:50",
+      "durationMinutes": 169,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "21:01",
+          "arrivalTime": "21:32",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "21:32",
+          "arrivalTime": "21:52",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "21:52",
+          "arrivalTime": "22:13",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "22:13",
+          "arrivalTime": "22:22",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "22:22",
+          "arrivalTime": "22:29",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "22:29",
+          "arrivalTime": "22:44",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "22:44",
+          "arrivalTime": "22:56",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "22:56",
+          "arrivalTime": "23:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "23:12",
+          "arrivalTime": "23:50",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-태백선-9-2",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "무궁화 1671",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "09:31",
+      "arrivalTime": "12:25",
+      "durationMinutes": 174,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "09:31",
+          "arrivalTime": "10:05",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "10:05",
+          "arrivalTime": "10:25",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "10:25",
+          "arrivalTime": "10:47",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "10:47",
+          "arrivalTime": "10:56",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "10:56",
+          "arrivalTime": "11:03",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "11:03",
+          "arrivalTime": "11:17",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "11:17",
+          "arrivalTime": "11:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:45",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "11:45",
+          "arrivalTime": "12:02",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "12:02",
+          "arrivalTime": "12:25",
+          "durationMinutes": 23
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-태백선-9-3",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "무궁화 1673",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "11:29",
+      "arrivalTime": "14:28",
+      "durationMinutes": 179,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "11:29",
+          "arrivalTime": "12:00",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "12:00",
+          "arrivalTime": "12:24",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "12:24",
+          "arrivalTime": "12:46",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "12:46",
+          "arrivalTime": "12:55",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "12:55",
+          "arrivalTime": "13:02",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "13:02",
+          "arrivalTime": "13:17",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "13:17",
+          "arrivalTime": "13:29",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "13:29",
+          "arrivalTime": "13:46",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "13:46",
+          "arrivalTime": "14:28",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-태백선-9-4",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "무궁화 1675",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:07",
+      "arrivalTime": "17:05",
+      "durationMinutes": 178,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:07",
+          "arrivalTime": "14:22",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "14:22",
+          "arrivalTime": "14:40",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "14:40",
+          "arrivalTime": "15:01",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:01",
+          "arrivalTime": "15:23",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "15:23",
+          "arrivalTime": "15:32",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "15:32",
+          "arrivalTime": "15:39",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "15:39",
+          "arrivalTime": "15:54",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "15:54",
+          "arrivalTime": "16:05",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "16:05",
+          "arrivalTime": "16:23",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "16:23",
+          "arrivalTime": "17:05",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-태백선-9-5",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "무궁화 1681",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "14:55",
+      "arrivalTime": "17:58",
+      "durationMinutes": 183,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Ssangnyong",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Ssangnyong",
+          "departureTime": "14:55",
+          "arrivalTime": "15:09",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Ssangnyong",
+          "destination": "Yeongwol",
+          "departureTime": "15:09",
+          "arrivalTime": "15:27",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "15:27",
+          "arrivalTime": "15:55",
+          "durationMinutes": 28
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "15:55",
+          "arrivalTime": "16:17",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "16:17",
+          "arrivalTime": "16:26",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "16:26",
+          "arrivalTime": "16:33",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "16:33",
+          "arrivalTime": "16:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "16:48",
+          "arrivalTime": "17:00",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "17:00",
+          "arrivalTime": "17:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "17:16",
+          "arrivalTime": "17:33",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "17:33",
+          "arrivalTime": "17:58",
+          "durationMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-태백선-9-6",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "ITX-마음 1641",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "18:26",
+      "arrivalTime": "21:08",
+      "durationMinutes": 162,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Mindungsan",
+        "Sabuk",
+        "Taebaek",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "18:26",
+          "arrivalTime": "18:56",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Mindungsan",
+          "departureTime": "18:56",
+          "arrivalTime": "19:35",
+          "durationMinutes": 39
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "19:35",
+          "arrivalTime": "19:44",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Taebaek",
+          "departureTime": "19:44",
+          "arrivalTime": "20:04",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dogye",
+          "departureTime": "20:04",
+          "arrivalTime": "20:30",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "20:30",
+          "arrivalTime": "21:08",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-18-regular-태백선-9-7",
+      "country": "korea",
+      "date": "2026-09-18",
+      "operator": "Korail",
+      "service": "무궁화 1677",
+      "trainType": "무궁화",
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "departureTime": "21:01",
+      "arrivalTime": "23:50",
+      "durationMinutes": 169,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Yeongwol",
+        "Yemi",
+        "Mindungsan",
+        "Sabuk",
+        "Gohan",
+        "Taebaek",
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Yeongwol",
+          "departureTime": "21:01",
+          "arrivalTime": "21:32",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yeongwol",
+          "destination": "Yemi",
+          "departureTime": "21:32",
+          "arrivalTime": "21:52",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Yemi",
+          "destination": "Mindungsan",
+          "departureTime": "21:52",
+          "arrivalTime": "22:13",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Mindungsan",
+          "destination": "Sabuk",
+          "departureTime": "22:13",
+          "arrivalTime": "22:22",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Sabuk",
+          "destination": "Gohan",
+          "departureTime": "22:22",
+          "arrivalTime": "22:29",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Gohan",
+          "destination": "Taebaek",
+          "departureTime": "22:29",
+          "arrivalTime": "22:44",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Taebaek",
+          "destination": "Dongbaeksan",
+          "departureTime": "22:44",
+          "arrivalTime": "22:56",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "22:56",
+          "arrivalTime": "23:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "태백선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "23:12",
+          "arrivalTime": "23:50",
+          "durationMinutes": 38
+        }
+      ]
+    }
+  ],
+  "sourceMeta": {
+    "sourceId": "kr-korail-timetable-xlsx",
+    "sourceType": "official-download",
+    "sourceTier": "A",
+    "sourceName": "Korail official KTX and regular train timetables",
+    "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
+    "provider": "Korail",
+    "country": "korea",
+    "fetchedAt": "2026-09-09T17:29:09.270Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official"
+}

@@ -114,7 +114,10 @@ describe("TfL station resolution", () => {
 
     await searchTflJourney("Green Park", "Oxford Circus", "2026-08-03", "12:00");
 
-    expect(startedAt).toHaveLength(5);
+    // Two station lookups and the journey itself. A route with no journeys names
+    // no line, so there is no published timetable to ask for its service-day
+    // bounds — and nothing is spent asking.
+    expect(startedAt).toHaveLength(3);
     const gaps = startedAt.slice(1).map((value, index) => value - startedAt[index]);
     expect(Math.min(...gaps)).toBeGreaterThanOrEqual(8);
   });

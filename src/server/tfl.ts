@@ -64,14 +64,43 @@ interface TflJourneyResponse {
   journeys?: TflJourney[];
 }
 
+/**
+ * `/Line/{id}/Timetable/{from}/to/{to}` — the only TfL endpoint that publishes a
+ * whole service day rather than the trips around one moment. Each route carries
+ * one schedule per day type, and each schedule the departure clock of every
+ * journey it runs, so first and last are the ends of `knownJourneys`.
+ *
+ * Hours run past 23: a Bakerloo service leaving at 00:27 is published as hour
+ * "24" of the day it belongs to, which is what makes it the *last* departure of
+ * that service day rather than the first of the next one.
+ */
+interface TflKnownJourney {
+  hour?: string;
+  minute?: string;
+}
+
+interface TflTimetableSchedule {
+  name?: string;
+  knownJourneys?: TflKnownJourney[];
+}
+
+interface TflTimetableResponse {
+  timetable?: {
+    routes?: Array<{ schedules?: TflTimetableSchedule[] }>;
+  };
+}
+
+/** A service-day boundary, already carried onto the calendar day it falls on. */
+type ServiceBound = { date: string; time: string };
+
 let stationCache: { expiresAt: number; stations: string[] } | null = null;
 let lineCache: { expiresAt: number; lines: TransitLine[] } | null = null;
-const serviceDayCache = new Map<string, { first: TflJourney; last: TflJourney }>();
+const serviceDayCache = new Map<string, { first: ServiceBound; last: ServiceBound }>();
 
 /**
  * A service-day sweep asks the same route for eleven times of day, and two of
  * the things each sample fetches do not vary with the time it asks about: the
- * station ids, and the first/last trip of that service day. Fetching them per
+ * station ids, and the line's published service-day bounds. Fetching them per
  * sample turned a 13-request route into a ~55-request one, which is how a single
  * London route came to cost 82 seconds and the daily scrape came to exhaust its
  * 30-minute budget after three of its seven dates.
@@ -84,7 +113,7 @@ type ResolvedTflStation = { id: string; name: string } | null;
 const stationResolutionMemo = new Map<string, { expiresAt: number; value: Promise<ResolvedTflStation> }>();
 
 /**
- * Per-sweep scratch space for the first/last trip lookup.
+ * Per-sweep scratch space for the service-day bounds lookup.
  *
  * Deliberately *not* a process-wide cache with a TTL. The pair feeds
  * `serviceDayAdvisory`, whose `coverage: "stale"` state is how a caller learns
@@ -93,8 +122,8 @@ const stationResolutionMemo = new Map<string, { expiresAt: number; value: Promis
  * as long as the answer is known to be worth reusing.
  */
 interface TflSweepContext {
-  /** First/last trip per route+date, shared by the sweep's samples. */
-  bounds: Map<string, Promise<[TflJourneyResponse, TflJourneyResponse]>>;
+  /** Service-day bounds per line+pair+day type, shared by the sweep's samples. */
+  bounds: Map<string, Promise<{ first: ServiceBound; last: ServiceBound } | null>>;
   /** Applies to every request the sweep makes, retries included. */
   gate: TflRateGate;
 }
@@ -421,11 +450,10 @@ function serviceDayType(date: string): ServiceDayType {
 function buildServiceDayAdvisory(
   date: string,
   selectedTime: string,
-  firstJourney: TflJourney | undefined,
-  lastJourney: TflJourney | undefined,
+  bounds: { first: ServiceBound; last: ServiceBound } | null | undefined,
 ): ServiceDayAdvisory {
-  const first = localDateTimeInLondon(firstJourney?.startDateTime);
-  const last = localDateTimeInLondon(lastJourney?.startDateTime);
+  const first = bounds?.first;
+  const last = bounds?.last;
   const queryMinutes = localMinutes(date, selectedTime);
   const lastMinutes = last ? localMinutes(last.date, last.time) : null;
   const minutesToLastDeparture = queryMinutes !== null && lastMinutes !== null
@@ -599,22 +627,76 @@ function currentLondonTimeHHMM() {
 }
 
 /**
- * The first and last trip of a service day, shared across a sweep when one is in
- * progress and fetched outright when this is a one-off journey query.
+ * Which published schedule covers a service day. TfL names them in prose
+ * ("Monday - Friday", "Saturdays and Public Holidays", "Sunday"), and Saturday's
+ * name also contains "holiday", so Sunday is matched on its own word first.
+ */
+function scheduleForDay(schedules: TflTimetableSchedule[], dayType: ServiceDayType) {
+  const named = (pattern: RegExp) => schedules.find((schedule) => pattern.test(schedule.name || ""));
+  if (dayType === "saturday") return named(/saturday/i);
+  if (dayType === "sunday_holiday") return named(/sunday/i) ?? named(/holiday/i);
+  return named(/monday|weekday/i);
+}
+
+/**
+ * The ends of a published schedule, carried onto the calendar day each falls on.
+ *
+ * An hour of 24 or more is TfL saying "still the same service day": 24:27 is
+ * 00:27 tomorrow, and rolling it forward here is what lets the ordinary minute
+ * arithmetic downstream see it as later than 23:00 rather than as 27 minutes
+ * past midnight this morning.
+ */
+function boundsFromSchedule(schedule: TflTimetableSchedule, date: string) {
+  const minutes = (schedule.knownJourneys || [])
+    .map((journey) => Number(journey.hour) * 60 + Number(journey.minute))
+    .filter(Number.isFinite);
+  if (!minutes.length) return null;
+
+  const bound = (total: number): ServiceBound => {
+    const dayOffset = Math.floor(total / (24 * 60));
+    const clock = total - dayOffset * 24 * 60;
+    const day = new Date(`${date}T00:00:00Z`);
+    day.setUTCDate(day.getUTCDate() + dayOffset);
+    return {
+      date: day.toISOString().slice(0, 10),
+      time: `${String(Math.floor(clock / 60)).padStart(2, "0")}:${String(clock % 60).padStart(2, "0")}`,
+    };
+  };
+
+  return { first: bound(Math.min(...minutes)), last: bound(Math.max(...minutes)) };
+}
+
+/**
+ * The first and last departure of a service day, shared across a sweep when one
+ * is in progress and fetched outright when this is a one-off journey query.
+ *
+ * This asks the line's published timetable, not the journey planner. The planner
+ * has no notion of a service day: `adjustment=TripFirst`/`TripLast` were once
+ * used here, but TfL ignores the parameter outright — the responses are
+ * identical with and without it — so both "bounds" were the trips around the
+ * sampled time. First and last therefore collapsed onto that time and every UK
+ * search reported `risk: "critical"`, telling a passenger at midday that the
+ * last train was leaving.
  */
 function fetchServiceDayBounds(
-  journeyPath: string,
-  journeyParams: Record<string, string>,
+  lineId: string,
+  fromId: string,
+  toId: string,
+  date: string,
   key: string,
   sweep: TflSweepContext | undefined,
-): Promise<[TflJourneyResponse, TflJourneyResponse]> {
+): Promise<{ first: ServiceBound; last: ServiceBound } | null> {
   const cached = sweep?.bounds.get(key);
   if (cached) return cached;
 
-  const value = Promise.all([
-    fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, { ...journeyParams, adjustment: "TripFirst" }), sweep?.gate),
-    fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, { ...journeyParams, adjustment: "TripLast" }), sweep?.gate),
-  ]);
+  const value = fetchTflJson<TflTimetableResponse>(
+    tflUrl(`/Line/${encodeURIComponent(lineId)}/Timetable/${encodeURIComponent(fromId)}/to/${encodeURIComponent(toId)}`),
+    sweep?.gate,
+  ).then((body) => {
+    const schedules = body.timetable?.routes?.[0]?.schedules || [];
+    const schedule = scheduleForDay(schedules, serviceDayType(date));
+    return schedule ? boundsFromSchedule(schedule, date) : null;
+  });
 
   // The caller only awaits this inside its own try, and the journey fetch it
   // races can reject first — attach a handler so a rejection is never unhandled,
@@ -624,6 +706,15 @@ function fetchServiceDayBounds(
   });
   sweep?.bounds.set(key, value);
   return value;
+}
+
+/** The line a journey actually runs on, which is the line whose timetable bounds it. */
+function primaryLineId(journey: TflJourney | undefined) {
+  for (const leg of publicTransportLegs(journey?.legs || [])) {
+    const id = leg.routeOptions?.[0]?.lineIdentifier?.id;
+    if (id) return id;
+  }
+  return undefined;
 }
 
 export async function searchTflJourney(
@@ -671,30 +762,28 @@ export async function searchTflJourney(
       date: tflDate,
       time: tflTime,
     };
-    // The first and last trip belong to the service day, not to the time being
-    // sampled — `buildServiceDayAdvisory` already takes the sample time as a
-    // separate argument, and the stale-fallback cache below has always been
-    // keyed by route and date alone. Starting the request before awaiting the
-    // journey means a sweep's eleven samples share one pair instead of fetching
-    // it eleven times, and that the pair overlaps the journey fetch rather than
-    // queueing behind it.
-    const boundsPromise = fetchServiceDayBounds(
-      journeyPath,
-      journeyParams,
-      serviceDayCacheKey,
-      requestContext,
-    );
-
     const data = await fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, journeyParams), requestContext.gate);
+
+    // The bounds come from the *line's* published timetable, so they can only be
+    // asked for once the journey has named the line it runs on. A sweep's eleven
+    // samples still share one fetch: the memo below is keyed by line and pair,
+    // which is exactly what does not vary with the time being sampled.
+    const lineId = primaryLineId(data.journeys?.[0]);
+    const sampledTime = `${tflTime.slice(0, 2)}:${tflTime.slice(2)}`;
     let serviceDayAdvisory: ServiceDayAdvisory;
     try {
-      const [firstData, lastData] = await boundsPromise;
-      const first = firstData.journeys?.[0];
-      const last = lastData.journeys?.[0];
-      if (first && last) {
-        serviceDayCache.set(serviceDayCacheKey, { first, last });
-      }
-      serviceDayAdvisory = buildServiceDayAdvisory(date, `${tflTime.slice(0, 2)}:${tflTime.slice(2)}`, first, last);
+      const bounds = lineId
+        ? await fetchServiceDayBounds(
+          lineId,
+          resolvedOrigin.id,
+          resolvedDestination.id,
+          date,
+          `${lineId}:${serviceDayCacheKey}`,
+          requestContext,
+        )
+        : null;
+      if (bounds) serviceDayCache.set(serviceDayCacheKey, bounds);
+      serviceDayAdvisory = buildServiceDayAdvisory(date, sampledTime, bounds);
     } catch (error) {
       void recordError({
         severity: "error",
@@ -707,14 +796,7 @@ export async function searchTflJourney(
         context: { origin, destination, date },
       });
       const cached = serviceDayCache.get(serviceDayCacheKey);
-      const fallback = cached
-        ? buildServiceDayAdvisory(
-          date,
-          `${tflTime.slice(0, 2)}:${tflTime.slice(2)}`,
-          cached.first,
-          cached.last,
-        )
-        : buildServiceDayAdvisory(date, `${tflTime.slice(0, 2)}:${tflTime.slice(2)}`, undefined, undefined);
+      const fallback = buildServiceDayAdvisory(date, sampledTime, cached);
       serviceDayAdvisory = {
         ...fallback,
         coverage: cached ? "stale" : "unavailable",

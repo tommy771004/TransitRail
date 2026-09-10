@@ -14,12 +14,40 @@ export const SWISS_GTFS_CATALOG_URL =
 const SWISS_SOURCE = "OpenTransportData Swiss GTFS Static";
 const SWISS_DATA_HOST = "data.opentransportdata.swiss";
 
+/** Exported so a test can prove every key is one the matcher can look up. */
+export const SWISS_REGISTER_IDS: Readonly<Record<string, readonly string[]>> = {
+  "Arth-Goldau": ["8505004"],
+  "Basel SBB": ["8500010"],
+  "Bellinzona": ["8505213"],
+  "Bern": ["8507000"],
+  "Biel/Bienne": ["8504300"],
+  "Brig": ["8501609"],
+  "Chur": ["8509000"],
+  "Fribourg/Freiburg": ["8504100"],
+  "Genève": ["8501008"],
+  "Genève-Aéroport": ["8501026"],
+  "Interlaken Ost": ["8507492"],
+  "Lausanne": ["8501120"],
+  "Lugano": ["8505300"],
+  "Luzern": ["8505000"],
+  "Montreux": ["8501300"],
+  "Sargans": ["8509411"],
+  "Sion": ["8501506"],
+  "St. Gallen": ["8506302"],
+  "Winterthur": ["8506000"],
+  "Yverdon-les-Bains": ["8504200"],
+  "Zug": ["8502204"],
+  "Zürich Flughafen": ["8503016"],
+  "Zürich HB": ["8503000"],
+};
+
 const SWISS_STATION_MATCH: GtfsStationMatchOptions = {
   aliases: {
     "zürich hb": ["Zürich Hauptbahnhof", "Zürich HB"],
     "geneve": ["Genève", "Geneva"],
     "genève": ["Genève", "Geneva"],
   },
+  registerIds: SWISS_REGISTER_IDS,
 };
 
 let feedSource: GtfsFeedSource | null = null;
@@ -125,6 +153,21 @@ function responseForJourneys(
 }
 
 /** Precompute all configured Swiss routes and scrape dates in one stop_times pass. */
+/**
+ * How many routes one collection pass may hold.
+ *
+ * `collectGtfsJourneysForDates` keeps a trip index per route, and a hub appears
+ * in many routes at once — every Zürich HB stop time is recorded against each of
+ * the ~20 routes that end there. Collecting all 75 configured routes in one pass
+ * exhausted the default V8 heap ("Ineffective mark-compacts near heap limit")
+ * and took the whole scrape with it.
+ *
+ * Chunking bounds that index to a slice of the route list. The cost is one extra
+ * scan of `stop_times` per chunk, which re-reads nothing: the parsed feed is
+ * cached in {@link loadSwissGtfs} and shared across passes.
+ */
+const PREPARE_ROUTE_CHUNK = 16;
+
 export async function prepareSwissGtfsBatch(
   routes: readonly { origin: string; destination: string }[],
   dates: readonly string[],
@@ -134,19 +177,22 @@ export async function prepareSwissGtfsBatch(
   if (missing.length === 0) return;
 
   const feed = await loadSwissGtfs();
-  const journeys = collectGtfsJourneysForDates(feed, routes, dates, SWISS_STATION_MATCH);
-  routes.forEach((route, index) => {
-    dates.forEach((date) => {
-      const key = `${route.origin}\u0000${route.destination}\u0000${date}`;
-      preparedResults.set(key, responseForJourneys(
-        feed,
-        route.origin,
-        route.destination,
-        date,
-        journeys.get(`${index}:${date}`) || [],
-      ));
+  for (let offset = 0; offset < routes.length; offset += PREPARE_ROUTE_CHUNK) {
+    const chunk = routes.slice(offset, offset + PREPARE_ROUTE_CHUNK);
+    const journeys = collectGtfsJourneysForDates(feed, chunk, dates, SWISS_STATION_MATCH);
+    chunk.forEach((route, index) => {
+      dates.forEach((date) => {
+        const key = `${route.origin}\u0000${route.destination}\u0000${date}`;
+        preparedResults.set(key, responseForJourneys(
+          feed,
+          route.origin,
+          route.destination,
+          date,
+          journeys.get(`${index}:${date}`) || [],
+        ));
+      });
     });
-  });
+  }
 }
 
 export async function searchSwissGtfs(
@@ -154,6 +200,9 @@ export async function searchSwissGtfs(
   destination: string,
   date: string,
 ): Promise<{ status: number; body: SearchResponse & { error?: string } }> {
+  // Kept, not consumed: one warm-up covers the whole window, and the scrape then
+  // asks for each service day in turn. Deleting on read made every later day
+  // look unprepared and re-collect the entire feed.
   const prepared = preparedResults.get(`${origin}\u0000${destination}\u0000${date}`);
   if (prepared) return prepared;
 

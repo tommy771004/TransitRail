@@ -1,19 +1,1963 @@
 {
   "country": "korea",
-  "provider": "none",
-  "source": "No registered official source",
-  "builtAt": "2026-09-08T23:44:10.062Z",
-  "recordCount": 0,
-  "routeCount": 0,
-  "successRate": null,
+  "provider": "Korail",
+  "source": "Korail official KTX and regular train timetables",
+  "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
+  "sourceTier": "A",
+  "fetchedAt": "2026-09-09T17:29:09.270Z",
+  "builtAt": "2026-09-09T17:29:09.397Z",
+  "recordCount": 8885,
+  "routeCount": 193,
+  "successRate": 1,
   "failedRoutes": [],
   "coverage": {
-    "verifiedRoutes": 0,
+    "verifiedRoutes": 193,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
-    "serviceDates": []
+    "serviceDates": [
+      "2026-09-10",
+      "2026-09-11",
+      "2026-09-12",
+      "2026-09-13",
+      "2026-09-14",
+      "2026-09-15",
+      "2026-09-16",
+      "2026-09-17",
+      "2026-09-18"
+    ]
   },
-  "checksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "checksum": "28c371818615d7d42b89b8412dd3a2868ec0e400bd940c9ec3ceb490d0c5015f",
   "artifactVersion": 2,
-  "routes": []
+  "routes": [
+    {
+      "origin": "Andong",
+      "destination": "Cheongnyangni",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Andong",
+      "destination": "Seoul",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Bujeon",
+      "destination": "Cheongnyangni",
+      "resultCount": 56,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Bujeon",
+      "destination": "Deungnyang",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Bujeon",
+      "destination": "Donghae",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Bujeon",
+      "destination": "Gangneung",
+      "resultCount": 27,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Bujeon",
+      "destination": "Gyeongju",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Bujeon",
+      "destination": "Pohang",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Bujeon",
+      "destination": "Seoul",
+      "resultCount": 45,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Bujeon",
+      "destination": "Suncheon",
+      "resultCount": 27,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Busan",
+      "destination": "Daejeon",
+      "resultCount": 54,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Busan",
+      "destination": "Dongdaegu",
+      "resultCount": 27,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Busan",
+      "destination": "Haengsin",
+      "resultCount": 89,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Busan",
+      "destination": "Seoul",
+      "resultCount": 637,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Busan",
+      "destination": "Suseo",
+      "resultCount": 332,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Changwon",
+      "destination": "Jinju",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Cheonan-Asan",
+      "destination": "Daejeon",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Cheonan-Asan",
+      "destination": "Seoul",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Cheonan-Asan",
+      "destination": "Suseo",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Cheongnyangni",
+      "destination": "Andong",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Cheongnyangni",
+      "destination": "Bujeon",
+      "resultCount": 56,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Cheongnyangni",
+      "destination": "Donghae",
+      "resultCount": 19,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "resultCount": 51,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Cheongnyangni",
+      "destination": "Jecheon",
+      "resultCount": 52,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Cheongnyangni",
+      "destination": "Seoul",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Cheongnyangni",
+      "destination": "Yeongju",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "resultCount": 83,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Daejeon",
+      "destination": "Busan",
+      "resultCount": 54,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Daejeon",
+      "destination": "Dongdaegu",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Daejeon",
+      "destination": "Jecheon",
+      "resultCount": 63,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Daejeon",
+      "destination": "Seoul",
+      "resultCount": 60,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Daejeon",
+      "destination": "Suseo",
+      "resultCount": 27,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Daejeon",
+      "destination": "Yeongju",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Deungnyang",
+      "destination": "Bujeon",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Deungnyang",
+      "destination": "Suncheon",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Dogye",
+      "destination": "Donghae",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "resultCount": 45,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Dongdaegu",
+      "destination": "Busan",
+      "resultCount": 48,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Dongdaegu",
+      "destination": "Gyeongju",
+      "resultCount": 90,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Dongdaegu",
+      "destination": "Jinju",
+      "resultCount": 63,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Dongdaegu",
+      "destination": "Jochiwon",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "resultCount": 54,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Dongdaegu",
+      "destination": "Seoul",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Dongdaegu",
+      "destination": "Yeongju",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Donghae",
+      "destination": "Bujeon",
+      "resultCount": 27,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Donghae",
+      "destination": "Cheongnyangni",
+      "resultCount": 19,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Donghae",
+      "destination": "Dogye",
+      "resultCount": 27,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Donghae",
+      "destination": "Dongbaeksan",
+      "resultCount": 27,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Donghae",
+      "destination": "Gangneung",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Donghae",
+      "destination": "Jecheon",
+      "resultCount": 54,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Donghae",
+      "destination": "Seoul",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Donghae",
+      "destination": "Yeongju",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Dongtan",
+      "destination": "Suseo",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gangneung",
+      "destination": "Bujeon",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gangneung",
+      "destination": "Cheongnyangni",
+      "resultCount": 51,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gangneung",
+      "destination": "Donghae",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gangneung",
+      "destination": "Haengsin",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gangneung",
+      "destination": "Seogyeongju",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gangneung",
+      "destination": "Seoul",
+      "resultCount": 117,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gimcheon",
+      "destination": "Yeongju",
+      "resultCount": 45,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gupo",
+      "destination": "Busan",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gwangju songjeong",
+      "destination": "Haengsin",
+      "resultCount": 13,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gwangju songjeong",
+      "destination": "Seoul",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gwangju songjeong",
+      "destination": "Suncheon",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gwangju songjeong",
+      "destination": "Suseo",
+      "resultCount": 114,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "resultCount": 45,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gwangju",
+      "destination": "Iksan",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gwangju",
+      "destination": "Jochiwon",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gwangju",
+      "destination": "Mokpo",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gwangju",
+      "destination": "Seodaejeon",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gwangju",
+      "destination": "Yongsan",
+      "resultCount": 54,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gwangmyeong",
+      "destination": "Seoul",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gyeongju",
+      "destination": "Bujeon",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gyeongju",
+      "destination": "Dongdaegu",
+      "resultCount": 90,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gyeongju",
+      "destination": "Pohang",
+      "resultCount": 45,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gyeongju",
+      "destination": "Taehwagang",
+      "resultCount": 54,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Gyeongsan",
+      "destination": "Dongdaegu",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Haengsin",
+      "destination": "Busan",
+      "resultCount": 101,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Haengsin",
+      "destination": "Gangneung",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Haengsin",
+      "destination": "Gwangju songjeong",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Haengsin",
+      "destination": "Jinju",
+      "resultCount": 27,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Haengsin",
+      "destination": "Masan",
+      "resultCount": 13,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Haengsin",
+      "destination": "Mokpo",
+      "resultCount": 41,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Haengsin",
+      "destination": "Pohang",
+      "resultCount": 30,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Haengsin",
+      "destination": "Yeosu-Expo",
+      "resultCount": 35,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Hongseong",
+      "destination": "Hongseong",
+      "resultCount": 54,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Hongseong",
+      "destination": "Pyeongtaek",
+      "resultCount": 27,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Hongseong",
+      "destination": "Seohwaseong",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Hongseong",
+      "destination": "Yongsan",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Iksan",
+      "destination": "Gwangju",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Iksan",
+      "destination": "Gwangju songjeong",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Iksan",
+      "destination": "Mokpo",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Iksan",
+      "destination": "Yeosu-Expo",
+      "resultCount": 45,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Iksan",
+      "destination": "Yongsan",
+      "resultCount": 167,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jecheon",
+      "destination": "Cheongnyangni",
+      "resultCount": 52,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jecheon",
+      "destination": "Daejeon",
+      "resultCount": 63,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jecheon",
+      "destination": "Donghae",
+      "resultCount": 54,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jecheon",
+      "destination": "Osong",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jecheon",
+      "destination": "Seodaejeon",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jeongeup",
+      "destination": "Gwangju songjeong",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jeonju",
+      "destination": "Iksan",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jeonju",
+      "destination": "Seoul",
+      "resultCount": 4,
+      "date": "2026-09-11..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jeonju",
+      "destination": "Yongsan",
+      "resultCount": 13,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jeonui",
+      "destination": "Seoul",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jinju",
+      "destination": "Dongdaegu",
+      "resultCount": 63,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jinju",
+      "destination": "Haengsin",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jinju",
+      "destination": "Seoul",
+      "resultCount": 80,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jinju",
+      "destination": "Suseo",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jochiwon",
+      "destination": "Dongdaegu",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jochiwon",
+      "destination": "Gwangju",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Jochiwon",
+      "destination": "Yeosu-Expo",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Masan",
+      "destination": "Seoul",
+      "resultCount": 62,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Miryang",
+      "destination": "Busan",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Miryang",
+      "destination": "Masan",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Miryang",
+      "destination": "Seoul",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Mokpo",
+      "destination": "Gwangju",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Mokpo",
+      "destination": "Haengsin",
+      "resultCount": 63,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Mokpo",
+      "destination": "Iksan",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Mokpo",
+      "destination": "Seoul",
+      "resultCount": 54,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Mokpo",
+      "destination": "Suncheon",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Mokpo",
+      "destination": "Suseo",
+      "resultCount": 81,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Mokpo",
+      "destination": "Yongsan",
+      "resultCount": 117,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Mungyeong",
+      "destination": "Pangyo",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Nonsan",
+      "destination": "Iksan",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Osong",
+      "destination": "Jecheon",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Pangyo",
+      "destination": "Mungyeong",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Pohang",
+      "destination": "Bujeon",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Pohang",
+      "destination": "Dongdaegu",
+      "resultCount": 45,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Pohang",
+      "destination": "Gyeongju",
+      "resultCount": 54,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Pohang",
+      "destination": "Haengsin",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Pohang",
+      "destination": "Seogyeongju",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Pohang",
+      "destination": "Seoul",
+      "resultCount": 137,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Pohang",
+      "destination": "Suseo",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Punggi",
+      "destination": "Yeongju",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Pyeongtaek",
+      "destination": "Hongseong",
+      "resultCount": 27,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Sapgyo",
+      "destination": "Pyeongtaek",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seocheon",
+      "destination": "Iksan",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seodaejeon",
+      "destination": "Gwangju",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seodaejeon",
+      "destination": "Jecheon",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seogyeongju",
+      "destination": "Gangneung",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seogyeongju",
+      "destination": "Pohang",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seohwaseong",
+      "destination": "Hongseong",
+      "resultCount": 27,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seoul",
+      "destination": "Andong",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seoul",
+      "destination": "Bujeon",
+      "resultCount": 45,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seoul",
+      "destination": "Busan",
+      "resultCount": 623,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seoul",
+      "destination": "Daejeon",
+      "resultCount": 52,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seoul",
+      "destination": "Dongdaegu",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seoul",
+      "destination": "Donghae",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seoul",
+      "destination": "Gangneung",
+      "resultCount": 117,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seoul",
+      "destination": "Jeonui",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seoul",
+      "destination": "Jinju",
+      "resultCount": 62,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seoul",
+      "destination": "Masan",
+      "resultCount": 49,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seoul",
+      "destination": "Miryang",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seoul",
+      "destination": "Mokpo",
+      "resultCount": 27,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seoul",
+      "destination": "Pohang",
+      "resultCount": 117,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Seoul",
+      "destination": "Yeosu-Expo",
+      "resultCount": 45,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Suncheon",
+      "destination": "Bujeon",
+      "resultCount": 27,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Suncheon",
+      "destination": "Deungnyang",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Suncheon",
+      "destination": "Gwangju songjeong",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Suncheon",
+      "destination": "Mokpo",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Suncheon",
+      "destination": "Yeosu-Expo",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Suncheon",
+      "destination": "Yongsan",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Suseo",
+      "destination": "Busan",
+      "resultCount": 331,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Suseo",
+      "destination": "Gwangju songjeong",
+      "resultCount": 102,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Suseo",
+      "destination": "Jinju",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Suseo",
+      "destination": "Mokpo",
+      "resultCount": 91,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Suseo",
+      "destination": "Pohang",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Suseo",
+      "destination": "Yeosu-Expo",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Suwon",
+      "destination": "Yongsan",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "resultCount": 54,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Uijeongbu",
+      "destination": "Daegok",
+      "resultCount": 83,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Ulsan",
+      "destination": "Busan",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yeongdong",
+      "destination": "Daejeon",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yeongju",
+      "destination": "Cheongnyangni",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yeongju",
+      "destination": "Daejeon",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yeongju",
+      "destination": "Dongdaegu",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yeongju",
+      "destination": "Donghae",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "resultCount": 45,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yeosu-Expo",
+      "destination": "Haengsin",
+      "resultCount": 67,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "resultCount": 45,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yeosu-Expo",
+      "destination": "Jochiwon",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yeosu-Expo",
+      "destination": "Seoul",
+      "resultCount": 58,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yeosu-Expo",
+      "destination": "Suseo",
+      "resultCount": 36,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yeosu-Expo",
+      "destination": "Yongsan",
+      "resultCount": 94,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yongsan",
+      "destination": "Gwangju",
+      "resultCount": 54,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yongsan",
+      "destination": "Gwangju songjeong",
+      "resultCount": 76,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yongsan",
+      "destination": "Haengsin",
+      "resultCount": 18,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yongsan",
+      "destination": "Hongseong",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yongsan",
+      "destination": "Iksan",
+      "resultCount": 167,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yongsan",
+      "destination": "Jeonju",
+      "resultCount": 17,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yongsan",
+      "destination": "Mokpo",
+      "resultCount": 157,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yongsan",
+      "destination": "Suncheon",
+      "resultCount": 9,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    },
+    {
+      "origin": "Yongsan",
+      "destination": "Yeosu-Expo",
+      "resultCount": 157,
+      "date": "2026-09-10..2026-09-18",
+      "sourceId": "kr-korail-timetable-xlsx",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-09T17:29:09.270Z",
+      "verified": true
+    }
+  ]
 }

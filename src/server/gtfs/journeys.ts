@@ -21,6 +21,22 @@ export type GtfsStationMatchOptions = {
   fillerWords?: readonly string[];
   synonyms?: Readonly<Record<string, string>>;
   aliases?: Readonly<Record<string, readonly string[]>>;
+  /**
+   * Station register numbers, keyed by station name as the market spells it.
+   *
+   * Keys are normalized here, not by the caller: an earlier version expected
+   * pre-normalized keys, and a key in any other shape failed silently — the
+   * entry never matched, the name fallbacks answered, and the market looked
+   * healthy while running on exactly the matching this is meant to replace.
+   *
+   * Name matching below ends in a substring test, which is the layer that can
+   * quietly pair the wrong two stations — `Genève` is a substring of
+   * `Genève-Aéroport`. A register number names the station itself, so when one
+   * is configured it answers outright and none of the fallbacks run. A number
+   * the feed no longer carries resolves to nothing and is reported as an
+   * uncovered station, rather than silently sliding into a fuzzy match.
+   */
+  registerIds?: Readonly<Record<string, readonly string[]>>;
 };
 
 /**
@@ -61,7 +77,7 @@ function stationQueries(query: string, options: GtfsStationMatchOptions): string
   return [query, ...aliases];
 }
 
-function stationStopIds(
+export function stationStopIds(
   stops: GtfsStop[],
   query: string,
   options: GtfsStationMatchOptions,
@@ -70,6 +86,29 @@ function stationStopIds(
   const synonyms = options.synonyms || {};
   const queries = stationQueries(query, options);
   const queryKeys = queries.map(normalizeStation);
+
+  // A configured register number is the answer, not a hint: it identifies the
+  // station, so every stop carrying it belongs and nothing else does.
+  const registerIds = options.registerIds
+    ? Object.entries(options.registerIds)
+      .filter(([name]) => queryKeys.includes(normalizeStation(name)))
+      .flatMap(([, numbers]) => numbers)
+    : [];
+  if (registerIds.length > 0) {
+    // Publishers put the station-level identifier in different places: a column
+    // of its own (Switzerland's `didok`), the stop id itself where one row is
+    // one station (Malaysia's KTMB code), or the parent of the platform rows
+    // (France's `StopArea:OCE…`). One configured number is checked against all
+    // three rather than each market carrying its own extraction rule.
+    const wanted = new Set(registerIds);
+    return new Set(
+      stops
+        .filter((stop) => [stop.registerId, stop.id, stop.parentStation]
+          .some((value) => value && wanted.has(value)))
+        .map((stop) => stop.id),
+    );
+  }
+
   const exact = stops.filter((stop) => queryKeys.includes(normalizeStation(stop.name)));
   const queryTokenSets = queries
     .map((value) => stationTokens(value, fillerWords, synonyms))

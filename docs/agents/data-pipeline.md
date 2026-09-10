@@ -15,6 +15,12 @@ set, and a thrown error all raise, so `BaseScraper` leaves the route's previous 
 predecessor wrote a curated snapshot over the top instead, which is how a provider outage came to
 look like a successful scrape.
 
+Korail uses `KorailTimetableScraper` alongside Korea's subway CSV collector. It
+reads the public KTX/regular XLSX board, selects effective editions and weekdays,
+and caches downloads across the scrape window. Snapshot `sourceDocuments` records
+the exact files, hashes and excluded contradictory trains. See
+[supported workbook evidence](../../scripts/lib/fixtures/korail-README.md).
+
 ## Storage
 
 `BaseScraper.saveRoute` replaces the collected date's slice while preserving other dates, so a

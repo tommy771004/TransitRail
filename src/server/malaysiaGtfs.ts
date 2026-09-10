@@ -1,9 +1,25 @@
 import type { SearchResponse } from "../types";
 import { createGtfsFeedSource, type GtfsFeed } from "./gtfs/feed";
-import { collectGtfsJourneys, type GtfsJourney } from "./gtfs/journeys";
+import { collectGtfsJourneys, type GtfsJourney, type GtfsStationMatchOptions } from "./gtfs/journeys";
 import { buildGtfsTimetable } from "./gtfs/timetable";
 
 /** Official Ministry of Transport Malaysia static GTFS for KTMB rail. */
+/**
+ * KTMB station codes. The feed publishes one row per station — no platform
+ * children — so the stop id is the station identity.
+ */
+export const MALAYSIA_REGISTER_IDS: Readonly<Record<string, readonly string[]>> = {
+  "Rawang": ["17800"],
+  "Kuala Lumpur": ["19000"],
+  "Batu Caves": ["50600"],
+  "Klang": ["54700"],
+  "Subang Jaya": ["53700"],
+};
+
+const MALAYSIA_STATION_MATCH: GtfsStationMatchOptions = {
+  registerIds: MALAYSIA_REGISTER_IDS,
+};
+
 export const MALAYSIA_KTMB_GTFS_URL = "https://api.data.gov.my/gtfs-static/ktmb";
 const MALAYSIA_KTMB_SOURCE = "data.gov.my / KTMB GTFS";
 
@@ -48,7 +64,7 @@ export async function searchMalaysiaKtmbGtfs(
     };
   }
 
-  const journeys = collectGtfsJourneys(feed, origin, destination, date);
+  const journeys = collectGtfsJourneys(feed, origin, destination, date, MALAYSIA_STATION_MATCH);
   if (journeys.length === 0) {
     return {
       status: 404,
