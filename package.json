@@ -44,6 +44,7 @@
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit && vitest run",
     "test": "vitest run",
+    "test:data": "vitest run src/server/catalog.test.ts src/server/transitSearchReasons.test.ts src/server/transitSearchCoverage.test.ts src/server/korailTimetableSearch.test.ts",
     "test:watch": "vitest"
   },
   "dependencies": {

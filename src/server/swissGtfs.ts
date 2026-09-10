@@ -152,22 +152,22 @@ function responseForJourneys(
   } satisfies { status: number; body: SearchResponse & { error?: string } };
 }
 
-/** Precompute all configured Swiss routes and scrape dates in one stop_times pass. */
 /**
- * How many routes one collection pass may hold.
+ * Precompute every configured Swiss route and scrape date in one `stop_times`
+ * pass.
  *
- * `collectGtfsJourneysForDates` keeps a trip index per route, and a hub appears
- * in many routes at once — every Zürich HB stop time is recorded against each of
- * the ~20 routes that end there. Collecting all 75 configured routes in one pass
- * exhausted the default V8 heap ("Ineffective mark-compacts near heap limit")
- * and took the whole scrape with it.
+ * This used to collect the route list in chunks of 16. `collectGtfsJourneysForDates`
+ * kept a trip index per route, and a hub belongs to many routes at once — every
+ * Zürich HB stop time was recorded against each of the ~20 routes that end there
+ * — so all 75 routes at once exhausted the V8 heap and chunking was the way out.
+ * The cost was a full re-parse of `stop_times` per chunk: the nightly pass read
+ * the Swiss feed five times and spent 27 minutes doing it, 44% of the whole run.
  *
- * Chunking bounds that index to a slice of the route list. The cost is one extra
- * scan of `stop_times` per chunk, which re-reads nothing: the parsed feed is
- * cached in {@link loadSwissGtfs} and shared across passes.
+ * The collector now shares one index across routes and materialises a single
+ * route at a time, so the route list no longer decides peak memory and one pass
+ * holds all of it. The heap figure is logged because that is the number the
+ * chunk existed to protect.
  */
-const PREPARE_ROUTE_CHUNK = 16;
-
 export async function prepareSwissGtfsBatch(
   routes: readonly { origin: string; destination: string }[],
   dates: readonly string[],
@@ -177,22 +177,27 @@ export async function prepareSwissGtfsBatch(
   if (missing.length === 0) return;
 
   const feed = await loadSwissGtfs();
-  for (let offset = 0; offset < routes.length; offset += PREPARE_ROUTE_CHUNK) {
-    const chunk = routes.slice(offset, offset + PREPARE_ROUTE_CHUNK);
-    const journeys = collectGtfsJourneysForDates(feed, chunk, dates, SWISS_STATION_MATCH);
-    chunk.forEach((route, index) => {
-      dates.forEach((date) => {
-        const key = `${route.origin}\u0000${route.destination}\u0000${date}`;
-        preparedResults.set(key, responseForJourneys(
-          feed,
-          route.origin,
-          route.destination,
-          date,
-          journeys.get(`${index}:${date}`) || [],
-        ));
-      });
+  const journeys = collectGtfsJourneysForDates(feed, routes, dates, SWISS_STATION_MATCH);
+  routes.forEach((route, index) => {
+    dates.forEach((date) => {
+      const key = `${route.origin}\u0000${route.destination}\u0000${date}`;
+      preparedResults.set(key, responseForJourneys(
+        feed,
+        route.origin,
+        route.destination,
+        date,
+        journeys.get(`${index}:${date}`) || [],
+      ));
     });
-  }
+  });
+  // All three figures, because the feed is mostly bytes: `heapUsed` alone hides
+  // the retained archive, and `rss` is what a runner actually runs out of.
+  const usage = process.memoryUsage();
+  const mb = (bytes: number) => Math.round(bytes / 1024 / 1024);
+  console.log(
+    `  switzerland: prepared ${routes.length} route(s) × ${dates.length} date(s) in one pass`
+    + ` — heap ${mb(usage.heapUsed)} MB, external ${mb(usage.external)} MB, rss ${mb(usage.rss)} MB`,
+  );
 }
 
 export async function searchSwissGtfs(
