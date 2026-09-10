@@ -264,6 +264,14 @@ type TripStopPair = {
   destinations: Array<{ sequence: number; minutes: number }>;
 };
 
+/** One stop time a trip makes at a stop some configured route cares about. */
+type RelevantStop = {
+  stopId: string;
+  sequence: number;
+  departure: number | undefined;
+  arrival: number | undefined;
+};
+
 function journeysFromTripStops(
   feed: GtfsFeed,
   byTrip: Map<string, TripStopPair>,
@@ -307,48 +315,74 @@ export function collectGtfsJourneysForDates(
     origin: stationStopIds(feed.stops, route.origin, stationMatch),
     destination: stationStopIds(feed.stops, route.destination, stationMatch),
   }));
-  const originsByStop = new Map<string, number[]>();
-  const destinationsByStop = new Map<string, number[]>();
-  routeStops.forEach((route, index) => {
-    for (const stopId of route.origin) {
-      originsByStop.set(stopId, [...(originsByStop.get(stopId) || []), index]);
-    }
-    for (const stopId of route.destination) {
-      destinationsByStop.set(stopId, [...(destinationsByStop.get(stopId) || []), index]);
-    }
-  });
+  // Which stops any route reads a departure or an arrival at. The scan only
+  // needs to know that a stop matters, not which routes want it: the per-route
+  // split happens below, where one route is in memory at a time.
+  const originsByStop = new Set<string>();
+  const destinationsByStop = new Set<string>();
+  for (const route of routeStops) {
+    for (const stopId of route.origin) originsByStop.add(stopId);
+    for (const stopId of route.destination) destinationsByStop.add(stopId);
+  }
 
-  const byRouteTrip = routeStops.map(() => new Map<string, TripStopPair>());
+  // One record per (trip, relevant stop), not one per (trip, relevant stop,
+  // route that wants it). A hub belongs to many routes at once — every Zürich
+  // HB stop time is wanted by the ~20 routes that end there — and keeping a
+  // separate map per route stored that row once per route. That duplication is
+  // what exhausted the heap, and the chunking added to survive it re-parsed the
+  // whole of `stop_times` once per chunk: with 75 routes the Swiss feed was
+  // scanned five times for one service window.
+  const byTrip = new Map<string, RelevantStop[]>();
   forEachGtfsCsvRow(feed.stopTimes, (row) => {
-    const originRoutes = originsByStop.get(row.stop_id) || [];
-    const destinationRoutes = destinationsByStop.get(row.stop_id) || [];
-    if (originRoutes.length === 0 && destinationRoutes.length === 0) return;
-    const trip = feed.trips.get(row.trip_id);
-    if (!trip) return;
+    const isOrigin = originsByStop.has(row.stop_id);
+    const isDestination = destinationsByStop.has(row.stop_id);
+    if (!isOrigin && !isDestination) return;
+    if (!feed.trips.has(row.trip_id)) return;
     const sequence = Number(row.stop_sequence);
     if (!Number.isFinite(sequence)) return;
 
-    const routeIndices = new Set([...originRoutes, ...destinationRoutes]);
-    for (const index of routeIndices) {
-      const current = byRouteTrip[index].get(row.trip_id) || { origins: [], destinations: [] };
-      if (originRoutes.includes(index)) {
-        const departure = gtfsMinutes(row.departure_time || row.arrival_time);
-        if (departure !== undefined) current.origins.push({ sequence, minutes: departure });
-      }
-      if (destinationRoutes.includes(index)) {
-        const arrival = gtfsMinutes(row.arrival_time || row.departure_time);
-        if (arrival !== undefined) current.destinations.push({ sequence, minutes: arrival });
-      }
-      byRouteTrip[index].set(row.trip_id, current);
-    }
+    // A stop can be one route's origin and another's destination, so both times
+    // are read here and each route takes the one it asked for below.
+    const hit: RelevantStop = {
+      stopId: row.stop_id,
+      sequence,
+      departure: isOrigin ? gtfsMinutes(row.departure_time || row.arrival_time) : undefined,
+      arrival: isDestination ? gtfsMinutes(row.arrival_time || row.departure_time) : undefined,
+    };
+    const hits = byTrip.get(row.trip_id);
+    if (hits) hits.push(hit);
+    else byTrip.set(row.trip_id, [hit]);
   });
 
+  // Service calendars do not depend on the route, so resolve each date once
+  // rather than once per route.
+  const activeByDate = dates.map((date) => [date, activeGtfsServices(feed, date)] as const);
+
   const result = new Map<string, GtfsJourney[]>();
-  for (const date of dates) {
-    const active = activeGtfsServices(feed, date);
-    byRouteTrip.forEach((byTrip, index) => {
-      result.set(`${index}:${date}`, journeysFromTripStops(feed, byTrip, active));
-    });
-  }
+  routeStops.forEach((route, index) => {
+    // Materialise one route's trips, answer every date from it, then let it go.
+    // Peak memory is the shared index plus a single route, never every route at
+    // once, which is what lets one pass hold the whole route list.
+    const originIds = new Set(route.origin);
+    const destinationIds = new Set(route.destination);
+    const byRouteTrip = new Map<string, TripStopPair>();
+    for (const [tripId, hits] of byTrip) {
+      let pair: TripStopPair | undefined;
+      for (const hit of hits) {
+        if (hit.departure !== undefined && originIds.has(hit.stopId)) {
+          pair ??= { origins: [], destinations: [] };
+          pair.origins.push({ sequence: hit.sequence, minutes: hit.departure });
+        }
+        if (hit.arrival !== undefined && destinationIds.has(hit.stopId)) {
+          pair ??= { origins: [], destinations: [] };
+          pair.destinations.push({ sequence: hit.sequence, minutes: hit.arrival });
+        }
+      }
+      if (pair) byRouteTrip.set(tripId, pair);
+    }
+    for (const [date, active] of activeByDate) {
+      result.set(`${index}:${date}`, journeysFromTripStops(feed, byRouteTrip, active));
+    }
+  });
   return result;
 }

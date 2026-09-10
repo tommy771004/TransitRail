@@ -44,6 +44,25 @@ Never break that derivation by pinning the scrape window to its own literal; mov
 Keep the picker range aligned with `SEARCH_WINDOW_DAYS` unless the provider supports arbitrary live
 dates.
 
+## Scheduling
+
+`runAllScrapers` collects **one country at a time per worker, `DEFAULT_COUNTRY_CONCURRENCY`
+workers**, and inside a country every scraper collects its whole date window before the next one
+starts. Two properties depend on that shape, so keep both if you change it:
+
+- A country is the unit of parallelism because its scrapers share a data directory and its run
+  report. Countries are independent providers with independent rate limits, so overlapping them
+  costs nothing — nearly all of a pass is spent waiting, not computing.
+- The window is the inner loop so a browser market launches one Chromium per scraper rather than
+  one per service day, and a scraper that parses a large feed can hold it across its dates.
+
+Concurrent countries interleave their output, so a summary line has to name its own scraper —
+the workflow's timing report greps `Done:` out of the log.
+
+`routeConcurrency` (default 1) is per scraper and is a statement about the provider, not a
+throughput knob: raise it only for a source with no rate limiter and no session state shared
+between routes.
+
 ## Nightly cadence
 
 The job runs nightly but does not always collect everything. Live-only markets (HK, TH) refresh

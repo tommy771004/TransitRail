@@ -76,6 +76,13 @@ jobs:
       # No Korail, TAGO or ODsay API secret is required.
       - name: Run scrapers
         env:
+          # A parsed GTFS feed is the one large object in this job: Switzerland's
+          # measures 2.7 GB resident while it collects, and countries now collect
+          # concurrently, so two feeds can be live at once. Node's default old-space
+          # ceiling is close enough to that to matter, and the failure it produces
+          # ("Ineffective mark-compacts near heap limit") kills the whole run rather
+          # than one market. This is headroom, not a budget the job spends.
+          NODE_OPTIONS: --max-old-space-size=6144
           # Switzerland's live OJP answers at query time, not its scrape. The
           # nightly collection reads the public GTFS static feed, which needs no
           # credential and runs with or without this secret — so the committed
@@ -184,11 +191,12 @@ jobs:
         if: steps.validate_data.outcome == 'failure'
         run: exit 1
 
-      # Bot commits carry [skip ci] so the two publication commits do not start
-      # and cancel overlapping CI runs. Run the repository's complete gate here
-      # instead, against the exact scraped files about to be published.
-      - name: Typecheck and test scraped output
-        run: npm run lint
+      # Bot commits carry [skip ci], so verify the runtime paths whose answers
+      # can change when only the committed timetable artifacts change. The full
+      # typecheck and unit suite runs on code changes and on the weekly health
+      # schedule; repeating all of it here would not add coverage for this run.
+      - name: Test scraped output
+        run: npm run test:data
 
       # Publish the validated source-of-truth artifacts before rebuilding any
       # derived browsing catalog. A provider directory outage or catalog bug

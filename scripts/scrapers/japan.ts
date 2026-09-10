@@ -99,6 +99,17 @@ export class JapanJrCentralScraper extends HtmlScraper {
   readonly routes = japanJrCentralRoutes;
   readonly sourceId: OfficialSourceId = "jp-jr-central";
 
+  /**
+   * Each route samples the operating day hour by hour, so collecting the routes
+   * one at a time made this the slowest Japanese scraper by an order of
+   * magnitude. Nothing forces the wait: the timetable CGI publishes no rate
+   * limit, the module holds no session or cookie between calls, and each sample
+   * is an independent request — so the only reason to keep it serial is not to
+   * lean on an operator's own site. Three is that restraint, well under what a
+   * browser opens against one host, and not a throughput knob to keep turning.
+   */
+  protected override readonly routeConcurrency = 3;
+
   constructor(private readonly jrCentralSearch: ProviderSearch = searchJrCentralTimetable) {
     super();
   }

@@ -5,14 +5,19 @@ name: CI
 # validates data and never runs the suite. Four test files had been failing for
 # long enough that the failures read as normal.
 on:
+  # Exercise calendar-sensitive behavior even during weeks without a code push.
+  # This is deliberately separate from the nightly data-publication gate.
+  schedule:
+    - cron: "0 2 * * 1"
   push:
     branches: [main]
   pull_request:
   workflow_dispatch:
 
-# A second push to the same branch makes the earlier run's answer irrelevant.
+# A second run from the same trigger and ref makes the earlier answer irrelevant.
+# Keep the weekly health check independent from a simultaneous main push.
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
