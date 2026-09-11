@@ -1,7 +1,7 @@
 {
   "origin": "Miryang",
   "destination": "Busan",
-  "date": "2026-09-11..2026-09-18",
+  "date": "2026-09-12..2026-09-18",
   "scrapedAt": "2026-09-10T12:03:06.989Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
@@ -25,92 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-10-ktx-경부선-122-2-next-day",
-      "country": "korea",
-      "date": "2026-09-11",
-      "operator": "Korail",
-      "service": "KTX 113",
-      "trainType": "KTX",
-      "origin": "Miryang",
-      "destination": "Busan",
-      "departureTime": "00:09",
-      "arrivalTime": "00:48",
-      "durationMinutes": 39,
-      "direct": true,
-      "stops": [
-        "Miryang",
-        "Gupo",
-        "Busan"
-      ],
-      "headsign": "Busan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 113",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Miryang",
-          "destination": "Gupo",
-          "departureTime": "00:09",
-          "arrivalTime": "00:35",
-          "durationMinutes": 26
-        },
-        {
-          "lineName": "KTX 113",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gupo",
-          "destination": "Busan",
-          "departureTime": "00:35",
-          "arrivalTime": "00:48",
-          "durationMinutes": 13
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-10-regular-경부선-9-38-next-day",
-      "country": "korea",
-      "date": "2026-09-11",
-      "operator": "Korail",
-      "service": "ITX-새마을 1025",
-      "trainType": "ITX-새마을",
-      "origin": "Miryang",
-      "destination": "Busan",
-      "departureTime": "00:20",
-      "arrivalTime": "00:57",
-      "durationMinutes": 37,
-      "direct": true,
-      "stops": [
-        "Miryang",
-        "Gupo",
-        "Busan"
-      ],
-      "headsign": "Busan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-새마을 1025",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Miryang",
-          "destination": "Gupo",
-          "departureTime": "00:20",
-          "arrivalTime": "00:45",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "ITX-새마을 1025",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gupo",
-          "destination": "Busan",
-          "departureTime": "00:45",
-          "arrivalTime": "00:57",
-          "durationMinutes": 12
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-11-ktx-경부선-122-2-next-day",
       "country": "korea",
