@@ -1,15 +1,15 @@
 {
   "origin": "Daegok",
   "destination": "Uijeongbu",
-  "date": "2026-09-12..2026-09-18",
-  "scrapedAt": "2026-09-10T12:03:06.979Z",
+  "date": "2026-09-13..2026-09-21",
+  "scrapedAt": "2026-09-12T23:32:01.346Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036897009480.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-10T12:03:02.797Z",
+      "retrievedAt": "2026-09-12T23:31:57.796Z",
       "sha256": "cf69ea35e0b6ad9fb82c0e0b44f60833e34eadab55ea610eaf6784622351e9d0",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-10T12:03:03.749Z",
+      "retrievedAt": "2026-09-12T23:31:58.768Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
@@ -25,766 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-12-regular-교외선-9-2",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 2601",
-      "trainType": "무궁화",
-      "origin": "Daegok",
-      "destination": "Uijeongbu",
-      "departureTime": "07:02",
-      "arrivalTime": "07:56",
-      "durationMinutes": 54,
-      "direct": true,
-      "stops": [
-        "Daegok",
-        "Wolleung",
-        "Iryeong",
-        "Jangheung",
-        "Songchu",
-        "Uijeongbu"
-      ],
-      "headsign": "Uijeongbu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 2601",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Daegok",
-          "destination": "Wolleung",
-          "departureTime": "07:02",
-          "arrivalTime": "07:10",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2601",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Wolleung",
-          "destination": "Iryeong",
-          "departureTime": "07:10",
-          "arrivalTime": "07:28",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "무궁화 2601",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Iryeong",
-          "destination": "Jangheung",
-          "departureTime": "07:28",
-          "arrivalTime": "07:34",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 2601",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Jangheung",
-          "destination": "Songchu",
-          "departureTime": "07:34",
-          "arrivalTime": "07:42",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2601",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Songchu",
-          "destination": "Uijeongbu",
-          "departureTime": "07:42",
-          "arrivalTime": "07:56",
-          "durationMinutes": 14
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-교외선-9-3",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 2603",
-      "trainType": "무궁화",
-      "origin": "Daegok",
-      "destination": "Uijeongbu",
-      "departureTime": "08:29",
-      "arrivalTime": "09:23",
-      "durationMinutes": 54,
-      "direct": true,
-      "stops": [
-        "Daegok",
-        "Wolleung",
-        "Iryeong",
-        "Jangheung",
-        "Songchu",
-        "Uijeongbu"
-      ],
-      "headsign": "Uijeongbu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 2603",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Daegok",
-          "destination": "Wolleung",
-          "departureTime": "08:29",
-          "arrivalTime": "08:37",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2603",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Wolleung",
-          "destination": "Iryeong",
-          "departureTime": "08:37",
-          "arrivalTime": "08:55",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "무궁화 2603",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Iryeong",
-          "destination": "Jangheung",
-          "departureTime": "08:55",
-          "arrivalTime": "09:01",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 2603",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Jangheung",
-          "destination": "Songchu",
-          "departureTime": "09:01",
-          "arrivalTime": "09:09",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2603",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Songchu",
-          "destination": "Uijeongbu",
-          "departureTime": "09:09",
-          "arrivalTime": "09:23",
-          "durationMinutes": 14
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-교외선-9-4",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 2605",
-      "trainType": "무궁화",
-      "origin": "Daegok",
-      "destination": "Uijeongbu",
-      "departureTime": "09:56",
-      "arrivalTime": "10:50",
-      "durationMinutes": 54,
-      "direct": true,
-      "stops": [
-        "Daegok",
-        "Wolleung",
-        "Iryeong",
-        "Jangheung",
-        "Songchu",
-        "Uijeongbu"
-      ],
-      "headsign": "Uijeongbu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 2605",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Daegok",
-          "destination": "Wolleung",
-          "departureTime": "09:56",
-          "arrivalTime": "10:04",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2605",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Wolleung",
-          "destination": "Iryeong",
-          "departureTime": "10:04",
-          "arrivalTime": "10:22",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "무궁화 2605",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Iryeong",
-          "destination": "Jangheung",
-          "departureTime": "10:22",
-          "arrivalTime": "10:28",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 2605",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Jangheung",
-          "destination": "Songchu",
-          "departureTime": "10:28",
-          "arrivalTime": "10:36",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2605",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Songchu",
-          "destination": "Uijeongbu",
-          "departureTime": "10:36",
-          "arrivalTime": "10:50",
-          "durationMinutes": 14
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-교외선-9-6",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 2627",
-      "trainType": "무궁화",
-      "origin": "Daegok",
-      "destination": "Uijeongbu",
-      "departureTime": "11:22",
-      "arrivalTime": "12:25",
-      "durationMinutes": 63,
-      "direct": true,
-      "stops": [
-        "Daegok",
-        "Wolleung",
-        "Iryeong",
-        "Jangheung",
-        "Songchu",
-        "Uijeongbu"
-      ],
-      "headsign": "Uijeongbu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 2627",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Daegok",
-          "destination": "Wolleung",
-          "departureTime": "11:22",
-          "arrivalTime": "11:30",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2627",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Wolleung",
-          "destination": "Iryeong",
-          "departureTime": "11:30",
-          "arrivalTime": "11:57",
-          "durationMinutes": 27
-        },
-        {
-          "lineName": "무궁화 2627",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Iryeong",
-          "destination": "Jangheung",
-          "departureTime": "11:57",
-          "arrivalTime": "12:03",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 2627",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Jangheung",
-          "destination": "Songchu",
-          "departureTime": "12:03",
-          "arrivalTime": "12:11",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2627",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Songchu",
-          "destination": "Uijeongbu",
-          "departureTime": "12:11",
-          "arrivalTime": "12:25",
-          "durationMinutes": 14
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-교외선-9-8",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 2629",
-      "trainType": "무궁화",
-      "origin": "Daegok",
-      "destination": "Uijeongbu",
-      "departureTime": "12:57",
-      "arrivalTime": "14:00",
-      "durationMinutes": 63,
-      "direct": true,
-      "stops": [
-        "Daegok",
-        "Wolleung",
-        "Iryeong",
-        "Jangheung",
-        "Songchu",
-        "Uijeongbu"
-      ],
-      "headsign": "Uijeongbu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 2629",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Daegok",
-          "destination": "Wolleung",
-          "departureTime": "12:57",
-          "arrivalTime": "13:05",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2629",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Wolleung",
-          "destination": "Iryeong",
-          "departureTime": "13:05",
-          "arrivalTime": "13:32",
-          "durationMinutes": 27
-        },
-        {
-          "lineName": "무궁화 2629",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Iryeong",
-          "destination": "Jangheung",
-          "departureTime": "13:32",
-          "arrivalTime": "13:38",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 2629",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Jangheung",
-          "destination": "Songchu",
-          "departureTime": "13:38",
-          "arrivalTime": "13:46",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2629",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Songchu",
-          "destination": "Uijeongbu",
-          "departureTime": "13:46",
-          "arrivalTime": "14:00",
-          "durationMinutes": 14
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-교외선-9-10",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 2631",
-      "trainType": "무궁화",
-      "origin": "Daegok",
-      "destination": "Uijeongbu",
-      "departureTime": "14:32",
-      "arrivalTime": "15:35",
-      "durationMinutes": 63,
-      "direct": true,
-      "stops": [
-        "Daegok",
-        "Wolleung",
-        "Iryeong",
-        "Jangheung",
-        "Songchu",
-        "Uijeongbu"
-      ],
-      "headsign": "Uijeongbu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 2631",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Daegok",
-          "destination": "Wolleung",
-          "departureTime": "14:32",
-          "arrivalTime": "14:40",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2631",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Wolleung",
-          "destination": "Iryeong",
-          "departureTime": "14:40",
-          "arrivalTime": "15:07",
-          "durationMinutes": 27
-        },
-        {
-          "lineName": "무궁화 2631",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Iryeong",
-          "destination": "Jangheung",
-          "departureTime": "15:07",
-          "arrivalTime": "15:13",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 2631",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Jangheung",
-          "destination": "Songchu",
-          "departureTime": "15:13",
-          "arrivalTime": "15:21",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2631",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Songchu",
-          "destination": "Uijeongbu",
-          "departureTime": "15:21",
-          "arrivalTime": "15:35",
-          "durationMinutes": 14
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-교외선-9-11",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 2633",
-      "trainType": "무궁화",
-      "origin": "Daegok",
-      "destination": "Uijeongbu",
-      "departureTime": "15:51",
-      "arrivalTime": "16:45",
-      "durationMinutes": 54,
-      "direct": true,
-      "stops": [
-        "Daegok",
-        "Wolleung",
-        "Iryeong",
-        "Jangheung",
-        "Songchu",
-        "Uijeongbu"
-      ],
-      "headsign": "Uijeongbu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 2633",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Daegok",
-          "destination": "Wolleung",
-          "departureTime": "15:51",
-          "arrivalTime": "15:59",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2633",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Wolleung",
-          "destination": "Iryeong",
-          "departureTime": "15:59",
-          "arrivalTime": "16:17",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "무궁화 2633",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Iryeong",
-          "destination": "Jangheung",
-          "departureTime": "16:17",
-          "arrivalTime": "16:23",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 2633",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Jangheung",
-          "destination": "Songchu",
-          "departureTime": "16:23",
-          "arrivalTime": "16:31",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2633",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Songchu",
-          "destination": "Uijeongbu",
-          "departureTime": "16:31",
-          "arrivalTime": "16:45",
-          "durationMinutes": 14
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-교외선-9-12",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 2615",
-      "trainType": "무궁화",
-      "origin": "Daegok",
-      "destination": "Uijeongbu",
-      "departureTime": "18:27",
-      "arrivalTime": "19:21",
-      "durationMinutes": 54,
-      "direct": true,
-      "stops": [
-        "Daegok",
-        "Wolleung",
-        "Iryeong",
-        "Jangheung",
-        "Songchu",
-        "Uijeongbu"
-      ],
-      "headsign": "Uijeongbu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 2615",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Daegok",
-          "destination": "Wolleung",
-          "departureTime": "18:27",
-          "arrivalTime": "18:35",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2615",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Wolleung",
-          "destination": "Iryeong",
-          "departureTime": "18:35",
-          "arrivalTime": "18:53",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "무궁화 2615",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Iryeong",
-          "destination": "Jangheung",
-          "departureTime": "18:53",
-          "arrivalTime": "18:59",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 2615",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Jangheung",
-          "destination": "Songchu",
-          "departureTime": "18:59",
-          "arrivalTime": "19:07",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2615",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Songchu",
-          "destination": "Uijeongbu",
-          "departureTime": "19:07",
-          "arrivalTime": "19:21",
-          "durationMinutes": 14
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-교외선-9-13",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 2617",
-      "trainType": "무궁화",
-      "origin": "Daegok",
-      "destination": "Uijeongbu",
-      "departureTime": "19:53",
-      "arrivalTime": "20:47",
-      "durationMinutes": 54,
-      "direct": true,
-      "stops": [
-        "Daegok",
-        "Wolleung",
-        "Iryeong",
-        "Jangheung",
-        "Songchu",
-        "Uijeongbu"
-      ],
-      "headsign": "Uijeongbu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 2617",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Daegok",
-          "destination": "Wolleung",
-          "departureTime": "19:53",
-          "arrivalTime": "20:01",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2617",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Wolleung",
-          "destination": "Iryeong",
-          "departureTime": "20:01",
-          "arrivalTime": "20:19",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "무궁화 2617",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Iryeong",
-          "destination": "Jangheung",
-          "departureTime": "20:19",
-          "arrivalTime": "20:25",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 2617",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Jangheung",
-          "destination": "Songchu",
-          "departureTime": "20:25",
-          "arrivalTime": "20:33",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2617",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Songchu",
-          "destination": "Uijeongbu",
-          "departureTime": "20:33",
-          "arrivalTime": "20:47",
-          "durationMinutes": 14
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-교외선-9-14",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 2619",
-      "trainType": "무궁화",
-      "origin": "Daegok",
-      "destination": "Uijeongbu",
-      "departureTime": "21:19",
-      "arrivalTime": "22:13",
-      "durationMinutes": 54,
-      "direct": true,
-      "stops": [
-        "Daegok",
-        "Wolleung",
-        "Iryeong",
-        "Jangheung",
-        "Songchu",
-        "Uijeongbu"
-      ],
-      "headsign": "Uijeongbu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 2619",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Daegok",
-          "destination": "Wolleung",
-          "departureTime": "21:19",
-          "arrivalTime": "21:27",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2619",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Wolleung",
-          "destination": "Iryeong",
-          "departureTime": "21:27",
-          "arrivalTime": "21:45",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "무궁화 2619",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Iryeong",
-          "destination": "Jangheung",
-          "departureTime": "21:45",
-          "arrivalTime": "21:51",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 2619",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Jangheung",
-          "destination": "Songchu",
-          "departureTime": "21:51",
-          "arrivalTime": "21:59",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 2619",
-          "lineCode": "교외선",
-          "mode": "train",
-          "origin": "Songchu",
-          "destination": "Uijeongbu",
-          "departureTime": "21:59",
-          "arrivalTime": "22:13",
-          "durationMinutes": 14
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-13-regular-교외선-9-2",
       "country": "korea",
@@ -4964,6 +4204,2210 @@
           "durationMinutes": 14
         }
       ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-교외선-9-2",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 2601",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "07:02",
+      "arrivalTime": "07:56",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "07:02",
+          "arrivalTime": "07:10",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "07:10",
+          "arrivalTime": "07:28",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "07:28",
+          "arrivalTime": "07:34",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "07:34",
+          "arrivalTime": "07:42",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "07:42",
+          "arrivalTime": "07:56",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-교외선-9-3",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 2603",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "08:29",
+      "arrivalTime": "09:23",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "08:29",
+          "arrivalTime": "08:37",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "08:37",
+          "arrivalTime": "08:55",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "08:55",
+          "arrivalTime": "09:01",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "09:01",
+          "arrivalTime": "09:09",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "09:09",
+          "arrivalTime": "09:23",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-교외선-9-4",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 2605",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "09:56",
+      "arrivalTime": "10:50",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "09:56",
+          "arrivalTime": "10:04",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "10:04",
+          "arrivalTime": "10:22",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "10:22",
+          "arrivalTime": "10:28",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "10:28",
+          "arrivalTime": "10:36",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "10:36",
+          "arrivalTime": "10:50",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-교외선-9-6",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 2627",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "11:22",
+      "arrivalTime": "12:25",
+      "durationMinutes": 63,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2627",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "11:22",
+          "arrivalTime": "11:30",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2627",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "11:30",
+          "arrivalTime": "11:57",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "무궁화 2627",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "11:57",
+          "arrivalTime": "12:03",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2627",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "12:03",
+          "arrivalTime": "12:11",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2627",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "12:11",
+          "arrivalTime": "12:25",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-교외선-9-8",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 2629",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "12:57",
+      "arrivalTime": "14:00",
+      "durationMinutes": 63,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2629",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "12:57",
+          "arrivalTime": "13:05",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2629",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "13:05",
+          "arrivalTime": "13:32",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "무궁화 2629",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "13:32",
+          "arrivalTime": "13:38",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2629",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "13:38",
+          "arrivalTime": "13:46",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2629",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "13:46",
+          "arrivalTime": "14:00",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-교외선-9-10",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 2631",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "14:32",
+      "arrivalTime": "15:35",
+      "durationMinutes": 63,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2631",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "14:32",
+          "arrivalTime": "14:40",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2631",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "14:40",
+          "arrivalTime": "15:07",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "무궁화 2631",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "15:07",
+          "arrivalTime": "15:13",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2631",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "15:13",
+          "arrivalTime": "15:21",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2631",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "15:21",
+          "arrivalTime": "15:35",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-교외선-9-11",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 2633",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "15:51",
+      "arrivalTime": "16:45",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2633",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "15:51",
+          "arrivalTime": "15:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2633",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "15:59",
+          "arrivalTime": "16:17",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2633",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "16:17",
+          "arrivalTime": "16:23",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2633",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "16:23",
+          "arrivalTime": "16:31",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2633",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "16:31",
+          "arrivalTime": "16:45",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-교외선-9-12",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 2615",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "18:27",
+      "arrivalTime": "19:21",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "18:27",
+          "arrivalTime": "18:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "18:35",
+          "arrivalTime": "18:53",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "18:53",
+          "arrivalTime": "18:59",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "18:59",
+          "arrivalTime": "19:07",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "19:07",
+          "arrivalTime": "19:21",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-교외선-9-13",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 2617",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "19:53",
+      "arrivalTime": "20:47",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "19:53",
+          "arrivalTime": "20:01",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "20:01",
+          "arrivalTime": "20:19",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "20:19",
+          "arrivalTime": "20:25",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "20:25",
+          "arrivalTime": "20:33",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "20:33",
+          "arrivalTime": "20:47",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-교외선-9-14",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 2619",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "21:19",
+      "arrivalTime": "22:13",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "21:19",
+          "arrivalTime": "21:27",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "21:27",
+          "arrivalTime": "21:45",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "21:45",
+          "arrivalTime": "21:51",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "21:51",
+          "arrivalTime": "21:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "21:59",
+          "arrivalTime": "22:13",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-교외선-9-2",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 2601",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "07:02",
+      "arrivalTime": "07:56",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "07:02",
+          "arrivalTime": "07:10",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "07:10",
+          "arrivalTime": "07:28",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "07:28",
+          "arrivalTime": "07:34",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "07:34",
+          "arrivalTime": "07:42",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "07:42",
+          "arrivalTime": "07:56",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-교외선-9-3",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 2603",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "08:29",
+      "arrivalTime": "09:23",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "08:29",
+          "arrivalTime": "08:37",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "08:37",
+          "arrivalTime": "08:55",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "08:55",
+          "arrivalTime": "09:01",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "09:01",
+          "arrivalTime": "09:09",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "09:09",
+          "arrivalTime": "09:23",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-교외선-9-4",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 2605",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "09:56",
+      "arrivalTime": "10:50",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "09:56",
+          "arrivalTime": "10:04",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "10:04",
+          "arrivalTime": "10:22",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "10:22",
+          "arrivalTime": "10:28",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "10:28",
+          "arrivalTime": "10:36",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "10:36",
+          "arrivalTime": "10:50",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-교외선-9-6",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 2627",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "11:22",
+      "arrivalTime": "12:25",
+      "durationMinutes": 63,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2627",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "11:22",
+          "arrivalTime": "11:30",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2627",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "11:30",
+          "arrivalTime": "11:57",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "무궁화 2627",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "11:57",
+          "arrivalTime": "12:03",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2627",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "12:03",
+          "arrivalTime": "12:11",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2627",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "12:11",
+          "arrivalTime": "12:25",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-교외선-9-8",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 2629",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "12:57",
+      "arrivalTime": "14:00",
+      "durationMinutes": 63,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2629",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "12:57",
+          "arrivalTime": "13:05",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2629",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "13:05",
+          "arrivalTime": "13:32",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "무궁화 2629",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "13:32",
+          "arrivalTime": "13:38",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2629",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "13:38",
+          "arrivalTime": "13:46",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2629",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "13:46",
+          "arrivalTime": "14:00",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-교외선-9-10",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 2631",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "14:32",
+      "arrivalTime": "15:35",
+      "durationMinutes": 63,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2631",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "14:32",
+          "arrivalTime": "14:40",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2631",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "14:40",
+          "arrivalTime": "15:07",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "무궁화 2631",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "15:07",
+          "arrivalTime": "15:13",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2631",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "15:13",
+          "arrivalTime": "15:21",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2631",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "15:21",
+          "arrivalTime": "15:35",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-교외선-9-11",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 2633",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "15:51",
+      "arrivalTime": "16:45",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2633",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "15:51",
+          "arrivalTime": "15:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2633",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "15:59",
+          "arrivalTime": "16:17",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2633",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "16:17",
+          "arrivalTime": "16:23",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2633",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "16:23",
+          "arrivalTime": "16:31",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2633",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "16:31",
+          "arrivalTime": "16:45",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-교외선-9-12",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 2615",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "18:27",
+      "arrivalTime": "19:21",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "18:27",
+          "arrivalTime": "18:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "18:35",
+          "arrivalTime": "18:53",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "18:53",
+          "arrivalTime": "18:59",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "18:59",
+          "arrivalTime": "19:07",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "19:07",
+          "arrivalTime": "19:21",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-교외선-9-13",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 2617",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "19:53",
+      "arrivalTime": "20:47",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "19:53",
+          "arrivalTime": "20:01",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "20:01",
+          "arrivalTime": "20:19",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "20:19",
+          "arrivalTime": "20:25",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "20:25",
+          "arrivalTime": "20:33",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "20:33",
+          "arrivalTime": "20:47",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-교외선-9-14",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 2619",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "21:19",
+      "arrivalTime": "22:13",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "21:19",
+          "arrivalTime": "21:27",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "21:27",
+          "arrivalTime": "21:45",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "21:45",
+          "arrivalTime": "21:51",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "21:51",
+          "arrivalTime": "21:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "21:59",
+          "arrivalTime": "22:13",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-교외선-9-2",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 2601",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "07:02",
+      "arrivalTime": "07:56",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "07:02",
+          "arrivalTime": "07:10",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "07:10",
+          "arrivalTime": "07:28",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "07:28",
+          "arrivalTime": "07:34",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "07:34",
+          "arrivalTime": "07:42",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2601",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "07:42",
+          "arrivalTime": "07:56",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-교외선-9-3",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 2603",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "08:29",
+      "arrivalTime": "09:23",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "08:29",
+          "arrivalTime": "08:37",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "08:37",
+          "arrivalTime": "08:55",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "08:55",
+          "arrivalTime": "09:01",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "09:01",
+          "arrivalTime": "09:09",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2603",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "09:09",
+          "arrivalTime": "09:23",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-교외선-9-4",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 2605",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "09:56",
+      "arrivalTime": "10:50",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "09:56",
+          "arrivalTime": "10:04",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "10:04",
+          "arrivalTime": "10:22",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "10:22",
+          "arrivalTime": "10:28",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "10:28",
+          "arrivalTime": "10:36",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2605",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "10:36",
+          "arrivalTime": "10:50",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-교외선-9-5",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 2607",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "11:23",
+      "arrivalTime": "12:17",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2607",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "11:23",
+          "arrivalTime": "11:31",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2607",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "11:31",
+          "arrivalTime": "11:49",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2607",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "11:49",
+          "arrivalTime": "11:55",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2607",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "11:55",
+          "arrivalTime": "12:03",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2607",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "12:03",
+          "arrivalTime": "12:17",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-교외선-9-7",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 2609",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "12:50",
+      "arrivalTime": "13:44",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2609",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "12:50",
+          "arrivalTime": "12:58",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2609",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "12:58",
+          "arrivalTime": "13:16",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2609",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "13:16",
+          "arrivalTime": "13:22",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2609",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "13:22",
+          "arrivalTime": "13:30",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2609",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "13:30",
+          "arrivalTime": "13:44",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-교외선-9-9",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 2611",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "14:17",
+      "arrivalTime": "15:11",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2611",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "14:17",
+          "arrivalTime": "14:25",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2611",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "14:25",
+          "arrivalTime": "14:43",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2611",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "14:43",
+          "arrivalTime": "14:49",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2611",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "14:49",
+          "arrivalTime": "14:57",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2611",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "14:57",
+          "arrivalTime": "15:11",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-교외선-9-12",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 2615",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "18:27",
+      "arrivalTime": "19:21",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "18:27",
+          "arrivalTime": "18:35",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "18:35",
+          "arrivalTime": "18:53",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "18:53",
+          "arrivalTime": "18:59",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "18:59",
+          "arrivalTime": "19:07",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2615",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "19:07",
+          "arrivalTime": "19:21",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-교외선-9-13",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 2617",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "19:53",
+      "arrivalTime": "20:47",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "19:53",
+          "arrivalTime": "20:01",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "20:01",
+          "arrivalTime": "20:19",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "20:19",
+          "arrivalTime": "20:25",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "20:25",
+          "arrivalTime": "20:33",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2617",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "20:33",
+          "arrivalTime": "20:47",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-교외선-9-14",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 2619",
+      "trainType": "무궁화",
+      "origin": "Daegok",
+      "destination": "Uijeongbu",
+      "departureTime": "21:19",
+      "arrivalTime": "22:13",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Daegok",
+        "Wolleung",
+        "Iryeong",
+        "Jangheung",
+        "Songchu",
+        "Uijeongbu"
+      ],
+      "headsign": "Uijeongbu",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Daegok",
+          "destination": "Wolleung",
+          "departureTime": "21:19",
+          "arrivalTime": "21:27",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Wolleung",
+          "destination": "Iryeong",
+          "departureTime": "21:27",
+          "arrivalTime": "21:45",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Iryeong",
+          "destination": "Jangheung",
+          "departureTime": "21:45",
+          "arrivalTime": "21:51",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Jangheung",
+          "destination": "Songchu",
+          "departureTime": "21:51",
+          "arrivalTime": "21:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 2619",
+          "lineCode": "교외선",
+          "mode": "train",
+          "origin": "Songchu",
+          "destination": "Uijeongbu",
+          "departureTime": "21:59",
+          "arrivalTime": "22:13",
+          "durationMinutes": 14
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -4974,7 +6418,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-10T12:03:06.648Z",
+    "fetchedAt": "2026-09-12T23:32:01.014Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

@@ -4,69 +4,125 @@
   "source": "MBTA V3 API schedules",
   "sourceUrl": "https://api-v3.mbta.com",
   "sourceTier": "A",
-  "fetchedAt": "2026-09-10T12:22:01.081Z",
-  "builtAt": "2026-09-11T23:38:14.484Z",
-  "recordCount": 5694,
+  "fetchedAt": "2026-09-12T23:47:23.008Z",
+  "builtAt": "2026-09-12T23:47:23.095Z",
+  "recordCount": 5355,
   "routeCount": 4,
-  "successRate": null,
-  "failedRoutes": [],
+  "successRate": 0.6944,
+  "failedRoutes": [
+    {
+      "origin": "Harvard",
+      "destination": "Logan International Airport",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
+    {
+      "origin": "Park Street",
+      "destination": "Andrew",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
+    {
+      "origin": "South Station",
+      "destination": "Harvard",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
+    {
+      "origin": "Harvard",
+      "destination": "Logan International Airport",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
+    {
+      "origin": "Park Street",
+      "destination": "Andrew",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
+    {
+      "origin": "South Station",
+      "destination": "Harvard",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
+    {
+      "origin": "Harvard",
+      "destination": "Logan International Airport",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
+    {
+      "origin": "Park Street",
+      "destination": "Andrew",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
+    {
+      "origin": "South Station",
+      "destination": "Harvard",
+      "error": "MBTA returned no scheduled journeys for this station pair on the selected date."
+    },
+    {
+      "origin": "Park Street",
+      "destination": "Boston College",
+      "error": "page.waitForFunction: Timeout 15000ms exceeded."
+    },
+    {
+      "origin": "Park Street",
+      "destination": "Boston College",
+      "error": "MBTA Trip Planner did not settle for 10:35 (10:35 am). Page state: Trip Planner From Swap origin and destination locations To When Now Leave at Arrive by 1 2 3 4 5 6 7 8 9 10 11 12 00 05 10 15 20 25 30 35 40 45 50 55 AM PM Modes All modes Prefer accessible routes Trips from Park Street to Boston College Leaving at 10:35 am on Tuesday, September 15th MOST DIRECT 10:42 – 11:30 am 48 min GL B 0.1 mi $2.40 Similar trips depart at 10:50 am, 10:58 am, 11:06 am Details A B MapLibre | © OpenStreetMap"
+    }
+  ],
   "coverage": {
     "verifiedRoutes": 4,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-09-10",
-      "2026-09-11",
-      "2026-09-12",
       "2026-09-13",
       "2026-09-14",
       "2026-09-15",
       "2026-09-16",
       "2026-09-17",
-      "2026-09-18"
+      "2026-09-18",
+      "2026-09-19",
+      "2026-09-20",
+      "2026-09-21"
     ]
   },
-  "checksum": "9903f7ea721e5d268266814d7241d77586b0e0f4047f2e39515c476352f46ed4",
+  "checksum": "3876bd942b3aeb9c616ddd0c3f834f3fc9b9f38825b3552f4ca53a9cd9727a73",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Harvard",
       "destination": "Logan International Airport",
-      "resultCount": 1764,
-      "date": "2026-09-10..2026-09-18",
+      "resultCount": 1681,
+      "date": "2026-09-13..2026-09-20",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-10T12:06:02.099Z",
+      "fetchedAt": "2026-09-12T23:34:10.036Z",
       "verified": true
     },
     {
       "origin": "Park Street",
       "destination": "Andrew",
-      "resultCount": 1804,
-      "date": "2026-09-10..2026-09-18",
+      "resultCount": 1681,
+      "date": "2026-09-13..2026-09-20",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-10T12:06:02.881Z",
+      "fetchedAt": "2026-09-12T23:34:10.515Z",
       "verified": true
     },
     {
       "origin": "Park Street",
       "destination": "Boston College",
-      "resultCount": 322,
-      "date": "2026-09-10..2026-09-18",
+      "resultCount": 312,
+      "date": "2026-09-13..2026-09-21",
       "sourceId": "us-mbta-journey-planner-web",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-10T12:22:01.081Z",
+      "fetchedAt": "2026-09-12T23:47:23.008Z",
       "verified": true
     },
     {
       "origin": "South Station",
       "destination": "Harvard",
-      "resultCount": 1804,
-      "date": "2026-09-10..2026-09-18",
+      "resultCount": 1681,
+      "date": "2026-09-13..2026-09-20",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-10T12:06:02.927Z",
+      "fetchedAt": "2026-09-12T23:34:10.543Z",
       "verified": true
     }
   ]

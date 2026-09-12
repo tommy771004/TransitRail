@@ -1,15 +1,15 @@
 {
   "origin": "Dongdaegu",
   "destination": "Pohang",
-  "date": "2026-09-12..2026-09-18",
-  "scrapedAt": "2026-09-10T12:03:06.959Z",
+  "date": "2026-09-13..2026-09-21",
+  "scrapedAt": "2026-09-12T23:32:01.322Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036897009480.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-10T12:03:02.797Z",
+      "retrievedAt": "2026-09-12T23:31:57.796Z",
       "sha256": "cf69ea35e0b6ad9fb82c0e0b44f60833e34eadab55ea610eaf6784622351e9d0",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-10T12:03:03.749Z",
+      "retrievedAt": "2026-09-12T23:31:58.768Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
@@ -25,429 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-11-ktx-동해선(서울~포항)-32-2-next-day",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-산천 281",
-      "trainType": "KTX-산천",
-      "origin": "Dongdaegu",
-      "destination": "Pohang",
-      "departureTime": "00:09",
-      "arrivalTime": "00:44",
-      "durationMinutes": 35,
-      "direct": true,
-      "stops": [
-        "Dongdaegu",
-        "Pohang"
-      ],
-      "headsign": "Pohang",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 281",
-          "lineCode": "동해선(서울~포항)",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Pohang",
-          "departureTime": "00:09",
-          "arrivalTime": "00:44",
-          "durationMinutes": 35
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-대구선-9-4",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "누리로 1861",
-      "trainType": "누리로",
-      "origin": "Dongdaegu",
-      "destination": "Pohang",
-      "departureTime": "06:25",
-      "arrivalTime": "07:42",
-      "durationMinutes": 77,
-      "direct": true,
-      "stops": [
-        "Dongdaegu",
-        "Hayang",
-        "Yeongcheon",
-        "Ahwa",
-        "Seogyeongju",
-        "Angang",
-        "Pohang"
-      ],
-      "headsign": "Pohang",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "누리로 1861",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Hayang",
-          "departureTime": "06:25",
-          "arrivalTime": "06:42",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "누리로 1861",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Hayang",
-          "destination": "Yeongcheon",
-          "departureTime": "06:42",
-          "arrivalTime": "06:52",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "누리로 1861",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Yeongcheon",
-          "destination": "Ahwa",
-          "departureTime": "06:52",
-          "arrivalTime": "07:03",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "누리로 1861",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Ahwa",
-          "destination": "Seogyeongju",
-          "departureTime": "07:03",
-          "arrivalTime": "07:19",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "누리로 1861",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Seogyeongju",
-          "destination": "Angang",
-          "departureTime": "07:19",
-          "arrivalTime": "07:28",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "누리로 1861",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Angang",
-          "destination": "Pohang",
-          "departureTime": "07:28",
-          "arrivalTime": "07:42",
-          "durationMinutes": 14
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-대구선-9-11",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "누리로 1863",
-      "trainType": "누리로",
-      "origin": "Dongdaegu",
-      "destination": "Pohang",
-      "departureTime": "12:12",
-      "arrivalTime": "13:32",
-      "durationMinutes": 80,
-      "direct": true,
-      "stops": [
-        "Dongdaegu",
-        "Hayang",
-        "Yeongcheon",
-        "Ahwa",
-        "Seogyeongju",
-        "Angang",
-        "Pohang"
-      ],
-      "headsign": "Pohang",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "누리로 1863",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Hayang",
-          "departureTime": "12:12",
-          "arrivalTime": "12:29",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "누리로 1863",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Hayang",
-          "destination": "Yeongcheon",
-          "departureTime": "12:29",
-          "arrivalTime": "12:39",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "누리로 1863",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Yeongcheon",
-          "destination": "Ahwa",
-          "departureTime": "12:39",
-          "arrivalTime": "12:50",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "누리로 1863",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Ahwa",
-          "destination": "Seogyeongju",
-          "departureTime": "12:50",
-          "arrivalTime": "13:08",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "누리로 1863",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Seogyeongju",
-          "destination": "Angang",
-          "departureTime": "13:08",
-          "arrivalTime": "13:18",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "누리로 1863",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Angang",
-          "destination": "Pohang",
-          "departureTime": "13:18",
-          "arrivalTime": "13:32",
-          "durationMinutes": 14
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-대구선-9-15",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "ITX-마음 1831",
-      "trainType": "ITX-마음",
-      "origin": "Dongdaegu",
-      "destination": "Pohang",
-      "departureTime": "15:15",
-      "arrivalTime": "16:27",
-      "durationMinutes": 72,
-      "direct": true,
-      "stops": [
-        "Dongdaegu",
-        "Hayang",
-        "Yeongcheon",
-        "Seogyeongju",
-        "Pohang"
-      ],
-      "headsign": "Pohang",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1831",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Hayang",
-          "departureTime": "15:15",
-          "arrivalTime": "15:32",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "ITX-마음 1831",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Hayang",
-          "destination": "Yeongcheon",
-          "departureTime": "15:32",
-          "arrivalTime": "15:43",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "ITX-마음 1831",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Yeongcheon",
-          "destination": "Seogyeongju",
-          "departureTime": "15:43",
-          "arrivalTime": "16:06",
-          "durationMinutes": 23
-        },
-        {
-          "lineName": "ITX-마음 1831",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Seogyeongju",
-          "destination": "Pohang",
-          "departureTime": "16:06",
-          "arrivalTime": "16:27",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-대구선-9-19",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 1891",
-      "trainType": "무궁화",
-      "origin": "Dongdaegu",
-      "destination": "Pohang",
-      "departureTime": "18:15",
-      "arrivalTime": "19:35",
-      "durationMinutes": 80,
-      "direct": true,
-      "stops": [
-        "Dongdaegu",
-        "Hayang",
-        "Yeongcheon",
-        "Ahwa",
-        "Seogyeongju",
-        "Angang",
-        "Pohang"
-      ],
-      "headsign": "Pohang",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1891",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Hayang",
-          "departureTime": "18:15",
-          "arrivalTime": "18:32",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "무궁화 1891",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Hayang",
-          "destination": "Yeongcheon",
-          "departureTime": "18:32",
-          "arrivalTime": "18:44",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "무궁화 1891",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Yeongcheon",
-          "destination": "Ahwa",
-          "departureTime": "18:44",
-          "arrivalTime": "18:56",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "무궁화 1891",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Ahwa",
-          "destination": "Seogyeongju",
-          "departureTime": "18:56",
-          "arrivalTime": "19:12",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "무궁화 1891",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Seogyeongju",
-          "destination": "Angang",
-          "departureTime": "19:12",
-          "arrivalTime": "19:22",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "무궁화 1891",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Angang",
-          "destination": "Pohang",
-          "departureTime": "19:22",
-          "arrivalTime": "19:35",
-          "durationMinutes": 13
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-대구선-9-20",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "누리로 1855",
-      "trainType": "누리로",
-      "origin": "Dongdaegu",
-      "destination": "Pohang",
-      "departureTime": "18:44",
-      "arrivalTime": "19:55",
-      "durationMinutes": 71,
-      "direct": true,
-      "stops": [
-        "Dongdaegu",
-        "Hayang",
-        "Yeongcheon",
-        "Seogyeongju",
-        "Pohang"
-      ],
-      "headsign": "Pohang",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "누리로 1855",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Hayang",
-          "departureTime": "18:44",
-          "arrivalTime": "19:01",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "누리로 1855",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Hayang",
-          "destination": "Yeongcheon",
-          "departureTime": "19:01",
-          "arrivalTime": "19:11",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "누리로 1855",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Yeongcheon",
-          "destination": "Seogyeongju",
-          "departureTime": "19:11",
-          "arrivalTime": "19:35",
-          "durationMinutes": 24
-        },
-        {
-          "lineName": "누리로 1855",
-          "lineCode": "대구선",
-          "mode": "train",
-          "origin": "Seogyeongju",
-          "destination": "Pohang",
-          "departureTime": "19:35",
-          "arrivalTime": "19:55",
-          "durationMinutes": 20
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-12-ktx-동해선(서울~포항)-32-2-next-day",
       "country": "korea",
@@ -2985,6 +2562,1275 @@
           "durationMinutes": 20
         }
       ]
+    },
+    {
+      "id": "korail-2026-09-18-ktx-동해선(서울~포항)-32-2-next-day",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-산천 281",
+      "trainType": "KTX-산천",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "00:09",
+      "arrivalTime": "00:44",
+      "durationMinutes": 35,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 281",
+          "lineCode": "동해선(서울~포항)",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Pohang",
+          "departureTime": "00:09",
+          "arrivalTime": "00:44",
+          "durationMinutes": 35
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-대구선-9-4",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "누리로 1861",
+      "trainType": "누리로",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "06:25",
+      "arrivalTime": "07:42",
+      "durationMinutes": 77,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Ahwa",
+        "Seogyeongju",
+        "Angang",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1861",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "06:25",
+          "arrivalTime": "06:42",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "누리로 1861",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "06:42",
+          "arrivalTime": "06:52",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "누리로 1861",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Ahwa",
+          "departureTime": "06:52",
+          "arrivalTime": "07:03",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "누리로 1861",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Ahwa",
+          "destination": "Seogyeongju",
+          "departureTime": "07:03",
+          "arrivalTime": "07:19",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "누리로 1861",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Angang",
+          "departureTime": "07:19",
+          "arrivalTime": "07:28",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "누리로 1861",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Angang",
+          "destination": "Pohang",
+          "departureTime": "07:28",
+          "arrivalTime": "07:42",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-대구선-9-11",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "누리로 1863",
+      "trainType": "누리로",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "12:12",
+      "arrivalTime": "13:32",
+      "durationMinutes": 80,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Ahwa",
+        "Seogyeongju",
+        "Angang",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1863",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "12:12",
+          "arrivalTime": "12:29",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "누리로 1863",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "12:29",
+          "arrivalTime": "12:39",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "누리로 1863",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Ahwa",
+          "departureTime": "12:39",
+          "arrivalTime": "12:50",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "누리로 1863",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Ahwa",
+          "destination": "Seogyeongju",
+          "departureTime": "12:50",
+          "arrivalTime": "13:08",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "누리로 1863",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Angang",
+          "departureTime": "13:08",
+          "arrivalTime": "13:18",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "누리로 1863",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Angang",
+          "destination": "Pohang",
+          "departureTime": "13:18",
+          "arrivalTime": "13:32",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-대구선-9-15",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "ITX-마음 1831",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "15:15",
+      "arrivalTime": "16:27",
+      "durationMinutes": 72,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Seogyeongju",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1831",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "15:15",
+          "arrivalTime": "15:32",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1831",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "15:32",
+          "arrivalTime": "15:43",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1831",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Seogyeongju",
+          "departureTime": "15:43",
+          "arrivalTime": "16:06",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "ITX-마음 1831",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Pohang",
+          "departureTime": "16:06",
+          "arrivalTime": "16:27",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-대구선-9-19",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 1891",
+      "trainType": "무궁화",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "18:15",
+      "arrivalTime": "19:35",
+      "durationMinutes": 80,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Ahwa",
+        "Seogyeongju",
+        "Angang",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "18:15",
+          "arrivalTime": "18:32",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "18:32",
+          "arrivalTime": "18:44",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Ahwa",
+          "departureTime": "18:44",
+          "arrivalTime": "18:56",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Ahwa",
+          "destination": "Seogyeongju",
+          "departureTime": "18:56",
+          "arrivalTime": "19:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Angang",
+          "departureTime": "19:12",
+          "arrivalTime": "19:22",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Angang",
+          "destination": "Pohang",
+          "departureTime": "19:22",
+          "arrivalTime": "19:35",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-대구선-9-20",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "누리로 1855",
+      "trainType": "누리로",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "18:44",
+      "arrivalTime": "19:55",
+      "durationMinutes": 71,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Seogyeongju",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1855",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "18:44",
+          "arrivalTime": "19:01",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "누리로 1855",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "19:01",
+          "arrivalTime": "19:11",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "누리로 1855",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Seogyeongju",
+          "departureTime": "19:11",
+          "arrivalTime": "19:35",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "누리로 1855",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Pohang",
+          "departureTime": "19:35",
+          "arrivalTime": "19:55",
+          "durationMinutes": 20
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-동해선(서울~포항)-32-2-next-day",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-산천 281",
+      "trainType": "KTX-산천",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "00:09",
+      "arrivalTime": "00:44",
+      "durationMinutes": 35,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 281",
+          "lineCode": "동해선(서울~포항)",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Pohang",
+          "departureTime": "00:09",
+          "arrivalTime": "00:44",
+          "durationMinutes": 35
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-대구선-9-4",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "누리로 1861",
+      "trainType": "누리로",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "06:25",
+      "arrivalTime": "07:42",
+      "durationMinutes": 77,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Ahwa",
+        "Seogyeongju",
+        "Angang",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1861",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "06:25",
+          "arrivalTime": "06:42",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "누리로 1861",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "06:42",
+          "arrivalTime": "06:52",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "누리로 1861",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Ahwa",
+          "departureTime": "06:52",
+          "arrivalTime": "07:03",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "누리로 1861",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Ahwa",
+          "destination": "Seogyeongju",
+          "departureTime": "07:03",
+          "arrivalTime": "07:19",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "누리로 1861",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Angang",
+          "departureTime": "07:19",
+          "arrivalTime": "07:28",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "누리로 1861",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Angang",
+          "destination": "Pohang",
+          "departureTime": "07:28",
+          "arrivalTime": "07:42",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-대구선-9-11",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "누리로 1863",
+      "trainType": "누리로",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "12:12",
+      "arrivalTime": "13:32",
+      "durationMinutes": 80,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Ahwa",
+        "Seogyeongju",
+        "Angang",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1863",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "12:12",
+          "arrivalTime": "12:29",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "누리로 1863",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "12:29",
+          "arrivalTime": "12:39",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "누리로 1863",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Ahwa",
+          "departureTime": "12:39",
+          "arrivalTime": "12:50",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "누리로 1863",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Ahwa",
+          "destination": "Seogyeongju",
+          "departureTime": "12:50",
+          "arrivalTime": "13:08",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "누리로 1863",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Angang",
+          "departureTime": "13:08",
+          "arrivalTime": "13:18",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "누리로 1863",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Angang",
+          "destination": "Pohang",
+          "departureTime": "13:18",
+          "arrivalTime": "13:32",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-대구선-9-15",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "ITX-마음 1831",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "15:15",
+      "arrivalTime": "16:27",
+      "durationMinutes": 72,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Seogyeongju",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1831",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "15:15",
+          "arrivalTime": "15:32",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1831",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "15:32",
+          "arrivalTime": "15:43",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1831",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Seogyeongju",
+          "departureTime": "15:43",
+          "arrivalTime": "16:06",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "ITX-마음 1831",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Pohang",
+          "departureTime": "16:06",
+          "arrivalTime": "16:27",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-대구선-9-19",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 1891",
+      "trainType": "무궁화",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "18:15",
+      "arrivalTime": "19:35",
+      "durationMinutes": 80,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Ahwa",
+        "Seogyeongju",
+        "Angang",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "18:15",
+          "arrivalTime": "18:32",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "18:32",
+          "arrivalTime": "18:44",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Ahwa",
+          "departureTime": "18:44",
+          "arrivalTime": "18:56",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Ahwa",
+          "destination": "Seogyeongju",
+          "departureTime": "18:56",
+          "arrivalTime": "19:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Angang",
+          "departureTime": "19:12",
+          "arrivalTime": "19:22",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Angang",
+          "destination": "Pohang",
+          "departureTime": "19:22",
+          "arrivalTime": "19:35",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-대구선-9-20",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "누리로 1855",
+      "trainType": "누리로",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "18:44",
+      "arrivalTime": "19:55",
+      "durationMinutes": 71,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Seogyeongju",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1855",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "18:44",
+          "arrivalTime": "19:01",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "누리로 1855",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "19:01",
+          "arrivalTime": "19:11",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "누리로 1855",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Seogyeongju",
+          "departureTime": "19:11",
+          "arrivalTime": "19:35",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "누리로 1855",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Pohang",
+          "departureTime": "19:35",
+          "arrivalTime": "19:55",
+          "durationMinutes": 20
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-동해선(서울~포항)-32-2-next-day",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "KTX-산천 281",
+      "trainType": "KTX-산천",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "00:09",
+      "arrivalTime": "00:44",
+      "durationMinutes": 35,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 281",
+          "lineCode": "동해선(서울~포항)",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Pohang",
+          "departureTime": "00:09",
+          "arrivalTime": "00:44",
+          "durationMinutes": 35
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-대구선-9-3",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "누리로 1851",
+      "trainType": "누리로",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "06:25",
+      "arrivalTime": "07:42",
+      "durationMinutes": 77,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Ahwa",
+        "Seogyeongju",
+        "Angang",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1851",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "06:25",
+          "arrivalTime": "06:42",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "누리로 1851",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "06:42",
+          "arrivalTime": "06:52",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "누리로 1851",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Ahwa",
+          "departureTime": "06:52",
+          "arrivalTime": "07:03",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "누리로 1851",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Ahwa",
+          "destination": "Seogyeongju",
+          "departureTime": "07:03",
+          "arrivalTime": "07:19",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "누리로 1851",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Angang",
+          "departureTime": "07:19",
+          "arrivalTime": "07:28",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "누리로 1851",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Angang",
+          "destination": "Pohang",
+          "departureTime": "07:28",
+          "arrivalTime": "07:42",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-대구선-9-10",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "누리로 1853",
+      "trainType": "누리로",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "12:12",
+      "arrivalTime": "13:32",
+      "durationMinutes": 80,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Ahwa",
+        "Seogyeongju",
+        "Angang",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1853",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "12:12",
+          "arrivalTime": "12:29",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "누리로 1853",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "12:29",
+          "arrivalTime": "12:39",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "누리로 1853",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Ahwa",
+          "departureTime": "12:39",
+          "arrivalTime": "12:50",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "누리로 1853",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Ahwa",
+          "destination": "Seogyeongju",
+          "departureTime": "12:50",
+          "arrivalTime": "13:08",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "누리로 1853",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Angang",
+          "departureTime": "13:08",
+          "arrivalTime": "13:18",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "누리로 1853",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Angang",
+          "destination": "Pohang",
+          "departureTime": "13:18",
+          "arrivalTime": "13:32",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-대구선-9-14",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "ITX-마음 1821",
+      "trainType": "ITX-마음",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "15:15",
+      "arrivalTime": "16:27",
+      "durationMinutes": 72,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Seogyeongju",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1821",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "15:15",
+          "arrivalTime": "15:32",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1821",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "15:32",
+          "arrivalTime": "15:43",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1821",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Seogyeongju",
+          "departureTime": "15:43",
+          "arrivalTime": "16:06",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "ITX-마음 1821",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Pohang",
+          "departureTime": "16:06",
+          "arrivalTime": "16:27",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-대구선-9-19",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 1891",
+      "trainType": "무궁화",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "18:15",
+      "arrivalTime": "19:35",
+      "durationMinutes": 80,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Ahwa",
+        "Seogyeongju",
+        "Angang",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "18:15",
+          "arrivalTime": "18:32",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "18:32",
+          "arrivalTime": "18:44",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Ahwa",
+          "departureTime": "18:44",
+          "arrivalTime": "18:56",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Ahwa",
+          "destination": "Seogyeongju",
+          "departureTime": "18:56",
+          "arrivalTime": "19:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Angang",
+          "departureTime": "19:12",
+          "arrivalTime": "19:22",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1891",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Angang",
+          "destination": "Pohang",
+          "departureTime": "19:22",
+          "arrivalTime": "19:35",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-대구선-9-20",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "누리로 1855",
+      "trainType": "누리로",
+      "origin": "Dongdaegu",
+      "destination": "Pohang",
+      "departureTime": "18:44",
+      "arrivalTime": "19:55",
+      "durationMinutes": 71,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Hayang",
+        "Yeongcheon",
+        "Seogyeongju",
+        "Pohang"
+      ],
+      "headsign": "Pohang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1855",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Hayang",
+          "departureTime": "18:44",
+          "arrivalTime": "19:01",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "누리로 1855",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Hayang",
+          "destination": "Yeongcheon",
+          "departureTime": "19:01",
+          "arrivalTime": "19:11",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "누리로 1855",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Yeongcheon",
+          "destination": "Seogyeongju",
+          "departureTime": "19:11",
+          "arrivalTime": "19:35",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "누리로 1855",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Pohang",
+          "departureTime": "19:35",
+          "arrivalTime": "19:55",
+          "durationMinutes": 20
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -2995,7 +3841,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-10T12:03:06.648Z",
+    "fetchedAt": "2026-09-12T23:32:01.014Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

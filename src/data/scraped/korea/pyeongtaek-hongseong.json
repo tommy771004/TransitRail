@@ -1,15 +1,15 @@
 {
   "origin": "Pyeongtaek",
   "destination": "Hongseong",
-  "date": "2026-09-12..2026-09-18",
-  "scrapedAt": "2026-09-10T12:03:06.901Z",
+  "date": "2026-09-13..2026-09-21",
+  "scrapedAt": "2026-09-12T23:32:01.263Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036897009480.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-10T12:03:02.797Z",
+      "retrievedAt": "2026-09-12T23:31:57.796Z",
       "sha256": "cf69ea35e0b6ad9fb82c0e0b44f60833e34eadab55ea610eaf6784622351e9d0",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-10T12:03:03.749Z",
+      "retrievedAt": "2026-09-12T23:31:58.768Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
@@ -25,300 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-12-regular-장항선-9-8",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "ITX-마음 1241",
-      "trainType": "ITX-마음",
-      "origin": "Pyeongtaek",
-      "destination": "Hongseong",
-      "departureTime": "10:20",
-      "arrivalTime": "11:31",
-      "durationMinutes": 71,
-      "direct": true,
-      "stops": [
-        "Pyeongtaek",
-        "Cheonan",
-        "Asan",
-        "Onyang oncheon",
-        "Sillyewon",
-        "Yesan",
-        "Sapgyo",
-        "Hongseong"
-      ],
-      "headsign": "Hongseong",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1241",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Pyeongtaek",
-          "destination": "Cheonan",
-          "departureTime": "10:20",
-          "arrivalTime": "10:39",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "ITX-마음 1241",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Cheonan",
-          "destination": "Asan",
-          "departureTime": "10:39",
-          "arrivalTime": "10:45",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "ITX-마음 1241",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Asan",
-          "destination": "Onyang oncheon",
-          "departureTime": "10:45",
-          "arrivalTime": "10:55",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1241",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Onyang oncheon",
-          "destination": "Sillyewon",
-          "departureTime": "10:55",
-          "arrivalTime": "11:10",
-          "durationMinutes": 15
-        },
-        {
-          "lineName": "ITX-마음 1241",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Sillyewon",
-          "destination": "Yesan",
-          "departureTime": "11:10",
-          "arrivalTime": "11:16",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "ITX-마음 1241",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Yesan",
-          "destination": "Sapgyo",
-          "departureTime": "11:16",
-          "arrivalTime": "11:22",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "ITX-마음 1241",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Sapgyo",
-          "destination": "Hongseong",
-          "departureTime": "11:22",
-          "arrivalTime": "11:31",
-          "durationMinutes": 9
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-장항선-9-10",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "ITX-마음 1243",
-      "trainType": "ITX-마음",
-      "origin": "Pyeongtaek",
-      "destination": "Hongseong",
-      "departureTime": "12:58",
-      "arrivalTime": "14:09",
-      "durationMinutes": 71,
-      "direct": true,
-      "stops": [
-        "Pyeongtaek",
-        "Cheonan",
-        "Asan",
-        "Onyang oncheon",
-        "Sillyewon",
-        "Yesan",
-        "Sapgyo",
-        "Hongseong"
-      ],
-      "headsign": "Hongseong",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1243",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Pyeongtaek",
-          "destination": "Cheonan",
-          "departureTime": "12:58",
-          "arrivalTime": "13:17",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "ITX-마음 1243",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Cheonan",
-          "destination": "Asan",
-          "departureTime": "13:17",
-          "arrivalTime": "13:23",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "ITX-마음 1243",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Asan",
-          "destination": "Onyang oncheon",
-          "departureTime": "13:23",
-          "arrivalTime": "13:33",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1243",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Onyang oncheon",
-          "destination": "Sillyewon",
-          "departureTime": "13:33",
-          "arrivalTime": "13:48",
-          "durationMinutes": 15
-        },
-        {
-          "lineName": "ITX-마음 1243",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Sillyewon",
-          "destination": "Yesan",
-          "departureTime": "13:48",
-          "arrivalTime": "13:54",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "ITX-마음 1243",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Yesan",
-          "destination": "Sapgyo",
-          "departureTime": "13:54",
-          "arrivalTime": "14:00",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "ITX-마음 1243",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Sapgyo",
-          "destination": "Hongseong",
-          "departureTime": "14:00",
-          "arrivalTime": "14:09",
-          "durationMinutes": 9
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-장항선-9-18",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "ITX-마음 1245",
-      "trainType": "ITX-마음",
-      "origin": "Pyeongtaek",
-      "destination": "Hongseong",
-      "departureTime": "19:10",
-      "arrivalTime": "20:20",
-      "durationMinutes": 70,
-      "direct": true,
-      "stops": [
-        "Pyeongtaek",
-        "Cheonan",
-        "Asan",
-        "Onyang oncheon",
-        "Sillyewon",
-        "Yesan",
-        "Sapgyo",
-        "Hongseong"
-      ],
-      "headsign": "Hongseong",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1245",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Pyeongtaek",
-          "destination": "Cheonan",
-          "departureTime": "19:10",
-          "arrivalTime": "19:29",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "ITX-마음 1245",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Cheonan",
-          "destination": "Asan",
-          "departureTime": "19:29",
-          "arrivalTime": "19:35",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "ITX-마음 1245",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Asan",
-          "destination": "Onyang oncheon",
-          "departureTime": "19:35",
-          "arrivalTime": "19:45",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1245",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Onyang oncheon",
-          "destination": "Sillyewon",
-          "departureTime": "19:45",
-          "arrivalTime": "19:59",
-          "durationMinutes": 14
-        },
-        {
-          "lineName": "ITX-마음 1245",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Sillyewon",
-          "destination": "Yesan",
-          "departureTime": "19:59",
-          "arrivalTime": "20:05",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "ITX-마음 1245",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Yesan",
-          "destination": "Sapgyo",
-          "departureTime": "20:05",
-          "arrivalTime": "20:11",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "ITX-마음 1245",
-          "lineCode": "장항선",
-          "mode": "train",
-          "origin": "Sapgyo",
-          "destination": "Hongseong",
-          "departureTime": "20:11",
-          "arrivalTime": "20:20",
-          "durationMinutes": 9
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-13-regular-장항선-9-8",
       "country": "korea",
@@ -2082,6 +1788,888 @@
           "durationMinutes": 9
         }
       ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-장항선-9-8",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "ITX-마음 1241",
+      "trainType": "ITX-마음",
+      "origin": "Pyeongtaek",
+      "destination": "Hongseong",
+      "departureTime": "10:20",
+      "arrivalTime": "11:31",
+      "durationMinutes": 71,
+      "direct": true,
+      "stops": [
+        "Pyeongtaek",
+        "Cheonan",
+        "Asan",
+        "Onyang oncheon",
+        "Sillyewon",
+        "Yesan",
+        "Sapgyo",
+        "Hongseong"
+      ],
+      "headsign": "Hongseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Pyeongtaek",
+          "destination": "Cheonan",
+          "departureTime": "10:20",
+          "arrivalTime": "10:39",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Asan",
+          "departureTime": "10:39",
+          "arrivalTime": "10:45",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Asan",
+          "destination": "Onyang oncheon",
+          "departureTime": "10:45",
+          "arrivalTime": "10:55",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Onyang oncheon",
+          "destination": "Sillyewon",
+          "departureTime": "10:55",
+          "arrivalTime": "11:10",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sillyewon",
+          "destination": "Yesan",
+          "departureTime": "11:10",
+          "arrivalTime": "11:16",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Yesan",
+          "destination": "Sapgyo",
+          "departureTime": "11:16",
+          "arrivalTime": "11:22",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sapgyo",
+          "destination": "Hongseong",
+          "departureTime": "11:22",
+          "arrivalTime": "11:31",
+          "durationMinutes": 9
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-장항선-9-10",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "ITX-마음 1243",
+      "trainType": "ITX-마음",
+      "origin": "Pyeongtaek",
+      "destination": "Hongseong",
+      "departureTime": "12:58",
+      "arrivalTime": "14:09",
+      "durationMinutes": 71,
+      "direct": true,
+      "stops": [
+        "Pyeongtaek",
+        "Cheonan",
+        "Asan",
+        "Onyang oncheon",
+        "Sillyewon",
+        "Yesan",
+        "Sapgyo",
+        "Hongseong"
+      ],
+      "headsign": "Hongseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Pyeongtaek",
+          "destination": "Cheonan",
+          "departureTime": "12:58",
+          "arrivalTime": "13:17",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Asan",
+          "departureTime": "13:17",
+          "arrivalTime": "13:23",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Asan",
+          "destination": "Onyang oncheon",
+          "departureTime": "13:23",
+          "arrivalTime": "13:33",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Onyang oncheon",
+          "destination": "Sillyewon",
+          "departureTime": "13:33",
+          "arrivalTime": "13:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sillyewon",
+          "destination": "Yesan",
+          "departureTime": "13:48",
+          "arrivalTime": "13:54",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Yesan",
+          "destination": "Sapgyo",
+          "departureTime": "13:54",
+          "arrivalTime": "14:00",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sapgyo",
+          "destination": "Hongseong",
+          "departureTime": "14:00",
+          "arrivalTime": "14:09",
+          "durationMinutes": 9
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-장항선-9-18",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "ITX-마음 1245",
+      "trainType": "ITX-마음",
+      "origin": "Pyeongtaek",
+      "destination": "Hongseong",
+      "departureTime": "19:10",
+      "arrivalTime": "20:20",
+      "durationMinutes": 70,
+      "direct": true,
+      "stops": [
+        "Pyeongtaek",
+        "Cheonan",
+        "Asan",
+        "Onyang oncheon",
+        "Sillyewon",
+        "Yesan",
+        "Sapgyo",
+        "Hongseong"
+      ],
+      "headsign": "Hongseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Pyeongtaek",
+          "destination": "Cheonan",
+          "departureTime": "19:10",
+          "arrivalTime": "19:29",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Asan",
+          "departureTime": "19:29",
+          "arrivalTime": "19:35",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Asan",
+          "destination": "Onyang oncheon",
+          "departureTime": "19:35",
+          "arrivalTime": "19:45",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Onyang oncheon",
+          "destination": "Sillyewon",
+          "departureTime": "19:45",
+          "arrivalTime": "19:59",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sillyewon",
+          "destination": "Yesan",
+          "departureTime": "19:59",
+          "arrivalTime": "20:05",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Yesan",
+          "destination": "Sapgyo",
+          "departureTime": "20:05",
+          "arrivalTime": "20:11",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sapgyo",
+          "destination": "Hongseong",
+          "departureTime": "20:11",
+          "arrivalTime": "20:20",
+          "durationMinutes": 9
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-장항선-9-8",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "ITX-마음 1241",
+      "trainType": "ITX-마음",
+      "origin": "Pyeongtaek",
+      "destination": "Hongseong",
+      "departureTime": "10:20",
+      "arrivalTime": "11:31",
+      "durationMinutes": 71,
+      "direct": true,
+      "stops": [
+        "Pyeongtaek",
+        "Cheonan",
+        "Asan",
+        "Onyang oncheon",
+        "Sillyewon",
+        "Yesan",
+        "Sapgyo",
+        "Hongseong"
+      ],
+      "headsign": "Hongseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Pyeongtaek",
+          "destination": "Cheonan",
+          "departureTime": "10:20",
+          "arrivalTime": "10:39",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Asan",
+          "departureTime": "10:39",
+          "arrivalTime": "10:45",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Asan",
+          "destination": "Onyang oncheon",
+          "departureTime": "10:45",
+          "arrivalTime": "10:55",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Onyang oncheon",
+          "destination": "Sillyewon",
+          "departureTime": "10:55",
+          "arrivalTime": "11:10",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sillyewon",
+          "destination": "Yesan",
+          "departureTime": "11:10",
+          "arrivalTime": "11:16",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Yesan",
+          "destination": "Sapgyo",
+          "departureTime": "11:16",
+          "arrivalTime": "11:22",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sapgyo",
+          "destination": "Hongseong",
+          "departureTime": "11:22",
+          "arrivalTime": "11:31",
+          "durationMinutes": 9
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-장항선-9-10",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "ITX-마음 1243",
+      "trainType": "ITX-마음",
+      "origin": "Pyeongtaek",
+      "destination": "Hongseong",
+      "departureTime": "12:58",
+      "arrivalTime": "14:09",
+      "durationMinutes": 71,
+      "direct": true,
+      "stops": [
+        "Pyeongtaek",
+        "Cheonan",
+        "Asan",
+        "Onyang oncheon",
+        "Sillyewon",
+        "Yesan",
+        "Sapgyo",
+        "Hongseong"
+      ],
+      "headsign": "Hongseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Pyeongtaek",
+          "destination": "Cheonan",
+          "departureTime": "12:58",
+          "arrivalTime": "13:17",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Asan",
+          "departureTime": "13:17",
+          "arrivalTime": "13:23",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Asan",
+          "destination": "Onyang oncheon",
+          "departureTime": "13:23",
+          "arrivalTime": "13:33",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Onyang oncheon",
+          "destination": "Sillyewon",
+          "departureTime": "13:33",
+          "arrivalTime": "13:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sillyewon",
+          "destination": "Yesan",
+          "departureTime": "13:48",
+          "arrivalTime": "13:54",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Yesan",
+          "destination": "Sapgyo",
+          "departureTime": "13:54",
+          "arrivalTime": "14:00",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sapgyo",
+          "destination": "Hongseong",
+          "departureTime": "14:00",
+          "arrivalTime": "14:09",
+          "durationMinutes": 9
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-장항선-9-18",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "ITX-마음 1245",
+      "trainType": "ITX-마음",
+      "origin": "Pyeongtaek",
+      "destination": "Hongseong",
+      "departureTime": "19:10",
+      "arrivalTime": "20:20",
+      "durationMinutes": 70,
+      "direct": true,
+      "stops": [
+        "Pyeongtaek",
+        "Cheonan",
+        "Asan",
+        "Onyang oncheon",
+        "Sillyewon",
+        "Yesan",
+        "Sapgyo",
+        "Hongseong"
+      ],
+      "headsign": "Hongseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Pyeongtaek",
+          "destination": "Cheonan",
+          "departureTime": "19:10",
+          "arrivalTime": "19:29",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Asan",
+          "departureTime": "19:29",
+          "arrivalTime": "19:35",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Asan",
+          "destination": "Onyang oncheon",
+          "departureTime": "19:35",
+          "arrivalTime": "19:45",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Onyang oncheon",
+          "destination": "Sillyewon",
+          "departureTime": "19:45",
+          "arrivalTime": "19:59",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sillyewon",
+          "destination": "Yesan",
+          "departureTime": "19:59",
+          "arrivalTime": "20:05",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Yesan",
+          "destination": "Sapgyo",
+          "departureTime": "20:05",
+          "arrivalTime": "20:11",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sapgyo",
+          "destination": "Hongseong",
+          "departureTime": "20:11",
+          "arrivalTime": "20:20",
+          "durationMinutes": 9
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-장항선-9-8",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "ITX-마음 1241",
+      "trainType": "ITX-마음",
+      "origin": "Pyeongtaek",
+      "destination": "Hongseong",
+      "departureTime": "10:20",
+      "arrivalTime": "11:31",
+      "durationMinutes": 71,
+      "direct": true,
+      "stops": [
+        "Pyeongtaek",
+        "Cheonan",
+        "Asan",
+        "Onyang oncheon",
+        "Sillyewon",
+        "Yesan",
+        "Sapgyo",
+        "Hongseong"
+      ],
+      "headsign": "Hongseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Pyeongtaek",
+          "destination": "Cheonan",
+          "departureTime": "10:20",
+          "arrivalTime": "10:39",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Asan",
+          "departureTime": "10:39",
+          "arrivalTime": "10:45",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Asan",
+          "destination": "Onyang oncheon",
+          "departureTime": "10:45",
+          "arrivalTime": "10:55",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Onyang oncheon",
+          "destination": "Sillyewon",
+          "departureTime": "10:55",
+          "arrivalTime": "11:10",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sillyewon",
+          "destination": "Yesan",
+          "departureTime": "11:10",
+          "arrivalTime": "11:16",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Yesan",
+          "destination": "Sapgyo",
+          "departureTime": "11:16",
+          "arrivalTime": "11:22",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1241",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sapgyo",
+          "destination": "Hongseong",
+          "departureTime": "11:22",
+          "arrivalTime": "11:31",
+          "durationMinutes": 9
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-장항선-9-10",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "ITX-마음 1243",
+      "trainType": "ITX-마음",
+      "origin": "Pyeongtaek",
+      "destination": "Hongseong",
+      "departureTime": "12:58",
+      "arrivalTime": "14:09",
+      "durationMinutes": 71,
+      "direct": true,
+      "stops": [
+        "Pyeongtaek",
+        "Cheonan",
+        "Asan",
+        "Onyang oncheon",
+        "Sillyewon",
+        "Yesan",
+        "Sapgyo",
+        "Hongseong"
+      ],
+      "headsign": "Hongseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Pyeongtaek",
+          "destination": "Cheonan",
+          "departureTime": "12:58",
+          "arrivalTime": "13:17",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Asan",
+          "departureTime": "13:17",
+          "arrivalTime": "13:23",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Asan",
+          "destination": "Onyang oncheon",
+          "departureTime": "13:23",
+          "arrivalTime": "13:33",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Onyang oncheon",
+          "destination": "Sillyewon",
+          "departureTime": "13:33",
+          "arrivalTime": "13:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sillyewon",
+          "destination": "Yesan",
+          "departureTime": "13:48",
+          "arrivalTime": "13:54",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Yesan",
+          "destination": "Sapgyo",
+          "departureTime": "13:54",
+          "arrivalTime": "14:00",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1243",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sapgyo",
+          "destination": "Hongseong",
+          "departureTime": "14:00",
+          "arrivalTime": "14:09",
+          "durationMinutes": 9
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-장항선-9-18",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "ITX-마음 1245",
+      "trainType": "ITX-마음",
+      "origin": "Pyeongtaek",
+      "destination": "Hongseong",
+      "departureTime": "19:10",
+      "arrivalTime": "20:20",
+      "durationMinutes": 70,
+      "direct": true,
+      "stops": [
+        "Pyeongtaek",
+        "Cheonan",
+        "Asan",
+        "Onyang oncheon",
+        "Sillyewon",
+        "Yesan",
+        "Sapgyo",
+        "Hongseong"
+      ],
+      "headsign": "Hongseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Pyeongtaek",
+          "destination": "Cheonan",
+          "departureTime": "19:10",
+          "arrivalTime": "19:29",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Asan",
+          "departureTime": "19:29",
+          "arrivalTime": "19:35",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Asan",
+          "destination": "Onyang oncheon",
+          "departureTime": "19:35",
+          "arrivalTime": "19:45",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Onyang oncheon",
+          "destination": "Sillyewon",
+          "departureTime": "19:45",
+          "arrivalTime": "19:59",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sillyewon",
+          "destination": "Yesan",
+          "departureTime": "19:59",
+          "arrivalTime": "20:05",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Yesan",
+          "destination": "Sapgyo",
+          "departureTime": "20:05",
+          "arrivalTime": "20:11",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1245",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sapgyo",
+          "destination": "Hongseong",
+          "departureTime": "20:11",
+          "arrivalTime": "20:20",
+          "durationMinutes": 9
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -2092,7 +2680,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-10T12:03:06.648Z",
+    "fetchedAt": "2026-09-12T23:32:01.014Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

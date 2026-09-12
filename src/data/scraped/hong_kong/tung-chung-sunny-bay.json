@@ -1,12 +1,29 @@
 {
   "origin": "Tung Chung",
   "destination": "Sunny Bay",
-  "date": "2026-09-12",
-  "scrapedAt": "2026-09-11T23:38:12.443Z",
+  "date": "2026-09-13",
+  "scrapedAt": "2026-09-12T23:31:05.679Z",
   "source": "MTR real-time next train API",
   "results": [
     {
-      "id": "2026-09-12-hk-TCL-TUC-2026-09-12 07:40:04-1",
+      "id": "2026-09-13-hk-TCL-TUC-2026-09-13 07:34:56-1",
+      "country": "hong_kong",
+      "operator": "MTR",
+      "service": "Tung Chung Line",
+      "trainType": "Next train",
+      "departureTime": "07:34",
+      "origin": "Tung Chung",
+      "destination": "Sunny Bay",
+      "direct": true,
+      "stops": [],
+      "platform": "2",
+      "headsign": "Hong Kong",
+      "realtime": true,
+      "lineColor": "#F3982D",
+      "date": "2026-09-13"
+    },
+    {
+      "id": "2026-09-13-hk-TCL-TUC-2026-09-13 07:40:56-2",
       "country": "hong_kong",
       "operator": "MTR",
       "service": "Tung Chung Line",
@@ -16,36 +33,19 @@
       "destination": "Sunny Bay",
       "direct": true,
       "stops": [],
-      "platform": "2",
-      "headsign": "Hong Kong",
-      "realtime": true,
-      "lineColor": "#F3982D",
-      "date": "2026-09-12"
-    },
-    {
-      "id": "2026-09-12-hk-TCL-TUC-2026-09-12 07:46:04-2",
-      "country": "hong_kong",
-      "operator": "MTR",
-      "service": "Tung Chung Line",
-      "trainType": "Next train",
-      "departureTime": "07:46",
-      "origin": "Tung Chung",
-      "destination": "Sunny Bay",
-      "direct": true,
-      "stops": [],
       "platform": "1",
       "headsign": "Hong Kong",
       "realtime": true,
       "lineColor": "#F3982D",
-      "date": "2026-09-12"
+      "date": "2026-09-13"
     },
     {
-      "id": "2026-09-12-hk-TCL-TUC-2026-09-12 07:54:04-3",
+      "id": "2026-09-13-hk-TCL-TUC-2026-09-13 07:48:56-3",
       "country": "hong_kong",
       "operator": "MTR",
       "service": "Tung Chung Line",
       "trainType": "Next train",
-      "departureTime": "07:54",
+      "departureTime": "07:48",
       "origin": "Tung Chung",
       "destination": "Sunny Bay",
       "direct": true,
@@ -54,15 +54,15 @@
       "headsign": "Hong Kong",
       "realtime": true,
       "lineColor": "#F3982D",
-      "date": "2026-09-12"
+      "date": "2026-09-13"
     },
     {
-      "id": "2026-09-12-hk-TCL-TUC-2026-09-12 08:01:04-4",
+      "id": "2026-09-13-hk-TCL-TUC-2026-09-13 07:55:56-4",
       "country": "hong_kong",
       "operator": "MTR",
       "service": "Tung Chung Line",
       "trainType": "Next train",
-      "departureTime": "08:01",
+      "departureTime": "07:55",
       "origin": "Tung Chung",
       "destination": "Sunny Bay",
       "direct": true,
@@ -71,7 +71,7 @@
       "headsign": "Hong Kong",
       "realtime": true,
       "lineColor": "#F3982D",
-      "date": "2026-09-12"
+      "date": "2026-09-13"
     }
   ],
   "sourceMeta": {
@@ -82,7 +82,7 @@
     "sourceUrl": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
     "provider": "MTR Corporation",
     "country": "hong_kong",
-    "fetchedAt": "2026-09-11T23:38:12.443Z",
+    "fetchedAt": "2026-09-12T23:31:05.679Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

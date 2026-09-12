@@ -1,15 +1,15 @@
 {
   "origin": "Masan",
   "destination": "Seoul",
-  "date": "2026-09-12..2026-09-18",
-  "scrapedAt": "2026-09-10T12:03:06.734Z",
+  "date": "2026-09-13..2026-09-21",
+  "scrapedAt": "2026-09-12T23:32:01.097Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036897009480.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-10T12:03:02.797Z",
+      "retrievedAt": "2026-09-12T23:31:57.796Z",
       "sha256": "cf69ea35e0b6ad9fb82c0e0b44f60833e34eadab55ea610eaf6784622351e9d0",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-10T12:03:03.749Z",
+      "retrievedAt": "2026-09-12T23:31:58.768Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
@@ -25,812 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-12-ktx-경전선-10-25",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-산천 202",
-      "trainType": "KTX-산천",
-      "origin": "Masan",
-      "destination": "Seoul",
-      "departureTime": "04:59",
-      "arrivalTime": "08:01",
-      "durationMinutes": 182,
-      "direct": true,
-      "stops": [
-        "Masan",
-        "Changwon",
-        "Changwonjungang",
-        "Jinyeong",
-        "Miryang",
-        "Dongdaegu",
-        "Daejeon",
-        "Gwangmyeong",
-        "Seoul"
-      ],
-      "headsign": "Seoul",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 202",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Masan",
-          "destination": "Changwon",
-          "departureTime": "04:59",
-          "arrivalTime": "05:04",
-          "durationMinutes": 5
-        },
-        {
-          "lineName": "KTX-산천 202",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Changwon",
-          "destination": "Changwonjungang",
-          "departureTime": "05:04",
-          "arrivalTime": "05:12",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "KTX-산천 202",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Changwonjungang",
-          "destination": "Jinyeong",
-          "departureTime": "05:12",
-          "arrivalTime": "05:22",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "KTX-산천 202",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Jinyeong",
-          "destination": "Miryang",
-          "departureTime": "05:22",
-          "arrivalTime": "05:39",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "KTX-산천 202",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Miryang",
-          "destination": "Dongdaegu",
-          "departureTime": "05:39",
-          "arrivalTime": "06:17",
-          "durationMinutes": 38
-        },
-        {
-          "lineName": "KTX-산천 202",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Daejeon",
-          "departureTime": "06:17",
-          "arrivalTime": "07:00",
-          "durationMinutes": 43
-        },
-        {
-          "lineName": "KTX-산천 202",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Daejeon",
-          "destination": "Gwangmyeong",
-          "departureTime": "07:00",
-          "arrivalTime": "07:43",
-          "durationMinutes": 43
-        },
-        {
-          "lineName": "KTX-산천 202",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Seoul",
-          "departureTime": "07:43",
-          "arrivalTime": "08:01",
-          "durationMinutes": 18
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-경전선-17-25",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-산천 234",
-      "trainType": "KTX-산천",
-      "origin": "Masan",
-      "destination": "Seoul",
-      "departureTime": "12:21",
-      "arrivalTime": "15:19",
-      "durationMinutes": 178,
-      "direct": true,
-      "stops": [
-        "Masan",
-        "Changwon",
-        "Jinyeong",
-        "Dongdaegu",
-        "Daejeon",
-        "Osong",
-        "Seoul"
-      ],
-      "headsign": "Seoul",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 234",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Masan",
-          "destination": "Changwon",
-          "departureTime": "12:21",
-          "arrivalTime": "12:27",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "KTX-산천 234",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Changwon",
-          "destination": "Jinyeong",
-          "departureTime": "12:27",
-          "arrivalTime": "12:43",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "KTX-산천 234",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Jinyeong",
-          "destination": "Dongdaegu",
-          "departureTime": "12:43",
-          "arrivalTime": "13:33",
-          "durationMinutes": 50
-        },
-        {
-          "lineName": "KTX-산천 234",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Daejeon",
-          "departureTime": "13:33",
-          "arrivalTime": "14:16",
-          "durationMinutes": 43
-        },
-        {
-          "lineName": "KTX-산천 234",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Daejeon",
-          "destination": "Osong",
-          "departureTime": "14:16",
-          "arrivalTime": "14:34",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "KTX-산천 234",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Osong",
-          "destination": "Seoul",
-          "departureTime": "14:34",
-          "arrivalTime": "15:19",
-          "durationMinutes": 45
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-경전선-18-25",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX 210",
-      "trainType": "KTX",
-      "origin": "Masan",
-      "destination": "Seoul",
-      "departureTime": "12:42",
-      "arrivalTime": "15:38",
-      "durationMinutes": 176,
-      "direct": true,
-      "stops": [
-        "Masan",
-        "Changwonjungang",
-        "Miryang",
-        "Dongdaegu",
-        "Daejeon",
-        "Cheonan-Asan",
-        "Seoul"
-      ],
-      "headsign": "Seoul",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 210",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Masan",
-          "destination": "Changwonjungang",
-          "departureTime": "12:42",
-          "arrivalTime": "12:54",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "KTX 210",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Changwonjungang",
-          "destination": "Miryang",
-          "departureTime": "12:54",
-          "arrivalTime": "13:18",
-          "durationMinutes": 24
-        },
-        {
-          "lineName": "KTX 210",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Miryang",
-          "destination": "Dongdaegu",
-          "departureTime": "13:18",
-          "arrivalTime": "13:52",
-          "durationMinutes": 34
-        },
-        {
-          "lineName": "KTX 210",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Daejeon",
-          "departureTime": "13:52",
-          "arrivalTime": "14:35",
-          "durationMinutes": 43
-        },
-        {
-          "lineName": "KTX 210",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Daejeon",
-          "destination": "Cheonan-Asan",
-          "departureTime": "14:35",
-          "arrivalTime": "14:59",
-          "durationMinutes": 24
-        },
-        {
-          "lineName": "KTX 210",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Cheonan-Asan",
-          "destination": "Seoul",
-          "departureTime": "14:59",
-          "arrivalTime": "15:38",
-          "durationMinutes": 39
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-경전선-22-25",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-산천 218",
-      "trainType": "KTX-산천",
-      "origin": "Masan",
-      "destination": "Seoul",
-      "departureTime": "15:51",
-      "arrivalTime": "18:59",
-      "durationMinutes": 188,
-      "direct": true,
-      "stops": [
-        "Masan",
-        "Changwonjungang",
-        "Dongdaegu",
-        "Gimcheon(Gumi)",
-        "Daejeon",
-        "Osong",
-        "Gwangmyeong",
-        "Seoul"
-      ],
-      "headsign": "Seoul",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 218",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Masan",
-          "destination": "Changwonjungang",
-          "departureTime": "15:51",
-          "arrivalTime": "16:03",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "KTX-산천 218",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Changwonjungang",
-          "destination": "Dongdaegu",
-          "departureTime": "16:03",
-          "arrivalTime": "17:02",
-          "durationMinutes": 59
-        },
-        {
-          "lineName": "KTX-산천 218",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Gimcheon(Gumi)",
-          "departureTime": "17:02",
-          "arrivalTime": "17:25",
-          "durationMinutes": 23
-        },
-        {
-          "lineName": "KTX-산천 218",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Gimcheon(Gumi)",
-          "destination": "Daejeon",
-          "departureTime": "17:25",
-          "arrivalTime": "17:50",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "KTX-산천 218",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Daejeon",
-          "destination": "Osong",
-          "departureTime": "17:50",
-          "arrivalTime": "18:08",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "KTX-산천 218",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Osong",
-          "destination": "Gwangmyeong",
-          "departureTime": "18:08",
-          "arrivalTime": "18:41",
-          "durationMinutes": 33
-        },
-        {
-          "lineName": "KTX-산천 218",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Seoul",
-          "departureTime": "18:41",
-          "arrivalTime": "18:59",
-          "durationMinutes": 18
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-경전선-26-25",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-산천 236",
-      "trainType": "KTX-산천",
-      "origin": "Masan",
-      "destination": "Seoul",
-      "departureTime": "18:18",
-      "arrivalTime": "21:31",
-      "durationMinutes": 193,
-      "direct": true,
-      "stops": [
-        "Masan",
-        "Changwonjungang",
-        "Jinyeong",
-        "Miryang",
-        "Dongdaegu",
-        "Gimcheon(Gumi)",
-        "Daejeon",
-        "Cheonan-Asan",
-        "Gwangmyeong",
-        "Seoul"
-      ],
-      "headsign": "Seoul",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 236",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Masan",
-          "destination": "Changwonjungang",
-          "departureTime": "18:18",
-          "arrivalTime": "18:30",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "KTX-산천 236",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Changwonjungang",
-          "destination": "Jinyeong",
-          "departureTime": "18:30",
-          "arrivalTime": "18:40",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "KTX-산천 236",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Jinyeong",
-          "destination": "Miryang",
-          "departureTime": "18:40",
-          "arrivalTime": "18:57",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "KTX-산천 236",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Miryang",
-          "destination": "Dongdaegu",
-          "departureTime": "18:57",
-          "arrivalTime": "19:35",
-          "durationMinutes": 38
-        },
-        {
-          "lineName": "KTX-산천 236",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Gimcheon(Gumi)",
-          "departureTime": "19:35",
-          "arrivalTime": "19:58",
-          "durationMinutes": 23
-        },
-        {
-          "lineName": "KTX-산천 236",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Gimcheon(Gumi)",
-          "destination": "Daejeon",
-          "departureTime": "19:58",
-          "arrivalTime": "20:24",
-          "durationMinutes": 26
-        },
-        {
-          "lineName": "KTX-산천 236",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Daejeon",
-          "destination": "Cheonan-Asan",
-          "departureTime": "20:24",
-          "arrivalTime": "20:48",
-          "durationMinutes": 24
-        },
-        {
-          "lineName": "KTX-산천 236",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Cheonan-Asan",
-          "destination": "Gwangmyeong",
-          "departureTime": "20:48",
-          "arrivalTime": "21:13",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "KTX-산천 236",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Seoul",
-          "departureTime": "21:13",
-          "arrivalTime": "21:31",
-          "durationMinutes": 18
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-경전선-28-25",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-산천 226",
-      "trainType": "KTX-산천",
-      "origin": "Masan",
-      "destination": "Seoul",
-      "departureTime": "19:57",
-      "arrivalTime": "23:12",
-      "durationMinutes": 195,
-      "direct": true,
-      "stops": [
-        "Masan",
-        "Changwon",
-        "Jinyeong",
-        "Miryang",
-        "Dongdaegu",
-        "Seodaegu",
-        "Daejeon",
-        "Osong",
-        "Gwangmyeong",
-        "Seoul"
-      ],
-      "headsign": "Seoul",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 226",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Masan",
-          "destination": "Changwon",
-          "departureTime": "19:57",
-          "arrivalTime": "20:03",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "KTX-산천 226",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Changwon",
-          "destination": "Jinyeong",
-          "departureTime": "20:03",
-          "arrivalTime": "20:19",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "KTX-산천 226",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Jinyeong",
-          "destination": "Miryang",
-          "departureTime": "20:19",
-          "arrivalTime": "20:36",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "KTX-산천 226",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Miryang",
-          "destination": "Dongdaegu",
-          "departureTime": "20:36",
-          "arrivalTime": "21:10",
-          "durationMinutes": 34
-        },
-        {
-          "lineName": "KTX-산천 226",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Seodaegu",
-          "departureTime": "21:10",
-          "arrivalTime": "21:19",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "KTX-산천 226",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Seodaegu",
-          "destination": "Daejeon",
-          "departureTime": "21:19",
-          "arrivalTime": "22:02",
-          "durationMinutes": 43
-        },
-        {
-          "lineName": "KTX-산천 226",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Daejeon",
-          "destination": "Osong",
-          "departureTime": "22:02",
-          "arrivalTime": "22:19",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "KTX-산천 226",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Osong",
-          "destination": "Gwangmyeong",
-          "departureTime": "22:19",
-          "arrivalTime": "22:54",
-          "durationMinutes": 35
-        },
-        {
-          "lineName": "KTX-산천 226",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Seoul",
-          "departureTime": "22:54",
-          "arrivalTime": "23:12",
-          "durationMinutes": 18
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-경전선-31-25",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-산천 228",
-      "trainType": "KTX-산천",
-      "origin": "Masan",
-      "destination": "Seoul",
-      "departureTime": "21:04",
-      "arrivalTime": "24:07",
-      "durationMinutes": 183,
-      "direct": true,
-      "stops": [
-        "Masan",
-        "Changwonjungang",
-        "Jinyeong",
-        "Dongdaegu",
-        "Daejeon",
-        "Cheonan-Asan",
-        "Gwangmyeong",
-        "Seoul"
-      ],
-      "headsign": "Seoul",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 228",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Masan",
-          "destination": "Changwonjungang",
-          "departureTime": "21:04",
-          "arrivalTime": "21:16",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "KTX-산천 228",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Changwonjungang",
-          "destination": "Jinyeong",
-          "departureTime": "21:16",
-          "arrivalTime": "21:26",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "KTX-산천 228",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Jinyeong",
-          "destination": "Dongdaegu",
-          "departureTime": "21:26",
-          "arrivalTime": "22:17",
-          "durationMinutes": 51
-        },
-        {
-          "lineName": "KTX-산천 228",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Daejeon",
-          "departureTime": "22:17",
-          "arrivalTime": "23:00",
-          "durationMinutes": 43
-        },
-        {
-          "lineName": "KTX-산천 228",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Daejeon",
-          "destination": "Cheonan-Asan",
-          "departureTime": "23:00",
-          "arrivalTime": "23:24",
-          "durationMinutes": 24
-        },
-        {
-          "lineName": "KTX-산천 228",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Cheonan-Asan",
-          "destination": "Gwangmyeong",
-          "departureTime": "23:24",
-          "arrivalTime": "23:49",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "KTX-산천 228",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Seoul",
-          "departureTime": "23:49",
-          "arrivalTime": "24:07",
-          "durationMinutes": 18
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-경전선-32-25",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX 230",
-      "trainType": "KTX",
-      "origin": "Masan",
-      "destination": "Seoul",
-      "departureTime": "21:43",
-      "arrivalTime": "24:38",
-      "durationMinutes": 175,
-      "direct": true,
-      "stops": [
-        "Masan",
-        "Changwon",
-        "Miryang",
-        "Dongdaegu",
-        "Daejeon",
-        "Gwangmyeong",
-        "Seoul"
-      ],
-      "headsign": "Seoul",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 230",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Masan",
-          "destination": "Changwon",
-          "departureTime": "21:43",
-          "arrivalTime": "21:49",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "KTX 230",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Changwon",
-          "destination": "Miryang",
-          "departureTime": "21:49",
-          "arrivalTime": "22:19",
-          "durationMinutes": 30
-        },
-        {
-          "lineName": "KTX 230",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Miryang",
-          "destination": "Dongdaegu",
-          "departureTime": "22:19",
-          "arrivalTime": "22:53",
-          "durationMinutes": 34
-        },
-        {
-          "lineName": "KTX 230",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Daejeon",
-          "departureTime": "22:53",
-          "arrivalTime": "23:36",
-          "durationMinutes": 43
-        },
-        {
-          "lineName": "KTX 230",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Daejeon",
-          "destination": "Gwangmyeong",
-          "departureTime": "23:36",
-          "arrivalTime": "24:20",
-          "durationMinutes": 44
-        },
-        {
-          "lineName": "KTX 230",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Seoul",
-          "departureTime": "24:20",
-          "arrivalTime": "24:38",
-          "durationMinutes": 18
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-13-ktx-경전선-10-25",
       "country": "korea",
@@ -4838,6 +4032,2217 @@
           "durationMinutes": 18
         }
       ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-경전선-10-25",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-산천 202",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "04:59",
+      "arrivalTime": "08:01",
+      "durationMinutes": 182,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwon",
+        "Changwonjungang",
+        "Jinyeong",
+        "Miryang",
+        "Dongdaegu",
+        "Daejeon",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwon",
+          "departureTime": "04:59",
+          "arrivalTime": "05:04",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwon",
+          "destination": "Changwonjungang",
+          "departureTime": "05:04",
+          "arrivalTime": "05:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwonjungang",
+          "destination": "Jinyeong",
+          "departureTime": "05:12",
+          "arrivalTime": "05:22",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Jinyeong",
+          "destination": "Miryang",
+          "departureTime": "05:22",
+          "arrivalTime": "05:39",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Dongdaegu",
+          "departureTime": "05:39",
+          "arrivalTime": "06:17",
+          "durationMinutes": 38
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Daejeon",
+          "departureTime": "06:17",
+          "arrivalTime": "07:00",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gwangmyeong",
+          "departureTime": "07:00",
+          "arrivalTime": "07:43",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "07:43",
+          "arrivalTime": "08:01",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-경전선-17-25",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-산천 234",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "12:21",
+      "arrivalTime": "15:19",
+      "durationMinutes": 178,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwon",
+        "Jinyeong",
+        "Dongdaegu",
+        "Daejeon",
+        "Osong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 234",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwon",
+          "departureTime": "12:21",
+          "arrivalTime": "12:27",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX-산천 234",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwon",
+          "destination": "Jinyeong",
+          "departureTime": "12:27",
+          "arrivalTime": "12:43",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "KTX-산천 234",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Jinyeong",
+          "destination": "Dongdaegu",
+          "departureTime": "12:43",
+          "arrivalTime": "13:33",
+          "durationMinutes": 50
+        },
+        {
+          "lineName": "KTX-산천 234",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Daejeon",
+          "departureTime": "13:33",
+          "arrivalTime": "14:16",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX-산천 234",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "14:16",
+          "arrivalTime": "14:34",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 234",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Seoul",
+          "departureTime": "14:34",
+          "arrivalTime": "15:19",
+          "durationMinutes": 45
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-경전선-18-25",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX 210",
+      "trainType": "KTX",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "12:42",
+      "arrivalTime": "15:38",
+      "durationMinutes": 176,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwonjungang",
+        "Miryang",
+        "Dongdaegu",
+        "Daejeon",
+        "Cheonan-Asan",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwonjungang",
+          "departureTime": "12:42",
+          "arrivalTime": "12:54",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwonjungang",
+          "destination": "Miryang",
+          "departureTime": "12:54",
+          "arrivalTime": "13:18",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Dongdaegu",
+          "departureTime": "13:18",
+          "arrivalTime": "13:52",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Daejeon",
+          "departureTime": "13:52",
+          "arrivalTime": "14:35",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Cheonan-Asan",
+          "departureTime": "14:35",
+          "arrivalTime": "14:59",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Seoul",
+          "departureTime": "14:59",
+          "arrivalTime": "15:38",
+          "durationMinutes": 39
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-경전선-22-25",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-산천 218",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "15:51",
+      "arrivalTime": "18:59",
+      "durationMinutes": 188,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwonjungang",
+        "Dongdaegu",
+        "Gimcheon(Gumi)",
+        "Daejeon",
+        "Osong",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwonjungang",
+          "departureTime": "15:51",
+          "arrivalTime": "16:03",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwonjungang",
+          "destination": "Dongdaegu",
+          "departureTime": "16:03",
+          "arrivalTime": "17:02",
+          "durationMinutes": 59
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gimcheon(Gumi)",
+          "departureTime": "17:02",
+          "arrivalTime": "17:25",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gimcheon(Gumi)",
+          "destination": "Daejeon",
+          "departureTime": "17:25",
+          "arrivalTime": "17:50",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "17:50",
+          "arrivalTime": "18:08",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Gwangmyeong",
+          "departureTime": "18:08",
+          "arrivalTime": "18:41",
+          "durationMinutes": 33
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "18:41",
+          "arrivalTime": "18:59",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-경전선-26-25",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-산천 236",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "18:18",
+      "arrivalTime": "21:31",
+      "durationMinutes": 193,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwonjungang",
+        "Jinyeong",
+        "Miryang",
+        "Dongdaegu",
+        "Gimcheon(Gumi)",
+        "Daejeon",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwonjungang",
+          "departureTime": "18:18",
+          "arrivalTime": "18:30",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwonjungang",
+          "destination": "Jinyeong",
+          "departureTime": "18:30",
+          "arrivalTime": "18:40",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Jinyeong",
+          "destination": "Miryang",
+          "departureTime": "18:40",
+          "arrivalTime": "18:57",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Dongdaegu",
+          "departureTime": "18:57",
+          "arrivalTime": "19:35",
+          "durationMinutes": 38
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gimcheon(Gumi)",
+          "departureTime": "19:35",
+          "arrivalTime": "19:58",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gimcheon(Gumi)",
+          "destination": "Daejeon",
+          "departureTime": "19:58",
+          "arrivalTime": "20:24",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Cheonan-Asan",
+          "departureTime": "20:24",
+          "arrivalTime": "20:48",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "20:48",
+          "arrivalTime": "21:13",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "21:13",
+          "arrivalTime": "21:31",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-경전선-28-25",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-산천 226",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "19:57",
+      "arrivalTime": "23:12",
+      "durationMinutes": 195,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwon",
+        "Jinyeong",
+        "Miryang",
+        "Dongdaegu",
+        "Seodaegu",
+        "Daejeon",
+        "Osong",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwon",
+          "departureTime": "19:57",
+          "arrivalTime": "20:03",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwon",
+          "destination": "Jinyeong",
+          "departureTime": "20:03",
+          "arrivalTime": "20:19",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Jinyeong",
+          "destination": "Miryang",
+          "departureTime": "20:19",
+          "arrivalTime": "20:36",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Dongdaegu",
+          "departureTime": "20:36",
+          "arrivalTime": "21:10",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Seodaegu",
+          "departureTime": "21:10",
+          "arrivalTime": "21:19",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Seodaegu",
+          "destination": "Daejeon",
+          "departureTime": "21:19",
+          "arrivalTime": "22:02",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "22:02",
+          "arrivalTime": "22:19",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Gwangmyeong",
+          "departureTime": "22:19",
+          "arrivalTime": "22:54",
+          "durationMinutes": 35
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "22:54",
+          "arrivalTime": "23:12",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-경전선-31-25",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-산천 228",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "21:04",
+      "arrivalTime": "24:07",
+      "durationMinutes": 183,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwonjungang",
+        "Jinyeong",
+        "Dongdaegu",
+        "Daejeon",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwonjungang",
+          "departureTime": "21:04",
+          "arrivalTime": "21:16",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwonjungang",
+          "destination": "Jinyeong",
+          "departureTime": "21:16",
+          "arrivalTime": "21:26",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Jinyeong",
+          "destination": "Dongdaegu",
+          "departureTime": "21:26",
+          "arrivalTime": "22:17",
+          "durationMinutes": 51
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Daejeon",
+          "departureTime": "22:17",
+          "arrivalTime": "23:00",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Cheonan-Asan",
+          "departureTime": "23:00",
+          "arrivalTime": "23:24",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "23:24",
+          "arrivalTime": "23:49",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "23:49",
+          "arrivalTime": "24:07",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-경전선-32-25",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX 230",
+      "trainType": "KTX",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "21:43",
+      "arrivalTime": "24:38",
+      "durationMinutes": 175,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwon",
+        "Miryang",
+        "Dongdaegu",
+        "Daejeon",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwon",
+          "departureTime": "21:43",
+          "arrivalTime": "21:49",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwon",
+          "destination": "Miryang",
+          "departureTime": "21:49",
+          "arrivalTime": "22:19",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Dongdaegu",
+          "departureTime": "22:19",
+          "arrivalTime": "22:53",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Daejeon",
+          "departureTime": "22:53",
+          "arrivalTime": "23:36",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gwangmyeong",
+          "departureTime": "23:36",
+          "arrivalTime": "24:20",
+          "durationMinutes": 44
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "24:20",
+          "arrivalTime": "24:38",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-경전선-10-25",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-산천 202",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "04:59",
+      "arrivalTime": "08:01",
+      "durationMinutes": 182,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwon",
+        "Changwonjungang",
+        "Jinyeong",
+        "Miryang",
+        "Dongdaegu",
+        "Daejeon",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwon",
+          "departureTime": "04:59",
+          "arrivalTime": "05:04",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwon",
+          "destination": "Changwonjungang",
+          "departureTime": "05:04",
+          "arrivalTime": "05:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwonjungang",
+          "destination": "Jinyeong",
+          "departureTime": "05:12",
+          "arrivalTime": "05:22",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Jinyeong",
+          "destination": "Miryang",
+          "departureTime": "05:22",
+          "arrivalTime": "05:39",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Dongdaegu",
+          "departureTime": "05:39",
+          "arrivalTime": "06:17",
+          "durationMinutes": 38
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Daejeon",
+          "departureTime": "06:17",
+          "arrivalTime": "07:00",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gwangmyeong",
+          "departureTime": "07:00",
+          "arrivalTime": "07:43",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "07:43",
+          "arrivalTime": "08:01",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-경전선-17-25",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-산천 234",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "12:21",
+      "arrivalTime": "15:19",
+      "durationMinutes": 178,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwon",
+        "Jinyeong",
+        "Dongdaegu",
+        "Daejeon",
+        "Osong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 234",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwon",
+          "departureTime": "12:21",
+          "arrivalTime": "12:27",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX-산천 234",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwon",
+          "destination": "Jinyeong",
+          "departureTime": "12:27",
+          "arrivalTime": "12:43",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "KTX-산천 234",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Jinyeong",
+          "destination": "Dongdaegu",
+          "departureTime": "12:43",
+          "arrivalTime": "13:33",
+          "durationMinutes": 50
+        },
+        {
+          "lineName": "KTX-산천 234",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Daejeon",
+          "departureTime": "13:33",
+          "arrivalTime": "14:16",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX-산천 234",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "14:16",
+          "arrivalTime": "14:34",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 234",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Seoul",
+          "departureTime": "14:34",
+          "arrivalTime": "15:19",
+          "durationMinutes": 45
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-경전선-18-25",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX 210",
+      "trainType": "KTX",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "12:42",
+      "arrivalTime": "15:38",
+      "durationMinutes": 176,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwonjungang",
+        "Miryang",
+        "Dongdaegu",
+        "Daejeon",
+        "Cheonan-Asan",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwonjungang",
+          "departureTime": "12:42",
+          "arrivalTime": "12:54",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwonjungang",
+          "destination": "Miryang",
+          "departureTime": "12:54",
+          "arrivalTime": "13:18",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Dongdaegu",
+          "departureTime": "13:18",
+          "arrivalTime": "13:52",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Daejeon",
+          "departureTime": "13:52",
+          "arrivalTime": "14:35",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Cheonan-Asan",
+          "departureTime": "14:35",
+          "arrivalTime": "14:59",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Seoul",
+          "departureTime": "14:59",
+          "arrivalTime": "15:38",
+          "durationMinutes": 39
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-경전선-22-25",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-산천 218",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "15:51",
+      "arrivalTime": "18:59",
+      "durationMinutes": 188,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwonjungang",
+        "Dongdaegu",
+        "Gimcheon(Gumi)",
+        "Daejeon",
+        "Osong",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwonjungang",
+          "departureTime": "15:51",
+          "arrivalTime": "16:03",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwonjungang",
+          "destination": "Dongdaegu",
+          "departureTime": "16:03",
+          "arrivalTime": "17:02",
+          "durationMinutes": 59
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gimcheon(Gumi)",
+          "departureTime": "17:02",
+          "arrivalTime": "17:25",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gimcheon(Gumi)",
+          "destination": "Daejeon",
+          "departureTime": "17:25",
+          "arrivalTime": "17:50",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "17:50",
+          "arrivalTime": "18:08",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Gwangmyeong",
+          "departureTime": "18:08",
+          "arrivalTime": "18:41",
+          "durationMinutes": 33
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "18:41",
+          "arrivalTime": "18:59",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-경전선-26-25",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-산천 236",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "18:18",
+      "arrivalTime": "21:31",
+      "durationMinutes": 193,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwonjungang",
+        "Jinyeong",
+        "Miryang",
+        "Dongdaegu",
+        "Gimcheon(Gumi)",
+        "Daejeon",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwonjungang",
+          "departureTime": "18:18",
+          "arrivalTime": "18:30",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwonjungang",
+          "destination": "Jinyeong",
+          "departureTime": "18:30",
+          "arrivalTime": "18:40",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Jinyeong",
+          "destination": "Miryang",
+          "departureTime": "18:40",
+          "arrivalTime": "18:57",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Dongdaegu",
+          "departureTime": "18:57",
+          "arrivalTime": "19:35",
+          "durationMinutes": 38
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gimcheon(Gumi)",
+          "departureTime": "19:35",
+          "arrivalTime": "19:58",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gimcheon(Gumi)",
+          "destination": "Daejeon",
+          "departureTime": "19:58",
+          "arrivalTime": "20:24",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Cheonan-Asan",
+          "departureTime": "20:24",
+          "arrivalTime": "20:48",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "20:48",
+          "arrivalTime": "21:13",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 236",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "21:13",
+          "arrivalTime": "21:31",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-경전선-28-25",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-산천 226",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "19:57",
+      "arrivalTime": "23:12",
+      "durationMinutes": 195,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwon",
+        "Jinyeong",
+        "Miryang",
+        "Dongdaegu",
+        "Seodaegu",
+        "Daejeon",
+        "Osong",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwon",
+          "departureTime": "19:57",
+          "arrivalTime": "20:03",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwon",
+          "destination": "Jinyeong",
+          "departureTime": "20:03",
+          "arrivalTime": "20:19",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Jinyeong",
+          "destination": "Miryang",
+          "departureTime": "20:19",
+          "arrivalTime": "20:36",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Dongdaegu",
+          "departureTime": "20:36",
+          "arrivalTime": "21:10",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Seodaegu",
+          "departureTime": "21:10",
+          "arrivalTime": "21:19",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Seodaegu",
+          "destination": "Daejeon",
+          "departureTime": "21:19",
+          "arrivalTime": "22:02",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "22:02",
+          "arrivalTime": "22:19",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Gwangmyeong",
+          "departureTime": "22:19",
+          "arrivalTime": "22:54",
+          "durationMinutes": 35
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "22:54",
+          "arrivalTime": "23:12",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-경전선-31-25",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-산천 228",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "21:04",
+      "arrivalTime": "24:07",
+      "durationMinutes": 183,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwonjungang",
+        "Jinyeong",
+        "Dongdaegu",
+        "Daejeon",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwonjungang",
+          "departureTime": "21:04",
+          "arrivalTime": "21:16",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwonjungang",
+          "destination": "Jinyeong",
+          "departureTime": "21:16",
+          "arrivalTime": "21:26",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Jinyeong",
+          "destination": "Dongdaegu",
+          "departureTime": "21:26",
+          "arrivalTime": "22:17",
+          "durationMinutes": 51
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Daejeon",
+          "departureTime": "22:17",
+          "arrivalTime": "23:00",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Cheonan-Asan",
+          "departureTime": "23:00",
+          "arrivalTime": "23:24",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "23:24",
+          "arrivalTime": "23:49",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "23:49",
+          "arrivalTime": "24:07",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-경전선-32-25",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX 230",
+      "trainType": "KTX",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "21:43",
+      "arrivalTime": "24:38",
+      "durationMinutes": 175,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwon",
+        "Miryang",
+        "Dongdaegu",
+        "Daejeon",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwon",
+          "departureTime": "21:43",
+          "arrivalTime": "21:49",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwon",
+          "destination": "Miryang",
+          "departureTime": "21:49",
+          "arrivalTime": "22:19",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Dongdaegu",
+          "departureTime": "22:19",
+          "arrivalTime": "22:53",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Daejeon",
+          "departureTime": "22:53",
+          "arrivalTime": "23:36",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gwangmyeong",
+          "departureTime": "23:36",
+          "arrivalTime": "24:20",
+          "durationMinutes": 44
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "24:20",
+          "arrivalTime": "24:38",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-ktx-경전선-10-25",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "KTX-산천 202",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "04:59",
+      "arrivalTime": "08:01",
+      "durationMinutes": 182,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwon",
+        "Changwonjungang",
+        "Jinyeong",
+        "Miryang",
+        "Dongdaegu",
+        "Daejeon",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwon",
+          "departureTime": "04:59",
+          "arrivalTime": "05:04",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwon",
+          "destination": "Changwonjungang",
+          "departureTime": "05:04",
+          "arrivalTime": "05:12",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwonjungang",
+          "destination": "Jinyeong",
+          "departureTime": "05:12",
+          "arrivalTime": "05:22",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Jinyeong",
+          "destination": "Miryang",
+          "departureTime": "05:22",
+          "arrivalTime": "05:39",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Dongdaegu",
+          "departureTime": "05:39",
+          "arrivalTime": "06:17",
+          "durationMinutes": 38
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Daejeon",
+          "departureTime": "06:17",
+          "arrivalTime": "07:00",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gwangmyeong",
+          "departureTime": "07:00",
+          "arrivalTime": "07:43",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX-산천 202",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "07:43",
+          "arrivalTime": "08:01",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-ktx-경전선-18-25",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "KTX 210",
+      "trainType": "KTX",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "12:42",
+      "arrivalTime": "15:38",
+      "durationMinutes": 176,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwonjungang",
+        "Miryang",
+        "Dongdaegu",
+        "Daejeon",
+        "Cheonan-Asan",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwonjungang",
+          "departureTime": "12:42",
+          "arrivalTime": "12:54",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwonjungang",
+          "destination": "Miryang",
+          "departureTime": "12:54",
+          "arrivalTime": "13:18",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Dongdaegu",
+          "departureTime": "13:18",
+          "arrivalTime": "13:52",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Daejeon",
+          "departureTime": "13:52",
+          "arrivalTime": "14:35",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Cheonan-Asan",
+          "departureTime": "14:35",
+          "arrivalTime": "14:59",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX 210",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Seoul",
+          "departureTime": "14:59",
+          "arrivalTime": "15:38",
+          "durationMinutes": 39
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-ktx-경전선-22-25",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "KTX-산천 218",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "15:51",
+      "arrivalTime": "18:59",
+      "durationMinutes": 188,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwonjungang",
+        "Dongdaegu",
+        "Gimcheon(Gumi)",
+        "Daejeon",
+        "Osong",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwonjungang",
+          "departureTime": "15:51",
+          "arrivalTime": "16:03",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwonjungang",
+          "destination": "Dongdaegu",
+          "departureTime": "16:03",
+          "arrivalTime": "17:02",
+          "durationMinutes": 59
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Gimcheon(Gumi)",
+          "departureTime": "17:02",
+          "arrivalTime": "17:25",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gimcheon(Gumi)",
+          "destination": "Daejeon",
+          "departureTime": "17:25",
+          "arrivalTime": "17:50",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "17:50",
+          "arrivalTime": "18:08",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Gwangmyeong",
+          "departureTime": "18:08",
+          "arrivalTime": "18:41",
+          "durationMinutes": 33
+        },
+        {
+          "lineName": "KTX-산천 218",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "18:41",
+          "arrivalTime": "18:59",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-ktx-경전선-28-25",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "KTX-산천 226",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "19:57",
+      "arrivalTime": "23:12",
+      "durationMinutes": 195,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwon",
+        "Jinyeong",
+        "Miryang",
+        "Dongdaegu",
+        "Seodaegu",
+        "Daejeon",
+        "Osong",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwon",
+          "departureTime": "19:57",
+          "arrivalTime": "20:03",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwon",
+          "destination": "Jinyeong",
+          "departureTime": "20:03",
+          "arrivalTime": "20:19",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Jinyeong",
+          "destination": "Miryang",
+          "departureTime": "20:19",
+          "arrivalTime": "20:36",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Dongdaegu",
+          "departureTime": "20:36",
+          "arrivalTime": "21:10",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Seodaegu",
+          "departureTime": "21:10",
+          "arrivalTime": "21:19",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Seodaegu",
+          "destination": "Daejeon",
+          "departureTime": "21:19",
+          "arrivalTime": "22:02",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "22:02",
+          "arrivalTime": "22:19",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Gwangmyeong",
+          "departureTime": "22:19",
+          "arrivalTime": "22:54",
+          "durationMinutes": 35
+        },
+        {
+          "lineName": "KTX-산천 226",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "22:54",
+          "arrivalTime": "23:12",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-ktx-경전선-31-25",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "KTX-산천 228",
+      "trainType": "KTX-산천",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "21:04",
+      "arrivalTime": "24:07",
+      "durationMinutes": 183,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwonjungang",
+        "Jinyeong",
+        "Dongdaegu",
+        "Daejeon",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwonjungang",
+          "departureTime": "21:04",
+          "arrivalTime": "21:16",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwonjungang",
+          "destination": "Jinyeong",
+          "departureTime": "21:16",
+          "arrivalTime": "21:26",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Jinyeong",
+          "destination": "Dongdaegu",
+          "departureTime": "21:26",
+          "arrivalTime": "22:17",
+          "durationMinutes": 51
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Daejeon",
+          "departureTime": "22:17",
+          "arrivalTime": "23:00",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Cheonan-Asan",
+          "departureTime": "23:00",
+          "arrivalTime": "23:24",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "23:24",
+          "arrivalTime": "23:49",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 228",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "23:49",
+          "arrivalTime": "24:07",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-ktx-경전선-32-25",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "KTX 230",
+      "trainType": "KTX",
+      "origin": "Masan",
+      "destination": "Seoul",
+      "departureTime": "21:43",
+      "arrivalTime": "24:38",
+      "durationMinutes": 175,
+      "direct": true,
+      "stops": [
+        "Masan",
+        "Changwon",
+        "Miryang",
+        "Dongdaegu",
+        "Daejeon",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Masan",
+          "destination": "Changwon",
+          "departureTime": "21:43",
+          "arrivalTime": "21:49",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Changwon",
+          "destination": "Miryang",
+          "departureTime": "21:49",
+          "arrivalTime": "22:19",
+          "durationMinutes": 30
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Miryang",
+          "destination": "Dongdaegu",
+          "departureTime": "22:19",
+          "arrivalTime": "22:53",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Daejeon",
+          "departureTime": "22:53",
+          "arrivalTime": "23:36",
+          "durationMinutes": 43
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Gwangmyeong",
+          "departureTime": "23:36",
+          "arrivalTime": "24:20",
+          "durationMinutes": 44
+        },
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "24:20",
+          "arrivalTime": "24:38",
+          "durationMinutes": 18
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -4848,7 +6253,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-10T12:03:06.648Z",
+    "fetchedAt": "2026-09-12T23:32:01.014Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

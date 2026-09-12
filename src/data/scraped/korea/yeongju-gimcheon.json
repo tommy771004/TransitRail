@@ -1,15 +1,15 @@
 {
   "origin": "Yeongju",
   "destination": "Gimcheon",
-  "date": "2026-09-12..2026-09-18",
-  "scrapedAt": "2026-09-10T12:03:06.977Z",
+  "date": "2026-09-13..2026-09-21",
+  "scrapedAt": "2026-09-12T23:32:01.344Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036897009480.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-10T12:03:02.797Z",
+      "retrievedAt": "2026-09-12T23:31:57.796Z",
       "sha256": "cf69ea35e0b6ad9fb82c0e0b44f60833e34eadab55ea610eaf6784622351e9d0",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-10T12:03:03.749Z",
+      "retrievedAt": "2026-09-12T23:31:58.768Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
@@ -25,606 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-12-regular-경북선-9-11",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 1792",
-      "trainType": "무궁화",
-      "origin": "Yeongju",
-      "destination": "Gimcheon",
-      "departureTime": "05:50",
-      "arrivalTime": "08:04",
-      "durationMinutes": 134,
-      "direct": true,
-      "stops": [
-        "Yeongju",
-        "Yecheon",
-        "Gaepo",
-        "Yonggung",
-        "Jeomchon",
-        "Hamchang",
-        "Sangju",
-        "Cheongni",
-        "Oksan",
-        "Gimcheon"
-      ],
-      "headsign": "Gimcheon",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1792",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yeongju",
-          "destination": "Yecheon",
-          "departureTime": "05:50",
-          "arrivalTime": "06:26",
-          "durationMinutes": 36
-        },
-        {
-          "lineName": "무궁화 1792",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yecheon",
-          "destination": "Gaepo",
-          "departureTime": "06:26",
-          "arrivalTime": "06:40",
-          "durationMinutes": 14
-        },
-        {
-          "lineName": "무궁화 1792",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Gaepo",
-          "destination": "Yonggung",
-          "departureTime": "06:40",
-          "arrivalTime": "06:49",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "무궁화 1792",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yonggung",
-          "destination": "Jeomchon",
-          "departureTime": "06:49",
-          "arrivalTime": "06:59",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "무궁화 1792",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Jeomchon",
-          "destination": "Hamchang",
-          "departureTime": "06:59",
-          "arrivalTime": "07:05",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 1792",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Hamchang",
-          "destination": "Sangju",
-          "departureTime": "07:05",
-          "arrivalTime": "07:25",
-          "durationMinutes": 20
-        },
-        {
-          "lineName": "무궁화 1792",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Sangju",
-          "destination": "Cheongni",
-          "departureTime": "07:25",
-          "arrivalTime": "07:35",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "무궁화 1792",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Cheongni",
-          "destination": "Oksan",
-          "departureTime": "07:35",
-          "arrivalTime": "07:43",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 1792",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Oksan",
-          "destination": "Gimcheon",
-          "departureTime": "07:43",
-          "arrivalTime": "08:04",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-경북선-9-12",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 1794",
-      "trainType": "무궁화",
-      "origin": "Yeongju",
-      "destination": "Gimcheon",
-      "departureTime": "08:21",
-      "arrivalTime": "10:36",
-      "durationMinutes": 135,
-      "direct": true,
-      "stops": [
-        "Yeongju",
-        "Yecheon",
-        "Gaepo",
-        "Yonggung",
-        "Jeomchon",
-        "Hamchang",
-        "Sangju",
-        "Cheongni",
-        "Oksan",
-        "Gimcheon"
-      ],
-      "headsign": "Gimcheon",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1794",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yeongju",
-          "destination": "Yecheon",
-          "departureTime": "08:21",
-          "arrivalTime": "08:57",
-          "durationMinutes": 36
-        },
-        {
-          "lineName": "무궁화 1794",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yecheon",
-          "destination": "Gaepo",
-          "departureTime": "08:57",
-          "arrivalTime": "09:11",
-          "durationMinutes": 14
-        },
-        {
-          "lineName": "무궁화 1794",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Gaepo",
-          "destination": "Yonggung",
-          "departureTime": "09:11",
-          "arrivalTime": "09:20",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "무궁화 1794",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yonggung",
-          "destination": "Jeomchon",
-          "departureTime": "09:20",
-          "arrivalTime": "09:30",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "무궁화 1794",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Jeomchon",
-          "destination": "Hamchang",
-          "departureTime": "09:30",
-          "arrivalTime": "09:36",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 1794",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Hamchang",
-          "destination": "Sangju",
-          "departureTime": "09:36",
-          "arrivalTime": "09:57",
-          "durationMinutes": 21
-        },
-        {
-          "lineName": "무궁화 1794",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Sangju",
-          "destination": "Cheongni",
-          "departureTime": "09:57",
-          "arrivalTime": "10:07",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "무궁화 1794",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Cheongni",
-          "destination": "Oksan",
-          "departureTime": "10:07",
-          "arrivalTime": "10:15",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 1794",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Oksan",
-          "destination": "Gimcheon",
-          "departureTime": "10:15",
-          "arrivalTime": "10:36",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-경북선-9-13",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 1796",
-      "trainType": "무궁화",
-      "origin": "Yeongju",
-      "destination": "Gimcheon",
-      "departureTime": "10:57",
-      "arrivalTime": "13:10",
-      "durationMinutes": 133,
-      "direct": true,
-      "stops": [
-        "Yeongju",
-        "Yecheon",
-        "Gaepo",
-        "Yonggung",
-        "Jeomchon",
-        "Hamchang",
-        "Sangju",
-        "Cheongni",
-        "Oksan",
-        "Gimcheon"
-      ],
-      "headsign": "Gimcheon",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1796",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yeongju",
-          "destination": "Yecheon",
-          "departureTime": "10:57",
-          "arrivalTime": "11:33",
-          "durationMinutes": 36
-        },
-        {
-          "lineName": "무궁화 1796",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yecheon",
-          "destination": "Gaepo",
-          "departureTime": "11:33",
-          "arrivalTime": "11:47",
-          "durationMinutes": 14
-        },
-        {
-          "lineName": "무궁화 1796",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Gaepo",
-          "destination": "Yonggung",
-          "departureTime": "11:47",
-          "arrivalTime": "11:56",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "무궁화 1796",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yonggung",
-          "destination": "Jeomchon",
-          "departureTime": "11:56",
-          "arrivalTime": "12:06",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "무궁화 1796",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Jeomchon",
-          "destination": "Hamchang",
-          "departureTime": "12:06",
-          "arrivalTime": "12:12",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 1796",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Hamchang",
-          "destination": "Sangju",
-          "departureTime": "12:12",
-          "arrivalTime": "12:32",
-          "durationMinutes": 20
-        },
-        {
-          "lineName": "무궁화 1796",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Sangju",
-          "destination": "Cheongni",
-          "departureTime": "12:32",
-          "arrivalTime": "12:42",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "무궁화 1796",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Cheongni",
-          "destination": "Oksan",
-          "departureTime": "12:42",
-          "arrivalTime": "12:50",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 1796",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Oksan",
-          "destination": "Gimcheon",
-          "departureTime": "12:50",
-          "arrivalTime": "13:10",
-          "durationMinutes": 20
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-경북선-9-14",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 1798",
-      "trainType": "무궁화",
-      "origin": "Yeongju",
-      "destination": "Gimcheon",
-      "departureTime": "14:06",
-      "arrivalTime": "16:19",
-      "durationMinutes": 133,
-      "direct": true,
-      "stops": [
-        "Yeongju",
-        "Yecheon",
-        "Gaepo",
-        "Yonggung",
-        "Jeomchon",
-        "Hamchang",
-        "Sangju",
-        "Cheongni",
-        "Oksan",
-        "Gimcheon"
-      ],
-      "headsign": "Gimcheon",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1798",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yeongju",
-          "destination": "Yecheon",
-          "departureTime": "14:06",
-          "arrivalTime": "14:41",
-          "durationMinutes": 35
-        },
-        {
-          "lineName": "무궁화 1798",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yecheon",
-          "destination": "Gaepo",
-          "departureTime": "14:41",
-          "arrivalTime": "14:55",
-          "durationMinutes": 14
-        },
-        {
-          "lineName": "무궁화 1798",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Gaepo",
-          "destination": "Yonggung",
-          "departureTime": "14:55",
-          "arrivalTime": "15:04",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "무궁화 1798",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yonggung",
-          "destination": "Jeomchon",
-          "departureTime": "15:04",
-          "arrivalTime": "15:14",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "무궁화 1798",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Jeomchon",
-          "destination": "Hamchang",
-          "departureTime": "15:14",
-          "arrivalTime": "15:20",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 1798",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Hamchang",
-          "destination": "Sangju",
-          "departureTime": "15:20",
-          "arrivalTime": "15:40",
-          "durationMinutes": 20
-        },
-        {
-          "lineName": "무궁화 1798",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Sangju",
-          "destination": "Cheongni",
-          "departureTime": "15:40",
-          "arrivalTime": "15:50",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "무궁화 1798",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Cheongni",
-          "destination": "Oksan",
-          "departureTime": "15:50",
-          "arrivalTime": "15:58",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 1798",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Oksan",
-          "destination": "Gimcheon",
-          "departureTime": "15:58",
-          "arrivalTime": "16:19",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-regular-경북선-9-15",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "무궁화 1800",
-      "trainType": "무궁화",
-      "origin": "Yeongju",
-      "destination": "Gimcheon",
-      "departureTime": "16:35",
-      "arrivalTime": "18:54",
-      "durationMinutes": 139,
-      "direct": true,
-      "stops": [
-        "Yeongju",
-        "Yecheon",
-        "Gaepo",
-        "Yonggung",
-        "Jeomchon",
-        "Hamchang",
-        "Sangju",
-        "Cheongni",
-        "Oksan",
-        "Gimcheon"
-      ],
-      "headsign": "Gimcheon",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1800",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yeongju",
-          "destination": "Yecheon",
-          "departureTime": "16:35",
-          "arrivalTime": "17:16",
-          "durationMinutes": 41
-        },
-        {
-          "lineName": "무궁화 1800",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yecheon",
-          "destination": "Gaepo",
-          "departureTime": "17:16",
-          "arrivalTime": "17:30",
-          "durationMinutes": 14
-        },
-        {
-          "lineName": "무궁화 1800",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Gaepo",
-          "destination": "Yonggung",
-          "departureTime": "17:30",
-          "arrivalTime": "17:39",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "무궁화 1800",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Yonggung",
-          "destination": "Jeomchon",
-          "departureTime": "17:39",
-          "arrivalTime": "17:49",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "무궁화 1800",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Jeomchon",
-          "destination": "Hamchang",
-          "departureTime": "17:49",
-          "arrivalTime": "17:55",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 1800",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Hamchang",
-          "destination": "Sangju",
-          "departureTime": "17:55",
-          "arrivalTime": "18:15",
-          "durationMinutes": 20
-        },
-        {
-          "lineName": "무궁화 1800",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Sangju",
-          "destination": "Cheongni",
-          "departureTime": "18:15",
-          "arrivalTime": "18:25",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "무궁화 1800",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Cheongni",
-          "destination": "Oksan",
-          "departureTime": "18:25",
-          "arrivalTime": "18:33",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 1800",
-          "lineCode": "경북선",
-          "mode": "train",
-          "origin": "Oksan",
-          "destination": "Gimcheon",
-          "departureTime": "18:33",
-          "arrivalTime": "18:54",
-          "durationMinutes": 21
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-13-regular-경북선-9-11",
       "country": "korea",
@@ -4224,6 +3624,1806 @@
           "durationMinutes": 21
         }
       ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-경북선-9-11",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 1792",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "05:50",
+      "arrivalTime": "08:04",
+      "durationMinutes": 134,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "05:50",
+          "arrivalTime": "06:26",
+          "durationMinutes": 36
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "06:26",
+          "arrivalTime": "06:40",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "06:40",
+          "arrivalTime": "06:49",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "06:49",
+          "arrivalTime": "06:59",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "06:59",
+          "arrivalTime": "07:05",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "07:05",
+          "arrivalTime": "07:25",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "07:25",
+          "arrivalTime": "07:35",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "07:35",
+          "arrivalTime": "07:43",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "07:43",
+          "arrivalTime": "08:04",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-경북선-9-12",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 1794",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "08:21",
+      "arrivalTime": "10:36",
+      "durationMinutes": 135,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "08:21",
+          "arrivalTime": "08:57",
+          "durationMinutes": 36
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "08:57",
+          "arrivalTime": "09:11",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "09:11",
+          "arrivalTime": "09:20",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "09:20",
+          "arrivalTime": "09:30",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "09:30",
+          "arrivalTime": "09:36",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "09:36",
+          "arrivalTime": "09:57",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "09:57",
+          "arrivalTime": "10:07",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "10:07",
+          "arrivalTime": "10:15",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "10:15",
+          "arrivalTime": "10:36",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-경북선-9-13",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 1796",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "10:57",
+      "arrivalTime": "13:10",
+      "durationMinutes": 133,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "10:57",
+          "arrivalTime": "11:33",
+          "durationMinutes": 36
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "11:33",
+          "arrivalTime": "11:47",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "11:47",
+          "arrivalTime": "11:56",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "11:56",
+          "arrivalTime": "12:06",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "12:06",
+          "arrivalTime": "12:12",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "12:12",
+          "arrivalTime": "12:32",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "12:32",
+          "arrivalTime": "12:42",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "12:42",
+          "arrivalTime": "12:50",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "12:50",
+          "arrivalTime": "13:10",
+          "durationMinutes": 20
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-경북선-9-14",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 1798",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "14:06",
+      "arrivalTime": "16:19",
+      "durationMinutes": 133,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "14:06",
+          "arrivalTime": "14:41",
+          "durationMinutes": 35
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "14:41",
+          "arrivalTime": "14:55",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "14:55",
+          "arrivalTime": "15:04",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "15:04",
+          "arrivalTime": "15:14",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "15:14",
+          "arrivalTime": "15:20",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "15:20",
+          "arrivalTime": "15:40",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "15:40",
+          "arrivalTime": "15:50",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "15:50",
+          "arrivalTime": "15:58",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "15:58",
+          "arrivalTime": "16:19",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-regular-경북선-9-15",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "무궁화 1800",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "16:35",
+      "arrivalTime": "18:54",
+      "durationMinutes": 139,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "16:35",
+          "arrivalTime": "17:16",
+          "durationMinutes": 41
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "17:16",
+          "arrivalTime": "17:30",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "17:30",
+          "arrivalTime": "17:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "17:39",
+          "arrivalTime": "17:49",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "17:49",
+          "arrivalTime": "17:55",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "17:55",
+          "arrivalTime": "18:15",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "18:15",
+          "arrivalTime": "18:25",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "18:25",
+          "arrivalTime": "18:33",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "18:33",
+          "arrivalTime": "18:54",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-경북선-9-11",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 1792",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "05:50",
+      "arrivalTime": "08:04",
+      "durationMinutes": 134,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "05:50",
+          "arrivalTime": "06:26",
+          "durationMinutes": 36
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "06:26",
+          "arrivalTime": "06:40",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "06:40",
+          "arrivalTime": "06:49",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "06:49",
+          "arrivalTime": "06:59",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "06:59",
+          "arrivalTime": "07:05",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "07:05",
+          "arrivalTime": "07:25",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "07:25",
+          "arrivalTime": "07:35",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "07:35",
+          "arrivalTime": "07:43",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "07:43",
+          "arrivalTime": "08:04",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-경북선-9-12",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 1794",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "08:21",
+      "arrivalTime": "10:36",
+      "durationMinutes": 135,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "08:21",
+          "arrivalTime": "08:57",
+          "durationMinutes": 36
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "08:57",
+          "arrivalTime": "09:11",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "09:11",
+          "arrivalTime": "09:20",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "09:20",
+          "arrivalTime": "09:30",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "09:30",
+          "arrivalTime": "09:36",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "09:36",
+          "arrivalTime": "09:57",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "09:57",
+          "arrivalTime": "10:07",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "10:07",
+          "arrivalTime": "10:15",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "10:15",
+          "arrivalTime": "10:36",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-경북선-9-13",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 1796",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "10:57",
+      "arrivalTime": "13:10",
+      "durationMinutes": 133,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "10:57",
+          "arrivalTime": "11:33",
+          "durationMinutes": 36
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "11:33",
+          "arrivalTime": "11:47",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "11:47",
+          "arrivalTime": "11:56",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "11:56",
+          "arrivalTime": "12:06",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "12:06",
+          "arrivalTime": "12:12",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "12:12",
+          "arrivalTime": "12:32",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "12:32",
+          "arrivalTime": "12:42",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "12:42",
+          "arrivalTime": "12:50",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "12:50",
+          "arrivalTime": "13:10",
+          "durationMinutes": 20
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-경북선-9-14",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 1798",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "14:06",
+      "arrivalTime": "16:19",
+      "durationMinutes": 133,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "14:06",
+          "arrivalTime": "14:41",
+          "durationMinutes": 35
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "14:41",
+          "arrivalTime": "14:55",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "14:55",
+          "arrivalTime": "15:04",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "15:04",
+          "arrivalTime": "15:14",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "15:14",
+          "arrivalTime": "15:20",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "15:20",
+          "arrivalTime": "15:40",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "15:40",
+          "arrivalTime": "15:50",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "15:50",
+          "arrivalTime": "15:58",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "15:58",
+          "arrivalTime": "16:19",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-regular-경북선-9-15",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "무궁화 1800",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "16:35",
+      "arrivalTime": "18:54",
+      "durationMinutes": 139,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "16:35",
+          "arrivalTime": "17:16",
+          "durationMinutes": 41
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "17:16",
+          "arrivalTime": "17:30",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "17:30",
+          "arrivalTime": "17:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "17:39",
+          "arrivalTime": "17:49",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "17:49",
+          "arrivalTime": "17:55",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "17:55",
+          "arrivalTime": "18:15",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "18:15",
+          "arrivalTime": "18:25",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "18:25",
+          "arrivalTime": "18:33",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "18:33",
+          "arrivalTime": "18:54",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-경북선-9-11",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 1792",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "05:50",
+      "arrivalTime": "08:04",
+      "durationMinutes": 134,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "05:50",
+          "arrivalTime": "06:26",
+          "durationMinutes": 36
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "06:26",
+          "arrivalTime": "06:40",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "06:40",
+          "arrivalTime": "06:49",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "06:49",
+          "arrivalTime": "06:59",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "06:59",
+          "arrivalTime": "07:05",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "07:05",
+          "arrivalTime": "07:25",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "07:25",
+          "arrivalTime": "07:35",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "07:35",
+          "arrivalTime": "07:43",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1792",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "07:43",
+          "arrivalTime": "08:04",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-경북선-9-12",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 1794",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "08:21",
+      "arrivalTime": "10:36",
+      "durationMinutes": 135,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "08:21",
+          "arrivalTime": "08:57",
+          "durationMinutes": 36
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "08:57",
+          "arrivalTime": "09:11",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "09:11",
+          "arrivalTime": "09:20",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "09:20",
+          "arrivalTime": "09:30",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "09:30",
+          "arrivalTime": "09:36",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "09:36",
+          "arrivalTime": "09:57",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "09:57",
+          "arrivalTime": "10:07",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "10:07",
+          "arrivalTime": "10:15",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1794",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "10:15",
+          "arrivalTime": "10:36",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-경북선-9-13",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 1796",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "10:57",
+      "arrivalTime": "13:10",
+      "durationMinutes": 133,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "10:57",
+          "arrivalTime": "11:33",
+          "durationMinutes": 36
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "11:33",
+          "arrivalTime": "11:47",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "11:47",
+          "arrivalTime": "11:56",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "11:56",
+          "arrivalTime": "12:06",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "12:06",
+          "arrivalTime": "12:12",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "12:12",
+          "arrivalTime": "12:32",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "12:32",
+          "arrivalTime": "12:42",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "12:42",
+          "arrivalTime": "12:50",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1796",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "12:50",
+          "arrivalTime": "13:10",
+          "durationMinutes": 20
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-경북선-9-14",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 1798",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "14:06",
+      "arrivalTime": "16:19",
+      "durationMinutes": 133,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "14:06",
+          "arrivalTime": "14:41",
+          "durationMinutes": 35
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "14:41",
+          "arrivalTime": "14:55",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "14:55",
+          "arrivalTime": "15:04",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "15:04",
+          "arrivalTime": "15:14",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "15:14",
+          "arrivalTime": "15:20",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "15:20",
+          "arrivalTime": "15:40",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "15:40",
+          "arrivalTime": "15:50",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "15:50",
+          "arrivalTime": "15:58",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1798",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "15:58",
+          "arrivalTime": "16:19",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-regular-경북선-9-15",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "무궁화 1800",
+      "trainType": "무궁화",
+      "origin": "Yeongju",
+      "destination": "Gimcheon",
+      "departureTime": "16:35",
+      "arrivalTime": "18:54",
+      "durationMinutes": 139,
+      "direct": true,
+      "stops": [
+        "Yeongju",
+        "Yecheon",
+        "Gaepo",
+        "Yonggung",
+        "Jeomchon",
+        "Hamchang",
+        "Sangju",
+        "Cheongni",
+        "Oksan",
+        "Gimcheon"
+      ],
+      "headsign": "Gimcheon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Yecheon",
+          "departureTime": "16:35",
+          "arrivalTime": "17:16",
+          "durationMinutes": 41
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yecheon",
+          "destination": "Gaepo",
+          "departureTime": "17:16",
+          "arrivalTime": "17:30",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Gaepo",
+          "destination": "Yonggung",
+          "departureTime": "17:30",
+          "arrivalTime": "17:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Yonggung",
+          "destination": "Jeomchon",
+          "departureTime": "17:39",
+          "arrivalTime": "17:49",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Jeomchon",
+          "destination": "Hamchang",
+          "departureTime": "17:49",
+          "arrivalTime": "17:55",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Hamchang",
+          "destination": "Sangju",
+          "departureTime": "17:55",
+          "arrivalTime": "18:15",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Sangju",
+          "destination": "Cheongni",
+          "departureTime": "18:15",
+          "arrivalTime": "18:25",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Cheongni",
+          "destination": "Oksan",
+          "departureTime": "18:25",
+          "arrivalTime": "18:33",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1800",
+          "lineCode": "경북선",
+          "mode": "train",
+          "origin": "Oksan",
+          "destination": "Gimcheon",
+          "departureTime": "18:33",
+          "arrivalTime": "18:54",
+          "durationMinutes": 21
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -4234,7 +5434,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-10T12:03:06.648Z",
+    "fetchedAt": "2026-09-12T23:32:01.014Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

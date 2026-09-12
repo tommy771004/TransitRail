@@ -1,15 +1,15 @@
 {
   "origin": "Cheongnyangni",
   "destination": "Gangneung",
-  "date": "2026-09-12..2026-09-18",
-  "scrapedAt": "2026-09-10T12:03:06.839Z",
+  "date": "2026-09-13..2026-09-21",
+  "scrapedAt": "2026-09-12T23:32:01.201Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036897009480.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-10T12:03:02.797Z",
+      "retrievedAt": "2026-09-12T23:31:57.796Z",
       "sha256": "cf69ea35e0b6ad9fb82c0e0b44f60833e34eadab55ea610eaf6784622351e9d0",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-10T12:03:03.749Z",
+      "retrievedAt": "2026-09-12T23:31:58.768Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
@@ -25,623 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-12-ktx-강릉선-13-2",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-이음 851",
-      "trainType": "KTX-이음",
-      "origin": "Cheongnyangni",
-      "destination": "Gangneung",
-      "departureTime": "06:27",
-      "arrivalTime": "07:59",
-      "durationMinutes": 92,
-      "direct": true,
-      "stops": [
-        "Cheongnyangni",
-        "Yangpyeong",
-        "Seowonju",
-        "Manjong",
-        "Gangneung"
-      ],
-      "headsign": "Gangneung",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-이음 851",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Cheongnyangni",
-          "destination": "Yangpyeong",
-          "departureTime": "06:27",
-          "arrivalTime": "06:54",
-          "durationMinutes": 27
-        },
-        {
-          "lineName": "KTX-이음 851",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Yangpyeong",
-          "destination": "Seowonju",
-          "departureTime": "06:54",
-          "arrivalTime": "07:14",
-          "durationMinutes": 20
-        },
-        {
-          "lineName": "KTX-이음 851",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Seowonju",
-          "destination": "Manjong",
-          "departureTime": "07:14",
-          "arrivalTime": "07:19",
-          "durationMinutes": 5
-        },
-        {
-          "lineName": "KTX-이음 851",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Manjong",
-          "destination": "Gangneung",
-          "departureTime": "07:19",
-          "arrivalTime": "07:59",
-          "durationMinutes": 40
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-강릉선-15-2",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-이음 853",
-      "trainType": "KTX-이음",
-      "origin": "Cheongnyangni",
-      "destination": "Gangneung",
-      "departureTime": "07:52",
-      "arrivalTime": "09:23",
-      "durationMinutes": 91,
-      "direct": true,
-      "stops": [
-        "Cheongnyangni",
-        "Manjong",
-        "Jinbu(Odaesan)",
-        "Gangneung"
-      ],
-      "headsign": "Gangneung",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-이음 853",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Cheongnyangni",
-          "destination": "Manjong",
-          "departureTime": "07:52",
-          "arrivalTime": "08:39",
-          "durationMinutes": 47
-        },
-        {
-          "lineName": "KTX-이음 853",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Manjong",
-          "destination": "Jinbu(Odaesan)",
-          "departureTime": "08:39",
-          "arrivalTime": "09:05",
-          "durationMinutes": 26
-        },
-        {
-          "lineName": "KTX-이음 853",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Jinbu(Odaesan)",
-          "destination": "Gangneung",
-          "departureTime": "09:05",
-          "arrivalTime": "09:23",
-          "durationMinutes": 18
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-강릉선-17-2",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-이음 855",
-      "trainType": "KTX-이음",
-      "origin": "Cheongnyangni",
-      "destination": "Gangneung",
-      "departureTime": "08:52",
-      "arrivalTime": "10:34",
-      "durationMinutes": 102,
-      "direct": true,
-      "stops": [
-        "Cheongnyangni",
-        "Sangbong",
-        "Manjong",
-        "Hoengseong",
-        "Dunnae",
-        "Jinbu(Odaesan)",
-        "Gangneung"
-      ],
-      "headsign": "Gangneung",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-이음 855",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Cheongnyangni",
-          "destination": "Sangbong",
-          "departureTime": "08:52",
-          "arrivalTime": "08:58",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "KTX-이음 855",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Sangbong",
-          "destination": "Manjong",
-          "departureTime": "08:58",
-          "arrivalTime": "09:42",
-          "durationMinutes": 44
-        },
-        {
-          "lineName": "KTX-이음 855",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Manjong",
-          "destination": "Hoengseong",
-          "departureTime": "09:42",
-          "arrivalTime": "09:50",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "KTX-이음 855",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Hoengseong",
-          "destination": "Dunnae",
-          "departureTime": "09:50",
-          "arrivalTime": "10:01",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "KTX-이음 855",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Dunnae",
-          "destination": "Jinbu(Odaesan)",
-          "departureTime": "10:01",
-          "arrivalTime": "10:15",
-          "durationMinutes": 14
-        },
-        {
-          "lineName": "KTX-이음 855",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Jinbu(Odaesan)",
-          "destination": "Gangneung",
-          "departureTime": "10:15",
-          "arrivalTime": "10:34",
-          "durationMinutes": 19
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-강릉선-22-2",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-이음 857",
-      "trainType": "KTX-이음",
-      "origin": "Cheongnyangni",
-      "destination": "Gangneung",
-      "departureTime": "12:01",
-      "arrivalTime": "13:33",
-      "durationMinutes": 92,
-      "direct": true,
-      "stops": [
-        "Cheongnyangni",
-        "Manjong",
-        "Dunnae",
-        "Gangneung"
-      ],
-      "headsign": "Gangneung",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-이음 857",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Cheongnyangni",
-          "destination": "Manjong",
-          "departureTime": "12:01",
-          "arrivalTime": "12:48",
-          "durationMinutes": 47
-        },
-        {
-          "lineName": "KTX-이음 857",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Manjong",
-          "destination": "Dunnae",
-          "departureTime": "12:48",
-          "arrivalTime": "13:03",
-          "durationMinutes": 15
-        },
-        {
-          "lineName": "KTX-이음 857",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Dunnae",
-          "destination": "Gangneung",
-          "departureTime": "13:03",
-          "arrivalTime": "13:33",
-          "durationMinutes": 30
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-강릉선-29-2",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-이음 859",
-      "trainType": "KTX-이음",
-      "origin": "Cheongnyangni",
-      "destination": "Gangneung",
-      "departureTime": "14:40",
-      "arrivalTime": "16:18",
-      "durationMinutes": 98,
-      "direct": true,
-      "stops": [
-        "Cheongnyangni",
-        "Yangpyeong",
-        "Seowonju",
-        "Manjong",
-        "Dunnae",
-        "Gangneung"
-      ],
-      "headsign": "Gangneung",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-이음 859",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Cheongnyangni",
-          "destination": "Yangpyeong",
-          "departureTime": "14:40",
-          "arrivalTime": "15:07",
-          "durationMinutes": 27
-        },
-        {
-          "lineName": "KTX-이음 859",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Yangpyeong",
-          "destination": "Seowonju",
-          "departureTime": "15:07",
-          "arrivalTime": "15:27",
-          "durationMinutes": 20
-        },
-        {
-          "lineName": "KTX-이음 859",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Seowonju",
-          "destination": "Manjong",
-          "departureTime": "15:27",
-          "arrivalTime": "15:33",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "KTX-이음 859",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Manjong",
-          "destination": "Dunnae",
-          "departureTime": "15:33",
-          "arrivalTime": "15:48",
-          "durationMinutes": 15
-        },
-        {
-          "lineName": "KTX-이음 859",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Dunnae",
-          "destination": "Gangneung",
-          "departureTime": "15:48",
-          "arrivalTime": "16:18",
-          "durationMinutes": 30
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-강릉선-30-2",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-이음 861",
-      "trainType": "KTX-이음",
-      "origin": "Cheongnyangni",
-      "destination": "Gangneung",
-      "departureTime": "15:02",
-      "arrivalTime": "16:35",
-      "durationMinutes": 93,
-      "direct": true,
-      "stops": [
-        "Cheongnyangni",
-        "Deokso",
-        "Yangpyeong",
-        "Manjong",
-        "Gangneung"
-      ],
-      "headsign": "Gangneung",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-이음 861",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Cheongnyangni",
-          "destination": "Deokso",
-          "departureTime": "15:02",
-          "arrivalTime": "15:16",
-          "durationMinutes": 14
-        },
-        {
-          "lineName": "KTX-이음 861",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Deokso",
-          "destination": "Yangpyeong",
-          "departureTime": "15:16",
-          "arrivalTime": "15:32",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "KTX-이음 861",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Yangpyeong",
-          "destination": "Manjong",
-          "departureTime": "15:32",
-          "arrivalTime": "15:55",
-          "durationMinutes": 23
-        },
-        {
-          "lineName": "KTX-이음 861",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Manjong",
-          "destination": "Gangneung",
-          "departureTime": "15:55",
-          "arrivalTime": "16:35",
-          "durationMinutes": 40
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-강릉선-32-2",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-이음 863",
-      "trainType": "KTX-이음",
-      "origin": "Cheongnyangni",
-      "destination": "Gangneung",
-      "departureTime": "15:52",
-      "arrivalTime": "17:20",
-      "durationMinutes": 88,
-      "direct": true,
-      "stops": [
-        "Cheongnyangni",
-        "Manjong",
-        "Gangneung"
-      ],
-      "headsign": "Gangneung",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-이음 863",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Cheongnyangni",
-          "destination": "Manjong",
-          "departureTime": "15:52",
-          "arrivalTime": "16:40",
-          "durationMinutes": 48
-        },
-        {
-          "lineName": "KTX-이음 863",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Manjong",
-          "destination": "Gangneung",
-          "departureTime": "16:40",
-          "arrivalTime": "17:20",
-          "durationMinutes": 40
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-강릉선-35-2",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-이음 865",
-      "trainType": "KTX-이음",
-      "origin": "Cheongnyangni",
-      "destination": "Gangneung",
-      "departureTime": "18:05",
-      "arrivalTime": "19:39",
-      "durationMinutes": 94,
-      "direct": true,
-      "stops": [
-        "Cheongnyangni",
-        "Sangbong",
-        "Seowonju",
-        "Jinbu(Odaesan)",
-        "Gangneung"
-      ],
-      "headsign": "Gangneung",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-이음 865",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Cheongnyangni",
-          "destination": "Sangbong",
-          "departureTime": "18:05",
-          "arrivalTime": "18:11",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "KTX-이음 865",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Sangbong",
-          "destination": "Seowonju",
-          "departureTime": "18:11",
-          "arrivalTime": "18:51",
-          "durationMinutes": 40
-        },
-        {
-          "lineName": "KTX-이음 865",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Seowonju",
-          "destination": "Jinbu(Odaesan)",
-          "departureTime": "18:51",
-          "arrivalTime": "19:20",
-          "durationMinutes": 29
-        },
-        {
-          "lineName": "KTX-이음 865",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Jinbu(Odaesan)",
-          "destination": "Gangneung",
-          "departureTime": "19:20",
-          "arrivalTime": "19:39",
-          "durationMinutes": 19
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-강릉선-38-2",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-이음 867",
-      "trainType": "KTX-이음",
-      "origin": "Cheongnyangni",
-      "destination": "Gangneung",
-      "departureTime": "19:55",
-      "arrivalTime": "21:29",
-      "durationMinutes": 94,
-      "direct": true,
-      "stops": [
-        "Cheongnyangni",
-        "Yangpyeong",
-        "Manjong",
-        "Jinbu(Odaesan)",
-        "Gangneung"
-      ],
-      "headsign": "Gangneung",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-이음 867",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Cheongnyangni",
-          "destination": "Yangpyeong",
-          "departureTime": "19:55",
-          "arrivalTime": "20:22",
-          "durationMinutes": 27
-        },
-        {
-          "lineName": "KTX-이음 867",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Yangpyeong",
-          "destination": "Manjong",
-          "departureTime": "20:22",
-          "arrivalTime": "20:45",
-          "durationMinutes": 23
-        },
-        {
-          "lineName": "KTX-이음 867",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Manjong",
-          "destination": "Jinbu(Odaesan)",
-          "departureTime": "20:45",
-          "arrivalTime": "21:10",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "KTX-이음 867",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Jinbu(Odaesan)",
-          "destination": "Gangneung",
-          "departureTime": "21:10",
-          "arrivalTime": "21:29",
-          "durationMinutes": 19
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-12-ktx-강릉선-41-2",
-      "country": "korea",
-      "date": "2026-09-12",
-      "operator": "Korail",
-      "service": "KTX-이음 871",
-      "trainType": "KTX-이음",
-      "origin": "Cheongnyangni",
-      "destination": "Gangneung",
-      "departureTime": "21:38",
-      "arrivalTime": "23:05",
-      "durationMinutes": 87,
-      "direct": true,
-      "stops": [
-        "Cheongnyangni",
-        "Manjong",
-        "Gangneung"
-      ],
-      "headsign": "Gangneung",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-이음 871",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Cheongnyangni",
-          "destination": "Manjong",
-          "departureTime": "21:38",
-          "arrivalTime": "22:25",
-          "durationMinutes": 47
-        },
-        {
-          "lineName": "KTX-이음 871",
-          "lineCode": "강릉선",
-          "mode": "train",
-          "origin": "Manjong",
-          "destination": "Gangneung",
-          "departureTime": "22:25",
-          "arrivalTime": "23:05",
-          "durationMinutes": 40
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-13-ktx-강릉선-13-2",
       "country": "korea",
@@ -2580,6 +1963,1446 @@
           "durationMinutes": 19
         }
       ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-강릉선-13-2",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-이음 851",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "06:27",
+      "arrivalTime": "07:59",
+      "durationMinutes": 92,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Yangpyeong",
+        "Seowonju",
+        "Manjong",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 851",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Yangpyeong",
+          "departureTime": "06:27",
+          "arrivalTime": "06:54",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "KTX-이음 851",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Seowonju",
+          "departureTime": "06:54",
+          "arrivalTime": "07:14",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "KTX-이음 851",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Manjong",
+          "departureTime": "07:14",
+          "arrivalTime": "07:19",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "KTX-이음 851",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Gangneung",
+          "departureTime": "07:19",
+          "arrivalTime": "07:59",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-강릉선-15-2",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-이음 853",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "07:52",
+      "arrivalTime": "09:23",
+      "durationMinutes": 91,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Manjong",
+        "Jinbu(Odaesan)",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 853",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Manjong",
+          "departureTime": "07:52",
+          "arrivalTime": "08:39",
+          "durationMinutes": 47
+        },
+        {
+          "lineName": "KTX-이음 853",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Jinbu(Odaesan)",
+          "departureTime": "08:39",
+          "arrivalTime": "09:05",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX-이음 853",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Jinbu(Odaesan)",
+          "destination": "Gangneung",
+          "departureTime": "09:05",
+          "arrivalTime": "09:23",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-강릉선-17-2",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-이음 855",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "08:52",
+      "arrivalTime": "10:34",
+      "durationMinutes": 102,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Sangbong",
+        "Manjong",
+        "Hoengseong",
+        "Dunnae",
+        "Jinbu(Odaesan)",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 855",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Sangbong",
+          "departureTime": "08:52",
+          "arrivalTime": "08:58",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX-이음 855",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Sangbong",
+          "destination": "Manjong",
+          "departureTime": "08:58",
+          "arrivalTime": "09:42",
+          "durationMinutes": 44
+        },
+        {
+          "lineName": "KTX-이음 855",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Hoengseong",
+          "departureTime": "09:42",
+          "arrivalTime": "09:50",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "KTX-이음 855",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Hoengseong",
+          "destination": "Dunnae",
+          "departureTime": "09:50",
+          "arrivalTime": "10:01",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "KTX-이음 855",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Dunnae",
+          "destination": "Jinbu(Odaesan)",
+          "departureTime": "10:01",
+          "arrivalTime": "10:15",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX-이음 855",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Jinbu(Odaesan)",
+          "destination": "Gangneung",
+          "departureTime": "10:15",
+          "arrivalTime": "10:34",
+          "durationMinutes": 19
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-강릉선-22-2",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-이음 857",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "12:01",
+      "arrivalTime": "13:33",
+      "durationMinutes": 92,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Manjong",
+        "Dunnae",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 857",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Manjong",
+          "departureTime": "12:01",
+          "arrivalTime": "12:48",
+          "durationMinutes": 47
+        },
+        {
+          "lineName": "KTX-이음 857",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Dunnae",
+          "departureTime": "12:48",
+          "arrivalTime": "13:03",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "KTX-이음 857",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Dunnae",
+          "destination": "Gangneung",
+          "departureTime": "13:03",
+          "arrivalTime": "13:33",
+          "durationMinutes": 30
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-강릉선-29-2",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-이음 859",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "14:40",
+      "arrivalTime": "16:18",
+      "durationMinutes": 98,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Yangpyeong",
+        "Seowonju",
+        "Manjong",
+        "Dunnae",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Yangpyeong",
+          "departureTime": "14:40",
+          "arrivalTime": "15:07",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Seowonju",
+          "departureTime": "15:07",
+          "arrivalTime": "15:27",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Manjong",
+          "departureTime": "15:27",
+          "arrivalTime": "15:33",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Dunnae",
+          "departureTime": "15:33",
+          "arrivalTime": "15:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Dunnae",
+          "destination": "Gangneung",
+          "departureTime": "15:48",
+          "arrivalTime": "16:18",
+          "durationMinutes": 30
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-강릉선-30-2",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-이음 861",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "15:02",
+      "arrivalTime": "16:35",
+      "durationMinutes": 93,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Deokso",
+        "Yangpyeong",
+        "Manjong",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 861",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Deokso",
+          "departureTime": "15:02",
+          "arrivalTime": "15:16",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX-이음 861",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Yangpyeong",
+          "departureTime": "15:16",
+          "arrivalTime": "15:32",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "KTX-이음 861",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Manjong",
+          "departureTime": "15:32",
+          "arrivalTime": "15:55",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "KTX-이음 861",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Gangneung",
+          "departureTime": "15:55",
+          "arrivalTime": "16:35",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-강릉선-32-2",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-이음 863",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "15:52",
+      "arrivalTime": "17:20",
+      "durationMinutes": 88,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Manjong",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 863",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Manjong",
+          "departureTime": "15:52",
+          "arrivalTime": "16:40",
+          "durationMinutes": 48
+        },
+        {
+          "lineName": "KTX-이음 863",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Gangneung",
+          "departureTime": "16:40",
+          "arrivalTime": "17:20",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-강릉선-35-2",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-이음 865",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "18:05",
+      "arrivalTime": "19:39",
+      "durationMinutes": 94,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Sangbong",
+        "Seowonju",
+        "Jinbu(Odaesan)",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 865",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Sangbong",
+          "departureTime": "18:05",
+          "arrivalTime": "18:11",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX-이음 865",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Sangbong",
+          "destination": "Seowonju",
+          "departureTime": "18:11",
+          "arrivalTime": "18:51",
+          "durationMinutes": 40
+        },
+        {
+          "lineName": "KTX-이음 865",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Jinbu(Odaesan)",
+          "departureTime": "18:51",
+          "arrivalTime": "19:20",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "KTX-이음 865",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Jinbu(Odaesan)",
+          "destination": "Gangneung",
+          "departureTime": "19:20",
+          "arrivalTime": "19:39",
+          "durationMinutes": 19
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-강릉선-38-2",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-이음 867",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "19:55",
+      "arrivalTime": "21:29",
+      "durationMinutes": 94,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Yangpyeong",
+        "Manjong",
+        "Jinbu(Odaesan)",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 867",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Yangpyeong",
+          "departureTime": "19:55",
+          "arrivalTime": "20:22",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "KTX-이음 867",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Manjong",
+          "departureTime": "20:22",
+          "arrivalTime": "20:45",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "KTX-이음 867",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Jinbu(Odaesan)",
+          "departureTime": "20:45",
+          "arrivalTime": "21:10",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-이음 867",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Jinbu(Odaesan)",
+          "destination": "Gangneung",
+          "departureTime": "21:10",
+          "arrivalTime": "21:29",
+          "durationMinutes": 19
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-19-ktx-강릉선-41-2",
+      "country": "korea",
+      "date": "2026-09-19",
+      "operator": "Korail",
+      "service": "KTX-이음 871",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "21:38",
+      "arrivalTime": "23:05",
+      "durationMinutes": 87,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Manjong",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 871",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Manjong",
+          "departureTime": "21:38",
+          "arrivalTime": "22:25",
+          "durationMinutes": 47
+        },
+        {
+          "lineName": "KTX-이음 871",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Gangneung",
+          "departureTime": "22:25",
+          "arrivalTime": "23:05",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-강릉선-13-2",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-이음 851",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "06:27",
+      "arrivalTime": "07:59",
+      "durationMinutes": 92,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Yangpyeong",
+        "Seowonju",
+        "Manjong",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 851",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Yangpyeong",
+          "departureTime": "06:27",
+          "arrivalTime": "06:54",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "KTX-이음 851",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Seowonju",
+          "departureTime": "06:54",
+          "arrivalTime": "07:14",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "KTX-이음 851",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Manjong",
+          "departureTime": "07:14",
+          "arrivalTime": "07:19",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "KTX-이음 851",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Gangneung",
+          "departureTime": "07:19",
+          "arrivalTime": "07:59",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-강릉선-15-2",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-이음 853",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "07:52",
+      "arrivalTime": "09:23",
+      "durationMinutes": 91,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Manjong",
+        "Jinbu(Odaesan)",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 853",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Manjong",
+          "departureTime": "07:52",
+          "arrivalTime": "08:39",
+          "durationMinutes": 47
+        },
+        {
+          "lineName": "KTX-이음 853",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Jinbu(Odaesan)",
+          "departureTime": "08:39",
+          "arrivalTime": "09:05",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX-이음 853",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Jinbu(Odaesan)",
+          "destination": "Gangneung",
+          "departureTime": "09:05",
+          "arrivalTime": "09:23",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-강릉선-17-2",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-이음 855",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "08:52",
+      "arrivalTime": "10:34",
+      "durationMinutes": 102,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Sangbong",
+        "Manjong",
+        "Hoengseong",
+        "Dunnae",
+        "Jinbu(Odaesan)",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 855",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Sangbong",
+          "departureTime": "08:52",
+          "arrivalTime": "08:58",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX-이음 855",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Sangbong",
+          "destination": "Manjong",
+          "departureTime": "08:58",
+          "arrivalTime": "09:42",
+          "durationMinutes": 44
+        },
+        {
+          "lineName": "KTX-이음 855",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Hoengseong",
+          "departureTime": "09:42",
+          "arrivalTime": "09:50",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "KTX-이음 855",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Hoengseong",
+          "destination": "Dunnae",
+          "departureTime": "09:50",
+          "arrivalTime": "10:01",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "KTX-이음 855",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Dunnae",
+          "destination": "Jinbu(Odaesan)",
+          "departureTime": "10:01",
+          "arrivalTime": "10:15",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX-이음 855",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Jinbu(Odaesan)",
+          "destination": "Gangneung",
+          "departureTime": "10:15",
+          "arrivalTime": "10:34",
+          "durationMinutes": 19
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-강릉선-22-2",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-이음 857",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "12:01",
+      "arrivalTime": "13:33",
+      "durationMinutes": 92,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Manjong",
+        "Dunnae",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 857",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Manjong",
+          "departureTime": "12:01",
+          "arrivalTime": "12:48",
+          "durationMinutes": 47
+        },
+        {
+          "lineName": "KTX-이음 857",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Dunnae",
+          "departureTime": "12:48",
+          "arrivalTime": "13:03",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "KTX-이음 857",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Dunnae",
+          "destination": "Gangneung",
+          "departureTime": "13:03",
+          "arrivalTime": "13:33",
+          "durationMinutes": 30
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-강릉선-29-2",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-이음 859",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "14:40",
+      "arrivalTime": "16:18",
+      "durationMinutes": 98,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Yangpyeong",
+        "Seowonju",
+        "Manjong",
+        "Dunnae",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Yangpyeong",
+          "departureTime": "14:40",
+          "arrivalTime": "15:07",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Seowonju",
+          "departureTime": "15:07",
+          "arrivalTime": "15:27",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Manjong",
+          "departureTime": "15:27",
+          "arrivalTime": "15:33",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Dunnae",
+          "departureTime": "15:33",
+          "arrivalTime": "15:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Dunnae",
+          "destination": "Gangneung",
+          "departureTime": "15:48",
+          "arrivalTime": "16:18",
+          "durationMinutes": 30
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-강릉선-30-2",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-이음 861",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "15:02",
+      "arrivalTime": "16:35",
+      "durationMinutes": 93,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Deokso",
+        "Yangpyeong",
+        "Manjong",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 861",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Deokso",
+          "departureTime": "15:02",
+          "arrivalTime": "15:16",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX-이음 861",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Deokso",
+          "destination": "Yangpyeong",
+          "departureTime": "15:16",
+          "arrivalTime": "15:32",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "KTX-이음 861",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Manjong",
+          "departureTime": "15:32",
+          "arrivalTime": "15:55",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "KTX-이음 861",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Gangneung",
+          "departureTime": "15:55",
+          "arrivalTime": "16:35",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-강릉선-32-2",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-이음 863",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "15:52",
+      "arrivalTime": "17:20",
+      "durationMinutes": 88,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Manjong",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 863",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Manjong",
+          "departureTime": "15:52",
+          "arrivalTime": "16:40",
+          "durationMinutes": 48
+        },
+        {
+          "lineName": "KTX-이음 863",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Gangneung",
+          "departureTime": "16:40",
+          "arrivalTime": "17:20",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-강릉선-35-2",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-이음 865",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "18:05",
+      "arrivalTime": "19:39",
+      "durationMinutes": 94,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Sangbong",
+        "Seowonju",
+        "Jinbu(Odaesan)",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 865",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Sangbong",
+          "departureTime": "18:05",
+          "arrivalTime": "18:11",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX-이음 865",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Sangbong",
+          "destination": "Seowonju",
+          "departureTime": "18:11",
+          "arrivalTime": "18:51",
+          "durationMinutes": 40
+        },
+        {
+          "lineName": "KTX-이음 865",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Jinbu(Odaesan)",
+          "departureTime": "18:51",
+          "arrivalTime": "19:20",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "KTX-이음 865",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Jinbu(Odaesan)",
+          "destination": "Gangneung",
+          "departureTime": "19:20",
+          "arrivalTime": "19:39",
+          "durationMinutes": 19
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-강릉선-38-2",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-이음 867",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "19:55",
+      "arrivalTime": "21:29",
+      "durationMinutes": 94,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Yangpyeong",
+        "Manjong",
+        "Jinbu(Odaesan)",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 867",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Yangpyeong",
+          "departureTime": "19:55",
+          "arrivalTime": "20:22",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "KTX-이음 867",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Manjong",
+          "departureTime": "20:22",
+          "arrivalTime": "20:45",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "KTX-이음 867",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Jinbu(Odaesan)",
+          "departureTime": "20:45",
+          "arrivalTime": "21:10",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-이음 867",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Jinbu(Odaesan)",
+          "destination": "Gangneung",
+          "departureTime": "21:10",
+          "arrivalTime": "21:29",
+          "durationMinutes": 19
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-20-ktx-강릉선-41-2",
+      "country": "korea",
+      "date": "2026-09-20",
+      "operator": "Korail",
+      "service": "KTX-이음 871",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "21:38",
+      "arrivalTime": "23:05",
+      "durationMinutes": 87,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Manjong",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 871",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Manjong",
+          "departureTime": "21:38",
+          "arrivalTime": "22:25",
+          "durationMinutes": 47
+        },
+        {
+          "lineName": "KTX-이음 871",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Gangneung",
+          "departureTime": "22:25",
+          "arrivalTime": "23:05",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-ktx-강릉선-13-2",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "KTX-이음 851",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "06:27",
+      "arrivalTime": "07:59",
+      "durationMinutes": 92,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Yangpyeong",
+        "Seowonju",
+        "Manjong",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 851",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Yangpyeong",
+          "departureTime": "06:27",
+          "arrivalTime": "06:54",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "KTX-이음 851",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Seowonju",
+          "departureTime": "06:54",
+          "arrivalTime": "07:14",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "KTX-이음 851",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Manjong",
+          "departureTime": "07:14",
+          "arrivalTime": "07:19",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "KTX-이음 851",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Gangneung",
+          "departureTime": "07:19",
+          "arrivalTime": "07:59",
+          "durationMinutes": 40
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-ktx-강릉선-26-2",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "KTX-이음 869",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "13:42",
+      "arrivalTime": "15:18",
+      "durationMinutes": 96,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Yangpyeong",
+        "Manjong",
+        "Pyeongchang",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 869",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Yangpyeong",
+          "departureTime": "13:42",
+          "arrivalTime": "14:09",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "KTX-이음 869",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Manjong",
+          "departureTime": "14:09",
+          "arrivalTime": "14:32",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "KTX-이음 869",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Pyeongchang",
+          "departureTime": "14:32",
+          "arrivalTime": "14:54",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "KTX-이음 869",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Pyeongchang",
+          "destination": "Gangneung",
+          "departureTime": "14:54",
+          "arrivalTime": "15:18",
+          "durationMinutes": 24
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-21-ktx-강릉선-29-2",
+      "country": "korea",
+      "date": "2026-09-21",
+      "operator": "Korail",
+      "service": "KTX-이음 859",
+      "trainType": "KTX-이음",
+      "origin": "Cheongnyangni",
+      "destination": "Gangneung",
+      "departureTime": "14:40",
+      "arrivalTime": "16:18",
+      "durationMinutes": 98,
+      "direct": true,
+      "stops": [
+        "Cheongnyangni",
+        "Yangpyeong",
+        "Seowonju",
+        "Manjong",
+        "Dunnae",
+        "Gangneung"
+      ],
+      "headsign": "Gangneung",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Yangpyeong",
+          "departureTime": "14:40",
+          "arrivalTime": "15:07",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Seowonju",
+          "departureTime": "15:07",
+          "arrivalTime": "15:27",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Manjong",
+          "departureTime": "15:27",
+          "arrivalTime": "15:33",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Manjong",
+          "destination": "Dunnae",
+          "departureTime": "15:33",
+          "arrivalTime": "15:48",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "KTX-이음 859",
+          "lineCode": "강릉선",
+          "mode": "train",
+          "origin": "Dunnae",
+          "destination": "Gangneung",
+          "departureTime": "15:48",
+          "arrivalTime": "16:18",
+          "durationMinutes": 30
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -2590,7 +3413,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-10T12:03:06.648Z",
+    "fetchedAt": "2026-09-12T23:32:01.014Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
