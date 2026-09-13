@@ -73,7 +73,7 @@ export function RouteServiceOverview({ country, date, results }: RouteServiceOve
 
   return (
     <section
-      className="mx-auto max-w-md px-4 pt-3"
+      className="pt-3"
       aria-label={t("result.overview_label", { defaultValue: "Displayed departures overview" })}
     >
       <div className="m3-card m3-card-large m3-elevation-1 grid grid-cols-2 gap-2 border border-slate-200 bg-white p-2 dark:border-slate-800 dark:bg-slate-900">

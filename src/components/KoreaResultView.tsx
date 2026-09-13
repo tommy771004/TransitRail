@@ -3,10 +3,10 @@
 // Description: Component to render Korea transit query results with staggered motion animations
 
 import { AlertTriangle, Utensils, Wifi, Zap } from "lucide-react";
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
-import type { CoverageGap, NoResultReason, KoreaFilter, TransitResult } from "../types";
+import type { CoverageGap, NoResultReason, KoreaFilter, SearchFailureKind, TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel } from "../utils/stationLabel";
@@ -30,6 +30,7 @@ interface KoreaResultViewProps {
   time?: string;
   error?: string;
   noResultReason?: NoResultReason;
+  failureKind?: SearchFailureKind;
   officialSourceUrl?: string;
   coverageGap?: CoverageGap;
   results: TransitResult[];
@@ -43,6 +44,7 @@ interface KoreaResultViewProps {
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
+  afterFirstResult?: ReactNode;
 }
 
 const formatLocalPrice = (trip: TransitResult) =>
@@ -59,6 +61,7 @@ export function KoreaResultView({
   time,
   error,
   noResultReason,
+  failureKind,
   officialSourceUrl,
   coverageGap,
   results,
@@ -72,6 +75,7 @@ export function KoreaResultView({
   onOpenLegend,
   formatPrice,
   overview,
+  afterFirstResult,
 }: KoreaResultViewProps) {
   const { t } = useTranslation();
   const filters: Array<{ key: KoreaFilter; label: string }> = [
@@ -124,10 +128,10 @@ export function KoreaResultView({
 
       <div className="mx-auto max-w-md space-y-3 px-4 pt-4">
         <AnimatePresence mode="popLayout">
-          {!error && results.length > 0 && renderWeatherBlock(destination, date, "korea")}
           {error && renderMissBlock({
             message: error,
             reason: noResultReason,
+            failureKind,
             coverageGap,
             country: "korea",
             sourceUrl: officialSourceUrl,
@@ -142,8 +146,8 @@ export function KoreaResultView({
           {!error && results.map((trip, index) => {
           const isSaved = savedIds.has(trip.id);
           return (
+            <Fragment key={trip.id}>
             <motion.article
-              key={trip.id}
               {...tripCardMotion(index)}
               className={tripCardClass}
             >
@@ -227,6 +231,8 @@ export function KoreaResultView({
                 </div>
               </div>
             </motion.article>
+            {index === 0 ? <>{renderWeatherBlock(destination, date, "korea")}{afterFirstResult}</> : null}
+            </Fragment>
           );
         })}
         </AnimatePresence>

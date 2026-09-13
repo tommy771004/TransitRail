@@ -232,7 +232,7 @@ const UI: Record<Lang, UiBundle> = {
   en: {
     langCode: "en",
     ogLocale: "en_US",
-    siteName: "Rail Nation",
+    siteName: "TransitRail",
     shortLabel: "EN",
     home: "Home",
     allRoutes: "All routes",
@@ -285,12 +285,12 @@ const UI: Record<Lang, UiBundle> = {
     reverseDirection: "Reverse direction",
     routesHubTitle: "All Train Route Timetables",
     routesHubDescription:
-      "Browse every origin–destination timetable on Rail Nation: departure times, journey duration, transfers and fares across Asia, Europe and North America.",
+      "Browse every origin–destination timetable on TransitRail: departure times, journey duration, transfers and fares across Asia, Europe and North America.",
     routesOnHub: (n: number) => `${n} routes`,
     countryApp: (c: string) => `Open ${c} in the planner`,
     countryHubTitle: (c: string) => `${c} train & transit routes`,
     countryHubDescription: (c: string, n: number) =>
-      `Browse ${n} origin–destination timetable pages for ${c}: departure times, duration, transfers and fares on Rail Nation.`,
+      `Browse ${n} origin–destination timetable pages for ${c}: departure times, duration, transfers and fares on TransitRail.`,
     countryHubIntro: (c: string) =>
       `Static timetable pages for popular ${c} rail and metro routes. Open any route for the full departure table, or jump into the live planner.`,
     sourceLabel: "Data source",
@@ -313,7 +313,7 @@ const UI: Record<Lang, UiBundle> = {
   zh: {
     langCode: "zh-Hant",
     ogLocale: "zh_TW",
-    siteName: "Rail Nation",
+    siteName: "TransitRail",
     shortLabel: "中文",
     home: "首頁",
     allRoutes: "所有路線",
@@ -365,12 +365,12 @@ const UI: Record<Lang, UiBundle> = {
     reverseDirection: "反方向",
     routesHubTitle: "所有列車路線時刻表",
     routesHubDescription:
-      "瀏覽 Rail Nation 全部起訖站時刻表：出發時間、行車時間、轉乘與票價，涵蓋亞洲、歐洲與北美。",
+      "瀏覽 TransitRail 全部起訖站時刻表：出發時間、行車時間、轉乘與票價，涵蓋亞洲、歐洲與北美。",
     routesOnHub: (n: number) => `${n} 條路線`,
     countryApp: (c: string) => `在查詢工具中開啟${c}`,
     countryHubTitle: (c: string) => `${c}列車與大眾運輸路線`,
     countryHubDescription: (c: string, n: number) =>
-      `瀏覽 ${c} ${n} 條起訖站時刻表頁：出發時間、行車時間、轉乘與票價 — Rail Nation。`,
+      `瀏覽 ${c} ${n} 條起訖站時刻表頁：出發時間、行車時間、轉乘與票價 — TransitRail。`,
     countryHubIntro: (c: string) =>
       `${c}熱門鐵路與捷運路線的靜態時刻表頁。點選路線可查看完整班次表，或進入即時查詢工具。`,
     sourceLabel: "資料來源",
@@ -391,7 +391,7 @@ const UI: Record<Lang, UiBundle> = {
   ja: {
     langCode: "ja",
     ogLocale: "ja_JP",
-    siteName: "Rail Nation",
+    siteName: "TransitRail",
     shortLabel: "日本語",
     home: "ホーム",
     allRoutes: "全路線",
@@ -443,12 +443,12 @@ const UI: Record<Lang, UiBundle> = {
     reverseDirection: "反対方向",
     routesHubTitle: "全列車路線時刻表",
     routesHubDescription:
-      "Rail Nationに掲載されている全ての出発地・到着地の時刻表を検索：発車時刻、所要時間、乗換、運賃をアジア・ヨーロッパ・北米で網羅。",
+      "TransitRailに掲載されている全ての出発地・到着地の時刻表を検索：発車時刻、所要時間、乗換、運賃をアジア・ヨーロッパ・北米で網羅。",
     routesOnHub: (n: number) => `${n} 路線`,
     countryApp: (c: string) => `アプリで${c}を開く`,
     countryHubTitle: (c: string) => `${c}の鉄道・交通路線`,
     countryHubDescription: (c: string, n: number) =>
-      `${c}の出発地・到着地時刻表ページ${n}件：発車時刻、所要時間、乗換、運賃をRail Nationで。`,
+      `${c}の出発地・到着地時刻表ページ${n}件：発車時刻、所要時間、乗換、運賃をTransitRailで。`,
     countryHubIntro: (c: string) =>
       `${c}の主要路線の静的時刻表ページです。路線を開くと全便一覧を確認でき、アプリのリアルタイム検索にも移動できます。`,
     sourceLabel: "データソース",
@@ -470,7 +470,7 @@ const UI: Record<Lang, UiBundle> = {
   ko: {
     langCode: "ko",
     ogLocale: "ko_KR",
-    siteName: "Rail Nation",
+    siteName: "TransitRail",
     shortLabel: "한국어",
     home: "홈",
     allRoutes: "전체 노선",
@@ -522,12 +522,12 @@ const UI: Record<Lang, UiBundle> = {
     reverseDirection: "반대 방향",
     routesHubTitle: "전체 열차 노선 시간표",
     routesHubDescription:
-      "Rail Nation에 등록된 모든 출발지-도착지 시간표를 살펴보세요: 출발 시각, 소요 시간, 환승, 요금까지 아시아・유럽・북미를 아우릅니다.",
+      "TransitRail에 등록된 모든 출발지-도착지 시간표를 살펴보세요: 출발 시각, 소요 시간, 환승, 요금까지 아시아・유럽・북미를 아우릅니다.",
     routesOnHub: (n: number) => `${n}개 노선`,
     countryApp: (c: string) => `앱에서 ${c} 열기`,
     countryHubTitle: (c: string) => `${c} 철도·대중교통 노선`,
     countryHubDescription: (c: string, n: number) =>
-      `${c} 출발지–도착지 시간표 페이지 ${n}개: 출발 시각, 소요 시간, 환승, 요금 — Rail Nation.`,
+      `${c} 출발지–도착지 시간표 페이지 ${n}개: 출발 시각, 소요 시간, 환승, 요금 — TransitRail.`,
     countryHubIntro: (c: string) =>
       `${c} 주요 노선의 정적 시간표 페이지입니다. 노선을 열면 전체 운행표를 볼 수 있고, 앱의 실시간 검색으로도 이동할 수 있습니다.`,
     sourceLabel: "데이터 출처",
@@ -549,7 +549,7 @@ const UI: Record<Lang, UiBundle> = {
   fr: {
     langCode: "fr",
     ogLocale: "fr_FR",
-    siteName: "Rail Nation",
+    siteName: "TransitRail",
     shortLabel: "FR",
     home: "Accueil",
     allRoutes: "Toutes les lignes",
@@ -602,12 +602,12 @@ const UI: Record<Lang, UiBundle> = {
     reverseDirection: "Sens inverse",
     routesHubTitle: "Tous les horaires de trains",
     routesHubDescription:
-      "Parcourez tous les horaires origine–destination de Rail Nation : heures de départ, durée du trajet, correspondances et tarifs en Asie, en Europe et en Amérique du Nord.",
+      "Parcourez tous les horaires origine–destination de TransitRail : heures de départ, durée du trajet, correspondances et tarifs en Asie, en Europe et en Amérique du Nord.",
     routesOnHub: (n: number) => `${n} lignes`,
     countryApp: (c: string) => `Ouvrir ${c} dans le planificateur`,
     countryHubTitle: (c: string) => `Lignes de train et de transport en ${c}`,
     countryHubDescription: (c: string, n: number) =>
-      `Parcourez ${n} pages d'horaires origine–destination pour ${c} : heures de départ, durée, correspondances et tarifs sur Rail Nation.`,
+      `Parcourez ${n} pages d'horaires origine–destination pour ${c} : heures de départ, durée, correspondances et tarifs sur TransitRail.`,
     countryHubIntro: (c: string) =>
       `Pages d'horaires pour les lignes ferroviaires et de métro les plus fréquentées en ${c}. Ouvrez une ligne pour le tableau complet des départs, ou passez au planificateur.`,
     sourceLabel: "Source des données",
@@ -630,7 +630,7 @@ const UI: Record<Lang, UiBundle> = {
   de: {
     langCode: "de",
     ogLocale: "de_DE",
-    siteName: "Rail Nation",
+    siteName: "TransitRail",
     shortLabel: "DE",
     home: "Startseite",
     allRoutes: "Alle Strecken",
@@ -683,12 +683,12 @@ const UI: Record<Lang, UiBundle> = {
     reverseDirection: "Gegenrichtung",
     routesHubTitle: "Alle Zugfahrpläne",
     routesHubDescription:
-      "Alle Start-Ziel-Fahrpläne auf Rail Nation durchsuchen: Abfahrtszeiten, Fahrzeit, Umstiege und Preise in Asien, Europa und Nordamerika.",
+      "Alle Start-Ziel-Fahrpläne auf TransitRail durchsuchen: Abfahrtszeiten, Fahrzeit, Umstiege und Preise in Asien, Europa und Nordamerika.",
     routesOnHub: (n: number) => `${n} Strecken`,
     countryApp: (c: string) => `${c} im Planer öffnen`,
     countryHubTitle: (c: string) => `Zug- und Nahverkehrsstrecken in ${c}`,
     countryHubDescription: (c: string, n: number) =>
-      `${n} Start-Ziel-Fahrplanseiten für ${c} durchsuchen: Abfahrtszeiten, Dauer, Umstiege und Preise auf Rail Nation.`,
+      `${n} Start-Ziel-Fahrplanseiten für ${c} durchsuchen: Abfahrtszeiten, Dauer, Umstiege und Preise auf TransitRail.`,
     countryHubIntro: (c: string) =>
       `Fahrplanseiten für beliebte Bahn- und Metrostrecken in ${c}. Öffnen Sie eine Strecke für die vollständige Abfahrtstabelle oder wechseln Sie in den Live-Planer.`,
     sourceLabel: "Datenquelle",

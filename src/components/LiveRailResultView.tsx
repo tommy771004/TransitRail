@@ -3,10 +3,10 @@
 // Description: Component to render UK, US, and Swiss transit query results with staggered motion animations
 
 import { AlertTriangle } from "lucide-react";
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
-import type { Country, CoverageGap, NoResultReason, TransitResult } from "../types";
+import type { Country, CoverageGap, NoResultReason, SearchFailureKind, TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
 import { stationLabel, stationListLabel } from "../utils/stationLabel";
 import { TransitIcon, formatPlatform } from "./TransitIcon";
@@ -30,6 +30,7 @@ interface LiveRailResultViewProps {
   time?: string;
   error?: string;
   noResultReason?: NoResultReason;
+  failureKind?: SearchFailureKind;
   officialSourceUrl?: string;
   coverageGap?: CoverageGap;
   results: TransitResult[];
@@ -40,6 +41,7 @@ interface LiveRailResultViewProps {
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
+  afterFirstResult?: ReactNode;
 }
 
 function formatFare(trip: TransitResult) {
@@ -59,6 +61,7 @@ export function LiveRailResultView({
   time,
   error,
   noResultReason,
+  failureKind,
   officialSourceUrl,
   coverageGap,
   results,
@@ -69,6 +72,7 @@ export function LiveRailResultView({
   onOpenLegend,
   formatPrice,
   overview,
+  afterFirstResult,
 }: LiveRailResultViewProps) {
   const { t } = useTranslation();
   const isBoston = market === "boston";
@@ -106,12 +110,11 @@ export function LiveRailResultView({
 
       <section className="mx-auto max-w-md space-y-3 px-4 py-4">
         <AnimatePresence mode="popLayout">
-          {!error && results.length > 0 && renderWeatherBlock(destination, date, country)}
-
           {error ? (
             renderMissBlock({
               message: error,
               reason: noResultReason,
+              failureKind,
               coverageGap,
               country,
               sourceUrl: officialSourceUrl,
@@ -134,8 +137,8 @@ export function LiveRailResultView({
                   const isSaved = savedIds.has(trip.id);
                   const fare = formatFare(trip);
                   return (
+                    <Fragment key={trip.id}>
                     <motion.article
-                      key={trip.id}
                       {...tripCardMotion(index, true)}
                       className={tripCardClass}
                     >
@@ -240,6 +243,8 @@ export function LiveRailResultView({
                         <SaveTripButton isSaved={isSaved} onSave={() => onSave(trip)} labeled />
                       </div>
                     </motion.article>
+                    {index === 0 ? <>{renderWeatherBlock(destination, date, country)}{afterFirstResult}</> : null}
+                    </Fragment>
                   );
                 })}
               </AnimatePresence>

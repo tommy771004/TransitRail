@@ -247,6 +247,9 @@ function providerFailurePayload(
     results: [],
     truthMode: "unusable",
     provenance: "unknown",
+    ...(response.status === 429 || response.status >= 500
+      ? { failureKind: "provider_unavailable" as const }
+      : {}),
     noResultReason: reason,
     message: response.body.message || noDataMessage(origin, destination, undefined, reason, country),
     officialSourceUrl: officialTimetableUrls[country],

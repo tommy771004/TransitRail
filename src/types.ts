@@ -94,8 +94,15 @@ export interface SearchResponse {
   serviceDayAdvisory?: ServiceDayAdvisory;
   coverageGap?: CoverageGap;
   noResultReason?: NoResultReason;
+  /** A recoverable source/transport failure, distinct from an honest search miss. */
+  failureKind?: SearchFailureKind;
   officialSourceUrl?: string;
 }
+
+export type SearchFailureKind = "provider_unavailable" | "network_unavailable";
+
+/** How otherwise-valid result data reached the passenger. */
+export type SearchDeliveryStatus = { kind: "offline-cache"; fetchedAt?: string };
 
 export type NoResultReason =
   | "unsupported_route"

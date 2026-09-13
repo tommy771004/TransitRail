@@ -10,7 +10,7 @@ import type { ReactNode } from "react";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { motion, type MotionProps } from "motion/react";
-import type { Country, CoverageGap, NoResultReason } from "../types";
+import type { Country, CoverageGap, NoResultReason, SearchFailureKind } from "../types";
 import { triggerHaptic } from "../utils/haptics";
 import { WeatherWidget } from "./WeatherWidget";
 import { stationLabel } from "../utils/stationLabel";
@@ -164,6 +164,7 @@ export function renderNoVerifiedDataBlock(message: string, sourceUrl?: string, t
 export function renderMissBlock(options: {
   message: string;
   reason?: NoResultReason;
+  failureKind?: SearchFailureKind;
   coverageGap?: CoverageGap;
   country: Country;
   sourceUrl?: string;
@@ -171,15 +172,15 @@ export function renderMissBlock(options: {
   onModify?: () => void;
   onRetry?: () => void;
 }) {
-  const retryable = !options.coverageGap && !options.reason;
+  const retryable = Boolean(options.failureKind) || (!options.coverageGap && !options.reason);
   const title = options.reason === "future_date_unavailable"
     ? i18n.t("result.date_unavailable_title")
     : options.reason === "no_service" ? i18n.t("result.no_matching_departures") : undefined;
-  const block = options.coverageGap
-    ? renderCoverageBlock(options.coverageGap, options.country)
-    : options.reason
-      ? renderNoVerifiedDataBlock(options.message, options.sourceUrl, title)
-      : renderErrorBlock(options.errorTitle, options.message, options.sourceUrl);
+  const block = retryable
+    ? renderErrorBlock(options.errorTitle, options.message, options.sourceUrl)
+    : options.coverageGap
+      ? renderCoverageBlock(options.coverageGap, options.country)
+      : renderNoVerifiedDataBlock(options.message, options.sourceUrl, title);
   return (
     <motion.div key="miss" initial={false} className="space-y-3">
       {block}

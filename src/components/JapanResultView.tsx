@@ -3,10 +3,10 @@
 // Description: Component to render Japan transit query results with staggered motion animations
 
 import { ChevronRight } from "lucide-react";
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
-import type { Country, CoverageGap, NoResultReason, SortMode, TransitResult } from "../types";
+import type { Country, CoverageGap, NoResultReason, SearchFailureKind, SortMode, TransitResult } from "../types";
 import { TripDetails } from "./TripDetails";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel } from "../utils/stationLabel";
@@ -31,6 +31,7 @@ interface JapanResultViewProps {
   time?: string;
   error?: string;
   noResultReason?: NoResultReason;
+  failureKind?: SearchFailureKind;
   officialSourceUrl?: string;
   coverageGap?: CoverageGap;
   results: TransitResult[];
@@ -44,6 +45,7 @@ interface JapanResultViewProps {
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
+  afterFirstResult?: ReactNode;
 }
 
 const localeForCurrency = (currency?: string) => {
@@ -100,6 +102,7 @@ export function JapanResultView({
   time,
   error,
   noResultReason,
+  failureKind,
   officialSourceUrl,
   coverageGap,
   results,
@@ -113,6 +116,7 @@ export function JapanResultView({
   onOpenLegend,
   formatPrice,
   overview,
+  afterFirstResult,
 }: JapanResultViewProps) {
   const { t } = useTranslation();
 
@@ -165,10 +169,10 @@ export function JapanResultView({
 
       <div className="mx-auto max-w-md space-y-3 px-4 pt-4">
         <AnimatePresence mode="popLayout">
-          {!error && results.length > 0 && renderWeatherBlock(destination, date, country)}
           {error && renderMissBlock({
             message: error,
             reason: noResultReason,
+            failureKind,
             coverageGap,
             country,
             sourceUrl: officialSourceUrl,
@@ -183,8 +187,8 @@ export function JapanResultView({
           {!error && results.map((trip, index) => {
           const isSaved = savedIds.has(trip.id);
           return (
+            <Fragment key={trip.id}>
             <motion.article
-              key={trip.id}
               {...tripCardMotion(index)}
               className={tripCardClass}
             >
@@ -249,6 +253,8 @@ export function JapanResultView({
                 </div>
               </div>
             </motion.article>
+            {index === 0 ? <>{renderWeatherBlock(destination, date, country)}{afterFirstResult}</> : null}
+            </Fragment>
           );
         })}
         </AnimatePresence>

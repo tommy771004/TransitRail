@@ -109,13 +109,17 @@ try {
       });
       await page.locator("header").waitFor();
       await page.evaluate((dark) => document.documentElement.classList.toggle("dark", dark), colorScheme === "dark");
-      const shell = await page.evaluate(() => ({
-        header: Math.round(document.querySelector("header")!.getBoundingClientRect().height),
-        nav: Math.round(document.querySelector("nav > div")!.getBoundingClientRect().height),
-        overflow: document.documentElement.scrollWidth > window.innerWidth,
-      }));
+      const shell = await page.evaluate(() => {
+        const navigationBar = document.querySelector<HTMLElement>(".m3-nav-bar")!;
+        return {
+          header: Math.round(document.querySelector("header")!.getBoundingClientRect().height),
+          nav: Math.round(navigationBar.getBoundingClientRect().height),
+          navComputedHeight: getComputedStyle(navigationBar).height,
+          overflow: document.documentElement.scrollWidth > window.innerWidth,
+        };
+      });
       if (shell.header !== 64) throw new Error(`Top app bar is ${shell.header}px at ${width}px/${colorScheme}`);
-      if (shell.nav !== 80) throw new Error(`Navigation bar is ${shell.nav}px at ${width}px/${colorScheme}`);
+      if (shell.nav !== 80) throw new Error(`Navigation bar is ${shell.nav}px (${shell.navComputedHeight}) at ${width}px/${colorScheme}`);
       if (shell.overflow) throw new Error(`Shell overflows at ${width}px/${colorScheme}`);
 
       for (const locale of ["en", "zh-TW", "ja", "ko"]) {

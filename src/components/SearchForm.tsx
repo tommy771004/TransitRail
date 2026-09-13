@@ -2,8 +2,8 @@
 // OS support: Linux, macOS, Windows
 // Description: Interactive search form for transit route selection
 
-import { ArrowLeftRight, CalendarDays, Clock3, DatabaseZap, Star, Search, MapPin, History, ChevronDown, Loader2, Pin, Sparkles } from "lucide-react";
-import { useState, useEffect, useMemo } from "react";
+import { ArrowLeftRight, CalendarDays, Clock3, Star, Search, MapPin, ChevronDown, Loader2, Pin, Sparkles } from "lucide-react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { countryConfig, countryOptions, providerDateValue, providerDateValues, countryThemes, countryFlags } from "../data/countries";
 import type { Country, SearchHistoryItem, SearchParams, FavoriteRoute } from "../types";
@@ -35,6 +35,7 @@ interface SearchFormProps {
   onRemoveFavorite: (id: string) => void;
   onRepeatFavoriteSearch: (fav: FavoriteRoute) => void;
   onChange: (params: SearchParams) => void;
+  onCountryChange?: (country: Country) => void;
   onSearch: (origin: string, destination: string, date: string, country: Country, time?: string) => Promise<void>;
   onOpenStations: (target: "origin" | "destination") => void;
   onOpenWorkflow: () => void;
@@ -51,6 +52,7 @@ export function SearchForm({
   onRemoveFavorite,
   onRepeatFavoriteSearch,
   onChange,
+  onCountryChange,
   onSearch,
   onOpenStations,
   onOpenWorkflow,
@@ -59,8 +61,9 @@ export function SearchForm({
 }: SearchFormProps) {
   const { t, i18n } = useTranslation();
   const [formError, setFormError] = useState<string | null>(null);
-  const [isAiLoading, setIsAiLoading] = useState(false);
-  const [aiResult, setAiResult] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<{ origin?: string; destination?: string }>({});
+  const originButtonRef = useRef<HTMLButtonElement>(null);
+  const destinationButtonRef = useRef<HTMLButtonElement>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const hotRoutes = useMemo(() => [
     { country: "japan", origin: "Tokyo", destination: "Shin-Osaka", label: t("hot_routes.tokyo_osaka", { defaultValue: "東京 ➔ 新大阪" }) },
@@ -75,9 +78,6 @@ export function SearchForm({
     { country: "france", origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu", label: t("hot_routes.paris_lyon", { defaultValue: "巴黎 ➔ 里昂" }) },
     { country: "switzerland", origin: "Zürich HB", destination: "Genève", label: t("hot_routes.zurich_geneva", { defaultValue: "蘇黎世 ➔ 日內瓦" }) }
   ].filter((route) => countryOptions.includes(route.country as Country)), [t]);
-
-  const row1 = useMemo(() => hotRoutes.slice(0, 5), [hotRoutes]);
-  const row2 = useMemo(() => hotRoutes.slice(5), [hotRoutes]);
 
   const faqs = useMemo(() => [
     {
@@ -113,6 +113,15 @@ export function SearchForm({
   const date = config.liveOnly ? providerDateValue(country) : (params.date || providerDateValue(country));
   const theme = countryThemes[country] || countryThemes.japan;
 
+  useEffect(() => {
+    setFieldErrors((current) => {
+      const next = { ...current };
+      if (origin.trim()) delete next.origin;
+      if (destination.trim()) delete next.destination;
+      return next;
+    });
+  }, [origin, destination]);
+
   /**
    * How many days the picker may offer.
    *
@@ -143,6 +152,11 @@ export function SearchForm({
     () => providerDateValues(country, offeredDays),
     [country, offeredDays],
   );
+  const formatCapabilityDate = (value: string) => new Intl.DateTimeFormat(i18n.language, {
+    month: "numeric",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${value}T12:00:00Z`));
 
   // Preserve the passenger's requested day. Never silently turn a saved/future
   // journey into a search for today when coverage changes after hydration.
@@ -165,21 +179,6 @@ export function SearchForm({
     ));
   }, [dateUnavailable, offeredDates, date]);
 
-  const frequentRoutes = useMemo(() => {
-    const routes = recentHistory.filter(h => h.country === country);
-    const frequencies = new Map<string, { origin: string; destination: string; count: number }>();
-    for (const route of routes) {
-      const key = `${route.origin}|${route.destination}`;
-      if (!frequencies.has(key)) {
-        frequencies.set(key, { origin: route.origin, destination: route.destination, count: 0 });
-      }
-      frequencies.get(key)!.count++;
-    }
-    return Array.from(frequencies.values())
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 3);
-  }, [recentHistory, country]);
-
   const sortedHistory = useMemo(() => {
     return [...recentHistory].sort((a, b) => {
       if (a.pinned && !b.pinned) return -1;
@@ -187,6 +186,8 @@ export function SearchForm({
       return 0;
     });
   }, [recentHistory]);
+  const visibleFavorites = favorites.slice(0, 3);
+  const visibleHistory = sortedHistory.slice(0, Math.max(0, 3 - visibleFavorites.length));
 
   const handleToggleFavorite = () => {
     if (!origin || !destination) return;
@@ -214,12 +215,19 @@ export function SearchForm({
     }
     if (!origin.trim() || !destination.trim()) {
       triggerHaptic("error");
-      setFormError(t("search.validation_required"));
+      setFormError(null);
+      setFieldErrors({
+        ...(!origin.trim() ? { origin: t("search.validation_origin_required") } : {}),
+        ...(!destination.trim() ? { destination: t("search.validation_destination_required") } : {}),
+      });
+      (!origin.trim() ? originButtonRef : destinationButtonRef).current?.focus();
       return;
     }
     if (origin.trim() === destination.trim()) {
       triggerHaptic("error");
-      setFormError(t("search.validation_same_station"));
+      setFormError(null);
+      setFieldErrors({ destination: t("search.validation_same_station") });
+      destinationButtonRef.current?.focus();
       return;
     }
     if (dateUnavailable) {
@@ -228,13 +236,9 @@ export function SearchForm({
     }
     triggerHaptic("medium");
     setFormError(null);
+    setFieldErrors({});
     const submitDate = config.liveOnly ? providerDateValue(country) : date;
     await onSearch(origin.trim(), destination.trim(), submitDate, country, params.time);
-  };
-
-  const handleAiPlan = () => {
-    triggerHaptic("light");
-    window.open("https://roam-jelly-web.vercel.app/", "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -248,12 +252,13 @@ export function SearchForm({
               key={item}
               onClick={() => {
                 triggerHaptic("light");
-                onChange({
-                  origin: "",
-                  destination: "",
-                  date: providerDateValue(item),
-                  country: item,
-                });
+                if (onCountryChange) onCountryChange(item);
+                else onChange({
+                    origin: "",
+                    destination: "",
+                    date: providerDateValue(item),
+                    country: item,
+                  });
                 setFormError(null);
               }}
               aria-label={t(countryConfig[item].labelKey)}
@@ -268,6 +273,17 @@ export function SearchForm({
             </button>
           ))}
         </div>
+
+        <p role="status" className="m3-card m3-body-small mb-3 border border-slate-200/80 bg-white/75 px-4 py-3 text-slate-700 dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-300">
+          {!canSearchTimetable
+            ? t("search.capability_catalog_only")
+            : config.liveOnly
+              ? t("search.capability_today_only", { date: formatCapabilityDate(date) })
+              : t("search.capability_date_range", {
+                  start: formatCapabilityDate(offeredDates[0]),
+                  end: formatCapabilityDate(offeredDates[offeredDates.length - 1]),
+                })}
+        </p>
 
         {/* Main Search Card */}
         <div className="m3-card m3-card-large m3-elevation-1 relative overflow-hidden bg-white dark:bg-slate-900">
@@ -284,13 +300,16 @@ export function SearchForm({
               </div>
 
               <button
+                ref={originButtonRef}
                 type="button"
                 onClick={() => {
                   triggerHaptic("light");
                   onOpenStations("origin");
                 }}
                 aria-label={origin ? `${t("search.origin")}: ${stationLabel(t, origin, country)}` : t("stations.pick_origin", { defaultValue: "Select Departure Station" })}
-                className="m3-shape-md m3-state group z-10 flex min-h-24 flex-1 flex-col items-center justify-center py-2 text-center"
+                aria-invalid={fieldErrors.origin ? true : undefined}
+                aria-describedby={fieldErrors.origin ? "search-origin-error" : undefined}
+                className={`m3-shape-md m3-state group z-10 flex min-h-24 flex-1 flex-col items-center justify-center py-2 text-center ${fieldErrors.origin ? "outline outline-1 outline-red-500" : ""}`}
               >
                 <div className={`m3-label-medium mb-1.5 flex items-center gap-1 ${theme.textActive}`}>
                   <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
@@ -316,13 +335,16 @@ export function SearchForm({
               </div>
 
               <button
+                ref={destinationButtonRef}
                 type="button"
                 onClick={() => {
                   triggerHaptic("light");
                   onOpenStations("destination");
                 }}
                 aria-label={destination ? `${t("search.destination")}: ${stationLabel(t, destination, country)}` : t("stations.pick_destination", { defaultValue: "Select Destination Station" })}
-                className="m3-shape-md m3-state group z-10 flex min-h-24 flex-1 flex-col items-center justify-center py-2 text-center"
+                aria-invalid={fieldErrors.destination ? true : undefined}
+                aria-describedby={fieldErrors.destination ? "search-destination-error" : undefined}
+                className={`m3-shape-md m3-state group z-10 flex min-h-24 flex-1 flex-col items-center justify-center py-2 text-center ${fieldErrors.destination ? "outline outline-1 outline-red-500" : ""}`}
               >
                 <div className={`m3-label-medium mb-1.5 flex items-center gap-1 ${theme.textActive}`}>
                   <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
@@ -336,6 +358,17 @@ export function SearchForm({
                 </div>
               </button>
             </div>
+            {(fieldErrors.origin || fieldErrors.destination) && (
+              <div className="mt-2 grid grid-cols-[1fr_52px_1fr] gap-1">
+                <p id="search-origin-error" className="m3-body-small text-center text-red-700 dark:text-red-400">
+                  {fieldErrors.origin}
+                </p>
+                <span aria-hidden="true" />
+                <p id="search-destination-error" className="m3-body-small text-center text-red-700 dark:text-red-400">
+                  {fieldErrors.destination}
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="border-t border-slate-100/80 p-5 dark:border-slate-800/60">
@@ -519,31 +552,6 @@ export function SearchForm({
               )}
             </div>
 
-            {frequentRoutes.length > 0 && (
-              <div className="mt-5 pt-4 border-t border-slate-100/80 dark:border-slate-800/60">
-                <p className="m3-title-small mb-2.5 text-slate-500 dark:text-slate-400">
-                  {t("search.quick_access", { defaultValue: "Quick Access" })}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {frequentRoutes.map((route, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => {
-                        triggerHaptic("light");
-                        onChange({ ...params, origin: route.origin, destination: route.destination });
-                      }}
-                      aria-label={`${stationLabel(t, route.origin, country)} to ${stationLabel(t, route.destination, country)}`}
-                      className="m3-chip m3-chip-touch m3-state gap-1.5 border border-slate-300 bg-transparent text-slate-700 dark:border-slate-700 dark:text-slate-300"
-                    >
-                      {stationLabel(t, route.origin, country)}
-                      <span className="text-slate-300 dark:text-slate-600">&rarr;</span>
-                      {stationLabel(t, route.destination, country)}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
@@ -554,13 +562,13 @@ export function SearchForm({
           </span>
         </div>
 
-        {favorites.length > 0 && (
+        {visibleFavorites.length > 0 && (
           <section className="mt-8">
             <h2 className="m3-title-medium px-1 text-slate-700 dark:text-slate-200">
               {t("favorites.title", { defaultValue: "Favorite Routes" })}
             </h2>
             <div className="m3-card m3-card-large m3-elevation-1 mt-3 divide-y divide-slate-100 overflow-hidden bg-white dark:divide-slate-800 dark:bg-slate-900">
-              {favorites.map((fav) => (
+              {visibleFavorites.map((fav) => (
                 <div
                   key={fav.id}
                   className="m3-list-item m3-list-item-two-line justify-between gap-2 bg-white px-2 dark:bg-slate-900"
@@ -601,13 +609,13 @@ export function SearchForm({
           </section>
         )}
 
-        {sortedHistory.length > 0 && (
+        {visibleHistory.length > 0 && (
           <section className="mt-8">
             <h2 className="m3-title-medium px-1 text-slate-700 dark:text-slate-200">
               {t("history.recent")}
             </h2>
             <div className="m3-card m3-card-large m3-elevation-1 mt-3 divide-y divide-slate-100 overflow-hidden bg-white dark:divide-slate-800 dark:bg-slate-900">
-              {sortedHistory.slice(0, 5).map((item) => (
+              {visibleHistory.map((item) => (
                 <div
                   key={item.id}
                   className="m3-list-item m3-list-item-two-line w-full justify-between gap-2 px-2 text-left"
@@ -687,140 +695,103 @@ export function SearchForm({
           </a>
         </div>
 
-        {/* About Section */}
-        <div className="mt-12 pt-6 border-t border-slate-200/60 dark:border-slate-800/60">
-          <h2 className="m3-headline-small mb-3 text-slate-900 dark:text-white">
-            {t("search.about_title", { defaultValue: "關於全球鐵道查詢" })}
-          </h2>
-          <p className="m3-body-medium leading-relaxed text-slate-500 dark:text-slate-400">
-            {t("search.about_body", { defaultValue: "TransitRail 是一個免費的跨國鐵道與大眾運輸時刻表查詢工具，提供日本、新加坡、泰國、香港、英國、美國、德國、法國、中國等市場的鐵路與地鐵資訊。無需註冊即可查詢站點班次、行車日期、營運商與轉乘資訊。" })}
-          </p>
-          <p className="m3-body-small mt-3 text-slate-400 dark:text-slate-500">
-            {t("search.data_source_detail", { defaultValue: "班次、票價與即時狀態資料來源：各國大眾運輸系統與第三方 API（如 Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF 等）。" })}
-          </p>
-        </div>
-
         {/* Popular Routes Section */}
-        <div className="mt-10 overflow-hidden">
+        <div className="mt-10">
           <h2 className="m3-headline-small mb-4 text-slate-900 dark:text-white">
             {t("search.popular_routes", { defaultValue: "熱門路線" })}
           </h2>
-          
-          <div className="space-y-4">
-            {/* Row 1: Scroll Right (上面往右) */}
-            <div className="relative flex w-full overflow-hidden py-1.5 select-none">
-              {/* Blur mask overlay at edges */}
-              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
-              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
-              
-              <div className="flex shrink-0 animate-marquee-right hover:[animation-play-state:paused] active:[animation-play-state:paused] focus-within:[animation-play-state:paused] motion-reduce:[animation-play-state:paused] whitespace-nowrap">
-                {row1.concat(row1).map((route, idx) => {
-                  const routeTheme = countryThemes[route.country as Country] || theme;
-                  return (
-                    <button
-                      key={`r1-${idx}`}
-                      type="button"
-                      onClick={() => {
-                        triggerHaptic("medium");
-                        onChange({
-                          origin: route.origin,
-                          destination: route.destination,
-                          date: providerDateValue(route.country as Country),
-                          country: route.country as Country,
-                        });
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                      }}
-                      className="m3-chip m3-chip-touch m3-state m3-elevation-1 mr-3 shrink-0 bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-300"
-                    >
-                      <span className={`m3-label-small ${routeTheme.textActive}`}>
-                        {countryFlags[route.country] || ""} {t(countryConfig[route.country as Country].labelKey)}
-                      </span>
-                      <span>{route.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Row 2: Scroll Left (下面往左) */}
-            <div className="relative flex w-full overflow-hidden py-1.5 select-none">
-              {/* Blur mask overlay at edges */}
-              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
-              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-50 to-transparent dark:from-slate-950/20 z-10 pointer-events-none" />
-              
-              <div className="flex shrink-0 animate-marquee-left hover:[animation-play-state:paused] active:[animation-play-state:paused] focus-within:[animation-play-state:paused] motion-reduce:[animation-play-state:paused] whitespace-nowrap">
-                {row2.concat(row2).map((route, idx) => {
-                  const routeTheme = countryThemes[route.country as Country] || theme;
-                  return (
-                    <button
-                      key={`r2-${idx}`}
-                      type="button"
-                      onClick={() => {
-                        triggerHaptic("medium");
-                        onChange({
-                          origin: route.origin,
-                          destination: route.destination,
-                          date: providerDateValue(route.country as Country),
-                          country: route.country as Country,
-                        });
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                      }}
-                      className="m3-chip m3-chip-touch m3-state m3-elevation-1 mr-3 shrink-0 bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-300"
-                    >
-                      <span className={`m3-label-small ${routeTheme.textActive}`}>
-                        {countryFlags[route.country] || ""} {t(countryConfig[route.country as Country].labelKey)}
-                      </span>
-                      <span>{route.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* FAQ Section */}
-        <div className="mt-10 mb-12">
-          <h2 className="m3-headline-small mb-4 text-slate-900 dark:text-white">
-            {t("search.faq_title", { defaultValue: "常見問題 FAQ" })}
-          </h2>
-          <div className="space-y-3">
-            {faqs.map((faq, idx) => {
-              const isOpen = openFaq === idx;
+          <div className="flex gap-3 overflow-x-auto px-0.5 pb-2 soft-scrollbar">
+            {hotRoutes.map((route) => {
+              const routeTheme = countryThemes[route.country as Country] || theme;
               return (
-                <div
-                  key={idx}
-                  className="m3-card m3-card-large overflow-hidden border border-slate-200 bg-white/90 dark:border-slate-800 dark:bg-slate-900/90"
+                <button
+                  key={`${route.country}-${route.origin}-${route.destination}`}
+                  type="button"
+                  onClick={() => {
+                    triggerHaptic("medium");
+                    onChange({
+                      origin: route.origin,
+                      destination: route.destination,
+                      date: providerDateValue(route.country as Country),
+                      country: route.country as Country,
+                    });
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="m3-chip m3-chip-touch m3-state m3-elevation-1 shrink-0 bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-300"
                 >
-                  <button
-                    type="button"
-                    onClick={() => {
-                      triggerHaptic("light");
-                      setOpenFaq(isOpen ? null : idx);
-                    }}
-                    className="m3-state m3-title-medium flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-slate-800 dark:text-slate-200"
-                  >
-                    <span>{faq.q}</span>
-                    <ChevronDown
-                      className={`h-5 w-5 shrink-0 text-slate-400 transition-transform duration-300 ease-m3-emphasized dark:text-slate-500 ${
-                        isOpen ? "rotate-180 text-blue-500 dark:text-blue-400" : ""
-                      }`}
-                    />
-                  </button>
-                  <div
-                    className={`overflow-hidden transition-all duration-300 ease-m3-emphasized ${
-                      isOpen ? "max-h-48 border-t border-slate-100 dark:border-slate-800/60" : "max-h-0"
-                    }`}
-                  >
-                    <div className="m3-body-medium p-5 leading-relaxed text-slate-500 dark:text-slate-400">
-                      {faq.a}
-                    </div>
-                  </div>
-                </div>
+                  <span className={`m3-label-small ${routeTheme.textActive}`}>
+                    {countryFlags[route.country] || ""} {t(countryConfig[route.country as Country].labelKey)}
+                  </span>
+                  <span>{route.label}</span>
+                </button>
               );
             })}
           </div>
         </div>
+
+        <details className="m3-card m3-card-large m3-elevation-1 mt-10 mb-12 overflow-hidden bg-white dark:bg-slate-900">
+          <summary className="m3-state m3-title-medium flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-slate-800 dark:text-slate-200">
+            {t("search.learn_more", { defaultValue: "Learn more about TransitRail" })}
+            <ChevronDown aria-hidden="true" className="h-5 w-5 shrink-0 text-slate-400" />
+          </summary>
+          <div className="space-y-8 border-t border-slate-100 px-5 py-6 dark:border-slate-800/60">
+            <section>
+              <h2 className="m3-headline-small mb-3 text-slate-900 dark:text-white">
+                {t("search.about_title", { defaultValue: "關於全球鐵道查詢" })}
+              </h2>
+              <p className="m3-body-medium leading-relaxed text-slate-500 dark:text-slate-400">
+                {t("search.about_body", { defaultValue: "TransitRail 是一個免費的跨國鐵道與大眾運輸時刻表查詢工具。" })}
+              </p>
+              <p className="m3-body-small mt-3 text-slate-400 dark:text-slate-500">
+                {t("search.data_source_detail")}
+              </p>
+            </section>
+
+            <section>
+              <h2 className="m3-headline-small mb-4 text-slate-900 dark:text-white">
+                {t("search.faq_title", { defaultValue: "常見問題 FAQ" })}
+              </h2>
+              <div className="space-y-3">
+                {faqs.map((faq, idx) => {
+                  const isOpen = openFaq === idx;
+                  return (
+                    <div
+                      key={idx}
+                      className="m3-card m3-card-large overflow-hidden border border-slate-200 bg-white/90 dark:border-slate-800 dark:bg-slate-900/90"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => {
+                          triggerHaptic("light");
+                          setOpenFaq(isOpen ? null : idx);
+                        }}
+                        aria-expanded={isOpen}
+                        className="m3-state m3-title-medium flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-slate-800 dark:text-slate-200"
+                      >
+                        <span>{faq.q}</span>
+                        <ChevronDown
+                          aria-hidden="true"
+                          className={`h-5 w-5 shrink-0 text-slate-400 transition-transform duration-300 ease-m3-emphasized dark:text-slate-500 ${
+                            isOpen ? "rotate-180 text-blue-500 dark:text-blue-400" : ""
+                          }`}
+                        />
+                      </button>
+                      <div
+                        className={`overflow-hidden transition-all duration-300 ease-m3-emphasized ${
+                          isOpen ? "max-h-48 border-t border-slate-100 dark:border-slate-800/60" : "max-h-0"
+                        }`}
+                      >
+                        <div className="m3-body-medium p-5 leading-relaxed text-slate-500 dark:text-slate-400">
+                          {faq.a}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          </div>
+        </details>
       </section>
     </main>
   );

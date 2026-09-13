@@ -10,8 +10,8 @@ import { motion, AnimatePresence, useReducedMotion } from "motion/react";
  * already watched happen. Those belong to the moment, not to a list you can
  * come back to, which is exactly what M3 gives a snackbar.
  *
- * No action button on purpose: a control here would have to work, and every
- * message this shows is already the end of its own interaction.
+ * Most messages are confirmations. An optional action is reserved for a
+ * reversible state change such as restoring stations after switching market.
  */
 export const SNACKBAR_DURATION_MS = 4000;
 
@@ -20,6 +20,8 @@ export const SNACKBAR_DURATION_MS = 4000;
 export interface SnackbarMessage {
   id: number;
   text: string;
+  actionLabel?: string;
+  onAction?: () => void;
 }
 
 export function Snackbar({ snack, onDismiss }: { snack?: SnackbarMessage; onDismiss: () => void }) {
@@ -54,8 +56,20 @@ export function Snackbar({ snack, onDismiss }: { snack?: SnackbarMessage; onDism
           className="fixed inset-x-0 z-[70] mx-auto flex max-w-md px-4"
           style={{ bottom: "calc(80px + env(safe-area-inset-bottom) + 16px)" }}
         >
-          <div className="m3-shape-xs m3-elevation-3 m3-body-medium flex min-h-12 w-full items-center px-4 py-3 bg-slate-800 text-slate-100 dark:bg-slate-100 dark:text-slate-900">
-            {snack.text}
+          <div className="m3-shape-xs m3-elevation-3 m3-body-medium flex min-h-12 w-full items-center gap-3 px-4 py-2 bg-slate-800 text-slate-100 dark:bg-slate-100 dark:text-slate-900">
+            <span className="min-w-0 flex-1">{snack.text}</span>
+            {snack.actionLabel && snack.onAction ? (
+              <button
+                type="button"
+                className="m3-button m3-button-small m3-state shrink-0 text-amber-300 dark:text-amber-700"
+                onClick={() => {
+                  snack.onAction?.();
+                  onDismiss();
+                }}
+              >
+                {snack.actionLabel}
+              </button>
+            ) : null}
           </div>
         </motion.div>
       )}

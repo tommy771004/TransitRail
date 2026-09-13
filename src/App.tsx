@@ -42,6 +42,8 @@ import type {
   KoreaFilter,
   SavedTrip,
   SearchDataStatus,
+  SearchDeliveryStatus,
+  SearchFailureKind,
   SearchHistoryItem,
   SearchParams,
   SearchResponse,
@@ -357,6 +359,8 @@ export default function App() {
   const [error, setError] = useState<string | undefined>();
   /** Why a search returned nothing, so the UI can title the miss correctly. */
   const [noResultReason, setNoResultReason] = useState<SearchResponse["noResultReason"]>();
+  const [failureKind, setFailureKind] = useState<SearchFailureKind | undefined>();
+  const [deliveryStatus, setDeliveryStatus] = useState<SearchDeliveryStatus | undefined>();
   const [coverageGap, setCoverageGap] = useState<CoverageGap | undefined>();
   const [officialSourceUrl, setOfficialSourceUrl] = useState<string | undefined>();
   const [isSearching, setIsSearching] = useState(false);
@@ -408,7 +412,7 @@ export default function App() {
   const [loadingRates, setLoadingRates] = useState<boolean>(false);
   // SEO and Dynamic Metadata Engine
   useEffect(() => {
-    const baseTitle = "Rail Nation";
+    const baseTitle = "TransitRail";
     // SEO microcopy is localized inline (same convention as the UI map in
     // scripts/generate-route-pages.ts) so the meta description matches
     // document.lang instead of always being served in English.
@@ -429,10 +433,10 @@ export default function App() {
         malaysia:
           "Malaysia station directory sourced from official historical data.gov.my ridership downloads. Timetables and real-time arrivals are not available.",
         savedTitle: "Favorites & Saved Trips",
-        savedDesc: "View your saved trips, favorite routes, and offline schedule history on Rail Nation.",
+        savedDesc: "View your saved trips, favorite routes, and offline schedule history on TransitRail.",
         alertsTitle: "Transit Alerts & Updates",
         alertsDesc: "Service status for the networks you travel on, plus timetable changes and departure reminders for your own journeys.",
-        feedbackDesc: "Send feedback to Rail Nation.",
+        feedbackDesc: "Send feedback to TransitRail.",
       },
       zh: {
         default: "跨境鐵路路線規劃，串接官方即時交通業者資料與 AI 行程規劃",
@@ -443,10 +447,10 @@ export default function App() {
         malaysia:
           "馬來西亞車站目錄，資料來自 data.gov.my 官方歷史運量下載。不提供時刻表與即時到站資訊。",
         savedTitle: "我的最愛與已儲存行程",
-        savedDesc: "在 Rail Nation 檢視您已儲存的行程、常用路線與離線時刻表紀錄。",
+        savedDesc: "在 TransitRail 檢視您已儲存的行程、常用路線與離線時刻表紀錄。",
         alertsTitle: "交通警示與服務更新",
         alertsDesc: "您搭乘路網的營運狀況，以及您自己行程的時刻表變動與出發提醒。",
-        feedbackDesc: "向 Rail Nation 提供意見回饋。",
+        feedbackDesc: "向 TransitRail 提供意見回饋。",
       },
       ja: {
         default: "公式のリアルタイム交通データとAI旅程計画による国際鉄道ルート検索",
@@ -457,10 +461,10 @@ export default function App() {
         malaysia:
           "マレーシアの駅ディレクトリ（data.gov.myの公式過去乗降データに基づく）。時刻表・リアルタイム到着情報は提供されません。",
         savedTitle: "お気に入りと保存した旅程",
-        savedDesc: "Rail Nationで保存した旅程、お気に入り路線、オフライン時刻表履歴を確認できます。",
+        savedDesc: "TransitRailで保存した旅程、お気に入り路線、オフライン時刻表履歴を確認できます。",
         alertsTitle: "交通アラートと運行情報",
         alertsDesc: "ご利用の路線の運行状況と、ご自身の旅程の時刻表変更・出発リマインダー。",
-        feedbackDesc: "Rail Nationへフィードバックを送信します。",
+        feedbackDesc: "TransitRailへフィードバックを送信します。",
       },
       ko: {
         default: "공식 실시간 교통 데이터와 AI 여정 계획을 활용한 국제 철도 노선 검색",
@@ -471,10 +475,10 @@ export default function App() {
         malaysia:
           "말레이시아 역 목록(data.gov.my 공식 과거 이용객 데이터 기반). 시간표 및 실시간 도착 정보는 제공되지 않습니다.",
         savedTitle: "즐겨찾기 및 저장된 여정",
-        savedDesc: "Rail Nation에서 저장한 여정, 즐겨찾는 노선, 오프라인 시간표 기록을 확인하세요.",
+        savedDesc: "TransitRail에서 저장한 여정, 즐겨찾는 노선, 오프라인 시간표 기록을 확인하세요.",
         alertsTitle: "교통 알림 및 서비스 업데이트",
         alertsDesc: "이용하시는 노선의 운행 상황과 내 일정의 시각표 변경 및 출발 알림.",
-        feedbackDesc: "Rail Nation에 피드백을 보냅니다.",
+        feedbackDesc: "TransitRail에 피드백을 보냅니다.",
       },
     }[seoLang];
     let title = baseTitle;
@@ -895,7 +899,27 @@ export default function App() {
   };
 
   /** Confirmation for the moment it happens, kept out of the alerts list. */
-  const showSnack = (text: string) => setSnack((current) => ({ id: (current?.id ?? 0) + 1, text }));
+  const showSnack = (
+    text: string,
+    action?: Pick<SnackbarMessage, "actionLabel" | "onAction">,
+  ) => setSnack((current) => ({ id: (current?.id ?? 0) + 1, text, ...action }));
+
+  const handleCountryChange = (country: Country) => {
+    if (country === draftSearch.country) return;
+    const previous = draftSearch;
+    setDraftSearch({
+      origin: "",
+      destination: "",
+      date: providerDateValue(country),
+      country,
+    });
+    if (previous.origin || previous.destination) {
+      showSnack(t("snack.stations_cleared"), {
+        actionLabel: t("snack.undo"),
+        onAction: () => setDraftSearch(previous),
+      });
+    }
+  };
 
   const handleSearch = async (origin: string, destination: string, date: string, country: Country, time?: string) => {
     const params: SearchParams = { origin, destination, date, country, ...(time ? { time } : {}) };
@@ -905,6 +929,8 @@ export default function App() {
     setView("results");
     setError(undefined);
     setNoResultReason(undefined);
+    setFailureKind(undefined);
+    setDeliveryStatus(undefined);
     setCoverageGap(undefined);
     setOfficialSourceUrl(undefined);
     setResults([]);
@@ -956,13 +982,18 @@ export default function App() {
       setServiceDayAdvisory(data.serviceDayAdvisory);
       setDataStatus(data.dataStatus);
 
-      if (!res.ok) {
+      const responseFailureKind = data.failureKind
+        ?? (res.status >= 500 ? "provider_unavailable" : undefined);
+      if (!res.ok || (resultList.length === 0 && data.noResultReason)) {
         const reason = data.noResultReason as SearchResponse["noResultReason"] | undefined;
-        const localizedReason = reason
+        const localizedReason = reason && !responseFailureKind
           ? t(`search.no_result.${reason}`, { defaultValue: data.message || "No timetable data found." })
           : undefined;
-        setError(localizedReason || data.message || "Failed to fetch real-time data.");
+        setError(responseFailureKind
+          ? t("alerts.provider_error_body", { defaultValue: "The timetable source is temporarily unavailable." })
+          : localizedReason || data.message || "Failed to fetch real-time data.");
         setNoResultReason(reason);
+        setFailureKind(responseFailureKind);
         setCoverageGap(data.coverageGap);
         setOfficialSourceUrl(data.officialSourceUrl);
         // The result view already states this miss in the passenger's language,
@@ -1031,6 +1062,7 @@ export default function App() {
           setResults(cached.results);
           setServiceDayAdvisory(cached.serviceDayAdvisory);
           setDataStatus(cached.dataStatus);
+          setDeliveryStatus({ kind: "offline-cache", fetchedAt: cached.fetchedAt });
           showSnack(t("snack.offline_cached"));
           setIsSearching(false);
           return;
@@ -1041,6 +1073,7 @@ export default function App() {
 
       const message = t("alerts.network_error_body");
       setError(message);
+      setFailureKind("network_unavailable");
     } finally {
       setIsSearching(false);
     }
@@ -1462,6 +1495,7 @@ export default function App() {
               onRemoveFavorite={removeFavoriteById}
               onRepeatFavoriteSearch={rerunFavoriteSearch}
               onChange={setDraftSearch}
+              onCountryChange={handleCountryChange}
               onSearch={handleSearch}
               onOpenStations={openStations}
               onOpenWorkflow={() => setView("workflow")}
@@ -1486,9 +1520,14 @@ export default function App() {
       case "results":
         if (isSearching) {
           return (
-            <div className="pt-22 pb-nav min-h-screen bg-transparent max-w-md mx-auto">
-              <ResultSkeleton />
-            </div>
+            <ResultSkeleton
+              country={searchParams.country}
+              origin={searchParams.origin}
+              destination={searchParams.destination}
+              date={searchParams.date}
+              time={searchParams.time}
+              onModify={() => setView("search")}
+            />
           );
         }
         return (
@@ -1500,9 +1539,11 @@ export default function App() {
             time={searchParams.time}
             error={error}
             noResultReason={noResultReason}
+            failureKind={failureKind}
             officialSourceUrl={officialSourceUrl}
             coverageGap={coverageGap}
             dataStatus={dataStatus}
+            deliveryStatus={deliveryStatus}
             results={visibleResults}
             savedIds={savedIds}
             sortMode={sortMode}

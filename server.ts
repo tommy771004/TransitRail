@@ -289,6 +289,7 @@ async function logTransitSearch(
       return res.status(500).json({
         error: "Search failed",
         message: "Transit data is temporarily unavailable. Please try again later.",
+        failureKind: "provider_unavailable",
         referenceId: receipt.id,
         results: [],
       });
@@ -1113,7 +1114,7 @@ async function logTransitSearch(
     const title = `${trip.origin} → ${trip.destination} · ${trip.departureTime}`;
     const description = `${trip.service} · ${trip.date} · ${trip.departureTime} → ${trip.arrivalTime}`;
     res.set("Cache-Control", "public, max-age=300, s-maxage=300");
-    return res.type("html").send(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeSvgText(title)}</title><meta name="robots" content="noindex"><meta property="og:type" content="website"><meta property="og:site_name" content="Rail Nation"><meta property="og:title" content="${escapeSvgText(title)}"><meta property="og:description" content="${escapeSvgText(description)}"><meta property="og:url" content="${escapeSvgText(pageUrl)}"><meta property="og:image" content="${escapeSvgText(imageUrl)}"><meta property="og:image:type" content="image/svg+xml"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escapeSvgText(title)}"><meta name="twitter:description" content="${escapeSvgText(description)}"><meta name="twitter:image" content="${escapeSvgText(imageUrl)}"></head><body><p>${escapeSvgText(description)}</p></body></html>`);
+    return res.type("html").send(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeSvgText(title)}</title><meta name="robots" content="noindex"><meta property="og:type" content="website"><meta property="og:site_name" content="TransitRail"><meta property="og:title" content="${escapeSvgText(title)}"><meta property="og:description" content="${escapeSvgText(description)}"><meta property="og:url" content="${escapeSvgText(pageUrl)}"><meta property="og:image" content="${escapeSvgText(imageUrl)}"><meta property="og:image:type" content="image/svg+xml"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escapeSvgText(title)}"><meta name="twitter:description" content="${escapeSvgText(description)}"><meta name="twitter:image" content="${escapeSvgText(imageUrl)}"></head><body><p>${escapeSvgText(description)}</p></body></html>`);
   });
 
 function escapeSvgText(value: string): string {

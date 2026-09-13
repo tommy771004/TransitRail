@@ -41,6 +41,16 @@ describe("search recovery", () => {
     expect(html).not.toContain("Retry search");
     expect(html).toContain("Change stations or date");
   });
+  it("keeps a provider failure retryable even when the provider also reports no verified data", () => {
+    const html = renderToStaticMarkup(renderMissBlock({
+      ...miss,
+      reason: "no_verified_data",
+      failureKind: "provider_unavailable",
+    }));
+    expect(html).toContain('role="alert"');
+    expect(html).toContain("Retry search");
+    expect(html).toContain("Unable to fetch");
+  });
 });
 
 const resultProps: CountryResultsViewProps = {
@@ -67,6 +77,41 @@ describe("source hierarchy and completeness", () => {
     if (temporalCoverage !== "full-day") expect(html).not.toContain("Full timetable");
     expect(html.indexOf("<main")).toBeLessThan(html.indexOf("Test operator"));
     expect(html.indexOf("</h1>")).toBeLessThan(html.indexOf("Test operator"));
+  });
+  it("keeps offline cache provenance visible beside the original timetable source", () => {
+    const html = renderToStaticMarkup(<CountryResultsView
+      {...resultProps}
+      dataStatus={{ kind: "snapshot", source: "Test operator", sourceUrl: "https://example.com", completeness: "full-timetable" }}
+      deliveryStatus={{ kind: "offline-cache", fetchedAt: "2026-09-13T01:23:00.000Z" }}
+    />);
+    expect(html).toContain("Offline cached result");
+    expect(html).toContain('dateTime="2026-09-13T01:23:00.000Z"');
+    expect(html).toContain("Test operator");
+  });
+  it("announces successful results and places the first trip before supplemental overview content", () => {
+    const html = renderToStaticMarkup(<CountryResultsView
+      {...resultProps}
+      error={undefined}
+      noResultReason={undefined}
+      dataStatus={{ kind: "snapshot", source: "Test operator", sourceUrl: "https://example.com", completeness: "full-timetable" }}
+      results={[{
+        id: "first-trip",
+        country: "japan",
+        operator: "Test operator",
+        service: "FIRST-TRIP-MARKER",
+        departureTime: "10:00",
+        arrivalTime: "12:00",
+        origin: "Asakusa",
+        destination: "Shimbashi",
+        direct: true,
+        stops: [],
+      }]}
+      overview={<div>OVERVIEW-MARKER</div>}
+    />);
+    expect(html).toContain("Found 1 verified departure");
+    expect(html.indexOf("Test operator")).toBeLessThan(html.indexOf("Earliest departure"));
+    expect(html.indexOf("Earliest departure")).toBeLessThan(html.indexOf("FIRST-TRIP-MARKER"));
+    expect(html.indexOf("FIRST-TRIP-MARKER")).toBeLessThan(html.indexOf("OVERVIEW-MARKER"));
   });
 });
 
