@@ -10,6 +10,7 @@ import type { Country, SearchHistoryItem, SearchParams, FavoriteRoute, TimeMode 
 import { searchTimeMode, nearestAvailableDate } from "../utils/searchConditions";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel } from "../utils/stationLabel";
+import { AffiliateMarquee } from "./AffiliateMarquee";
 
 const getDayLabel = (date: Date, offset: number, t: any) => {
   if (offset === 0) return t("search.today", { defaultValue: "今天" });
@@ -695,33 +696,44 @@ export function SearchForm({
           </section>
         )}
 
-        <div className="mt-6 flex flex-col sm:flex-row gap-3">
+        <div className="mt-6 flex flex-row gap-2 sm:gap-3">
           <a
             href="https://roam-jelly-web.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
-            className="m3-button m3-button-icon-leading m3-state flex-1 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300"
+            className="m3-button m3-button-icon-leading m3-state min-w-0 flex-1 whitespace-normal px-2 py-2 text-center text-xs sm:px-4 sm:text-sm bg-emerald-50 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300"
           >
-            <Sparkles aria-hidden="true" className="h-[18px] w-[18px] shrink-0" />
-            <span className="truncate">{t("search.plan_ai", { defaultValue: "AI 行程規劃" })}</span>
+            <Sparkles aria-hidden="true" className="h-4 w-4 shrink-0 sm:h-[18px] sm:w-[18px]" />
+            <span className="min-w-0 leading-tight">{t("search.plan_ai", { defaultValue: "AI 行程規劃" })}</span>
           </a>
 
           <a
             href="https://taiwanrail.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
-            className="m3-button m3-button-icon-leading m3-state flex-1 bg-sky-50 text-sky-800 dark:bg-sky-950/30 dark:text-sky-300"
+            className="m3-button m3-button-icon-leading m3-state min-w-0 flex-1 whitespace-normal px-2 py-2 text-center text-xs sm:px-4 sm:text-sm bg-sky-50 text-sky-800 dark:bg-sky-950/30 dark:text-sky-300"
           >
-            <MapPin aria-hidden="true" className="h-[18px] w-[18px] shrink-0" />
-            <span className="truncate">{t("search.taiwan_rail_link", { defaultValue: "台/鐵/捷運 查詢" })}</span>
+            <MapPin aria-hidden="true" className="h-4 w-4 shrink-0 sm:h-[18px] sm:w-[18px]" />
+            <span className="min-w-0 leading-tight">{t("search.taiwan_rail_link", { defaultValue: "台/鐵/捷運 查詢" })}</span>
           </a>
         </div>
 
+        <AffiliateMarquee variant="inline" />
+
         {/* Popular Routes Section */}
-        <div className="mt-10">
-          <h2 className="m3-headline-small mb-4 text-slate-900 dark:text-white">
-            {t("search.popular_routes", { defaultValue: "熱門路線" })}
-          </h2>
+        <div className="mt-8">
+          <div className="mb-4 flex min-w-0 items-center justify-between gap-2">
+            <h2 className="m3-headline-small min-w-0 text-slate-900 dark:text-white">
+              {t("search.popular_routes", { defaultValue: "熱門路線" })}
+            </h2>
+            {/* Crawlable path from the home page to the prerendered route pages. */}
+            <a
+              href={i18n.language === "zh-TW" ? "/zh/routes/" : i18n.language === "ja" ? "/ja/routes/" : i18n.language === "ko" ? "/ko/routes/" : "/routes/"}
+              className="m3-state m3-shape-sm m3-label-medium flex min-h-12 max-w-[55%] shrink-0 items-center justify-end px-2 py-1 text-right leading-tight text-slate-500 dark:text-slate-400"
+            >
+              {t("nav.route_directory")} →
+            </a>
+          </div>
           <div className="flex gap-3 overflow-x-auto px-0.5 pb-2 soft-scrollbar">
             {hotRoutes.map((route) => {
               const routeTheme = countryThemes[route.country as Country] || theme;

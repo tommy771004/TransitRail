@@ -316,10 +316,12 @@ export const tripCardClass =
 export function tripCardMotion(index: number, withExit = false): MotionProps {
   return {
     layout: true,
-    initial: false,
+    initial: { opacity: 0 },
+    whileInView: { opacity: 1 },
+    viewport: { once: true, amount: 0.12, margin: "0px 0px -32px 0px" },
     ...(withExit ? { exit: { opacity: 0, y: -12 } } : {}),
     // M3 "emphasized" easing — cubic-bezier(0.2, 0, 0, 1) — matches --ease-m3-emphasized.
-    transition: { duration: 0.3, ease: [0.2, 0, 0, 1], delay: index * 0.03 },
+    transition: { duration: 0.3, ease: [0.2, 0, 0, 1], delay: Math.min(index, 3) * 0.035 },
   };
 }
 

@@ -17,6 +17,7 @@
  */
 import { mkdirSync, rmSync, writeFileSync } from "fs";
 import { join, resolve } from "path";
+import { pathToFileURL } from "url";
 import i18n from "../src/i18n";
 import { stationOverrides } from "../src/data/stationOverrides";
 import { generatedStationLabel, type GeneratedStationLocale } from "../src/data/generatedStationLabels";
@@ -33,6 +34,7 @@ import {
   type RoutePageData,
 } from "./lib/routePages";
 import type { Country, TransitResult } from "../src/types";
+import { languageForTimezone } from "../src/utils/languagePreference";
 
 const SITE_URL = (process.env.SITE_URL || "https://rail-national.vercel.app").replace(/\/$/, "");
 const PUBLIC_DIR = resolve("public");
@@ -42,6 +44,26 @@ const MAX_RELATED_LINKS = 6;
 
 type Lang = PrerenderLocale;
 const ALL_LANGS = PRERENDER_LOCALES;
+const ROUTE_LANGUAGE_STORAGE_KEY = "railnation:route-lang";
+const REGIONAL_TIMEZONES = [
+  "Asia/Chongqing",
+  "Asia/Harbin",
+  "Asia/Seoul",
+  "Asia/Shanghai",
+  "Asia/Taipei",
+  "Asia/Tokyo",
+  "Asia/Urumqi",
+  "Japan",
+  "PRC",
+  "ROC",
+  "ROK",
+] as const;
+const ROUTE_LANGUAGE_BY_TIMEZONE = Object.fromEntries(
+  REGIONAL_TIMEZONES.map((timezone) => {
+    const language = languageForTimezone(timezone);
+    return [timezone, language === "zh-TW" ? "zh" : language];
+  }),
+) as Record<string, Lang>;
 const HUB_PATH = Object.fromEntries(
   ALL_LANGS.map((lang) => [lang, localeUrlPath("/routes/", lang)]),
 ) as Record<Lang, string>;
@@ -173,6 +195,10 @@ interface UiBundle {
   shortLabel: string;
   home: string;
   allRoutes: string;
+  languageLabel: string;
+  countryFilterLabel: string;
+  allCountries: string;
+  countriesOnHub: (n: number) => string;
   trainsPerDay: string;
   firstDeparture: string;
   lastDeparture: string;
@@ -213,7 +239,6 @@ interface UiBundle {
   routesHubDescription: string;
   routesOnHub: (n: number) => string;
   countryApp: (c: string) => string;
-  countryHubTitle: (c: string) => string;
   countryHubDescription: (c: string, n: number) => string;
   countryHubIntro: (c: string) => string;
   sourceLabel: string;
@@ -236,6 +261,10 @@ const UI: Record<Lang, UiBundle> = {
     shortLabel: "EN",
     home: "Home",
     allRoutes: "All routes",
+    languageLabel: "Language",
+    countryFilterLabel: "Filter by country",
+    allCountries: "All countries",
+    countriesOnHub: (n: number) => `${n} countries`,
     trainsPerDay: "trains/day",
     firstDeparture: "First departure",
     lastDeparture: "Last departure",
@@ -288,7 +317,6 @@ const UI: Record<Lang, UiBundle> = {
       "Browse every origin–destination timetable on TransitRail: departure times, journey duration, transfers and fares across Asia, Europe and North America.",
     routesOnHub: (n: number) => `${n} routes`,
     countryApp: (c: string) => `Open ${c} in the planner`,
-    countryHubTitle: (c: string) => `${c} train & transit routes`,
     countryHubDescription: (c: string, n: number) =>
       `Browse ${n} origin–destination timetable pages for ${c}: departure times, duration, transfers and fares on TransitRail.`,
     countryHubIntro: (c: string) =>
@@ -317,6 +345,10 @@ const UI: Record<Lang, UiBundle> = {
     shortLabel: "中文",
     home: "首頁",
     allRoutes: "所有路線",
+    languageLabel: "語言",
+    countryFilterLabel: "依國家篩選",
+    allCountries: "所有國家",
+    countriesOnHub: (n: number) => `${n} 個國家`,
     trainsPerDay: "班/日",
     firstDeparture: "首班車",
     lastDeparture: "末班車",
@@ -368,7 +400,6 @@ const UI: Record<Lang, UiBundle> = {
       "瀏覽 TransitRail 全部起訖站時刻表：出發時間、行車時間、轉乘與票價，涵蓋亞洲、歐洲與北美。",
     routesOnHub: (n: number) => `${n} 條路線`,
     countryApp: (c: string) => `在查詢工具中開啟${c}`,
-    countryHubTitle: (c: string) => `${c}列車與大眾運輸路線`,
     countryHubDescription: (c: string, n: number) =>
       `瀏覽 ${c} ${n} 條起訖站時刻表頁：出發時間、行車時間、轉乘與票價 — TransitRail。`,
     countryHubIntro: (c: string) =>
@@ -395,6 +426,10 @@ const UI: Record<Lang, UiBundle> = {
     shortLabel: "日本語",
     home: "ホーム",
     allRoutes: "全路線",
+    languageLabel: "言語",
+    countryFilterLabel: "国で絞り込む",
+    allCountries: "すべての国",
+    countriesOnHub: (n: number) => `${n}か国`,
     trainsPerDay: "本/日",
     firstDeparture: "始発",
     lastDeparture: "終電",
@@ -446,7 +481,6 @@ const UI: Record<Lang, UiBundle> = {
       "TransitRailに掲載されている全ての出発地・到着地の時刻表を検索：発車時刻、所要時間、乗換、運賃をアジア・ヨーロッパ・北米で網羅。",
     routesOnHub: (n: number) => `${n} 路線`,
     countryApp: (c: string) => `アプリで${c}を開く`,
-    countryHubTitle: (c: string) => `${c}の鉄道・交通路線`,
     countryHubDescription: (c: string, n: number) =>
       `${c}の出発地・到着地時刻表ページ${n}件：発車時刻、所要時間、乗換、運賃をTransitRailで。`,
     countryHubIntro: (c: string) =>
@@ -474,6 +508,10 @@ const UI: Record<Lang, UiBundle> = {
     shortLabel: "한국어",
     home: "홈",
     allRoutes: "전체 노선",
+    languageLabel: "언어",
+    countryFilterLabel: "국가별 필터",
+    allCountries: "모든 국가",
+    countriesOnHub: (n: number) => `${n}개 국가`,
     trainsPerDay: "편/일",
     firstDeparture: "첫차",
     lastDeparture: "막차",
@@ -525,7 +563,6 @@ const UI: Record<Lang, UiBundle> = {
       "TransitRail에 등록된 모든 출발지-도착지 시간표를 살펴보세요: 출발 시각, 소요 시간, 환승, 요금까지 아시아・유럽・북미를 아우릅니다.",
     routesOnHub: (n: number) => `${n}개 노선`,
     countryApp: (c: string) => `앱에서 ${c} 열기`,
-    countryHubTitle: (c: string) => `${c} 철도·대중교통 노선`,
     countryHubDescription: (c: string, n: number) =>
       `${c} 출발지–도착지 시간표 페이지 ${n}개: 출발 시각, 소요 시간, 환승, 요금 — TransitRail.`,
     countryHubIntro: (c: string) =>
@@ -553,6 +590,10 @@ const UI: Record<Lang, UiBundle> = {
     shortLabel: "FR",
     home: "Accueil",
     allRoutes: "Toutes les lignes",
+    languageLabel: "Langue",
+    countryFilterLabel: "Filtrer par pays",
+    allCountries: "Tous les pays",
+    countriesOnHub: (n: number) => `${n} pays`,
     trainsPerDay: "trains/jour",
     firstDeparture: "Premier départ",
     lastDeparture: "Dernier départ",
@@ -605,7 +646,6 @@ const UI: Record<Lang, UiBundle> = {
       "Parcourez tous les horaires origine–destination de TransitRail : heures de départ, durée du trajet, correspondances et tarifs en Asie, en Europe et en Amérique du Nord.",
     routesOnHub: (n: number) => `${n} lignes`,
     countryApp: (c: string) => `Ouvrir ${c} dans le planificateur`,
-    countryHubTitle: (c: string) => `Lignes de train et de transport en ${c}`,
     countryHubDescription: (c: string, n: number) =>
       `Parcourez ${n} pages d'horaires origine–destination pour ${c} : heures de départ, durée, correspondances et tarifs sur TransitRail.`,
     countryHubIntro: (c: string) =>
@@ -634,6 +674,10 @@ const UI: Record<Lang, UiBundle> = {
     shortLabel: "DE",
     home: "Startseite",
     allRoutes: "Alle Strecken",
+    languageLabel: "Sprache",
+    countryFilterLabel: "Nach Land filtern",
+    allCountries: "Alle Länder",
+    countriesOnHub: (n: number) => `${n} Länder`,
     trainsPerDay: "Züge/Tag",
     firstDeparture: "Erste Abfahrt",
     lastDeparture: "Letzte Abfahrt",
@@ -686,7 +730,6 @@ const UI: Record<Lang, UiBundle> = {
       "Alle Start-Ziel-Fahrpläne auf TransitRail durchsuchen: Abfahrtszeiten, Fahrzeit, Umstiege und Preise in Asien, Europa und Nordamerika.",
     routesOnHub: (n: number) => `${n} Strecken`,
     countryApp: (c: string) => `${c} im Planer öffnen`,
-    countryHubTitle: (c: string) => `Zug- und Nahverkehrsstrecken in ${c}`,
     countryHubDescription: (c: string, n: number) =>
       `${n} Start-Ziel-Fahrplanseiten für ${c} durchsuchen: Abfahrtszeiten, Dauer, Umstiege und Preise auf TransitRail.`,
     countryHubIntro: (c: string) =>
@@ -872,36 +915,30 @@ function computeStats(results: TransitResult[]): RouteStats {
 }
 
 const PAGE_CSS = `
-:root{color-scheme:light dark;--bg:#f8fafc;--card:#ffffff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#0f766e;--accent-ink:#ffffff}
-@media(prefers-color-scheme:dark){:root{--bg:#0f172a;--card:#1e293b;--ink:#f1f5f9;--muted:#94a3b8;--line:#334155;--accent:#2dd4bf;--accent-ink:#042f2e}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans TC","Noto Sans JP","Noto Sans KR",sans-serif}
-main{max-width:56rem;margin:0 auto;padding:1rem 1rem 3rem}
-nav.crumbs{font-size:.85rem;color:var(--muted);padding:.75rem 0}nav.crumbs a{color:var(--muted)}
-h1{font-size:1.6rem;line-height:1.3;margin:.25rem 0 1rem}h2{font-size:1.15rem;margin:2rem 0 .75rem}
-a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:.5rem;margin:1rem 0}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:.75rem;padding:.75rem}
-.stat .k{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
-.stat .v{font-size:1.2rem;font-weight:600;font-variant-numeric:tabular-nums}
-.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:.75rem;background:var(--card)}
-table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:34rem}
-th,td{padding:.5rem .75rem;text-align:left;white-space:nowrap}
-th{font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);border-bottom:1px solid var(--line)}
-tbody tr:nth-child(even){background:color-mix(in srgb,var(--line) 30%,transparent)}
-td.num{font-variant-numeric:tabular-nums}
-.note{font-size:.85rem;color:var(--muted);margin:.5rem 0 0}
-.notice{background:color-mix(in srgb,var(--accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);border-radius:.75rem;padding:.7rem .9rem;margin:1rem 0;font-size:.88rem}
-.updated{font-size:.8rem;color:var(--muted);margin:0 0 .5rem}
-.cta{display:inline-block;background:var(--accent);color:var(--accent-ink);font-weight:600;border-radius:.75rem;padding:.7rem 1.2rem;margin:1.25rem 0}
-.cta:hover{text-decoration:none;opacity:.9}
-ul.links{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:.4rem}
-ul.links li{background:var(--card);border:1px solid var(--line);border-radius:.6rem}
-ul.links a{display:block;padding:.55rem .8rem}
-details{background:var(--card);border:1px solid var(--line);border-radius:.6rem;margin:.4rem 0;padding:.6rem .9rem}
-summary{cursor:pointer;font-weight:600}
-footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted)}
-header.top{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.75rem 0;border-bottom:1px solid var(--line)}
-header.top .brand{font-weight:700;color:var(--ink)}
+:root{color-scheme:light dark;--bg:#f6f8fb;--card:#fff;--card-soft:#f8fafc;--ink:#0f172a;--muted:#64748b;--line:#dbe3ec;--accent:#0f766e;--accent-soft:#ccfbf1;--accent-ink:#fff;--shadow:0 18px 50px rgba(15,23,42,.08)}
+@media(prefers-color-scheme:dark){:root{--bg:#08111f;--card:#111d2e;--card-soft:#172438;--ink:#f1f5f9;--muted:#9aa9bc;--line:#2b3a4f;--accent:#5eead4;--accent-soft:#123e3b;--accent-ink:#042f2e;--shadow:0 20px 54px rgba(0,0,0,.3)}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 50% -8rem,color-mix(in srgb,var(--accent) 10%,transparent),transparent 34rem),var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans TC","Noto Sans JP","Noto Sans KR",sans-serif}
+button,select{font:inherit}button{color:inherit}main{width:min(100%,72rem);margin:0 auto;padding:0 1.25rem 4rem}
+a{color:var(--accent);text-decoration:none;text-underline-offset:.18em}a:hover{text-decoration:underline}a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:3px}
+header.top{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:4.5rem;border-bottom:1px solid color-mix(in srgb,var(--line) 80%,transparent);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(18px)}
+header.top .brand{color:var(--ink);font-size:1.05rem;font-weight:800;letter-spacing:-.02em}header.top .header-actions{display:flex;align-items:center;gap:.75rem}header.top .all-routes{display:none;font-size:.88rem;font-weight:650;color:var(--muted)}
+.language-picker{position:relative;display:flex;align-items:center}.language-picker label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.language-picker select{height:2.65rem;min-width:7rem;cursor:pointer;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);padding:.45rem .8rem;font-size:.86rem;font-weight:700;box-shadow:0 2px 8px rgba(15,23,42,.05)}
+nav.crumbs{font-size:.84rem;color:var(--muted);padding:1.1rem 0 .8rem}nav.crumbs a{color:var(--muted)}
+h1{max-width:48rem;font-size:clamp(1.9rem,4.4vw,3.25rem);line-height:1.12;letter-spacing:-.035em;margin:.3rem 0 1rem}h2{font-size:1.2rem;line-height:1.3;margin:2rem 0 .8rem}p{max-width:48rem}
+.hero{margin:.25rem 0 1.25rem;padding:0;overflow:hidden;border:1px solid var(--line);border-radius:1.5rem;background:linear-gradient(145deg,var(--card),color-mix(in srgb,var(--accent-soft) 36%,var(--card)));box-shadow:var(--shadow)}.hero-summary{padding:1.1rem 1.35rem;transition:background-color .16s ease}.hero-summary:hover{background:color-mix(in srgb,var(--accent-soft) 28%,transparent)}.hero-summary::marker{color:var(--accent)}.hero-summary-heading{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:1rem;max-width:none;margin:0;font-size:inherit;letter-spacing:normal}.hero-title{display:block;font-size:clamp(1.3rem,3vw,1.8rem);line-height:1.2;letter-spacing:-.025em}.hero-details{padding:1.15rem 1.35rem 1.3rem;border-top:1px solid color-mix(in srgb,var(--line) 75%,transparent)}.eyebrow{margin:0 0 .45rem;color:var(--accent);font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.hero-description{margin:0;color:var(--muted);font-size:1.02rem}.hero-meta{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:.55rem}.meta-pill{display:inline-flex;align-items:center;min-height:2.25rem;border:1px solid color-mix(in srgb,var(--accent) 24%,var(--line));border-radius:999px;background:color-mix(in srgb,var(--card) 72%,transparent);padding:.35rem .8rem;font-size:.82rem;font-weight:700;color:var(--muted);white-space:nowrap}
+.route-directory-layout{display:grid;grid-template-columns:14.5rem minmax(0,1fr);align-items:start;gap:1.25rem;margin-top:1rem}.directory-tools{position:sticky;top:5.35rem;z-index:8;padding:1rem;border:1px solid var(--line);border-radius:1.15rem;background:color-mix(in srgb,var(--card) 94%,transparent);box-shadow:0 7px 24px rgba(15,23,42,.045)}.directory-toolbar{margin:0 0 .75rem}.directory-toolbar h2{margin:0;font-size:1rem}.route-results{min-width:0}.results-heading{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;min-height:3.1rem;padding:.45rem .2rem .65rem}.results-heading h2{margin:0;font-size:1rem}.route-summary{color:var(--muted);font-size:.84rem;font-weight:650;text-align:right}
+.country-filter{display:flex;flex-direction:column;gap:.45rem}.country-chip{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:2.75rem;cursor:pointer;border:1px solid transparent;border-radius:.8rem;background:transparent;padding:.5rem .7rem;text-align:left;font-size:.86rem;font-weight:700}.country-chip:hover{border-color:var(--line);background:var(--card-soft)}.country-chip[aria-pressed="true"]{border-color:color-mix(in srgb,var(--accent) 42%,var(--line));background:var(--accent-soft);color:color-mix(in srgb,var(--accent) 76%,var(--ink));box-shadow:inset 3px 0 0 var(--accent)}.chip-count{margin-left:.55rem;opacity:.72;font-variant-numeric:tabular-nums}
+.country-section{margin:1rem 0 1.4rem;padding:1.15rem;border:1px solid var(--line);border-radius:1.25rem;background:color-mix(in srgb,var(--card) 92%,transparent);box-shadow:0 7px 24px rgba(15,23,42,.045);scroll-margin-top:11rem}.country-section[hidden]{display:none}.section-heading{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin:0 0 .85rem}.section-heading h2{margin:0;font-size:1.18rem}.section-heading small{color:var(--muted);font-size:.78rem;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:.6rem;margin:1.1rem 0}.stat{background:var(--card);border:1px solid var(--line);border-radius:.9rem;padding:.85rem}.stat .k{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}.stat .v{font-size:1.2rem;font-weight:700;font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:.9rem;background:var(--card);box-shadow:0 5px 18px rgba(15,23,42,.04)}table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:34rem}th,td{padding:.6rem .8rem;text-align:left;white-space:nowrap}th{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);border-bottom:1px solid var(--line)}tbody tr:nth-child(even){background:color-mix(in srgb,var(--line) 24%,transparent)}td.num{font-variant-numeric:tabular-nums}
+.note{font-size:.85rem;color:var(--muted);margin:.55rem 0 0}.notice{background:color-mix(in srgb,var(--accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);border-radius:.85rem;padding:.8rem 1rem;margin:1rem 0;font-size:.88rem}.updated{font-size:.8rem;color:var(--muted);margin:0 0 .5rem}.cta{display:inline-flex;align-items:center;min-height:2.85rem;background:var(--accent);color:var(--accent-ink);font-weight:750;border-radius:999px;padding:.65rem 1.25rem;margin:1.25rem 0;box-shadow:0 7px 20px color-mix(in srgb,var(--accent) 20%,transparent)}.cta:hover{text-decoration:none;filter:brightness(.97)}
+ul.links{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(17rem,100%),1fr));gap:.5rem}ul.links li{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:.85rem;overflow:hidden}.route-card{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:.75rem;min-height:3.2rem;padding:.65rem .8rem;color:var(--ink)}.route-card:hover{background:var(--card-soft);text-decoration:none}.route-pair{display:flex;align-items:center;min-width:0;gap:.45rem;font-weight:750;line-height:1.35}.route-pair>span:not(.route-arrow){min-width:0;overflow-wrap:anywhere}.route-arrow{flex:0 0 auto;color:var(--accent);font-size:1.05rem}.route-action{display:flex;align-items:center;gap:.25rem;color:var(--accent);font-size:.78rem;font-weight:700;white-space:nowrap}
+.scroll-fade{opacity:0;transition:opacity .45s cubic-bezier(.2,0,0,1);transition-delay:var(--scroll-fade-delay,0ms)}.scroll-fade.is-visible{opacity:1}
+ul.links a:not(.route-card){display:block;padding:.65rem .85rem}details{background:var(--card);border:1px solid var(--line);border-radius:.75rem;margin:.45rem 0;padding:.65rem .9rem}summary{cursor:pointer;font-weight:650}footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted)}
+@media(min-width:42rem){header.top .all-routes{display:inline}main{padding-inline:1.75rem}.country-section{padding:1.35rem}}
+@media(max-width:42rem){.route-directory-layout{display:block}.directory-tools{top:4.45rem;margin:0 0 .65rem;padding:.85rem 0 .35rem;border:0;border-radius:0;background:linear-gradient(var(--bg) 82%,transparent);box-shadow:none}.directory-toolbar{padding:0 .15rem}.country-filter{flex-direction:row;gap:.55rem;overflow-x:auto;padding:.15rem .15rem .65rem;scrollbar-width:thin;scroll-snap-type:x proximity}.country-chip{flex:0 0 auto;width:auto;scroll-snap-align:start;justify-content:center;border-color:var(--line);border-radius:999px;background:var(--card);padding:.5rem .9rem}.country-chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink);box-shadow:0 6px 18px color-mix(in srgb,var(--accent) 22%,transparent)}.results-heading{min-height:2.8rem}}
+@media(max-width:32rem){main{padding-inline:1rem}.hero{border-radius:1.15rem}.hero-summary{padding:1rem 1.1rem}.hero-summary-heading{grid-template-columns:1fr;gap:.7rem}.hero-meta{justify-content:flex-start}.hero-details{padding:1rem 1.1rem 1.15rem}.section-heading{align-items:flex-start;flex-direction:column;gap:.25rem}.country-section{padding:.9rem}.route-card{gap:.55rem;padding:.6rem .7rem}.language-picker select{min-width:6.25rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.scroll-fade{opacity:1;transition:none}}
 `.trim();
 
 function htmlShell(options: {
@@ -918,9 +955,15 @@ function htmlShell(options: {
   const { lang, title, description, paths, ogImagePath, geo, body, jsonLd } = options;
   const ui = UI[lang];
   const path = paths[lang];
-  const langSwitcher = ALL_LANGS.filter((l) => l !== lang)
-    .map((l) => `<a href="${paths[l]}" hreflang="${HREFLANG[l]}">${UI[l].shortLabel}</a>`)
-    .join(" · ");
+  const languageOptions = ALL_LANGS
+    .map((l) => `<option value="${l}"${l === lang ? " selected" : ""}>${UI[l].shortLabel}</option>`)
+    .join("");
+  const serializedPaths = JSON.stringify(paths);
+  const autoLanguageScript = lang === "en"
+    ? `<script>
+(()=>{try{const paths=${serializedPaths};const saved=localStorage.getItem(${JSON.stringify(ROUTE_LANGUAGE_STORAGE_KEY)});const timezone=Intl.DateTimeFormat().resolvedOptions().timeZone;const preferred=saved||(${JSON.stringify(ROUTE_LANGUAGE_BY_TIMEZONE)})[timezone]||"en";if(preferred!=="en"&&paths[preferred])location.replace(paths[preferred]+location.hash)}catch{}})();
+</script>`
+    : "";
   const geoTags = geo
     ? `<meta name="geo.region" content="${esc(geo.region)}">
 <meta name="geo.placename" content="${esc(geo.placename)}">
@@ -951,15 +994,68 @@ ${ogImagePath ? `<meta property="og:image" content="${SITE_URL}${ogImagePath}">
 <meta name="twitter:image" content="${SITE_URL}${ogImagePath}">` : ""}
 <meta name="robots" content="index, follow">
 <style>${PAGE_CSS}</style>
+${autoLanguageScript}
 ${jsonLd.map((entry) => `<script type="application/ld+json">${JSON.stringify(entry)}</script>`).join("\n")}
 </head>
 <body>
 <main>
 <header class="top">
 <a class="brand" href="/">${ui.siteName}</a>
-<span><a href="${HUB_PATH[lang]}">${ui.allRoutes}</a> · ${langSwitcher}</span>
+<div class="header-actions">
+<a class="all-routes" href="${HUB_PATH[lang]}">${ui.allRoutes}</a>
+<div class="language-picker">
+<label for="language-select">${ui.languageLabel}</label>
+<select id="language-select" aria-label="${ui.languageLabel}">${languageOptions}</select>
+</div>
+</div>
 </header>
 ${body}
+<script>
+(()=>{
+  const paths=${serializedPaths};
+  const languageSelect=document.getElementById("language-select");
+  languageSelect?.addEventListener("change",(event)=>{
+    const next=event.currentTarget.value;
+    try{localStorage.setItem(${JSON.stringify(ROUTE_LANGUAGE_STORAGE_KEY)},next)}catch{}
+    if(paths[next])location.assign(paths[next]+location.hash);
+  });
+
+  const reduceMotion=window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  if(!reduceMotion&&"IntersectionObserver" in window){
+    const revealRows=[...document.querySelectorAll("tbody>tr, ul.links>li")];
+    const observer=new IntersectionObserver((entries)=>{
+      let visibleIndex=0;
+      for(const entry of entries){
+        if(!entry.isIntersecting)continue;
+        entry.target.style.setProperty("--scroll-fade-delay",Math.min(visibleIndex*35,105)+"ms");
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+        visibleIndex+=1;
+      }
+    },{rootMargin:"0px 0px -8% 0px",threshold:.08});
+    for(const row of revealRows){
+      if(row.getBoundingClientRect().top<=window.innerHeight*.9)continue;
+      row.classList.add("scroll-fade");
+      observer.observe(row);
+    }
+  }
+
+  const filters=[...document.querySelectorAll("[data-country-filter]")];
+  const sections=[...document.querySelectorAll("[data-country-section]")];
+  const summary=document.getElementById("route-summary");
+  if(filters.length===0||sections.length===0)return;
+  const applyFilter=(country,updateUrl=true)=>{
+    const active=filters.some((button)=>button.dataset.countryFilter===country)?country:"all";
+    for(const button of filters){button.setAttribute("aria-pressed",String(button.dataset.countryFilter===active))}
+    for(const section of sections){section.hidden=active!=="all"&&section.dataset.countrySection!==active}
+    const selected=filters.find((button)=>button.dataset.countryFilter===active);
+    if(summary&&selected)summary.textContent=selected.dataset.summary||selected.textContent||"";
+    if(updateUrl){const next=active==="all"?location.pathname+location.search:"#"+active;history.replaceState(null,"",next)}
+  };
+  for(const button of filters){button.addEventListener("click",()=>applyFilter(button.dataset.countryFilter||"all"))}
+  applyFilter(location.hash.slice(1)||"all",false);
+})();
+</script>
 </main>
 </body>
 </html>
@@ -1186,12 +1282,28 @@ ${relatedSection}
   return htmlShell({ lang, title, description, paths, ogImagePath, body, jsonLd });
 }
 
+function renderRouteList(pages: RoutePageData[], lang: Lang): string {
+  const ui = UI[lang];
+  return `<ul class="links">
+${pages.map((page) => {
+    const origin = displayStationName(page.origin, page.country, lang);
+    const destination = displayStationName(page.destination, page.country, lang);
+    const label = `${origin} → ${destination}, ${ui.timetable}`;
+    return `<li><a class="route-card" href="${pagePath(page, lang)}" aria-label="${esc(label)}">
+<span class="route-pair"><span>${esc(origin)}</span><span class="route-arrow" aria-hidden="true">→</span><span>${esc(destination)}</span></span>
+<span class="route-action">${ui.timetable}<span aria-hidden="true">›</span></span>
+</a></li>`;
+  }).join("\n")}
+</ul>`;
+}
+
 function renderCountryHubPage(country: Country, countryPages: RoutePageData[], lang: Lang): string {
   const ui = UI[lang];
   const label = countryLabel(country, lang);
   const paths = countryHubPaths(country);
   const geo = COUNTRY_GEO[country];
-  const title = buildHubTitle(ui.countryHubTitle(label), ui);
+  const countryPageTitle = `${label} · ${ui.allRoutes}`;
+  const title = buildHubTitle(countryPageTitle, ui);
   const description = ui.countryHubDescription(label, countryPages.length);
 
   const jsonLd: object[] = [
@@ -1207,7 +1319,7 @@ function renderCountryHubPage(country: Country, countryPages: RoutePageData[], l
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      name: ui.countryHubTitle(label),
+      name: countryPageTitle,
       description,
       url: `${SITE_URL}${paths[lang]}`,
       inLanguage: ui.langCode,
@@ -1240,17 +1352,15 @@ function renderCountryHubPage(country: Country, countryPages: RoutePageData[], l
 
   const body = `
 <nav class="crumbs"><a href="/">${ui.home}</a> › <a href="${HUB_PATH[lang]}">${ui.breadcrumbRoutes}</a> › ${esc(label)}</nav>
-<h1>${esc(ui.countryHubTitle(label))}</h1>
+<h1>${esc(label)}</h1>
 <p>${esc(ui.countryHubIntro(label))}</p>
 <div class="stats">
 <div class="stat"><div class="k">${ui.breadcrumbRoutes}</div><div class="v">${countryPages.length}</div></div>
 ${geo ? `<div class="stat"><div class="k">GEO</div><div class="v">${esc(geo.placename)}</div></div>` : ""}
 </div>
 <a class="cta" href="${COUNTRY_PATHS[country]}">${esc(ui.countryApp(label))} →</a>
-<h2>${esc(label)} <small>(${ui.routesOnHub(countryPages.length)})</small></h2>
-<ul class="links">
-${countryPages.map((p) => `<li><a href="${pagePath(p, lang)}">${esc(displayStationName(p.origin, country, lang))} → ${esc(displayStationName(p.destination, country, lang))}</a></li>`).join("\n")}
-</ul>
+<h2>${ui.allRoutes} <small>(${ui.routesOnHub(countryPages.length)})</small></h2>
+${renderRouteList(countryPages, lang)}
 <footer><p>${ui.disclaimer}</p></footer>`;
 
   return htmlShell({
@@ -1264,7 +1374,7 @@ ${countryPages.map((p) => `<li><a href="${pagePath(p, lang)}">${esc(displayStati
   });
 }
 
-function renderHubPage(pages: RoutePageData[], lang: Lang): string {
+export function renderHubPage(pages: RoutePageData[], lang: Lang): string {
   const ui = UI[lang];
   const paths = HUB_PATH;
   const byCountry = new Map<Country, RoutePageData[]>();
@@ -1272,16 +1382,25 @@ function renderHubPage(pages: RoutePageData[], lang: Lang): string {
     byCountry.set(page.country, [...(byCountry.get(page.country) || []), page]);
   }
 
-  const sections = [...byCountry.entries()]
-    .sort(([a], [b]) => (byCountry.get(b)!.length - byCountry.get(a)!.length) || a.localeCompare(b))
+  const countryEntries = [...byCountry.entries()]
+    .sort(([a], [b]) => (byCountry.get(b)!.length - byCountry.get(a)!.length) || a.localeCompare(b));
+  const countryFilters = countryEntries
+    .map(([country, countryPages]) => {
+      const label = countryLabel(country, lang);
+      const summary = `${label} · ${ui.routesOnHub(countryPages.length)}`;
+      return `<button class="country-chip" type="button" data-country-filter="${country}" data-summary="${esc(summary)}" aria-pressed="false">${esc(label)}<span class="chip-count">${countryPages.length}</span></button>`;
+    })
+    .join("\n");
+  const sections = countryEntries
     .map(([country, countryPages]) => {
       const label = countryLabel(country, lang);
       const hub = countryHubPaths(country)[lang];
-      return `<h2><a href="${hub}">${esc(label)}</a> <small>(${ui.routesOnHub(countryPages.length)})</small></h2>
-<ul class="links">
-${countryPages.map((p) => `<li><a href="${pagePath(p, lang)}">${esc(displayStationName(p.origin, country, lang))} → ${esc(displayStationName(p.destination, country, lang))}</a></li>`).join("\n")}
-</ul>
-<p class="note"><a href="${hub}">${esc(ui.countryHubTitle(label))} →</a></p>`;
+      return `<section class="country-section" id="${country}" data-country-section="${country}" aria-labelledby="${country}-heading">
+<div class="section-heading">
+<h2 id="${country}-heading"><a href="${hub}">${esc(label)}</a> <small>${ui.routesOnHub(countryPages.length)}</small></h2>
+</div>
+${renderRouteList(countryPages, lang)}
+</section>`;
     }).join("\n");
 
   const jsonLd: object[] = [
@@ -1297,9 +1416,39 @@ ${countryPages.map((p) => `<li><a href="${pagePath(p, lang)}">${esc(displayStati
 
   const body = `
 <nav class="crumbs"><a href="/">${ui.home}</a> › ${ui.breadcrumbRoutes}</nav>
-<h1>${ui.routesHubTitle}</h1>
-<p>${ui.routesHubDescription}</p>
+<details class="hero hero-disclosure">
+<summary class="hero-summary">
+<h1 class="hero-summary-heading">
+<span class="hero-title">${ui.routesHubTitle}</span>
+<span class="hero-meta">
+<span class="meta-pill">${ui.routesOnHub(pages.length)}</span>
+<span class="meta-pill">${ui.countriesOnHub(countryEntries.length)}</span>
+</span>
+</h1>
+</summary>
+<div class="hero-details">
+<p class="eyebrow">${ui.siteName} · ${ui.breadcrumbRoutes}</p>
+<p class="hero-description">${ui.routesHubDescription}</p>
+</div>
+</details>
+<section class="route-directory-layout" aria-labelledby="country-filter-heading">
+<aside class="directory-tools">
+<div class="directory-toolbar">
+<h2 id="country-filter-heading">${ui.countryFilterLabel}</h2>
+</div>
+<div class="country-filter" aria-label="${ui.countryFilterLabel}">
+<button class="country-chip" type="button" data-country-filter="all" data-summary="${esc(ui.routesOnHub(pages.length))}" aria-pressed="true">${ui.allCountries}<span class="chip-count">${countryEntries.length}</span></button>
+${countryFilters}
+</div>
+</aside>
+<div class="route-results">
+<div class="results-heading">
+<h2>${ui.allRoutes}</h2>
+<output id="route-summary" class="route-summary" aria-live="polite">${ui.routesOnHub(pages.length)}</output>
+</div>
 ${sections}
+</div>
+</section>
 <footer><p>${ui.disclaimer}</p></footer>`;
 
   return htmlShell({
@@ -1324,7 +1473,7 @@ function writeRouteOgImage(page: RoutePageData, lang: Lang): void {
   writeFileSync(join(dir, `${page.slug}-${lang}.svg`), renderRouteOgSvg(page, lang), "utf8");
 }
 
-function main(): void {
+export function main(): void {
   const pages = collectRoutePages();
 
   // These roots are owned by this generator; anything inside is regenerated
@@ -1368,4 +1517,6 @@ function main(): void {
   );
 }
 
-main();
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  main();
+}

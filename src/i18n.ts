@@ -7,6 +7,7 @@ import translations from './data/translations.json';
 import { additionalStationZhTW } from './data/stationTranslations';
 import { seoulSubwayTranslationsZhTW } from './data/seoulSubwayTranslations';
 import { transferTranslations } from './data/transfers/translations';
+import { deviceTimezone, languageForTimezone } from './utils/languagePreference';
 
 const resources = {
   en: {
@@ -2964,8 +2965,8 @@ const SUPPORTED_LANGUAGES = ['zh-TW', 'ja', 'ko', 'en'] as const;
 const LANGUAGE_STORAGE_KEY = 'railnation:lang';
 
 // Pick the startup language: a remembered manual choice wins; otherwise follow
-// the device/browser locale. Any Chinese variant (Traditional/Simplified/HK) maps
-// to zh-TW, Japanese → ja, Korean → ko, and everything else falls back to English.
+// the device timezone. Japan, Korea, China and Taiwan use their local language;
+// every other timezone intentionally starts in English.
 function resolveInitialLanguage(): string {
   try {
     const saved = localStorage.getItem(LANGUAGE_STORAGE_KEY);
@@ -2976,19 +2977,7 @@ function resolveInitialLanguage(): string {
     // localStorage can be unavailable (private mode / non-browser env); fall through.
   }
 
-  const candidates =
-    typeof navigator !== 'undefined'
-      ? navigator.languages && navigator.languages.length > 0
-        ? navigator.languages
-        : [navigator.language]
-      : [];
-  for (const raw of candidates) {
-    const lc = (raw || '').toLowerCase();
-    if (lc.startsWith('zh')) return 'zh-TW';
-    if (lc.startsWith('ja')) return 'ja';
-    if (lc.startsWith('ko')) return 'ko';
-  }
-  return 'en';
+  return languageForTimezone(deviceTimezone());
 }
 
 // Persist only explicit switches (via the header language picker), not the initial

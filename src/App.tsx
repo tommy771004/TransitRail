@@ -1465,33 +1465,22 @@ export default function App() {
     switch (view) {
       case "search":
         return (
-          <>
-            <SearchForm
-              params={draftSearch}
-              isSearching={isSearching}
-              recentHistory={history}
-              favorites={favorites}
-              onToggleFavorite={toggleFavoriteRoute}
-              onRemoveFavorite={removeFavoriteById}
-              onRepeatFavoriteSearch={rerunFavoriteSearch}
-              onChange={setDraftSearch}
-              onCountryChange={handleCountryChange}
-              onSearch={handleSearch}
-              onOpenStations={openStations}
-              onOpenWorkflow={() => setView("workflow")}
-              onRepeatSearch={rerunHistorySearch}
-              onTogglePinHistory={togglePinHistory}
-            />
-            {/* Crawlable path from the home page to the prerendered route pages. */}
-            <p className="mx-auto max-w-md px-4 pb-nav text-center">
-              <a
-                href={i18n.language === "zh-TW" ? "/zh/routes/" : i18n.language === "ja" ? "/ja/routes/" : i18n.language === "ko" ? "/ko/routes/" : "/routes/"}
-                className="m3-button m3-state m3-label-large text-slate-400 dark:text-slate-500"
-              >
-                {t("nav.route_directory")} →
-              </a>
-            </p>
-          </>
+          <SearchForm
+            params={draftSearch}
+            isSearching={isSearching}
+            recentHistory={history}
+            favorites={favorites}
+            onToggleFavorite={toggleFavoriteRoute}
+            onRemoveFavorite={removeFavoriteById}
+            onRepeatFavoriteSearch={rerunFavoriteSearch}
+            onChange={setDraftSearch}
+            onCountryChange={handleCountryChange}
+            onSearch={handleSearch}
+            onOpenStations={openStations}
+            onOpenWorkflow={() => setView("workflow")}
+            onRepeatSearch={rerunHistorySearch}
+            onTogglePinHistory={togglePinHistory}
+          />
         );
       case "workflow":
         return (
@@ -1965,10 +1954,7 @@ export default function App() {
               <AffiliateMarquee />
             </div>
           ) : (
-            <>
-              {renderView()}
-              {view === "search" ? <AffiliateMarquee /> : null}
-            </>
+            renderView()
           )}
         </motion.div>
       </AnimatePresence>

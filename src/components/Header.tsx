@@ -1,4 +1,4 @@
-import { Menu, UserCircle, Globe } from "lucide-react";
+import { ChevronDown, Menu, UserCircle, Globe } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface HeaderProps {
@@ -63,16 +63,22 @@ export function Header({ onMenuOpen, onProfileOpen, timezone, homeCurrency }: He
           <span className="tabular-nums">{homeCurrency}</span>
         </div>
 
-        <select
-          value={i18n.language}
-          onChange={(e) => i18n.changeLanguage(e.target.value)}
-          className="m3-label-large m3-shape-full h-12 cursor-pointer bg-transparent px-3 text-slate-600 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
-          aria-label={t("header.switch_language")}
-        >
-          {LANGUAGES.map((lang) => (
-            <option key={lang.code} value={lang.code}>{lang.label}</option>
-          ))}
-        </select>
+        <div className="relative shrink-0">
+          <select
+            value={i18n.language}
+            onChange={(e) => i18n.changeLanguage(e.target.value)}
+            className="m3-label-medium m3-shape-full m3-elevation-1 h-9 cursor-pointer appearance-none border border-slate-200 bg-white/80 py-0 pl-3 pr-7 text-slate-700 transition-colors hover:border-slate-300 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-slate-600 dark:hover:bg-slate-800"
+            aria-label={t("header.switch_language")}
+          >
+            {LANGUAGES.map((lang) => (
+              <option key={lang.code} value={lang.code}>{lang.label}</option>
+            ))}
+          </select>
+          <ChevronDown
+            aria-hidden="true"
+            className="pointer-events-none absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400 dark:text-slate-500"
+          />
+        </div>
         <button
           type="button"
           onClick={onProfileOpen}

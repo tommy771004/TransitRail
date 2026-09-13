@@ -8,6 +8,9 @@ import { countryConfig, providerDateValue, providerDateValues } from "../data/co
 
 // Leaflet requires a browser; these regressions exercise search feedback, not maps.
 vi.mock("./D3LeafletRouteMap", () => ({ D3LeafletRouteMap: () => null }));
+vi.mock("./AffiliateMarquee", () => ({
+  AffiliateMarquee: ({ variant }: { variant?: string }) => <aside data-affiliate-offers={variant} />,
+}));
 
 beforeAll(async () => { await i18n.changeLanguage("en"); });
 
@@ -230,6 +233,38 @@ it("places departure-time context on the same row as the offered date range", ()
   expect(html).toContain('data-time-mode-control="true"');
   expect(html).toContain("m3-shape-full grid grid-cols-3 overflow-hidden divide-x");
   expect(html).toContain('section class="mx-auto min-w-0 w-full max-w-md');
+});
+
+it("keeps tool links horizontal and places affiliate offers above popular routes", () => {
+  const noop = vi.fn();
+  const html = renderToStaticMarkup(<SearchForm
+    params={{ country: "japan", origin: "Asakusa", destination: "Shimbashi", date: providerDateValue("japan"), timeMode: "all_day" }}
+    isSearching={false} recentHistory={[]} favorites={[]}
+    onToggleFavorite={noop} onRemoveFavorite={noop} onRepeatFavoriteSearch={noop}
+    onChange={noop} onSearch={async () => {}} onOpenStations={noop} onOpenWorkflow={noop}
+    onRepeatSearch={noop} onTogglePinHistory={noop}
+  />);
+  expect(html).toContain("mt-6 flex flex-row gap-2 sm:gap-3");
+  expect(html).not.toContain("mt-6 flex flex-col");
+  expect(html.indexOf('data-affiliate-offers="inline"')).toBeLessThan(html.indexOf("Popular Routes"));
+});
+
+it("places the route directory link to the right of the popular routes heading", () => {
+  const noop = vi.fn();
+  const html = renderToStaticMarkup(<SearchForm
+    params={{ country: "japan", origin: "Asakusa", destination: "Shimbashi", date: providerDateValue("japan"), timeMode: "all_day" }}
+    isSearching={false} recentHistory={[]} favorites={[]}
+    onToggleFavorite={noop} onRemoveFavorite={noop} onRepeatFavoriteSearch={noop}
+    onChange={noop} onSearch={async () => {}} onOpenStations={noop} onOpenWorkflow={noop}
+    onRepeatSearch={noop} onTogglePinHistory={noop}
+  />);
+  const headingRowStart = html.indexOf("mb-4 flex min-w-0 items-center justify-between");
+  const headingRowEnd = html.indexOf("</div>", headingRowStart);
+  const headingRow = html.slice(headingRowStart, headingRowEnd);
+  expect(headingRow).toContain("Popular Routes");
+  expect(headingRow).toContain('href="/routes/"');
+  expect(headingRow).toContain("Browse all route timetables →");
+  expect(headingRow).toContain("min-h-12 max-w-[55%]");
 });
 
 it("offers the nearest answerable day as an explicit action, never applied on its own", () => {
