@@ -255,7 +255,7 @@ export function SearchForm({
   return (
     <main className="min-h-screen bg-transparent px-4 pb-nav pt-22 transition-all duration-500">
       <div className="mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)]">
-      <section className="mx-auto w-full max-w-md lg:mx-0 lg:max-w-2xl">
+      <section className="mx-auto min-w-0 w-full max-w-md lg:mx-0 lg:max-w-2xl">
 
         {/* Country Selector */}
         <div role="group" aria-label={t("search.country", { defaultValue: "Country" })} className="mb-4 flex gap-2 overflow-x-auto px-0.5 pb-2 soft-scrollbar">

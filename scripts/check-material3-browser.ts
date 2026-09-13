@@ -87,7 +87,7 @@ try {
   const base = `http://127.0.0.1:${address.port}`;
   browser = await chromium.launch({ headless: true });
 
-  for (const width of [390, 1280]) {
+  for (const width of [320, 390, 1280]) {
     for (const colorScheme of ["light", "dark"] as const) {
      for (const country of ["japan", "korea", "belgium"]) {
       const serviceDate = country === "japan" ? "2026-09-08" : JSON.parse(readFileSync(resolve(`public/catalog/${country}.json`), "utf8")).serviceDate;
@@ -127,16 +127,24 @@ try {
       await page.locator("header").waitFor();
       await page.evaluate((dark) => document.documentElement.classList.toggle("dark", dark), colorScheme === "dark");
       const shell = await page.evaluate(() => {
+        const navigationSurface = document.querySelector<HTMLElement>(".m3-nav-surface")!;
         const navigationBar = document.querySelector<HTMLElement>(".m3-nav-bar")!;
+        const navigationBox = navigationSurface.getBoundingClientRect();
         return {
           header: Math.round(document.querySelector("header")!.getBoundingClientRect().height),
           nav: Math.round(navigationBar.getBoundingClientRect().height),
           navComputedHeight: getComputedStyle(navigationBar).height,
+          navSurfaceWidth: Math.round(navigationBox.width),
+          navLeft: navigationBox.left,
+          navRight: navigationBox.right,
           overflow: document.documentElement.scrollWidth > window.innerWidth,
         };
       });
+      const expectedNavHeight = width < 768 ? 60 : 80;
       if (shell.header !== 64) throw new Error(`Top app bar is ${shell.header}px at ${width}px/${colorScheme}`);
-      if (shell.nav !== 80) throw new Error(`Navigation bar is ${shell.nav}px (${shell.navComputedHeight}) at ${width}px/${colorScheme}`);
+      if (shell.nav !== expectedNavHeight) throw new Error(`Navigation bar is ${shell.nav}px (${shell.navComputedHeight}) at ${width}px/${colorScheme}`);
+      if (width < 768 && shell.navSurfaceWidth !== 270) throw new Error(`Compact navigation is ${shell.navSurfaceWidth}px wide at ${width}px/${colorScheme}`);
+      if (shell.navLeft < 0 || shell.navRight > width) throw new Error(`Navigation escapes viewport at ${width}px/${colorScheme}`);
       if (shell.overflow) throw new Error(`Shell overflows at ${width}px/${colorScheme}`);
 
       for (const locale of ["en", "zh-TW", "ja", "ko"]) {

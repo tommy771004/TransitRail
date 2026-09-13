@@ -229,6 +229,7 @@ it("places departure-time context on the same row as the offered date range", ()
   expect(html).toContain('role="group" aria-label="Date of Travel"');
   expect(html).toContain('data-time-mode-control="true"');
   expect(html).toContain("m3-shape-full grid grid-cols-3 overflow-hidden divide-x");
+  expect(html).toContain('section class="mx-auto min-w-0 w-full max-w-md');
 });
 
 it("offers the nearest answerable day as an explicit action, never applied on its own", () => {
