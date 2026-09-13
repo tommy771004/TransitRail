@@ -4,7 +4,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { MessageSquare, Bell, BellOff, Share2, Bookmark, Check, Clock, DatabaseZap, MapPinned, Trash2, UserCircle, X, Activity, Sun, Moon, Monitor, CalendarDays, Coins, Compass, Search, Pin } from "lucide-react";
+import { MessageSquare, Bell, BellOff, Share2, Bookmark, Check, ChevronDown, Clock, DatabaseZap, MapPinned, Trash2, UserCircle, X, Activity, Sun, Moon, Monitor, CalendarDays, Coins, Compass, Search, Pin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
 import { Header } from "./components/Header";
@@ -30,7 +30,8 @@ import { RouteServiceOverview } from "./components/RouteServiceOverview";
 import { ServiceDayAdvisoryNotice } from "./components/ServiceDayAdvisoryNotice";
 import { Snackbar, type SnackbarMessage } from "./components/Snackbar";
 import { get, set } from "idb-keyval";
-import { countryConfig, providerDateTimeValue, providerDateValue, countryThemes, countryFlags, countryOptions } from "./data/countries";
+import { countryConfig, providerDateValue, countryThemes, countryFlags, countryOptions } from "./data/countries";
+import { resolveSearchConditions, searchQuery, searchTimeMode, sortResults } from "./utils/searchConditions";
 import type {
   AppAlert,
   AppAlertCategory,
@@ -49,6 +50,7 @@ import type {
   SearchResponse,
   ServiceDayAdvisory,
   SortMode,
+  TimeMode,
   TransitResult,
   TransitSituation,
 } from "./types";
@@ -124,6 +126,7 @@ function buildInitialSearch(defaultCountry: Country): SearchParams {
   const resolvedCountry = queryCountry ?? pathCountry ?? defaultCountry;
   const rawDate = query.get("date");
   const rawTime = query.get("time");
+  const rawTimeMode = query.get("timeMode");
   const date = rawDate && /^\d{4}-\d{2}-\d{2}$/.test(rawDate)
     ? rawDate
     : providerDateValue(resolvedCountry);
@@ -133,6 +136,8 @@ function buildInitialSearch(defaultCountry: Country): SearchParams {
     destination: (query.get("destination") || "").trim(),
     date,
     time: rawTime && /^\d{2}:\d{2}$/.test(rawTime) ? rawTime : undefined,
+    timeMode: rawTimeMode === "now" || rawTimeMode === "specified" || rawTimeMode === "all_day"
+      ? rawTimeMode : rawTime ? "specified" : countryConfig[resolvedCountry].liveOnly ? "now" : "all_day",
     country: resolvedCountry,
     preferredTransitTypes: [],
   };
@@ -145,6 +150,7 @@ function buildCanonicalSearchUrl(params: SearchParams) {
   const destination = params.destination.trim();
   const date = params.date?.trim();
   const time = params.time?.trim();
+  query.set("timeMode", searchTimeMode(params));
 
   if (origin) {
     query.set("origin", origin);
@@ -283,29 +289,6 @@ function filterByTransitTypes(results: TransitResult[], preferred: string[] | un
 
     return false;
   });
-}
-
-function sortResults(results: TransitResult[], sortMode: SortMode, koreaFilter: KoreaFilter) {
-  let next = [...results];
-
-  if (koreaFilter === "direct") {
-    next = next.filter((trip) => trip.direct);
-  }
-  if (koreaFilter === "first_class") {
-    next = next.filter((trip) => trip.seatClass === "first");
-  }
-
-  if (sortMode === "fastest") {
-    next.sort((a, b) => (a.durationMinutes ?? Number.MAX_SAFE_INTEGER) - (b.durationMinutes ?? Number.MAX_SAFE_INTEGER));
-  }
-  if (sortMode === "earliest") {
-    next.sort((a, b) => a.departureTime.localeCompare(b.departureTime));
-  }
-  if (sortMode === "cheapest" || koreaFilter === "cheapest") {
-    next.sort((a, b) => (a.price ?? Number.MAX_SAFE_INTEGER) - (b.price ?? Number.MAX_SAFE_INTEGER));
-  }
-
-  return next;
 }
 
 export default function App() {
@@ -643,7 +626,7 @@ export default function App() {
       const script = document.getElementById("jsonld-seo");
       if (script) script.remove();
     }
-  }, [view, draftSearch.country, draftSearch.origin, draftSearch.destination, draftSearch.date, draftSearch.time, searchParams.origin, searchParams.destination, searchParams.country, searchParams.date, searchParams.time, t, i18n.language]);
+  }, [view, draftSearch.country, draftSearch.origin, draftSearch.destination, draftSearch.date, draftSearch.time, draftSearch.timeMode, searchParams.origin, searchParams.destination, searchParams.country, searchParams.date, searchParams.time, searchParams.timeMode, t, i18n.language]);
   const [legendHighlight, setLegendHighlight] = useState<string | null>(null);
   const [timezone, setTimezone] = useState<string>(() => {
     return localStorage.getItem("transitrail.timezone") || Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -796,10 +779,10 @@ export default function App() {
   const unreadAlerts = alerts.filter((alert) => !alert.read).length;
   const visibleResults = useMemo(
     () => {
-      const sorted = sortResults(results, sortMode, searchParams.country === "korea" ? koreaFilter : "all");
+      const sorted = sortResults(results, sortMode, searchParams.country === "korea" ? koreaFilter : "all", searchTimeMode(searchParams));
       return filterByTransitTypes(sorted, searchParams.preferredTransitTypes);
     },
-    [results, sortMode, koreaFilter, searchParams.country, searchParams.preferredTransitTypes],
+    [results, sortMode, koreaFilter, searchParams],
   );
 
   const localeForCurrency = (c: string) => {
@@ -911,6 +894,7 @@ export default function App() {
       origin: "",
       destination: "",
       date: providerDateValue(country),
+      timeMode: countryConfig[country].liveOnly ? "now" : "all_day",
       country,
     });
     if (previous.origin || previous.destination) {
@@ -921,10 +905,12 @@ export default function App() {
     }
   };
 
-  const handleSearch = async (origin: string, destination: string, date: string, country: Country, time?: string) => {
-    const params: SearchParams = { origin, destination, date, country, ...(time ? { time } : {}) };
+  const handleSearch = async (origin: string, destination: string, date: string, country: Country, time?: string, timeMode?: TimeMode) => {
+    const params = resolveSearchConditions({ origin, destination, date, country, time, timeMode });
     setSearchParams(params);
     setDraftSearch(params);
+    setSortMode(params.timeMode === "all_day" ? "fastest" : "earliest");
+    setKoreaFilter("all");
     setIsSearching(true);
     setView("results");
     setError(undefined);
@@ -937,15 +923,7 @@ export default function App() {
     setServiceDayAdvisory(undefined);
     setDataStatus(undefined);
 
-    const todayStr = providerDateValue(country);
-    const queryParams: any = { ...params };
-    if (time && /^\d{2}:\d{2}$/.test(time)) {
-      queryParams.time = time;
-    } else if (date === todayStr) {
-      const implicitTime = providerDateTimeValue(country);
-      if (implicitTime.date === date) queryParams.time = implicitTime.time;
-    }
-    const query = new URLSearchParams(queryParams).toString();
+    const query = searchQuery(params);
     const url = `/api/transit/search?${query}`;
 
     try {
@@ -984,8 +962,8 @@ export default function App() {
 
       const responseFailureKind = data.failureKind
         ?? (res.status >= 500 ? "provider_unavailable" : undefined);
-      if (!res.ok || (resultList.length === 0 && data.noResultReason)) {
-        const reason = data.noResultReason as SearchResponse["noResultReason"] | undefined;
+      if (!res.ok || resultList.length === 0) {
+        const reason = data.noResultReason ?? (res.ok ? "no_verified_data" : undefined);
         const localizedReason = reason && !responseFailureKind
           ? t(`search.no_result.${reason}`, { defaultValue: data.message || "No timetable data found." })
           : undefined;
@@ -1036,7 +1014,9 @@ export default function App() {
         ...current.filter((item) => (
           item.origin !== origin ||
           item.destination !== destination ||
-          item.date !== date ||
+          item.date !== params.date ||
+          item.time !== params.time ||
+          searchTimeMode(item) !== params.timeMode ||
           item.country !== country
         )),
       ].slice(0, 12));
@@ -1410,7 +1390,7 @@ export default function App() {
   };
 
   const rerunHistorySearch = (item: SearchHistoryItem) => {
-    void handleSearch(item.origin, item.destination, item.date, item.country, item.time);
+    void handleSearch(item.origin, item.destination, item.date, item.country, item.time, searchTimeMode(item));
   };
 
   const togglePinHistory = (id: string) => {
@@ -1537,6 +1517,7 @@ export default function App() {
             destination={searchParams.destination}
             date={searchParams.date}
             time={searchParams.time}
+            timeMode={searchTimeMode(searchParams)}
             error={error}
             noResultReason={noResultReason}
             failureKind={failureKind}
@@ -1545,13 +1526,17 @@ export default function App() {
             dataStatus={dataStatus}
             deliveryStatus={deliveryStatus}
             results={visibleResults}
+            totalResults={results.length}
             savedIds={savedIds}
             sortMode={sortMode}
             koreaFilter={koreaFilter}
             onSortChange={setSortMode}
             onKoreaFilterChange={setKoreaFilter}
             onModify={() => setView("search")}
-            onRetry={() => void handleSearch(searchParams.origin, searchParams.destination, searchParams.date, searchParams.country, searchParams.time)}
+            onRetry={() => void handleSearch(searchParams.origin, searchParams.destination, searchParams.date, searchParams.country, searchParams.time, searchTimeMode(searchParams))}
+            onRecover={(changes) => void handleSearch(searchParams.origin, searchParams.destination, changes.date ?? searchParams.date, searchParams.country, changes.timeMode === "all_day" ? undefined : searchParams.time, changes.timeMode ?? searchTimeMode(searchParams))}
+            onResetFilters={() => setKoreaFilter("all")}
+            onChangeStations={() => { setView("search"); openStations(coverageGap?.uncovered.includes(searchParams.origin) ? "origin" : "destination"); }}
             onSave={toggleSaveTrip}
             onSelectSeat={openSeatPicker}
             onOpenLegend={(highlight?: string) => {
@@ -1997,6 +1982,7 @@ export default function App() {
             country={draftSearch.country}
             target={stationPickTarget}
             onBack={() => setShowStations(false)}
+            onChooseCountry={() => { setShowStations(false); setView("search"); window.scrollTo({ top: 0 }); }}
             onSelectStation={selectStation}
             scrollToLineId={stationPickTarget === "destination" ? originLineId : undefined}
             selectedOrigin={draftSearch.origin}
@@ -2042,7 +2028,7 @@ export default function App() {
 
       <AnimatePresence>
         {profileOpen && (
-          <Panel title={t("profile.title")} onClose={() => setProfileOpen(false)}>
+          <Panel title={t("profile.title")} onClose={() => setProfileOpen(false)} variant="settings">
           <div className="grid grid-cols-2 gap-2">
             <ProfileStat label={t("nav.history")} value={history.length} />
             <ProfileStat label={t("nav.saved")} value={savedTrips.length} />
@@ -2050,69 +2036,77 @@ export default function App() {
             <ProfileStat label={t("profile.favorites", { defaultValue: "Favorites" })} value={favorites.length} />
           </div>
           <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-4">
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <div>
-                  <p className="m3-title-small text-slate-900 dark:text-white">{t("profile.preferred_region", { defaultValue: "Preferred Region" })}</p>
-                </div>
+            <div className="flex items-center justify-between gap-3">
+              <p id="settings-region-label" className="m3-title-small text-slate-900 dark:text-white">
+                {t("profile.preferred_region", { defaultValue: "Preferred Region" })}
+              </p>
+              <div className="relative w-44 shrink-0">
+                <select
+                  aria-labelledby="settings-region-label"
+                  value={preferredCountry}
+                  onChange={(e) => setPreferredCountry(e.target.value as Country)}
+                  className="m3-body-medium m3-shape-md min-h-11 w-full appearance-none cursor-pointer border border-slate-200 bg-slate-50/80 py-2 pl-3 pr-9 text-slate-800 shadow-sm outline-none transition-colors hover:border-slate-300 hover:bg-slate-100 focus:border-slate-400 focus:ring-2 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:focus:border-slate-500 dark:focus:ring-slate-700/70"
+                >
+                  {countryOptions.map((c) => (
+                    <option key={c} value={c}>{countryFlags[c]} {t(`search.${c}`)}</option>
+                  ))}
+                </select>
+                <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               </div>
-              <select
-                value={preferredCountry}
-                onChange={(e) => setPreferredCountry(e.target.value as Country)}
-                className="m3-body-large m3-shape-xs min-h-14 w-full cursor-pointer border border-slate-400 bg-transparent px-4 text-slate-800 outline-none focus:border-slate-600 dark:border-slate-600 dark:text-slate-200 dark:focus:border-slate-400"
-              >
-                {countryOptions.map((c) => (
-                  <option key={c} value={c}>{countryFlags[c]} {t(`search.${c}`)}</option>
-                ))}
-              </select>
             </div>
 
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <div>
-                  <p className="m3-title-small text-slate-900 dark:text-white">{t("profile.timezone")}</p>
-                </div>
+            <div className="flex items-center justify-between gap-3">
+              <p id="settings-timezone-label" className="m3-title-small text-slate-900 dark:text-white">
+                {t("profile.timezone")}
+              </p>
+              <div className="relative w-48 shrink-0">
+                <select
+                  aria-labelledby="settings-timezone-label"
+                  value={timezone}
+                  onChange={(e) => setTimezone(e.target.value)}
+                  className="m3-body-medium m3-shape-md min-h-11 w-full appearance-none cursor-pointer border border-slate-200 bg-slate-50/80 py-2 pl-3 pr-9 text-slate-800 shadow-sm outline-none transition-colors hover:border-slate-300 hover:bg-slate-100 focus:border-slate-400 focus:ring-2 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:focus:border-slate-500 dark:focus:ring-slate-700/70"
+                >
+                  {[
+                    { id: "Asia/Taipei", name_en: "Taiwan (Taipei)", name_zh: "台灣 (Taipei)", flag: "🇹🇼" },
+                    { id: "Asia/Tokyo", name_en: "Japan (Tokyo)", name_zh: "日本 (Tokyo)", flag: "🇯🇵" },
+                    { id: "Asia/Seoul", name_en: "Korea (Seoul)", name_zh: "韓國 (Seoul)", flag: "🇰🇷" },
+                    { id: "Asia/Singapore", name_en: "Singapore", name_zh: "新加坡 (Singapore)", flag: "🇸🇬" },
+                    { id: "Asia/Bangkok", name_en: "Thailand (Bangkok)", name_zh: "泰國 (Bangkok)", flag: "🇹🇭" },
+                    { id: "Asia/Hong_Kong", name_en: "Hong Kong", name_zh: "香港 (Hong Kong)", flag: "🇭🇰" },
+                    { id: "Europe/London", name_en: "United Kingdom (London)", name_zh: "英國 (London)", flag: "🇬🇧" },
+                    { id: "Europe/Berlin", name_en: "Germany (Berlin)", name_zh: "德國 (Berlin)", flag: "🇩🇪" },
+                    { id: "Europe/Paris", name_en: "France (Paris)", name_zh: "法國 (Paris)", flag: "🇫🇷" },
+                    { id: "America/New_York", name_en: "United States East (New York)", name_zh: "美國東岸 (New York)", flag: "🇺🇸" },
+                    { id: "America/Los_Angeles", name_en: "United States West (Los Angeles)", name_zh: "美國西岸 (Los Angeles)", flag: "🇺🇸" },
+                    { id: "Asia/Shanghai", name_en: "China (Shanghai)", name_zh: "中國 (Shanghai)", flag: "🇨🇳" },
+                  ].map((r) => (
+                    <option key={r.id} value={r.id}>{r.flag} {i18n.language === "zh-TW" ? r.name_zh : r.name_en}</option>
+                  ))}
+                </select>
+                <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               </div>
-              <select
-                value={timezone}
-                onChange={(e) => setTimezone(e.target.value)}
-                className="m3-body-large m3-shape-xs min-h-14 w-full cursor-pointer border border-slate-400 bg-transparent px-4 text-slate-800 outline-none focus:border-slate-600 dark:border-slate-600 dark:text-slate-200 dark:focus:border-slate-400"
-              >
-                {[
-                  { id: "Asia/Taipei", name_en: "Taiwan (Taipei)", name_zh: "台灣 (Taipei)", flag: "🇹🇼" },
-                  { id: "Asia/Tokyo", name_en: "Japan (Tokyo)", name_zh: "日本 (Tokyo)", flag: "🇯🇵" },
-                  { id: "Asia/Seoul", name_en: "Korea (Seoul)", name_zh: "韓國 (Seoul)", flag: "🇰🇷" },
-                  { id: "Asia/Singapore", name_en: "Singapore", name_zh: "新加坡 (Singapore)", flag: "🇸🇬" },
-                  { id: "Asia/Bangkok", name_en: "Thailand (Bangkok)", name_zh: "泰國 (Bangkok)", flag: "🇹🇭" },
-                  { id: "Asia/Hong_Kong", name_en: "Hong Kong", name_zh: "香港 (Hong Kong)", flag: "🇭🇰" },
-                  { id: "Europe/London", name_en: "United Kingdom (London)", name_zh: "英國 (London)", flag: "🇬🇧" },
-                  { id: "Europe/Berlin", name_en: "Germany (Berlin)", name_zh: "德國 (Berlin)", flag: "🇩🇪" },
-                  { id: "Europe/Paris", name_en: "France (Paris)", name_zh: "法國 (Paris)", flag: "🇫🇷" },
-                  { id: "America/New_York", name_en: "United States East (New York)", name_zh: "美國東岸 (New York)", flag: "🇺🇸" },
-                  { id: "America/Los_Angeles", name_en: "United States West (Los Angeles)", name_zh: "美國西岸 (Los Angeles)", flag: "🇺🇸" },
-                  { id: "Asia/Shanghai", name_en: "China (Shanghai)", name_zh: "中國 (Shanghai)", flag: "🇨🇳" },
-                ].map((r) => (
-                  <option key={r.id} value={r.id}>{r.flag} {i18n.language === "zh-TW" ? r.name_zh : r.name_en}</option>
-                ))}
-              </select>
             </div>
             
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <div>
-                  <p className="m3-title-small text-slate-900 dark:text-white">{t("profile.local_currency")}</p>
+              <div className="flex items-center justify-between gap-3">
+                <p id="settings-currency-label" className="m3-title-small text-slate-900 dark:text-white">
+                  {t("profile.local_currency")}
+                </p>
+                <div className="relative w-28 shrink-0">
+                  <select
+                    aria-labelledby="settings-currency-label"
+                    value={homeCurrency}
+                    onChange={(e) => setHomeCurrency(e.target.value)}
+                    className="m3-body-medium m3-shape-md min-h-11 w-full appearance-none cursor-pointer border border-slate-200 bg-slate-50/80 py-2 pl-3 pr-9 text-slate-800 shadow-sm outline-none transition-colors hover:border-slate-300 hover:bg-slate-100 focus:border-slate-400 focus:ring-2 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:focus:border-slate-500 dark:focus:ring-slate-700/70"
+                  >
+                    {allCurrencies.map((c) => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
+                  </select>
+                  <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                 </div>
               </div>
-              <select
-                value={homeCurrency}
-                onChange={(e) => setHomeCurrency(e.target.value)}
-                className="m3-body-large m3-shape-xs min-h-14 w-full cursor-pointer border border-slate-400 bg-transparent px-4 text-slate-800 outline-none focus:border-slate-600 dark:border-slate-600 dark:text-slate-200 dark:focus:border-slate-400"
-              >
-                {allCurrencies.map((c) => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-              <p className="m3-label-small mt-1.5 font-mono text-slate-400">
+              <p className="m3-label-small mt-1.5 text-right font-mono text-slate-400">
                 {loadingRates ? t("profile.loading_rates") : t("profile.rates_source")}
               </p>
             </div>
@@ -2286,7 +2280,13 @@ function EmptyState({ title, body }: { title: string; body: string }) {
   );
 }
 
-function Panel({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
+function Panel({ title, onClose, children, variant = "default" }: {
+  title: string;
+  onClose: () => void;
+  children: ReactNode;
+  variant?: "default" | "settings";
+}) {
+  const settings = variant === "settings";
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -2301,7 +2301,9 @@ function Panel({ title, onClose, children }: { title: string; onClose: () => voi
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
         transition={{ type: "spring", damping: 28, stiffness: 260, mass: 0.85 }}
-        className="m3-elevation-1 h-[100dvh] w-full max-w-sm space-y-5 overflow-y-auto overscroll-contain rounded-l-[28px] border-l border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900"
+        className={settings
+          ? "m3-dialog m-3 h-[calc(100dvh-1.5rem)] w-[calc(100%-1.5rem)] max-w-xs space-y-5 overflow-y-auto overscroll-contain border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900"
+          : "m3-elevation-1 h-[100dvh] w-full max-w-sm space-y-5 overflow-y-auto overscroll-contain rounded-l-[28px] border-l border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900"}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"

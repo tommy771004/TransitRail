@@ -480,6 +480,11 @@
   .pb-nav {
     padding-bottom: calc(80px + env(safe-area-inset-bottom) + 16px);
   }
+  /* Keep focused controls and validation recovery clear of both fixed bars. */
+  html {
+    scroll-padding-top: 80px;
+    scroll-padding-bottom: calc(80px + env(safe-area-inset-bottom) + 24px);
+  }
   @media (max-width: 767px) {
     .pb-nav {
       padding-bottom: calc(80px + env(safe-area-inset-bottom) + 24px);

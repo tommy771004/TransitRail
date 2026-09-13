@@ -45,6 +45,7 @@ interface ResultShellHeaderProps {
   meta: ReactNode;
   onModify: () => void;
   onOpenLegend?: (highlight?: string) => void;
+  weatherDate?: string;
   sectionClassName?: string;
 }
 
@@ -55,13 +56,14 @@ export function ResultShellHeader({
   meta,
   onModify,
   onOpenLegend,
+  weatherDate,
   sectionClassName,
 }: ResultShellHeaderProps) {
   const { t } = useTranslation();
 
   return (
     <section className={sectionClassName || defaultHeaderSectionClass}>
-      <div className="mx-auto flex max-w-md flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mx-auto flex max-w-md min-w-0 flex-row items-center justify-between gap-2">
         <div className="min-w-0 flex-1">
           <h1 className="m3-title-large flex min-w-0 items-center gap-2 text-slate-900 dark:text-white">
             <span className="min-w-0 break-words">{stationLabel(t, origin, country)}</span>
@@ -71,6 +73,7 @@ export function ResultShellHeader({
           {meta}
         </div>
         <div className="flex shrink-0 items-center justify-end gap-2">
+          {weatherDate && <WeatherWidget destination={destination} date={weatherDate} country={country} />}
           {onOpenLegend && (
             <button
               type="button"
@@ -91,28 +94,16 @@ export function ResultShellHeader({
               triggerHaptic("light");
               onModify();
             }}
-            className="m3-button m3-button-icon-leading m3-state shrink-0 bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
+            className="m3-button m3-button-icon-leading m3-state shrink-0 bg-slate-100 text-slate-700 max-[420px]:h-12 max-[420px]:w-12 max-[420px]:min-w-12 max-[420px]:gap-0 max-[420px]:p-0 dark:bg-slate-800 dark:text-slate-300"
+            title={t("result.modify")}
+            aria-label={t("result.modify")}
           >
             <Edit2 aria-hidden="true" className="h-[18px] w-[18px]" />
-            {t("result.modify")}
+            <span className="max-[420px]:sr-only">{t("result.modify")}</span>
           </button>
         </div>
       </div>
     </section>
-  );
-}
-
-export function renderWeatherBlock(destination: string, date: string, country: Country) {
-  return (
-    <motion.div
-      key="weather"
-      initial={false}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-    >
-      <WeatherWidget destination={destination} date={date} country={country} />
-    </motion.div>
   );
 }
 
@@ -171,15 +162,17 @@ export function renderMissBlock(options: {
   errorTitle: string;
   onModify?: () => void;
   onRetry?: () => void;
+  recovery?: ReactNode;
 }) {
   const retryable = Boolean(options.failureKind) || (!options.coverageGap && !options.reason);
   const title = options.reason === "future_date_unavailable"
     ? i18n.t("result.date_unavailable_title")
+    : options.reason === "unsupported_route" ? i18n.t("journey.unsupported_route")
     : options.reason === "no_service" ? i18n.t("result.no_matching_departures") : undefined;
   const block = retryable
     ? renderErrorBlock(options.errorTitle, options.message, options.sourceUrl)
     : options.coverageGap
-      ? renderCoverageBlock(options.coverageGap, options.country)
+      ? renderCoverageBlock(options.coverageGap, options.country, options.sourceUrl)
       : renderNoVerifiedDataBlock(options.message, options.sourceUrl, title);
   return (
     <motion.div key="miss" initial={false} className="space-y-3">
@@ -195,6 +188,7 @@ export function renderMissBlock(options: {
             {i18n.t("result.change_search")}
           </button>
         )}
+        {options.recovery}
       </div>
     </motion.div>
   );
@@ -234,11 +228,11 @@ export function renderErrorBlock(title: string, message: string, sourceUrl?: str
  * never in the catalog. Painting it as a fetch error told users to retry a
  * search that can never succeed.
  */
-export function renderCoverageBlock(gap: CoverageGap, country: Country) {
-  return <CoverageBlock gap={gap} country={country} />;
+export function renderCoverageBlock(gap: CoverageGap, country: Country, sourceUrl?: string) {
+  return <CoverageBlock gap={gap} country={country} sourceUrl={sourceUrl} />;
 }
 
-function CoverageBlock({ gap, country }: { gap: CoverageGap; country: Country }) {
+function CoverageBlock({ gap, country, sourceUrl }: { gap: CoverageGap; country: Country; sourceUrl?: string }) {
   const { t } = useTranslation();
   const uncovered = gap.uncovered.map((name) => stationLabel(t, name, country));
   const suggestions = gap.suggestions.slice(0, 8).map((name) => stationLabel(t, name, country));
@@ -285,6 +279,16 @@ function CoverageBlock({ gap, country }: { gap: CoverageGap; country: Country })
             ))}
           </div>
         </div>
+      )}
+      {sourceUrl && (
+        <a
+          href={sourceUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="m3-label-large mt-3 inline-block underline underline-offset-2"
+        >
+          {t("stations.official_source", { defaultValue: "Open the operator timetable" })}
+        </a>
       )}
     </motion.div>
   );

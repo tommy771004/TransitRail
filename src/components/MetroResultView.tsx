@@ -16,23 +16,9 @@ import {
   SaveTripButton,
   renderEmptyBlock,
   renderMissBlock,
-  renderWeatherBlock,
   tripCardClass,
   tripCardMotion,
 } from "./ResultShell";
-
-function getAlternatingColor(hex: string): string {
-  if (!hex || !hex.startsWith("#")) return "#94a3b8";
-  const cleanHex = hex.substring(1);
-  if (cleanHex.length !== 6) return hex;
-  const r = parseInt(cleanHex.substring(0, 2), 16);
-  const g = parseInt(cleanHex.substring(2, 4), 16);
-  const b = parseInt(cleanHex.substring(4, 6), 16);
-  const altR = (r + 128) % 256;
-  const altG = (g + 128) % 256;
-  const altB = (b + 128) % 256;
-  return `#${altR.toString(16).padStart(2, "0")}${altG.toString(16).padStart(2, "0")}${altB.toString(16).padStart(2, "0")}`;
-}
 
 interface MetroResultViewProps {
   country: Country;
@@ -49,11 +35,12 @@ interface MetroResultViewProps {
   savedIds: Set<string>;
   onModify: () => void;
   onRetry?: () => void;
+  recovery?: ReactNode;
   onSave: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
-  afterFirstResult?: ReactNode;
+  afterResults?: ReactNode;
 }
 
 export function MetroResultView({
@@ -71,11 +58,12 @@ export function MetroResultView({
   savedIds,
   onModify,
   onRetry,
+  recovery,
   onSave,
   onOpenLegend,
   formatPrice,
   overview,
-  afterFirstResult,
+  afterResults,
 }: MetroResultViewProps) {
   const { t } = useTranslation();
   const hasTransferResults = results.some((trip) => !trip.direct);
@@ -92,6 +80,7 @@ export function MetroResultView({
             {time ? <span className="font-mono text-slate-400 dark:text-slate-500">≥ {time}</span> : null}
           </p>
         }
+        weatherDate={!error && results.length > 0 ? date : undefined}
         onModify={onModify}
         onOpenLegend={onOpenLegend}
       />
@@ -110,7 +99,8 @@ export function MetroResultView({
               sourceUrl: officialSourceUrl,
               errorTitle: t("result.unable_to_fetch"),
               onModify,
-              onRetry,
+            onRetry,
+            recovery,
             })
           ) : results.length === 0 ? (
             renderEmptyBlock(t("metro.no_departures"), t("metro.no_departures_hint"))
@@ -188,59 +178,7 @@ export function MetroResultView({
                         </div>
                       </div>
 
-                      {pathData && (
-                        <div className="m3-card mx-5 mb-5 border border-slate-100/50 bg-slate-50/50 p-4 sm:mx-6 dark:border-slate-800/50 dark:bg-slate-800/20">
-                          <p className="m3-label-small mb-3 flex items-center gap-1.5 uppercase text-slate-400 dark:text-slate-500">
-                            <span>🗺️</span>
-                            {pathData.name} Stops
-                          </p>
-                          <div className="relative pl-6 space-y-3">
-                            <div
-                              className="absolute left-[7px] top-1.5 bottom-1.5 w-0.5"
-                              style={{
-                                background: `linear-gradient(to bottom, ${pathData.color}, ${getAlternatingColor(pathData.color)})`,
-                              }}
-                            />
-                            {pathData.stations.map((station, sIdx) => {
-                              const isEven = sIdx % 2 === 0;
-                              const dotColor = isEven ? pathData.color : getAlternatingColor(pathData.color);
-                              return (
-                                <motion.div
-                                  key={sIdx}
-                                  initial={false}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ duration: 0.3, ease: "easeOut", delay: index * 0.05 + sIdx * 0.04 + 0.1 }}
-                                  className="relative flex items-center justify-between text-xs"
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <div
-                                      className="absolute left-[-23px] h-3 w-3 rounded-full border-2 border-white dark:border-slate-900"
-                                      style={{ backgroundColor: dotColor }}
-                                    />
-                                    <span className="font-semibold text-slate-800 dark:text-slate-200">
-                                      {stationLabel(t, station.name, trip.country)}
-                                    </span>
-                                  </div>
-                                  {station.interchanges && station.interchanges.length > 0 && (
-                                    <div className="flex gap-1 flex-wrap justify-end max-w-[40%]">
-                                      {station.interchanges.map((ic, icIdx) => (
-                                        <span
-                                          key={icIdx}
-                                          className="m3-label-small m3-shape-xs truncate bg-slate-100 px-1.5 py-0.5 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
-                                        >
-                                          {ic}
-                                        </span>
-                                      ))}
-                                    </div>
-                                  )}
-                                </motion.div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      )}
-
-                      <TripDetails trip={trip} onOpenLegend={onOpenLegend} formatPrice={formatPrice} />
+                      <TripDetails trip={trip} showFullStopSequence onOpenLegend={onOpenLegend} formatPrice={formatPrice} />
 
                       {trip.warning ? (
                         <p className="mx-4 sm:mx-6 m3-card m3-body-small mb-4 flex items-center gap-1.5 border border-amber-100/50 bg-amber-50 px-4 py-3 text-amber-800 dark:border-amber-900/30 dark:bg-amber-900/10 dark:text-amber-400">
@@ -266,7 +204,7 @@ export function MetroResultView({
                         />
                       </div>
                     </motion.article>
-                    {index === 0 ? <>{renderWeatherBlock(destination, date, country)}{afterFirstResult}</> : null}
+                    {index === results.length - 1 ? afterResults : null}
                     </Fragment>
                   );
                 })}

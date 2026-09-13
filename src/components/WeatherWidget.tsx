@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Cloud, Sun, CloudRain, Snowflake, AlertCircle, Loader2 } from "lucide-react";
+import { Cloud, Sun, CloudRain, Snowflake, Loader2 } from "lucide-react";
 import type { Country } from "../types";
 import { stationLabel } from "../utils/stationLabel";
 
@@ -105,30 +105,27 @@ export function WeatherWidget({ destination, date, country }: WeatherWidgetProps
     return <Cloud className="h-5 w-5 text-slate-400" />;
   };
 
-  if (error) {
-    return null;
-  }
+  if (error) return null;
+
+  const weatherDescription = data
+    ? t(`weather.${data.description.toLowerCase().replace(" ", "_")}`, { defaultValue: data.description })
+    : null;
 
   return (
-    <div className="m3-card m3-card-large m3-elevation-1 flex items-center gap-3 border border-slate-100 bg-white/60 p-3 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/60">
+    <div
+      data-weather-compact="true"
+      role="status"
+      aria-label={data
+        ? `${stationLabel(t, destination, country)} ${data.temp}°C, ${weatherDescription}`
+        : t("result.forecast_loading", { defaultValue: "Forecast..." })}
+      className="m3-label-large flex min-h-10 shrink-0 items-center justify-center gap-1.5 px-1.5 text-slate-700 dark:text-slate-200"
+    >
       {loading ? (
-        <div className="flex items-center gap-2 text-slate-400">
-          <Loader2 className="h-4 w-4 animate-spin" />
-          <span className="m3-body-small">{t("result.forecast_loading", { defaultValue: "Forecast..." })}</span>
-        </div>
+        <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin text-slate-400" />
       ) : data ? (
         <>
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-50 dark:bg-slate-800">
-            {getWeatherIcon(data.code)}
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="m3-label-large truncate text-slate-900 dark:text-white">
-              {t("result.forecast_title", { station: stationLabel(t, destination, country), defaultValue: `${stationLabel(t, destination, country)} Forecast` })}
-            </p>
-            <p className="m3-body-small truncate text-slate-500 dark:text-slate-400">
-              {data.temp}°C • {t(`weather.${data.description.toLowerCase().replace(" ", "_")}`, { defaultValue: data.description })}
-            </p>
-          </div>
+          <span aria-hidden="true">{getWeatherIcon(data.code)}</span>
+          <span>{data.temp}°C</span>
         </>
       ) : null}
     </div>

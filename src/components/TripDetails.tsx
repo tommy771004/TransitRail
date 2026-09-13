@@ -9,11 +9,16 @@ import { getTransferInfo, type TransferInfo } from "../data/transfers";
 import { findNearestKnownStation } from "../utils/geoCoordinates";
 import { triggerHaptic } from "../utils/haptics";
 import { formatDuration } from "./ResultShell";
+import { extractPathBetweenStations } from "@/src/utils/pathExtractor";
+import { stationSearchKey } from "@/src/data/stationKey";
+import { resolveStationAlias } from "@/src/data/stationAliases";
+import { TripFare } from "./TripFare";
 
 interface TripDetailsProps {
   trip: TransitResult;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
+  showFullStopSequence?: boolean;
 }
 
 function getMinutesDiff(time1?: string, time2?: string): number | null {
@@ -46,7 +51,7 @@ function transferPressure(minutes: number | null, isChinese: boolean) {
   return { label: isChinese ? "轉乘時間充裕" : "Comfortable connection", className: "text-emerald-700 dark:text-emerald-300" };
 }
 
-export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProps) {
+export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSequence = false }: TripDetailsProps) {
   const { t, i18n } = useTranslation();
   const [expanded, setExpanded] = useState(false);
   const [viewMode, setViewMode] = useState<"timeline" | "map">("timeline");
@@ -230,7 +235,6 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
     }
   }
 
-  const hasPrice = trip.price !== undefined && trip.price !== null;
   const isChinese = i18n.language.toLowerCase().startsWith("zh");
 
   return (
@@ -287,20 +291,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
             </div>
           </div>
 
-          {hasPrice && (
-            <div className="m3-card mb-6 flex items-center justify-between gap-3 bg-white p-4 dark:bg-slate-900">
-              <div>
-                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">{isChinese ? "此班次票價" : "Fare for this service"}</p>
-                <p className="mt-1 text-xl font-bold tabular-nums text-slate-800 dark:text-slate-100">{formatPrice?.(trip) || `${trip.price} ${trip.currency || ""}`}</p>
-              </div>
-              <div className="m3-body-small flex max-w-52 items-start gap-1.5 leading-relaxed text-blue-800/80 dark:text-blue-400/80">
-                <Info className="h-3 w-3 shrink-0" />
-                <span>
-                  {isChinese ? "僅顯示資料來源提供的此班次票價；不同乘客、座位或優惠方案請以營運商為準。" : "Only the provider fare for this service is shown. Confirm passenger, seat, and promotional fares with the operator."}
-                </span>
-              </div>
-            </div>
-          )}
+          <TripFare trip={trip} active={expanded} formatPrice={formatPrice} />
 
           <div className="m3-shape-full mx-auto mb-6 flex max-w-md overflow-hidden divide-x divide-slate-300 border border-slate-300 dark:divide-slate-600 dark:border-slate-600" role="group" aria-label={t("result.view_mode", { defaultValue: "Trip detail view" })}>
             <button
@@ -423,7 +414,21 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                 }
 
                 if (item.type === "transit") {
-                  const leg = item.leg;
+                  const leg: JourneyLeg = item.leg;
+                  const path = showFullStopSequence
+                    ? extractPathBetweenStations(leg.lineCode || leg.lineName, leg.origin, leg.destination)
+                    : null;
+                  const stationKey = (name: string) => stationSearchKey(resolveStationAlias(trip.country, name));
+                  // Keep one calling sequence per ride. Provider stops win over
+                  // the line map; endpoints already appear in the outer timeline.
+                  const stopNames = showFullStopSequence
+                    ? (leg.stops?.length ? leg.stops
+                      : displayLegs.length === 1 && trip.stops.length ? trip.stops
+                      : path?.stations.map(station => station.name) || [])
+                    : leg.stops?.slice(1, -1) || [];
+                  const intermediateStops = stopNames.filter(stop =>
+                    stationKey(stop) !== stationKey(leg.origin) && stationKey(stop) !== stationKey(leg.destination));
+                  const stopsExpanded = showFullStopSequence || Boolean(expandedLegs[item.legIndex]);
                   return (
                     <div
                       key={item.id}
@@ -488,9 +493,9 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                             </div>
                           )}
 
-                          {leg.stops && leg.stops.length > 2 && (
+                          {intermediateStops.length > 0 && (
                             <div className="mt-3 pt-2.5 border-t border-slate-100/60 dark:border-slate-800/60">
-                              <button
+                              {!showFullStopSequence && <button
                                 type="button"
                                 onClick={() => setExpandedLegs((prev) => ({ ...prev, [item.legIndex]: !prev[item.legIndex] }))}
                                 aria-expanded={Boolean(expandedLegs[item.legIndex])}
@@ -500,18 +505,23 @@ export function TripDetails({ trip, onOpenLegend, formatPrice }: TripDetailsProp
                                 <TrainFront aria-hidden="true" className="h-3.5 w-3.5" />
                                 {expandedLegs[item.legIndex]
                                   ? t("result.hide_stops", { defaultValue: "Hide intermediate stops" })
-                                  : t("result.show_stops", { count: leg.stops.length - 2, defaultValue: `Show ${leg.stops.length - 2} intermediate stops` })}
-                              </button>
+                                  : t("result.show_stops", { count: intermediateStops.length, defaultValue: `Show ${intermediateStops.length} intermediate stops` })}
+                              </button>}
                               
                               <div
                                 id={`${detailsPanelId}-leg-${item.legIndex}-stops`}
-                                hidden={!expandedLegs[item.legIndex]}
+                                hidden={!stopsExpanded}
                                 className="mt-2.5 flex flex-col space-y-1.5 pl-3"
                               >
-                                  {leg.stops.slice(1, -1).map((stop: string, sIdx: number) => (
-                                    <div key={sIdx} className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+                                  {intermediateStops.map((stop, sIdx) => (
+                                    <div key={sIdx} className="flex flex-wrap items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
                                       <span className="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700 shrink-0" />
                                       <span>{stationLabel(t, stop, trip.country)}</span>
+                                      {path?.stations.find(station => stationKey(station.name) === stationKey(stop))?.interchanges?.map(interchange => (
+                                        <span key={interchange} className="m3-label-small m3-shape-xs bg-slate-100 px-1.5 py-0.5 text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                                          {t(`line.${interchange}`, { defaultValue: interchange })}
+                                        </span>
+                                      ))}
                                     </div>
                                   ))}
                               </div>

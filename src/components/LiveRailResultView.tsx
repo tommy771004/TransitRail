@@ -2,6 +2,7 @@
 // OS support: Linux, macOS, Windows
 // Description: Component to render UK, US, and Swiss transit query results with staggered motion animations
 
+import { hasDisplayableFare } from "@/src/utils/fare";
 import { AlertTriangle } from "lucide-react";
 import { Fragment, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,7 +17,6 @@ import {
   TimelineBar,
   renderEmptyBlock,
   renderMissBlock,
-  renderWeatherBlock,
   tripCardClass,
   tripCardMotion,
   formatDuration,
@@ -37,15 +37,16 @@ interface LiveRailResultViewProps {
   savedIds: Set<string>;
   onModify: () => void;
   onRetry?: () => void;
+  recovery?: ReactNode;
   onSave: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
-  afterFirstResult?: ReactNode;
+  afterResults?: ReactNode;
 }
 
 function formatFare(trip: TransitResult) {
-  if (trip.price === undefined || !trip.currency) return null;
+  if (!hasDisplayableFare(trip)) return null;
   return new Intl.NumberFormat(trip.country === "switzerland" ? "de-CH" : "en-GB", {
     style: "currency",
     currency: trip.currency,
@@ -68,11 +69,12 @@ export function LiveRailResultView({
   savedIds,
   onModify,
   onRetry,
+  recovery,
   onSave,
   onOpenLegend,
   formatPrice,
   overview,
-  afterFirstResult,
+  afterResults,
 }: LiveRailResultViewProps) {
   const { t } = useTranslation();
   const isBoston = market === "boston";
@@ -102,6 +104,7 @@ export function LiveRailResultView({
             {isSwiss ? <span className="m3-chip m3-label-small m3-shape-full min-h-6 bg-rose-700 px-3 uppercase tracking-[0.18em] text-white dark:bg-rose-500 dark:text-slate-950">OJP 2.0</span> : null}
           </p>
         }
+        weatherDate={!error && results.length > 0 ? date : undefined}
         onModify={onModify}
         onOpenLegend={onOpenLegend}
       />
@@ -120,7 +123,8 @@ export function LiveRailResultView({
               sourceUrl: officialSourceUrl,
               errorTitle: t("result.unable_to_fetch"),
               onModify,
-              onRetry,
+            onRetry,
+            recovery,
             })
           ) : results.length === 0 ? (
             renderEmptyBlock(t(`${copyKey}.no_journeys`), t(`${copyKey}.no_journeys_hint`))
@@ -243,7 +247,7 @@ export function LiveRailResultView({
                         <SaveTripButton isSaved={isSaved} onSave={() => onSave(trip)} labeled />
                       </div>
                     </motion.article>
-                    {index === 0 ? <>{renderWeatherBlock(destination, date, country)}{afterFirstResult}</> : null}
+                    {index === results.length - 1 ? afterResults : null}
                     </Fragment>
                   );
                 })}

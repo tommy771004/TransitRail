@@ -9,6 +9,7 @@
     "start": "node dist/server.cjs",
     "catalog": "tsx scripts/generate-station-catalog.ts",
     "inspect:gtfs": "tsx scripts/inspect-gtfs-feed.ts",
+    "sync:fares": "tsx scripts/sync-fares.ts",
     "sync:singapore-stations": "tsx scripts/sync-singapore-stations.ts",
     "sync:station-i18n": "tsx scripts/sync-station-translations.ts",
     "sync:belgium-stations": "tsx scripts/sync-belgium-station-translations.ts",

@@ -95,14 +95,14 @@ const resources = {
         time_any_hint: "No time restriction — compare all available departures",
         depart_after_hint: "Showing departures from {{time}} onward",
         search_timetable: "Search timetable",
-        capability_date_range: "Verified timetable data · selectable {{start}}–{{end}}",
+        capability_date_range: "{{start}}–{{end}}",
         capability_today_only: "Current local-day data · {{date}} only",
         capability_catalog_only: "Station directory · no searchable timetable yet",
         no_result: {
           unsupported_route: "This route is not available in the selected network.",
-          future_date_unavailable: "This source is available only for today's local service day.",
+          future_date_unavailable: "A verified timetable is not available for the requested date.",
           no_verified_data: "TransitRail could not verify this query from a registered timetable source. This does not mean there is no service.",
-          no_service: "This route has no departures on the selected service day.",
+          no_service: "The source returned no verified departures matching these conditions. This does not confirm that no service operates.",
         },
       },
       stations: {
@@ -189,7 +189,7 @@ const resources = {
         no_verified_timetable: "No verified timetable available.",
         today: "Today",
         adult: "Adult",
-        modify: "Modify",
+        modify: "Modify search",
         fastest: "Shortest journey",
         earliest: "Earliest departure",
         cheapest: "Lowest fare",
@@ -713,14 +713,14 @@ const resources = {
         time_any_hint: "不限制出發時間，方便比較所有可用班次",
         depart_after_hint: "僅顯示 {{time}} 起的班次",
         search_timetable: "查詢時刻表",
-        capability_date_range: "已驗證時刻表資料｜可選 {{start}}–{{end}}",
+        capability_date_range: "可選 {{start}}–{{end}}",
         capability_today_only: "當地當日資料｜僅可選 {{date}}",
         capability_catalog_only: "站點目錄｜暫無可搜尋時刻表",
         no_result: {
           unsupported_route: "這個路線組合不在目前支援的路網內。",
-          future_date_unavailable: "這個資料來源只提供當地今天的班次，請改選今天。",
+          future_date_unavailable: "查詢日期目前沒有可用的已驗證時刻表。",
           no_verified_data: "TransitRail 無法從已登錄的官方來源驗證這組查詢；這不代表當天沒有列車。",
-          no_service: "這條路線在所選服務日沒有班次。",
+          no_service: "來源未回傳符合這些條件的已驗證班次，不代表這條路線沒有營運。",
         },
       },
       stations: {
@@ -807,7 +807,7 @@ const resources = {
         no_verified_timetable: "查無可驗證的官方時刻表。",
         today: "今天",
         adult: "成人",
-        modify: "修改",
+        modify: "修改這次查詢",
         fastest: "最短車程",
         earliest: "最早出發",
         cheapest: "最低票價",
@@ -1732,14 +1732,14 @@ const resources = {
         time_any_hint: "出発時刻を指定せず、利用可能な全ての便を比較します",
         depart_after_hint: "{{time}}以降の便のみ表示",
         search_timetable: "時刻表を検索",
-        capability_date_range: "確認済み時刻表データ｜{{start}}〜{{end}}を選択可能",
+        capability_date_range: "{{start}}〜{{end}}を選択可能",
         capability_today_only: "現地当日のデータ｜{{date}}のみ",
         capability_catalog_only: "駅一覧｜検索可能な時刻表はまだありません",
         no_result: {
           unsupported_route: "この路線の組み合わせは現在のネットワークでは利用できません。",
-          future_date_unavailable: "この情報源は現地の当日サービス日のみ対応しています。今日を選択してください。",
+          future_date_unavailable: "指定日の検証済み時刻表は現在利用できません。",
           no_verified_data: "TransitRail は登録済みの公式情報源からこの検索を確認できませんでした。列車が運行していないという意味ではありません。",
-          no_service: "選択した運行日にこの路線の出発便はありません。",
+          no_service: "この条件に合う検証済みの出発便が返されませんでした。運行がないことを示すものではありません。",
         }
       },
       stations: {
@@ -1826,7 +1826,7 @@ const resources = {
         no_verified_timetable: "検証済みの時刻表はありません。",
         today: "今日",
         adult: "大人",
-        modify: "条件を変更",
+        modify: "検索を変更",
         fastest: "最短所要時間",
         earliest: "早い出発順",
         cheapest: "最安運賃",
@@ -2373,14 +2373,14 @@ const resources = {
         time_any_hint: "출발 시각 제한 없이 이용 가능한 모든 편을 비교합니다",
         depart_after_hint: "{{time}} 이후 출발편만 표시",
         search_timetable: "시간표 검색",
-        capability_date_range: "검증된 시간표 데이터｜{{start}}–{{end}} 선택 가능",
+        capability_date_range: "{{start}}–{{end}} 선택 가능",
         capability_today_only: "현지 당일 데이터｜{{date}}만 가능",
         capability_catalog_only: "역 목록｜검색 가능한 시간표 없음",
         no_result: {
           unsupported_route: "선택한 노선 조합은 현재 네트워크에서 지원되지 않습니다.",
-          future_date_unavailable: "이 데이터는 현지 당일 운행만 제공합니다. 오늘을 선택하세요.",
+          future_date_unavailable: "요청한 날짜의 검증된 시간표를 현재 이용할 수 없습니다.",
           no_verified_data: "TransitRail이 등록된 공식 출처에서 이 검색을 확인하지 못했습니다. 열차가 운행하지 않는다는 뜻은 아닙니다.",
-          no_service: "선택한 운행일에는 이 노선의 출발편이 없습니다.",
+          no_service: "이 조건에 맞는 검증된 출발편이 반환되지 않았습니다. 운행하지 않는다는 뜻은 아닙니다.",
         }
       },
       stations: {
@@ -2467,7 +2467,7 @@ const resources = {
         no_verified_timetable: "검증된 시간표가 없습니다.",
         today: "오늘",
         adult: "성인",
-        modify: "조건 변경",
+        modify: "검색 변경",
         fastest: "최단 소요 시간",
         earliest: "가장 이른 출발",
         cheapest: "최저 운임",
@@ -2954,6 +2954,11 @@ Object.keys(translations).forEach(key => {
 
 Object.assign(resources['en'].translation, transferTranslations.en);
 Object.assign(resources['zh-TW'].translation, transferTranslations['zh-TW']);
+
+import { searchExperienceCopy } from "./data/searchExperienceCopy";
+for (const [locale, copy] of Object.entries(searchExperienceCopy)) {
+  Object.assign(resources[locale as keyof typeof resources].translation, { journey: copy });
+}
 
 const SUPPORTED_LANGUAGES = ['zh-TW', 'ja', 'ko', 'en'] as const;
 const LANGUAGE_STORAGE_KEY = 'railnation:lang';

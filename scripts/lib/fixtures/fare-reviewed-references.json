@@ -1,0 +1,51 @@
+{
+  "japan": {
+    "schemaVersion": 1,
+    "country": "japan",
+    "observedOn": "2026-09-13",
+    "status": "reference-only",
+    "reason": "Official Tokyo Metro distance bands; journey tariff distance and special-section rules are required. No distance is inferred.",
+    "sources": [{
+      "url": "https://www.tokyometro.jp/ticket/types/regular/index.html",
+      "observedOn": "2026-09-13",
+      "retrievalMethod": "official page read through web tool; direct file download returned HTTP 403"
+    }],
+    "currency": "JPY",
+    "referenceTables": [{
+      "product": "Adult ordinary fare, including station accessibility charge",
+      "columns": ["tariffKmFrom", "tariffKmThrough", "paperTicket", "IC"],
+      "rows": [[1, 6, 180, 178], [7, 11, 210, 209], [12, 19, 260, 252], [20, 27, 300, 293], [28, 40, 330, 324]],
+      "rounding": "Round tariff distance up to a whole kilometre",
+      "exceptions": [
+        {"origin": "綾瀬", "destination": "北千住", "paperTicket": 160},
+        {"origin": "目黒", "destination": "白金高輪", "paperTicket": 180}
+      ]
+    }]
+  },
+  "france": {
+    "schemaVersion": 1,
+    "country": "france",
+    "observedOn": "2026-09-13",
+    "status": "query-required",
+    "reason": "Official SNCF fare conditions verified; no fixed journey fare imported. Direct document download returned HTTP 403.",
+    "sources": [{
+      "url": "https://www.sncf-voyageurs.com/medias-publics/2026-05/tarifs_voyageurs_28mai2026_vdef.pdf",
+      "observedOn": "2026-09-13",
+      "effectiveFrom": "2026-05-28",
+      "effectiveThrough": "2026-09-15",
+      "retrievalMethod": "official PDF read through web tool"
+    }]
+  },
+  "belgium": {
+    "schemaVersion": 1,
+    "country": "belgium",
+    "observedOn": "2026-09-13",
+    "status": "query-required",
+    "reason": "Official tariff source identified; fare requires tariff kilometres and passenger/product eligibility. Direct file download returned HTTP 403; no price table imported.",
+    "sources": [{
+      "url": "https://www.belgiantrain.be/fr/support/terms-and-conditions-for-transport",
+      "observedOn": "2026-09-13",
+      "retrievalMethod": "official page read through web tool"
+    }]
+  }
+}

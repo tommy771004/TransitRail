@@ -2,6 +2,7 @@
 // OS support: Linux, macOS, Windows
 // Description: Component to render Japan transit query results with staggered motion animations
 
+import { hasDisplayableFare } from "@/src/utils/fare";
 import { ChevronRight } from "lucide-react";
 import { Fragment, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,7 +19,6 @@ import {
   formatDuration,
   renderEmptyBlock,
   renderMissBlock,
-  renderWeatherBlock,
   tripCardClass,
   tripCardMotion,
 } from "./ResultShell";
@@ -40,12 +40,13 @@ interface JapanResultViewProps {
   onSortChange: (mode: SortMode) => void;
   onModify: () => void;
   onRetry?: () => void;
+  recovery?: ReactNode;
   onSave: (trip: TransitResult) => void;
   onSelectSeat: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
-  afterFirstResult?: ReactNode;
+  afterResults?: ReactNode;
 }
 
 const localeForCurrency = (currency?: string) => {
@@ -88,7 +89,7 @@ const fractionDigitsForCurrency = (currency?: string) =>
   currency === "JPY" || currency === "KRW" || currency === "TWD" || currency === "CNY" || currency === "VND" || currency === "IDR" ? 0 : 2;
 
 const formatLocalPrice = (trip: TransitResult) =>
-  trip.price === undefined || !trip.currency ? null : new Intl.NumberFormat(localeForCurrency(trip.currency), {
+  !hasDisplayableFare(trip) ? null : new Intl.NumberFormat(localeForCurrency(trip.currency), {
     style: "currency",
     currency: trip.currency,
     maximumFractionDigits: fractionDigitsForCurrency(trip.currency),
@@ -111,19 +112,20 @@ export function JapanResultView({
   onSortChange,
   onModify,
   onRetry,
+  recovery,
   onSave,
   onSelectSeat,
   onOpenLegend,
   formatPrice,
   overview,
-  afterFirstResult,
+  afterResults,
 }: JapanResultViewProps) {
   const { t } = useTranslation();
 
   const tabs: Array<{ mode: SortMode; label: string }> = [
-    { mode: "fastest", label: t("result.fastest") },
+    { mode: "fastest", label: t(time ? "journey.secondary_fastest" : "result.fastest") },
     { mode: "earliest", label: t("result.earliest") },
-    { mode: "cheapest", label: t("result.cheapest") },
+    { mode: "cheapest", label: t(time ? "journey.secondary_cheapest" : "result.cheapest") },
   ];
 
   return (
@@ -132,18 +134,20 @@ export function JapanResultView({
         country={country}
         origin={origin}
         destination={destination}
-        meta={<p className="m3-body-small mt-1 font-mono text-slate-500 dark:text-slate-400">{date}{time ? ` · ≥ ${time}` : ""} · 1 {t("result.adult")}</p>}
+        meta={null}
+        weatherDate={!error && results.length > 0 ? date : undefined}
         onModify={onModify}
         onOpenLegend={onOpenLegend}
       />
 
       {overview}
 
-      <nav className="sticky top-16 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-sm dark:border-slate-700/50 dark:bg-slate-900/95">
+      {!error && results.length > 0 && <nav aria-label={t("journey.sort", { order: "" })} className="sticky top-16 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-sm dark:border-slate-700/50 dark:bg-slate-900/95">
         <div className="mx-auto flex max-w-md">
           {tabs.map((tab) => (
             <button
               key={tab.mode}
+              aria-pressed={sortMode === tab.mode}
               onClick={() => {
                 triggerHaptic("light");
                 onSortChange(tab.mode);
@@ -165,7 +169,7 @@ export function JapanResultView({
             </button>
           ))}
         </div>
-      </nav>
+      </nav>}
 
       <div className="mx-auto max-w-md space-y-3 px-4 pt-4">
         <AnimatePresence mode="popLayout">
@@ -179,6 +183,7 @@ export function JapanResultView({
             errorTitle: t("result.unable_to_fetch"),
             onModify,
             onRetry,
+            recovery,
           })}
           {!error && results.length === 0 && renderEmptyBlock(t("result.no_results"), t("result.no_results_hint"))}
         </AnimatePresence>
@@ -186,6 +191,7 @@ export function JapanResultView({
         <AnimatePresence mode="popLayout">
           {!error && results.map((trip, index) => {
           const isSaved = savedIds.has(trip.id);
+          const fare = hasDisplayableFare(trip) ? formatPrice?.(trip) || formatLocalPrice(trip) : null;
           return (
             <Fragment key={trip.id}>
             <motion.article
@@ -206,9 +212,9 @@ export function JapanResultView({
                       {formatDuration(t, trip.durationMinutes)}
                     </span>
                   </div>
-                  <span className="m3-chip m3-title-small shrink-0 border border-slate-100 bg-slate-50 px-3 text-slate-900 dark:border-slate-700/50 dark:bg-slate-800/80 dark:text-emerald-400">
-                    {formatPrice ? formatPrice(trip) : formatLocalPrice(trip) || t("result.fare_unavailable")}
-                  </span>
+                  {fare && <span className="m3-chip m3-title-small shrink-0 border border-slate-100 bg-slate-50 px-3 text-slate-900 dark:border-slate-700/50 dark:bg-slate-800/80 dark:text-emerald-400">
+                    {fare}
+                  </span>}
                 </div>
                 <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
                   <div className="min-w-0">
@@ -253,7 +259,7 @@ export function JapanResultView({
                 </div>
               </div>
             </motion.article>
-            {index === 0 ? <>{renderWeatherBlock(destination, date, country)}{afterFirstResult}</> : null}
+            {index === results.length - 1 ? afterResults : null}
             </Fragment>
           );
         })}

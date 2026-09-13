@@ -1,5 +1,5 @@
 // Renders the country-appropriate results chrome from countryConfig policy.
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import type {
   Country,
@@ -10,6 +10,8 @@ import type {
   SearchFailureKind,
   SearchDataStatus,
   SortMode,
+  SearchParams,
+  TimeMode,
   TransitResult,
 } from "../types";
 import { getCountryCapability } from "../data/countryCapability";
@@ -19,6 +21,8 @@ import { MetroResultView } from "./MetroResultView";
 import { LiveRailResultView } from "./LiveRailResultView";
 import { MalaysiaCatalogView } from "./MalaysiaCatalogView";
 import { TransitAppSupplement } from "./TransitAppSupplement";
+import { countryConfig, providerDateValues } from "../data/countries";
+import { nearestAvailableDate, searchTimeMode } from "../utils/searchConditions";
 
 export type CountryResultsViewProps = {
   country: Country;
@@ -26,6 +30,7 @@ export type CountryResultsViewProps = {
   destination: string;
   date: string;
   time?: string;
+  timeMode?: TimeMode;
   error?: string;
   /** Why the search returned nothing, so a miss is not framed as a fetch failure. */
   noResultReason?: NoResultReason;
@@ -37,6 +42,8 @@ export type CountryResultsViewProps = {
   dataStatus?: SearchDataStatus;
   deliveryStatus?: SearchDeliveryStatus;
   results: TransitResult[];
+  /** Raw verified rows before passenger-selected filters are applied. */
+  totalResults?: number;
   savedIds: Set<string>;
   sortMode: SortMode;
   koreaFilter: KoreaFilter;
@@ -44,75 +51,15 @@ export type CountryResultsViewProps = {
   onKoreaFilterChange: (filter: KoreaFilter) => void;
   onModify: () => void;
   onRetry?: () => void;
+  onRecover?: (changes: Pick<SearchParams, "date" | "timeMode">) => void;
+  onChangeStations?: () => void;
+  onResetFilters?: () => void;
   onSave: (trip: TransitResult) => void;
   onSelectSeat: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
 };
-
-/**
- * Where these departures came from, shown above every result list.
- *
- * Always rendered when a source is known, rather than only when something is
- * wrong. A notice that appears only for suspect data teaches people to read its
- * absence as "this is fine", which is exactly the inference that made curated
- * snapshots indistinguishable from real timetables — nothing was flagged
- * because nothing knew there was anything to flag.
- */
-function SourceProvenanceNotice({ dataStatus }: { dataStatus?: SearchDataStatus }) {
-  const { t } = useTranslation();
-  if (!dataStatus?.sourceUrl) return null;
-
-  const updated = dataStatus.updatedAt || dataStatus.checkedAt;
-  const completenessLabel = dataStatus.temporalCoverage === "bounded-upcoming"
-    ? t("result.completeness_bounded_upcoming", { defaultValue: "Live upcoming departures only" })
-    : dataStatus.temporalCoverage === "sampled-service-day"
-    ? t("result.completeness_sampled")
-    : dataStatus.completeness === "frequency-only"
-    ? t("result.completeness_frequency", { defaultValue: "Service hours and frequency only — no departure list is published" })
-    : dataStatus.completeness === "service-hours"
-      ? t("result.completeness_service_hours", { defaultValue: "Service hours only — no departure list is published" })
-      : dataStatus.completeness === "full-timetable" && dataStatus.temporalCoverage === "full-day"
-        ? t("result.completeness_full", { defaultValue: "Full timetable" })
-        : t("result.completeness_unknown");
-  const retrievedTime = updated
-    ? new Date(updated).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-    : undefined;
-
-  return (
-    <aside
-      role="status"
-      className="m3-body-small mx-auto max-w-md border-l-2 border-slate-300 px-4 py-2.5 text-slate-600 dark:border-slate-600 dark:text-slate-300"
-    >
-      <div className="flex items-start justify-between gap-3">
-        <p className="min-w-0 flex-1">
-          <a
-            href={dataStatus.sourceUrl}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="m3-label-medium text-slate-700 underline underline-offset-2 dark:text-slate-200"
-          >
-            {dataStatus.source}
-          </a>
-          <span aria-hidden="true"> · </span>{completenessLabel}
-          {retrievedTime ? <><span aria-hidden="true"> · </span><time dateTime={updated}>{retrievedTime}</time></> : null}
-        </p>
-        <details className="shrink-0 text-right">
-          <summary className="m3-label-medium m3-state cursor-pointer list-none underline underline-offset-2">
-            {t("result.provenance_details")}
-          </summary>
-          <div className="mt-2 max-w-72 space-y-1 text-left">
-            {dataStatus.provider && dataStatus.provider !== dataStatus.source ? <p>{dataStatus.provider}</p> : null}
-            {updated ? <p>{t("result.data_updated")}: <time dateTime={updated}>{new Date(updated).toLocaleString()}</time></p> : null}
-            {dataStatus.sourceTier ? <p>{t("result.source_grade", { grade: dataStatus.sourceTier })}</p> : null}
-            {dataStatus.attribution ? <p>{dataStatus.attribution}</p> : null}
-          </div>
-        </details>
-      </div>
-    </aside>
-  );
-}
 
 function OfflineCacheNotice({ deliveryStatus }: { deliveryStatus?: SearchDeliveryStatus }) {
   const { t } = useTranslation();
@@ -133,7 +80,42 @@ function OfflineCacheNotice({ deliveryStatus }: { deliveryStatus?: SearchDeliver
 export function CountryResultsView(props: CountryResultsViewProps) {
   const { t } = useTranslation();
   const capability = getCountryCapability(props.country);
-  const notice = <SourceProvenanceNotice dataStatus={props.dataStatus} />;
+  const totalResults = props.totalResults ?? props.results.length;
+  const hasNoMatchingResults = props.results.length === 0 && totalResults > 0;
+  const hasNoSearchResults = props.results.length === 0 && totalResults === 0;
+  const mode = searchTimeMode(props);
+  const [nearestDate, setNearestDate] = useState<string>();
+  useEffect(() => {
+    setNearestDate(undefined);
+    if (props.noResultReason !== "future_date_unavailable") return;
+    let active = true;
+    // Offer only a date substantiated by current catalog coverage and market policy.
+    fetch(`/api/transit/stations?country=${encodeURIComponent(props.country)}`)
+      .then(response => response.ok ? response.json() : undefined)
+      .then(body => {
+        const range = body?.coverage?.dateRange;
+        if (!active || !range || !(range.days > 0)) return;
+        const offered = providerDateValues(props.country, countryConfig[props.country].dateRangeDays)
+          .filter(date => date >= range.start && date <= range.end);
+        const nearest = nearestAvailableDate(props.date, offered);
+        if (nearest !== props.date) setNearestDate(nearest);
+      }).catch(() => { /* Modifying conditions remains available if coverage cannot load. */ });
+    return () => { active = false; };
+  }, [props.country, props.date, props.noResultReason]);
+  const recovery = <>
+    {props.onChangeStations && (props.coverageGap || props.noResultReason === "unsupported_route") && (
+      <button type="button" className="m3-button m3-state border border-slate-300 dark:border-slate-700" onClick={props.onChangeStations}>{t("journey.change_stations")}</button>
+    )}
+    {!props.failureKind && props.noResultReason === "no_service" && mode !== "all_day" && !countryConfig[props.country].liveOnly && props.onRecover && (
+      <button type="button" className="m3-button m3-state border border-slate-300 dark:border-slate-700" onClick={() => props.onRecover!({ date: props.date, timeMode: "all_day" })}>{t("journey.all_day_recovery")}</button>
+    )}
+    {nearestDate && props.onRecover && (
+      <button type="button" className="m3-button m3-state border border-slate-300 dark:border-slate-700" onClick={() => props.onRecover!({ date: nearestDate, timeMode: mode === "now" ? "all_day" : mode })}>{t("search.date_unavailable_use_nearest", { date: nearestDate })}</button>
+    )}
+    {props.country === "korea" && ["direct", "first_class"].includes(props.koreaFilter) && props.onResetFilters && (
+      <button type="button" className="m3-button m3-state border border-slate-300 dark:border-slate-700" onClick={props.onResetFilters}>{t("journey.reset_filters")}</button>
+    )}
+  </>;
   const deliveryNotice = <OfflineCacheNotice deliveryStatus={props.deliveryStatus} />;
   const resultAnnouncement = props.results.length > 0 ? (
     <p role="status" aria-live="polite" className="sr-only">
@@ -145,20 +127,25 @@ export function CountryResultsView(props: CountryResultsViewProps) {
     destination: props.destination,
     date: props.date,
     time: props.time,
-    error: props.error,
-    noResultReason: props.noResultReason,
+    error: props.error || (hasNoSearchResults
+      ? t("search.no_result.no_verified_data")
+      : hasNoMatchingResults ? t("search.no_result.no_service") : undefined),
+    noResultReason: props.noResultReason ?? (!props.error && hasNoSearchResults
+      ? "no_verified_data" as const
+      : !props.error && hasNoMatchingResults ? "no_service" as const : undefined),
     failureKind: props.failureKind,
-    officialSourceUrl: props.officialSourceUrl,
+    officialSourceUrl: props.officialSourceUrl ?? props.dataStatus?.sourceUrl,
     coverageGap: props.coverageGap,
     results: props.results,
     savedIds: props.savedIds,
     onModify: props.onModify,
     onRetry: props.onRetry,
+    recovery,
     onSave: props.onSave,
     onOpenLegend: props.onOpenLegend,
     formatPrice: props.formatPrice,
-    overview: <>{resultAnnouncement}{deliveryNotice}{notice}</>,
-    afterFirstResult: props.overview,
+    overview: <>{resultAnnouncement}{deliveryNotice}</>,
+    afterResults: props.overview,
   };
   const supplementary = <TransitAppSupplement country={props.country} origin={props.origin} destination={props.destination} />;
 

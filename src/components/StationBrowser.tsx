@@ -25,6 +25,7 @@ interface StationBrowserProps {
   country: Country;
   target: "origin" | "destination";
   onBack: () => void;
+  onChooseCountry?: () => void;
   onSelectStation: (station: string, lineId?: string) => void;
   scrollToLineId?: string;
   selectedOrigin?: string;
@@ -43,6 +44,7 @@ export function StationBrowser({
   country,
   target,
   onBack,
+  onChooseCountry,
   onSelectStation,
   scrollToLineId,
   selectedOrigin,
@@ -50,6 +52,7 @@ export function StationBrowser({
 }: StationBrowserProps) {
   const { t } = useTranslation();
   const dialogRef = useRef<HTMLElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const theme = countryThemes[country] || countryThemes.japan;
   const stationKeyForCountry = (name: string) => stationSearchKey(resolveStationAlias(country, name));
   const buildAuditHeaders = () => getAuditHeaders(i18n.language, resolveAuditTimezone());
@@ -72,6 +75,7 @@ export function StationBrowser({
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [loadFailed, setLoadFailed] = useState(false);
+  const [reloadAttempt, setReloadAttempt] = useState(0);
   const [linesLoading, setLinesLoading] = useState(true);
   const [linesFailed, setLinesFailed] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
@@ -163,7 +167,7 @@ export function StationBrowser({
           target,
           reason: error.code === error.PERMISSION_DENIED ? "permission_denied" : "geolocation_error",
         }, { language: i18n.language });
-        setLocationError(t("stations.location_permission_denied"));
+        setLocationError(t(error.code === error.PERMISSION_DENIED ? "stations.location_permission_denied" : "stations.location_error"));
         setIsLocating(false);
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
@@ -196,7 +200,7 @@ export function StationBrowser({
       }
     };
 
-    const loadFromApi = async () => {
+    const loadCatalog = async () => {
       const response = await loadStationBrowserCatalog({
         country,
         date: selectedDate,
@@ -226,7 +230,7 @@ export function StationBrowser({
       setLinesLoading(true);
       setLoadFailed(false);
       setLinesFailed(false);
-      await loadFromApi();
+      await loadCatalog();
       if (active) {
         setIsLoading(false);
         setLinesLoading(false);
@@ -237,7 +241,7 @@ export function StationBrowser({
     return () => {
       active = false;
     };
-  }, [country, selectedDate, selectedOrigin, target, scrollToLineId]);
+  }, [country, selectedDate, selectedOrigin, target, scrollToLineId, reloadAttempt]);
 
   const [isInputFocused, setIsInputFocused] = useState(false);
 
@@ -487,6 +491,7 @@ export function StationBrowser({
             <div className="m3-search-bar m3-elevation-1 relative bg-slate-50 focus-within:bg-white dark:bg-slate-900 dark:focus-within:bg-slate-950">
               <Search aria-hidden="true" className="h-5 w-5 shrink-0 text-slate-500 dark:text-slate-400" />
               <input
+                ref={searchInputRef}
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
@@ -552,13 +557,26 @@ export function StationBrowser({
                 {isLocating ? t("stations.locating") : t("stations.use_current_location")}
               </button>
               {locationError && (
-                <p className="m3-body-small mt-2 text-center text-red-500 dark:text-red-400">
-                  {locationError}
-                </p>
+                <div role="alert" className="mt-2 space-y-2">
+                  <p className="m3-body-small text-center text-red-700 dark:text-red-400">{locationError}</p>
+                  <button type="button" className={`m3-button m3-state w-full ${theme.buttonBg} text-white`} onClick={() => {
+                    setLocationError(null);
+                    searchInputRef.current?.focus();
+                    searchInputRef.current?.scrollIntoView({ block: "nearest" });
+                  }}>{t("journey.manual_stations")}</button>
+                </div>
               )}
             </div>
           )}
         </div>
+
+        {loadFailed && !isLoading && <div role="alert" className="mx-5 mt-3 space-y-2">
+          <p className="m3-body-medium text-slate-700 dark:text-slate-300">{t("stations.unavailable")}</p>
+          <div className="flex flex-wrap gap-2">
+            <button type="button" className={`m3-button m3-state ${theme.buttonBg} text-white`} onClick={() => setReloadAttempt(attempt => attempt + 1)}>{t("journey.reload")}</button>
+            <button type="button" className="m3-button m3-state border border-slate-300 dark:border-slate-700" onClick={onChooseCountry ?? onBack}>{t("journey.choose_country")}</button>
+          </div>
+        </div>}
 
         {(noteKey || stationSource) && !searching && (
           <div className="px-5 pb-1 pt-3">

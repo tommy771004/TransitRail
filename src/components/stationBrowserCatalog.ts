@@ -1,7 +1,7 @@
 import type { TransitLine } from "../types";
 import type { StationCoverage } from "../data/stationCoverage";
 import type { ServiceRegion } from "../server/catalog";
-import { isServiceRegionCatalog } from "../data/serviceRegionCatalog";
+import { isCalendarDate, isServiceRegionCatalog } from "../data/serviceRegionCatalog";
 import { configuredCountryOptions, providerDateValue } from "../data/countries";
 import type { Country } from "../types";
 
@@ -22,6 +22,34 @@ export interface StationBrowserCatalogRequest {
 
 const requests = new Map<string, Promise<{ ok: boolean; data: StationBrowserCatalogPayload }>>();
 
+export const STATION_CATALOG_API_TIMEOUT_MS = 8_000;
+const STATIC_CATALOG_TIMEOUT_MS = 3_000;
+
+/** Bound the whole read, including a stalled response body, and release the connection. */
+async function fetchCatalogJson(fetcher: typeof fetch, url: string, timeoutMs: number, headers?: Record<string, string>): Promise<unknown> {
+  const controller = new AbortController();
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      (async () => {
+        const response = await fetcher(url, { headers, signal: controller.signal });
+        if (!response.ok) throw new Error("Station catalog unavailable");
+        return await response.json();
+      })(),
+      new Promise<never>((_, reject) => {
+        timer = setTimeout(() => {
+          controller.abort();
+          reject(new Error("Station catalog timed out"));
+        }, timeoutMs);
+      }),
+    ]);
+  } catch {
+    return undefined;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 function requestKey({ country, date, origin }: StationBrowserCatalogRequest): string {
   return new URLSearchParams({
     country,
@@ -37,29 +65,35 @@ export function loadStationBrowserCatalog(
 ): Promise<{ ok: boolean; data: StationBrowserCatalogPayload }> {
   if (!configuredCountryOptions.includes(request.country as Country)) return Promise.resolve({ ok: false, data: {} });
   const serviceDate = request.date || providerDateValue(request.country as Country);
+  if (!isCalendarDate(serviceDate)) return Promise.resolve({ ok: false, data: {} });
   const key = requestKey({ ...request, date: serviceDate });
   const existing = requests.get(key);
   if (existing) return existing;
   const pending = (async () => {
-    let response: Response;
-    let fallback = false;
-    try {
-      response = await fetcher(`/api/transit/catalog?${key}`, { headers: request.headers });
-      fallback = response.status >= 500 && response.status <= 599;
-    } catch {
-      fallback = true;
+    const snapshot = await fetchCatalogJson(fetcher, `/catalog/${request.country}.json`, STATIC_CATALOG_TIMEOUT_MS);
+    if (isServiceRegionCatalog(snapshot, { country: request.country })) {
+      const range = snapshot.coverage.dateRange;
+      // A provider directory is reusable within its published range. Verified
+      // snapshot pairs remain tied to one exact service day, never a timetable fallback.
+      const applicable = snapshot.serviceDate === serviceDate || (
+        snapshot.coverage.mode === "provider" && range !== undefined
+        && range.start <= serviceDate && serviceDate <= range.end
+      );
+      if (applicable) {
+        if (request.origin && snapshot.coverage.mode !== "provider") {
+          const destinations = Object.hasOwn(snapshot.destinationsByOrigin ?? {}, request.origin)
+            ? snapshot.destinationsByOrigin![request.origin] : [];
+          const stations = snapshot.stations.filter(station => destinations.includes(station));
+          return { ok: true, data: { ...snapshot, stations, coverage: {
+            ...snapshot.coverage, destinations: stations,
+            ...(!stations.length ? { messageKey: "stations.no_verified_destinations_for_origin" as const } : {}),
+          } } };
+        }
+        return { ok: true, data: snapshot };
+      }
     }
-    if (fallback) response = await fetcher(`/catalog/${request.country}.json`);
-    if (!response!.ok) return { ok: false, data: {} };
-    const data: unknown = await response!.json();
-    if (!isServiceRegionCatalog(data, { country: request.country, serviceDate, allowStationSubset: !fallback && Boolean(request.origin) })) return { ok: false, data: {} };
-    if (fallback && request.origin && data.coverage.mode !== "provider") {
-      const destinations = Object.hasOwn(data.destinationsByOrigin ?? {}, request.origin)
-        ? data.destinationsByOrigin![request.origin] : [];
-      data.stations = data.stations.filter(station => destinations.includes(station));
-      data.coverage = { ...data.coverage, destinations: data.stations };
-      if (!data.stations.length) data.coverage.messageKey = "stations.no_verified_destinations_for_origin";
-    }
+    const data = await fetchCatalogJson(fetcher, `/api/transit/catalog?${key}`, STATION_CATALOG_API_TIMEOUT_MS, request.headers);
+    if (!isServiceRegionCatalog(data, { country: request.country, serviceDate, allowStationSubset: Boolean(request.origin) })) return { ok: false, data: {} };
     return { ok: true, data };
   })()
     .then((result) => {

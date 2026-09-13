@@ -2,6 +2,7 @@
 // OS support: Linux, macOS, Windows
 // Description: Component to render Korea transit query results with staggered motion animations
 
+import { hasDisplayableFare } from "@/src/utils/fare";
 import { AlertTriangle, Utensils, Wifi, Zap } from "lucide-react";
 import { Fragment, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,7 +19,6 @@ import {
   formatDuration,
   renderEmptyBlock,
   renderMissBlock,
-  renderWeatherBlock,
   tripCardClass,
   tripCardMotion,
 } from "./ResultShell";
@@ -39,16 +39,17 @@ interface KoreaResultViewProps {
   onFilterChange: (filter: KoreaFilter) => void;
   onModify: () => void;
   onRetry?: () => void;
+  recovery?: ReactNode;
   onSave: (trip: TransitResult) => void;
   onSelectSeat: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
-  afterFirstResult?: ReactNode;
+  afterResults?: ReactNode;
 }
 
 const formatLocalPrice = (trip: TransitResult) =>
-  trip.price === undefined || !trip.currency ? null : new Intl.NumberFormat("ko-KR", {
+  !hasDisplayableFare(trip) ? null : new Intl.NumberFormat("ko-KR", {
     style: "currency",
     currency: trip.currency,
     maximumFractionDigits: 0,
@@ -70,17 +71,18 @@ export function KoreaResultView({
   onFilterChange,
   onModify,
   onRetry,
+  recovery,
   onSave,
   onSelectSeat,
   onOpenLegend,
   formatPrice,
   overview,
-  afterFirstResult,
+  afterResults,
 }: KoreaResultViewProps) {
   const { t } = useTranslation();
   const filters: Array<{ key: KoreaFilter; label: string }> = [
     { key: "all", label: t("result.all_times") },
-    { key: "cheapest", label: t("result.cheapest_first") },
+    { key: "cheapest", label: t(time ? "journey.secondary_cheapest" : "result.cheapest_first") },
     { key: "direct", label: t("result.direct") },
     { key: "first_class", label: t("result.first_class") },
   ];
@@ -91,41 +93,49 @@ export function KoreaResultView({
         country="korea"
         origin={origin}
         destination={destination}
-        meta={<p className="m3-body-small mt-1 font-mono text-slate-500 dark:text-slate-400">{date}{time ? ` · ≥ ${time}` : ""} · 1 {t("result.adult")}</p>}
+        meta={null}
+        weatherDate={!error && results.length > 0 ? date : undefined}
         onModify={onModify}
         onOpenLegend={onOpenLegend}
       />
 
       {overview}
 
-      <div className="sticky top-16 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-sm dark:border-slate-700/50 dark:bg-slate-900/95">
-        <div className="mx-auto flex max-w-md gap-2 overflow-x-auto px-4 py-3 no-scrollbar">
-          {filters.map((item) => (
-            <button
-              key={item.key}
-              onClick={() => {
-                triggerHaptic("light");
-                onFilterChange(item.key);
-              }}
-              className={`m3-chip m3-chip-touch m3-state relative shrink-0 ${
-                filter === item.key
-                  ? "text-white"
-                  : "text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700"
-              }`}
-            >
-              <span className="relative z-10">{item.label}</span>
-              {filter === item.key && (
-                <motion.div
-                  layoutId="koreaActiveFilterBg"
-                  className="m3-shape-sm absolute inset-0 bg-emerald-600"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
-            </button>
-          ))}
+      {!error && results.length > 0 && <div className="sticky top-16 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-sm dark:border-slate-700/50 dark:bg-slate-900/95">
+        <div className="mx-auto max-w-md overflow-x-auto px-4 py-3 no-scrollbar">
+          <div
+            data-korea-filter-control="true"
+            className="m3-shape-full flex w-max min-w-full overflow-hidden divide-x divide-slate-300 border border-slate-300 dark:divide-slate-600 dark:border-slate-600"
+            role="group"
+            aria-label={t("result.filter", { defaultValue: "篩選車次" })}
+          >
+            {filters.map((item) => (
+              <button
+                key={item.key}
+                aria-pressed={filter === item.key}
+                onClick={() => {
+                  triggerHaptic("light");
+                  onFilterChange(item.key);
+                }}
+                className={`m3-state m3-label-large relative flex min-h-12 min-w-24 flex-1 shrink-0 items-center justify-center px-3 py-2 text-center leading-tight ${
+                  filter === item.key
+                    ? "text-emerald-700 dark:text-emerald-300"
+                    : "bg-transparent text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+                }`}
+              >
+                <span className="relative z-10">{item.label}</span>
+                {filter === item.key && (
+                  <motion.div
+                    layoutId="koreaActiveFilterBg"
+                    className="absolute inset-0 bg-emerald-50 dark:bg-emerald-950/30"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
-
+      </div>}
       <div className="mx-auto max-w-md space-y-3 px-4 pt-4">
         <AnimatePresence mode="popLayout">
           {error && renderMissBlock({
@@ -138,6 +148,7 @@ export function KoreaResultView({
             errorTitle: t("result.unable_to_fetch"),
             onModify,
             onRetry,
+            recovery,
           })}
           {!error && results.length === 0 && renderEmptyBlock(t("result.no_results"), t("result.no_results_hint"))}
         </AnimatePresence>
@@ -145,6 +156,7 @@ export function KoreaResultView({
         <AnimatePresence mode="popLayout">
           {!error && results.map((trip, index) => {
           const isSaved = savedIds.has(trip.id);
+          const fare = hasDisplayableFare(trip) ? formatPrice?.(trip) || formatLocalPrice(trip) : null;
           return (
             <Fragment key={trip.id}>
             <motion.article
@@ -165,14 +177,14 @@ export function KoreaResultView({
                       <span className="m3-label-small truncate font-mono text-slate-400 dark:text-slate-500">{trip.trainType || trip.operator}</span>
                     </div>
                   </div>
-                  <div className="shrink-0 text-right">
-                    <span className="m3-chip m3-title-small border border-slate-100 bg-slate-50 px-3 text-slate-900 dark:border-slate-700/50 dark:bg-slate-800/80 dark:text-emerald-400">
-                      {formatPrice ? formatPrice(trip) : formatLocalPrice(trip) || t("result.fare_unavailable")}
-                    </span>
-                    <p className="m3-label-small mt-1 uppercase text-slate-400 dark:text-slate-500">
+                  {(fare || trip.seatClass) && <div className="shrink-0 text-right">
+                    {fare && <span className="m3-chip m3-title-small border border-slate-100 bg-slate-50 px-3 text-slate-900 dark:border-slate-700/50 dark:bg-slate-800/80 dark:text-emerald-400">
+                      {fare}
+                    </span>}
+                    {trip.seatClass && <p className="m3-label-small mt-1 uppercase text-slate-400 dark:text-slate-500">
                       {trip.seatClass === "first" ? t("result.first_class") : t("result.economy_class")}
-                    </p>
-                  </div>
+                    </p>}
+                  </div>}
                 </div>
 
                 <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 py-1">
@@ -231,7 +243,7 @@ export function KoreaResultView({
                 </div>
               </div>
             </motion.article>
-            {index === 0 ? <>{renderWeatherBlock(destination, date, "korea")}{afterFirstResult}</> : null}
+            {index === results.length - 1 ? afterResults : null}
             </Fragment>
           );
         })}

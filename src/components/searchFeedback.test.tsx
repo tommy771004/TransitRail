@@ -1,10 +1,10 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import i18n from "../i18n";
-import { renderMissBlock } from "./ResultShell";
+import { renderMissBlock, ResultShellHeader } from "./ResultShell";
 import { CountryResultsView, type CountryResultsViewProps } from "./CountryResultsView";
 import { SearchForm } from "./SearchForm";
-import { countryConfig, providerDateValues } from "../data/countries";
+import { countryConfig, providerDateValue, providerDateValues } from "../data/countries";
 
 // Leaflet requires a browser; these regressions exercise search feedback, not maps.
 vi.mock("./D3LeafletRouteMap", () => ({ D3LeafletRouteMap: () => null }));
@@ -15,6 +15,21 @@ const miss = {
   message: "Query detail", country: "japan" as const, errorTitle: "Unable to fetch",
   onModify: vi.fn(), onRetry: vi.fn(), sourceUrl: "https://example.com/timetable",
 };
+
+it("keeps the result title and actions in one responsive horizontal row", () => {
+  const html = renderToStaticMarkup(<ResultShellHeader
+    country="japan"
+    origin="Tokyo"
+    destination="Shin-Osaka"
+    meta={null}
+    weatherDate="2026-09-13"
+    onModify={vi.fn()}
+    onOpenLegend={vi.fn()}
+  />);
+  expect(html).toContain("min-w-0 flex-row items-center justify-between");
+  expect(html).not.toContain("flex-col");
+  expect(html.indexOf("data-weather-compact")).toBeLessThan(html.indexOf("Modify search"));
+});
 
 describe("search recovery", () => {
   it("offers retry only for a fetch failure and preserves the actual callbacks", () => {
@@ -61,32 +76,97 @@ const resultProps: CountryResultsViewProps = {
 };
 
 describe("source hierarchy and completeness", () => {
+  it.each(["japan", "korea", "singapore", "united_kingdom"] as const)("keeps all %s departures ahead of supplementary content", country => {
+    const trip = { id: "one", country, operator: "Test", service: "FIRST-TRIP", origin: "Asakusa", destination: "Shimbashi", departureTime: "10:00", direct: true, stops: [] };
+    const html = renderToStaticMarkup(<CountryResultsView {...resultProps} country={country} error={undefined} noResultReason={undefined}
+      results={[trip, { ...trip, id: "two", service: "SECOND-TRIP" }]} overview={<p>AFTER-ALL-TRIPS</p>} />);
+    expect(html.indexOf("FIRST-TRIP")).toBeLessThan(html.indexOf("SECOND-TRIP"));
+    expect(html.indexOf("SECOND-TRIP")).toBeLessThan(html.indexOf("AFTER-ALL-TRIPS"));
+    expect(html.indexOf("data-weather-compact")).toBeLessThan(html.indexOf("FIRST-TRIP"));
+    expect(html).not.toMatch(/1 Adult/i);
+  });
+  it.each(["japan", "korea", "singapore", "united_kingdom"] as const)("omits the visible search-condition summary above %s results", country => {
+    const trip = { id: "one", country, operator: "Test", service: "TEST-TRIP", origin: "Asakusa", destination: "Shimbashi", departureTime: "10:00", direct: true, stops: [] };
+    const html = renderToStaticMarkup(<CountryResultsView
+      {...resultProps}
+      country={country}
+      error={undefined}
+      noResultReason={undefined}
+      timeMode="specified"
+      time="00:05"
+      results={[trip]}
+    />);
+    expect(html).not.toContain("data-search-conditions");
+    expect(html).not.toContain(countryConfig[country].timeZone);
+  });
+  it.each(["japan", "korea"] as const)("hides invalid %s sorting tabs on both errors and empty success", country => {
+    for (const error of [undefined, "Provider unavailable"]) {
+      const html = renderToStaticMarkup(<CountryResultsView {...resultProps} country={country} error={error} onRetry={vi.fn()} />);
+      expect(html).not.toContain("Fastest");
+      expect(html).not.toContain("Earliest departure");
+      expect(html).not.toContain("Cheapest first");
+      expect(html).toContain("Change stations or date");
+    }
+  });
+  it("offers all-day recovery and a way to clear filters that hide every Korean departure", () => {
+    const html = renderToStaticMarkup(<CountryResultsView {...resultProps} country="korea" timeMode="specified" time="23:30"
+      error="No matching departures" noResultReason="no_service" koreaFilter="first_class" onRecover={vi.fn()} onResetFilters={vi.fn()} />);
+    expect(html).toContain("Search all day");
+    expect(html).toContain("Show all departures");
+  });
+  it("does not offer all-day as a fix for missing data and keeps the operator link on coverage gaps", () => {
+    const noDataHtml = renderToStaticMarkup(<CountryResultsView
+      {...resultProps}
+      timeMode="specified"
+      time="23:30"
+      onRecover={vi.fn()}
+    />);
+    expect(noDataHtml).not.toContain("Search all day");
+
+    const coverageHtml = renderToStaticMarkup(<CountryResultsView
+      {...resultProps}
+      error="This route is not covered"
+      noResultReason="unsupported_route"
+      coverageGap={{ uncovered: ["Unknown"], suggestions: [] }}
+      officialSourceUrl="https://example.com/operator-timetable"
+      onChangeStations={vi.fn()}
+    />);
+    expect(coverageHtml).toContain("Open the operator timetable");
+  });
+  it("keeps a filtered-empty result distinct from a missing timetable", () => {
+    const html = renderToStaticMarkup(<CountryResultsView
+      {...resultProps}
+      country="korea"
+      error={undefined}
+      noResultReason={undefined}
+      totalResults={2}
+      koreaFilter="first_class"
+      onResetFilters={vi.fn()}
+    />);
+    expect(html).toContain("No matching departures");
+    expect(html).toContain("Show all departures");
+    expect(html).not.toContain("No verified timetable available.");
+  });
   it.each(["japan", "korea", "singapore", "united_kingdom"] as const)("wires recovery through the %s result view", (country) => {
     const html = renderToStaticMarkup(<CountryResultsView {...resultProps} country={country} noResultReason={undefined} onRetry={vi.fn()} />);
     expect(html).toContain("Retry search");
     expect(html).toContain("Change stations or date");
   });
-  it.each([
-    ["sampled-service-day", "Selected departures only"],
-    ["bounded-upcoming", "Live upcoming departures only"],
-    [undefined, "Timetable completeness is not confirmed"],
-    ["full-day", "Full timetable"],
-  ] as const)("labels %s without assuming completeness", (temporalCoverage, label) => {
-    const html = renderToStaticMarkup(<CountryResultsView {...resultProps} dataStatus={{ kind: "snapshot", source: "Test operator", sourceUrl: "https://example.com", completeness: "full-timetable", temporalCoverage }} />);
-    expect(html).toContain(label);
-    if (temporalCoverage !== "full-day") expect(html).not.toContain("Full timetable");
-    expect(html.indexOf("<main")).toBeLessThan(html.indexOf("Test operator"));
-    expect(html.indexOf("</h1>")).toBeLessThan(html.indexOf("Test operator"));
+  it("does not render timetable provenance above country results", () => {
+    const html = renderToStaticMarkup(<CountryResultsView {...resultProps} dataStatus={{ kind: "snapshot", source: "SOURCE-MARKER", sourceUrl: "https://example.com", completeness: "full-timetable", temporalCoverage: "bounded-upcoming" }} />);
+    expect(html).not.toContain("SOURCE-MARKER");
+    expect(html).not.toContain("Live upcoming departures only");
+    expect(html).not.toContain("Details");
   });
-  it("keeps offline cache provenance visible beside the original timetable source", () => {
+  it("keeps the offline cache warning visible without the timetable provenance block", () => {
     const html = renderToStaticMarkup(<CountryResultsView
       {...resultProps}
-      dataStatus={{ kind: "snapshot", source: "Test operator", sourceUrl: "https://example.com", completeness: "full-timetable" }}
+      dataStatus={{ kind: "snapshot", source: "SOURCE-MARKER", sourceUrl: "https://example.com", completeness: "full-timetable" }}
       deliveryStatus={{ kind: "offline-cache", fetchedAt: "2026-09-13T01:23:00.000Z" }}
     />);
     expect(html).toContain("Offline cached result");
     expect(html).toContain('dateTime="2026-09-13T01:23:00.000Z"');
-    expect(html).toContain("Test operator");
+    expect(html).not.toContain("SOURCE-MARKER");
   });
   it("announces successful results and places the first trip before supplemental overview content", () => {
     const html = renderToStaticMarkup(<CountryResultsView
@@ -108,9 +188,7 @@ describe("source hierarchy and completeness", () => {
       }]}
       overview={<div>OVERVIEW-MARKER</div>}
     />);
-    expect(html).toContain("Found 1 verified departure");
-    expect(html.indexOf("Test operator")).toBeLessThan(html.indexOf("Earliest departure"));
-    expect(html.indexOf("Earliest departure")).toBeLessThan(html.indexOf("FIRST-TRIP-MARKER"));
+    expect(html).toContain('<p role="status" aria-live="polite" class="sr-only">Found 1 verified departures.</p>');
     expect(html.indexOf("FIRST-TRIP-MARKER")).toBeLessThan(html.indexOf("OVERVIEW-MARKER"));
   });
 });
@@ -129,6 +207,28 @@ it("keeps an unavailable requested date visible instead of silently selecting to
   // with the shape/state tokens, so this tracks that prefix.
   expect(html).not.toContain('aria-pressed="true" class="m3-card m3-state');
   expect(noop).not.toHaveBeenCalled();
+});
+
+it("places departure-time context on the same row as the offered date range", () => {
+  const noop = vi.fn();
+  const html = renderToStaticMarkup(<SearchForm
+    params={{ country: "japan", origin: "Asakusa", destination: "Shimbashi", date: providerDateValue("japan"), timeMode: "all_day" }}
+    isSearching={false} recentHistory={[]} favorites={[]}
+    onToggleFavorite={noop} onRemoveFavorite={noop} onRepeatFavoriteSearch={noop}
+    onChange={noop} onSearch={async () => {}} onOpenStations={noop} onOpenWorkflow={noop}
+    onRepeatSearch={noop} onTogglePinHistory={noop}
+  />);
+  const rowStart = html.indexOf("data-search-capability");
+  const rowEnd = html.indexOf("</div>", rowStart);
+  const capabilityRow = html.slice(rowStart, rowEnd);
+  expect(capabilityRow).toContain("9/13");
+  expect(capabilityRow).toContain("9/19");
+  expect(capabilityRow).toContain("Departure time");
+  expect(capabilityRow).toContain("Asia/Tokyo local time");
+  expect(html).not.toContain("lucide-calendar-days");
+  expect(html).toContain('role="group" aria-label="Date of Travel"');
+  expect(html).toContain('data-time-mode-control="true"');
+  expect(html).toContain("m3-shape-full grid grid-cols-3 overflow-hidden divide-x");
 });
 
 it("offers the nearest answerable day as an explicit action, never applied on its own", () => {

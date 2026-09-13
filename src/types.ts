@@ -17,12 +17,16 @@ export type SortMode = "fastest" | "earliest" | "cheapest";
 
 export type KoreaFilter = "all" | "cheapest" | "direct" | "first_class";
 
+export type TimeMode = "now" | "specified" | "all_day";
+
 export interface SearchParams {
   origin: string;
   destination: string;
   date: string;
   /** Only return departures at or after this local service time. */
   time?: string;
+  /** Explicit passenger intent; absent on legacy saved searches. */
+  timeMode?: TimeMode;
   country: Country;
   preferredTransitTypes?: string[];
 }

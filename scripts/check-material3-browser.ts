@@ -21,6 +21,8 @@ try {
     import { BottomNav } from '../src/components/BottomNav';
     import { Snackbar } from '../src/components/Snackbar';
     import { StationBrowser } from '../src/components/StationBrowser';
+    import { MetroResultView } from '../src/components/MetroResultView';
+    import { TripDetails } from '../src/components/TripDetails';
     import i18n from '../src/i18n';
     await i18n.changeLanguage('en');
 
@@ -30,6 +32,20 @@ try {
       const [view, setView] = useState('search');
       const [stationOpen, setStationOpen] = useState(false);
       const [snack, setSnack] = useState();
+      const [converted, setConverted] = useState(false);
+      const [unknown, setUnknown] = useState(false);
+      if (new URLSearchParams(location.search).has('fare')) {
+        const trip = { id: 'fare', country: 'hong_kong', date: '2026-09-13', operator: 'MTR', service: 'Tsuen Wan Line', origin: 'Central', destination: unknown ? 'Unknown' : 'Admiralty', departureTime: '10:00', direct: true, stops: [] };
+        return <main className="mx-auto max-w-xl p-4">
+          <button className="m3-button" onClick={() => setConverted(!converted)}>Change currency</button>
+          <button className="m3-button" onClick={() => setUnknown(!unknown)}>Change destination</button>
+          <TripDetails trip={trip} formatPrice={t => converted ? 'NT$' + t.price / 0.25 : 'HK$' + t.price} />
+        </main>;
+      }
+      if (new URLSearchParams(location.search).has('metro')) {
+        const trip = { id: 'metro', country: 'hong_kong', operator: 'MTR', service: 'TWL', origin: 'Central', destination: 'Jordan', departureTime: '10:00', direct: true, stops: [] };
+        return <MetroResultView country="hong_kong" origin="Central" destination="Jordan" date="2026-09-13" results={[trip]} savedIds={new Set()} onModify={() => {}} onSave={() => {}} />;
+      }
       return <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
         <Header onMenuOpen={() => {}} onProfileOpen={() => {}} timezone="Asia/Taipei" homeCurrency="TWD" />
         <main className="px-4 pb-nav pt-22">
@@ -46,6 +62,7 @@ try {
 
   server = await createServer({
     configFile: false,
+    resolve: { alias: { "@": resolve() } },
     plugins: [tailwindcss()],
     esbuild: { jsx: "automatic" },
     cacheDir: resolve(dir, ".vite-cache"),
@@ -197,7 +214,106 @@ try {
     }
   }
 
+  for (const width of [390, 1280]) {
+    const page = await browser.newPage({ viewport: { width, height: 844 }, reducedMotion: "reduce" });
+    await page.route("**/*", route => {
+      const url = new URL(route.request().url());
+      if (url.origin !== base) return route.abort();
+      if (url.pathname.startsWith("/api/")) return route.fulfill({ json: {} });
+      return route.continue();
+    });
+    await page.goto(`${base}/${relative(resolve(), dir)}/index.html?metro=1`);
+    const details = page.getByRole("button", { name: "Trip details & timeline" });
+    await details.waitFor();
+    const intermediate = page.getByText("Admiralty", { exact: true });
+    if (await intermediate.isVisible()) throw new Error("Metro stops escaped the collapsed details panel");
+    await details.focus();
+    await page.keyboard.press("Enter");
+    await intermediate.waitFor({ state: "visible" });
+    if (await intermediate.count() !== 1) throw new Error("Duplicate Metro stop sequence");
+    if (await page.getByText("Tsim Sha Tsui", { exact: true }).count() !== 1) throw new Error("Incomplete Metro stop sequence");
+    if (await page.getByRole("button", { name: /Show .* intermediate stops/ }).count()) throw new Error("Metro stops require a second disclosure");
+    if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)) throw new Error(`Metro details overflow at ${width}px`);
+    if (process.env.UI_SCREENSHOT_DIR) await page.screenshot({ path: resolve(process.env.UI_SCREENSHOT_DIR, `metro-details-${width}.png`), fullPage: true });
+    await page.getByRole("button", { name: "Hide details" }).click();
+    if (await intermediate.isVisible()) throw new Error("Metro stops remain visible after closing details");
+    await page.close();
+  }
+
+  {
+    const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
+    let recovered = false;
+    let staticReads = 0;
+    let apiReads = 0;
+    await page.route("**/*", route => {
+      const url = new URL(route.request().url());
+      if (url.origin !== base) return route.abort();
+      if (url.pathname === "/api/transit/audit") return route.fulfill({ status: 204 });
+      if (url.pathname === "/catalog/united_kingdom.json") {
+        staticReads++;
+        if (!recovered) return route.fulfill({ status: 503, body: "Unavailable" });
+        const line = { id: "recovered", name: "Recovered line", stations: [{ name: "Recovered Station" }, { name: "B" }] };
+        return route.fulfill({ json: {
+          country: "united_kingdom", serviceDate: "2026-09-12", stations: ["Recovered Station", "B"], lines: [line],
+          regions: [{ id: "region", name: "Region", lines: [line] }],
+          coverage: { mode: "provider", date: "2026-09-12", dateRange: { start: "2026-09-12", end: "2026-09-14", days: 3, liveOnly: false } },
+        } });
+      }
+      if (url.pathname === "/api/transit/catalog") {
+        apiReads++;
+        return route.fulfill({ status: 503, body: "Unavailable" });
+      }
+      return route.continue();
+    });
+    await page.goto(`${base}/${relative(resolve(), dir)}/index.html?country=united_kingdom&date=2026-09-13`);
+    await page.locator("#open-stations").click();
+    const reload = page.getByRole("dialog").getByRole("button", { name: /reload/i });
+    await reload.waitFor();
+    recovered = true;
+    await reload.click();
+    await page.getByRole("dialog").getByText("Recovered Station", { exact: true }).waitFor();
+    if (staticReads !== 2 || apiReads !== 1) throw new Error("Station reload did not retry or valid provider JSON contacted the API");
+    await page.close();
+  }
+
+  for (const width of [390, 1280]) {
+    const page = await browser.newPage({ viewport: { width, height: 844 }, reducedMotion: "reduce" });
+    let fareReads = 0;
+    const errors: string[] = [];
+    page.on("pageerror", error => errors.push(error.message));
+    await page.route("**/*", route => {
+      const url = new URL(route.request().url());
+      if (url.origin !== base) return route.abort();
+      if (url.pathname === "/fares/hong_kong.json") {
+        fareReads++;
+        return route.fulfill({ json: JSON.parse(readFileSync(resolve("public/fares/hong_kong.json"), "utf8")) });
+      }
+      return route.continue();
+    });
+    await page.goto(`${base}/${relative(resolve(), dir)}/index.html?fare=1`);
+    await page.getByRole("button", { name: "Trip details & timeline" }).waitFor();
+    if (fareReads) throw new Error("Collapsed details downloaded fares");
+    await page.getByRole("button", { name: "Trip details & timeline" }).click();
+    const fare = page.locator("[data-trip-fare]");
+    await fare.getByText("HK$5", { exact: true }).waitFor();
+    if (await fare.count() !== 1) throw new Error("Duplicate fare blocks");
+    await page.getByRole("button", { name: "Change currency" }).click();
+    await fare.getByText("NT$20", { exact: true }).waitFor();
+    await page.getByRole("button", { name: "Change destination" }).click();
+    await fare.waitFor({ state: "detached" });
+    await page.getByRole("button", { name: "Change destination" }).click();
+    await fare.getByText("NT$20", { exact: true }).waitFor();
+    if (fareReads !== 1) throw new Error("Fare preferences bypassed the session cache");
+    if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)) throw new Error(`Fare details overflow at ${width}px`);
+    if (errors.length) throw new Error(errors.join("\n"));
+    if (process.env.UI_SCREENSHOT_DIR) await page.screenshot({ path: resolve(process.env.UI_SCREENSHOT_DIR, `fare-details-${width}.png`), fullPage: true });
+    await page.close();
+  }
+
   console.log("PASS: M3 shell, four locales, navigation, snackbar and station dialog across mobile/desktop and light/dark.");
+  console.log("PASS: Metro stop sequence uses one keyboard-accessible disclosure across mobile/desktop.");
+  console.log("PASS: Station reload retries failed reads and accepts provider JSON within its valid date range.");
+  console.log("PASS: Official fare details load on expansion, convert currency and hide unmatched journeys across mobile/desktop.");
 } finally {
   await browser?.close();
   await server?.close();
