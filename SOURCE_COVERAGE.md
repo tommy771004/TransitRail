@@ -1,6 +1,6 @@
 # Source coverage and audit
 
-Generated 2026-09-13T23:46:36.572Z by `npm run audit:sources`. Do not edit by hand.
+Generated 2026-09-15T00:05:25.319Z by `npm run audit:sources`. Do not edit by hand.
 
 Every departure TransitRail serves comes from a source in
 [`src/data/sourceRegistry.ts`](src/data/sourceRegistry.ts). A route with no registered source
@@ -9,27 +9,27 @@ carries no departures and search answers *No verified timetable available.*
 ## Summary
 
 - 12 of 14 configured markets serve departure times.
-- 85,710 stored departures across 367 verified routes.
+- 74,393 stored departures across 367 verified routes.
 - 1 market(s) can answer nothing: china.
 
 ## What each market can answer
 
 | Market | Answers | Network today | Timetable as of fetch | Sources | Tier | Completeness | Routes | Departures | Artifact runs | Service days |
 | --- | --- | --- | --- | --- | --- | --- | ---: | ---: | ---: | --- |
-| 🇯🇵 japan | Departure times | 3/3 declared regions; 11/19 declared lines; 191/221 declared stations: tokyo-urban, japan-intercity, takamatsu-kotoden | stale (2026-09-14); observed 00:02–23:58; 2026-09-12T23:35:00.808Z | jp-jr-central<br>jp-kotoden-gtfs<br>jp-odpt-toei<br>jp-odpt-tokyo-metro | A, C | full-timetable | 50 | 27,733 | — | 2026-09-14 … 2026-09-21 (8) |
-| 🇰🇷 korea | Departure times | 2/2 declared regions; 28/31 declared lines; 517/587 declared stations: seoul-capital, korail-intercity | stale (2026-09-14); observed 00:00–23:28; 2026-09-12T23:32:01.014Z | kr-incheon-transit-csv<br>kr-korail-timetable-xlsx<br>kr-seoul-metro-csv | A | full-timetable | 193 | 7,868 | 13,675 | 2026-09-14 … 2026-09-21 (8) |
-| 🇨🇳 china | **No data** — no registered source | No searchable network (0/1 declared regions; 0/6 declared lines; 0/17 declared stations) — stations.no_registered_timetable_source | unavailable (2026-09-14) | — | — | — | 0 | 0 | — | — |
-| 🇸🇬 singapore | Departure times | Directory only (1/1 declared regions; 9/9 declared lines; 184/184 declared stations) — stations.no_verified_timetable_for_date | stale (2026-09-14); observed 05:16–23:56; 2026-09-12T23:30:56.546Z | sg-lta-gtfs | A | full-timetable | 5 | 12,546 | — | 2026-09-14 … 2026-09-21 (8) |
-| 🇲🇾 malaysia | Departure times | 1/1 declared regions; 3/3 declared lines; 5/5 declared stations: malaysia-intercity | stale (2026-09-14); observed 05:54–22:04; 2026-09-12T23:30:58.889Z | my-ktmb-gtfs | A | full-timetable | 3 | 462 | — | 2026-09-14 … 2026-09-21 (8) |
-| 🇹🇭 thailand | Service hours / frequency only | Directory only (1/1 declared regions; 7/5 declared lines; 167/119 declared stations) — stations.no_verified_timetable_for_date | frequency-or-service-hours (2026-09-14); 2026-09-13T23:44:02.343Z | th-bem-service-hours | C | frequency-only | 4 | 0 | — | — |
-| 🇭🇰 hong_kong | Departure times | 1/1 declared regions; 10/6 declared lines; 98/23 declared stations: hong-kong | bounded-upcoming (2026-09-14); observed 07:44–08:20; 2026-09-13T23:44:05.314Z | hk-mtr-next-train | A | full-timetable | 4 | 16 | — | 2026-09-14 |
-| 🇬🇧 united_kingdom | Departure times | No searchable network (0/1 declared regions; 0/11 declared lines; 0/961 declared stations) — stations.no_verified_searchable_lines_for_date | stale (2026-09-14); observed 05:32–23:36; 2026-09-12T23:47:03.887Z | uk-tfl-journey-planner | A | full-timetable | 4 | 1,049 | — | 2026-09-14 … 2026-09-21 (8) |
-| 🇺🇸 united_states | Departure times | 1/1 declared regions; 4/6 declared lines; 6/263 declared stations: boston | stale (2026-09-13); observed 00:01–23:59; 2026-09-12T23:47:23.008Z | us-mbta-journey-planner-web<br>us-mbta-v3 | A, B | full-timetable | 4 | 5,355 | — | 2026-09-13 … 2026-09-21 (9) |
-| 🇩🇪 germany | Departure times | 1/1 declared regions; 4/6 declared lines; 12/17 declared stations: germany-intercity | stale (2026-09-14); observed 00:01–23:28; 2026-09-12T23:35:04.089Z | de-gtfs | A | full-timetable | 4 | 913 | — | 2026-09-14 … 2026-09-21 (8) |
-| 🇫🇷 france | Departure times | 1/1 declared regions; 3/4 declared lines; 14/18 declared stations: france-intercity | stale (2026-09-14); observed 06:03–20:25; 2026-09-12T23:35:57.125Z | fr-sncf-gtfs | A | full-timetable | 4 | 591 | — | 2026-09-14 … 2026-09-21 (8) |
-| 🇧🇪 belgium | Departure times | 1/1 declared regions; 5/5 declared lines; 21/714 declared stations: belgium-intercity | stale (2026-09-14); observed 04:11–08:03; 2026-09-12T23:36:20.647Z | be-irail | A | full-timetable | 5 | 240 | — | 2026-09-14 … 2026-09-21 (8) |
-| 🇳🇴 norway | Departure times | 1/1 declared regions; 5/5 declared lines; 7/12 declared stations: norway-intercity | stale (2026-09-14); observed 08:10–12:06; 2026-09-12T23:37:10.275Z | no-entur | A | full-timetable | 5 | 214 | — | 2026-09-14 … 2026-09-21 (8) |
-| 🇨🇭 switzerland | Departure times | 1/1 declared regions; 5/5 declared lines; 21/23 declared stations: switzerland-intercity | stale (2026-09-14); observed 00:02–23:58; 2026-09-12T23:42:11.143Z | ch-opentransportdata-gtfs | A | full-timetable | 82 | 28,723 | — | 2026-09-14 … 2026-09-21 (8) |
+| 🇯🇵 japan | Departure times | 3/3 declared regions; 11/19 declared lines; 191/221 declared stations: tokyo-urban, japan-intercity, takamatsu-kotoden | stale (2026-09-15); observed 00:02–23:58; 2026-09-12T23:35:00.808Z | jp-jr-central<br>jp-kotoden-gtfs<br>jp-odpt-toei<br>jp-odpt-tokyo-metro | A, C | full-timetable | 50 | 24,162 | — | 2026-09-15 … 2026-09-21 (7) |
+| 🇰🇷 korea | Departure times | 2/2 declared regions; 28/31 declared lines; 517/587 declared stations: seoul-capital, korail-intercity | stale (2026-09-15); observed 00:00–23:28; 2026-09-12T23:32:01.014Z | kr-incheon-transit-csv<br>kr-korail-timetable-xlsx<br>kr-seoul-metro-csv | A | full-timetable | 193 | 6,909 | 13,675 | 2026-09-15 … 2026-09-21 (7) |
+| 🇨🇳 china | **No data** — no registered source | No searchable network (0/1 declared regions; 0/6 declared lines; 0/17 declared stations) — stations.no_registered_timetable_source | unavailable (2026-09-15) | — | — | — | 0 | 0 | — | — |
+| 🇸🇬 singapore | Departure times | Directory only (1/1 declared regions; 9/9 declared lines; 184/184 declared stations) — stations.no_verified_timetable_for_date | stale (2026-09-15); observed 05:16–23:56; 2026-09-12T23:30:56.546Z | sg-lta-gtfs | A | full-timetable | 5 | 10,921 | — | 2026-09-15 … 2026-09-21 (7) |
+| 🇲🇾 malaysia | Departure times | 1/1 declared regions; 3/3 declared lines; 5/5 declared stations: malaysia-intercity | stale (2026-09-15); observed 05:54–22:04; 2026-09-12T23:30:58.889Z | my-ktmb-gtfs | A | full-timetable | 3 | 402 | — | 2026-09-15 … 2026-09-21 (7) |
+| 🇹🇭 thailand | Service hours / frequency only | Directory only (1/1 declared regions; 7/5 declared lines; 167/119 declared stations) — stations.no_verified_timetable_for_date | frequency-or-service-hours (2026-09-15); 2026-09-15T00:03:23.658Z | th-bem-service-hours | C | frequency-only | 4 | 0 | — | — |
+| 🇭🇰 hong_kong | Departure times | 1/1 declared regions; 10/6 declared lines; 98/23 declared stations: hong-kong | bounded-upcoming (2026-09-15); observed 08:03–08:40; 2026-09-15T00:03:26.304Z | hk-mtr-next-train | A | full-timetable | 4 | 16 | — | 2026-09-15 |
+| 🇬🇧 united_kingdom | Departure times | No searchable network (0/1 declared regions; 0/11 declared lines; 0/961 declared stations) — stations.no_verified_searchable_lines_for_date | stale (2026-09-15); observed 05:32–23:36; 2026-09-12T23:47:03.887Z | uk-tfl-journey-planner | A | full-timetable | 4 | 917 | — | 2026-09-15 … 2026-09-21 (7) |
+| 🇺🇸 united_states | Departure times | 1/1 declared regions; 4/6 declared lines; 6/263 declared stations: boston | stale (2026-09-14); observed 00:01–23:59; 2026-09-12T23:47:23.008Z | us-mbta-journey-planner-web<br>us-mbta-v3 | A, B | full-timetable | 4 | 4,783 | — | 2026-09-14 … 2026-09-21 (8) |
+| 🇩🇪 germany | Departure times | 1/1 declared regions; 4/6 declared lines; 12/17 declared stations: germany-intercity | stale (2026-09-15); observed 00:01–23:22; 2026-09-12T23:35:04.089Z | de-gtfs | A | full-timetable | 4 | 799 | — | 2026-09-15 … 2026-09-21 (7) |
+| 🇫🇷 france | Departure times | 1/1 declared regions; 3/4 declared lines; 14/18 declared stations: france-intercity | stale (2026-09-15); observed 06:03–20:25; 2026-09-12T23:35:57.125Z | fr-sncf-gtfs | A | full-timetable | 4 | 515 | — | 2026-09-15 … 2026-09-21 (7) |
+| 🇧🇪 belgium | Departure times | 1/1 declared regions; 5/5 declared lines; 21/714 declared stations: belgium-intercity | stale (2026-09-15); observed 04:11–08:03; 2026-09-12T23:36:20.647Z | be-irail | A | full-timetable | 5 | 210 | — | 2026-09-15 … 2026-09-21 (7) |
+| 🇳🇴 norway | Departure times | 1/1 declared regions; 5/5 declared lines; 7/12 declared stations: norway-intercity | stale (2026-09-15); observed 08:10–12:06; 2026-09-12T23:37:10.275Z | no-entur | A | full-timetable | 5 | 187 | — | 2026-09-15 … 2026-09-21 (7) |
+| 🇨🇭 switzerland | Departure times | 1/1 declared regions; 5/5 declared lines; 21/23 declared stations: switzerland-intercity | stale (2026-09-15); observed 00:02–23:58; 2026-09-12T23:42:11.143Z | ch-opentransportdata-gtfs | A | full-timetable | 82 | 24,572 | — | 2026-09-15 … 2026-09-21 (7) |
 
 ## Latest committed scrape attempt
 
@@ -37,20 +37,20 @@ This section is read from each market's committed `metadata.json`, which the dai
 
 | Market | Metadata built at | Failed attempts | Details |
 | --- | --- | ---: | --- |
-| 🇯🇵 japan | 2026-09-13T23:44:07.048Z | 0 | — |
-| 🇰🇷 korea | 2026-09-13T23:44:07.048Z | 0 | — |
-| 🇨🇳 china | 2026-09-13T23:44:07.048Z | 0 | — |
-| 🇸🇬 singapore | 2026-09-13T23:44:07.048Z | 0 | — |
-| 🇲🇾 malaysia | 2026-09-13T23:44:07.048Z | 0 | — |
-| 🇹🇭 thailand | 2026-09-13T23:44:07.048Z | 0 | — |
-| 🇭🇰 hong_kong | 2026-09-13T23:44:07.048Z | 0 | — |
-| 🇬🇧 united_kingdom | 2026-09-13T23:44:07.048Z | 0 | — |
-| 🇺🇸 united_states | 2026-09-13T23:44:07.048Z | 0 | — |
-| 🇩🇪 germany | 2026-09-13T23:44:07.048Z | 0 | — |
-| 🇫🇷 france | 2026-09-13T23:44:07.048Z | 0 | — |
-| 🇧🇪 belgium | 2026-09-13T23:44:07.048Z | 0 | — |
-| 🇳🇴 norway | 2026-09-13T23:44:07.048Z | 0 | — |
-| 🇨🇭 switzerland | 2026-09-13T23:44:07.048Z | 0 | — |
+| 🇯🇵 japan | 2026-09-15T00:03:28.437Z | 0 | — |
+| 🇰🇷 korea | 2026-09-15T00:03:28.437Z | 0 | — |
+| 🇨🇳 china | 2026-09-15T00:03:28.437Z | 0 | — |
+| 🇸🇬 singapore | 2026-09-15T00:03:28.437Z | 0 | — |
+| 🇲🇾 malaysia | 2026-09-15T00:03:28.437Z | 0 | — |
+| 🇹🇭 thailand | 2026-09-15T00:03:28.437Z | 0 | — |
+| 🇭🇰 hong_kong | 2026-09-15T00:03:28.437Z | 0 | — |
+| 🇬🇧 united_kingdom | 2026-09-15T00:03:28.437Z | 0 | — |
+| 🇺🇸 united_states | 2026-09-15T00:03:28.437Z | 0 | — |
+| 🇩🇪 germany | 2026-09-15T00:03:28.437Z | 0 | — |
+| 🇫🇷 france | 2026-09-15T00:03:28.437Z | 0 | — |
+| 🇧🇪 belgium | 2026-09-15T00:03:28.437Z | 0 | — |
+| 🇳🇴 norway | 2026-09-15T00:03:28.437Z | 0 | — |
+| 🇨🇭 switzerland | 2026-09-15T00:03:28.437Z | 0 | — |
 
 ## Cached station and line directories
 
@@ -107,8 +107,8 @@ These gaps come from the same `countryConfig` market boundary that the catalog a
 | korea | 2026-09-09T17:27:18.865Z | 2026-09-12T23:32:01.014Z |
 | singapore | 2026-09-12T23:30:55.412Z | 2026-09-12T23:30:56.546Z |
 | malaysia | 2026-09-12T23:30:58.879Z | 2026-09-12T23:30:58.889Z |
-| thailand | 2026-09-13T23:44:02.338Z | 2026-09-13T23:44:02.343Z |
-| hong_kong | 2026-09-13T23:44:03.303Z | 2026-09-13T23:44:05.314Z |
+| thailand | 2026-09-15T00:03:23.654Z | 2026-09-15T00:03:23.658Z |
+| hong_kong | 2026-09-15T00:03:24.399Z | 2026-09-15T00:03:26.304Z |
 | united_kingdom | 2026-09-12T23:46:16.605Z | 2026-09-12T23:47:03.887Z |
 | united_states | 2026-09-12T23:34:10.036Z | 2026-09-12T23:47:23.008Z |
 | germany | 2026-09-12T23:35:03.937Z | 2026-09-12T23:35:04.089Z |
