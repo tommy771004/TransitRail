@@ -4,41 +4,48 @@
   "source": "MTR real-time next train API",
   "sourceUrl": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
   "sourceTier": "A",
-  "fetchedAt": "2026-09-19T23:43:52.925Z",
-  "builtAt": "2026-09-19T23:43:54.563Z",
+  "fetchedAt": "2026-09-20T23:40:24.235Z",
+  "builtAt": "2026-09-20T23:40:26.257Z",
   "recordCount": 16,
   "routeCount": 4,
-  "successRate": 1,
-  "failedRoutes": [],
+  "successRate": 0.75,
+  "failedRoutes": [
+    {
+      "origin": "Hong Kong",
+      "destination": "Airport",
+      "error": "MTR returned no departures for Hong Kong → Airport on 2026-09-21"
+    }
+  ],
   "coverage": {
     "verifiedRoutes": 4,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-09-20"
+      "2026-09-20",
+      "2026-09-21"
     ]
   },
-  "checksum": "faa0ff9c91f2a8ad017111892a90349bcf1ee169c03660c1a6edce914474d774",
+  "checksum": "548327002128f20a2f00b43842cf56bbd2a38dab60f2aa5953247859aa6bf444",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Admiralty",
       "destination": "Tsim Sha Tsui",
       "resultCount": 4,
-      "date": "2026-09-20",
+      "date": "2026-09-21",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-19T23:43:51.934Z",
+      "fetchedAt": "2026-09-20T23:40:22.517Z",
       "verified": true
     },
     {
       "origin": "Central",
       "destination": "Tsuen Wan",
       "resultCount": 4,
-      "date": "2026-09-20",
+      "date": "2026-09-21",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-19T23:43:52.258Z",
+      "fetchedAt": "2026-09-20T23:40:23.272Z",
       "verified": true
     },
     {
@@ -55,10 +62,10 @@
       "origin": "Tung Chung",
       "destination": "Sunny Bay",
       "resultCount": 4,
-      "date": "2026-09-20",
+      "date": "2026-09-21",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-19T23:43:52.925Z",
+      "fetchedAt": "2026-09-20T23:40:24.235Z",
       "verified": true
     }
   ]
