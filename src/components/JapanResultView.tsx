@@ -35,6 +35,8 @@ interface JapanResultViewProps {
   formatPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
   afterResults?: ReactNode;
+  /** Injectable wall clock for the countdown; tests pin it. */
+  now?: () => Date;
 }
 
 export function JapanResultView({
@@ -61,6 +63,7 @@ export function JapanResultView({
   formatPrice,
   overview,
   afterResults,
+  now,
 }: JapanResultViewProps) {
   const { t } = useTranslation();
 
@@ -81,7 +84,9 @@ export function JapanResultView({
       <ResultList
         country={country}
         results={results}
+        date={date}
         time={time}
+        now={now}
         error={error}
         noResultReason={noResultReason}
         failureKind={failureKind}

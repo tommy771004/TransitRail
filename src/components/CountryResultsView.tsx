@@ -59,6 +59,8 @@ export type CountryResultsViewProps = {
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
+  /** Injectable wall clock for the departure countdown; tests pin it. */
+  now?: () => Date;
 };
 
 function OfflineCacheNotice({ deliveryStatus }: { deliveryStatus?: SearchDeliveryStatus }) {
@@ -147,6 +149,7 @@ export function CountryResultsView(props: CountryResultsViewProps) {
     // Every market sorts the same way; the list owns the chips.
     sortMode: props.sortMode,
     onSortChange: props.onSortChange,
+    now: props.now,
     overview: <>{resultAnnouncement}{deliveryNotice}</>,
     afterResults: props.overview,
   };

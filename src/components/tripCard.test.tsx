@@ -24,8 +24,13 @@ const piccadilly: TransitResult = {
   ],
 };
 
+// The wall clock is pinned to the searched day in London so the countdown and
+// the departed fold are deterministic whatever day the suite runs on.
+const at = (clock: string) => () => new Date(`2026-09-22T${clock}:00+01:00`);
+
 const base: CountryResultsViewProps = {
   country: "united_kingdom", origin: elizabeth.origin, destination: elizabeth.destination, date: "2026-09-22",
+  now: at("09:00"),
   results: [elizabeth, piccadilly], savedIds: new Set(), sortMode: "earliest", koreaFilter: "all",
   onSortChange: vi.fn(), onKoreaFilterChange: vi.fn(), onModify: vi.fn(), onSave: vi.fn(), onSelectSeat: vi.fn(),
 };
@@ -44,10 +49,15 @@ describe("result card", () => {
 
     const cheapestFirst = render({ results: [elizabeth, { ...elizabeth, id: "eliz-2" }], sortMode: "cheapest" });
     expect(cheapestFirst.match(/data-trip-fare-row/g)).toHaveLength(2);
+
+    // A fare only some rows carry stays on those rows; it is never hidden.
+    const partial = render({ results: [elizabeth, { ...elizabeth, id: "eliz-2" }, { ...elizabeth, id: "unfared", price: undefined, currency: undefined }] });
+    expect(partial.match(/data-trip-fare-row/g)).toHaveLength(2);
+    expect(partial).not.toContain("Fare for every departure");
   });
 
   it("badges the next departure, the fastest and the cheapest relative to the result set", () => {
-    const html = render({ time: "10:00" });
+    const html = render({ time: "10:00", now: at("10:00") });
     const next = html.indexOf(">Next<");
     expect(next).toBeGreaterThan(0);
     expect(next).toBeLessThan(html.indexOf("10:06"));
@@ -56,6 +66,12 @@ describe("result card", () => {
     expect(html).toContain("Departs in 6 min");
     // One journey shares the fastest time with nothing, so there is no badge to hand out.
     expect(render({ results: [elizabeth] })).not.toContain(">Fastest<");
+    // Next, fastest and cheapest can all land on one card; none hides another.
+    expect(render({ results: [piccadilly, { ...elizabeth, departureTime: "10:30", arrivalTime: "11:09" }] })).toContain(">Cheapest<");
+    // Another day gets no countdown: the searched time only picks the next departure.
+    const tomorrow = render({ date: "2026-09-23", time: "10:00" });
+    expect(tomorrow).not.toContain("Departs in");
+    expect(tomorrow).toContain(">Next<");
   });
 
   it("names the change, its wait and its pressure on a transfer card", () => {
@@ -64,13 +80,18 @@ describe("result card", () => {
     expect(html).toContain("Very short connection");
     expect(html).toContain("Direct · 8 stops");
     expect(html).toContain("On time");
+    // Live status sits beside the platform, never in place of it.
+    const platformed = render({ results: [{ ...elizabeth, platform: "2" }] });
+    expect(platformed).toMatch(/Plat(form)? 2<\/span><span[^>]*>On time/);
   });
 
   it("folds departed trips behind one line instead of listing them", () => {
-    const html = render({ time: "10:07" });
+    const html = render({ now: at("10:07") });
     expect(html).toContain("1 departed");
     expect(html).not.toContain("Elizabeth line</h2>");
-    expect(render({ time: "10:00" })).not.toContain("departed");
+    expect(render({ now: at("10:00") })).not.toContain("departed");
+    // A snapshot of another day never folds: the wall clock says nothing about it.
+    expect(render({ date: "2026-09-21", now: at("23:00") })).not.toContain("departed");
   });
 
   it("keeps the fixed columns from shrinking and the band from pushing the arrival off the card", () => {

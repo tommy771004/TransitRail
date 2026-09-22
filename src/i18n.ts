@@ -273,7 +273,10 @@ const resources = {
         map_action: "Map",
         on_time: "On time",
         delay_min: "min late",
-        close: "Close"
+        close: "Close",
+        connection_short: "Very short connection",
+        connection_standard: "Standard connection",
+        connection_comfortable: "Comfortable connection"
       },
       map: {
         officialRouteMap: "Official Route Map",
@@ -909,7 +912,10 @@ const resources = {
         map_action: "地圖",
         on_time: "準點",
         delay_min: "分鐘誤點",
-        close: "關閉"
+        close: "關閉",
+        connection_short: "轉乘時間很短",
+        connection_standard: "一般轉乘",
+        connection_comfortable: "轉乘時間充裕"
       },
       map: {
         officialRouteMap: "官方路線圖",
@@ -1947,7 +1953,10 @@ const resources = {
         map_action: "地図",
         on_time: "定刻",
         delay_min: "分遅れ",
-        close: "閉じる"
+        close: "閉じる",
+        connection_short: "乗換時間がとても短い",
+        connection_standard: "標準的な乗換",
+        connection_comfortable: "乗換時間に余裕あり"
       },
       map: {
         officialRouteMap: "公式路線図",
@@ -2607,7 +2616,10 @@ const resources = {
         map_action: "지도",
         on_time: "정시",
         delay_min: "분 지연",
-        close: "닫기"
+        close: "닫기",
+        connection_short: "환승 시간이 매우 짧음",
+        connection_standard: "일반 환승",
+        connection_comfortable: "환승 시간 여유 있음"
       },
       map: {
         officialRouteMap: "공식 노선도",

@@ -15,7 +15,7 @@ import { triggerHaptic } from "../utils/haptics";
 import { stationLabel, stationListLabel } from "../utils/stationLabel";
 import { formatPlatform } from "./TransitIcon";
 import { formatDuration, tripCardMotion } from "./ResultShell";
-import { RouteBand, bandLegs, pressureKey, type PressureKey } from "./RouteBand";
+import { RouteBand, bandLegs, tightestWait } from "./RouteBand";
 import { TripDetails } from "./TripDetails";
 import { transferPressure } from "../utils/journeyLegs";
 
@@ -46,13 +46,6 @@ export interface TripCardProps {
   withExit?: boolean;
 }
 
-const pressureText: Record<PressureKey, string> = {
-  short: "text-rose-700 dark:text-rose-300",
-  standard: "text-amber-700 dark:text-amber-300",
-  comfortable: "text-emerald-700 dark:text-emerald-300",
-  unknown: "text-slate-500 dark:text-slate-400",
-};
-
 export function TripCard({
   trip,
   country,
@@ -72,31 +65,29 @@ export function TripCard({
   headsign,
   withExit = true,
 }: TripCardProps) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"timeline" | "map">("timeline");
   const panelId = `${useId()}-sheet`;
   const theme = countryThemes[country] || countryThemes.japan;
-  const isChinese = i18n.language.toLowerCase().startsWith("zh");
 
   const legs = bandLegs(trip);
-  const wait = legs.length > 1 ? legs[0].waitMinutes : undefined;
-  const pressure = legs.length > 1 ? transferPressure(wait ?? null, isChinese) : undefined;
+  // The label answers "how tight is this journey", so the tightest change wins.
+  const wait = legs.length > 1 ? tightestWait(legs) : undefined;
+  const pressure = legs.length > 1 ? transferPressure(wait, t) : undefined;
   const duration = formatDuration(t, trip.durationMinutes);
   const firstPlatform = formatPlatform(trip.platform || trip.legs?.[0]?.platform, t);
   const lastLegPlatform = trip.legs && trip.legs.length > 1 ? formatPlatform(trip.legs[trip.legs.length - 1]?.platform, t) : "";
 
-  // Under the departure time only what changes per departure: live status
-  // first, else the platform. The station itself is already in the header.
-  const departureNote = trip.realtime
+  // Under the departure time only what changes per departure: the platform,
+  // then the live status. The station itself is already in the header.
+  const liveNote = trip.realtime
     ? typeof trip.delayMinutes === "number"
       ? trip.delayMinutes > 0
         ? { text: `+${trip.delayMinutes} ${t("result.delay_min")}`, className: "text-rose-600 dark:text-rose-400" }
         : { text: t("result.on_time"), className: "text-emerald-600 dark:text-emerald-400" }
       : { text: t("metro.realtime"), className: "text-emerald-600 dark:text-emerald-400" }
-    : firstPlatform
-      ? { text: firstPlatform, className: "text-slate-500 dark:text-slate-400" }
-      : null;
+    : null;
 
   // "Direct · 8 stops", or "Change at Piccadilly Circus to Bakerloo · 3 min wait".
   const transferStations = trip.transferStations && trip.transferStations.length > 0
@@ -113,9 +104,15 @@ export function TripCard({
           t("result.transfer_to", { station: stationLabel(t, transferStations[0], trip.country), line: trip.legs[1].lineName }),
           wait !== undefined ? t("result.transfer_wait", { count: wait }) : null,
         ].filter(Boolean).join(" · ")
-      : transferStations.length > 0
-        ? t("result.transfer_at", { station: stationListLabel(t, transferStations, trip.country) })
-        : t("result.transfer");
+      : [
+          // Three or more rides: name every line, since the band hides short ones.
+          legs.map((leg) => leg.name).filter(Boolean).join(" → ") || null,
+          transferStations.length > 0
+            ? t("result.transfer_at", { station: stationListLabel(t, transferStations, trip.country) })
+            : t("result.transfer"),
+        ].filter(Boolean).join(" · ");
+  // The band is decorative; this is what assistive technology hears for it.
+  const lineNames = legs.map((leg) => leg.name).filter(Boolean).join(" → ");
 
   const countdown = minutesUntil === undefined
     ? null
@@ -174,7 +171,7 @@ export function TripCard({
           <div className="flex min-w-0 shrink items-center gap-1.5 overflow-hidden">
             {tags.next && badge(t("result.next_departure_tag"), `${theme.buttonBg} text-white`)}
             {tags.fastest && badge(t("result.fastest_tag"), "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300")}
-            {tags.cheapest && !(tags.next && tags.fastest) && badge(t("result.cheapest_tag"), "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300")}
+            {tags.cheapest && badge(t("result.cheapest_tag"), "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300")}
           </div>
           <div className="ml-auto flex shrink-0 items-baseline gap-2 whitespace-nowrap">
             {duration && <span className="m3-label-medium text-slate-500 dark:text-slate-400">{duration}</span>}
@@ -187,8 +184,12 @@ export function TripCard({
         <div className="mt-2 grid grid-cols-[auto_minmax(0,1fr)_auto] items-end gap-3">
           <div className="shrink-0">
             <p className="m3-headline-small whitespace-nowrap font-mono font-bold tabular-nums leading-none text-slate-950 dark:text-white">{trip.departureTime}</p>
-            <p className={`m3-label-small mt-1.5 h-4 whitespace-nowrap leading-4 ${departureNote?.className ?? ""}`}>{departureNote?.text ?? ""}</p>
+            <p className="m3-label-small mt-1.5 flex h-4 gap-1.5 whitespace-nowrap leading-4 text-slate-500 dark:text-slate-400">
+              {firstPlatform ? <span>{firstPlatform}</span> : null}
+              {liveNote ? <span className={liveNote.className}>{liveNote.text}</span> : null}
+            </p>
           </div>
+          {lineNames ? <span className="sr-only">{lineNames}</span> : null}
           <RouteBand trip={trip} className="pb-[9px]" />
           <div className="shrink-0 text-right">
             <p className="m3-headline-small whitespace-nowrap font-mono font-bold tabular-nums leading-none text-slate-950 dark:text-white">{trip.arrivalTime || "--:--"}</p>
@@ -200,7 +201,7 @@ export function TripCard({
         <div className="m3-body-small mt-2 flex min-w-0 items-start justify-between gap-2 text-slate-500 dark:text-slate-400">
           <span className="line-clamp-2 min-w-0">{composition}</span>
           {pressure ? (
-            <span className={`shrink-0 whitespace-nowrap font-medium ${pressureText[pressureKey(wait)]}`}>{pressure.label}</span>
+            <span className={`shrink-0 whitespace-nowrap font-medium ${pressure.className}`}>{pressure.label}</span>
           ) : extraMeta ? (
             <span className="flex shrink-0 items-center gap-1.5">{extraMeta}</span>
           ) : null}
@@ -247,7 +248,6 @@ export function TripCard({
         onOpenLegend={onOpenLegend}
         formatPrice={formatPrice}
         showFullStopSequence={showFullStopSequence}
-        presentation="sheet"
         open={open}
         onOpenChange={setOpen}
         panelId={panelId}

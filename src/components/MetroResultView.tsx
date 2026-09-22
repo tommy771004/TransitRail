@@ -32,6 +32,8 @@ interface MetroResultViewProps {
   formatPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
   afterResults?: ReactNode;
+  /** Injectable wall clock for the countdown; tests pin it. */
+  now?: () => Date;
 }
 
 export function MetroResultView({
@@ -57,6 +59,7 @@ export function MetroResultView({
   formatPrice,
   overview,
   afterResults,
+  now,
 }: MetroResultViewProps) {
   const { t } = useTranslation();
   const hasTransferResults = results.some((trip) => !trip.direct);
@@ -83,7 +86,9 @@ export function MetroResultView({
       <ResultList
         country={country}
         results={results}
+        date={date}
         time={time}
+        now={now}
         error={error}
         noResultReason={noResultReason}
         failureKind={failureKind}
@@ -107,7 +112,7 @@ export function MetroResultView({
         ) : null}
         afterResults={afterResults}
         card={(trip) => ({
-          headsign: trip.headsign,
+          headsign: trip.headsign || destination,
           showFullStopSequence: true,
           saveLabel: t("metro.save_departure"),
         })}
