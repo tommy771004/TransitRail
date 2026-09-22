@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { countryConfig, countryOptions, providerDateTimeValue, providerDateValue, providerDateValues, countryThemes, countryFlags } from "../data/countries";
 import type { Country, SearchHistoryItem, SearchParams, FavoriteRoute, TimeMode } from "../types";
 import { searchTimeMode, nearestAvailableDate } from "../utils/searchConditions";
+import { loadStationCatalog } from "../utils/catalogClient";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel } from "../utils/stationLabel";
 import { AffiliateMarquee } from "./AffiliateMarquee";
@@ -147,8 +148,7 @@ export function SearchForm({
   useEffect(() => {
     let active = true;
     setAnswerableDays(undefined);
-    fetch(`/api/transit/stations?country=${encodeURIComponent(country)}`)
-      .then((response) => (response.ok ? response.json() : null))
+    loadStationCatalog(country)
       .then((body) => {
         const days = body?.coverage?.dateRange?.days;
         if (active && typeof days === "number" && days > 0) setAnswerableDays(days);

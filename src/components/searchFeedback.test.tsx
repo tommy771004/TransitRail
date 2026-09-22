@@ -224,8 +224,13 @@ it("places departure-time context on the same row as the offered date range", ()
   const rowStart = html.indexOf("data-search-capability");
   const rowEnd = html.indexOf("</div>", rowStart);
   const capabilityRow = html.slice(rowStart, rowEnd);
-  expect(capabilityRow).toContain("9/13");
-  expect(capabilityRow).toContain("9/19");
+  // The offered window is relative to today, so derive the two ends the same
+  // way the form does rather than pinning a week that has since passed.
+  const offered = providerDateValues("japan", countryConfig.japan.dateRangeDays);
+  const shortDate = (value: string) => new Intl.DateTimeFormat("en", { month: "numeric", day: "numeric", timeZone: "UTC" })
+    .format(new Date(`${value}T12:00:00Z`));
+  expect(capabilityRow).toContain(shortDate(offered[0]));
+  expect(capabilityRow).toContain(shortDate(offered[offered.length - 1]));
   expect(capabilityRow).toContain("Departure time");
   expect(capabilityRow).toContain("Asia/Tokyo local time");
   expect(html).not.toContain("lucide-calendar-days");

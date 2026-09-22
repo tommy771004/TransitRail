@@ -34,12 +34,14 @@ try {
       const [snack, setSnack] = useState();
       const [converted, setConverted] = useState(false);
       const [unknown, setUnknown] = useState(false);
+      const [detailsOpen, setDetailsOpen] = useState(false);
       if (new URLSearchParams(location.search).has('fare')) {
         const trip = { id: 'fare', country: 'hong_kong', date: '2026-09-13', operator: 'MTR', service: 'Tsuen Wan Line', origin: 'Central', destination: unknown ? 'Unknown' : 'Admiralty', departureTime: '10:00', direct: true, stops: [] };
         return <main className="mx-auto max-w-xl p-4">
           <button className="m3-button" onClick={() => setConverted(!converted)}>Change currency</button>
           <button className="m3-button" onClick={() => setUnknown(!unknown)}>Change destination</button>
-          <TripDetails trip={trip} formatPrice={t => converted ? 'NT$' + t.price / 0.25 : 'HK$' + t.price} />
+          <button className="m3-button" onClick={() => setDetailsOpen(true)}>Trip details & timeline</button>
+          <TripDetails trip={trip} open={detailsOpen} onOpenChange={setDetailsOpen} formatPrice={t => converted ? 'NT$' + t.price / 0.25 : 'HK$' + t.price} />
         </main>;
       }
       if (new URLSearchParams(location.search).has('metro')) {
@@ -231,20 +233,26 @@ try {
       return route.continue();
     });
     await page.goto(`${base}/${relative(resolve(), dir)}/index.html?metro=1`);
-    const details = page.getByRole("button", { name: "Trip details & timeline" });
-    await details.waitFor();
+    // The card itself is the disclosure: one button that opens the trip sheet.
+    const card = page.locator('[data-trip-card] button[aria-haspopup="dialog"]').first();
+    await card.waitFor();
     const intermediate = page.getByText("Admiralty", { exact: true });
-    if (await intermediate.isVisible()) throw new Error("Metro stops escaped the collapsed details panel");
-    await details.focus();
+    if (await intermediate.isVisible()) throw new Error("Metro stops escaped the closed trip sheet");
+    await card.focus();
     await page.keyboard.press("Enter");
+    const sheet = page.getByRole("dialog");
+    await sheet.waitFor({ state: "visible" });
     await intermediate.waitFor({ state: "visible" });
     if (await intermediate.count() !== 1) throw new Error("Duplicate Metro stop sequence");
     if (await page.getByText("Tsim Sha Tsui", { exact: true }).count() !== 1) throw new Error("Incomplete Metro stop sequence");
     if (await page.getByRole("button", { name: /Show .* intermediate stops/ }).count()) throw new Error("Metro stops require a second disclosure");
     if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)) throw new Error(`Metro details overflow at ${width}px`);
+    if (await sheet.evaluate(element => element.scrollWidth > element.clientWidth)) throw new Error(`Trip sheet overflows sideways at ${width}px`);
     if (process.env.UI_SCREENSHOT_DIR) await page.screenshot({ path: resolve(process.env.UI_SCREENSHOT_DIR, `metro-details-${width}.png`), fullPage: true });
-    await page.getByRole("button", { name: "Hide details" }).click();
-    if (await intermediate.isVisible()) throw new Error("Metro stops remain visible after closing details");
+    await page.keyboard.press("Escape");
+    await sheet.waitFor({ state: "hidden" });
+    if (await intermediate.isVisible()) throw new Error("Metro stops remain visible after closing the trip sheet");
+    if (!(await card.evaluate(element => element === document.activeElement))) throw new Error("Trip sheet did not restore focus to its card");
     await page.close();
   }
 
@@ -305,11 +313,14 @@ try {
     const fare = page.locator("[data-trip-fare]");
     await fare.getByText("HK$5", { exact: true }).waitFor();
     if (await fare.count() !== 1) throw new Error("Duplicate fare blocks");
-    await page.getByRole("button", { name: "Change currency" }).click();
+    // The harness controls sit under the open sheet's scrim, so drive them
+    // directly; the sheet stays open while the trip underneath it changes.
+    const press = (name: string) => page.getByRole("button", { name }).dispatchEvent("click");
+    await press("Change currency");
     await fare.getByText("NT$20", { exact: true }).waitFor();
-    await page.getByRole("button", { name: "Change destination" }).click();
+    await press("Change destination");
     await fare.waitFor({ state: "detached" });
-    await page.getByRole("button", { name: "Change destination" }).click();
+    await press("Change destination");
     await fare.getByText("NT$20", { exact: true }).waitFor();
     if (fareReads !== 1) throw new Error("Fare preferences bypassed the session cache");
     if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)) throw new Error(`Fare details overflow at ${width}px`);
@@ -319,7 +330,7 @@ try {
   }
 
   console.log("PASS: M3 shell, four locales, navigation, snackbar and station dialog across mobile/desktop and light/dark.");
-  console.log("PASS: Metro stop sequence uses one keyboard-accessible disclosure across mobile/desktop.");
+  console.log("PASS: Metro stop sequence opens in the keyboard-accessible trip sheet across mobile/desktop.");
   console.log("PASS: Station reload retries failed reads and accepts provider JSON within its valid date range.");
   console.log("PASS: Official fare details load on expansion, convert currency and hide unmatched journeys across mobile/desktop.");
 } finally {

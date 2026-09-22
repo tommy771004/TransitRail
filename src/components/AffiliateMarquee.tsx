@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { AffiliateOffer } from "../server/affiliates";
 import { postAuditEvent, resolveAuditTimezone } from "../utils/audit";
+import { loadAffiliateOffers } from "../utils/catalogClient";
 
 const PLACEMENT = "search";
 
@@ -22,14 +23,11 @@ export function AffiliateMarquee({ variant = "footer" }: { variant?: "footer" | 
 
   useEffect(() => {
     let cancelled = false;
-    void fetch("/api/transit/affiliates")
-      .then((response) => response.ok ? response.json() : { offers: [] })
-      .then((payload: { offers?: AffiliateOffer[] }) => {
-        if (!cancelled) setOffers(Array.isArray(payload.offers) ? payload.offers : []);
-      })
-      .catch(() => {
-        if (!cancelled) setOffers([]);
-      });
+    // The search form and the result footer each mount a carousel; both share
+    // one request for the session rather than one per mount.
+    void loadAffiliateOffers()
+      .then((loaded) => { if (!cancelled) setOffers(loaded); })
+      .catch(() => { if (!cancelled) setOffers([]); });
     return () => { cancelled = true; };
   }, []);
 

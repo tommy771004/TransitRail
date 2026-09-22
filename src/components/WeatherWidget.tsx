@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Cloud, Sun, CloudRain, Snowflake, Loader2 } from "lucide-react";
 import type { Country } from "../types";
 import { stationLabel } from "../utils/stationLabel";
+import { loadDestinationWeather } from "../utils/weatherClient";
 
 interface WeatherWidgetProps {
   destination: string;
@@ -24,59 +25,21 @@ export function WeatherWidget({ destination, date, country }: WeatherWidgetProps
 
   useEffect(() => {
     let active = true;
-
-    async function fetchWeather() {
-      try {
-        setLoading(true);
-        setError(false);
-
-        const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(destination)}&count=1&language=en&format=json`);
-        if (!geoRes.ok) throw new Error("Geocoding failed");
-        const geoData = await geoRes.json();
-        
-        if (!geoData.results || geoData.results.length === 0) {
-          throw new Error("City not found");
-        }
-        
-        const { latitude, longitude } = geoData.results[0];
-        
-        let targetDate = date;
-        if (!targetDate) {
-          targetDate = new Date().toISOString().split("T")[0];
-        }
-
-        const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto&start_date=${targetDate}&end_date=${targetDate}`);
-        if (!weatherRes.ok) throw new Error("Weather fetch failed");
-        
-        const weatherJson = await weatherRes.json();
-        
-        if (!weatherJson.daily || !weatherJson.daily.weathercode || weatherJson.daily.weathercode.length === 0) {
-          throw new Error("No forecast for date");
-        }
-
-        const code = weatherJson.daily.weathercode[0];
-        const tempMax = weatherJson.daily.temperature_2m_max[0];
-        const tempMin = weatherJson.daily.temperature_2m_min[0];
-        const avgTemp = (tempMax + tempMin) / 2;
-
-        if (active) {
-          setData({
-            temp: Math.round(avgTemp),
-            description: getWeatherDesc(code),
-            code: code,
-          });
-          setLoading(false);
-        }
-      } catch (err) {
-        if (active) {
-          setError(true);
-          setLoading(false);
-        }
-      }
-    }
-
-    fetchWeather();
-
+    setLoading(true);
+    setError(false);
+    // One forecast per destination and day for the session; every result
+    // view of the same journey, and every return to it, reads the same answer.
+    loadDestinationWeather(destination, date)
+      .then((forecast) => {
+        if (!active) return;
+        setData({ temp: forecast.temp, description: getWeatherDesc(forecast.code), code: forecast.code });
+        setLoading(false);
+      })
+      .catch(() => {
+        if (!active) return;
+        setError(true);
+        setLoading(false);
+      });
     return () => {
       active = false;
     };

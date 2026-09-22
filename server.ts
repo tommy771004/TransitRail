@@ -20,6 +20,7 @@ import { findNearestKnownStation } from "./src/utils/geoCoordinates";
 import { getTransitSituations } from "./src/server/situations";
 import { countryOptions, providerDateValue, searchDateRange } from "./src/data/countries";
 import { runTransitSearch } from "./src/server/transitSearch";
+import { cachedTransitSearch } from "./src/server/searchResponseCache";
 import { timetableFingerprint } from "./src/utils/timetableChanges";
 import { recordError } from "./src/server/errorLog";
 import { sendTelemetry } from "./src/server/telemetry";
@@ -268,13 +269,13 @@ async function logTransitSearch(
 
     let searchResult;
     try {
-      searchResult = await runTransitSearch({
+      searchResult = await cachedTransitSearch({
         origin,
         destination,
         date,
         country: countryValue,
         time: timeValue,
-      });
+      }, runTransitSearch);
     } catch (error) {
       const receipt = await recordError({
         severity: "error",
