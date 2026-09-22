@@ -1,4 +1,5 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { TripSheet } from "./TripSheet";
 import type { TransitResult, JourneyLeg } from "../types";
 import { useTranslation } from "react-i18next";
 import { stationLabel } from "../utils/stationLabel";
@@ -13,12 +14,29 @@ import { extractPathBetweenStations } from "@/src/utils/pathExtractor";
 import { stationSearchKey } from "@/src/data/stationKey";
 import { resolveStationAlias } from "@/src/data/stationAliases";
 import { TripFare } from "./TripFare";
+import { getLegColor, transferPressure } from "../utils/journeyLegs";
 
 interface TripDetailsProps {
   trip: TransitResult;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
   showFullStopSequence?: boolean;
+  /**
+   * `inline` (default) keeps the disclosure button and panel inside the card.
+   * `sheet` renders the same panel as a modal bottom sheet, opened by the card
+   * itself; the caller then owns `open`/`onOpenChange`.
+   */
+  presentation?: "inline" | "sheet";
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  /** Heading of the sheet; unused inline. */
+  title?: ReactNode;
+  /** Lets the card point `aria-controls` at the sheet it opens. */
+  panelId?: string;
+  /** Save / seat actions pinned to the top of the sheet. */
+  sheetActions?: ReactNode;
+  /** Which tab the sheet opens on; the card's map button asks for the map. */
+  initialViewMode?: "timeline" | "map";
 }
 
 function getMinutesDiff(time1?: string, time2?: string): number | null {
@@ -30,30 +48,15 @@ function getMinutesDiff(time1?: string, time2?: string): number | null {
   return diff >= 0 ? diff : null;
 }
 
-function getLegColor(leg: JourneyLeg, defaultColor?: string) {
-  if (leg.color) return leg.color;
-  const m = (leg.mode || "").toLowerCase();
-  const l = (leg.lineName || "").toLowerCase();
-  if (m.includes("bus") || m.includes("coach") || l.includes("bus") || l.includes("客運") || l.includes("巴士")) return "#f59e0b"; // amber
-  if (m.includes("subway") || m.includes("metro") || m.includes("underground") || l.includes("subway") || l.includes("metro") || l.includes("捷運") || l.includes("地鐵")) return "#3b82f6"; // blue
-  if (m.includes("high_speed") || m.includes("shinkansen") || l.includes("shinkansen") || l.includes("express") || l.includes("bullet") || l.includes("新幹線") || l.includes("高鐵") || l.includes("特急")) return "#ef4444"; // red
-  return defaultColor || "#10b981"; // emerald default
-}
-
-function transferPressure(minutes: number | null, isChinese: boolean) {
-  if (minutes === null) return undefined;
-  if (minutes <= 4) {
-    return { label: isChinese ? "轉乘時間很短" : "Very short connection", className: "text-rose-700 dark:text-rose-300" };
-  }
-  if (minutes <= 10) {
-    return { label: isChinese ? "一般轉乘" : "Standard connection", className: "text-amber-700 dark:text-amber-300" };
-  }
-  return { label: isChinese ? "轉乘時間充裕" : "Comfortable connection", className: "text-emerald-700 dark:text-emerald-300" };
-}
-
-export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSequence = false }: TripDetailsProps) {
+export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSequence = false, presentation = "inline", open, onOpenChange, title, panelId, sheetActions, initialViewMode = "timeline" }: TripDetailsProps) {
   const { t, i18n } = useTranslation();
-  const [expanded, setExpanded] = useState(false);
+  const [ownExpanded, setOwnExpanded] = useState(false);
+  // Controlled when the card drives a sheet; self-contained inline.
+  const expanded = open ?? ownExpanded;
+  const setExpanded = (next: boolean) => {
+    if (open === undefined) setOwnExpanded(next);
+    onOpenChange?.(next);
+  };
   const [viewMode, setViewMode] = useState<"timeline" | "map">("timeline");
   const [expandedLegs, setExpandedLegs] = useState<Record<number, boolean>>({});
   const [selectedTransferStationId, setSelectedTransferStationId] = useState<string | null>(null);
@@ -64,7 +67,12 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
   const arrivalWatchId = useRef<number | undefined>(undefined);
   const disclosureId = useId();
   const detailsTriggerId = `${disclosureId}-trigger`;
-  const detailsPanelId = `${disclosureId}-panel`;
+  const detailsPanelId = panelId ?? `${disclosureId}-panel`;
+
+  // A card's map button opens straight onto the map; the timeline otherwise.
+  useEffect(() => {
+    if (expanded) setViewMode(initialViewMode);
+  }, [expanded, initialViewMode]);
 
   // A source that times every call — ODPT publishes a departure at every
   // station a train passes — files one leg per hop. Those hops are one ride's
@@ -237,28 +245,27 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
 
   const isChinese = i18n.language.toLowerCase().startsWith("zh");
 
-  return (
-    <div className="border-t border-slate-100 dark:border-slate-800">
-      <button
-        id={detailsTriggerId}
-        type="button"
-        onClick={() => setExpanded(!expanded)}
-        aria-expanded={expanded}
-        aria-controls={detailsPanelId}
-        className="m3-button m3-state m3-shape-full w-full text-slate-600 dark:text-slate-300"
-      >
-        <ChevronRight aria-hidden="true" className={`h-4 w-4 transition-transform ${expanded ? "rotate-90" : ""}`} />
-        {expanded
-          ? t("result.hide_details", { defaultValue: "Hide trip details" })
-          : t("result.show_details", { defaultValue: "Trip details and timeline" })}
-      </button>
+  const popup = (
+    <>
+      {selectedTransferStationId && (
+        <TransferInfoPopup
+          isOpen={!!selectedTransferStationId}
+          onClose={() => {
+            setSelectedTransferStationId(null);
+            setSelectedTransferStationName(null);
+            setSelectedTransferInfo(null);
+          }}
+          stationId={selectedTransferStationId}
+          stationName={selectedTransferStationName || undefined}
+          country={trip.country}
+          info={selectedTransferInfo || undefined}
+        />
+      )}
+    </>
+  );
 
-      <div
-        id={detailsPanelId}
-        aria-labelledby={detailsTriggerId}
-        hidden={!expanded}
-        className="rounded-b-[16px] border-t border-slate-100 bg-slate-50/50 px-4 py-5 sm:px-6 dark:border-slate-800/80 dark:bg-slate-950/30"
-      >
+  const body = (
+    <>
           <div className="m3-card mb-5 border border-sky-200 bg-sky-50/70 p-4 dark:border-sky-900/60 dark:bg-sky-950/25">
             <div className="flex items-center justify-between gap-3">
               <div className="flex min-w-0 items-center gap-2">
@@ -607,22 +614,50 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
               })}
             </div>
           )}
+    </>
+  );
+
+  if (presentation === "sheet") {
+    return (
+      <TripSheet
+        open={expanded}
+        onClose={() => setExpanded(false)}
+        panelId={detailsPanelId}
+        trip={trip}
+        title={title}
+        popup={popup}
+        actions={sheetActions}
+      >
+        {body}
+      </TripSheet>
+    );
+  }
+
+  return (
+    <div className="border-t border-slate-100 dark:border-slate-800">
+      <button
+        id={detailsTriggerId}
+        type="button"
+        onClick={() => setExpanded(!expanded)}
+        aria-expanded={expanded}
+        aria-controls={detailsPanelId}
+        className="m3-button m3-state m3-shape-full w-full text-slate-600 dark:text-slate-300"
+      >
+        <ChevronRight aria-hidden="true" className={`h-4 w-4 transition-transform ${expanded ? "rotate-90" : ""}`} />
+        {expanded
+          ? t("result.hide_details", { defaultValue: "Hide trip details" })
+          : t("result.show_details", { defaultValue: "Trip details and timeline" })}
+      </button>
+
+      <div
+        id={detailsPanelId}
+        aria-labelledby={detailsTriggerId}
+        hidden={!expanded}
+        className="rounded-b-[16px] border-t border-slate-100 bg-slate-50/50 px-4 py-5 sm:px-6 dark:border-slate-800/80 dark:bg-slate-950/30"
+      >
+        {body}
         </div>
-      
-      {selectedTransferStationId && (
-        <TransferInfoPopup
-          isOpen={!!selectedTransferStationId}
-          onClose={() => {
-            setSelectedTransferStationId(null);
-            setSelectedTransferStationName(null);
-            setSelectedTransferInfo(null);
-          }}
-          stationId={selectedTransferStationId}
-          stationName={selectedTransferStationName || undefined}
-          country={trip.country}
-          info={selectedTransferInfo || undefined}
-        />
-      )}
+      {popup}
     </div>
   );
 }

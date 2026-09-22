@@ -425,6 +425,26 @@
   /* Scrim behind any modal surface. */
   .m3-scrim { background-color: rgb(15 23 42 / 0.32); }
   .dark .m3-scrim { background-color: rgb(2 6 18 / 0.6); }
+  /*
+   * Entrance for a sheet that toggles `hidden`: the keyframes replay each
+   * time the element is shown, so no JS-driven presence state is needed.
+   * The transform resolves to `none` at rest, which keeps a nested fixed
+   * popup anchored to the viewport rather than the sheet.
+   */
+  @keyframes m3-sheet-in {
+    from { transform: translateY(24px); opacity: 0; }
+    to { transform: none; opacity: 1; }
+  }
+  @keyframes m3-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .m3-sheet-enter {
+    animation: m3-sheet-in var(--m3-duration-medium-2) var(--ease-m3-emphasized-decelerate) both;
+  }
+  .m3-scrim-enter {
+    animation: m3-fade-in var(--m3-duration-short-4) var(--ease-m3-standard) both;
+  }
 
   /* ---------------------------------------------------------- list item */
   .m3-list-item {

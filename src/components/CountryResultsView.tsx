@@ -144,6 +144,9 @@ export function CountryResultsView(props: CountryResultsViewProps) {
     onSave: props.onSave,
     onOpenLegend: props.onOpenLegend,
     formatPrice: props.formatPrice,
+    // Every market sorts the same way; the list owns the chips.
+    sortMode: props.sortMode,
+    onSortChange: props.onSortChange,
     overview: <>{resultAnnouncement}{deliveryNotice}</>,
     afterResults: props.overview,
   };
@@ -155,8 +158,6 @@ export function CountryResultsView(props: CountryResultsViewProps) {
         <JapanResultView
           country={props.country}
           {...shared}
-          sortMode={props.sortMode}
-          onSortChange={props.onSortChange}
           onSelectSeat={props.onSelectSeat}
         />
         {supplementary}
