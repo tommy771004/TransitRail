@@ -256,7 +256,24 @@ const resources = {
         view_mode: "Trip detail view",
         hide_stops: "Hide intermediate stops",
         show_stops: "Show {{count}} intermediate stop",
-        show_stops_other: "Show {{count}} intermediate stops"
+        show_stops_other: "Show {{count}} intermediate stops",
+        sort_by: "Sort",
+        next_departure_tag: "Next",
+        fastest_tag: "Fastest",
+        cheapest_tag: "Cheapest",
+        departs_in: "Departs in {{count}} min",
+        departs_now: "Departing now",
+        departed: "Departed",
+        departed_count: "{{count}} departed",
+        show_departed: "Show departed departures",
+        fare_all: "Fare for every departure",
+        transfer_wait: "{{count}} min wait",
+        transfer_to: "Change at {{station}} to {{line}}",
+        stops_action: "Stops",
+        map_action: "Map",
+        on_time: "On time",
+        delay_min: "min late",
+        close: "Close"
       },
       map: {
         officialRouteMap: "Official Route Map"
@@ -872,7 +889,24 @@ const resources = {
         view_mode: "行程明細檢視",
         hide_stops: "隱藏中途停靠站",
         show_stops: "顯示 {{count}} 個中途停靠站",
-        show_stops_other: "顯示 {{count}} 個中途停靠站"
+        show_stops_other: "顯示 {{count}} 個中途停靠站",
+        sort_by: "排序",
+        next_departure_tag: "下一班",
+        fastest_tag: "最快",
+        cheapest_tag: "最便宜",
+        departs_in: "{{count}} 分後出發",
+        departs_now: "現在發車",
+        departed: "已發車",
+        departed_count: "已發車 {{count}} 班",
+        show_departed: "顯示已發車班次",
+        fare_all: "全程票價",
+        transfer_wait: "等 {{count}} 分",
+        transfer_to: "在 {{station}} 轉 {{line}}",
+        stops_action: "停靠站",
+        map_action: "地圖",
+        on_time: "準點",
+        delay_min: "分鐘誤點",
+        close: "關閉"
       },
       map: {
         officialRouteMap: "官方路線圖"
@@ -1891,7 +1925,24 @@ const resources = {
         view_mode: "行程詳細の表示",
         hide_stops: "途中駅を非表示",
         show_stops: "途中駅を{{count}}件表示",
-        show_stops_other: "途中駅を{{count}}件表示"
+        show_stops_other: "途中駅を{{count}}件表示",
+        sort_by: "並び替え",
+        next_departure_tag: "次の便",
+        fastest_tag: "最速",
+        cheapest_tag: "最安",
+        departs_in: "{{count}} 分後に出発",
+        departs_now: "まもなく出発",
+        departed: "出発済み",
+        departed_count: "出発済み {{count}} 本",
+        show_departed: "出発済みの便を表示",
+        fare_all: "全便共通の運賃",
+        transfer_wait: "待ち {{count}} 分",
+        transfer_to: "{{station}} で {{line}} に乗換",
+        stops_action: "停車駅",
+        map_action: "地図",
+        on_time: "定刻",
+        delay_min: "分遅れ",
+        close: "閉じる"
       },
       map: {
         officialRouteMap: "公式路線図"
@@ -2532,7 +2583,24 @@ const resources = {
         view_mode: "여정 상세 보기",
         hide_stops: "중간 정차역 숨기기",
         show_stops: "중간 정차역 {{count}}개 표시",
-        show_stops_other: "중간 정차역 {{count}}개 표시"
+        show_stops_other: "중간 정차역 {{count}}개 표시",
+        sort_by: "정렬",
+        next_departure_tag: "다음 열차",
+        fastest_tag: "최단",
+        cheapest_tag: "최저가",
+        departs_in: "{{count}}분 후 출발",
+        departs_now: "지금 출발",
+        departed: "출발함",
+        departed_count: "출발한 열차 {{count}}편",
+        show_departed: "출발한 열차 표시",
+        fare_all: "모든 열차 동일 요금",
+        transfer_wait: "대기 {{count}}분",
+        transfer_to: "{{station}}에서 {{line}}(으)로 환승",
+        stops_action: "정차역",
+        map_action: "지도",
+        on_time: "정시",
+        delay_min: "분 지연",
+        close: "닫기"
       },
       map: {
         officialRouteMap: "공식 노선도"

@@ -1,11 +1,11 @@
 // Author: AI Coding Agent
 // OS support: Linux, macOS, Windows
 // Description: Shared shell pieces for the country result views — header, list-state
-// blocks (weather / error / empty), trip-card chrome, timeline bar, and save button.
+// blocks (weather / error / empty) and the card entrance motion.
 // The state blocks are render helpers (not components) so they stay direct children
 // of each view's AnimatePresence and keep the exact same enter/exit semantics.
 
-import { ArrowRight, Bookmark, Check, Compass, Edit2 } from "lucide-react";
+import { ArrowRight, Compass, Edit2 } from "lucide-react";
 import type { ReactNode } from "react";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
@@ -310,9 +310,6 @@ export function renderEmptyBlock(title: string, hint: string) {
   );
 }
 
-export const tripCardClass =
-  "m3-card m3-card-large m3-elevation-1 overflow-hidden bg-white dark:bg-slate-900";
-
 export function tripCardMotion(index: number, withExit = false): MotionProps {
   return {
     layout: true,
@@ -323,65 +320,6 @@ export function tripCardMotion(index: number, withExit = false): MotionProps {
     // M3 "emphasized" easing — cubic-bezier(0.2, 0, 0, 1) — matches --ease-m3-emphasized.
     transition: { duration: 0.3, ease: [0.2, 0, 0, 1], delay: Math.min(index, 3) * 0.035 },
   };
-}
-
-/** The horizontal departure→arrival bar with end dots and the amber transfer dot. */
-export function TimelineBar({ color, direct }: { color: string; direct: boolean }) {
-  return (
-    <div className="relative flex w-full items-center justify-between px-1">
-      <div className="absolute left-1 right-1 h-[3px] rounded-full bg-slate-100 dark:bg-slate-800" />
-      <div
-        className="absolute left-1 right-1 h-[3px] rounded-full"
-        style={{ backgroundColor: color }}
-      />
-      <span
-        className="z-10 h-3 w-3 rounded-full border-[3px] bg-white dark:bg-slate-950"
-        style={{ borderColor: color }}
-      />
-      {!direct && (
-        <span className="z-10 h-2 w-2 rounded-full bg-amber-500 ring-2 ring-white dark:ring-slate-950" />
-      )}
-      <span
-        className="z-10 h-3 w-3 rounded-full border-[3px] bg-white dark:bg-slate-950"
-        style={{ borderColor: color }}
-      />
-    </div>
-  );
-}
-
-interface SaveTripButtonProps {
-  isSaved: boolean;
-  onSave: () => void;
-  /** true renders icon + text (Metro/LiveRail); false renders the square icon-only button. */
-  labeled?: boolean;
-  /** Label for the unsaved state; defaults to t("result.save_trip"). */
-  saveLabel?: string;
-}
-
-export function SaveTripButton({ isSaved, onSave, labeled = false, saveLabel }: SaveTripButtonProps) {
-  const { t } = useTranslation();
-  const label = isSaved ? t("result.saved") : saveLabel ?? t("result.save_trip");
-  const stateClass = isSaved
-    ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300"
-    : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-white";
-
-  return (
-    <button
-      type="button"
-      onClick={() => {
-        triggerHaptic(isSaved ? "light" : "success");
-        onSave();
-      }}
-      aria-pressed={isSaved}
-      className={`m3-state ${
-        labeled ? "m3-button m3-button-icon-leading" : "m3-icon-button m3-icon-button-large m3-shape-full"
-      } ${stateClass}`}
-      aria-label={label}
-    >
-      {isSaved ? <Check aria-hidden="true" className="h-4 w-4" /> : <Bookmark aria-hidden="true" className="h-4 w-4" />}
-      {labeled ? label : null}
-    </button>
-  );
 }
 
 // --- End of ResultShell.tsx ---

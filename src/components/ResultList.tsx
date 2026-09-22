@@ -1,0 +1,295 @@
+// Author: AI Coding Agent
+// OS support: Linux, macOS, Windows
+// Description: The departure list shared by every market view — sort chips, the
+// shared-fare line, the departed fold, the miss/empty blocks and one TripCard per
+// verified departure. Market differences arrive as props, never as a second layout.
+
+import { hasDisplayableFare } from "@/src/utils/fare";
+import { ChevronDown } from "lucide-react";
+import { Fragment, useState, type ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { AnimatePresence, motion } from "motion/react";
+import type { Country, CoverageGap, NoResultReason, SearchFailureKind, SortMode, TransitResult } from "../types";
+import { triggerHaptic } from "../utils/haptics";
+import { renderEmptyBlock, renderMissBlock } from "./ResultShell";
+import { TripCard, type TripCardProps } from "./TripCard";
+
+const localeForCurrency = (currency?: string) => {
+  switch (currency) {
+    case "JPY": return "ja-JP";
+    case "KRW": return "ko-KR";
+    case "HKD": return "zh-HK";
+    case "TWD": return "zh-TW";
+    case "CNY": return "zh-CN";
+    case "EUR": return "de-DE";
+    case "GBP": return "en-GB";
+    case "CHF": return "de-CH";
+    case "THB": return "th-TH";
+    case "AUD": return "en-AU";
+    case "CAD": return "en-CA";
+    case "NZD": return "en-NZ";
+    case "PHP": return "en-PH";
+    case "IDR": return "id-ID";
+    case "VND": return "vi-VN";
+    case "SEK": return "sv-SE";
+    case "NOK": return "nb-NO";
+    case "DKK": return "da-DK";
+    case "PLN": return "pl-PL";
+    case "TRY": return "tr-TR";
+    case "ZAR": return "en-ZA";
+    case "BRL": return "pt-BR";
+    case "MXN": return "es-MX";
+    case "RUB": return "ru-RU";
+    case "INR": return "en-IN";
+    case "SAR": return "ar-SA";
+    case "AED": return "ar-AE";
+    case "ILS": return "he-IL";
+    case "CZK": return "cs-CZ";
+    case "HUF": return "hu-HU";
+    case "RON": return "ro-RO";
+    case "MYR": return "ms-MY";
+    case "SGD": return "en-SG";
+    case "USD": return "en-US";
+    default: return "en-US";
+  }
+};
+
+const fractionDigitsForCurrency = (currency?: string) =>
+  ["JPY", "KRW", "TWD", "CNY", "VND", "IDR", "HUF"].includes(currency || "") ? 0 : 2;
+
+/** The verified fare as text, or null when the result carries none. Never an estimate. */
+export function formatFare(trip: TransitResult, formatPrice?: (trip: TransitResult) => string | null): string | null {
+  if (!hasDisplayableFare(trip)) return null;
+  return formatPrice?.(trip) || new Intl.NumberFormat(localeForCurrency(trip.currency), {
+    style: "currency",
+    currency: trip.currency,
+    maximumFractionDigits: fractionDigitsForCurrency(trip.currency),
+  }).format(trip.price);
+}
+
+const minutesOf = (time?: string) => {
+  const match = /^(\d{1,3}):([0-5]\d)$/.exec(time || "");
+  return match ? Number(match[1]) * 60 + Number(match[2]) : null;
+};
+
+export type TripCardExtras = Partial<Pick<TripCardProps, "primaryAction" | "extraMeta" | "saveLabel" | "showFullStopSequence" | "headsign">>;
+
+export interface ResultListProps {
+  country: Country;
+  results: TransitResult[];
+  /** The searched departure time (HH:MM); drives the countdown and the departed fold. */
+  time?: string;
+  error?: string;
+  noResultReason?: NoResultReason;
+  failureKind?: SearchFailureKind;
+  coverageGap?: CoverageGap;
+  officialSourceUrl?: string;
+  emptyTitle: string;
+  emptyHint: string;
+  onModify: () => void;
+  onRetry?: () => void;
+  recovery?: ReactNode;
+  sortMode?: SortMode;
+  onSortChange?: (mode: SortMode) => void;
+  /** Fares are the reason rows are ordered, so every row shows its own. */
+  priceEmphasis?: boolean;
+  savedIds: Set<string>;
+  onSave: (trip: TransitResult) => void;
+  onOpenLegend?: (highlight?: string) => void;
+  formatPrice?: (trip: TransitResult) => string | null;
+  /** Market controls that share the sticky bar with the sort chips. */
+  toolbar?: ReactNode;
+  /** A notice above the first card (Metro's transfer hint). */
+  beforeList?: ReactNode;
+  afterResults?: ReactNode;
+  /** Per-trip market extras for the card. */
+  card?: (trip: TransitResult) => TripCardExtras;
+  withExit?: boolean;
+}
+
+export function ResultList({
+  country,
+  results,
+  time,
+  error,
+  noResultReason,
+  failureKind,
+  coverageGap,
+  officialSourceUrl,
+  emptyTitle,
+  emptyHint,
+  onModify,
+  onRetry,
+  recovery,
+  sortMode,
+  onSortChange,
+  priceEmphasis = false,
+  savedIds,
+  onSave,
+  onOpenLegend,
+  formatPrice,
+  toolbar,
+  beforeList,
+  afterResults,
+  card,
+  withExit = true,
+}: ResultListProps) {
+  const { t } = useTranslation();
+  const [showPast, setShowPast] = useState(false);
+
+  const searched = minutesOf(time);
+  const departure = (trip: TransitResult) => minutesOf(trip.departureTime);
+  const isPast = (trip: TransitResult) => {
+    const dep = departure(trip);
+    return searched !== null && dep !== null && dep < searched;
+  };
+
+  // Badges are relative to this result set: a fastest that every row shares
+  // is not a distinction, and a fare that never varies is one line, not a column.
+  const durations = results.map((trip) => trip.durationMinutes).filter((value): value is number => typeof value === "number");
+  const fastest = durations.length > 1 && new Set(durations).size > 1 ? Math.min(...durations) : undefined;
+  const fares = results.filter(hasDisplayableFare);
+  const distinctPrices = new Set(fares.map((trip) => trip.price));
+  const cheapest = distinctPrices.size > 1 ? Math.min(...fares.map((trip) => trip.price)) : undefined;
+  const fareOnRows = fares.length > 0 && (distinctPrices.size > 1 || priceEmphasis);
+  const sharedFare = !fareOnRows && fares.length > 0 && fares.length === results.length ? formatFare(fares[0], formatPrice) : null;
+
+  const upcoming = results.filter((trip) => !isPast(trip));
+  const nextId = upcoming.reduce<TransitResult | undefined>((best, trip) => {
+    const dep = departure(trip);
+    if (dep === null) return best;
+    const bestDep = best ? departure(best) : null;
+    return bestDep === null || dep < bestDep ? trip : best;
+  }, undefined)?.id ?? upcoming[0]?.id;
+
+  const departed = results.filter(isPast);
+  const visible = showPast ? results : results.filter((trip) => !isPast(trip));
+
+  const hasFare = fares.length > 0;
+  const sortChips: Array<{ mode: SortMode; label: string }> = [
+    { mode: "earliest", label: t("result.earliest") },
+    { mode: "fastest", label: t(time ? "journey.secondary_fastest" : "result.fastest") },
+    ...(hasFare ? [{ mode: "cheapest" as const, label: t(time ? "journey.secondary_cheapest" : "result.cheapest") }] : []),
+  ];
+  const showSort = Boolean(sortMode && onSortChange) && !error && results.length > 0;
+
+  return (
+    <>
+      {(showSort || (toolbar && !error && results.length > 0)) && (
+        <div className="sticky top-16 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-sm dark:border-slate-700/50 dark:bg-slate-900/95">
+          <div className="mx-auto max-w-md min-w-0">
+            {toolbar}
+            {showSort && (
+              <div
+                role="group"
+                aria-label={t("result.sort_by")}
+                className="no-scrollbar flex min-w-0 gap-2 overflow-x-auto px-4 py-2.5"
+              >
+                {sortChips.map((chip) => (
+                  <button
+                    key={chip.mode}
+                    type="button"
+                    aria-pressed={sortMode === chip.mode}
+                    onClick={() => {
+                      triggerHaptic("light");
+                      onSortChange?.(chip.mode);
+                    }}
+                    className={`m3-chip m3-state m3-shape-full shrink-0 ${
+                      sortMode === chip.mode
+                        ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900"
+                        : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
+                    }`}
+                  >
+                    {chip.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      <section className="mx-auto max-w-md min-w-0 space-y-3 px-4 py-4">
+        <AnimatePresence mode="popLayout">
+          {error ? (
+            renderMissBlock({
+              message: error,
+              reason: noResultReason,
+              failureKind,
+              coverageGap,
+              country,
+              sourceUrl: officialSourceUrl,
+              errorTitle: t("result.unable_to_fetch"),
+              onModify,
+              onRetry,
+              recovery,
+            })
+          ) : results.length === 0 ? (
+            renderEmptyBlock(emptyTitle, emptyHint)
+          ) : (
+            <motion.div
+              key="list-container"
+              initial={false}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="min-w-0 space-y-3"
+            >
+              {beforeList}
+              {sharedFare && (
+                <p className="m3-body-small flex min-w-0 items-baseline justify-between gap-3 px-1 text-slate-500 dark:text-slate-400">
+                  <span className="truncate">{t("result.fare_all")}</span>
+                  <span className="m3-label-large shrink-0 tabular-nums text-slate-900 dark:text-white">{sharedFare}</span>
+                </p>
+              )}
+              {departed.length > 0 && !showPast && (
+                <button
+                  type="button"
+                  onClick={() => setShowPast(true)}
+                  aria-label={t("result.show_departed")}
+                  className="m3-state m3-body-small flex min-h-8 w-full items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400"
+                >
+                  <span className="h-px flex-1 bg-slate-200 dark:bg-slate-800" aria-hidden="true" />
+                  <span className="shrink-0 whitespace-nowrap">{t("result.departed_count", { count: departed.length })}</span>
+                  <ChevronDown aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />
+                  <span className="h-px flex-1 bg-slate-200 dark:bg-slate-800" aria-hidden="true" />
+                </button>
+              )}
+              <AnimatePresence mode="popLayout">
+                {visible.map((trip, index) => {
+                  const dep = departure(trip);
+                  const extras = card?.(trip) ?? {};
+                  return (
+                    <Fragment key={trip.id}>
+                      <TripCard
+                        trip={trip}
+                        country={country}
+                        index={index}
+                        isSaved={savedIds.has(trip.id)}
+                        onSave={() => onSave(trip)}
+                        onOpenLegend={onOpenLegend}
+                        formatPrice={formatPrice}
+                        fare={fareOnRows ? formatFare(trip, formatPrice) : null}
+                        tags={{
+                          next: trip.id === nextId,
+                          fastest: fastest !== undefined && trip.durationMinutes === fastest,
+                          cheapest: cheapest !== undefined && hasDisplayableFare(trip) && trip.price === cheapest,
+                        }}
+                        minutesUntil={searched !== null && dep !== null ? dep - searched : undefined}
+                        past={isPast(trip)}
+                        withExit={withExit}
+                        {...extras}
+                      />
+                      {index === visible.length - 1 ? afterResults : null}
+                    </Fragment>
+                  );
+                })}
+              </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </section>
+    </>
+  );
+}
+
+// --- End of ResultList.tsx ---

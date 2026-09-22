@@ -1,24 +1,13 @@
 // Author: AI Coding Agent
 // OS support: Linux, macOS, Windows
-// Description: Component to render Subway and Metro transit query results with staggered motion animations
+// Description: Subway and metro result view — the shared result list with each card's
+// headsign, the full calling sequence in the sheet and the interchange hint on top.
 
-import { AlertTriangle } from "lucide-react";
-import { Fragment, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "motion/react";
-import type { Country, CoverageGap, NoResultReason, SearchFailureKind, TransitResult } from "../types";
-import { TripDetails } from "./TripDetails";
-import { stationLabel, stationListLabel } from "../utils/stationLabel";
-import { extractPathBetweenStations } from "../utils/pathExtractor";
-import { TransitIcon, formatPlatform } from "./TransitIcon";
-import {
-  ResultShellHeader,
-  SaveTripButton,
-  renderEmptyBlock,
-  renderMissBlock,
-  tripCardClass,
-  tripCardMotion,
-} from "./ResultShell";
+import type { Country, CoverageGap, NoResultReason, SearchFailureKind, SortMode, TransitResult } from "../types";
+import { ResultShellHeader } from "./ResultShell";
+import { ResultList } from "./ResultList";
 
 interface MetroResultViewProps {
   country: Country;
@@ -33,6 +22,8 @@ interface MetroResultViewProps {
   coverageGap?: CoverageGap;
   results: TransitResult[];
   savedIds: Set<string>;
+  sortMode?: SortMode;
+  onSortChange?: (mode: SortMode) => void;
   onModify: () => void;
   onRetry?: () => void;
   recovery?: ReactNode;
@@ -56,6 +47,8 @@ export function MetroResultView({
   coverageGap,
   results,
   savedIds,
+  sortMode,
+  onSortChange,
   onModify,
   onRetry,
   recovery,
@@ -87,132 +80,38 @@ export function MetroResultView({
 
       {overview}
 
-      <section className="mx-auto max-w-md space-y-3 px-4 py-4">
-        <AnimatePresence mode="popLayout">
-          {error ? (
-            renderMissBlock({
-              message: error,
-              reason: noResultReason,
-              failureKind,
-              coverageGap,
-              country,
-              sourceUrl: officialSourceUrl,
-              errorTitle: t("result.unable_to_fetch"),
-              onModify,
-            onRetry,
-            recovery,
-            })
-          ) : results.length === 0 ? (
-            renderEmptyBlock(t("metro.no_departures"), t("metro.no_departures_hint"))
-          ) : (
-            <motion.div
-              key="list-container"
-              initial={false}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="space-y-3"
-            >
-              {hasTransferResults && (
-                <p className="m3-card m3-body-small bg-slate-200/60 px-4 py-3 leading-relaxed text-slate-600 dark:bg-slate-800 dark:text-slate-400">
-                  {t("metro.transfer_hint")}
-                </p>
-              )}
-              <AnimatePresence mode="popLayout">
-                {results.map((trip, index) => {
-                  const isSaved = savedIds.has(trip.id);
-                  const pathData = extractPathBetweenStations(
-                    trip.legs?.[0]?.lineCode || trip.service,
-                    trip.origin,
-                    trip.destination
-                  );
-                  return (
-                    <Fragment key={trip.id}>
-                    <motion.article
-                      {...tripCardMotion(index, true)}
-                      className={tripCardClass}
-                    >
-                      <div
-                        className="px-5 py-5 sm:px-6"
-                        style={{ borderLeft: `4px solid ${trip.lineColor || (pathData ? pathData.color : "#94a3b8")}` }}
-                      >
-                        <div className="flex items-center justify-between gap-3">
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className="m3-shape-sm shrink-0 bg-slate-100 p-1 dark:bg-slate-800">
-                                <TransitIcon trip={trip} className="h-3.5 w-3.5" />
-                              </span>
-                              <p className="truncate text-sm font-bold text-slate-900 dark:text-white">{trip.service}</p>
-                            </div>
-                            <p className="truncate text-xs font-bold text-slate-400 dark:text-slate-500">
-                              {t("metro.towards", { destination: stationLabel(t, trip.headsign || destination, trip.country) })}
-                            </p>
-                          </div>
-                          {trip.realtime ? (
-                            <span className="m3-chip m3-label-small min-h-7 shrink-0 gap-1.5 bg-emerald-500/5 px-3 text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-400">
-                              <span className="relative flex h-2 w-2">
-                                <span className="absolute h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
-                                <span className="h-2 w-2 rounded-full bg-emerald-600" />
-                              </span>
-                              {t("metro.realtime")}
-                            </span>
-                          ) : null}
-                        </div>
-
-                        <div className="mt-4 flex items-end justify-between gap-4">
-                          <div>
-                            <p className="m3-label-small uppercase text-slate-400 dark:text-slate-500">
-                              {t("metro.next_departure")}
-                            </p>
-                            <p className="m3-headline-large mt-1 font-mono font-bold text-slate-950 dark:text-white">
-                              {trip.departureTime}
-                            </p>
-                          </div>
-                          {formatPlatform(trip.platform || trip.legs?.[0]?.platform, t) && (
-                            <div className="m3-card border border-slate-100 bg-slate-50 px-4.5 py-2 text-center dark:border-slate-800/80 dark:bg-slate-800/60">
-                              <p className="m3-label-small uppercase text-slate-400 dark:text-slate-500">{t("metro.platform")}</p>
-                              <p className="m3-title-medium mt-0.5 font-mono text-slate-900 dark:text-white">
-                                {formatPlatform(trip.platform || trip.legs?.[0]?.platform, t)}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      <TripDetails trip={trip} showFullStopSequence onOpenLegend={onOpenLegend} formatPrice={formatPrice} />
-
-                      {trip.warning ? (
-                        <p className="mx-4 sm:mx-6 m3-card m3-body-small mb-4 flex items-center gap-1.5 border border-amber-100/50 bg-amber-50 px-4 py-3 text-amber-800 dark:border-amber-900/30 dark:bg-amber-900/10 dark:text-amber-400">
-                          <AlertTriangle className="h-4 w-4 shrink-0" />
-                          {trip.warning}
-                        </p>
-                      ) : null}
-
-                      <div className="flex items-center justify-between gap-3 border-t border-slate-100 px-4 py-3 sm:px-6 dark:border-slate-800/80 bg-slate-50/30 dark:bg-slate-900/20">
-                        <p className="font-mono text-xs font-bold text-slate-500 dark:text-slate-400">
-                          {trip.direct
-                            ? (trip.stops.length > 0
-                              ? `${trip.stops.length} ${t("result.stops")}`
-                              // No stop list from the source is not zero stops.
-                              : t("result.direct"))
-                            : `${t("result.transfer")} · ${stationListLabel(t, trip.transferStations || [], country)}`}
-                        </p>
-                        <SaveTripButton
-                          isSaved={isSaved}
-                          onSave={() => onSave(trip)}
-                          labeled
-                          saveLabel={t("metro.save_departure")}
-                        />
-                      </div>
-                    </motion.article>
-                    {index === results.length - 1 ? afterResults : null}
-                    </Fragment>
-                  );
-                })}
-              </AnimatePresence>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </section>
+      <ResultList
+        country={country}
+        results={results}
+        time={time}
+        error={error}
+        noResultReason={noResultReason}
+        failureKind={failureKind}
+        coverageGap={coverageGap}
+        officialSourceUrl={officialSourceUrl}
+        emptyTitle={t("metro.no_departures")}
+        emptyHint={t("metro.no_departures_hint")}
+        onModify={onModify}
+        onRetry={onRetry}
+        recovery={recovery}
+        sortMode={sortMode}
+        onSortChange={onSortChange}
+        savedIds={savedIds}
+        onSave={onSave}
+        onOpenLegend={onOpenLegend}
+        formatPrice={formatPrice}
+        beforeList={hasTransferResults ? (
+          <p className="m3-card m3-body-small bg-slate-200/60 px-4 py-3 leading-relaxed text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+            {t("metro.transfer_hint")}
+          </p>
+        ) : null}
+        afterResults={afterResults}
+        card={(trip) => ({
+          headsign: trip.headsign,
+          showFullStopSequence: true,
+          saveLabel: t("metro.save_departure"),
+        })}
+      />
     </main>
   );
 }
