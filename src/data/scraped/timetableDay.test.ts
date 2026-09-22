@@ -6,6 +6,7 @@ import {
   normalizeHeadsigns,
   normalizeResults,
   normalizeTransferLegTimes,
+  singleTrainPairs,
   type ScrapedRouteData,
 } from "./timetableDay";
 
@@ -658,6 +659,37 @@ describe("findInRoutes — a train's own calling pattern", () => {
 
   it("keeps a partial ride out of the row when only the terminals are timed", () => {
     expect(findInRoutes([lineRoute([])], "Kuramae", "Nihombashi", "2026-07-10", "japan")).toBeNull();
+  });
+
+  describe("singleTrainPairs", () => {
+    const keys = (pairs: Array<[string, string]>) => pairs.map((pair) => pair.join(" → ")).sort();
+
+    it("offers every stop a timed train serves, and only what search answers", () => {
+      const wholeLine = lineRoute(fullPattern);
+      const pairs = singleTrainPairs(wholeLine, "2026-07-10", "japan");
+
+      // Five stops, ten pairs each way — not just the two terminals.
+      expect(pairs).toHaveLength(20);
+      expect(keys(pairs)).toEqual(expect.arrayContaining([
+        "Kuramae → Nihombashi",
+        "Nihombashi → Kuramae",
+        "Nishi-magome → Oshiage",
+      ]));
+      for (const [origin, destination] of pairs) {
+        expect(findInRoutes([wholeLine], origin, destination, "2026-07-10", "japan")?.length).toBeGreaterThan(0);
+      }
+    });
+
+    it("keeps to the terminals when the source did not time the stops between", () => {
+      expect(keys(singleTrainPairs(lineRoute([]), "2026-07-10", "japan"))).toEqual([
+        "Nishi-magome → Oshiage",
+        "Oshiage → Nishi-magome",
+      ]);
+    });
+
+    it("answers nothing for a service day the route has no rows on", () => {
+      expect(singleTrainPairs(lineRoute(fullPattern), "2026-07-11", "japan")).toEqual([]);
+    });
   });
 });
 
