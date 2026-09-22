@@ -212,7 +212,9 @@ describe("station and line catalog integrity scope", { timeout: 20_000 }, () => 
     // line with no committed run, Himeji for a Shinkansen stop none reaches —
     // but which stations those are moves with the data and with ODPT_API_KEY.
     expect(menu.stations.filter((station) => !suggestions.includes(station))).toEqual([]);
-  });
+  // One search per published name over the whole Tokyo snapshot set runs close
+  // to the default 20 s on a shared CI runner; the bound is the work, not a hang.
+  }, 60_000);
 
   it("keeps the static intercity directory without promising dated timetable coverage", async () => {
     const lines = await getLinesForCountry("china");
