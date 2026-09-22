@@ -69,8 +69,14 @@ describe("station and line catalog integrity scope", { timeout: 20_000 }, () => 
 
     // Ginza is no route file's terminal, yet every Ginza Line train stops there.
     expect(destinations.Ginza).toEqual(expect.arrayContaining(["Ueno", "Shibuya", "Asakusa"]));
-    // A station the picker offers as an origin must lead somewhere.
-    expect(catalog.stations.filter((station) => destinations[station].length === 0)).toEqual([]);
+    // Any station a timed train departs from must lead somewhere. A terminus
+    // served in one direction only (Tokyo → Kyoto) rightly offers nothing.
+    const departsFrom = new Set(getScrapedRoutes("japan").flatMap((route) => route.results
+      .filter((row) => row.date === catalogDate)
+      .flatMap((row) => [row.origin, ...(row.legs ?? [])
+        .filter((leg) => leg.departureTime && leg.arrivalTime)
+        .map((leg) => leg.origin)])));
+    expect(catalog.stations.filter((station) => departsFrom.has(station) && destinations[station].length === 0)).toEqual([]);
   });
 
   it("keeps source directories while exposing only verified route coverage", async () => {

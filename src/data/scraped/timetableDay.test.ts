@@ -668,11 +668,10 @@ describe("findInRoutes — a train's own calling pattern", () => {
       const wholeLine = lineRoute(fullPattern);
       const pairs = singleTrainPairs(wholeLine, "2026-07-10", "japan");
 
-      // Five stops, ten pairs each way — not just the two terminals.
-      expect(pairs).toHaveLength(20);
+      // Five stops, ten pairs in the direction of travel — not just the terminals.
+      expect(pairs).toHaveLength(10);
       expect(keys(pairs)).toEqual(expect.arrayContaining([
         "Kuramae → Nihombashi",
-        "Nihombashi → Kuramae",
         "Nishi-magome → Oshiage",
       ]));
       for (const [origin, destination] of pairs) {
@@ -680,10 +679,17 @@ describe("findInRoutes — a train's own calling pattern", () => {
       }
     });
 
+    it("never offers a direction the source did not publish", () => {
+      // Search can answer Nihombashi → Kuramae by reversing this train's times,
+      // but those times are an estimate, not the operator's timetable.
+      const pairs = keys(singleTrainPairs(lineRoute(fullPattern), "2026-07-10", "japan"));
+      expect(pairs).not.toContain("Nihombashi → Kuramae");
+      expect(pairs).not.toContain("Oshiage → Nishi-magome");
+    });
+
     it("keeps to the terminals when the source did not time the stops between", () => {
       expect(keys(singleTrainPairs(lineRoute([]), "2026-07-10", "japan"))).toEqual([
         "Nishi-magome → Oshiage",
-        "Oshiage → Nishi-magome",
       ]);
     });
 

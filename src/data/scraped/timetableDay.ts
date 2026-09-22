@@ -738,8 +738,8 @@ export function endpointNamesForRoute(route: ScrapedRouteData): string[] {
  * search could answer it for eighteen.
  *
  * Admission is {@link segmentResult}'s own, run once per distinct calling
- * pattern rather than once per departure, so the pairs cannot drift from what
- * search returns.
+ * pattern rather than once per departure, so every pair is one search answers
+ * from the operator's own times.
  */
 export function singleTrainPairs(
   route: ScrapedRouteData,
@@ -766,19 +766,18 @@ export function singleTrainPairs(
     if (!patterns.has(signature)) patterns.set(signature, result);
   }
 
+  // Only the direction the source published. findInRoutes will also answer the
+  // opposite one from a reversed copy of the row, but those times are estimated
+  // (reverseResult), and the picker must not advertise a synthesized timetable.
   const pairs = new Map<string, [string, string]>();
   for (const result of patterns.values()) {
     const path = resultStopPath(route, result, country);
-    for (const reversed of [false, true]) {
-      const ordered = reversed ? [...path].reverse() : path;
-      for (let from = 0; from < ordered.length - 1; from += 1) {
-        for (let to = from + 1; to < ordered.length; to += 1) {
-          const edge = { route, from: ordered[from], to: ordered[to], reversed };
-          const key = `${stationKeyFor(country, edge.from)}\u0000${stationKeyFor(country, edge.to)}`;
-          if (pairs.has(key)) continue;
-          const segment = segmentResult(result, route, edge, country);
-          if (segment) pairs.set(key, [edge.from, edge.to]);
-        }
+    for (let from = 0; from < path.length - 1; from += 1) {
+      for (let to = from + 1; to < path.length; to += 1) {
+        const edge = { route, from: path[from], to: path[to], reversed: false };
+        const key = `${stationKeyFor(country, edge.from)}\u0000${stationKeyFor(country, edge.to)}`;
+        if (pairs.has(key)) continue;
+        if (segmentResult(result, route, edge, country)) pairs.set(key, [edge.from, edge.to]);
       }
     }
   }
