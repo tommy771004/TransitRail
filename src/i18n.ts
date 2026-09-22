@@ -276,7 +276,10 @@ const resources = {
         close: "Close"
       },
       map: {
-        officialRouteMap: "Official Route Map"
+        officialRouteMap: "Official Route Map",
+        coordinates_unavailable: "A verified map position is not available for every station on this journey.",
+        positions_missing: "{{count}} station on this journey has no verified map position and is not drawn.",
+        positions_missing_other: "{{count}} stations on this journey have no verified map position and are not drawn."
       },
       weather: {
         clear: "Clear",
@@ -909,7 +912,9 @@ const resources = {
         close: "關閉"
       },
       map: {
-        officialRouteMap: "官方路線圖"
+        officialRouteMap: "官方路線圖",
+        coordinates_unavailable: "此行程有車站沒有可驗證的地圖座標，無法繪製路線圖。",
+        positions_missing: "有 {{count}} 站沒有可驗證的地圖座標，未在圖上標示。"
       },
       weather: {
         clear: "晴朗",
@@ -1945,7 +1950,9 @@ const resources = {
         close: "閉じる"
       },
       map: {
-        officialRouteMap: "公式路線図"
+        officialRouteMap: "公式路線図",
+        coordinates_unavailable: "この行程には検証済みの地図座標がない駅があるため、路線図を描画できません。",
+        positions_missing: "検証済みの地図座標がない駅が {{count}} 駅あり、地図には表示していません。"
       },
       weather: {
         clear: "晴れ",
@@ -2603,7 +2610,9 @@ const resources = {
         close: "닫기"
       },
       map: {
-        officialRouteMap: "공식 노선도"
+        officialRouteMap: "공식 노선도",
+        coordinates_unavailable: "이 여정에는 검증된 지도 좌표가 없는 역이 있어 노선도를 그릴 수 없습니다.",
+        positions_missing: "검증된 지도 좌표가 없는 역 {{count}}개는 지도에 표시하지 않았습니다."
       },
       weather: {
         clear: "맑음",
