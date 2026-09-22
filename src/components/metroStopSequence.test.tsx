@@ -56,7 +56,10 @@ describe("Metro calling sequence", () => {
     ] });
     expect(html.match(/FirstStop/g)).toHaveLength(1);
     expect(html.match(/SecondStop/g)).toHaveLength(1);
-    expect(html.match(/ChangeHere/g)).toHaveLength(1);
+    // Named once on the card's composition line and once in the timeline —
+    // never inside either ride's stop list.
+    expect(html.match(/ChangeHere/g)).toHaveLength(2);
+    expect(html).toContain("Change at ChangeHere to Second ride");
     expect(html).toContain("Transfer at ChangeHere");
   });
 
