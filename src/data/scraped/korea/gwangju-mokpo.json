@@ -1,15 +1,15 @@
 {
   "origin": "Gwangju",
   "destination": "Mokpo",
-  "date": "2026-09-21..2026-09-27",
-  "scrapedAt": "2026-09-18T23:43:56.763Z",
+  "date": "2026-09-22..2026-09-30",
+  "scrapedAt": "2026-09-22T00:22:02.249Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 9. 18. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/17/202609171a0ae588ec1170.xlsx",
       "effectiveFrom": "2026-09-18",
-      "retrievedAt": "2026-09-18T23:43:53.450Z",
+      "retrievedAt": "2026-09-22T00:21:59.098Z",
       "sha256": "e97adbb9c8b520d4db1ddd44ddf1165aa6c0e0c118d5acbe55103fdbd768e212",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-18T23:43:54.331Z",
+      "retrievedAt": "2026-09-22T00:21:59.868Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
@@ -25,137 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-21-regular-호남선-9-2",
-      "country": "korea",
-      "date": "2026-09-21",
-      "operator": "Korail",
-      "service": "무궁화 1491",
-      "trainType": "무궁화",
-      "origin": "Gwangju",
-      "destination": "Mokpo",
-      "departureTime": "07:00",
-      "arrivalTime": "08:19",
-      "durationMinutes": 79,
-      "direct": true,
-      "stops": [
-        "Gwangju",
-        "Geungnakgang",
-        "Gwangju songjeong",
-        "Naju",
-        "Dasi",
-        "Hampyeong",
-        "Muan",
-        "Mongtan",
-        "Illo",
-        "Imseong-ri",
-        "Mokpo"
-      ],
-      "headsign": "Mokpo",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1491",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gwangju",
-          "destination": "Geungnakgang",
-          "departureTime": "07:00",
-          "arrivalTime": "07:10",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "무궁화 1491",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Geungnakgang",
-          "destination": "Gwangju songjeong",
-          "departureTime": "07:10",
-          "arrivalTime": "07:19",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "무궁화 1491",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gwangju songjeong",
-          "destination": "Naju",
-          "departureTime": "07:19",
-          "arrivalTime": "07:30",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "무궁화 1491",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Naju",
-          "destination": "Dasi",
-          "departureTime": "07:30",
-          "arrivalTime": "07:36",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 1491",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Dasi",
-          "destination": "Hampyeong",
-          "departureTime": "07:36",
-          "arrivalTime": "07:45",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "무궁화 1491",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Hampyeong",
-          "destination": "Muan",
-          "departureTime": "07:45",
-          "arrivalTime": "07:53",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 1491",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Muan",
-          "destination": "Mongtan",
-          "departureTime": "07:53",
-          "arrivalTime": "07:58",
-          "durationMinutes": 5
-        },
-        {
-          "lineName": "무궁화 1491",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Mongtan",
-          "destination": "Illo",
-          "departureTime": "07:58",
-          "arrivalTime": "08:06",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 1491",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Illo",
-          "destination": "Imseong-ri",
-          "departureTime": "08:06",
-          "arrivalTime": "08:12",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 1491",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Imseong-ri",
-          "destination": "Mokpo",
-          "departureTime": "08:12",
-          "arrivalTime": "08:19",
-          "durationMinutes": 7
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-22-regular-호남선-9-2",
       "country": "korea",
@@ -941,6 +810,399 @@
           "durationMinutes": 7
         }
       ]
+    },
+    {
+      "id": "korail-2026-09-28-regular-호남선-9-2",
+      "country": "korea",
+      "date": "2026-09-28",
+      "operator": "Korail",
+      "service": "무궁화 1491",
+      "trainType": "무궁화",
+      "origin": "Gwangju",
+      "destination": "Mokpo",
+      "departureTime": "07:00",
+      "arrivalTime": "08:19",
+      "durationMinutes": 79,
+      "direct": true,
+      "stops": [
+        "Gwangju",
+        "Geungnakgang",
+        "Gwangju songjeong",
+        "Naju",
+        "Dasi",
+        "Hampyeong",
+        "Muan",
+        "Mongtan",
+        "Illo",
+        "Imseong-ri",
+        "Mokpo"
+      ],
+      "headsign": "Mokpo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju",
+          "destination": "Geungnakgang",
+          "departureTime": "07:00",
+          "arrivalTime": "07:10",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Geungnakgang",
+          "destination": "Gwangju songjeong",
+          "departureTime": "07:10",
+          "arrivalTime": "07:19",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Naju",
+          "departureTime": "07:19",
+          "arrivalTime": "07:30",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Naju",
+          "destination": "Dasi",
+          "departureTime": "07:30",
+          "arrivalTime": "07:36",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Dasi",
+          "destination": "Hampyeong",
+          "departureTime": "07:36",
+          "arrivalTime": "07:45",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Hampyeong",
+          "destination": "Muan",
+          "departureTime": "07:45",
+          "arrivalTime": "07:53",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Muan",
+          "destination": "Mongtan",
+          "departureTime": "07:53",
+          "arrivalTime": "07:58",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Mongtan",
+          "destination": "Illo",
+          "departureTime": "07:58",
+          "arrivalTime": "08:06",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Illo",
+          "destination": "Imseong-ri",
+          "departureTime": "08:06",
+          "arrivalTime": "08:12",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Imseong-ri",
+          "destination": "Mokpo",
+          "departureTime": "08:12",
+          "arrivalTime": "08:19",
+          "durationMinutes": 7
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-29-regular-호남선-9-2",
+      "country": "korea",
+      "date": "2026-09-29",
+      "operator": "Korail",
+      "service": "무궁화 1491",
+      "trainType": "무궁화",
+      "origin": "Gwangju",
+      "destination": "Mokpo",
+      "departureTime": "07:00",
+      "arrivalTime": "08:19",
+      "durationMinutes": 79,
+      "direct": true,
+      "stops": [
+        "Gwangju",
+        "Geungnakgang",
+        "Gwangju songjeong",
+        "Naju",
+        "Dasi",
+        "Hampyeong",
+        "Muan",
+        "Mongtan",
+        "Illo",
+        "Imseong-ri",
+        "Mokpo"
+      ],
+      "headsign": "Mokpo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju",
+          "destination": "Geungnakgang",
+          "departureTime": "07:00",
+          "arrivalTime": "07:10",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Geungnakgang",
+          "destination": "Gwangju songjeong",
+          "departureTime": "07:10",
+          "arrivalTime": "07:19",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Naju",
+          "departureTime": "07:19",
+          "arrivalTime": "07:30",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Naju",
+          "destination": "Dasi",
+          "departureTime": "07:30",
+          "arrivalTime": "07:36",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Dasi",
+          "destination": "Hampyeong",
+          "departureTime": "07:36",
+          "arrivalTime": "07:45",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Hampyeong",
+          "destination": "Muan",
+          "departureTime": "07:45",
+          "arrivalTime": "07:53",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Muan",
+          "destination": "Mongtan",
+          "departureTime": "07:53",
+          "arrivalTime": "07:58",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Mongtan",
+          "destination": "Illo",
+          "departureTime": "07:58",
+          "arrivalTime": "08:06",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Illo",
+          "destination": "Imseong-ri",
+          "departureTime": "08:06",
+          "arrivalTime": "08:12",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Imseong-ri",
+          "destination": "Mokpo",
+          "departureTime": "08:12",
+          "arrivalTime": "08:19",
+          "durationMinutes": 7
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-30-regular-호남선-9-2",
+      "country": "korea",
+      "date": "2026-09-30",
+      "operator": "Korail",
+      "service": "무궁화 1491",
+      "trainType": "무궁화",
+      "origin": "Gwangju",
+      "destination": "Mokpo",
+      "departureTime": "07:00",
+      "arrivalTime": "08:19",
+      "durationMinutes": 79,
+      "direct": true,
+      "stops": [
+        "Gwangju",
+        "Geungnakgang",
+        "Gwangju songjeong",
+        "Naju",
+        "Dasi",
+        "Hampyeong",
+        "Muan",
+        "Mongtan",
+        "Illo",
+        "Imseong-ri",
+        "Mokpo"
+      ],
+      "headsign": "Mokpo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju",
+          "destination": "Geungnakgang",
+          "departureTime": "07:00",
+          "arrivalTime": "07:10",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Geungnakgang",
+          "destination": "Gwangju songjeong",
+          "departureTime": "07:10",
+          "arrivalTime": "07:19",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Naju",
+          "departureTime": "07:19",
+          "arrivalTime": "07:30",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Naju",
+          "destination": "Dasi",
+          "departureTime": "07:30",
+          "arrivalTime": "07:36",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Dasi",
+          "destination": "Hampyeong",
+          "departureTime": "07:36",
+          "arrivalTime": "07:45",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Hampyeong",
+          "destination": "Muan",
+          "departureTime": "07:45",
+          "arrivalTime": "07:53",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Muan",
+          "destination": "Mongtan",
+          "departureTime": "07:53",
+          "arrivalTime": "07:58",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Mongtan",
+          "destination": "Illo",
+          "departureTime": "07:58",
+          "arrivalTime": "08:06",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Illo",
+          "destination": "Imseong-ri",
+          "departureTime": "08:06",
+          "arrivalTime": "08:12",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1491",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Imseong-ri",
+          "destination": "Mokpo",
+          "departureTime": "08:12",
+          "arrivalTime": "08:19",
+          "durationMinutes": 7
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -951,7 +1213,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-18T23:43:56.539Z",
+    "fetchedAt": "2026-09-22T00:22:02.033Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

@@ -4,68 +4,61 @@
   "source": "MTR real-time next train API",
   "sourceUrl": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
   "sourceTier": "A",
-  "fetchedAt": "2026-09-20T23:40:24.235Z",
-  "builtAt": "2026-09-20T23:40:26.257Z",
+  "fetchedAt": "2026-09-22T00:21:13.820Z",
+  "builtAt": "2026-09-22T00:40:34.049Z",
   "recordCount": 16,
   "routeCount": 4,
-  "successRate": 0.75,
-  "failedRoutes": [
-    {
-      "origin": "Hong Kong",
-      "destination": "Airport",
-      "error": "MTR returned no departures for Hong Kong → Airport on 2026-09-21"
-    }
-  ],
+  "successRate": 1,
+  "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 4,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-09-20",
-      "2026-09-21"
+      "2026-09-22"
     ]
   },
-  "checksum": "548327002128f20a2f00b43842cf56bbd2a38dab60f2aa5953247859aa6bf444",
+  "checksum": "6882735e76c7fe56a0173ee597240f4145f9dfcb4c39f5b89ad4a0fae485bb69",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Admiralty",
       "destination": "Tsim Sha Tsui",
       "resultCount": 4,
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-20T23:40:22.517Z",
+      "fetchedAt": "2026-09-22T00:21:12.835Z",
       "verified": true
     },
     {
       "origin": "Central",
       "destination": "Tsuen Wan",
       "resultCount": 4,
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-20T23:40:23.272Z",
+      "fetchedAt": "2026-09-22T00:21:13.146Z",
       "verified": true
     },
     {
       "origin": "Hong Kong",
       "destination": "Airport",
       "resultCount": 4,
-      "date": "2026-09-20",
+      "date": "2026-09-22",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-19T23:43:52.603Z",
+      "fetchedAt": "2026-09-22T00:21:13.510Z",
       "verified": true
     },
     {
       "origin": "Tung Chung",
       "destination": "Sunny Bay",
       "resultCount": 4,
-      "date": "2026-09-21",
+      "date": "2026-09-22",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-20T23:40:24.235Z",
+      "fetchedAt": "2026-09-22T00:21:13.820Z",
       "verified": true
     }
   ]

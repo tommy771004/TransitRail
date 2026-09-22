@@ -4,58 +4,59 @@
   "source": "data.gov.my KTMB static GTFS",
   "sourceUrl": "https://api.data.gov.my/gtfs-static/ktmb",
   "sourceTier": "A",
-  "fetchedAt": "2026-09-18T23:43:10.985Z",
-  "builtAt": "2026-09-20T23:40:26.257Z",
-  "recordCount": 453,
+  "fetchedAt": "2026-09-22T00:21:09.778Z",
+  "builtAt": "2026-09-22T00:40:34.049Z",
+  "recordCount": 495,
   "routeCount": 3,
-  "successRate": null,
+  "successRate": 1,
   "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 3,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-09-20",
-      "2026-09-21",
       "2026-09-22",
       "2026-09-23",
       "2026-09-24",
       "2026-09-25",
       "2026-09-26",
-      "2026-09-27"
+      "2026-09-27",
+      "2026-09-28",
+      "2026-09-29",
+      "2026-09-30"
     ]
   },
-  "checksum": "dc0389344be16afebfdba965f7f0612504e19e0a220dfc232786d5e4bbdbd40a",
+  "checksum": "d2fbc6f172a9d31250ad38d90cecf026b7e5516c9385fbe9157abb1f884fb588",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Batu Caves",
       "destination": "Kuala Lumpur",
-      "resultCount": 166,
-      "date": "2026-09-20..2026-09-27",
+      "resultCount": 195,
+      "date": "2026-09-22..2026-09-30",
       "sourceId": "my-ktmb-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-18T23:43:10.980Z",
+      "fetchedAt": "2026-09-22T00:21:09.774Z",
       "verified": true
     },
     {
       "origin": "Klang",
       "destination": "Subang Jaya",
-      "resultCount": 69,
-      "date": "2026-09-20..2026-09-27",
+      "resultCount": 70,
+      "date": "2026-09-22..2026-09-30",
       "sourceId": "my-ktmb-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-18T23:43:10.985Z",
+      "fetchedAt": "2026-09-22T00:21:09.778Z",
       "verified": true
     },
     {
       "origin": "Rawang",
       "destination": "Kuala Lumpur",
-      "resultCount": 218,
-      "date": "2026-09-20..2026-09-27",
+      "resultCount": 230,
+      "date": "2026-09-22..2026-09-30",
       "sourceId": "my-ktmb-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-18T23:43:10.974Z",
+      "fetchedAt": "2026-09-22T00:21:09.770Z",
       "verified": true
     }
   ]

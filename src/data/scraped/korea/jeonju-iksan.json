@@ -1,15 +1,15 @@
 {
   "origin": "Jeonju",
   "destination": "Iksan",
-  "date": "2026-09-21..2026-09-27",
-  "scrapedAt": "2026-09-18T23:43:56.878Z",
+  "date": "2026-09-22..2026-09-30",
+  "scrapedAt": "2026-09-22T00:22:02.360Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 9. 18. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/17/202609171a0ae588ec1170.xlsx",
       "effectiveFrom": "2026-09-18",
-      "retrievedAt": "2026-09-18T23:43:53.450Z",
+      "retrievedAt": "2026-09-22T00:21:59.098Z",
       "sha256": "e97adbb9c8b520d4db1ddd44ddf1165aa6c0e0c118d5acbe55103fdbd768e212",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-18T23:43:54.331Z",
+      "retrievedAt": "2026-09-22T00:21:59.868Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
@@ -25,38 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-20-regular-전라선-54-15-next-day",
-      "country": "korea",
-      "date": "2026-09-21",
-      "operator": "Korail",
-      "service": "ITX-마음 1530",
-      "trainType": "ITX-마음",
-      "origin": "Jeonju",
-      "destination": "Iksan",
-      "departureTime": "00:15",
-      "arrivalTime": "00:30",
-      "durationMinutes": 15,
-      "direct": true,
-      "stops": [
-        "Jeonju",
-        "Iksan"
-      ],
-      "headsign": "Iksan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1530",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Jeonju",
-          "destination": "Iksan",
-          "departureTime": "00:15",
-          "arrivalTime": "00:30",
-          "durationMinutes": 15
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-21-regular-전라선-54-15-next-day",
       "country": "korea",
@@ -248,6 +216,102 @@
           "durationMinutes": 15
         }
       ]
+    },
+    {
+      "id": "korail-2026-09-27-regular-전라선-54-15-next-day",
+      "country": "korea",
+      "date": "2026-09-28",
+      "operator": "Korail",
+      "service": "ITX-마음 1530",
+      "trainType": "ITX-마음",
+      "origin": "Jeonju",
+      "destination": "Iksan",
+      "departureTime": "00:15",
+      "arrivalTime": "00:30",
+      "durationMinutes": 15,
+      "direct": true,
+      "stops": [
+        "Jeonju",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Iksan",
+          "departureTime": "00:15",
+          "arrivalTime": "00:30",
+          "durationMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-28-regular-전라선-54-15-next-day",
+      "country": "korea",
+      "date": "2026-09-29",
+      "operator": "Korail",
+      "service": "ITX-마음 1530",
+      "trainType": "ITX-마음",
+      "origin": "Jeonju",
+      "destination": "Iksan",
+      "departureTime": "00:15",
+      "arrivalTime": "00:30",
+      "durationMinutes": 15,
+      "direct": true,
+      "stops": [
+        "Jeonju",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Iksan",
+          "departureTime": "00:15",
+          "arrivalTime": "00:30",
+          "durationMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-29-regular-전라선-54-15-next-day",
+      "country": "korea",
+      "date": "2026-09-30",
+      "operator": "Korail",
+      "service": "ITX-마음 1530",
+      "trainType": "ITX-마음",
+      "origin": "Jeonju",
+      "destination": "Iksan",
+      "departureTime": "00:15",
+      "arrivalTime": "00:30",
+      "durationMinutes": 15,
+      "direct": true,
+      "stops": [
+        "Jeonju",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Iksan",
+          "departureTime": "00:15",
+          "arrivalTime": "00:30",
+          "durationMinutes": 15
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -258,7 +322,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-18T23:43:56.539Z",
+    "fetchedAt": "2026-09-22T00:22:02.033Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

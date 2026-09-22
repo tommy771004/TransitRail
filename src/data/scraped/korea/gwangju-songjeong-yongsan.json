@@ -1,15 +1,15 @@
 {
   "origin": "Gwangju songjeong",
   "destination": "Yongsan",
-  "date": "2026-09-21..2026-09-27",
-  "scrapedAt": "2026-09-18T23:43:56.664Z",
+  "date": "2026-09-22..2026-09-30",
+  "scrapedAt": "2026-09-22T00:22:02.152Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 9. 18. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/17/202609171a0ae588ec1170.xlsx",
       "effectiveFrom": "2026-09-18",
-      "retrievedAt": "2026-09-18T23:43:53.450Z",
+      "retrievedAt": "2026-09-22T00:21:59.098Z",
       "sha256": "e97adbb9c8b520d4db1ddd44ddf1165aa6c0e0c118d5acbe55103fdbd768e212",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-18T23:43:54.331Z",
+      "retrievedAt": "2026-09-22T00:21:59.868Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
@@ -25,452 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-21-ktx-호남선-12-27",
-      "country": "korea",
-      "date": "2026-09-21",
-      "operator": "Korail",
-      "service": "KTX-산천 402",
-      "trainType": "KTX-산천",
-      "origin": "Gwangju songjeong",
-      "destination": "Yongsan",
-      "departureTime": "05:37",
-      "arrivalTime": "07:42",
-      "durationMinutes": 125,
-      "direct": true,
-      "stops": [
-        "Gwangju songjeong",
-        "Jeongeup",
-        "Iksan",
-        "Osong",
-        "Cheonan-Asan",
-        "Gwangmyeong",
-        "Yongsan"
-      ],
-      "headsign": "Yongsan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 402",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gwangju songjeong",
-          "destination": "Jeongeup",
-          "departureTime": "05:37",
-          "arrivalTime": "05:56",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "KTX-산천 402",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jeongeup",
-          "destination": "Iksan",
-          "departureTime": "05:56",
-          "arrivalTime": "06:14",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "KTX-산천 402",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Osong",
-          "departureTime": "06:14",
-          "arrivalTime": "06:46",
-          "durationMinutes": 32
-        },
-        {
-          "lineName": "KTX-산천 402",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Osong",
-          "destination": "Cheonan-Asan",
-          "departureTime": "06:46",
-          "arrivalTime": "07:00",
-          "durationMinutes": 14
-        },
-        {
-          "lineName": "KTX-산천 402",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Cheonan-Asan",
-          "destination": "Gwangmyeong",
-          "departureTime": "07:00",
-          "arrivalTime": "07:26",
-          "durationMinutes": 26
-        },
-        {
-          "lineName": "KTX-산천 402",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Yongsan",
-          "departureTime": "07:26",
-          "arrivalTime": "07:42",
-          "durationMinutes": 16
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-21-ktx-호남선-33-27",
-      "country": "korea",
-      "date": "2026-09-21",
-      "operator": "Korail",
-      "service": "KTX 418",
-      "trainType": "KTX",
-      "origin": "Gwangju songjeong",
-      "destination": "Yongsan",
-      "departureTime": "11:34",
-      "arrivalTime": "13:41",
-      "durationMinutes": 127,
-      "direct": true,
-      "stops": [
-        "Gwangju songjeong",
-        "Jeongeup",
-        "Iksan",
-        "Osong",
-        "Cheonan-Asan",
-        "Gwangmyeong",
-        "Yongsan"
-      ],
-      "headsign": "Yongsan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 418",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gwangju songjeong",
-          "destination": "Jeongeup",
-          "departureTime": "11:34",
-          "arrivalTime": "11:53",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "KTX 418",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jeongeup",
-          "destination": "Iksan",
-          "departureTime": "11:53",
-          "arrivalTime": "12:12",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "KTX 418",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Osong",
-          "departureTime": "12:12",
-          "arrivalTime": "12:43",
-          "durationMinutes": 31
-        },
-        {
-          "lineName": "KTX 418",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Osong",
-          "destination": "Cheonan-Asan",
-          "departureTime": "12:43",
-          "arrivalTime": "12:57",
-          "durationMinutes": 14
-        },
-        {
-          "lineName": "KTX 418",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Cheonan-Asan",
-          "destination": "Gwangmyeong",
-          "departureTime": "12:57",
-          "arrivalTime": "13:23",
-          "durationMinutes": 26
-        },
-        {
-          "lineName": "KTX 418",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Yongsan",
-          "departureTime": "13:23",
-          "arrivalTime": "13:41",
-          "durationMinutes": 18
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-21-ktx-호남선-39-27",
-      "country": "korea",
-      "date": "2026-09-21",
-      "operator": "Korail",
-      "service": "KTX-산천 424",
-      "trainType": "KTX-산천",
-      "origin": "Gwangju songjeong",
-      "destination": "Yongsan",
-      "departureTime": "14:29",
-      "arrivalTime": "16:26",
-      "durationMinutes": 117,
-      "direct": true,
-      "stops": [
-        "Gwangju songjeong",
-        "Iksan",
-        "Osong",
-        "Gwangmyeong",
-        "Yongsan"
-      ],
-      "headsign": "Yongsan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 424",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gwangju songjeong",
-          "destination": "Iksan",
-          "departureTime": "14:29",
-          "arrivalTime": "15:07",
-          "durationMinutes": 38
-        },
-        {
-          "lineName": "KTX-산천 424",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Osong",
-          "departureTime": "15:07",
-          "arrivalTime": "15:38",
-          "durationMinutes": 31
-        },
-        {
-          "lineName": "KTX-산천 424",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Osong",
-          "destination": "Gwangmyeong",
-          "departureTime": "15:38",
-          "arrivalTime": "16:10",
-          "durationMinutes": 32
-        },
-        {
-          "lineName": "KTX-산천 424",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Yongsan",
-          "departureTime": "16:10",
-          "arrivalTime": "16:26",
-          "durationMinutes": 16
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-21-ktx-호남선-51-27",
-      "country": "korea",
-      "date": "2026-09-21",
-      "operator": "Korail",
-      "service": "KTX-산천 460",
-      "trainType": "KTX-산천",
-      "origin": "Gwangju songjeong",
-      "destination": "Yongsan",
-      "departureTime": "17:48",
-      "arrivalTime": "20:42",
-      "durationMinutes": 174,
-      "direct": true,
-      "stops": [
-        "Gwangju songjeong",
-        "Jeongeup",
-        "Iksan",
-        "Nonsan",
-        "Gyeryong",
-        "Seodaejeon",
-        "Osong",
-        "Cheonan-Asan",
-        "Gwangmyeong",
-        "Yongsan"
-      ],
-      "headsign": "Yongsan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 460",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gwangju songjeong",
-          "destination": "Jeongeup",
-          "departureTime": "17:48",
-          "arrivalTime": "18:07",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "KTX-산천 460",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jeongeup",
-          "destination": "Iksan",
-          "departureTime": "18:07",
-          "arrivalTime": "18:26",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "KTX-산천 460",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Nonsan",
-          "departureTime": "18:26",
-          "arrivalTime": "18:51",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "KTX-산천 460",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Nonsan",
-          "destination": "Gyeryong",
-          "departureTime": "18:51",
-          "arrivalTime": "19:09",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "KTX-산천 460",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gyeryong",
-          "destination": "Seodaejeon",
-          "departureTime": "19:09",
-          "arrivalTime": "19:26",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "KTX-산천 460",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Seodaejeon",
-          "destination": "Osong",
-          "departureTime": "19:26",
-          "arrivalTime": "19:46",
-          "durationMinutes": 20
-        },
-        {
-          "lineName": "KTX-산천 460",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Osong",
-          "destination": "Cheonan-Asan",
-          "departureTime": "19:46",
-          "arrivalTime": "19:59",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "KTX-산천 460",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Cheonan-Asan",
-          "destination": "Gwangmyeong",
-          "departureTime": "19:59",
-          "arrivalTime": "20:26",
-          "durationMinutes": 27
-        },
-        {
-          "lineName": "KTX-산천 460",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Yongsan",
-          "departureTime": "20:26",
-          "arrivalTime": "20:42",
-          "durationMinutes": 16
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-21-ktx-호남선-66-27",
-      "country": "korea",
-      "date": "2026-09-21",
-      "operator": "Korail",
-      "service": "KTX 440",
-      "trainType": "KTX",
-      "origin": "Gwangju songjeong",
-      "destination": "Yongsan",
-      "departureTime": "20:50",
-      "arrivalTime": "22:54",
-      "durationMinutes": 124,
-      "direct": true,
-      "stops": [
-        "Gwangju songjeong",
-        "Jeongeup",
-        "Iksan",
-        "Osong",
-        "Cheonan-Asan",
-        "Gwangmyeong",
-        "Yongsan"
-      ],
-      "headsign": "Yongsan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 440",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gwangju songjeong",
-          "destination": "Jeongeup",
-          "departureTime": "20:50",
-          "arrivalTime": "21:09",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "KTX 440",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jeongeup",
-          "destination": "Iksan",
-          "departureTime": "21:09",
-          "arrivalTime": "21:27",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "KTX 440",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Osong",
-          "departureTime": "21:27",
-          "arrivalTime": "21:58",
-          "durationMinutes": 31
-        },
-        {
-          "lineName": "KTX 440",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Osong",
-          "destination": "Cheonan-Asan",
-          "departureTime": "21:58",
-          "arrivalTime": "22:12",
-          "durationMinutes": 14
-        },
-        {
-          "lineName": "KTX 440",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Cheonan-Asan",
-          "destination": "Gwangmyeong",
-          "departureTime": "22:12",
-          "arrivalTime": "22:38",
-          "durationMinutes": 26
-        },
-        {
-          "lineName": "KTX 440",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Yongsan",
-          "departureTime": "22:38",
-          "arrivalTime": "22:54",
-          "durationMinutes": 16
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-22-ktx-호남선-12-27",
       "country": "korea",
@@ -3014,6 +2568,1344 @@
           "durationMinutes": 16
         }
       ]
+    },
+    {
+      "id": "korail-2026-09-28-ktx-호남선-12-27",
+      "country": "korea",
+      "date": "2026-09-28",
+      "operator": "Korail",
+      "service": "KTX-산천 402",
+      "trainType": "KTX-산천",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "05:37",
+      "arrivalTime": "07:42",
+      "durationMinutes": 125,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Jeongeup",
+        "Iksan",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Jeongeup",
+          "departureTime": "05:37",
+          "arrivalTime": "05:56",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Iksan",
+          "departureTime": "05:56",
+          "arrivalTime": "06:14",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Osong",
+          "departureTime": "06:14",
+          "arrivalTime": "06:46",
+          "durationMinutes": 32
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "06:46",
+          "arrivalTime": "07:00",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "07:00",
+          "arrivalTime": "07:26",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "07:26",
+          "arrivalTime": "07:42",
+          "durationMinutes": 16
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-28-ktx-호남선-33-27",
+      "country": "korea",
+      "date": "2026-09-28",
+      "operator": "Korail",
+      "service": "KTX 418",
+      "trainType": "KTX",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "11:34",
+      "arrivalTime": "13:41",
+      "durationMinutes": 127,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Jeongeup",
+        "Iksan",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Jeongeup",
+          "departureTime": "11:34",
+          "arrivalTime": "11:53",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Iksan",
+          "departureTime": "11:53",
+          "arrivalTime": "12:12",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Osong",
+          "departureTime": "12:12",
+          "arrivalTime": "12:43",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "12:43",
+          "arrivalTime": "12:57",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "12:57",
+          "arrivalTime": "13:23",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "13:23",
+          "arrivalTime": "13:41",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-28-ktx-호남선-39-27",
+      "country": "korea",
+      "date": "2026-09-28",
+      "operator": "Korail",
+      "service": "KTX-산천 424",
+      "trainType": "KTX-산천",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "14:29",
+      "arrivalTime": "16:26",
+      "durationMinutes": 117,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Iksan",
+        "Osong",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 424",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Iksan",
+          "departureTime": "14:29",
+          "arrivalTime": "15:07",
+          "durationMinutes": 38
+        },
+        {
+          "lineName": "KTX-산천 424",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Osong",
+          "departureTime": "15:07",
+          "arrivalTime": "15:38",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "KTX-산천 424",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Gwangmyeong",
+          "departureTime": "15:38",
+          "arrivalTime": "16:10",
+          "durationMinutes": 32
+        },
+        {
+          "lineName": "KTX-산천 424",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "16:10",
+          "arrivalTime": "16:26",
+          "durationMinutes": 16
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-28-ktx-호남선-51-27",
+      "country": "korea",
+      "date": "2026-09-28",
+      "operator": "Korail",
+      "service": "KTX-산천 460",
+      "trainType": "KTX-산천",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "17:48",
+      "arrivalTime": "20:42",
+      "durationMinutes": 174,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Jeongeup",
+        "Iksan",
+        "Nonsan",
+        "Gyeryong",
+        "Seodaejeon",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Jeongeup",
+          "departureTime": "17:48",
+          "arrivalTime": "18:07",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Iksan",
+          "departureTime": "18:07",
+          "arrivalTime": "18:26",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Nonsan",
+          "departureTime": "18:26",
+          "arrivalTime": "18:51",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Nonsan",
+          "destination": "Gyeryong",
+          "departureTime": "18:51",
+          "arrivalTime": "19:09",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gyeryong",
+          "destination": "Seodaejeon",
+          "departureTime": "19:09",
+          "arrivalTime": "19:26",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Seodaejeon",
+          "destination": "Osong",
+          "departureTime": "19:26",
+          "arrivalTime": "19:46",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "19:46",
+          "arrivalTime": "19:59",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "19:59",
+          "arrivalTime": "20:26",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "20:26",
+          "arrivalTime": "20:42",
+          "durationMinutes": 16
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-28-ktx-호남선-66-27",
+      "country": "korea",
+      "date": "2026-09-28",
+      "operator": "Korail",
+      "service": "KTX 440",
+      "trainType": "KTX",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "20:50",
+      "arrivalTime": "22:54",
+      "durationMinutes": 124,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Jeongeup",
+        "Iksan",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Jeongeup",
+          "departureTime": "20:50",
+          "arrivalTime": "21:09",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Iksan",
+          "departureTime": "21:09",
+          "arrivalTime": "21:27",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Osong",
+          "departureTime": "21:27",
+          "arrivalTime": "21:58",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "21:58",
+          "arrivalTime": "22:12",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "22:12",
+          "arrivalTime": "22:38",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "22:38",
+          "arrivalTime": "22:54",
+          "durationMinutes": 16
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-29-ktx-호남선-12-27",
+      "country": "korea",
+      "date": "2026-09-29",
+      "operator": "Korail",
+      "service": "KTX-산천 402",
+      "trainType": "KTX-산천",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "05:37",
+      "arrivalTime": "07:42",
+      "durationMinutes": 125,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Jeongeup",
+        "Iksan",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Jeongeup",
+          "departureTime": "05:37",
+          "arrivalTime": "05:56",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Iksan",
+          "departureTime": "05:56",
+          "arrivalTime": "06:14",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Osong",
+          "departureTime": "06:14",
+          "arrivalTime": "06:46",
+          "durationMinutes": 32
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "06:46",
+          "arrivalTime": "07:00",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "07:00",
+          "arrivalTime": "07:26",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "07:26",
+          "arrivalTime": "07:42",
+          "durationMinutes": 16
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-29-ktx-호남선-33-27",
+      "country": "korea",
+      "date": "2026-09-29",
+      "operator": "Korail",
+      "service": "KTX 418",
+      "trainType": "KTX",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "11:34",
+      "arrivalTime": "13:41",
+      "durationMinutes": 127,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Jeongeup",
+        "Iksan",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Jeongeup",
+          "departureTime": "11:34",
+          "arrivalTime": "11:53",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Iksan",
+          "departureTime": "11:53",
+          "arrivalTime": "12:12",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Osong",
+          "departureTime": "12:12",
+          "arrivalTime": "12:43",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "12:43",
+          "arrivalTime": "12:57",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "12:57",
+          "arrivalTime": "13:23",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "13:23",
+          "arrivalTime": "13:41",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-29-ktx-호남선-39-27",
+      "country": "korea",
+      "date": "2026-09-29",
+      "operator": "Korail",
+      "service": "KTX-산천 424",
+      "trainType": "KTX-산천",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "14:29",
+      "arrivalTime": "16:26",
+      "durationMinutes": 117,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Iksan",
+        "Osong",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 424",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Iksan",
+          "departureTime": "14:29",
+          "arrivalTime": "15:07",
+          "durationMinutes": 38
+        },
+        {
+          "lineName": "KTX-산천 424",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Osong",
+          "departureTime": "15:07",
+          "arrivalTime": "15:38",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "KTX-산천 424",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Gwangmyeong",
+          "departureTime": "15:38",
+          "arrivalTime": "16:10",
+          "durationMinutes": 32
+        },
+        {
+          "lineName": "KTX-산천 424",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "16:10",
+          "arrivalTime": "16:26",
+          "durationMinutes": 16
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-29-ktx-호남선-51-27",
+      "country": "korea",
+      "date": "2026-09-29",
+      "operator": "Korail",
+      "service": "KTX-산천 460",
+      "trainType": "KTX-산천",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "17:48",
+      "arrivalTime": "20:42",
+      "durationMinutes": 174,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Jeongeup",
+        "Iksan",
+        "Nonsan",
+        "Gyeryong",
+        "Seodaejeon",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Jeongeup",
+          "departureTime": "17:48",
+          "arrivalTime": "18:07",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Iksan",
+          "departureTime": "18:07",
+          "arrivalTime": "18:26",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Nonsan",
+          "departureTime": "18:26",
+          "arrivalTime": "18:51",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Nonsan",
+          "destination": "Gyeryong",
+          "departureTime": "18:51",
+          "arrivalTime": "19:09",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gyeryong",
+          "destination": "Seodaejeon",
+          "departureTime": "19:09",
+          "arrivalTime": "19:26",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Seodaejeon",
+          "destination": "Osong",
+          "departureTime": "19:26",
+          "arrivalTime": "19:46",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "19:46",
+          "arrivalTime": "19:59",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "19:59",
+          "arrivalTime": "20:26",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "20:26",
+          "arrivalTime": "20:42",
+          "durationMinutes": 16
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-29-ktx-호남선-66-27",
+      "country": "korea",
+      "date": "2026-09-29",
+      "operator": "Korail",
+      "service": "KTX 440",
+      "trainType": "KTX",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "20:50",
+      "arrivalTime": "22:54",
+      "durationMinutes": 124,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Jeongeup",
+        "Iksan",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Jeongeup",
+          "departureTime": "20:50",
+          "arrivalTime": "21:09",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Iksan",
+          "departureTime": "21:09",
+          "arrivalTime": "21:27",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Osong",
+          "departureTime": "21:27",
+          "arrivalTime": "21:58",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "21:58",
+          "arrivalTime": "22:12",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "22:12",
+          "arrivalTime": "22:38",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "22:38",
+          "arrivalTime": "22:54",
+          "durationMinutes": 16
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-30-ktx-호남선-12-27",
+      "country": "korea",
+      "date": "2026-09-30",
+      "operator": "Korail",
+      "service": "KTX-산천 402",
+      "trainType": "KTX-산천",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "05:37",
+      "arrivalTime": "07:42",
+      "durationMinutes": 125,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Jeongeup",
+        "Iksan",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Jeongeup",
+          "departureTime": "05:37",
+          "arrivalTime": "05:56",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Iksan",
+          "departureTime": "05:56",
+          "arrivalTime": "06:14",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Osong",
+          "departureTime": "06:14",
+          "arrivalTime": "06:46",
+          "durationMinutes": 32
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "06:46",
+          "arrivalTime": "07:00",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "07:00",
+          "arrivalTime": "07:26",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX-산천 402",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "07:26",
+          "arrivalTime": "07:42",
+          "durationMinutes": 16
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-30-ktx-호남선-33-27",
+      "country": "korea",
+      "date": "2026-09-30",
+      "operator": "Korail",
+      "service": "KTX 418",
+      "trainType": "KTX",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "11:34",
+      "arrivalTime": "13:41",
+      "durationMinutes": 127,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Jeongeup",
+        "Iksan",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Jeongeup",
+          "departureTime": "11:34",
+          "arrivalTime": "11:53",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Iksan",
+          "departureTime": "11:53",
+          "arrivalTime": "12:12",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Osong",
+          "departureTime": "12:12",
+          "arrivalTime": "12:43",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "12:43",
+          "arrivalTime": "12:57",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "12:57",
+          "arrivalTime": "13:23",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX 418",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "13:23",
+          "arrivalTime": "13:41",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-30-ktx-호남선-39-27",
+      "country": "korea",
+      "date": "2026-09-30",
+      "operator": "Korail",
+      "service": "KTX-산천 424",
+      "trainType": "KTX-산천",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "14:29",
+      "arrivalTime": "16:26",
+      "durationMinutes": 117,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Iksan",
+        "Osong",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 424",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Iksan",
+          "departureTime": "14:29",
+          "arrivalTime": "15:07",
+          "durationMinutes": 38
+        },
+        {
+          "lineName": "KTX-산천 424",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Osong",
+          "departureTime": "15:07",
+          "arrivalTime": "15:38",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "KTX-산천 424",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Gwangmyeong",
+          "departureTime": "15:38",
+          "arrivalTime": "16:10",
+          "durationMinutes": 32
+        },
+        {
+          "lineName": "KTX-산천 424",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "16:10",
+          "arrivalTime": "16:26",
+          "durationMinutes": 16
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-30-ktx-호남선-51-27",
+      "country": "korea",
+      "date": "2026-09-30",
+      "operator": "Korail",
+      "service": "KTX-산천 460",
+      "trainType": "KTX-산천",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "17:48",
+      "arrivalTime": "20:42",
+      "durationMinutes": 174,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Jeongeup",
+        "Iksan",
+        "Nonsan",
+        "Gyeryong",
+        "Seodaejeon",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Jeongeup",
+          "departureTime": "17:48",
+          "arrivalTime": "18:07",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Iksan",
+          "departureTime": "18:07",
+          "arrivalTime": "18:26",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Nonsan",
+          "departureTime": "18:26",
+          "arrivalTime": "18:51",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Nonsan",
+          "destination": "Gyeryong",
+          "departureTime": "18:51",
+          "arrivalTime": "19:09",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gyeryong",
+          "destination": "Seodaejeon",
+          "departureTime": "19:09",
+          "arrivalTime": "19:26",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Seodaejeon",
+          "destination": "Osong",
+          "departureTime": "19:26",
+          "arrivalTime": "19:46",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "19:46",
+          "arrivalTime": "19:59",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "19:59",
+          "arrivalTime": "20:26",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "KTX-산천 460",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "20:26",
+          "arrivalTime": "20:42",
+          "durationMinutes": 16
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-09-30-ktx-호남선-66-27",
+      "country": "korea",
+      "date": "2026-09-30",
+      "operator": "Korail",
+      "service": "KTX 440",
+      "trainType": "KTX",
+      "origin": "Gwangju songjeong",
+      "destination": "Yongsan",
+      "departureTime": "20:50",
+      "arrivalTime": "22:54",
+      "durationMinutes": 124,
+      "direct": true,
+      "stops": [
+        "Gwangju songjeong",
+        "Jeongeup",
+        "Iksan",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Yongsan"
+      ],
+      "headsign": "Yongsan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangju songjeong",
+          "destination": "Jeongeup",
+          "departureTime": "20:50",
+          "arrivalTime": "21:09",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Iksan",
+          "departureTime": "21:09",
+          "arrivalTime": "21:27",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Osong",
+          "departureTime": "21:27",
+          "arrivalTime": "21:58",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "21:58",
+          "arrivalTime": "22:12",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "22:12",
+          "arrivalTime": "22:38",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX 440",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "22:38",
+          "arrivalTime": "22:54",
+          "durationMinutes": 16
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -3024,7 +3916,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-18T23:43:56.539Z",
+    "fetchedAt": "2026-09-22T00:22:02.033Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
