@@ -22,17 +22,19 @@ interface TripSheetProps {
   popup?: ReactNode;
   /** Save / seat actions, pinned above the body. */
   actions?: ReactNode;
+  /** While a layer sits on top of the sheet, Escape closes that layer instead. */
+  onEscape?: () => void;
   children: ReactNode;
 }
 
-export function TripSheet({ open, onClose, panelId, trip, title, popup, actions, children }: TripSheetProps) {
+export function TripSheet({ open, onClose, panelId, trip, title, popup, actions, onEscape, children }: TripSheetProps) {
   const { t } = useTranslation();
   const closeRef = useRef<HTMLButtonElement>(null);
   const restoreRef = useRef<Element | null>(null);
   // Read through a ref so a re-rendered handler never re-runs the open effect
   // (which would bounce focus back to the card while the sheet is up).
-  const onCloseRef = useRef(onClose);
-  onCloseRef.current = onClose;
+  const onEscapeRef = useRef(onClose);
+  onEscapeRef.current = onEscape ?? onClose;
 
   useEffect(() => {
     if (!open || typeof document === "undefined") return;
@@ -41,7 +43,7 @@ export function TripSheet({ open, onClose, panelId, trip, title, popup, actions,
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onCloseRef.current();
+      if (event.key === "Escape") onEscapeRef.current();
     };
     document.addEventListener("keydown", onKey);
     return () => {

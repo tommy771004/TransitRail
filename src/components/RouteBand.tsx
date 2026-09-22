@@ -6,27 +6,23 @@
 import type { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import type { JourneyLeg, TransitResult } from "../types";
-import { getLegColor, transferPressure } from "../utils/journeyLegs";
+import { getLegColor, minutesOf, pressureKey, transferPressure, type PressureKey } from "../utils/journeyLegs";
 
 export interface BandLeg {
   name: string;
   color: string;
   minutes: number;
-  /** Minutes waiting before the next ride; undefined on the last ride. */
+  /** Minutes waiting before the next ride; undefined on the last ride or when unknown. */
   waitMinutes?: number;
 }
-
-const minutesOf = (time?: string) => {
-  const match = /^(\d{1,3}):([0-5]\d)$/.exec(time || "");
-  return match ? Number(match[1]) * 60 + Number(match[2]) : null;
-};
 
 /**
  * The rides of one journey, in band form.
  *
  * ODPT files one leg per stop for a direct train; those hops are one ride, so
- * a direct trip is always one segment. A ride with no usable times shares the
- * journey evenly with its siblings rather than vanishing from the band.
+ * a direct trip is always one segment. A ride with no usable times takes the
+ * average of the rides that have them (or an even share when none do) rather
+ * than shrinking to a sliver the band would misrepresent.
  */
 export function bandLegs(trip: TransitResult): BandLeg[] {
   const legs = trip.direct === false && trip.legs && trip.legs.length > 1 ? trip.legs : undefined;
@@ -37,23 +33,33 @@ export function bandLegs(trip: TransitResult): BandLeg[] {
       minutes: Math.max(trip.durationMinutes ?? 1, 1),
     }];
   }
-  return legs.map((leg, index) => {
+  const rides = legs.map((leg, index) => {
     const next = legs[index + 1];
     const start = minutesOf(leg.departureTime);
     const end = minutesOf(leg.arrivalTime);
     const ride = leg.durationMinutes ?? (start !== null && end !== null && end >= start ? end - start : undefined);
     const nextStart = minutesOf(next?.departureTime);
     const wait = next && end !== null && nextStart !== null && nextStart >= end ? nextStart - end : undefined;
-    return {
-      name: leg.lineName,
-      color: getLegColor(leg, trip.lineColor),
-      minutes: Math.max(ride ?? 1, 1),
-      waitMinutes: next ? wait : undefined,
-    };
+    return { leg, ride, wait: next ? wait : undefined };
   });
+  const known = rides.map((ride) => ride.ride).filter((minutes): minutes is number => typeof minutes === "number" && minutes > 0);
+  const total = trip.durationMinutes && trip.durationMinutes > 0 ? trip.durationMinutes : undefined;
+  const fallback = known.length > 0
+    ? known.reduce((sum, minutes) => sum + minutes, 0) / known.length
+    : total ? total / legs.length : 1;
+  return rides.map(({ leg, ride, wait }) => ({
+    name: leg.lineName,
+    color: getLegColor(leg, trip.lineColor),
+    minutes: Math.max(ride && ride > 0 ? ride : fallback, 1),
+    waitMinutes: wait,
+  }));
 }
 
-export type PressureKey = "short" | "standard" | "comfortable" | "unknown";
+/** The tightest change on the journey; undefined for a direct trip or when no wait is known. */
+export function tightestWait(legs: BandLeg[]): number | undefined {
+  const waits = legs.map((leg) => leg.waitMinutes).filter((wait): wait is number => typeof wait === "number");
+  return waits.length > 0 ? Math.min(...waits) : undefined;
+}
 
 const pressureDot: Record<PressureKey, string> = {
   short: "border-rose-600 dark:border-rose-400",
@@ -61,14 +67,6 @@ const pressureDot: Record<PressureKey, string> = {
   comfortable: "border-emerald-600 dark:border-emerald-400",
   unknown: "border-slate-400 dark:border-slate-500",
 };
-
-/** The pressure bucket a wait falls in; the label lives in journeyLegs.ts. */
-export function pressureKey(minutes: number | undefined): PressureKey {
-  if (minutes === undefined) return "unknown";
-  if (minutes <= 4) return "short";
-  if (minutes <= 10) return "standard";
-  return "comfortable";
-}
 
 interface RouteBandProps {
   trip: TransitResult;
@@ -80,20 +78,20 @@ interface RouteBandProps {
 /**
  * Segment widths are minutes over the journey total, so a 2-minute Bakerloo
  * hop after a 46-minute Piccadilly ride reads as the sliver it is. A segment
- * under 16% hides its label rather than clipping it; the composition line on
- * the card names that ride instead. Everything here is `min-w-0` so the band
- * can never push the arrival time off the card.
+ * under 16% hides its label rather than clipping it; the card's composition
+ * line names every ride in text, so the band itself stays decorative to
+ * assistive technology. Everything here is `min-w-0` so the band can never
+ * push the arrival time off the card.
  */
 export function RouteBand({ trip, compact = false, className = "" }: RouteBandProps) {
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
   const legs = bandLegs(trip);
   const total = legs.reduce((sum, leg) => sum + leg.minutes, 0) || 1;
-  const isChinese = i18n.language.toLowerCase().startsWith("zh");
 
   return (
-    <div className={`grid min-w-0 gap-1 ${className}`} data-route-band>
+    <div className={`grid min-w-0 gap-1 ${className}`} data-route-band aria-hidden="true">
       {!compact && (
-        <div className="flex h-3.5 min-w-0" aria-hidden="true">
+        <div className="flex h-3.5 min-w-0">
           {legs.map((leg, index) => {
             const share = leg.minutes / total;
             return (
@@ -120,7 +118,7 @@ export function RouteBand({ trip, compact = false, className = "" }: RouteBandPr
             {index < legs.length - 1 && (
               <span
                 className="relative h-1.5 w-3 shrink-0"
-                title={transferPressure(leg.waitMinutes ?? null, isChinese)?.label}
+                title={transferPressure(leg.waitMinutes, t)?.label}
               >
                 <span className="absolute inset-x-0.5 top-0.5 h-0.5 bg-[repeating-linear-gradient(90deg,var(--color-slate-400)_0_2px,transparent_2px_4px)]" />
                 <span

@@ -77,7 +77,10 @@ export function D3LeafletRouteMap({ trip }: D3LeafletRouteMapProps) {
           const isLastStop = stopIdx === legStops.length - 1;
 
           if (!isFirstLeg && isFirstStop) {
-            if (points.length > 0) points[points.length - 1].type = "transfer";
+            // The previous leg's last stop is this change station; mark it
+            // only if it was actually placed, never whichever stop came last.
+            const last = points[points.length - 1];
+            if (last && last.name === legs[legIdx - 1].destination) last.type = "transfer";
             return;
           }
 

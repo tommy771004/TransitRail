@@ -10,7 +10,9 @@ import { Fragment, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "motion/react";
 import type { Country, CoverageGap, NoResultReason, SearchFailureKind, SortMode, TransitResult } from "../types";
+import { countryConfig } from "../data/countries";
 import { triggerHaptic } from "../utils/haptics";
+import { minutesOf } from "../utils/journeyLegs";
 import { renderEmptyBlock, renderMissBlock } from "./ResultShell";
 import { TripCard, type TripCardProps } from "./TripCard";
 
@@ -67,18 +69,32 @@ export function formatFare(trip: TransitResult, formatPrice?: (trip: TransitResu
   }).format(trip.price);
 }
 
-const minutesOf = (time?: string) => {
-  const match = /^(\d{1,3}):([0-5]\d)$/.exec(time || "");
-  return match ? Number(match[1]) * 60 + Number(match[2]) : null;
-};
+/** The market's wall clock as "YYYY-MM-DD" and minutes since midnight. */
+function marketClock(country: Country, now: Date): { date: string; minutes: number } | null {
+  try {
+    const timeZone = countryConfig[country]?.timeZone;
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false,
+    }).formatToParts(now);
+    const get = (type: string) => parts.find((part) => part.type === type)?.value ?? "";
+    const hour = Number(get("hour")) % 24;
+    return { date: `${get("year")}-${get("month")}-${get("day")}`, minutes: hour * 60 + Number(get("minute")) };
+  } catch {
+    return null;
+  }
+}
 
 export type TripCardExtras = Partial<Pick<TripCardProps, "primaryAction" | "extraMeta" | "saveLabel" | "showFullStopSequence" | "headsign">>;
 
 export interface ResultListProps {
   country: Country;
   results: TransitResult[];
-  /** The searched departure time (HH:MM); drives the countdown and the departed fold. */
+  /** The searched service day (YYYY-MM-DD); the countdown only runs when it is today. */
+  date?: string;
+  /** The searched departure time (HH:MM); picks the next departure on another day. */
   time?: string;
+  /** The wall clock, injectable so the countdown can be tested. */
+  now?: () => Date;
   error?: string;
   noResultReason?: NoResultReason;
   failureKind?: SearchFailureKind;
@@ -110,7 +126,9 @@ export interface ResultListProps {
 export function ResultList({
   country,
   results,
+  date,
   time,
+  now = () => new Date(),
   error,
   noResultReason,
   failureKind,
@@ -137,11 +155,16 @@ export function ResultList({
   const { t } = useTranslation();
   const [showPast, setShowPast] = useState(false);
 
-  const searched = minutesOf(time);
+  // "Departs in N min" and the departed fold are only honest against the
+  // market's wall clock on the searched day; any other day gets neither, and
+  // the searched time merely picks which departure counts as next.
+  const clock = date ? marketClock(country, now()) : null;
+  const reference = clock && clock.date === date ? clock.minutes : null;
+  const searched = reference ?? minutesOf(time);
   const departure = (trip: TransitResult) => minutesOf(trip.departureTime);
   const isPast = (trip: TransitResult) => {
     const dep = departure(trip);
-    return searched !== null && dep !== null && dep < searched;
+    return reference !== null && dep !== null && dep < reference;
   };
 
   // Badges are relative to this result set: a fastest that every row shares
@@ -151,16 +174,22 @@ export function ResultList({
   const fares = results.filter(hasDisplayableFare);
   const distinctPrices = new Set(fares.map((trip) => trip.price));
   const cheapest = distinctPrices.size > 1 ? Math.min(...fares.map((trip) => trip.price)) : undefined;
-  const fareOnRows = fares.length > 0 && (distinctPrices.size > 1 || priceEmphasis);
-  const sharedFare = !fareOnRows && fares.length > 0 && fares.length === results.length ? formatFare(fares[0], formatPrice) : null;
+  // One line replaces the column only when every row shares that fare; a fare
+  // some rows carry and others lack stays on the rows that have it.
+  const everyRowFared = fares.length > 0 && fares.length === results.length;
+  const fareOnRows = fares.length > 0 && (distinctPrices.size > 1 || priceEmphasis || !everyRowFared);
+  const sharedFare = !fareOnRows && everyRowFared ? formatFare(fares[0], formatPrice) : null;
 
-  const upcoming = results.filter((trip) => !isPast(trip));
+  const upcoming = results.filter((trip) => {
+    const dep = departure(trip);
+    return searched === null || dep === null || dep >= searched;
+  });
   const nextId = upcoming.reduce<TransitResult | undefined>((best, trip) => {
     const dep = departure(trip);
     if (dep === null) return best;
     const bestDep = best ? departure(best) : null;
     return bestDep === null || dep < bestDep ? trip : best;
-  }, undefined)?.id ?? upcoming[0]?.id;
+  }, undefined)?.id ?? upcoming[0]?.id ?? results[0]?.id;
 
   const departed = results.filter(isPast);
   const visible = showPast ? results : results.filter((trip) => !isPast(trip));
@@ -274,7 +303,7 @@ export function ResultList({
                           fastest: fastest !== undefined && trip.durationMinutes === fastest,
                           cheapest: cheapest !== undefined && hasDisplayableFare(trip) && trip.price === cheapest,
                         }}
-                        minutesUntil={searched !== null && dep !== null ? dep - searched : undefined}
+                        minutesUntil={reference !== null && dep !== null ? dep - reference : undefined}
                         past={isPast(trip)}
                         withExit={withExit}
                         {...extras}

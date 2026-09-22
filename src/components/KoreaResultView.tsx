@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
 import type { CoverageGap, NoResultReason, KoreaFilter, SearchFailureKind, SortMode, TransitResult } from "../types";
 import { triggerHaptic } from "../utils/haptics";
+import { effectiveSortMode } from "../utils/searchConditions";
 import { ResultShellHeader } from "./ResultShell";
 import { ResultList } from "./ResultList";
 
@@ -37,6 +38,8 @@ interface KoreaResultViewProps {
   formatPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
   afterResults?: ReactNode;
+  /** Injectable wall clock for the countdown; tests pin it. */
+  now?: () => Date;
 }
 
 export function KoreaResultView({
@@ -64,6 +67,7 @@ export function KoreaResultView({
   formatPrice,
   overview,
   afterResults,
+  now,
 }: KoreaResultViewProps) {
   const { t } = useTranslation();
   const filters: Array<{ key: KoreaFilter; label: string }> = [
@@ -127,7 +131,9 @@ export function KoreaResultView({
       <ResultList
         country="korea"
         results={results}
+        date={date}
         time={time}
+        now={now}
         error={error}
         noResultReason={noResultReason}
         failureKind={failureKind}
@@ -138,8 +144,13 @@ export function KoreaResultView({
         onModify={onModify}
         onRetry={onRetry}
         recovery={recovery}
-        sortMode={sortMode}
-        onSortChange={onSortChange}
+        sortMode={sortMode ? effectiveSortMode(sortMode, filter) : undefined}
+        onSortChange={(mode) => {
+          // The KTX "cheapest" filter forces the order; leaving it for another
+          // sort must release it, or the chip would press with no effect.
+          if (filter === "cheapest" && mode !== "cheapest") onFilterChange("all");
+          onSortChange?.(mode);
+        }}
         priceEmphasis={filter === "cheapest" || sortMode === "cheapest"}
         savedIds={savedIds}
         onSave={onSave}

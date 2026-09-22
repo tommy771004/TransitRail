@@ -32,6 +32,8 @@ interface LiveRailResultViewProps {
   formatPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
   afterResults?: ReactNode;
+  /** Injectable wall clock for the countdown; tests pin it. */
+  now?: () => Date;
 }
 
 export function LiveRailResultView({
@@ -57,6 +59,7 @@ export function LiveRailResultView({
   formatPrice,
   overview,
   afterResults,
+  now,
 }: LiveRailResultViewProps) {
   const { t } = useTranslation();
   const isBoston = market === "boston";
@@ -95,7 +98,9 @@ export function LiveRailResultView({
       <ResultList
         country={country}
         results={results}
+        date={date}
         time={time}
+        now={now}
         error={error}
         noResultReason={noResultReason}
         failureKind={failureKind}

@@ -14,7 +14,7 @@ import { extractPathBetweenStations } from "@/src/utils/pathExtractor";
 import { stationSearchKey } from "@/src/data/stationKey";
 import { resolveStationAlias } from "@/src/data/stationAliases";
 import { TripFare } from "./TripFare";
-import { getLegColor, transferPressure } from "../utils/journeyLegs";
+import { getLegColor, minutesOf, transferPressure } from "../utils/journeyLegs";
 
 interface TripDetailsProps {
   trip: TransitResult;
@@ -40,12 +40,10 @@ interface TripDetailsProps {
 }
 
 function getMinutesDiff(time1?: string, time2?: string): number | null {
-  if (!time1 || !time2) return null;
-  const [h1, m1] = time1.split(":").map(Number);
-  const [h2, m2] = time2.split(":").map(Number);
-  if (isNaN(h1) || isNaN(m1) || isNaN(h2) || isNaN(m2)) return null;
-  const diff = (h2 * 60 + m2) - (h1 * 60 + m1);
-  return diff >= 0 ? diff : null;
+  const start = minutesOf(time1);
+  const end = minutesOf(time2);
+  if (start === null || end === null) return null;
+  return end >= start ? end - start : null;
 }
 
 export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSequence = false, presentation = "inline", open, onOpenChange, title, panelId, sheetActions, initialViewMode = "timeline" }: TripDetailsProps) {
@@ -69,10 +67,11 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
   const detailsTriggerId = `${disclosureId}-trigger`;
   const detailsPanelId = panelId ?? `${disclosureId}-panel`;
 
-  // A card's map button opens straight onto the map; the timeline otherwise.
+  // A card's map button opens the sheet straight onto the map; the timeline
+  // otherwise. Inline callers keep whichever tab they chose.
   useEffect(() => {
-    if (expanded) setViewMode(initialViewMode);
-  }, [expanded, initialViewMode]);
+    if (presentation === "sheet" && expanded) setViewMode(initialViewMode);
+  }, [presentation, expanded, initialViewMode]);
 
   // A source that times every call — ODPT publishes a departure at every
   // station a train passes — files one leg per hop. Those hops are one ride's
@@ -245,16 +244,18 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
 
   const isChinese = i18n.language.toLowerCase().startsWith("zh");
 
+  const closeTransferInfo = () => {
+    setSelectedTransferStationId(null);
+    setSelectedTransferStationName(null);
+    setSelectedTransferInfo(null);
+  };
+
   const popup = (
     <>
       {selectedTransferStationId && (
         <TransferInfoPopup
           isOpen={!!selectedTransferStationId}
-          onClose={() => {
-            setSelectedTransferStationId(null);
-            setSelectedTransferStationName(null);
-            setSelectedTransferInfo(null);
-          }}
+          onClose={closeTransferInfo}
           stationId={selectedTransferStationId}
           stationName={selectedTransferStationName || undefined}
           country={trip.country}
@@ -541,7 +542,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
                 }
 
                 if (item.type === "transfer") {
-                  const pressure = transferPressure(item.durationMinutes, isChinese);
+                  const pressure = transferPressure(item.durationMinutes, t);
                   return (
                     <div
                       key={item.id}
@@ -627,6 +628,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
         title={title}
         popup={popup}
         actions={sheetActions}
+        onEscape={selectedTransferStationId ? closeTransferInfo : undefined}
       >
         {body}
       </TripSheet>
