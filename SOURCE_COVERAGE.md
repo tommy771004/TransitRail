@@ -1,6 +1,6 @@
 # Source coverage and audit
 
-Generated 2026-09-22T00:43:02.412Z by `npm run audit:sources`. Do not edit by hand.
+Generated 2026-09-22T23:56:08.518Z by `npm run audit:sources`. Do not edit by hand.
 
 Every departure TransitRail serves comes from a source in
 [`src/data/sourceRegistry.ts`](src/data/sourceRegistry.ts). A route with no registered source
@@ -9,27 +9,27 @@ carries no departures and search answers *No verified timetable available.*
 ## Summary
 
 - 12 of 14 configured markets serve departure times.
-- 94,793 stored departures across 367 verified routes.
+- 84,798 stored departures across 367 verified routes.
 - 1 market(s) can answer nothing: china.
 
 ## What each market can answer
 
 | Market | Answers | Network today | Timetable as of fetch | Sources | Tier | Completeness | Routes | Departures | Artifact runs | Service days |
 | --- | --- | --- | --- | --- | --- | --- | ---: | ---: | ---: | --- |
-| 🇯🇵 japan | Departure times | 3/3 declared regions; 11/19 declared lines; 191/221 declared stations: tokyo-urban, japan-intercity, takamatsu-kotoden | full-timetable (2026-09-22); observed 00:02–23:58; 2026-09-22T00:25:08.808Z | jp-jr-central<br>jp-kotoden-gtfs<br>jp-odpt-toei<br>jp-odpt-tokyo-metro | A, C | full-timetable | 50 | 31,307 | — | 2026-09-22 … 2026-09-30 (9) |
-| 🇰🇷 korea | Departure times | 2/2 declared regions; 28/31 declared lines; 517/587 declared stations: seoul-capital, korail-intercity | full-timetable (2026-09-22); observed 00:00–23:28; 2026-09-22T00:22:02.033Z | kr-incheon-transit-csv<br>kr-korail-timetable-xlsx<br>kr-seoul-metro-csv | A | full-timetable | 193 | 8,815 | 13,675 | 2026-09-22 … 2026-09-30 (9) |
-| 🇨🇳 china | **No data** — no registered source | No searchable network (0/1 declared regions; 0/6 declared lines; 0/17 declared stations) — stations.no_registered_timetable_source | unavailable (2026-09-22) | — | — | — | 0 | 0 | — | — |
-| 🇸🇬 singapore | Departure times | Directory only (1/1 declared regions; 9/9 declared lines; 184/184 declared stations) — stations.no_verified_timetable_for_date | full-timetable (2026-09-22); observed 05:16–23:56; 2026-09-22T00:20:59.054Z | sg-lta-gtfs | A | full-timetable | 5 | 14,171 | — | 2026-09-22 … 2026-09-30 (9) |
-| 🇲🇾 malaysia | Departure times | 1/1 declared regions; 3/3 declared lines; 5/5 declared stations: malaysia-intercity | full-timetable (2026-09-22); observed 05:54–22:04; 2026-09-22T00:21:09.778Z | my-ktmb-gtfs | A | full-timetable | 3 | 495 | — | 2026-09-22 … 2026-09-30 (9) |
-| 🇹🇭 thailand | Service hours / frequency only | Directory only (1/1 declared regions; 7/5 declared lines; 167/119 declared stations) — stations.no_verified_timetable_for_date | frequency-or-service-hours (2026-09-22); 2026-09-22T00:21:09.780Z | th-bem-service-hours | C | frequency-only | 4 | 0 | — | — |
-| 🇭🇰 hong_kong | Departure times | 1/1 declared regions; 10/6 declared lines; 98/23 declared stations: hong-kong | bounded-upcoming (2026-09-22); observed 08:20–08:50; 2026-09-22T00:21:13.820Z | hk-mtr-next-train | A | full-timetable | 4 | 16 | — | 2026-09-22 |
-| 🇬🇧 united_kingdom | Departure times | No searchable network (0/1 declared regions; 0/11 declared lines; 0/961 declared stations) — stations.no_verified_searchable_lines_for_date | sampled-service-day (2026-09-22); observed 05:32–23:36; 2026-09-22T00:38:43.685Z | uk-tfl-journey-planner | A | full-timetable | 4 | 1,181 | — | 2026-09-22 … 2026-09-30 (9) |
-| 🇺🇸 united_states | Departure times | 1/1 declared regions; 4/6 declared lines; 6/263 declared stations: boston | stale (2026-09-21); 2026-09-22T00:40:33.994Z | us-mbta-journey-planner-web<br>us-mbta-v3 | A, B | full-timetable | 4 | 6,345 | — | 2026-09-22 … 2026-09-30 (9) |
-| 🇩🇪 germany | Departure times | 1/1 declared regions; 4/6 declared lines; 12/17 declared stations: germany-intercity | full-timetable (2026-09-22); observed 00:01–23:28; 2026-09-22T00:25:11.537Z | de-gtfs | A | full-timetable | 4 | 1,010 | — | 2026-09-22 … 2026-09-30 (9) |
-| 🇫🇷 france | Departure times | 1/1 declared regions; 3/4 declared lines; 14/18 declared stations: france-intercity | full-timetable (2026-09-22); observed 06:03–20:25; 2026-09-22T00:25:57.104Z | fr-sncf-gtfs | A | full-timetable | 4 | 665 | — | 2026-09-22 … 2026-09-30 (9) |
-| 🇧🇪 belgium | Departure times | 1/1 declared regions; 5/5 declared lines; 21/714 declared stations: belgium-intercity | sampled-service-day (2026-09-22); observed 04:11–08:03; 2026-09-22T00:26:29.925Z | be-irail | A | full-timetable | 5 | 270 | — | 2026-09-22 … 2026-09-30 (9) |
-| 🇳🇴 norway | Departure times | 1/1 declared regions; 5/5 declared lines; 7/12 declared stations: norway-intercity | sampled-service-day (2026-09-22); observed 08:10–12:06; 2026-09-22T00:27:18.779Z | no-entur | A | full-timetable | 5 | 236 | — | 2026-09-22 … 2026-09-30 (9) |
-| 🇨🇭 switzerland | Departure times | 1/1 declared regions; 5/5 declared lines; 21/23 declared stations: switzerland-intercity | full-timetable (2026-09-22); observed 00:02–23:58; 2026-09-22T00:33:54.612Z | ch-opentransportdata-gtfs | A | full-timetable | 82 | 30,282 | — | 2026-09-22 … 2026-09-30 (9) |
+| 🇯🇵 japan | Departure times | 3/3 declared regions; 11/19 declared lines; 191/221 declared stations: tokyo-urban, japan-intercity, takamatsu-kotoden | stale (2026-09-23); observed 00:02–23:58; 2026-09-22T00:25:08.808Z | jp-jr-central<br>jp-kotoden-gtfs<br>jp-odpt-toei<br>jp-odpt-tokyo-metro | A, C | full-timetable | 50 | 27,735 | — | 2026-09-23 … 2026-09-30 (8) |
+| 🇰🇷 korea | Departure times | 2/2 declared regions; 28/31 declared lines; 517/587 declared stations: seoul-capital, korail-intercity | stale (2026-09-23); observed 00:00–23:28; 2026-09-22T00:22:02.033Z | kr-incheon-transit-csv<br>kr-korail-timetable-xlsx<br>kr-seoul-metro-csv | A | full-timetable | 193 | 7,862 | 13,675 | 2026-09-23 … 2026-09-30 (8) |
+| 🇨🇳 china | **No data** — no registered source | No searchable network (0/1 declared regions; 0/6 declared lines; 0/17 declared stations) — stations.no_registered_timetable_source | unavailable (2026-09-23) | — | — | — | 0 | 0 | — | — |
+| 🇸🇬 singapore | Departure times | Directory only (1/1 declared regions; 9/9 declared lines; 184/184 declared stations) — stations.no_verified_timetable_for_date | stale (2026-09-23); observed 05:16–23:56; 2026-09-22T00:20:59.054Z | sg-lta-gtfs | A | full-timetable | 5 | 12,546 | — | 2026-09-23 … 2026-09-30 (8) |
+| 🇲🇾 malaysia | Departure times | 1/1 declared regions; 3/3 declared lines; 5/5 declared stations: malaysia-intercity | stale (2026-09-23); observed 05:54–22:04; 2026-09-22T00:21:09.778Z | my-ktmb-gtfs | A | full-timetable | 3 | 438 | — | 2026-09-23 … 2026-09-30 (8) |
+| 🇹🇭 thailand | Service hours / frequency only | Directory only (1/1 declared regions; 7/5 declared lines; 167/119 declared stations) — stations.no_verified_timetable_for_date | frequency-or-service-hours (2026-09-23); 2026-09-22T23:54:12.096Z | th-bem-service-hours | C | frequency-only | 4 | 0 | — | — |
+| 🇭🇰 hong_kong | Departure times | 1/1 declared regions; 10/6 declared lines; 98/23 declared stations: hong-kong | bounded-upcoming (2026-09-23); observed 07:53–08:30; 2026-09-22T23:54:15.807Z | hk-mtr-next-train | A | full-timetable | 4 | 16 | — | 2026-09-23 |
+| 🇬🇧 united_kingdom | Departure times | No searchable network (0/1 declared regions; 0/11 declared lines; 0/961 declared stations) — stations.no_verified_searchable_lines_for_date | stale (2026-09-23); observed 05:32–23:36; 2026-09-22T00:38:43.685Z | uk-tfl-journey-planner | A | full-timetable | 4 | 1,049 | — | 2026-09-23 … 2026-09-30 (8) |
+| 🇺🇸 united_states | Departure times | 1/1 declared regions; 4/6 declared lines; 6/263 declared stations: boston | stale (2026-09-22); observed 00:01–23:59; 2026-09-22T00:40:33.994Z | us-mbta-journey-planner-web<br>us-mbta-v3 | A, B | full-timetable | 4 | 6,345 | — | 2026-09-22 … 2026-09-30 (9) |
+| 🇩🇪 germany | Departure times | 1/1 declared regions; 4/6 declared lines; 12/17 declared stations: germany-intercity | stale (2026-09-23); observed 00:01–23:28; 2026-09-22T00:25:11.537Z | de-gtfs | A | full-timetable | 4 | 893 | — | 2026-09-23 … 2026-09-30 (8) |
+| 🇫🇷 france | Departure times | 1/1 declared regions; 3/4 declared lines; 14/18 declared stations: france-intercity | stale (2026-09-23); observed 06:03–20:25; 2026-09-22T00:25:57.104Z | fr-sncf-gtfs | A | full-timetable | 4 | 591 | — | 2026-09-23 … 2026-09-30 (8) |
+| 🇧🇪 belgium | Departure times | 1/1 declared regions; 5/5 declared lines; 21/714 declared stations: belgium-intercity | stale (2026-09-23); observed 04:11–08:03; 2026-09-22T00:26:29.925Z | be-irail | A | full-timetable | 5 | 240 | — | 2026-09-23 … 2026-09-30 (8) |
+| 🇳🇴 norway | Departure times | 1/1 declared regions; 5/5 declared lines; 7/12 declared stations: norway-intercity | stale (2026-09-23); observed 08:10–12:06; 2026-09-22T00:27:18.779Z | no-entur | A | full-timetable | 5 | 210 | — | 2026-09-23 … 2026-09-30 (8) |
+| 🇨🇭 switzerland | Departure times | 1/1 declared regions; 5/5 declared lines; 21/23 declared stations: switzerland-intercity | stale (2026-09-23); observed 00:02–23:58; 2026-09-22T00:33:54.612Z | ch-opentransportdata-gtfs | A | full-timetable | 82 | 26,873 | — | 2026-09-23 … 2026-09-30 (8) |
 
 ## Latest committed scrape attempt
 
@@ -37,20 +37,20 @@ This section is read from each market's committed `metadata.json`, which the dai
 
 | Market | Metadata built at | Failed attempts | Details |
 | --- | --- | ---: | --- |
-| 🇯🇵 japan | 2026-09-22T00:40:34.049Z | 0 | — |
-| 🇰🇷 korea | 2026-09-22T00:40:34.049Z | 0 | — |
-| 🇨🇳 china | 2026-09-22T00:40:34.049Z | 0 | — |
-| 🇸🇬 singapore | 2026-09-22T00:40:34.049Z | 0 | — |
-| 🇲🇾 malaysia | 2026-09-22T00:40:34.049Z | 0 | — |
-| 🇹🇭 thailand | 2026-09-22T00:40:34.049Z | 0 | — |
-| 🇭🇰 hong_kong | 2026-09-22T00:40:34.049Z | 0 | — |
-| 🇬🇧 united_kingdom | 2026-09-22T00:40:34.049Z | 0 | — |
-| 🇺🇸 united_states | 2026-09-22T00:40:34.049Z | 9 | 7 attempt(s): MBTA returned no scheduled journeys for this station pair on the selected date. (Harvard → Logan International Airport, Park Street → Andrew, South Station → Harvard)<br>1 attempt(s): MBTA Trip Planner did not settle for 22:30 (10:30 pm). Page state: Trip Planner From Swap origin and destination locations To When Now Leave at Arrive by 1 2 3 4 5 6 7 8 9 10 11 12 00 05 10 15 20 25 30 35 40 45 50 55 AM PM Modes All modes Prefer accessible routes Trips from Park Street to Boston College Leaving at 10:30 pm on Tuesday, September 22nd MOST DIRECT 10:37 – 11:23 pm 47 min GL B 0.1 mi $2.40 Similar trips depart at 10:46 pm, 10:56 pm, 11:04 pm Details A B MapLibre | © OpenStreetMap (Park Street → Boston College)<br>1 attempt(s): MBTA Trip Planner did not settle for 09:35 (9:35 am). Page state: Trip Planner From Swap origin and destination locations To When Now Leave at Arrive by 1 2 3 4 5 6 7 8 9 10 11 12 00 05 10 15 20 25 30 35 40 45 50 55 AM PM Modes All modes Prefer accessible routes Trips from Park Street to Boston College Leaving at 9:35 am on Thursday, September 24th MOST DIRECT 9:38 – 10:23 am 46 min GL B 0.1 mi $2.40 Similar trips depart at 9:46 am, 9:54 am, 10:02 am Details A B MapLibre | © OpenStreetMap (Park Street → Boston College) |
-| 🇩🇪 germany | 2026-09-22T00:40:34.049Z | 0 | — |
-| 🇫🇷 france | 2026-09-22T00:40:34.049Z | 0 | — |
-| 🇧🇪 belgium | 2026-09-22T00:40:34.049Z | 0 | — |
-| 🇳🇴 norway | 2026-09-22T00:40:34.049Z | 0 | — |
-| 🇨🇭 switzerland | 2026-09-22T00:40:34.049Z | 53 | 1 attempt(s): Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-22. (Chur → Zürich Flughafen)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-22. (Biel/Bienne → Genève)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-22. (Biel/Bienne → Genève-Aéroport)<br>1 attempt(s): Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-23. (Chur → Zürich Flughafen)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-23. (Biel/Bienne → Genève)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-23. (Biel/Bienne → Genève-Aéroport)<br>1 attempt(s): Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-24. (Chur → Zürich Flughafen)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-24. (Biel/Bienne → Genève)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-24. (Biel/Bienne → Genève-Aéroport)<br>1 attempt(s): Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-25. (Chur → Zürich Flughafen)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-25. (Biel/Bienne → Genève)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-25. (Biel/Bienne → Genève-Aéroport)<br>1 attempt(s): Swiss GTFS published no Bern → St. Gallen service for 2026-09-26. (Bern → St. Gallen)<br>1 attempt(s): Swiss GTFS published no Fribourg/Freiburg → St. Gallen service for 2026-09-26. (Fribourg/Freiburg → St. Gallen)<br>1 attempt(s): Swiss GTFS published no Fribourg/Freiburg → Winterthur service for 2026-09-26. (Fribourg/Freiburg → Winterthur)<br>1 attempt(s): Swiss GTFS published no Genève → St. Gallen service for 2026-09-26. (Genève → St. Gallen)<br>1 attempt(s): Swiss GTFS published no Genève → Winterthur service for 2026-09-26. (Genève → Winterthur)<br>1 attempt(s): Swiss GTFS published no Genève-Aéroport → St. Gallen service for 2026-09-26. (Genève-Aéroport → St. Gallen)<br>1 attempt(s): Swiss GTFS published no Genève-Aéroport → Winterthur service for 2026-09-26. (Genève-Aéroport → Winterthur)<br>1 attempt(s): Swiss GTFS published no Lausanne → St. Gallen service for 2026-09-26. (Lausanne → St. Gallen)<br>1 attempt(s): Swiss GTFS published no Lausanne → Winterthur service for 2026-09-26. (Lausanne → Winterthur)<br>1 attempt(s): Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-26. (Chur → Zürich Flughafen)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-26. (Biel/Bienne → Genève)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-26. (Biel/Bienne → Genève-Aéroport)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → St. Gallen service for 2026-09-26. (Biel/Bienne → St. Gallen)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Winterthur service for 2026-09-26. (Biel/Bienne → Winterthur)<br>1 attempt(s): Swiss GTFS published no St. Gallen → Yverdon-les-Bains service for 2026-09-26. (St. Gallen → Yverdon-les-Bains)<br>1 attempt(s): Swiss GTFS published no Winterthur → Yverdon-les-Bains service for 2026-09-26. (Winterthur → Yverdon-les-Bains)<br>1 attempt(s): Swiss GTFS published no Bern → St. Gallen service for 2026-09-27. (Bern → St. Gallen)<br>1 attempt(s): Swiss GTFS published no Fribourg/Freiburg → St. Gallen service for 2026-09-27. (Fribourg/Freiburg → St. Gallen)<br>1 attempt(s): Swiss GTFS published no Fribourg/Freiburg → Winterthur service for 2026-09-27. (Fribourg/Freiburg → Winterthur)<br>1 attempt(s): Swiss GTFS published no Genève → St. Gallen service for 2026-09-27. (Genève → St. Gallen)<br>1 attempt(s): Swiss GTFS published no Genève → Winterthur service for 2026-09-27. (Genève → Winterthur)<br>1 attempt(s): Swiss GTFS published no Genève-Aéroport → St. Gallen service for 2026-09-27. (Genève-Aéroport → St. Gallen)<br>1 attempt(s): Swiss GTFS published no Genève-Aéroport → Winterthur service for 2026-09-27. (Genève-Aéroport → Winterthur)<br>1 attempt(s): Swiss GTFS published no Lausanne → St. Gallen service for 2026-09-27. (Lausanne → St. Gallen)<br>1 attempt(s): Swiss GTFS published no Lausanne → Winterthur service for 2026-09-27. (Lausanne → Winterthur)<br>1 attempt(s): Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-27. (Chur → Zürich Flughafen)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-27. (Biel/Bienne → Genève)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-27. (Biel/Bienne → Genève-Aéroport)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → St. Gallen service for 2026-09-27. (Biel/Bienne → St. Gallen)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Winterthur service for 2026-09-27. (Biel/Bienne → Winterthur)<br>1 attempt(s): Swiss GTFS published no St. Gallen → Yverdon-les-Bains service for 2026-09-27. (St. Gallen → Yverdon-les-Bains)<br>1 attempt(s): Swiss GTFS published no Winterthur → Yverdon-les-Bains service for 2026-09-27. (Winterthur → Yverdon-les-Bains)<br>1 attempt(s): Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-28. (Chur → Zürich Flughafen)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-28. (Biel/Bienne → Genève)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-28. (Biel/Bienne → Genève-Aéroport)<br>1 attempt(s): Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-29. (Chur → Zürich Flughafen)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-29. (Biel/Bienne → Genève)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-29. (Biel/Bienne → Genève-Aéroport)<br>1 attempt(s): Swiss GTFS published no Chur → Zürich Flughafen service for 2026-09-30. (Chur → Zürich Flughafen)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève service for 2026-09-30. (Biel/Bienne → Genève)<br>1 attempt(s): Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-09-30. (Biel/Bienne → Genève-Aéroport) |
+| 🇯🇵 japan | 2026-09-22T23:54:17.384Z | 0 | — |
+| 🇰🇷 korea | 2026-09-22T23:54:17.384Z | 0 | — |
+| 🇨🇳 china | 2026-09-22T23:54:17.384Z | 0 | — |
+| 🇸🇬 singapore | 2026-09-22T23:54:17.384Z | 0 | — |
+| 🇲🇾 malaysia | 2026-09-22T23:54:17.384Z | 0 | — |
+| 🇹🇭 thailand | 2026-09-22T23:54:17.384Z | 0 | — |
+| 🇭🇰 hong_kong | 2026-09-22T23:54:17.384Z | 0 | — |
+| 🇬🇧 united_kingdom | 2026-09-22T23:54:17.384Z | 0 | — |
+| 🇺🇸 united_states | 2026-09-22T23:54:17.384Z | 0 | — |
+| 🇩🇪 germany | 2026-09-22T23:54:17.384Z | 0 | — |
+| 🇫🇷 france | 2026-09-22T23:54:17.384Z | 0 | — |
+| 🇧🇪 belgium | 2026-09-22T23:54:17.384Z | 0 | — |
+| 🇳🇴 norway | 2026-09-22T23:54:17.384Z | 0 | — |
+| 🇨🇭 switzerland | 2026-09-22T23:54:17.384Z | 0 | — |
 
 ## Cached station and line directories
 
@@ -107,8 +107,8 @@ These gaps come from the same `countryConfig` market boundary that the catalog a
 | korea | 2026-09-09T17:27:18.865Z | 2026-09-22T00:22:02.033Z |
 | singapore | 2026-09-22T00:20:58.092Z | 2026-09-22T00:20:59.054Z |
 | malaysia | 2026-09-22T00:21:09.770Z | 2026-09-22T00:21:09.778Z |
-| thailand | 2026-09-22T00:21:09.779Z | 2026-09-22T00:21:09.780Z |
-| hong_kong | 2026-09-22T00:21:12.835Z | 2026-09-22T00:21:13.820Z |
+| thailand | 2026-09-22T23:54:12.092Z | 2026-09-22T23:54:12.096Z |
+| hong_kong | 2026-09-22T23:54:13.308Z | 2026-09-22T23:54:15.807Z |
 | united_kingdom | 2026-09-22T00:37:53.840Z | 2026-09-22T00:38:43.685Z |
 | united_states | 2026-09-22T00:24:04.167Z | 2026-09-22T00:40:33.994Z |
 | germany | 2026-09-22T00:25:11.412Z | 2026-09-22T00:25:11.537Z |
