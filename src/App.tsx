@@ -2,7 +2,7 @@
 // OS support: Linux, macOS, Windows
 // Description: Main App entry component handling multi-country transit routing, views, and data workflow
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { MessageSquare, Bell, BellOff, Share2, Bookmark, Check, ChevronDown, Clock, DatabaseZap, MapPinned, Trash2, UserCircle, X, Activity, Sun, Moon, Monitor, CalendarDays, Coins, Compass, Search, Pin } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -348,6 +348,7 @@ export default function App() {
   const [officialSourceUrl, setOfficialSourceUrl] = useState<string | undefined>();
   const [isSearching, setIsSearching] = useState(false);
   const [sortMode, setSortMode] = useState<SortMode>("fastest");
+  const inFlightSearch = useRef<{ query: string; controller: AbortController } | undefined>(undefined);
   const [koreaFilter, setKoreaFilter] = useState<KoreaFilter>("all");
   const [history, setHistory] = useState<SearchHistoryItem[]>(() => loadJson("transitrail.history", []));
   const sortedHistoryList = useMemo(() => {
@@ -907,6 +908,15 @@ export default function App() {
 
   const handleSearch = async (origin: string, destination: string, date: string, country: Country, time?: string, timeMode?: TimeMode) => {
     const params = resolveSearchConditions({ origin, destination, date, country, time, timeMode });
+    const query = searchQuery(params);
+    // A second tap of the same search while the first is in flight is one
+    // search; a different one cancels the one in flight so its late answer
+    // can never overwrite the newer results.
+    if (inFlightSearch.current?.query === query) return;
+    inFlightSearch.current?.controller.abort();
+    const controller = new AbortController();
+    inFlightSearch.current = { query, controller };
+    const stale = () => controller.signal.aborted;
     setSearchParams(params);
     setDraftSearch(params);
     setSortMode(params.timeMode === "all_day" ? "fastest" : "earliest");
@@ -923,13 +933,13 @@ export default function App() {
     setServiceDayAdvisory(undefined);
     setDataStatus(undefined);
 
-    const query = searchQuery(params);
     const url = `/api/transit/search?${query}`;
 
     try {
       const startTime = performance.now();
       const res = await fetch(url, {
         headers: getAuditHeaders(i18n.language, timezone),
+        signal: controller.signal,
       });
       const duration = Math.round(performance.now() - startTime);
 
@@ -939,6 +949,7 @@ export default function App() {
       });
 
       const responseText = await res.text();
+      if (stale()) return;
 
       setApiDiagnostic({
         url,
@@ -1021,6 +1032,7 @@ export default function App() {
         )),
       ].slice(0, 12));
     } catch {
+      if (stale()) return;
       try {
         const cachedData = await get(`transit_search_${query}`);
         const cached = Array.isArray(cachedData)
@@ -1055,7 +1067,10 @@ export default function App() {
       setError(message);
       setFailureKind("network_unavailable");
     } finally {
-      setIsSearching(false);
+      if (!stale()) {
+        inFlightSearch.current = undefined;
+        setIsSearching(false);
+      }
     }
   };
 

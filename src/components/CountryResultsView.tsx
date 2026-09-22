@@ -23,6 +23,7 @@ import { MalaysiaCatalogView } from "./MalaysiaCatalogView";
 import { TransitAppSupplement } from "./TransitAppSupplement";
 import { countryConfig, providerDateValues } from "../data/countries";
 import { nearestAvailableDate, searchTimeMode } from "../utils/searchConditions";
+import { loadStationCatalog } from "../utils/catalogClient";
 
 export type CountryResultsViewProps = {
   country: Country;
@@ -92,13 +93,14 @@ export function CountryResultsView(props: CountryResultsViewProps) {
     if (props.noResultReason !== "future_date_unavailable") return;
     let active = true;
     // Offer only a date substantiated by current catalog coverage and market policy.
-    fetch(`/api/transit/stations?country=${encodeURIComponent(props.country)}`)
-      .then(response => response.ok ? response.json() : undefined)
+    loadStationCatalog(props.country)
       .then(body => {
         const range = body?.coverage?.dateRange;
-        if (!active || !range || !(range.days > 0)) return;
+        if (!active || !range || !(typeof range.days === "number" && range.days > 0)) return;
+        const { start, end } = range;
+        if (!start || !end) return;
         const offered = providerDateValues(props.country, countryConfig[props.country].dateRangeDays)
-          .filter(date => date >= range.start && date <= range.end);
+          .filter(date => date >= start && date <= end);
         const nearest = nearestAvailableDate(props.date, offered);
         if (nearest !== props.date) setNearestDate(nearest);
       }).catch(() => { /* Modifying conditions remains available if coverage cannot load. */ });
