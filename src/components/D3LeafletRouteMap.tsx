@@ -29,14 +29,31 @@ interface D3LeafletRouteMapProps {
 export function D3LeafletRouteMap({ trip }: D3LeafletRouteMapProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
-  const [hasMapCoordinates, setHasMapCoordinates] = useState(true);
+  // `missing` counts stations that had no verified position and were left off
+  // the map; the map itself needs only a placeable origin and destination.
+  const [mapState, setMapState] = useState<{ available: boolean; missing: number }>({ available: true, missing: 0 });
   const { t } = useTranslation();
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
-    const points: any[] = [];
-    let missingCoordinates = false;
+    type Point = { name: string; lat: number; lng: number; type: "start" | "end" | "transfer" | "stop" };
+    const points: Point[] = [];
+    let missing = 0;
+    let endpointMissing = false;
+
+    // A provider coordinate on the trip or the leg counts as verified; the
+    // hand-kept table is the fallback. Nothing is ever estimated.
+    const provided = (lat?: number, lng?: number) =>
+      typeof lat === "number" && typeof lng === "number" && Number.isFinite(lat) && Number.isFinite(lng) ? { lat, lng } : undefined;
+    const place = (name: string, type: Point["type"], coord: { lat: number; lng: number } | undefined, endpoint = false) => {
+      if (!coord) {
+        missing += 1;
+        if (endpoint) endpointMissing = true;
+        return;
+      }
+      points.push({ name, lat: coord.lat, lng: coord.lng, type });
+    };
 
     if (trip.legs && trip.legs.length > 0) {
       const legs = trip.legs;
@@ -48,11 +65,9 @@ export function D3LeafletRouteMap({ trip }: D3LeafletRouteMapProps) {
             leg.origin,
             leg.destination
           );
-          if (pathData && pathData.stations.length >= 2) {
-            legStops = pathData.stations.map((s) => s.name);
-          } else {
-            legStops = [leg.origin, leg.destination];
-          }
+          legStops = pathData && pathData.stations.length >= 2
+            ? pathData.stations.map((s) => s.name)
+            : [leg.origin, leg.destination];
         }
 
         legStops.forEach((stopName, stopIdx) => {
@@ -62,84 +77,36 @@ export function D3LeafletRouteMap({ trip }: D3LeafletRouteMapProps) {
           const isLastStop = stopIdx === legStops.length - 1;
 
           if (!isFirstLeg && isFirstStop) {
-            if (points.length > 0) {
-              points[points.length - 1].type = "transfer";
-            }
+            if (points.length > 0) points[points.length - 1].type = "transfer";
             return;
           }
 
-          let pointType: "start" | "end" | "transfer" | "stop" = "stop";
-          if (isFirstLeg && isFirstStop) {
-            pointType = "start";
-          } else if (isLastLeg && isLastStop) {
-            pointType = "end";
-          }
-
-          const coord = getStationCoordinates(stopName);
-          if (!coord) {
-            missingCoordinates = true;
-            return;
-          }
-
-          points.push({
-            name: stopName,
-            lat: coord.lat,
-            lng: coord.lng,
-            type: pointType,
-          });
+          const pointType: Point["type"] = isFirstLeg && isFirstStop ? "start" : isLastLeg && isLastStop ? "end" : "stop";
+          const coord = isFirstStop
+            ? provided(leg.originLat, leg.originLng) || getStationCoordinates(stopName)
+            : isLastStop
+              ? provided(leg.destLat, leg.destLng) || getStationCoordinates(stopName)
+              : getStationCoordinates(stopName);
+          place(stopName, pointType, coord, pointType !== "stop");
         });
       });
     } else {
-      const originCoord = trip.originLat && trip.originLng
-        ? { lat: trip.originLat, lng: trip.originLng }
-        : getStationCoordinates(trip.origin);
+      place(trip.origin, "start", provided(trip.originLat, trip.originLng) || getStationCoordinates(trip.origin), true);
 
-      if (originCoord) {
-        points.push({
-          name: trip.origin,
-          lat: originCoord.lat,
-          lng: originCoord.lng,
-          type: "start"
-        });
-      } else missingCoordinates = true;
+      const same = (a: string, b: string) => a.toLowerCase().trim() === b.toLowerCase().trim();
+      (trip.stops || []).forEach((stopName) => {
+        if (same(stopName, trip.origin) || same(stopName, trip.destination)) return;
+        place(stopName, "stop", getStationCoordinates(stopName));
+      });
 
-      if (trip.stops && trip.stops.length > 0) {
-        trip.stops.forEach((stopName) => {
-          if (stopName.toLowerCase().trim() === trip.origin.toLowerCase().trim()) return;
-          if (stopName.toLowerCase().trim() === trip.destination.toLowerCase().trim()) return;
-          const coord = getStationCoordinates(stopName);
-          if (!coord) {
-            missingCoordinates = true;
-            return;
-          }
-          points.push({
-            name: stopName,
-            lat: coord.lat,
-            lng: coord.lng,
-            type: "stop"
-          });
-        });
-      }
-
-      const destCoord = trip.destLat && trip.destLng
-        ? { lat: trip.destLat, lng: trip.destLng }
-        : getStationCoordinates(trip.destination);
-
-      if (destCoord) {
-        points.push({
-          name: trip.destination,
-          lat: destCoord.lat,
-          lng: destCoord.lng,
-          type: "end"
-        });
-      } else missingCoordinates = true;
+      place(trip.destination, "end", provided(trip.destLat, trip.destLng) || getStationCoordinates(trip.destination), true);
     }
 
-    if (missingCoordinates || points.length < 2) {
-      setHasMapCoordinates(false);
+    if (endpointMissing || points.length < 2) {
+      setMapState({ available: false, missing });
       return;
     }
-    setHasMapCoordinates(true);
+    setMapState({ available: true, missing });
 
     const map = L.map(mapContainerRef.current, {
       zoomControl: true,
@@ -213,9 +180,13 @@ export function D3LeafletRouteMap({ trip }: D3LeafletRouteMapProps) {
   return (
     <div className="m3-card m3-card-large group relative my-4 h-80 w-full overflow-hidden border border-slate-200 dark:border-slate-800">
       <div ref={mapContainerRef} className="w-full h-full z-0" />
-      {!hasMapCoordinates ? (
+      {!mapState.available ? (
         <p className="absolute inset-0 z-10 flex items-center justify-center bg-slate-50/95 px-6 text-center text-xs font-medium text-slate-500 dark:bg-slate-900/95 dark:text-slate-400">
           {t("map.coordinates_unavailable", { defaultValue: "A verified map position is not available for every station on this journey." })}
+        </p>
+      ) : mapState.missing > 0 ? (
+        <p className="m3-label-small absolute inset-x-0 top-0 z-[400] truncate bg-white/90 px-3 py-1.5 text-slate-600 backdrop-blur-sm dark:bg-slate-900/90 dark:text-slate-300">
+          {t("map.positions_missing", { count: mapState.missing })}
         </p>
       ) : null}
       {officialMapUrl && (
