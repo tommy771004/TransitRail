@@ -20,9 +20,9 @@ component is meant to inherit from `m3-*`.
 Every market renders departures through `src/components/ResultList.tsx` and
 `src/components/TripCard.tsx`; the four country views only supply the header and their
 market extras (seat preference, amenities, the Korea filter rail, the Metro headsign).
-Do not add a second card layout to a view. Tapping a card opens `TripDetails` as a
-`TripSheet` (a portal on `<body>`, so a `layout`-animated card can never pin it); the
-inline disclosure remains for callers that pass no `presentation`.
+Do not add a second card layout to a view. Tapping a card opens `TripDetails`, which is
+always a `TripSheet` (a portal on `<body>`, so a `layout`-animated card can never pin it);
+the card owns `open` / `onOpenChange`.
 
 Layout invariants the card keeps, so nothing overlaps or leaves the card:
 

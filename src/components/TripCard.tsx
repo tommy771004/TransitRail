@@ -248,7 +248,6 @@ export function TripCard({
         onOpenLegend={onOpenLegend}
         formatPrice={formatPrice}
         showFullStopSequence={showFullStopSequence}
-        presentation="sheet"
         open={open}
         onOpenChange={setOpen}
         panelId={panelId}

@@ -3,7 +3,7 @@ import { TripSheet } from "./TripSheet";
 import type { TransitResult, JourneyLeg } from "../types";
 import { useTranslation } from "react-i18next";
 import { stationLabel } from "../utils/stationLabel";
-import { ArrowRightLeft, BellRing, ChevronRight, Clock, Info, ListTree, LocateFixed, Map as MapIcon, TrainFront } from "lucide-react";
+import { ArrowRightLeft, BellRing, Clock, Info, ListTree, LocateFixed, Map as MapIcon, TrainFront } from "lucide-react";
 import { D3LeafletRouteMap } from "./D3LeafletRouteMap";
 import { TransferInfoPopup } from "./TransferInfoPopup";
 import { getTransferInfo, type TransferInfo } from "../data/transfers";
@@ -21,15 +21,10 @@ interface TripDetailsProps {
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
   showFullStopSequence?: boolean;
-  /**
-   * `inline` (default) keeps the disclosure button and panel inside the card.
-   * `sheet` renders the same panel as a modal bottom sheet, opened by the card
-   * itself; the caller then owns `open`/`onOpenChange`.
-   */
-  presentation?: "inline" | "sheet";
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  /** Heading of the sheet; unused inline. */
+  /** The panel is a modal sheet the owning card opens and closes. */
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  /** Heading of the sheet. */
   title?: ReactNode;
   /** Lets the card point `aria-controls` at the sheet it opens. */
   panelId?: string;
@@ -46,15 +41,9 @@ function getMinutesDiff(time1?: string, time2?: string): number | null {
   return end >= start ? end - start : null;
 }
 
-export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSequence = false, presentation = "inline", open, onOpenChange, title, panelId, sheetActions, initialViewMode = "timeline" }: TripDetailsProps) {
+export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSequence = false, open, onOpenChange, title, panelId, sheetActions, initialViewMode = "timeline" }: TripDetailsProps) {
   const { t, i18n } = useTranslation();
-  const [ownExpanded, setOwnExpanded] = useState(false);
-  // Controlled when the card drives a sheet; self-contained inline.
-  const expanded = open ?? ownExpanded;
-  const setExpanded = (next: boolean) => {
-    if (open === undefined) setOwnExpanded(next);
-    onOpenChange?.(next);
-  };
+  const expanded = open;
   const [viewMode, setViewMode] = useState<"timeline" | "map">("timeline");
   const [expandedLegs, setExpandedLegs] = useState<Record<number, boolean>>({});
   const [selectedTransferStationId, setSelectedTransferStationId] = useState<string | null>(null);
@@ -64,14 +53,12 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
   const [arrivalDistanceKm, setArrivalDistanceKm] = useState<number | undefined>();
   const arrivalWatchId = useRef<number | undefined>(undefined);
   const disclosureId = useId();
-  const detailsTriggerId = `${disclosureId}-trigger`;
   const detailsPanelId = panelId ?? `${disclosureId}-panel`;
 
-  // A card's map button opens the sheet straight onto the map; the timeline
-  // otherwise. Inline callers keep whichever tab they chose.
+  // A card's map button opens the sheet straight onto the map; the timeline otherwise.
   useEffect(() => {
-    if (presentation === "sheet" && expanded) setViewMode(initialViewMode);
-  }, [presentation, expanded, initialViewMode]);
+    if (expanded) setViewMode(initialViewMode);
+  }, [expanded, initialViewMode]);
 
   // A source that times every call — ODPT publishes a departure at every
   // station a train passes — files one leg per hop. Those hops are one ride's
@@ -618,48 +605,19 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
     </>
   );
 
-  if (presentation === "sheet") {
-    return (
-      <TripSheet
-        open={expanded}
-        onClose={() => setExpanded(false)}
-        panelId={detailsPanelId}
-        trip={trip}
-        title={title}
-        popup={popup}
-        actions={sheetActions}
-        onEscape={selectedTransferStationId ? closeTransferInfo : undefined}
-      >
-        {body}
-      </TripSheet>
-    );
-  }
-
   return (
-    <div className="border-t border-slate-100 dark:border-slate-800">
-      <button
-        id={detailsTriggerId}
-        type="button"
-        onClick={() => setExpanded(!expanded)}
-        aria-expanded={expanded}
-        aria-controls={detailsPanelId}
-        className="m3-button m3-state m3-shape-full w-full text-slate-600 dark:text-slate-300"
-      >
-        <ChevronRight aria-hidden="true" className={`h-4 w-4 transition-transform ${expanded ? "rotate-90" : ""}`} />
-        {expanded
-          ? t("result.hide_details", { defaultValue: "Hide trip details" })
-          : t("result.show_details", { defaultValue: "Trip details and timeline" })}
-      </button>
-
-      <div
-        id={detailsPanelId}
-        aria-labelledby={detailsTriggerId}
-        hidden={!expanded}
-        className="rounded-b-[16px] border-t border-slate-100 bg-slate-50/50 px-4 py-5 sm:px-6 dark:border-slate-800/80 dark:bg-slate-950/30"
-      >
-        {body}
-        </div>
-      {popup}
-    </div>
+    <TripSheet
+      open={expanded}
+      onClose={() => onOpenChange(false)}
+      panelId={detailsPanelId}
+      trip={trip}
+      title={title}
+      popup={popup}
+      actions={sheetActions}
+      onEscape={selectedTransferStationId ? closeTransferInfo : undefined}
+    >
+      {body}
+    </TripSheet>
   );
 }
+
