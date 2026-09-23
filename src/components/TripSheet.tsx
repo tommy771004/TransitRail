@@ -10,6 +10,7 @@ import { X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { TransitResult } from "../types";
 import { RouteBand } from "./RouteBand";
+import { useModalFocusTrap } from "../hooks/useModalFocusTrap";
 
 interface TripSheetProps {
   open: boolean;
@@ -29,28 +30,23 @@ interface TripSheetProps {
 
 export function TripSheet({ open, onClose, panelId, trip, title, popup, actions, onEscape, children }: TripSheetProps) {
   const { t } = useTranslation();
-  const closeRef = useRef<HTMLButtonElement>(null);
-  const restoreRef = useRef<Element | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   // Read through a ref so a re-rendered handler never re-runs the open effect
   // (which would bounce focus back to the card while the sheet is up).
   const onEscapeRef = useRef(onClose);
   onEscapeRef.current = onEscape ?? onClose;
 
+  // The trap wraps the whole sheet root, so a nested popup stays inside it.
+  // It moves focus to the first control (Close), keeps Tab inside, routes
+  // Escape to the top layer, and restores focus to the card on close.
+  useModalFocusTrap(rootRef, () => onEscapeRef.current(), open);
+
   useEffect(() => {
     if (!open || typeof document === "undefined") return;
-    restoreRef.current = document.activeElement;
-    closeRef.current?.focus();
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onEscapeRef.current();
-    };
-    document.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", onKey);
-      const restore = restoreRef.current;
-      if (restore instanceof HTMLElement) restore.focus();
     };
   }, [open]);
 
@@ -58,7 +54,7 @@ export function TripSheet({ open, onClose, panelId, trip, title, popup, actions,
   const node = (
     // `hidden` keeps the panel in the tree (tests and screen readers can find
     // it) while Tailwind's preflight removes it from layout and the tab order.
-    <div hidden={!open} className="fixed inset-0 z-[70]" data-trip-sheet>
+    <div ref={rootRef} hidden={!open} className="fixed inset-0 z-[70]" data-trip-sheet>
       <div className="m3-scrim m3-scrim-enter absolute inset-0" onClick={onClose} aria-hidden="true" />
       <div
         id={panelId}
@@ -76,7 +72,6 @@ export function TripSheet({ open, onClose, panelId, trip, title, popup, actions,
             <RouteBand trip={trip} className="mt-2" />
           </div>
           <button
-            ref={closeRef}
             type="button"
             onClick={onClose}
             className="m3-icon-button m3-state shrink-0 bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"

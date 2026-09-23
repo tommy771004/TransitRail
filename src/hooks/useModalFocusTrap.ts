@@ -1,12 +1,15 @@
 import { useEffect, useRef, type RefObject } from "react";
 
-/** Cache tab stops until the dialog changes; never measure every button per Tab. */
-export function useModalFocusTrap(ref: RefObject<HTMLElement | null>, onClose: () => void) {
+/**
+ * Cache tab stops until the dialog changes; never measure every button per Tab.
+ * A dialog that stays mounted while closed (the trip sheet) passes `active`.
+ */
+export function useModalFocusTrap(ref: RefObject<HTMLElement | null>, onClose: () => void, active = true) {
   const close = useRef(onClose);
   close.current = onClose;
   useEffect(() => {
     const dialog = ref.current;
-    if (!dialog) return;
+    if (!active || !dialog) return;
     const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     const background = new Map<HTMLElement, boolean>();
     for (let node: HTMLElement | null = dialog; node?.parentElement; node = node.parentElement) {
@@ -56,5 +59,5 @@ export function useModalFocusTrap(ref: RefObject<HTMLElement | null>, onClose: (
       for (const [element, inert] of background) element.inert = inert;
       if (opener?.isConnected) opener.focus();
     };
-  }, [ref]);
+  }, [ref, active]);
 }

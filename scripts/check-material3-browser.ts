@@ -255,6 +255,13 @@ try {
     if (await page.getByRole("button", { name: /Show .* intermediate stops/ }).count()) throw new Error("Metro stops require a second disclosure");
     if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)) throw new Error(`Metro details overflow at ${width}px`);
     if (await sheet.evaluate(element => element.scrollWidth > element.clientWidth)) throw new Error(`Trip sheet overflows sideways at ${width}px`);
+    // Tab and Shift+Tab stay inside the open sheet instead of reaching the cards behind the scrim.
+    for (const key of [...Array(8).fill("Tab"), ...Array(8).fill("Shift+Tab")]) {
+      await page.keyboard.press(key);
+      if (!await page.evaluate(() => Boolean(document.activeElement?.closest("[data-trip-sheet]")))) {
+        throw new Error(`${key} escaped the trip sheet at ${width}px`);
+      }
+    }
     if (process.env.UI_SCREENSHOT_DIR) await page.screenshot({ path: resolve(process.env.UI_SCREENSHOT_DIR, `metro-details-${width}.png`), fullPage: true });
     await page.keyboard.press("Escape");
     await sheet.waitFor({ state: "hidden" });

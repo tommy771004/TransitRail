@@ -174,7 +174,7 @@ export function TripCard({
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls={panelId}
-        className="m3-state block w-full min-w-0 scroll-mt-10 px-4 pb-3 pt-3 text-left text-slate-900 dark:text-white"
+        className="m3-state m3-focus-inset block w-full min-w-0 scroll-mt-10 px-4 pb-3 pt-3 text-left text-slate-900 dark:text-white"
       >
         {/* Line 1, the status row: every item is shrink-0 and nowrap, so the row
             wraps instead of clipping; it is omitted when there is nothing to say. */}

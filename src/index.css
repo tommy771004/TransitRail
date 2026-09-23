@@ -149,6 +149,9 @@
     .m3-state:hover::after { opacity: 0.08; }
   }
   .m3-state:focus-visible::after { opacity: 0.1; }
+  /* The focus ring drawn inside the control, for one filling an overflow-hidden
+     surface (the result card) that would clip the ring held 2dp outside it. */
+  .m3-focus-inset:focus-visible { outline-offset: -3px; border-radius: inherit; }
   .m3-state:active::after { opacity: 0.12; }
   .m3-state:disabled::after,
   .m3-state[aria-disabled="true"]::after { opacity: 0; }
