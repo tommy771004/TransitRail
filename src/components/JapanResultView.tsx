@@ -33,6 +33,7 @@ interface JapanResultViewProps {
   onSelectSeat: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
+  formatRowPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
   afterResults?: ReactNode;
   /** Injectable wall clock for the countdown; tests pin it. */
@@ -61,6 +62,7 @@ export function JapanResultView({
   onSelectSeat,
   onOpenLegend,
   formatPrice,
+  formatRowPrice,
   overview,
   afterResults,
   now,
@@ -104,6 +106,7 @@ export function JapanResultView({
         onSave={onSave}
         onOpenLegend={onOpenLegend}
         formatPrice={formatPrice}
+        formatRowPrice={formatRowPrice}
         afterResults={afterResults}
         card={(trip) => ({
           primaryAction: (

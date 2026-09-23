@@ -36,6 +36,7 @@ interface KoreaResultViewProps {
   onSelectSeat: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
+  formatRowPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
   afterResults?: ReactNode;
   /** Injectable wall clock for the countdown; tests pin it. */
@@ -65,6 +66,7 @@ export function KoreaResultView({
   onSelectSeat,
   onOpenLegend,
   formatPrice,
+  formatRowPrice,
   overview,
   afterResults,
   now,
@@ -156,6 +158,7 @@ export function KoreaResultView({
         onSave={onSave}
         onOpenLegend={onOpenLegend}
         formatPrice={formatPrice}
+        formatRowPrice={formatRowPrice}
         toolbar={filterRail}
         afterResults={afterResults}
         card={(trip) => ({

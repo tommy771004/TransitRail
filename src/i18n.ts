@@ -905,7 +905,7 @@ const resources = {
         departed: "已發車",
         departed_count: "已發車 {{count}} 班",
         show_departed: "顯示已發車班次",
-        fare_all: "全程票價",
+        fare_all: "各班次票價相同",
         transfer_wait: "等 {{count}} 分",
         transfer_to: "在 {{station}} 轉 {{line}}",
         stops_action: "停靠站",

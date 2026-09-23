@@ -30,6 +30,7 @@ interface MetroResultViewProps {
   onSave: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
+  formatRowPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
   afterResults?: ReactNode;
   /** Injectable wall clock for the countdown; tests pin it. */
@@ -57,6 +58,7 @@ export function MetroResultView({
   onSave,
   onOpenLegend,
   formatPrice,
+  formatRowPrice,
   overview,
   afterResults,
   now,
@@ -105,6 +107,7 @@ export function MetroResultView({
         onSave={onSave}
         onOpenLegend={onOpenLegend}
         formatPrice={formatPrice}
+        formatRowPrice={formatRowPrice}
         beforeList={hasTransferResults ? (
           <p className="m3-card m3-body-small bg-slate-200/60 px-4 py-3 leading-relaxed text-slate-600 dark:bg-slate-800 dark:text-slate-400">
             {t("metro.transfer_hint")}

@@ -59,6 +59,7 @@ export type CountryResultsViewProps = {
   onSelectSeat: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
+  formatRowPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
   /** Injectable wall clock for the departure countdown; tests pin it. */
   now?: () => Date;
@@ -148,6 +149,7 @@ export function CountryResultsView(props: CountryResultsViewProps) {
     onSave: props.onSave,
     onOpenLegend: props.onOpenLegend,
     formatPrice: props.formatPrice,
+    formatRowPrice: props.formatRowPrice,
     // Every market sorts the same way; the list owns the chips.
     sortMode: props.sortMode,
     onSortChange: props.onSortChange,

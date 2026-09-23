@@ -113,6 +113,11 @@ export interface ResultListProps {
   onSave: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
+  /**
+   * The fare as a row shows it. Rows carry only the native fare when the
+   * passenger shows both currencies; the shared line and the sheet keep both.
+   */
+  formatRowPrice?: (trip: TransitResult) => string | null;
   /** Market controls that share the sticky bar with the sort chips. */
   toolbar?: ReactNode;
   /** A notice above the first card (Metro's transfer hint). */
@@ -146,6 +151,7 @@ export function ResultList({
   onSave,
   onOpenLegend,
   formatPrice,
+  formatRowPrice,
   toolbar,
   beforeList,
   afterResults,
@@ -359,7 +365,7 @@ export function ResultList({
                         onSave={() => onSave(trip)}
                         onOpenLegend={onOpenLegend}
                         formatPrice={formatPrice}
-                        fare={fareOnRows ? formatFare(trip, formatPrice) : null}
+                        fare={fareOnRows ? formatFare(trip, formatRowPrice ?? formatPrice) : null}
                         tags={{
                           next: trip.id === nextId,
                           fastest: fastest !== undefined && trip.durationMinutes === fastest,

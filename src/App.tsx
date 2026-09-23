@@ -861,6 +861,11 @@ export default function App() {
   const formatTripPrice = (trip: TransitResult) =>
     formatConvertedPrice(trip.price, trip.currency);
 
+  // "¥14,720 (~NT$3,081)" is about 170px: on every row it crowds out the
+  // badges, so rows show the native fare and the shared line and sheet keep both.
+  const formatRowPrice = (trip: TransitResult) =>
+    priceDisplayMode === "both" ? formatPriceForTrip(trip.price, trip.currency) : formatTripPrice(trip);
+
   /**
    * Store a transit fact the passenger can come back to. Everything else is a
    * snackbar: the notifications page answers "what changed about my journeys",
@@ -1550,6 +1555,7 @@ export default function App() {
               setView("legend");
             }}
             formatPrice={formatTripPrice}
+            formatRowPrice={formatRowPrice}
             overview={routeOverview}
           />
         );
