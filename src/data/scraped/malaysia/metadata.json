@@ -4,14 +4,14 @@
   "source": "data.gov.my KTMB static GTFS",
   "sourceUrl": "https://api.data.gov.my/gtfs-static/ktmb",
   "sourceTier": "A",
-  "fetchedAt": "2026-09-22T00:21:09.778Z",
-  "builtAt": "2026-09-23T03:12:00.445Z",
-  "recordCount": 438,
-  "routeCount": 3,
-  "successRate": null,
+  "fetchedAt": "2026-09-23T04:00:32.517Z",
+  "builtAt": "2026-09-23T04:29:11.968Z",
+  "recordCount": 992,
+  "routeCount": 6,
+  "successRate": 1,
   "failedRoutes": [],
   "coverage": {
-    "verifiedRoutes": 3,
+    "verifiedRoutes": 6,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
@@ -22,40 +22,71 @@
       "2026-09-27",
       "2026-09-28",
       "2026-09-29",
-      "2026-09-30"
+      "2026-09-30",
+      "2026-10-01"
     ]
   },
-  "checksum": "91b1c724aedb591a638a8881363c03f863963e144203b4a48b47b4a0a8613b3e",
+  "checksum": "24db06cad64c59d234f7aef25a36c4c20cca34e781f00dbe0dc96a65443271c1",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Batu Caves",
       "destination": "Kuala Lumpur",
-      "resultCount": 172,
-      "date": "2026-09-23..2026-09-30",
+      "resultCount": 195,
+      "date": "2026-09-23..2026-10-01",
       "sourceId": "my-ktmb-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-22T00:21:09.774Z",
+      "fetchedAt": "2026-09-23T04:00:32.502Z",
       "verified": true
     },
     {
       "origin": "Klang",
       "destination": "Subang Jaya",
-      "resultCount": 62,
-      "date": "2026-09-23..2026-09-30",
+      "resultCount": 70,
+      "date": "2026-09-23..2026-10-01",
       "sourceId": "my-ktmb-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-22T00:21:09.778Z",
+      "fetchedAt": "2026-09-23T04:00:32.505Z",
+      "verified": true
+    },
+    {
+      "origin": "Kuala Lumpur",
+      "destination": "Batu Caves",
+      "resultCount": 197,
+      "date": "2026-09-23..2026-10-01",
+      "sourceId": "my-ktmb-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-23T04:00:32.513Z",
+      "verified": true
+    },
+    {
+      "origin": "Kuala Lumpur",
+      "destination": "Rawang",
+      "resultCount": 230,
+      "date": "2026-09-23..2026-10-01",
+      "sourceId": "my-ktmb-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-23T04:00:32.509Z",
       "verified": true
     },
     {
       "origin": "Rawang",
       "destination": "Kuala Lumpur",
-      "resultCount": 204,
-      "date": "2026-09-23..2026-09-30",
+      "resultCount": 230,
+      "date": "2026-09-23..2026-10-01",
       "sourceId": "my-ktmb-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-22T00:21:09.770Z",
+      "fetchedAt": "2026-09-23T04:00:32.498Z",
+      "verified": true
+    },
+    {
+      "origin": "Subang Jaya",
+      "destination": "Klang",
+      "resultCount": 70,
+      "date": "2026-09-23..2026-10-01",
+      "sourceId": "my-ktmb-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-23T04:00:32.517Z",
       "verified": true
     }
   ]

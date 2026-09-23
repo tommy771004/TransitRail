@@ -5,11 +5,462 @@
   "sourceUrl": "https://api.entur.io/journey-planner/v3/graphql",
   "sourceTier": "A",
   "fetchedAt": "2026-09-22T00:27:18.779Z",
-  "builtAt": "2026-09-23T03:12:00.445Z",
+  "builtAt": "2026-09-23T04:29:11.968Z",
   "recordCount": 210,
   "routeCount": 5,
-  "successRate": null,
-  "failedRoutes": [],
+  "successRate": 0,
+  "failedRoutes": [
+    {
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "error": "This operation was aborted"
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Oslo lufthavn",
+      "destination": "Lillehammer",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Bodø stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Bergen stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Stavanger stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Lillehammer",
+      "destination": "Oslo lufthavn",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo lufthavn",
+      "destination": "Lillehammer",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Bodø stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Bergen stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Stavanger stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Lillehammer",
+      "destination": "Oslo lufthavn",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Oslo lufthavn",
+      "destination": "Lillehammer",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Bodø stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Bergen stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Stavanger stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Lillehammer",
+      "destination": "Oslo lufthavn",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo lufthavn",
+      "destination": "Lillehammer",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Bodø stasjon",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Bergen stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Stavanger stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Lillehammer",
+      "destination": "Oslo lufthavn",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo lufthavn",
+      "destination": "Lillehammer",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Bodø stasjon",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Bergen stasjon",
+      "destination": "Oslo S",
+      "error": "This operation was aborted"
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Oslo S",
+      "error": "This operation was aborted"
+    },
+    {
+      "origin": "Stavanger stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Lillehammer",
+      "destination": "Oslo lufthavn",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Oslo lufthavn",
+      "destination": "Lillehammer",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Bodø stasjon",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Bergen stasjon",
+      "destination": "Oslo S",
+      "error": "This operation was aborted"
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Stavanger stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Lillehammer",
+      "destination": "Oslo lufthavn",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "error": "This operation was aborted"
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "error": "This operation was aborted"
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo lufthavn",
+      "destination": "Lillehammer",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Bodø stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Bergen stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Oslo S",
+      "error": "This operation was aborted"
+    },
+    {
+      "origin": "Stavanger stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Lillehammer",
+      "destination": "Oslo lufthavn",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo lufthavn",
+      "destination": "Lillehammer",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Bodø stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Bergen stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Oslo S",
+      "error": "This operation was aborted"
+    },
+    {
+      "origin": "Stavanger stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Lillehammer",
+      "destination": "Oslo lufthavn",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Bergen stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Oslo S",
+      "destination": "Stavanger stasjon",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Oslo lufthavn",
+      "destination": "Lillehammer",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Bodø stasjon",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Bergen stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Trondheim S",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Stavanger stasjon",
+      "destination": "Oslo S",
+      "error": "Entur returned HTTP 500."
+    },
+    {
+      "origin": "Lillehammer",
+      "destination": "Oslo lufthavn",
+      "error": "Entur returned HTTP 502."
+    },
+    {
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "error": "Entur returned HTTP 502."
+    }
+  ],
   "coverage": {
     "verifiedRoutes": 5,
     "emptyRoutes": 0,

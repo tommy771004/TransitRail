@@ -4,14 +4,14 @@
   "source": "LTA DataMall GTFS Schedule (Train)",
   "sourceUrl": "https://datamall2.mytransport.sg/ltaodataservice/GTFSScheduleTrain",
   "sourceTier": "A",
-  "fetchedAt": "2026-09-22T00:20:59.054Z",
-  "builtAt": "2026-09-23T03:12:00.445Z",
-  "recordCount": 12546,
-  "routeCount": 5,
-  "successRate": null,
+  "fetchedAt": "2026-09-23T04:00:29.012Z",
+  "builtAt": "2026-09-23T04:29:11.968Z",
+  "recordCount": 28674,
+  "routeCount": 10,
+  "successRate": 1,
   "failedRoutes": [],
   "coverage": {
-    "verifiedRoutes": 5,
+    "verifiedRoutes": 10,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
@@ -22,60 +22,111 @@
       "2026-09-27",
       "2026-09-28",
       "2026-09-29",
-      "2026-09-30"
+      "2026-09-30",
+      "2026-10-01"
     ]
   },
-  "checksum": "de22672c14ecc48320409274809a61f1b17efb051415fc53ce5e2222a827bdc8",
+  "checksum": "8f819422f35c3f2bb5a64ca64684bf727c63bf6c738b73f6c3415214e3952915",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Changi Airport",
       "destination": "Tanah Merah",
-      "resultCount": 901,
-      "date": "2026-09-23..2026-09-30",
+      "resultCount": 1016,
+      "date": "2026-09-23..2026-10-01",
       "sourceId": "sg-lta-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-22T00:20:58.092Z",
+      "fetchedAt": "2026-09-23T04:00:27.062Z",
       "verified": true
     },
     {
       "origin": "HarbourFront",
       "destination": "Punggol",
-      "resultCount": 2068,
-      "date": "2026-09-23..2026-09-30",
+      "resultCount": 2339,
+      "date": "2026-09-23..2026-10-01",
       "sourceId": "sg-lta-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-22T00:20:58.570Z",
+      "fetchedAt": "2026-09-23T04:00:27.490Z",
       "verified": true
     },
     {
       "origin": "Jurong East",
       "destination": "Raffles Place",
-      "resultCount": 3899,
-      "date": "2026-09-23..2026-09-30",
+      "resultCount": 4409,
+      "date": "2026-09-23..2026-10-01",
       "sourceId": "sg-lta-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-22T00:20:58.808Z",
+      "fetchedAt": "2026-09-23T04:00:27.707Z",
+      "verified": true
+    },
+    {
+      "origin": "Jurong East",
+      "destination": "Tanah Merah",
+      "resultCount": 2289,
+      "date": "2026-09-23..2026-10-01",
+      "sourceId": "sg-lta-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-23T04:00:28.356Z",
+      "verified": true
+    },
+    {
+      "origin": "Orchard",
+      "destination": "Woodlands",
+      "resultCount": 4344,
+      "date": "2026-09-23..2026-10-01",
+      "sourceId": "sg-lta-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-23T04:00:29.012Z",
+      "verified": true
+    },
+    {
+      "origin": "Punggol",
+      "destination": "HarbourFront",
+      "resultCount": 2292,
+      "date": "2026-09-23..2026-10-01",
+      "sourceId": "sg-lta-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-23T04:00:28.573Z",
+      "verified": true
+    },
+    {
+      "origin": "Raffles Place",
+      "destination": "Jurong East",
+      "resultCount": 4526,
+      "date": "2026-09-23..2026-10-01",
+      "sourceId": "sg-lta-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-23T04:00:28.788Z",
+      "verified": true
+    },
+    {
+      "origin": "Tanah Merah",
+      "destination": "Changi Airport",
+      "resultCount": 1052,
+      "date": "2026-09-23..2026-10-01",
+      "sourceId": "sg-lta-gtfs",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-23T04:00:28.144Z",
       "verified": true
     },
     {
       "origin": "Tanah Merah",
       "destination": "Jurong East",
-      "resultCount": 2023,
-      "date": "2026-09-23..2026-09-30",
+      "resultCount": 2288,
+      "date": "2026-09-23..2026-10-01",
       "sourceId": "sg-lta-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-22T00:20:58.327Z",
+      "fetchedAt": "2026-09-23T04:00:27.273Z",
       "verified": true
     },
     {
       "origin": "Woodlands",
       "destination": "Orchard",
-      "resultCount": 3655,
-      "date": "2026-09-23..2026-09-30",
+      "resultCount": 4119,
+      "date": "2026-09-23..2026-10-01",
       "sourceId": "sg-lta-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-22T00:20:59.054Z",
+      "fetchedAt": "2026-09-23T04:00:27.927Z",
       "verified": true
     }
   ]
