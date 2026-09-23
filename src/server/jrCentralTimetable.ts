@@ -31,6 +31,9 @@ const STATIONS: Record<string, StationConfig> = {
  * The CGI is the Tokaido *and* San'yō timetable — the two lines through-run, so
  * one search answers Shin-Osaka westward as well.
  *
+ * Every pair is listed in both directions: search no longer answers a return
+ * trip by mirroring the outbound one, so each way needs its own scrape.
+ *
  * Only Shin-Osaka-anchored San'yō pairs are listed. Tokyo → Hakata is a real
  * through service but each pair costs a full hourly sampling sweep against
  * someone else's CGI, and search chains Tokyo → Shin-Osaka with Shin-Osaka →
@@ -41,7 +44,10 @@ const ROUTES = new Set([
   "Tokyo-Kyoto",
   "Tokyo-Nagoya",
   "Shin-Osaka-Tokyo",
+  "Kyoto-Tokyo",
+  "Nagoya-Tokyo",
   "Nagoya-Shin-Osaka",
+  "Shin-Osaka-Nagoya",
   "Shin-Osaka-Okayama",
   "Okayama-Shin-Osaka",
   "Shin-Osaka-Hiroshima",
