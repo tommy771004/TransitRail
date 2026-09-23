@@ -33,7 +33,10 @@ without a provider status is neutral slate, never green, and a delay replaces th
 Layout invariants the card keeps, so nothing overlaps or leaves the card:
 
 - Times, duration, fare, badges and buttons are `shrink-0` / `whitespace-nowrap`; only
-  station text (`truncate` or `line-clamp-2`) gives way.
-- The route band sits in a `minmax(0,1fr)` column and hides a segment label under 16%.
+  station text (`truncate` or `line-clamp-2`) and the train caption on the card's band
+  (`line-clamp-2`, wrapping rather than truncating) give way.
+- The route band sits in a `minmax(0,1fr)` column. On the card it is captioned with the
+  ride names; in the sheet it keeps proportional labels and hides one under 16%. Label text
+  is slate; the line colour stays on the track.
 - The card is `overflow-hidden`; the sheet body scrolls inside `max-h-[85dvh]`.
 

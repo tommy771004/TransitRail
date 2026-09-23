@@ -1,8 +1,8 @@
 // Author: AI Coding Agent
 // OS support: Linux, macOS, Windows
 // Description: The one result card every market renders — a status row (next badge,
-// countdown, platform, live status, duration and fare), departure and arrival around a
-// proportional route band, then the journey's composition. Tapping the card opens the
+// countdown, platform, live status, fare), departure and arrival around a route band
+// captioned with the train, then the duration and the journey's composition. Tapping the card opens the
 // trip sheet, which carries save, map and the market's primary action.
 
 import { AlertTriangle, Bookmark, Check } from "lucide-react";
@@ -131,7 +131,7 @@ export function TripCard({
   const countdownClass = tags.next && minutesUntil !== undefined && minutesUntil >= 0
     ? "m3-label-large font-semibold text-slate-900 dark:text-white"
     : "m3-label-medium text-slate-600 dark:text-slate-300";
-  const hasStatus = Boolean(tags.next || tags.fastest || tags.cheapest || countdown || platformText || liveNote || duration || fare);
+  const hasStatus = Boolean(tags.next || tags.cheapest || countdown || platformText || liveNote || fare);
 
   const openSheet = () => {
     triggerHaptic("light");
@@ -181,8 +181,6 @@ export function TripCard({
         {hasStatus ? (
           <div className="mb-2 flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1">
             {tags.next && badge(t("result.next_departure_tag"), "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900")}
-            {tags.fastest && badge(t("result.fastest_tag"), "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300")}
-            {tags.cheapest && badge(t("result.cheapest_tag"), "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300")}
             {countdown ? <span className={`shrink-0 whitespace-nowrap tabular-nums ${countdownClass}`}>{countdown}</span> : null}
             {platformText || liveNote ? (
               <span className="m3-label-medium flex shrink-0 gap-1.5 whitespace-nowrap text-slate-600 dark:text-slate-300">
@@ -190,10 +188,12 @@ export function TripCard({
                 {liveNote ? <span className={liveNote.className}>{liveNote.text}</span> : null}
               </span>
             ) : null}
-            <div className="ml-auto flex shrink-0 items-baseline gap-2 whitespace-nowrap">
-              {duration && <span className="m3-label-medium text-slate-600 dark:text-slate-300">{duration}</span>}
-              {fare && <span className="m3-title-medium font-bold tabular-nums text-slate-900 dark:text-white" data-trip-fare-row>{fare}</span>}
-            </div>
+            {fare || tags.cheapest ? (
+              <div className="ml-auto flex shrink-0 items-baseline gap-2 whitespace-nowrap">
+                {tags.cheapest && badge(t("result.cheapest_tag"), "self-center bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300")}
+                {fare && <span className="m3-title-medium font-bold tabular-nums text-slate-900 dark:text-white" data-trip-fare-row>{fare}</span>}
+              </div>
+            ) : null}
           </div>
         ) : null}
 
@@ -201,13 +201,21 @@ export function TripCard({
         <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-end gap-3">
           <p className="m3-headline-small shrink-0 whitespace-nowrap font-mono font-bold tabular-nums leading-none text-slate-950 dark:text-white">{trip.departureTime}</p>
           {lineNames ? <span className="sr-only">{lineNames}</span> : null}
-          <RouteBand trip={trip} className="pb-[9px]" />
+          <RouteBand trip={trip} caption={lineNames || undefined} className="pb-[9px]" />
           <p className="m3-headline-small shrink-0 whitespace-nowrap text-right font-mono font-bold tabular-nums leading-none text-slate-950 dark:text-white">{trip.arrivalTime || "--:--"}</p>
         </div>
 
-        {/* Line 3: composition may wrap to two lines; the pressure label never does. */}
+        {/* Line 3: duration (never broken), then the composition, which may wrap to
+            two lines; the pressure label never wraps. Badges sit on the value they describe. */}
         <div className="m3-body-small mt-2 flex min-w-0 items-start justify-between gap-2 text-slate-500 dark:text-slate-400">
-          <span className="line-clamp-2 min-w-0">{composition}</span>
+          <span className="line-clamp-2 min-w-0">
+            {tags.fastest && <>{badge(t("result.fastest_tag"), "mr-1 bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300")}</>}
+            {duration ? (
+              <span className={`whitespace-nowrap font-medium ${tags.fastest ? "text-blue-700 dark:text-blue-300" : "text-slate-600 dark:text-slate-300"}`}>{duration}</span>
+            ) : null}
+            {duration && composition ? " · " : null}
+            {composition}
+          </span>
           {pressure ? (
             <span className={`shrink-0 whitespace-nowrap font-medium ${pressure.className}`}>{pressure.label}</span>
           ) : extraMeta ? (

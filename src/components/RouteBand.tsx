@@ -72,10 +72,19 @@ interface RouteBandProps {
   trip: TransitResult;
   /** Line names sit above the track; the compact form drops them. */
   compact?: boolean;
+  /**
+   * One readable line in place of the proportional labels: the card names its
+   * train here ("Nozomi 135", "Piccadilly → Bakerloo"). It wraps to two lines
+   * rather than losing the train number.
+   */
+  caption?: string;
   className?: string;
 }
 
 /**
+ * Labels are slate text; the line colour lives on the track, where a pale line
+ * (Ginza orange, a light TfL line) no longer has to carry legible text.
+ *
  * Segment widths are minutes over the journey total, so a 2-minute Bakerloo
  * hop after a 46-minute Piccadilly ride reads as the sliver it is. A segment
  * under 16% hides its label rather than clipping it; the card's composition
@@ -83,22 +92,24 @@ interface RouteBandProps {
  * assistive technology. Everything here is `min-w-0` so the band can never
  * push the arrival time off the card.
  */
-export function RouteBand({ trip, compact = false, className = "" }: RouteBandProps) {
+export function RouteBand({ trip, compact = false, caption, className = "" }: RouteBandProps) {
   const { t } = useTranslation();
   const legs = bandLegs(trip);
   const total = legs.reduce((sum, leg) => sum + leg.minutes, 0) || 1;
 
   return (
     <div className={`grid min-w-0 gap-1 ${className}`} data-route-band aria-hidden="true">
-      {!compact && (
+      {caption ? (
+        <span className="m3-title-small line-clamp-2 min-w-0 break-words leading-4 text-slate-900 dark:text-white">{caption}</span>
+      ) : !compact && (
         <div className="flex h-3.5 min-w-0">
           {legs.map((leg, index) => {
             const share = leg.minutes / total;
             return (
               <span key={`label-${index}`} className="contents">
                 <span
-                  className={`m3-label-small min-w-0 truncate pr-1.5 leading-[14px] text-[var(--lc)] dark:text-[color-mix(in_srgb,var(--lc)_52%,white)] ${share < 0.16 ? "invisible" : ""}`}
-                  style={{ flex: `${Math.max(share * 100, 3)} 1 0%`, "--lc": leg.color } as CSSProperties}
+                  className={`m3-label-small min-w-0 truncate pr-1.5 leading-[14px] text-slate-600 dark:text-slate-300 ${share < 0.16 ? "invisible" : ""}`}
+                  style={{ flex: `${Math.max(share * 100, 3)} 1 0%` }}
                 >
                   {leg.name}
                 </span>
