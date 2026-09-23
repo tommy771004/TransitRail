@@ -347,7 +347,7 @@ export default function App() {
   const [coverageGap, setCoverageGap] = useState<CoverageGap | undefined>();
   const [officialSourceUrl, setOfficialSourceUrl] = useState<string | undefined>();
   const [isSearching, setIsSearching] = useState(false);
-  const [sortMode, setSortMode] = useState<SortMode>("fastest");
+  const [sortMode, setSortMode] = useState<SortMode>("earliest");
   const inFlightSearch = useRef<{ query: string; controller: AbortController } | undefined>(undefined);
   const [koreaFilter, setKoreaFilter] = useState<KoreaFilter>("all");
   const [history, setHistory] = useState<SearchHistoryItem[]>(() => loadJson("transitrail.history", []));
@@ -919,7 +919,8 @@ export default function App() {
     const stale = () => controller.signal.aborted;
     setSearchParams(params);
     setDraftSearch(params);
-    setSortMode(params.timeMode === "all_day" ? "fastest" : "earliest");
+    // Every search opens in departure order; shortest and cheapest are opt-in re-sorts.
+    setSortMode("earliest");
     setKoreaFilter("all");
     setIsSearching(true);
     setView("results");

@@ -194,11 +194,30 @@ export function ResultList({
   const departed = results.filter(isPast);
   const visible = showPast ? results : results.filter((trip) => !isPast(trip));
 
-  const hasFare = fares.length > 0;
+  // A secondary sort only earns a chip when pressing it could move a row. A
+  // timed search is always in departure order first, so there the chip can only
+  // reorder departures that share a minute; an all-day list reorders whenever
+  // the values differ at all. Earliest and the pressed chip always stay.
+  const canReorder = (value: (trip: TransitResult) => number | undefined) => {
+    const groups = new Map<string, Set<number>>();
+    for (const trip of results) {
+      const key = time ? String(departure(trip)) : "day";
+      const measured = value(trip);
+      if (measured === undefined) continue;
+      const seen = groups.get(key) ?? new Set<number>();
+      seen.add(measured);
+      groups.set(key, seen);
+    }
+    return [...groups.values()].some((seen) => seen.size > 1);
+  };
   const sortChips: Array<{ mode: SortMode; label: string }> = [
     { mode: "earliest", label: t("result.earliest") },
-    { mode: "fastest", label: t(time ? "journey.secondary_fastest" : "result.fastest") },
-    ...(hasFare ? [{ mode: "cheapest" as const, label: t(time ? "journey.secondary_cheapest" : "result.cheapest") }] : []),
+    ...(sortMode === "fastest" || canReorder((trip) => trip.durationMinutes)
+      ? [{ mode: "fastest" as const, label: t(time ? "journey.secondary_fastest" : "result.fastest") }]
+      : []),
+    ...(sortMode === "cheapest" || canReorder((trip) => (hasDisplayableFare(trip) ? trip.price : undefined))
+      ? [{ mode: "cheapest" as const, label: t(time ? "journey.secondary_cheapest" : "result.cheapest") }]
+      : []),
   ];
   const showSort = Boolean(sortMode && onSortChange) && !error && results.length > 0;
 
