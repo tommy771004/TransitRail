@@ -271,6 +271,18 @@ export function ResultList({
   };
   const groupByHour = (sortMode ?? "earliest") === "earliest" && visible.length > 20;
   const hourId = (hour: number) => `${hourIdPrefix}-hour-${hour}`;
+  // Past two dozen rows, the sort row also offers a jump to each hour that has
+  // one; plain anchors, no scroll observers.
+  const railHours = groupByHour && visible.length > 24
+    ? [...new Set(visible.map(hourOf).filter((hour): hour is number => hour !== null))]
+    : [];
+  const jumpToHour = (hour: number) => {
+    const heading = document.getElementById(hourId(hour));
+    if (!heading) return;
+    triggerHaptic("light");
+    heading.scrollIntoView({ block: "start" });
+    heading.focus({ preventScroll: true });
+  };
 
   // A secondary sort only earns a chip when pressing it could move a row. A
   // timed search is always in departure order first, so there the chip can only
@@ -331,6 +343,23 @@ export function ResultList({
                 <>
                   <span aria-hidden="true" className="h-6 w-px shrink-0 bg-slate-300 dark:bg-slate-600" />
                   {filters}
+                </>
+              ) : null}
+              {railHours.length > 1 ? (
+                <>
+                  <span aria-hidden="true" className="h-6 w-px shrink-0 bg-slate-300 dark:bg-slate-600" />
+                  <nav aria-label={t("result.jump_to_hour")} className="flex shrink-0 gap-2">
+                    {railHours.map((hour) => (
+                      <button
+                        key={hour}
+                        type="button"
+                        onClick={() => jumpToHour(hour)}
+                        className="m3-chip m3-state m3-shape-sm shrink-0 border border-slate-300 px-3 tabular-nums text-slate-700 dark:border-slate-600 dark:text-slate-300"
+                      >
+                        {t("result.hour_heading", { hour: String(hour).padStart(2, "0") })}
+                      </button>
+                    ))}
+                  </nav>
                 </>
               ) : null}
               </div>
