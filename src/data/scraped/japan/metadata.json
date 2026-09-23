@@ -4,150 +4,14 @@
   "source": "ODPT Tokyo Metro train timetable",
   "sourceUrl": "https://developer.odpt.org/en/datasets",
   "sourceTier": "A",
-  "fetchedAt": "2026-09-23T04:04:04.698Z",
-  "builtAt": "2026-09-23T04:29:11.968Z",
-  "recordCount": 31306,
-  "routeCount": 50,
-  "successRate": 0.9434,
-  "failedRoutes": [
-    {
-      "origin": "Kyoto",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Nagoya",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Shin-Osaka",
-      "destination": "Nagoya",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Kyoto",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Nagoya",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Shin-Osaka",
-      "destination": "Nagoya",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Kyoto",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Nagoya",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Shin-Osaka",
-      "destination": "Nagoya",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Kyoto",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Nagoya",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Shin-Osaka",
-      "destination": "Nagoya",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Kyoto",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Nagoya",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Shin-Osaka",
-      "destination": "Nagoya",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Kyoto",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Nagoya",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Shin-Osaka",
-      "destination": "Nagoya",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Kyoto",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Nagoya",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Shin-Osaka",
-      "destination": "Nagoya",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Kyoto",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Nagoya",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Shin-Osaka",
-      "destination": "Nagoya",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Kyoto",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Nagoya",
-      "destination": "Tokyo",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    },
-    {
-      "origin": "Shin-Osaka",
-      "destination": "Nagoya",
-      "error": "JR_CENTRAL_ROUTE_NOT_CONFIGURED"
-    }
-  ],
+  "fetchedAt": "2026-09-23T07:07:01.130Z",
+  "builtAt": "2026-09-23T07:37:39.699Z",
+  "recordCount": 31762,
+  "routeCount": 53,
+  "successRate": 1,
+  "failedRoutes": [],
   "coverage": {
-    "verifiedRoutes": 50,
+    "verifiedRoutes": 53,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
@@ -162,7 +26,7 @@
       "2026-10-01"
     ]
   },
-  "checksum": "eecc2f3969f33f280cca700d65aee90b601803b3d3447ba869935d7b4621efa0",
+  "checksum": "c202c99c2be3017bab4287af62a9da31431be305213aab8221a0c3e957c88c80",
   "artifactVersion": 2,
   "routes": [
     {
@@ -172,7 +36,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-tokyo-metro",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:10.849Z",
+      "fetchedAt": "2026-09-23T07:01:46.624Z",
       "verified": true
     },
     {
@@ -182,7 +46,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-jr-central",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:03:58.918Z",
+      "fetchedAt": "2026-09-23T07:06:43.983Z",
       "verified": true
     },
     {
@@ -192,7 +56,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-toei",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:10.388Z",
+      "fetchedAt": "2026-09-23T07:01:45.979Z",
       "verified": true
     },
     {
@@ -202,7 +66,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-jr-central",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:03:56.294Z",
+      "fetchedAt": "2026-09-23T07:06:40.115Z",
       "verified": true
     },
     {
@@ -212,7 +76,17 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-tokyo-metro",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:10.991Z",
+      "fetchedAt": "2026-09-23T07:01:46.823Z",
+      "verified": true
+    },
+    {
+      "origin": "Kyoto",
+      "destination": "Tokyo",
+      "resultCount": 150,
+      "date": "2026-09-23..2026-10-01",
+      "sourceId": "jp-jr-central",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-23T07:06:51.203Z",
       "verified": true
     },
     {
@@ -222,7 +96,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-toei",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:10.752Z",
+      "fetchedAt": "2026-09-23T07:01:46.489Z",
       "verified": true
     },
     {
@@ -232,7 +106,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-toei",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:10.658Z",
+      "fetchedAt": "2026-09-23T07:01:46.358Z",
       "verified": true
     },
     {
@@ -242,7 +116,17 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-jr-central",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:03:51.672Z",
+      "fetchedAt": "2026-09-23T07:06:36.703Z",
+      "verified": true
+    },
+    {
+      "origin": "Nagoya",
+      "destination": "Tokyo",
+      "resultCount": 153,
+      "date": "2026-09-23..2026-10-01",
+      "sourceId": "jp-jr-central",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-23T07:06:49.428Z",
       "verified": true
     },
     {
@@ -252,7 +136,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-toei",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:10.560Z",
+      "fetchedAt": "2026-09-23T07:01:46.220Z",
       "verified": true
     },
     {
@@ -262,7 +146,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-toei",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:11.132Z",
+      "fetchedAt": "2026-09-23T07:01:47.015Z",
       "verified": true
     },
     {
@@ -272,7 +156,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-toei",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:10.710Z",
+      "fetchedAt": "2026-09-23T07:01:46.432Z",
       "verified": true
     },
     {
@@ -282,7 +166,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-toei",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:11.216Z",
+      "fetchedAt": "2026-09-23T07:01:47.073Z",
       "verified": true
     },
     {
@@ -292,7 +176,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-tokyo-metro",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:10.926Z",
+      "fetchedAt": "2026-09-23T07:01:46.732Z",
       "verified": true
     },
     {
@@ -302,7 +186,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-jr-central",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:03:53.187Z",
+      "fetchedAt": "2026-09-23T07:06:37.388Z",
       "verified": true
     },
     {
@@ -312,7 +196,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-toei",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:10.580Z",
+      "fetchedAt": "2026-09-23T07:01:46.246Z",
       "verified": true
     },
     {
@@ -322,7 +206,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-toei",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:11.097Z",
+      "fetchedAt": "2026-09-23T07:01:46.969Z",
       "verified": true
     },
     {
@@ -332,7 +216,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-toei",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:11.192Z",
+      "fetchedAt": "2026-09-23T07:01:47.039Z",
       "verified": true
     },
     {
@@ -342,7 +226,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-toei",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:11.061Z",
+      "fetchedAt": "2026-09-23T07:01:46.919Z",
       "verified": true
     },
     {
@@ -352,7 +236,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-tokyo-metro",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:10.794Z",
+      "fetchedAt": "2026-09-23T07:01:46.547Z",
       "verified": true
     },
     {
@@ -362,7 +246,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-jr-central",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:03:58.449Z",
+      "fetchedAt": "2026-09-23T07:06:43.348Z",
       "verified": true
     },
     {
@@ -372,7 +256,17 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-jr-central",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:03:55.015Z",
+      "fetchedAt": "2026-09-23T07:06:39.963Z",
+      "verified": true
+    },
+    {
+      "origin": "Shin-Osaka",
+      "destination": "Nagoya",
+      "resultCount": 153,
+      "date": "2026-09-23..2026-10-01",
+      "sourceId": "jp-jr-central",
+      "completeness": "full-timetable",
+      "fetchedAt": "2026-09-23T07:06:49.273Z",
       "verified": true
     },
     {
@@ -382,7 +276,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-jr-central",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:03:50.169Z",
+      "fetchedAt": "2026-09-23T07:06:34.600Z",
       "verified": true
     },
     {
@@ -392,7 +286,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-jr-central",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:03:55.449Z",
+      "fetchedAt": "2026-09-23T07:06:39.465Z",
       "verified": true
     },
     {
@@ -402,7 +296,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-toei",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:10.605Z",
+      "fetchedAt": "2026-09-23T07:01:46.283Z",
       "verified": true
     },
     {
@@ -412,7 +306,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-toei",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:10.478Z",
+      "fetchedAt": "2026-09-23T07:01:46.104Z",
       "verified": true
     },
     {
@@ -422,7 +316,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-odpt-toei",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:00:11.279Z",
+      "fetchedAt": "2026-09-23T07:01:47.159Z",
       "verified": true
     },
     {
@@ -432,7 +326,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-jr-central",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:03:46.160Z",
+      "fetchedAt": "2026-09-23T07:06:31.548Z",
       "verified": true
     },
     {
@@ -442,7 +336,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-jr-central",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:03:44.036Z",
+      "fetchedAt": "2026-09-23T07:06:26.989Z",
       "verified": true
     },
     {
@@ -452,7 +346,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-jr-central",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:03:47.080Z",
+      "fetchedAt": "2026-09-23T07:06:31.696Z",
       "verified": true
     },
     {
@@ -462,7 +356,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.416Z",
+      "fetchedAt": "2026-09-23T07:07:00.634Z",
       "verified": true
     },
     {
@@ -472,7 +366,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.263Z",
+      "fetchedAt": "2026-09-23T07:07:00.277Z",
       "verified": true
     },
     {
@@ -482,7 +376,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.343Z",
+      "fetchedAt": "2026-09-23T07:07:00.445Z",
       "verified": true
     },
     {
@@ -492,7 +386,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.698Z",
+      "fetchedAt": "2026-09-23T07:07:01.130Z",
       "verified": true
     },
     {
@@ -502,7 +396,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.492Z",
+      "fetchedAt": "2026-09-23T07:07:00.763Z",
       "verified": true
     },
     {
@@ -512,7 +406,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.601Z",
+      "fetchedAt": "2026-09-23T07:07:00.960Z",
       "verified": true
     },
     {
@@ -522,7 +416,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.361Z",
+      "fetchedAt": "2026-09-23T07:07:00.523Z",
       "verified": true
     },
     {
@@ -532,7 +426,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.667Z",
+      "fetchedAt": "2026-09-23T07:07:01.077Z",
       "verified": true
     },
     {
@@ -542,7 +436,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.382Z",
+      "fetchedAt": "2026-09-23T07:07:00.578Z",
       "verified": true
     },
     {
@@ -552,7 +446,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.649Z",
+      "fetchedAt": "2026-09-23T07:07:01.046Z",
       "verified": true
     },
     {
@@ -562,7 +456,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.618Z",
+      "fetchedAt": "2026-09-23T07:07:00.994Z",
       "verified": true
     },
     {
@@ -572,7 +466,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.474Z",
+      "fetchedAt": "2026-09-23T07:07:00.730Z",
       "verified": true
     },
     {
@@ -582,7 +476,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.583Z",
+      "fetchedAt": "2026-09-23T07:07:00.927Z",
       "verified": true
     },
     {
@@ -592,7 +486,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.546Z",
+      "fetchedAt": "2026-09-23T07:07:00.868Z",
       "verified": true
     },
     {
@@ -602,7 +496,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.302Z",
+      "fetchedAt": "2026-09-23T07:07:00.357Z",
       "verified": true
     },
     {
@@ -612,7 +506,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.324Z",
+      "fetchedAt": "2026-09-23T07:07:00.397Z",
       "verified": true
     },
     {
@@ -622,7 +516,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.510Z",
+      "fetchedAt": "2026-09-23T07:07:00.798Z",
       "verified": true
     },
     {
@@ -632,7 +526,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.281Z",
+      "fetchedAt": "2026-09-23T07:07:00.314Z",
       "verified": true
     },
     {
@@ -642,7 +536,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.230Z",
+      "fetchedAt": "2026-09-23T07:07:00.218Z",
       "verified": true
     },
     {
@@ -652,7 +546,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.528Z",
+      "fetchedAt": "2026-09-23T07:07:00.838Z",
       "verified": true
     },
     {
@@ -662,7 +556,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "jp-kotoden-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:04:04.438Z",
+      "fetchedAt": "2026-09-23T07:07:00.674Z",
       "verified": true
     }
   ]

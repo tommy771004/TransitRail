@@ -1,26 +1,37 @@
 {
   "origin": "Yongsan",
   "destination": "Jeonju",
-  "date": "2026-09-23..2026-09-30",
-  "scrapedAt": "2026-09-22T00:22:02.192Z",
+  "date": "2026-09-23..2026-10-01",
+  "scrapedAt": "2026-09-23T07:02:03.111Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 9. 18. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/17/202609171a0ae588ec1170.xlsx",
       "effectiveFrom": "2026-09-18",
-      "retrievedAt": "2026-09-22T00:21:59.098Z",
       "sha256": "e97adbb9c8b520d4db1ddd44ddf1165aa6c0e0c118d5acbe55103fdbd768e212",
+      "effectiveUntil": "2026-09-30",
+      "retrievedAt": "2026-09-23T07:01:58.719Z",
       "exclusions": []
     },
     {
       "title": "일반열차 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-22T00:21:59.868Z",
+      "retrievedAt": "2026-09-23T07:01:59.622Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
+      ]
+    },
+    {
+      "title": "KTX 시간표(2026. 10. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/23/202609231a0cb38a2c5200.xlsx",
+      "effectiveFrom": "2026-10-01",
+      "retrievedAt": "2026-09-23T07:02:02.937Z",
+      "sha256": "eaadc99d90aa9fb4e009ca74d812cc4aa4885a7aee98950adc715dca6c0ad623",
+      "exclusions": [
+        "Korail excluded 호남선 450: times run backwards at Gwangmyeong"
       ]
     }
   ],
@@ -1297,6 +1308,82 @@
           "durationMinutes": 16
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-01-ktx-전라선-26-2",
+      "country": "korea",
+      "date": "2026-10-01",
+      "operator": "Korail",
+      "service": "KTX 545",
+      "trainType": "KTX",
+      "origin": "Yongsan",
+      "destination": "Jeonju",
+      "departureTime": "12:11",
+      "arrivalTime": "13:55",
+      "durationMinutes": 104,
+      "direct": true,
+      "stops": [
+        "Yongsan",
+        "Gwangmyeong",
+        "Cheonan-Asan",
+        "Osong",
+        "Iksan",
+        "Jeonju"
+      ],
+      "headsign": "Jeonju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yongsan",
+          "destination": "Gwangmyeong",
+          "departureTime": "12:11",
+          "arrivalTime": "12:29",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "12:29",
+          "arrivalTime": "12:53",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Osong",
+          "departureTime": "12:53",
+          "arrivalTime": "13:05",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Iksan",
+          "departureTime": "13:05",
+          "arrivalTime": "13:40",
+          "durationMinutes": 35
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Jeonju",
+          "departureTime": "13:40",
+          "arrivalTime": "13:55",
+          "durationMinutes": 15
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -1307,7 +1394,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-22T00:22:02.033Z",
+    "fetchedAt": "2026-09-23T07:02:02.940Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

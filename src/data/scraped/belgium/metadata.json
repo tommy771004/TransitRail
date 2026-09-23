@@ -4,12 +4,68 @@
   "source": "iRail official NMBS/SNCB connections API",
   "sourceUrl": "https://api.irail.be",
   "sourceTier": "A",
-  "fetchedAt": "2026-09-23T04:08:21.077Z",
-  "builtAt": "2026-09-23T04:29:11.968Z",
+  "fetchedAt": "2026-09-23T07:17:11.253Z",
+  "builtAt": "2026-09-23T07:37:39.699Z",
   "recordCount": 540,
   "routeCount": 10,
-  "successRate": 1,
-  "failedRoutes": [],
+  "successRate": 0.8778,
+  "failedRoutes": [
+    {
+      "origin": "Gent-Sint-Pieters",
+      "destination": "Brussels Airport-Zaventem",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-South/Brussels-Midi",
+      "destination": "Namur",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Luxembourg",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels Airport-Zaventem",
+      "destination": "Gent-Sint-Pieters",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Liège-Guillemins",
+      "destination": "Brugge",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Central",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Luxembourg",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Gent-Sint-Pieters",
+      "destination": "Brussels Airport-Zaventem",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Central",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Luxembourg",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels Airport-Zaventem",
+      "destination": "Gent-Sint-Pieters",
+      "error": "iRail returned HTTP 504."
+    }
+  ],
   "coverage": {
     "verifiedRoutes": 10,
     "emptyRoutes": 0,
@@ -26,7 +82,7 @@
       "2026-10-01"
     ]
   },
-  "checksum": "42d628308eb9281bd9947e3ebc21b2a1d1c531955e76f545469ae54e33284af8",
+  "checksum": "f6176e45aaa23414c84dfde14a70e59ca35e4ebaf9117d594935b2778cbb9fbe",
   "artifactVersion": 2,
   "routes": [
     {
@@ -36,7 +92,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:08:18.406Z",
+      "fetchedAt": "2026-09-23T07:17:05.208Z",
       "verified": true
     },
     {
@@ -46,7 +102,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:08:19.152Z",
+      "fetchedAt": "2026-09-23T07:16:59.314Z",
       "verified": true
     },
     {
@@ -56,7 +112,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:08:17.236Z",
+      "fetchedAt": "2026-09-23T07:17:08.464Z",
       "verified": true
     },
     {
@@ -66,7 +122,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:08:19.755Z",
+      "fetchedAt": "2026-09-23T07:16:59.939Z",
       "verified": true
     },
     {
@@ -76,7 +132,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:08:15.323Z",
+      "fetchedAt": "2026-09-23T07:17:01.838Z",
       "verified": true
     },
     {
@@ -86,7 +142,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:08:15.969Z",
+      "fetchedAt": "2026-09-23T07:17:02.602Z",
       "verified": true
     },
     {
@@ -96,7 +152,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:08:17.861Z",
+      "fetchedAt": "2026-09-23T07:17:09.068Z",
       "verified": true
     },
     {
@@ -106,7 +162,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:08:16.583Z",
+      "fetchedAt": "2026-09-23T07:17:03.288Z",
       "verified": true
     },
     {
@@ -116,7 +172,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:08:20.481Z",
+      "fetchedAt": "2026-09-23T07:17:10.717Z",
       "verified": true
     },
     {
@@ -126,7 +182,7 @@
       "date": "2026-09-23..2026-10-01",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T04:08:21.077Z",
+      "fetchedAt": "2026-09-23T07:17:11.253Z",
       "verified": true
     }
   ]

@@ -1,26 +1,37 @@
 {
   "origin": "Yongsan",
   "destination": "Hongseong",
-  "date": "2026-09-23..2026-09-30",
-  "scrapedAt": "2026-09-22T00:22:02.269Z",
+  "date": "2026-09-23..2026-10-01",
+  "scrapedAt": "2026-09-23T07:02:03.191Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 9. 18. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/17/202609171a0ae588ec1170.xlsx",
       "effectiveFrom": "2026-09-18",
-      "retrievedAt": "2026-09-22T00:21:59.098Z",
       "sha256": "e97adbb9c8b520d4db1ddd44ddf1165aa6c0e0c118d5acbe55103fdbd768e212",
+      "effectiveUntil": "2026-09-30",
+      "retrievedAt": "2026-09-23T07:01:58.719Z",
       "exclusions": []
     },
     {
       "title": "일반열차 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-22T00:21:59.868Z",
+      "retrievedAt": "2026-09-23T07:01:59.622Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
+      ]
+    },
+    {
+      "title": "KTX 시간표(2026. 10. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/23/202609231a0cb38a2c5200.xlsx",
+      "effectiveFrom": "2026-10-01",
+      "retrievedAt": "2026-09-23T07:02:02.937Z",
+      "sha256": "eaadc99d90aa9fb4e009ca74d812cc4aa4885a7aee98950adc715dca6c0ad623",
+      "exclusions": [
+        "Korail excluded 호남선 450: times run backwards at Gwangmyeong"
       ]
     }
   ],
@@ -1050,6 +1061,126 @@
           "durationMinutes": 12
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-01-regular-장항선-9-4",
+      "country": "korea",
+      "date": "2026-10-01",
+      "operator": "Korail",
+      "service": "ITX-마음 1221",
+      "trainType": "ITX-마음",
+      "origin": "Yongsan",
+      "destination": "Hongseong",
+      "departureTime": "06:50",
+      "arrivalTime": "08:48",
+      "durationMinutes": 118,
+      "direct": true,
+      "stops": [
+        "Yongsan",
+        "Yeongdeungpo",
+        "Suwon",
+        "Cheonan",
+        "Asan",
+        "Onyang oncheon",
+        "Singchang",
+        "Sillyewon",
+        "Yesan",
+        "Hongseong"
+      ],
+      "headsign": "Hongseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1221",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Yongsan",
+          "destination": "Yeongdeungpo",
+          "departureTime": "06:50",
+          "arrivalTime": "07:01",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1221",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Yeongdeungpo",
+          "destination": "Suwon",
+          "departureTime": "07:01",
+          "arrivalTime": "07:25",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-마음 1221",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Suwon",
+          "destination": "Cheonan",
+          "departureTime": "07:25",
+          "arrivalTime": "07:59",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "ITX-마음 1221",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Asan",
+          "departureTime": "07:59",
+          "arrivalTime": "08:05",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1221",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Asan",
+          "destination": "Onyang oncheon",
+          "departureTime": "08:05",
+          "arrivalTime": "08:14",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1221",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Onyang oncheon",
+          "destination": "Singchang",
+          "departureTime": "08:14",
+          "arrivalTime": "08:21",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "ITX-마음 1221",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Singchang",
+          "destination": "Sillyewon",
+          "departureTime": "08:21",
+          "arrivalTime": "08:30",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1221",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Sillyewon",
+          "destination": "Yesan",
+          "departureTime": "08:30",
+          "arrivalTime": "08:36",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1221",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Yesan",
+          "destination": "Hongseong",
+          "departureTime": "08:36",
+          "arrivalTime": "08:48",
+          "durationMinutes": 12
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -1060,7 +1191,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-22T00:22:02.033Z",
+    "fetchedAt": "2026-09-23T07:02:02.941Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
