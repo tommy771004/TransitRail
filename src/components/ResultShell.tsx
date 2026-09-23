@@ -35,6 +35,29 @@ export const formatDuration = (t: TFunction, minutes?: number) => {
 };
 
 /**
+ * A clock time as the card shows it, with the calendar days it runs past the
+ * searched day. Providers write the same fact two ways — Korea's service day
+ * runs to "24:06", while Zürich writes an 00:26 arrival after a 22:19
+ * departure — and a rider should not have to do that arithmetic. Display only:
+ * sorting and the countdown keep the raw strings.
+ */
+export function displayClock(time: string | undefined, departureTime?: string, durationMinutes?: number) {
+  const match = time?.match(/^(\d{1,2}):(\d{2})$/);
+  if (!time || !match) return time ? { text: time, dayOffset: 0 } : null;
+  const minutes = Number(match[1]) * 60 + Number(match[2]);
+  let dayOffset = Math.floor(minutes / 1440);
+  const departure = departureTime?.match(/^(\d{1,2}):(\d{2})$/);
+  if (dayOffset === 0 && departure) {
+    const departed = Number(departure[1]) * 60 + Number(departure[2]);
+    // An arrival earlier than its departure has crossed midnight, when the
+    // journey's own length agrees.
+    if (minutes < departed && (durationMinutes === undefined || departed % 1440 + durationMinutes >= 1440)) dayOffset = 1;
+  }
+  const clock = minutes % 1440;
+  return { text: `${String(Math.floor(clock / 60)).padStart(2, "0")}:${match[2]}`, dayOffset };
+}
+
+/**
  * The searched service day as the reader's locale writes it, weekday included
  * ("Sun, 9/13", "9/13（週日）"): the weekday decides which timetable runs, and an
  * ISO string is a format for machines. The date is a calendar day, so it is

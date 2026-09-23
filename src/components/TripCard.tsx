@@ -14,7 +14,7 @@ import { countryThemes } from "../data/countries";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel, stationListLabel } from "../utils/stationLabel";
 import { formatPlatform } from "./TransitIcon";
-import { formatDuration, tripCardMotion } from "./ResultShell";
+import { displayClock, formatDuration, tripCardMotion } from "./ResultShell";
 import { RouteBand, bandLegs, tightestWait } from "./RouteBand";
 import { TripDetails } from "./TripDetails";
 import { transferPressure } from "../utils/journeyLegs";
@@ -156,6 +156,20 @@ export function TripCard({
     </button>
   );
 
+  const departureClock = displayClock(trip.departureTime);
+  const arrivalClock = displayClock(trip.arrivalTime, trip.departureTime, trip.durationMinutes);
+  const clock = (value: ReturnType<typeof displayClock>) => value ? (
+    <>
+      {value.text}
+      {value.dayOffset > 0 ? (
+        <>
+          <sup className="m3-label-small ml-0.5 font-sans font-medium text-slate-500 dark:text-slate-400" aria-hidden="true">+{value.dayOffset}</sup>
+          <span className="sr-only">{t("result.next_day")}</span>
+        </>
+      ) : null}
+    </>
+  ) : "--:--";
+
   const badge = (label: string, className: string) => (
     <span className={`m3-label-small m3-shape-xs shrink-0 whitespace-nowrap px-1.5 py-0.5 ${className}`}>{label}</span>
   );
@@ -199,10 +213,10 @@ export function TripCard({
 
         {/* Line 2: the times never shrink; the band takes whatever is left. */}
         <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-end gap-3">
-          <p className="m3-headline-small shrink-0 whitespace-nowrap font-mono font-bold tabular-nums leading-none text-slate-950 dark:text-white">{trip.departureTime}</p>
+          <p className="m3-headline-small shrink-0 whitespace-nowrap font-mono font-bold tabular-nums leading-none text-slate-950 dark:text-white">{clock(departureClock)}</p>
           {lineNames ? <span className="sr-only">{lineNames}</span> : null}
           <RouteBand trip={trip} caption={lineNames || undefined} className="pb-[9px]" />
-          <p className="m3-headline-small shrink-0 whitespace-nowrap text-right font-mono font-bold tabular-nums leading-none text-slate-950 dark:text-white">{trip.arrivalTime || "--:--"}</p>
+          <p className="m3-headline-small shrink-0 whitespace-nowrap text-right font-mono font-bold tabular-nums leading-none text-slate-950 dark:text-white">{clock(arrivalClock)}</p>
         </div>
 
         {/* Line 3: duration (never broken), then the composition, which may wrap to
