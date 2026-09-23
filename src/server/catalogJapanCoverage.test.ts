@@ -48,12 +48,17 @@ describe("Japanese catalog coverage", () => {
     // One search per station is CPU-bound for tens of seconds; yield to the
     // event loop every few names so the worker keeps answering the runner
     // (a fully blocked worker times out its own reports back to Vitest).
+    // Search answers a row only in the direction it runs, so a terminus served
+    // one way (Kyoto, until Kyoto → Tokyo is scraped) is answerable as a
+    // destination and not as an origin. Both are a search through it; the
+    // destination map, not this list, says where an origin leads.
+    const searchable = (from: string, to: string) => Boolean(findInRoutes(routes, from, to, catalogDate, "japan")?.length);
     const answerable: string[] = [];
     for (const [index, station] of suggestions.entries()) {
       if (index % 8 === 0) await new Promise((resolve) => setTimeout(resolve, 0));
-      const found = [...partnersFor(station), ...suggestions].some((other) => (
-        other !== station && Boolean(findInRoutes(routes, station, other, catalogDate, "japan")?.length)
-      ));
+      const others = [...partnersFor(station), ...suggestions].filter((other) => other !== station);
+      const found = others.some((other) => searchable(station, other))
+        || others.some((other) => searchable(other, station));
       if (found) answerable.push(station);
     }
     expect(suggestions).toEqual(answerable);
