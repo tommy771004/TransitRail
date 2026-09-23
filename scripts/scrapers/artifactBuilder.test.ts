@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { ScrapeRunReport } from "./base";
-import { scrapeSuccessRate } from "./artifactBuilder";
+import { carriedFailures, scrapeSuccessRate } from "./artifactBuilder";
 
 const report: ScrapeRunReport = {
   country: "belgium",
@@ -32,5 +32,20 @@ describe("scrape metadata", () => {
 
   it("calculates a rate when a run report exists", () => {
     expect(scrapeSuccessRate(report)).toBe(0.5);
+  });
+});
+
+describe("carriedFailures", () => {
+  const failures = [
+    { origin: "A", destination: "B", error: "timeout" },
+    { origin: "C", destination: "D", error: "404" },
+  ];
+
+  it("keeps a failure until its route has a file", () => {
+    expect(carriedFailures(failures, [{ origin: "A", destination: "B" }])).toEqual([failures[1]]);
+  });
+
+  it("carries nothing when no metadata was committed", () => {
+    expect(carriedFailures(undefined, [])).toEqual([]);
   });
 });
