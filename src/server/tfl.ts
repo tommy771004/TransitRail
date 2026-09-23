@@ -40,8 +40,8 @@ interface TflLeg {
   departureTime?: string;
   arrivalTime?: string;
   mode?: { name?: string };
-  departurePoint?: { commonName?: string; lat?: number; lon?: number };
-  arrivalPoint?: { commonName?: string; lat?: number; lon?: number };
+  departurePoint?: { commonName?: string; naptanId?: string; lat?: number; lon?: number };
+  arrivalPoint?: { commonName?: string; naptanId?: string; lat?: number; lon?: number };
   instruction?: { summary?: string; detailed?: string };
   routeOptions?: Array<{
     lineIdentifier?: { id?: string; name?: string };
@@ -708,11 +708,21 @@ function fetchServiceDayBounds(
   return value;
 }
 
-/** The line a journey actually runs on, which is the line whose timetable bounds it. */
-function primaryLineId(journey: TflJourney | undefined) {
+/**
+ * The line a journey actually runs on, and the stops it boards and leaves at —
+ * together, the timetable that bounds it.
+ *
+ * The stops have to be the leg's own. A searched station resolves to its Tube
+ * stop, but the journey can board another line at a different platform id:
+ * Paddington → Liverpool Street rides the Elizabeth line from 910GPADTLL, and
+ * Heathrow → Oxford Circus leaves it at Tottenham Court Road. Asking
+ * `/Line/elizabeth/Timetable` for the Tube ids got HTTP 500 on every sample of
+ * every date, so those routes never had service-day bounds.
+ */
+function primaryLeg(journey: TflJourney | undefined) {
   for (const leg of publicTransportLegs(journey?.legs || [])) {
-    const id = leg.routeOptions?.[0]?.lineIdentifier?.id;
-    if (id) return id;
+    const lineId = leg.routeOptions?.[0]?.lineIdentifier?.id;
+    if (lineId) return { lineId, fromId: leg.departurePoint?.naptanId, toId: leg.arrivalPoint?.naptanId };
   }
   return undefined;
 }
@@ -768,17 +778,19 @@ export async function searchTflJourney(
     // asked for once the journey has named the line it runs on. A sweep's eleven
     // samples still share one fetch: the memo below is keyed by line and pair,
     // which is exactly what does not vary with the time being sampled.
-    const lineId = primaryLineId(data.journeys?.[0]);
+    const leg = primaryLeg(data.journeys?.[0]);
     const sampledTime = `${tflTime.slice(0, 2)}:${tflTime.slice(2)}`;
     let serviceDayAdvisory: ServiceDayAdvisory;
     try {
-      const bounds = lineId
+      const fromId = leg?.fromId ?? resolvedOrigin.id;
+      const toId = leg?.toId ?? resolvedDestination.id;
+      const bounds = leg
         ? await fetchServiceDayBounds(
-          lineId,
-          resolvedOrigin.id,
-          resolvedDestination.id,
+          leg.lineId,
+          fromId,
+          toId,
           date,
-          `${lineId}:${serviceDayCacheKey}`,
+          `${leg.lineId}:${fromId}->${toId}:${serviceDayCacheKey}`,
           requestContext,
         )
         : null;
