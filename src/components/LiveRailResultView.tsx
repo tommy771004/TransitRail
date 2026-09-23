@@ -70,7 +70,7 @@ export function LiveRailResultView({
   const country: Country = isBoston ? "united_states" : isSwiss ? "switzerland" : isBelgium ? "belgium" : isNorway ? "norway" : "united_kingdom";
 
   return (
-    <main className="min-h-screen bg-transparent pb-nav pt-16">
+    <main className="min-h-screen bg-transparent pb-nav">
       <ResultShellHeader
         country={country}
         origin={origin}

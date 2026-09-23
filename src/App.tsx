@@ -1945,7 +1945,7 @@ export default function App() {
   };
 
   return (
-    <div data-country={activeCountry} className="country-shell min-h-screen relative isolate overflow-x-hidden font-sans text-slate-900 selection:bg-slate-300 transition-colors duration-500 dark:text-slate-100 dark:selection:bg-slate-700">
+    <div data-country={activeCountry} className="country-shell min-h-screen relative isolate overflow-x-clip font-sans text-slate-900 selection:bg-slate-300 transition-colors duration-500 dark:text-slate-100 dark:selection:bg-slate-700">
 
       <Header 
         onMenuOpen={() => setMenuOpen(true)} 
@@ -1964,7 +1964,7 @@ export default function App() {
           className="w-full flex-1 flex flex-col"
         >
           {view === "results" ? (
-            <div className={isSearching ? undefined : "pt-16"}>
+            <div className="pt-16">
               {!isSearching && serviceDayAdvisory ? <ServiceDayAdvisoryNotice advisory={serviceDayAdvisory} /> : null}
               {renderView()}
               <AffiliateMarquee />

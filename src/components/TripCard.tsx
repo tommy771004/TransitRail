@@ -164,7 +164,7 @@ export function TripCard({
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls={panelId}
-        className="m3-state block w-full min-w-0 px-4 pb-3 pt-3 text-left text-slate-900 dark:text-white"
+        className="m3-state block w-full min-w-0 scroll-mt-10 px-4 pb-3 pt-3 text-left text-slate-900 dark:text-white"
       >
         {/* Line 1: badges (may truncate) · duration and fare (never wrap) · chevron. */}
         <div className="flex min-h-6 min-w-0 items-center gap-1.5">

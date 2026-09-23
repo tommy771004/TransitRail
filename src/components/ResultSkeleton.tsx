@@ -15,7 +15,7 @@ interface ResultSkeletonProps {
 export function ResultSkeleton({ country, origin, destination, date, time, onModify }: ResultSkeletonProps) {
   const { t } = useTranslation();
   return (
-    <main className="min-h-screen bg-transparent pb-nav pt-16">
+    <main className="min-h-screen bg-transparent pb-nav">
       <ResultShellHeader
         country={country}
         origin={origin}

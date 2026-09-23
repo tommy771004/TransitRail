@@ -44,6 +44,13 @@ try {
           <TripDetails trip={trip} open={detailsOpen} onOpenChange={setDetailsOpen} formatPrice={t => converted ? 'NT$' + t.price / 0.25 : 'HK$' + t.price} />
         </main>;
       }
+      if (new URLSearchParams(location.search).has('sticky')) {
+        // The result list inside the same clipped shell App.tsx renders, long enough to scroll.
+        const trips = Array.from({ length: 30 }, (_, i) => ({ id: 'sticky-' + i, country: 'hong_kong', operator: 'MTR', service: 'TWL', origin: 'Central', destination: 'Jordan', departureTime: '10:' + String(i).padStart(2, '0'), arrivalTime: '10:' + String(i + 12).padStart(2, '0'), durationMinutes: 12, direct: true, stops: [] }));
+        return <div className="country-shell relative isolate min-h-screen overflow-x-clip"><div className="pt-16">
+          <MetroResultView country="hong_kong" origin="Central" destination="Jordan" date="2026-09-13" results={trips} sortMode="earliest" onSortChange={() => {}} savedIds={new Set()} onModify={() => {}} onSave={() => {}} />
+        </div></div>;
+      }
       if (new URLSearchParams(location.search).has('metro')) {
         const trip = { id: 'metro', country: 'hong_kong', operator: 'MTR', service: 'TWL', origin: 'Central', destination: 'Jordan', departureTime: '10:00', direct: true, stops: [] };
         return <MetroResultView country="hong_kong" origin="Central" destination="Jordan" date="2026-09-13" results={[trip]} savedIds={new Set()} onModify={() => {}} onSave={() => {}} />;
@@ -253,6 +260,27 @@ try {
     await sheet.waitFor({ state: "hidden" });
     if (await intermediate.isVisible()) throw new Error("Metro stops remain visible after closing the trip sheet");
     if (!(await card.evaluate(element => element === document.activeElement))) throw new Error("Trip sheet did not restore focus to its card");
+    await page.close();
+  }
+
+  {
+    // The sort bar must stay pinned under the 64px app bar once the list scrolls.
+    // An overflow-x-hidden shell turns itself into the scroll container and the
+    // bar scrolls away with the cards; overflow-x-clip keeps the window scrolling.
+    const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
+    await page.route("**/*", route => {
+      const url = new URL(route.request().url());
+      if (url.origin !== base) return route.abort();
+      if (url.pathname.startsWith("/api/")) return route.fulfill({ json: {} });
+      return route.continue();
+    });
+    await page.goto(`${base}/${relative(resolve(), dir)}/index.html?sticky=1`);
+    const sort = page.getByRole("group", { name: "Sort" });
+    await sort.waitFor();
+    await page.evaluate(() => window.scrollTo(0, 600));
+    await page.waitForFunction(() => window.scrollY >= 600);
+    const pinned = await sort.evaluate(element => Math.round(element.closest(".sticky")!.getBoundingClientRect().top));
+    if (pinned !== 64) throw new Error(`Sort bar scrolled away (top ${pinned}px, expected 64px)`);
     await page.close();
   }
 
