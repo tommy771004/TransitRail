@@ -33,6 +33,8 @@ interface JapanResultViewProps {
   onSelectSeat: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
+  formatRowPrice?: (trip: TransitResult) => string | null;
+  allDepartedAction?: ReactNode;
   overview?: ReactNode;
   afterResults?: ReactNode;
   /** Injectable wall clock for the countdown; tests pin it. */
@@ -61,6 +63,8 @@ export function JapanResultView({
   onSelectSeat,
   onOpenLegend,
   formatPrice,
+  formatRowPrice,
+  allDepartedAction,
   overview,
   afterResults,
   now,
@@ -68,7 +72,7 @@ export function JapanResultView({
   const { t } = useTranslation();
 
   return (
-    <main className="min-h-screen bg-transparent pb-nav pt-16">
+    <main className="min-h-screen bg-transparent pb-nav">
       <ResultShellHeader
         country={country}
         origin={origin}
@@ -104,6 +108,8 @@ export function JapanResultView({
         onSave={onSave}
         onOpenLegend={onOpenLegend}
         formatPrice={formatPrice}
+        formatRowPrice={formatRowPrice}
+        allDepartedAction={allDepartedAction}
         afterResults={afterResults}
         card={(trip) => ({
           primaryAction: (
@@ -113,7 +119,7 @@ export function JapanResultView({
                 triggerHaptic("medium");
                 onSelectSeat(trip);
               }}
-              className="m3-button m3-button-small m3-state shrink-0 gap-1 bg-emerald-600 text-white"
+              className="m3-button m3-button-small m3-state shrink-0 gap-1 bg-emerald-700 text-white"
             >
               {t("result.select_seat")}
               <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />

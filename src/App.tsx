@@ -347,7 +347,7 @@ export default function App() {
   const [coverageGap, setCoverageGap] = useState<CoverageGap | undefined>();
   const [officialSourceUrl, setOfficialSourceUrl] = useState<string | undefined>();
   const [isSearching, setIsSearching] = useState(false);
-  const [sortMode, setSortMode] = useState<SortMode>("fastest");
+  const [sortMode, setSortMode] = useState<SortMode>("earliest");
   const inFlightSearch = useRef<{ query: string; controller: AbortController } | undefined>(undefined);
   const [koreaFilter, setKoreaFilter] = useState<KoreaFilter>("all");
   const [history, setHistory] = useState<SearchHistoryItem[]>(() => loadJson("transitrail.history", []));
@@ -861,6 +861,11 @@ export default function App() {
   const formatTripPrice = (trip: TransitResult) =>
     formatConvertedPrice(trip.price, trip.currency);
 
+  // "¥14,720 (~NT$3,081)" is about 170px: on every row it crowds out the
+  // badges, so rows show the native fare and the shared line and sheet keep both.
+  const formatRowPrice = (trip: TransitResult) =>
+    priceDisplayMode === "both" ? formatPriceForTrip(trip.price, trip.currency) : formatTripPrice(trip);
+
   /**
    * Store a transit fact the passenger can come back to. Everything else is a
    * snackbar: the notifications page answers "what changed about my journeys",
@@ -919,7 +924,8 @@ export default function App() {
     const stale = () => controller.signal.aborted;
     setSearchParams(params);
     setDraftSearch(params);
-    setSortMode(params.timeMode === "all_day" ? "fastest" : "earliest");
+    // Every search opens in departure order; shortest and cheapest are opt-in re-sorts.
+    setSortMode("earliest");
     setKoreaFilter("all");
     setIsSearching(true);
     setView("results");
@@ -1549,6 +1555,7 @@ export default function App() {
               setView("legend");
             }}
             formatPrice={formatTripPrice}
+            formatRowPrice={formatRowPrice}
             overview={routeOverview}
           />
         );
@@ -1944,7 +1951,7 @@ export default function App() {
   };
 
   return (
-    <div data-country={activeCountry} className="country-shell min-h-screen relative isolate overflow-x-hidden font-sans text-slate-900 selection:bg-slate-300 transition-colors duration-500 dark:text-slate-100 dark:selection:bg-slate-700">
+    <div data-country={activeCountry} className="country-shell min-h-screen relative isolate overflow-x-clip font-sans text-slate-900 selection:bg-slate-300 transition-colors duration-500 dark:text-slate-100 dark:selection:bg-slate-700">
 
       <Header 
         onMenuOpen={() => setMenuOpen(true)} 
@@ -1963,7 +1970,7 @@ export default function App() {
           className="w-full flex-1 flex flex-col"
         >
           {view === "results" ? (
-            <div className={isSearching ? undefined : "pt-16"}>
+            <div className="pt-16">
               {!isSearching && serviceDayAdvisory ? <ServiceDayAdvisoryNotice advisory={serviceDayAdvisory} /> : null}
               {renderView()}
               <AffiliateMarquee />

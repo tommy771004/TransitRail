@@ -6,7 +6,7 @@
 
 import { hasDisplayableFare } from "@/src/utils/fare";
 import { ChevronDown } from "lucide-react";
-import { Fragment, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "motion/react";
 import type { Country, CoverageGap, NoResultReason, SearchFailureKind, SortMode, TransitResult } from "../types";
@@ -113,8 +113,17 @@ export interface ResultListProps {
   onSave: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
+  /**
+   * The fare as a row shows it. Rows carry only the native fare when the
+   * passenger shows both currencies; the shared line and the sheet keep both.
+   */
+  formatRowPrice?: (trip: TransitResult) => string | null;
   /** Market controls that share the sticky bar with the sort chips. */
   toolbar?: ReactNode;
+  /** Market filter chips on the sort row itself, after a divider (Korea's direct / first class). */
+  filters?: ReactNode;
+  /** A way forward once every listed departure has left (the following day's search). */
+  allDepartedAction?: ReactNode;
   /** A notice above the first card (Metro's transfer hint). */
   beforeList?: ReactNode;
   afterResults?: ReactNode;
@@ -146,7 +155,10 @@ export function ResultList({
   onSave,
   onOpenLegend,
   formatPrice,
+  formatRowPrice,
   toolbar,
+  filters,
+  allDepartedAction,
   beforeList,
   afterResults,
   card,
@@ -154,12 +166,55 @@ export function ResultList({
 }: ResultListProps) {
   const { t } = useTranslation();
   const [showPast, setShowPast] = useState(false);
+  const nowRef = useRef(now);
+  nowRef.current = now;
+  const [, setTick] = useState(0);
+
+  // The countdowns follow the wall clock: one re-render on each minute
+  // boundary, paused while the page is hidden.
+  useEffect(() => {
+    if (!date) return;
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    let interval: ReturnType<typeof setInterval> | undefined;
+    const stop = () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    };
+    const start = () => {
+      stop();
+      timeout = setTimeout(() => {
+        setTick((value) => value + 1);
+        interval = setInterval(() => setTick((value) => value + 1), 60_000);
+      }, 60_000 - (nowRef.current().getTime() % 60_000));
+    };
+    const onVisibility = () => {
+      if (document.hidden) {
+        stop();
+      } else {
+        setTick((value) => value + 1);
+        start();
+      }
+    };
+    start();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [date]);
 
   // "Departs in N min" and the departed fold are only honest against the
   // market's wall clock on the searched day; any other day gets neither, and
-  // the searched time merely picks which departure counts as next.
-  const clock = date ? marketClock(country, now()) : null;
-  const reference = clock && clock.date === date ? clock.minutes : null;
+  // the searched time merely picks which departure counts as next. Which rows
+  // count as departed is read once per result set, so a card never leaves the
+  // list under the reader's finger; only the countdown text keeps moving.
+  const listClock = useMemo(
+    () => (date ? marketClock(country, nowRef.current()) : null),
+    [country, date, results],
+  );
+  const reference = listClock && listClock.date === date ? listClock.minutes : null;
+  const liveClock = date ? marketClock(country, now()) : null;
+  const liveReference = liveClock && liveClock.date === date ? liveClock.minutes : null;
   const searched = reference ?? minutesOf(time);
   const departure = (trip: TransitResult) => minutesOf(trip.departureTime);
   const isPast = (trip: TransitResult) => {
@@ -189,16 +244,70 @@ export function ResultList({
     if (dep === null) return best;
     const bestDep = best ? departure(best) : null;
     return bestDep === null || dep < bestDep ? trip : best;
-  }, undefined)?.id ?? upcoming[0]?.id ?? results[0]?.id;
+  }, undefined)?.id ?? upcoming[0]?.id;
+  // No fallback to a row before the searched time: with the fold open, a
+  // departed train must never carry the Next badge.
 
   const departed = results.filter(isPast);
   const visible = showPast ? results : results.filter((trip) => !isPast(trip));
+  // Late at night the list could be nothing but the fold line. Say what that
+  // means instead: the verified departures shown have left. Never "no service"
+  // or "last train", which only a full timetable could claim.
+  const allDeparted = !showPast && departed.length > 0 && visible.length === 0;
+  const lastShown = departed.reduce<TransitResult | undefined>((latest, trip) => {
+    const dep = departure(trip);
+    const latestDep = latest ? departure(latest) : null;
+    return dep !== null && (latestDep === null || dep > latestDep) ? trip : latest;
+  }, undefined);
 
-  const hasFare = fares.length > 0;
+  // A long day in departure order gets an hour heading before the first
+  // verified row of each hour. Headings come only from rows: an hour without
+  // one gets no heading and no "no trains" claim, since a gap means no
+  // verified row, not no service.
+  const hourIdPrefix = useId();
+  const hourOf = (trip: TransitResult) => {
+    const dep = departure(trip);
+    return dep === null ? null : Math.floor(dep / 60);
+  };
+  const groupByHour = (sortMode ?? "earliest") === "earliest" && visible.length > 20;
+  const hourId = (hour: number) => `${hourIdPrefix}-hour-${hour}`;
+  // Past two dozen rows, the sort row also offers a jump to each hour that has
+  // one; plain anchors, no scroll observers.
+  const railHours = groupByHour && visible.length > 24
+    ? [...new Set(visible.map(hourOf).filter((hour): hour is number => hour !== null))]
+    : [];
+  const jumpToHour = (hour: number) => {
+    const heading = document.getElementById(hourId(hour));
+    if (!heading) return;
+    triggerHaptic("light");
+    heading.scrollIntoView({ block: "start" });
+    heading.focus({ preventScroll: true });
+  };
+
+  // A secondary sort only earns a chip when pressing it could move a row. A
+  // timed search is always in departure order first, so there the chip can only
+  // reorder departures that share a minute; an all-day list reorders whenever
+  // the values differ at all. Earliest and the pressed chip always stay.
+  const canReorder = (value: (trip: TransitResult) => number | undefined) => {
+    const groups = new Map<string, Set<number>>();
+    for (const trip of results) {
+      const key = time ? String(departure(trip)) : "day";
+      const measured = value(trip);
+      if (measured === undefined) continue;
+      const seen = groups.get(key) ?? new Set<number>();
+      seen.add(measured);
+      groups.set(key, seen);
+    }
+    return [...groups.values()].some((seen) => seen.size > 1);
+  };
   const sortChips: Array<{ mode: SortMode; label: string }> = [
     { mode: "earliest", label: t("result.earliest") },
-    { mode: "fastest", label: t(time ? "journey.secondary_fastest" : "result.fastest") },
-    ...(hasFare ? [{ mode: "cheapest" as const, label: t(time ? "journey.secondary_cheapest" : "result.cheapest") }] : []),
+    ...(sortMode === "fastest" || canReorder((trip) => trip.durationMinutes)
+      ? [{ mode: "fastest" as const, label: t(time ? "journey.secondary_fastest" : "result.fastest") }]
+      : []),
+    ...(sortMode === "cheapest" || canReorder((trip) => (hasDisplayableFare(trip) ? trip.price : undefined))
+      ? [{ mode: "cheapest" as const, label: t(time ? "journey.secondary_cheapest" : "result.cheapest") }]
+      : []),
   ];
   const showSort = Boolean(sortMode && onSortChange) && !error && results.length > 0;
 
@@ -206,14 +315,11 @@ export function ResultList({
     <>
       {(showSort || (toolbar && !error && results.length > 0)) && (
         <div className="sticky top-16 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-sm dark:border-slate-700/50 dark:bg-slate-900/95">
-          <div className="mx-auto max-w-md min-w-0">
+          <div className="mx-auto max-w-md min-w-0 lg:max-w-5xl">
             {toolbar}
             {showSort && (
-              <div
-                role="group"
-                aria-label={t("result.sort_by")}
-                className="no-scrollbar flex min-w-0 gap-2 overflow-x-auto px-4 py-2.5"
-              >
+              <div className="no-scrollbar flex min-w-0 items-center gap-2 overflow-x-auto px-4 py-2.5">
+              <div role="group" aria-label={t("result.sort_by")} className="flex shrink-0 gap-2">
                 {sortChips.map((chip) => (
                   <button
                     key={chip.mode}
@@ -233,12 +339,39 @@ export function ResultList({
                   </button>
                 ))}
               </div>
+              {filters ? (
+                <>
+                  <span aria-hidden="true" className="h-6 w-px shrink-0 bg-slate-300 dark:bg-slate-600" />
+                  {filters}
+                </>
+              ) : null}
+              {railHours.length > 1 ? (
+                <>
+                  <span aria-hidden="true" className="h-6 w-px shrink-0 bg-slate-300 dark:bg-slate-600" />
+                  <nav aria-label={t("result.jump_to_hour")} className="flex shrink-0 gap-2">
+                    {railHours.map((hour) => (
+                      <button
+                        key={hour}
+                        type="button"
+                        onClick={() => jumpToHour(hour)}
+                        className="m3-chip m3-state m3-shape-sm shrink-0 border border-slate-300 px-3 tabular-nums text-slate-700 dark:border-slate-600 dark:text-slate-300"
+                      >
+                        {t("result.hour_heading", { hour: String(hour).padStart(2, "0") })}
+                      </button>
+                    ))}
+                  </nav>
+                </>
+              ) : null}
+              </div>
             )}
           </div>
         </div>
       )}
 
-      <section className="mx-auto max-w-md min-w-0 space-y-3 px-4 py-4">
+      {/* One column on phones and tablets; from lg the same cards take a 40rem
+          column and the supplementary blocks a sticky aside. Only containers
+          change: the aside follows every card in the DOM. */}
+      <section className="mx-auto max-w-md min-w-0 space-y-3 px-4 py-4 lg:grid lg:max-w-5xl lg:grid-cols-[minmax(0,40rem)_minmax(18rem,22rem)] lg:items-start lg:gap-8 lg:space-y-0">
         <AnimatePresence mode="popLayout">
           {error ? (
             renderMissBlock({
@@ -264,13 +397,31 @@ export function ResultList({
               className="min-w-0 space-y-3"
             >
               {beforeList}
-              {sharedFare && (
+              {sharedFare && !allDeparted && (
                 <p className="m3-body-small flex min-w-0 items-baseline justify-between gap-3 px-1 text-slate-500 dark:text-slate-400">
                   <span className="truncate">{t("result.fare_all")}</span>
                   <span className="m3-label-large shrink-0 tabular-nums text-slate-900 dark:text-white">{sharedFare}</span>
                 </p>
               )}
-              {departed.length > 0 && !showPast && (
+              {allDeparted ? (
+                <div role="status" className="m3-card m3-card-large m3-elevation-1 bg-white p-4 dark:bg-slate-900">
+                  <p className="m3-title-medium text-slate-900 dark:text-white">{t("result.all_departed_title")}</p>
+                  <p className="m3-body-medium mt-1 text-slate-600 dark:text-slate-300">
+                    {t("result.all_departed_body", { count: departed.length, time: lastShown?.departureTime ?? "--:--" })}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setShowPast(true)}
+                      className="m3-button m3-state border border-slate-300 text-slate-700 dark:border-slate-700 dark:text-slate-200"
+                    >
+                      {t("result.show_departed")}
+                    </button>
+                    {allDepartedAction}
+                  </div>
+                </div>
+              ) : null}
+              {departed.length > 0 && !showPast && !allDeparted && (
                 <button
                   type="button"
                   onClick={() => setShowPast(true)}
@@ -287,8 +438,20 @@ export function ResultList({
                 {visible.map((trip, index) => {
                   const dep = departure(trip);
                   const extras = card?.(trip) ?? {};
+                  const hour = groupByHour ? hourOf(trip) : null;
+                  const startsHour = hour !== null && (index === 0 || hourOf(visible[index - 1]) !== hour);
                   return (
                     <Fragment key={trip.id}>
+                      {startsHour && hour !== null ? (
+                        <h2
+                          id={hourId(hour)}
+                          tabIndex={-1}
+                          className="m3-label-large flex scroll-mt-32 items-center gap-2 px-1 pt-1 tabular-nums text-slate-600 outline-none dark:text-slate-300"
+                        >
+                          <span className="shrink-0 whitespace-nowrap">{t("result.hour_heading", { hour: String(hour).padStart(2, "0") })}</span>
+                          <span aria-hidden="true" className="h-px flex-1 bg-slate-200 dark:bg-slate-800" />
+                        </h2>
+                      ) : null}
                       <TripCard
                         trip={trip}
                         country={country}
@@ -297,18 +460,17 @@ export function ResultList({
                         onSave={() => onSave(trip)}
                         onOpenLegend={onOpenLegend}
                         formatPrice={formatPrice}
-                        fare={fareOnRows ? formatFare(trip, formatPrice) : null}
+                        fare={fareOnRows ? formatFare(trip, formatRowPrice ?? formatPrice) : null}
                         tags={{
                           next: trip.id === nextId,
                           fastest: fastest !== undefined && trip.durationMinutes === fastest,
                           cheapest: cheapest !== undefined && hasDisplayableFare(trip) && trip.price === cheapest,
                         }}
-                        minutesUntil={reference !== null && dep !== null ? dep - reference : undefined}
+                        minutesUntil={liveReference !== null && dep !== null ? dep - liveReference : undefined}
                         past={isPast(trip)}
                         withExit={withExit}
                         {...extras}
                       />
-                      {index === visible.length - 1 ? afterResults : null}
                     </Fragment>
                   );
                 })}
@@ -316,6 +478,9 @@ export function ResultList({
             </motion.div>
           )}
         </AnimatePresence>
+        {!error && results.length > 0 && afterResults ? (
+          <aside className="min-w-0 space-y-3 lg:sticky lg:top-36">{afterResults}</aside>
+        ) : null}
       </section>
     </>
   );

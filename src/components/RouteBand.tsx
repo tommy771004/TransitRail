@@ -16,6 +16,22 @@ export interface BandLeg {
   waitMinutes?: number;
 }
 
+const isWalk = (leg: JourneyLeg) => /^(foot|walk|walking)$/i.test(leg.mode ?? "");
+
+/**
+ * The rides of a multi-leg journey: every leg but the walks between them.
+ *
+ * Entur files each walk (platform to platform, station to airport) as its
+ * own leg named "foot". Those are not rides: counted as rides they turned the
+ * band into confetti and made every walk a "change" with a zero-minute wait.
+ * The time a walk takes stays inside the gap between the rides around it.
+ */
+export function rideLegs(trip: TransitResult): JourneyLeg[] | undefined {
+  if (trip.direct !== false || !trip.legs || trip.legs.length < 2) return undefined;
+  const rides = trip.legs.filter((leg) => !isWalk(leg));
+  return rides.length > 0 ? rides : trip.legs;
+}
+
 /**
  * The rides of one journey, in band form.
  *
@@ -25,7 +41,15 @@ export interface BandLeg {
  * than shrinking to a sliver the band would misrepresent.
  */
 export function bandLegs(trip: TransitResult): BandLeg[] {
-  const legs = trip.direct === false && trip.legs && trip.legs.length > 1 ? trip.legs : undefined;
+  const rides = rideLegs(trip);
+  const legs = rides && rides.length > 1 ? rides : undefined;
+  if (rides?.length === 1) {
+    return [{
+      name: rides[0].lineName,
+      color: getLegColor(rides[0], trip.lineColor),
+      minutes: Math.max(trip.durationMinutes ?? 1, 1),
+    }];
+  }
   if (!legs) {
     return [{
       name: trip.service || trip.trainType || "",
@@ -33,7 +57,7 @@ export function bandLegs(trip: TransitResult): BandLeg[] {
       minutes: Math.max(trip.durationMinutes ?? 1, 1),
     }];
   }
-  const rides = legs.map((leg, index) => {
+  const timed = legs.map((leg, index) => {
     const next = legs[index + 1];
     const start = minutesOf(leg.departureTime);
     const end = minutesOf(leg.arrivalTime);
@@ -42,12 +66,12 @@ export function bandLegs(trip: TransitResult): BandLeg[] {
     const wait = next && end !== null && nextStart !== null && nextStart >= end ? nextStart - end : undefined;
     return { leg, ride, wait: next ? wait : undefined };
   });
-  const known = rides.map((ride) => ride.ride).filter((minutes): minutes is number => typeof minutes === "number" && minutes > 0);
+  const known = timed.map((ride) => ride.ride).filter((minutes): minutes is number => typeof minutes === "number" && minutes > 0);
   const total = trip.durationMinutes && trip.durationMinutes > 0 ? trip.durationMinutes : undefined;
   const fallback = known.length > 0
     ? known.reduce((sum, minutes) => sum + minutes, 0) / known.length
     : total ? total / legs.length : 1;
-  return rides.map(({ leg, ride, wait }) => ({
+  return timed.map(({ leg, ride, wait }) => ({
     name: leg.lineName,
     color: getLegColor(leg, trip.lineColor),
     minutes: Math.max(ride && ride > 0 ? ride : fallback, 1),
@@ -72,10 +96,19 @@ interface RouteBandProps {
   trip: TransitResult;
   /** Line names sit above the track; the compact form drops them. */
   compact?: boolean;
+  /**
+   * One readable line in place of the proportional labels: the card names its
+   * train here ("Nozomi 135", "Piccadilly → Bakerloo"). It wraps to two lines
+   * rather than losing the train number.
+   */
+  caption?: string;
   className?: string;
 }
 
 /**
+ * Labels are slate text; the line colour lives on the track, where a pale line
+ * (Ginza orange, a light TfL line) no longer has to carry legible text.
+ *
  * Segment widths are minutes over the journey total, so a 2-minute Bakerloo
  * hop after a 46-minute Piccadilly ride reads as the sliver it is. A segment
  * under 16% hides its label rather than clipping it; the card's composition
@@ -83,22 +116,24 @@ interface RouteBandProps {
  * assistive technology. Everything here is `min-w-0` so the band can never
  * push the arrival time off the card.
  */
-export function RouteBand({ trip, compact = false, className = "" }: RouteBandProps) {
+export function RouteBand({ trip, compact = false, caption, className = "" }: RouteBandProps) {
   const { t } = useTranslation();
   const legs = bandLegs(trip);
   const total = legs.reduce((sum, leg) => sum + leg.minutes, 0) || 1;
 
   return (
     <div className={`grid min-w-0 gap-1 ${className}`} data-route-band aria-hidden="true">
-      {!compact && (
+      {caption ? (
+        <span className="m3-title-small line-clamp-2 min-w-0 break-words leading-4 text-slate-900 dark:text-white">{caption}</span>
+      ) : !compact && (
         <div className="flex h-3.5 min-w-0">
           {legs.map((leg, index) => {
             const share = leg.minutes / total;
             return (
               <span key={`label-${index}`} className="contents">
                 <span
-                  className={`m3-label-small min-w-0 truncate pr-1.5 leading-[14px] text-[var(--lc)] dark:text-[color-mix(in_srgb,var(--lc)_52%,white)] ${share < 0.16 ? "invisible" : ""}`}
-                  style={{ flex: `${Math.max(share * 100, 3)} 1 0%`, "--lc": leg.color } as CSSProperties}
+                  className={`m3-label-small min-w-0 truncate pr-1.5 leading-[14px] text-slate-600 dark:text-slate-300 ${share < 0.16 ? "invisible" : ""}`}
+                  style={{ flex: `${Math.max(share * 100, 3)} 1 0%` }}
                 >
                   {leg.name}
                 </span>

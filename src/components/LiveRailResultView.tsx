@@ -6,7 +6,7 @@
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import type { Country, CoverageGap, NoResultReason, SearchFailureKind, SortMode, TransitResult } from "../types";
-import { ResultShellHeader } from "./ResultShell";
+import { ResultShellHeader, formatServiceDay } from "./ResultShell";
 import { ResultList } from "./ResultList";
 
 interface LiveRailResultViewProps {
@@ -30,6 +30,8 @@ interface LiveRailResultViewProps {
   onSave: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
+  formatRowPrice?: (trip: TransitResult) => string | null;
+  allDepartedAction?: ReactNode;
   overview?: ReactNode;
   afterResults?: ReactNode;
   /** Injectable wall clock for the countdown; tests pin it. */
@@ -57,11 +59,13 @@ export function LiveRailResultView({
   onSave,
   onOpenLegend,
   formatPrice,
+  formatRowPrice,
+  allDepartedAction,
   overview,
   afterResults,
   now,
 }: LiveRailResultViewProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isBoston = market === "boston";
   const isSwiss = market === "switzerland";
   const isBelgium = market === "belgium";
@@ -70,7 +74,7 @@ export function LiveRailResultView({
   const country: Country = isBoston ? "united_states" : isSwiss ? "switzerland" : isBelgium ? "belgium" : isNorway ? "norway" : "united_kingdom";
 
   return (
-    <main className="min-h-screen bg-transparent pb-nav pt-16">
+    <main className="min-h-screen bg-transparent pb-nav">
       <ResultShellHeader
         country={country}
         origin={origin}
@@ -83,7 +87,7 @@ export function LiveRailResultView({
               <span className={`h-2 w-2 rounded-full ${isSwiss ? "bg-rose-600" : "bg-emerald-600"}`} />
             </span>
             <span className="min-w-0 truncate">{t(`${copyKey}.official_data`, { defaultValue: isBelgium ? "Official iRail timetable data" : "Official timetable data" })}</span>
-            <span className="font-mono text-slate-400 dark:text-slate-500">{date}</span>
+            <span className="whitespace-nowrap text-slate-500 dark:text-slate-400">{formatServiceDay(date, i18n.language)}</span>
             {time ? <span className="font-mono text-slate-400 dark:text-slate-500">≥ {time}</span> : null}
             {isSwiss ? <span className="m3-chip m3-label-small m3-shape-full min-h-6 bg-rose-700 px-3 uppercase tracking-[0.18em] text-white dark:bg-rose-500 dark:text-slate-950">OJP 2.0</span> : null}
           </p>
@@ -118,6 +122,8 @@ export function LiveRailResultView({
         onSave={onSave}
         onOpenLegend={onOpenLegend}
         formatPrice={formatPrice}
+        formatRowPrice={formatRowPrice}
+        allDepartedAction={allDepartedAction}
         afterResults={afterResults}
       />
     </main>

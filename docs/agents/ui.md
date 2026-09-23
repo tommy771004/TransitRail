@@ -22,12 +22,24 @@ Every market renders departures through `src/components/ResultList.tsx` and
 market extras (seat preference, amenities, the Korea filter rail, the Metro headsign).
 Do not add a second card layout to a view. Tapping a card opens `TripDetails`, which is
 always a `TripSheet` (a portal on `<body>`, so a `layout`-animated card can never pin it);
-the card owns `open` / `onOpenChange`.
+the card owns `open` / `onOpenChange`. Save, map and the market's primary action live in the
+sheet; the next departure alone repeats the primary action in a slim row under its card.
+
+The card's first line is a status row: the next badge, a countdown on every departure within
+the hour (only when the searched day is today on the market clock), platform, live status,
+then duration and fare. It wraps rather than clips and is omitted when empty. A realtime flag
+without a provider status is neutral slate, never green, and a delay replaces the countdown.
 
 Layout invariants the card keeps, so nothing overlaps or leaves the card:
 
 - Times, duration, fare, badges and buttons are `shrink-0` / `whitespace-nowrap`; only
-  station text (`truncate` or `line-clamp-2`) gives way.
-- The route band sits in a `minmax(0,1fr)` column and hides a segment label under 16%.
+  station text (`truncate` or `line-clamp-2`) and the train caption on the card's band
+  (`line-clamp-2`, wrapping rather than truncating) give way.
+- The route band sits in a `minmax(0,1fr)` column. On the card it is captioned with the
+  ride names; in the sheet it keeps proportional labels and hides one under 16%. Label text
+  is slate; the line colour stays on the track.
 - The card is `overflow-hidden`; the sheet body scrolls inside `max-h-[85dvh]`.
+- From `lg` the list is a 40rem column beside a sticky aside for the supplementary blocks
+  (route overview). Only containers change there, and the aside stays after every card in
+  the DOM.
 

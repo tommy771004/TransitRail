@@ -6,7 +6,7 @@
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import type { Country, CoverageGap, NoResultReason, SearchFailureKind, SortMode, TransitResult } from "../types";
-import { ResultShellHeader } from "./ResultShell";
+import { ResultShellHeader, formatServiceDay } from "./ResultShell";
 import { ResultList } from "./ResultList";
 
 interface MetroResultViewProps {
@@ -30,6 +30,8 @@ interface MetroResultViewProps {
   onSave: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
+  formatRowPrice?: (trip: TransitResult) => string | null;
+  allDepartedAction?: ReactNode;
   overview?: ReactNode;
   afterResults?: ReactNode;
   /** Injectable wall clock for the countdown; tests pin it. */
@@ -57,22 +59,24 @@ export function MetroResultView({
   onSave,
   onOpenLegend,
   formatPrice,
+  formatRowPrice,
+  allDepartedAction,
   overview,
   afterResults,
   now,
 }: MetroResultViewProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const hasTransferResults = results.some((trip) => !trip.direct);
 
   return (
-    <main className="min-h-screen bg-transparent pb-nav pt-16">
+    <main className="min-h-screen bg-transparent pb-nav">
       <ResultShellHeader
         country={country}
         origin={origin}
         destination={destination}
         meta={
           <p className="m3-body-small mt-1 flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
-            <span className="font-mono">{date}</span>
+            <span className="whitespace-nowrap">{formatServiceDay(date, i18n.language)}</span>
             {time ? <span className="font-mono text-slate-400 dark:text-slate-500">≥ {time}</span> : null}
           </p>
         }
@@ -105,6 +109,8 @@ export function MetroResultView({
         onSave={onSave}
         onOpenLegend={onOpenLegend}
         formatPrice={formatPrice}
+        formatRowPrice={formatRowPrice}
+        allDepartedAction={allDepartedAction}
         beforeList={hasTransferResults ? (
           <p className="m3-card m3-body-small bg-slate-200/60 px-4 py-3 leading-relaxed text-slate-600 dark:bg-slate-800 dark:text-slate-400">
             {t("metro.transfer_hint")}

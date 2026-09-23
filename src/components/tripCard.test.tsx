@@ -111,6 +111,35 @@ describe("result card", () => {
     expect(html).not.toContain("Trip details &amp; timeline");
   });
 
+  it("heads a long day by hour, and offers a jump only to hours that have rows", () => {
+    const at10 = Array.from({ length: 15 }, (_, i) => ({ ...elizabeth, id: `ten-${i}`, departureTime: `10:${String(i * 2).padStart(2, "0")}`, arrivalTime: "13:30" }));
+    const at12 = Array.from({ length: 15 }, (_, i) => ({ ...elizabeth, id: `noon-${i}`, departureTime: `12:${String(i * 2).padStart(2, "0")}`, arrivalTime: "13:30" }));
+    const html = render({ results: [...at10, ...at12] });
+    expect(html.match(/id="[^"]*-hour-\d+"/g)).toHaveLength(2);
+    expect(html).toContain('aria-label="Jump to hour"');
+    // No row at 11, so no heading and no jump: a gap is not a claim about service.
+    expect(html).not.toContain("11:00");
+    // A short list needs neither.
+    expect(render()).not.toContain("-hour-");
+  });
+
+  it("counts down every departure within the hour, not only the next", () => {
+    const html = render({ now: at("10:00") });
+    expect(html).toContain("Departs in 6 min");
+    expect(html).toContain("Departs in 7 min");
+    // A delay replaces the countdown rather than contradicting it.
+    const late = render({ now: at("10:00"), results: [{ ...elizabeth, delayMinutes: 4 }] });
+    expect(late).toContain("+4");
+    expect(late).not.toContain("Departs in");
+  });
+
+  it("says when every listed departure has left and never badges a departed train as next", () => {
+    const html = render({ now: at("11:30") });
+    expect(html).toContain("Every listed departure has left");
+    expect(html).toContain("10:07.");
+    expect(html).not.toContain(">Next<");
+  });
+
   it("offers one sort rail for every market, hidden when there is nothing to sort", () => {
     for (const country of ["japan", "korea", "hong_kong", "united_kingdom"] as const) {
       const trip = { ...elizabeth, country };

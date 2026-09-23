@@ -21,7 +21,8 @@ import { MetroResultView } from "./MetroResultView";
 import { LiveRailResultView } from "./LiveRailResultView";
 import { MalaysiaCatalogView } from "./MalaysiaCatalogView";
 import { TransitAppSupplement } from "./TransitAppSupplement";
-import { countryConfig, providerDateValues } from "../data/countries";
+import { addDateValueDays, countryConfig, providerDateValues } from "../data/countries";
+import { formatServiceDay } from "./ResultShell";
 import { nearestAvailableDate, searchTimeMode } from "../utils/searchConditions";
 import { loadStationCatalog } from "../utils/catalogClient";
 
@@ -59,6 +60,7 @@ export type CountryResultsViewProps = {
   onSelectSeat: (trip: TransitResult) => void;
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
+  formatRowPrice?: (trip: TransitResult) => string | null;
   overview?: ReactNode;
   /** Injectable wall clock for the departure countdown; tests pin it. */
   now?: () => Date;
@@ -120,6 +122,16 @@ export function CountryResultsView(props: CountryResultsViewProps) {
       <button type="button" className="m3-button m3-state border border-slate-300 dark:border-slate-700" onClick={props.onResetFilters}>{t("journey.reset_filters")}</button>
     )}
   </>;
+  // Once every listed departure has left, the following day is the way on,
+  // offered only when the market's date window includes it.
+  const followingDay = addDateValueDays(props.date, 1);
+  const offersFollowingDay = !countryConfig[props.country].liveOnly
+    && providerDateValues(props.country, countryConfig[props.country].dateRangeDays, props.now?.()).includes(followingDay);
+  const allDepartedAction = offersFollowingDay && props.onRecover ? (
+    <button type="button" className="m3-button m3-state border border-slate-300 dark:border-slate-700" onClick={() => props.onRecover!({ date: followingDay, timeMode: mode === "now" ? "all_day" : mode })}>
+      {t("result.search_date", { date: formatServiceDay(followingDay) })}
+    </button>
+  ) : null;
   const deliveryNotice = <OfflineCacheNotice deliveryStatus={props.deliveryStatus} />;
   const resultAnnouncement = props.results.length > 0 ? (
     <p role="status" aria-live="polite" className="sr-only">
@@ -148,6 +160,8 @@ export function CountryResultsView(props: CountryResultsViewProps) {
     onSave: props.onSave,
     onOpenLegend: props.onOpenLegend,
     formatPrice: props.formatPrice,
+    formatRowPrice: props.formatRowPrice,
+    allDepartedAction,
     // Every market sorts the same way; the list owns the chips.
     sortMode: props.sortMode,
     onSortChange: props.onSortChange,
