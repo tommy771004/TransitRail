@@ -108,9 +108,15 @@
   ],
   "source": "https://www.sncf.com/en",
   "destinationsByOrigin": {
-    "Lille Europe": [],
-    "Lyon Part-Dieu": [],
-    "Marseille St-Charles": [],
+    "Lille Europe": [
+      "Paris Gare du Nord"
+    ],
+    "Lyon Part-Dieu": [
+      "Paris Gare de Lyon"
+    ],
+    "Marseille St-Charles": [
+      "Paris Gare de Lyon"
+    ],
     "Paris Gare de l'Est": [
       "Strasbourg"
     ],
@@ -121,7 +127,9 @@
     "Paris Gare du Nord": [
       "Lille Europe"
     ],
-    "Strasbourg": []
+    "Strasbourg": [
+      "Paris Gare de l'Est"
+    ]
   },
   "coverage": {
     "mode": "scraped",

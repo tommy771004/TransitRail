@@ -9,7 +9,51 @@
       "declaredStations": 714,
       "lines": [
         {
-          "id": "belgium-route-brugge-liege-guillemins-1",
+          "id": "belgium-route-antwerpen-centraal-brussels-central-1",
+          "name": "Antwerp-Central → Brussels-Central",
+          "color": "#0055A4",
+          "stations": [
+            {
+              "name": "Antwerp-Central"
+            },
+            {
+              "name": "Antwerp-Berchem"
+            },
+            {
+              "name": "Mechelen"
+            },
+            {
+              "name": "Brussels-North"
+            },
+            {
+              "name": "Brussels-Central"
+            }
+          ]
+        },
+        {
+          "id": "belgium-route-antwerpen-centraal-brussels-luxembourg-2",
+          "name": "Antwerp-Central → Brussels-Luxemburg/Brussels-Luxembourg",
+          "color": "#0055A4",
+          "stations": [
+            {
+              "name": "Antwerp-Central"
+            },
+            {
+              "name": "Antwerp-Berchem"
+            },
+            {
+              "name": "Mechelen"
+            },
+            {
+              "name": "Brussels-Schuman"
+            },
+            {
+              "name": "Brussels-Luxemburg/Brussels-Luxembourg"
+            }
+          ]
+        },
+        {
+          "id": "belgium-route-brugge-liege-guillemins-3",
           "name": "Brugge → Liège-Guillemins",
           "color": "#0055A4",
           "stations": [
@@ -55,7 +99,29 @@
           ]
         },
         {
-          "id": "belgium-route-brussels-central-antwerpen-centraal-2",
+          "id": "belgium-route-brussels-airport-zaventem-gent-sint-pieters-4",
+          "name": "Brussels Airport - Zaventem → Ghent-Sint-Pieters",
+          "color": "#0055A4",
+          "stations": [
+            {
+              "name": "Brussels Airport - Zaventem"
+            },
+            {
+              "name": "Brussels-North"
+            },
+            {
+              "name": "Brussels-Central"
+            },
+            {
+              "name": "Brussels-South/Brussels-Midi"
+            },
+            {
+              "name": "Ghent-Sint-Pieters"
+            }
+          ]
+        },
+        {
+          "id": "belgium-route-brussels-central-antwerpen-centraal-5",
           "name": "Brussels-Central → Antwerp-Central",
           "color": "#0055A4",
           "stations": [
@@ -77,9 +143,9 @@
           ]
         },
         {
-          "id": "belgium-route-brussels-luxembourg-antwerpen-centraal-3",
+          "id": "belgium-route-brussels-luxembourg-antwerpen-centraal-6",
           "name": "Brussels-Luxemburg/Brussels-Luxembourg → Antwerp-Central",
-          "color": "#4B5563",
+          "color": "#0055A4",
           "stations": [
             {
               "name": "Brussels-Luxemburg/Brussels-Luxembourg"
@@ -88,10 +154,10 @@
               "name": "Brussels-Schuman"
             },
             {
-              "name": "Brussels-North"
+              "name": "Mechelen"
             },
             {
-              "name": "Brussels-Central"
+              "name": "Antwerp-Berchem"
             },
             {
               "name": "Antwerp-Central"
@@ -99,7 +165,7 @@
           ]
         },
         {
-          "id": "belgium-route-brussels-south-brussels-midi-namur-4",
+          "id": "belgium-route-brussels-south-brussels-midi-namur-7",
           "name": "Brussels-South/Brussels-Midi → Namur",
           "color": "#0055A4",
           "stations": [
@@ -130,15 +196,12 @@
           ]
         },
         {
-          "id": "belgium-route-gent-sint-pieters-brussels-airport-zaventem-5",
+          "id": "belgium-route-gent-sint-pieters-brussels-airport-zaventem-8",
           "name": "Ghent-Sint-Pieters → Brussels Airport - Zaventem",
-          "color": "#0055A4",
+          "color": "#4B5563",
           "stations": [
             {
               "name": "Ghent-Sint-Pieters"
-            },
-            {
-              "name": "Brussels-South/Brussels-Midi"
             },
             {
               "name": "Brussels-Central"
@@ -150,13 +213,134 @@
               "name": "Brussels Airport - Zaventem"
             }
           ]
+        },
+        {
+          "id": "belgium-route-liege-guillemins-brugge-9",
+          "name": "Liège-Guillemins → Brugge",
+          "color": "#0055A4",
+          "stations": [
+            {
+              "name": "Liège-Guillemins"
+            },
+            {
+              "name": "Ans"
+            },
+            {
+              "name": "Waremme"
+            },
+            {
+              "name": "Landen"
+            },
+            {
+              "name": "Tienen"
+            },
+            {
+              "name": "Leuven"
+            },
+            {
+              "name": "Brussels Airport - Zaventem"
+            },
+            {
+              "name": "Brussels-North"
+            },
+            {
+              "name": "Brussels-Central"
+            },
+            {
+              "name": "Brussels-South/Brussels-Midi"
+            },
+            {
+              "name": "Ghent-Sint-Pieters"
+            },
+            {
+              "name": "Aalter"
+            },
+            {
+              "name": "Brugge"
+            }
+          ]
+        },
+        {
+          "id": "belgium-route-namur-brussels-south-brussels-midi-10",
+          "name": "Namur → Brussels-South/Brussels-Midi",
+          "color": "#0055A4",
+          "stations": [
+            {
+              "name": "Namur"
+            },
+            {
+              "name": "Gembloux"
+            },
+            {
+              "name": "Ottignies"
+            },
+            {
+              "name": "Brussels-Luxemburg/Brussels-Luxembourg"
+            },
+            {
+              "name": "Brussels-Schuman"
+            },
+            {
+              "name": "Brussels-North"
+            },
+            {
+              "name": "Brussels-Central"
+            },
+            {
+              "name": "Brussels-South/Brussels-Midi"
+            }
+          ]
         }
       ]
     }
   ],
   "lines": [
     {
-      "id": "belgium-route-brugge-liege-guillemins-1",
+      "id": "belgium-route-antwerpen-centraal-brussels-central-1",
+      "name": "Antwerp-Central → Brussels-Central",
+      "color": "#0055A4",
+      "stations": [
+        {
+          "name": "Antwerp-Central"
+        },
+        {
+          "name": "Antwerp-Berchem"
+        },
+        {
+          "name": "Mechelen"
+        },
+        {
+          "name": "Brussels-North"
+        },
+        {
+          "name": "Brussels-Central"
+        }
+      ]
+    },
+    {
+      "id": "belgium-route-antwerpen-centraal-brussels-luxembourg-2",
+      "name": "Antwerp-Central → Brussels-Luxemburg/Brussels-Luxembourg",
+      "color": "#0055A4",
+      "stations": [
+        {
+          "name": "Antwerp-Central"
+        },
+        {
+          "name": "Antwerp-Berchem"
+        },
+        {
+          "name": "Mechelen"
+        },
+        {
+          "name": "Brussels-Schuman"
+        },
+        {
+          "name": "Brussels-Luxemburg/Brussels-Luxembourg"
+        }
+      ]
+    },
+    {
+      "id": "belgium-route-brugge-liege-guillemins-3",
       "name": "Brugge → Liège-Guillemins",
       "color": "#0055A4",
       "stations": [
@@ -202,7 +386,29 @@
       ]
     },
     {
-      "id": "belgium-route-brussels-central-antwerpen-centraal-2",
+      "id": "belgium-route-brussels-airport-zaventem-gent-sint-pieters-4",
+      "name": "Brussels Airport - Zaventem → Ghent-Sint-Pieters",
+      "color": "#0055A4",
+      "stations": [
+        {
+          "name": "Brussels Airport - Zaventem"
+        },
+        {
+          "name": "Brussels-North"
+        },
+        {
+          "name": "Brussels-Central"
+        },
+        {
+          "name": "Brussels-South/Brussels-Midi"
+        },
+        {
+          "name": "Ghent-Sint-Pieters"
+        }
+      ]
+    },
+    {
+      "id": "belgium-route-brussels-central-antwerpen-centraal-5",
       "name": "Brussels-Central → Antwerp-Central",
       "color": "#0055A4",
       "stations": [
@@ -224,9 +430,9 @@
       ]
     },
     {
-      "id": "belgium-route-brussels-luxembourg-antwerpen-centraal-3",
+      "id": "belgium-route-brussels-luxembourg-antwerpen-centraal-6",
       "name": "Brussels-Luxemburg/Brussels-Luxembourg → Antwerp-Central",
-      "color": "#4B5563",
+      "color": "#0055A4",
       "stations": [
         {
           "name": "Brussels-Luxemburg/Brussels-Luxembourg"
@@ -235,10 +441,10 @@
           "name": "Brussels-Schuman"
         },
         {
-          "name": "Brussels-North"
+          "name": "Mechelen"
         },
         {
-          "name": "Brussels-Central"
+          "name": "Antwerp-Berchem"
         },
         {
           "name": "Antwerp-Central"
@@ -246,7 +452,7 @@
       ]
     },
     {
-      "id": "belgium-route-brussels-south-brussels-midi-namur-4",
+      "id": "belgium-route-brussels-south-brussels-midi-namur-7",
       "name": "Brussels-South/Brussels-Midi → Namur",
       "color": "#0055A4",
       "stations": [
@@ -277,15 +483,12 @@
       ]
     },
     {
-      "id": "belgium-route-gent-sint-pieters-brussels-airport-zaventem-5",
+      "id": "belgium-route-gent-sint-pieters-brussels-airport-zaventem-8",
       "name": "Ghent-Sint-Pieters → Brussels Airport - Zaventem",
-      "color": "#0055A4",
+      "color": "#4B5563",
       "stations": [
         {
           "name": "Ghent-Sint-Pieters"
-        },
-        {
-          "name": "Brussels-South/Brussels-Midi"
         },
         {
           "name": "Brussels-Central"
@@ -295,6 +498,83 @@
         },
         {
           "name": "Brussels Airport - Zaventem"
+        }
+      ]
+    },
+    {
+      "id": "belgium-route-liege-guillemins-brugge-9",
+      "name": "Liège-Guillemins → Brugge",
+      "color": "#0055A4",
+      "stations": [
+        {
+          "name": "Liège-Guillemins"
+        },
+        {
+          "name": "Ans"
+        },
+        {
+          "name": "Waremme"
+        },
+        {
+          "name": "Landen"
+        },
+        {
+          "name": "Tienen"
+        },
+        {
+          "name": "Leuven"
+        },
+        {
+          "name": "Brussels Airport - Zaventem"
+        },
+        {
+          "name": "Brussels-North"
+        },
+        {
+          "name": "Brussels-Central"
+        },
+        {
+          "name": "Brussels-South/Brussels-Midi"
+        },
+        {
+          "name": "Ghent-Sint-Pieters"
+        },
+        {
+          "name": "Aalter"
+        },
+        {
+          "name": "Brugge"
+        }
+      ]
+    },
+    {
+      "id": "belgium-route-namur-brussels-south-brussels-midi-10",
+      "name": "Namur → Brussels-South/Brussels-Midi",
+      "color": "#0055A4",
+      "stations": [
+        {
+          "name": "Namur"
+        },
+        {
+          "name": "Gembloux"
+        },
+        {
+          "name": "Ottignies"
+        },
+        {
+          "name": "Brussels-Luxemburg/Brussels-Luxembourg"
+        },
+        {
+          "name": "Brussels-Schuman"
+        },
+        {
+          "name": "Brussels-North"
+        },
+        {
+          "name": "Brussels-Central"
+        },
+        {
+          "name": "Brussels-South/Brussels-Midi"
         }
       ]
     }

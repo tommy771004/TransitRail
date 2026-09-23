@@ -35,7 +35,33 @@
           ]
         },
         {
-          "id": "malaysia-route-rawang-kuala-lumpur-3",
+          "id": "malaysia-route-kuala-lumpur-batu-caves-3",
+          "name": "Kuala Lumpur → Batu Caves",
+          "color": "#3C5A9F",
+          "stations": [
+            {
+              "name": "Kuala Lumpur"
+            },
+            {
+              "name": "Batu Caves"
+            }
+          ]
+        },
+        {
+          "id": "malaysia-route-kuala-lumpur-rawang-4",
+          "name": "Kuala Lumpur → Rawang",
+          "color": "#3C5A9F",
+          "stations": [
+            {
+              "name": "Kuala Lumpur"
+            },
+            {
+              "name": "Rawang"
+            }
+          ]
+        },
+        {
+          "id": "malaysia-route-rawang-kuala-lumpur-5",
           "name": "Rawang → Kuala Lumpur",
           "color": "#3C5A9F",
           "stations": [
@@ -44,6 +70,19 @@
             },
             {
               "name": "Kuala Lumpur"
+            }
+          ]
+        },
+        {
+          "id": "malaysia-route-subang-jaya-klang-6",
+          "name": "Subang Jaya → Klang",
+          "color": "#3C5A9F",
+          "stations": [
+            {
+              "name": "Subang Jaya"
+            },
+            {
+              "name": "Klang"
             }
           ]
         }
@@ -78,7 +117,33 @@
       ]
     },
     {
-      "id": "malaysia-route-rawang-kuala-lumpur-3",
+      "id": "malaysia-route-kuala-lumpur-batu-caves-3",
+      "name": "Kuala Lumpur → Batu Caves",
+      "color": "#3C5A9F",
+      "stations": [
+        {
+          "name": "Kuala Lumpur"
+        },
+        {
+          "name": "Batu Caves"
+        }
+      ]
+    },
+    {
+      "id": "malaysia-route-kuala-lumpur-rawang-4",
+      "name": "Kuala Lumpur → Rawang",
+      "color": "#3C5A9F",
+      "stations": [
+        {
+          "name": "Kuala Lumpur"
+        },
+        {
+          "name": "Rawang"
+        }
+      ]
+    },
+    {
+      "id": "malaysia-route-rawang-kuala-lumpur-5",
       "name": "Rawang → Kuala Lumpur",
       "color": "#3C5A9F",
       "stations": [
@@ -87,6 +152,19 @@
         },
         {
           "name": "Kuala Lumpur"
+        }
+      ]
+    },
+    {
+      "id": "malaysia-route-subang-jaya-klang-6",
+      "name": "Subang Jaya → Klang",
+      "color": "#3C5A9F",
+      "stations": [
+        {
+          "name": "Subang Jaya"
+        },
+        {
+          "name": "Klang"
         }
       ]
     }
@@ -106,11 +184,16 @@
     "Klang": [
       "Subang Jaya"
     ],
-    "Kuala Lumpur": [],
+    "Kuala Lumpur": [
+      "Batu Caves",
+      "Rawang"
+    ],
     "Rawang": [
       "Kuala Lumpur"
     ],
-    "Subang Jaya": []
+    "Subang Jaya": [
+      "Klang"
+    ]
   },
   "coverage": {
     "mode": "scraped",
