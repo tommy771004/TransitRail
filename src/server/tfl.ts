@@ -39,7 +39,7 @@ interface TflLeg {
   duration?: number;
   departureTime?: string;
   arrivalTime?: string;
-  mode?: { name?: string };
+  mode?: { id?: string; name?: string };
   departurePoint?: { commonName?: string; naptanId?: string; lat?: number; lon?: number };
   arrivalPoint?: { commonName?: string; naptanId?: string; lat?: number; lon?: number };
   instruction?: { summary?: string; detailed?: string };
@@ -327,12 +327,6 @@ async function describeTflRateLimit(response: Response) {
   return `TfL returned HTTP 429.${retryAfter ? ` Retry-After: ${retryAfter}.` : ""}${body ? ` Provider said: ${body}` : ""}`;
 }
 
-class TflHttpError extends Error {
-  constructor(readonly status: number) {
-    super(`TfL returned HTTP ${status}.`);
-  }
-}
-
 async function fetchTflJson<T>(url: URL, gate?: TflRateGate): Promise<T> {
   for (let attempt = 0; ; attempt += 1) {
     await gate?.();
@@ -358,7 +352,7 @@ async function fetchTflJson<T>(url: URL, gate?: TflRateGate): Promise<T> {
         continue;
       }
       if (!response.ok) {
-        throw new TflHttpError(response.status);
+        throw new Error(`TfL returned HTTP ${response.status}.`);
       }
       return await response.json() as T;
     } finally {
@@ -702,12 +696,6 @@ function fetchServiceDayBounds(
     const schedules = body.timetable?.routes?.[0]?.schedules || [];
     const schedule = scheduleForDay(schedules, serviceDayType(date));
     return schedule ? boundsFromSchedule(schedule, date) : null;
-  }, (error) => {
-    // TfL publishes no timetable for the Elizabeth line or the Overground: every
-    // stop pair is a 404, and so are the disambiguation URIs TfL itself offers.
-    // That is the absence of a published first/last train, not an outage.
-    if (error instanceof TflHttpError && error.status === 404) return null;
-    throw error;
   });
 
   // The caller only awaits this inside its own try, and the journey fetch it
@@ -729,17 +717,31 @@ function fetchServiceDayBounds(
  * Paddington → Liverpool Street rides the Elizabeth line from 910GPADTLL, and
  * Heathrow → Oxford Circus leaves it at Tottenham Court Road. Asking
  * `/Line/elizabeth/Timetable` for the Tube ids got HTTP 500 on every sample of
- * every date. (With the leg's own ids it is a 404 instead: TfL publishes no
- * Elizabeth line timetable at all, which {@link fetchServiceDayBounds} reads as
- * "no bounds".)
+ * every date.
  */
 function primaryLeg(journey: TflJourney | undefined) {
   for (const leg of publicTransportLegs(journey?.legs || [])) {
     const lineId = leg.routeOptions?.[0]?.lineIdentifier?.id;
-    if (lineId) return { lineId, fromId: leg.departurePoint?.naptanId, toId: leg.arrivalPoint?.naptanId };
+    if (lineId) {
+      return {
+        lineId,
+        fromId: leg.departurePoint?.naptanId,
+        toId: leg.arrivalPoint?.naptanId,
+        publishesTimetable: TFL_TIMETABLE_MODES.has((leg.mode?.id ?? leg.mode?.name ?? "").toLowerCase()),
+      };
+    }
   }
   return undefined;
 }
+
+/**
+ * The modes TfL's `/Line/{id}/Timetable` actually serves. Checked live on
+ * 2026-09-23: every Elizabeth line and Overground (all six lines) stop pair
+ * answers 404 or 500 and never a timetable, whichever ids are sent; Tube and
+ * DLR pairs answer 200. Asking anyway only filled the scrape log with
+ * TFL_SERVICE_DAY_FAILED for a first/last train TfL does not publish.
+ */
+const TFL_TIMETABLE_MODES = new Set(["tube", "dlr"]);
 
 export async function searchTflJourney(
   origin: string,
@@ -798,7 +800,7 @@ export async function searchTflJourney(
     try {
       const fromId = leg?.fromId ?? resolvedOrigin.id;
       const toId = leg?.toId ?? resolvedDestination.id;
-      const bounds = leg
+      const bounds = leg?.publishesTimetable
         ? await fetchServiceDayBounds(
           leg.lineId,
           fromId,

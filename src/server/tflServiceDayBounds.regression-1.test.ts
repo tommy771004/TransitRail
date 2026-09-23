@@ -145,12 +145,13 @@ describe("TfL service-day bounds", () => {
 });
 
 describe("TfL service-day bounds on a line the stations are not named for", () => {
-  // Paddington and Liverpool Street resolve to their Tube stops, but the fastest
-  // journey rides the Elizabeth line from its own platforms, so the timetable is
-  // asked for the leg's stops. (TfL in fact publishes no Elizabeth line
-  // timetable — see the 404 case below — but the stop choice is the same for
-  // any line whose platforms carry their own ids.)
-  function installElizabeth(timetableStatus = 200) {
+  // Paddington resolves to its Bakerloo stop, 940GZZLUPAC, but the Hammersmith &
+  // City leg boards at its own platforms, 940GZZLUPAH, so the timetable is asked
+  // for the leg's stops. The Elizabeth line has platform ids of its own too, but
+  // TfL publishes no Elizabeth or Overground timetable at all: live, every pair
+  // answers 404 or 500 (500 for 910GPADTON → 940GZZLULVT, the ids a real
+  // Paddington → Liverpool Street leg yields), so those are never asked.
+  function installLeg(leg: { mode: { id: string; name: string }; lineId: string; fromId: string; toId?: string }, timetableStatus = 200) {
     const timetableCalls: string[] = [];
     vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
       const url = new URL(String(input));
@@ -163,9 +164,6 @@ describe("TfL service-day bounds on a line the stations are not named for", () =
       if (url.pathname.includes("/Timetable/")) {
         timetableCalls.push(url.pathname);
         if (timetableStatus !== 200) return new Response(JSON.stringify({ message: "error" }), { status: timetableStatus });
-        if (!url.pathname.includes("/910GPADTLL/to/910GLIVSTLL")) {
-          return new Response(JSON.stringify({ message: "error" }), { status: 500 });
-        }
         return new Response(JSON.stringify({
           timetable: { routes: [{ schedules: [{
             name: "Monday - Friday",
@@ -184,10 +182,10 @@ describe("TfL service-day bounds on a line the stations are not named for", () =
               departureTime: start,
               arrivalTime: start,
               duration: 11,
-              mode: { name: "elizabeth-line" },
-              departurePoint: { commonName: "Paddington", naptanId: "910GPADTLL" },
-              arrivalPoint: { commonName: "Liverpool Street", naptanId: "910GLIVSTLL" },
-              routeOptions: [{ lineIdentifier: { id: "elizabeth", name: "Elizabeth line" } }],
+              mode: leg.mode,
+              departurePoint: { commonName: "Paddington", naptanId: leg.fromId },
+              arrivalPoint: { commonName: "Liverpool Street", naptanId: leg.toId },
+              routeOptions: [{ lineIdentifier: { id: leg.lineId, name: leg.lineId } }],
             }],
           }],
         }), { status: 200 });
@@ -197,31 +195,35 @@ describe("TfL service-day bounds on a line the stations are not named for", () =
     return timetableCalls;
   }
 
-  it("asks the line's timetable for the stops the leg actually uses", async () => {
-    const calls = installElizabeth();
-    const { body } = await searchTflJourney("Paddington Station", "Liverpool Street Station", WEEKDAY, "14:00");
+  const hammersmith = { mode: { id: "tube", name: "tube" }, lineId: "hammersmith-city", fromId: "940GZZLUPAH", toId: "940GZZLULVT" };
+  const search = (date = WEEKDAY) => searchTflJourney("Paddington Station", "Liverpool Street Station", date, "14:00");
 
-    expect(calls).toEqual(["/Line/elizabeth/Timetable/910GPADTLL/to/910GLIVSTLL"]);
+  it("asks the line's timetable for the stops the leg actually uses", async () => {
+    const calls = installLeg(hammersmith);
+    const { body } = await search();
+
+    expect(calls).toEqual(["/Line/hammersmith-city/Timetable/940GZZLUPAH/to/940GZZLULVT"]);
     expect(body.serviceDayAdvisory).toMatchObject({ firstDeparture: "05:31", lastDeparture: "23:58" });
   });
 
-  it("treats a line TfL publishes no timetable for as unavailable, not as a failure", async () => {
-    // Live TfL, 2026-09-23: /Line/elizabeth/Timetable/{from}/to/{to} is 404 for
-    // every pair, and the nightly scrape logged TFL_SERVICE_DAY_FAILED for each.
-    const calls = installElizabeth(404);
-    const { status, body } = await searchTflJourney("Paddington Station", "Liverpool Street Station", "2026-09-14", "14:00");
+  it.each([
+    ["elizabeth-line", "elizabeth", "910GPADTON"],
+    ["overground", "mildmay", "910GACTNCTL"],
+  ])("never asks TfL for a %s timetable it does not publish", async (mode, lineId, fromId) => {
+    // The real Paddington leg carries no arrival naptan id at all.
+    const calls = installLeg({ mode: { id: mode, name: mode }, lineId, fromId });
+    const { status, body } = await search("2026-09-14");
 
     expect(status).toBe(200);
     expect(body.results.length).toBeGreaterThan(0);
-    expect(calls).toHaveLength(1);
+    expect(calls).toEqual([]);
     expect(body.serviceDayAdvisory).toMatchObject({ coverage: "unavailable", risk: "unavailable" });
-    expect(body.serviceDayAdvisory?.lastDeparture).toBeUndefined();
     expect(recordError).not.toHaveBeenCalled();
   });
 
-  it("still reports a timetable outage on the same line as a failure", async () => {
-    installElizabeth(503);
-    await searchTflJourney("Paddington Station", "Liverpool Street Station", "2026-09-15", "14:00");
+  it("still reports a Tube timetable failure", async () => {
+    installLeg(hammersmith, 404);
+    await search("2026-09-15");
     expect(recordError).toHaveBeenCalledWith(expect.objectContaining({ errorCode: "TFL_SERVICE_DAY_FAILED" }));
   });
 });

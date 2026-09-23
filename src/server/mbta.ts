@@ -101,6 +101,21 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
  */
 const MBTA_RATE_LIMIT_RETRIES = 3;
 
+/**
+ * How long a 429 has to wait. MBTA sends no Retry-After; it sends
+ * `x-ratelimit-reset`, the epoch second its window (a minute, 20 requests
+ * keyless) refills. The old 2/4/8s backoff gave up 14s into a window that can
+ * run 60s, so one Harvard → Logan search (seven requests) could exhaust it and
+ * the scrape dropped the route. Capped so a bad header cannot stall the job.
+ */
+export function mbtaRateLimitWaitMs(headers: Headers, attempt: number, now = Date.now()): number {
+  const retryAfter = Number(headers.get("retry-after"));
+  if (Number.isFinite(retryAfter) && retryAfter > 0) return Math.min(retryAfter * 1000, 65_000);
+  const reset = Number(headers.get("x-ratelimit-reset"));
+  if (Number.isFinite(reset) && reset * 1000 > now) return Math.min(reset * 1000 - now + 1_000, 65_000);
+  return 2_000 * 2 ** attempt;
+}
+
 async function fetchMbtaJson(url: URL): Promise<MbtaResponse> {
   const headers: Record<string, string> = {
     Accept: "application/vnd.api+json",
@@ -116,11 +131,8 @@ async function fetchMbtaJson(url: URL): Promise<MbtaResponse> {
     try {
       const response = await fetch(url, { signal: controller.signal, headers });
       if (response.status === 429 && attempt < MBTA_RATE_LIMIT_RETRIES) {
-        const retryAfter = Number(response.headers.get("retry-after"));
         clearTimeout(timeout);
-        await sleep(Number.isFinite(retryAfter) && retryAfter > 0
-          ? retryAfter * 1000
-          : 2_000 * 2 ** attempt);
+        await sleep(mbtaRateLimitWaitMs(response.headers, attempt));
         continue;
       }
       if (!response.ok) {

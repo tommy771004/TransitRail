@@ -107,6 +107,10 @@ jobs:
           # it is unusable, so a stale value degrades rather than fails — but
           # without it the sweep paces slowly and samples start aborting.
           TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
+          # Optional. Keyless MBTA V3 allows 20 requests a minute and a Boston
+          # route costs about seven, so without it the scrape waits out 429
+          # windows; a free api-v3.mbta.com key allows 1000 a minute.
+          MBTA_API_KEY: ${{ secrets.MBTA_API_KEY }}
           # Required for the official LTA DataMall Singapore GTFS train feed.
           # Only the authenticated resolver mints a usable archive link: the
           # key-free static ZIP is a frozen copy of one response whose signed
@@ -227,6 +231,7 @@ jobs:
         env:
           # The UK menu is built from the same TfL API the timetable scrape uses.
           TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
+          MBTA_API_KEY: ${{ secrets.MBTA_API_KEY }}
         # The generator skips only rate-limited (HTTP 429) markets, preserving
         # their dated files and continuing this job. Other fatal errors surface.
         run: |
