@@ -6,7 +6,7 @@
 
 import { hasDisplayableFare } from "@/src/utils/fare";
 import { ChevronDown } from "lucide-react";
-import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "motion/react";
 import type { Country, CoverageGap, NoResultReason, SearchFailureKind, SortMode, TransitResult } from "../types";
@@ -246,6 +246,18 @@ export function ResultList({
   const departed = results.filter(isPast);
   const visible = showPast ? results : results.filter((trip) => !isPast(trip));
 
+  // A long day in departure order gets an hour heading before the first
+  // verified row of each hour. Headings come only from rows: an hour without
+  // one gets no heading and no "no trains" claim, since a gap means no
+  // verified row, not no service.
+  const hourIdPrefix = useId();
+  const hourOf = (trip: TransitResult) => {
+    const dep = departure(trip);
+    return dep === null ? null : Math.floor(dep / 60);
+  };
+  const groupByHour = (sortMode ?? "earliest") === "earliest" && visible.length > 20;
+  const hourId = (hour: number) => `${hourIdPrefix}-hour-${hour}`;
+
   // A secondary sort only earns a chip when pressing it could move a row. A
   // timed search is always in departure order first, so there the chip can only
   // reorder departures that share a minute; an all-day list reorders whenever
@@ -362,8 +374,20 @@ export function ResultList({
                 {visible.map((trip, index) => {
                   const dep = departure(trip);
                   const extras = card?.(trip) ?? {};
+                  const hour = groupByHour ? hourOf(trip) : null;
+                  const startsHour = hour !== null && (index === 0 || hourOf(visible[index - 1]) !== hour);
                   return (
                     <Fragment key={trip.id}>
+                      {startsHour && hour !== null ? (
+                        <h2
+                          id={hourId(hour)}
+                          tabIndex={-1}
+                          className="m3-label-large flex scroll-mt-32 items-center gap-2 px-1 pt-1 tabular-nums text-slate-600 outline-none dark:text-slate-300"
+                        >
+                          <span className="shrink-0 whitespace-nowrap">{t("result.hour_heading", { hour: String(hour).padStart(2, "0") })}</span>
+                          <span aria-hidden="true" className="h-px flex-1 bg-slate-200 dark:bg-slate-800" />
+                        </h2>
+                      ) : null}
                       <TripCard
                         trip={trip}
                         country={country}
