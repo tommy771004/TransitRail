@@ -13,6 +13,12 @@
  * Markets whose source only answers for today are not consulted: they are
  * refreshed by every pass, so they can never be the reason to run a full one.
  *
+ * A route added to a scrape list is the other reason. The window test alone
+ * cannot see it — the market's other files still cover every date — so the
+ * return directions added on 2026-09-23 waited out a live-only night with no
+ * file at all. A configured route with neither a committed file nor a recorded
+ * failure has never been collected, and only a full pass will collect it.
+ *
  * Run: npx tsx scripts/scrape-plan.ts   (prints one word on stdout)
  */
 import { existsSync, readFileSync, readdirSync } from "node:fs";
@@ -24,6 +30,7 @@ import {
   SEARCH_WINDOW_DAYS,
 } from "../src/data/countries";
 import { getCountryCapability } from "../src/data/countryCapability";
+import { createTimetableScrapers } from "./scrapers/registry";
 import type { Country } from "../src/types";
 
 const DATA_DIR = resolve("src/data/scraped");
@@ -53,11 +60,33 @@ export function coveredThroughBySource(routes: readonly {
   return [...newestBySource.values()].sort()[0];
 }
 
-/** Last service day reached by every populated source in this market. */
-function newestCommittedDate(country: Country): string | undefined {
+interface RoutePair {
+  origin?: string;
+  destination?: string;
+}
+
+/**
+ * Configured routes nothing has collected yet: no committed file, and no failure
+ * recorded against them. A route that was tried and failed is not counted — a
+ * full pass cannot fix a pair the provider does not serve, and letting it vote
+ * would pin the job to a nightly full scrape.
+ */
+export function uncollectedRoutes(
+  configured: readonly RoutePair[],
+  committed: readonly RoutePair[],
+  failed: readonly RoutePair[],
+): string[] {
+  const key = (route: RoutePair) => `${route.origin} → ${route.destination}`;
+  const known = new Set([...committed, ...failed].map(key));
+  return [...new Set(configured.map(key))].filter((route) => !known.has(route));
+}
+
+type CommittedRoute = Parameters<typeof coveredThroughBySource>[0][number] & RoutePair;
+
+function committedRoutes(country: Country): CommittedRoute[] {
   const dir = join(DATA_DIR, country);
-  if (!existsSync(dir)) return undefined;
-  const routes: Parameters<typeof coveredThroughBySource>[0][number][] = [];
+  if (!existsSync(dir)) return [];
+  const routes: CommittedRoute[] = [];
   for (const name of readdirSync(dir)) {
     if (!name.endsWith(".json") || name === "metadata.json") continue;
     try {
@@ -66,7 +95,16 @@ function newestCommittedDate(country: Country): string | undefined {
       // An unreadable file says nothing about coverage; the validator reports it.
     }
   }
-  return coveredThroughBySource(routes);
+  return routes;
+}
+
+function recordedFailures(country: Country): RoutePair[] {
+  try {
+    const metadata = JSON.parse(readFileSync(join(DATA_DIR, country, "metadata.json"), "utf8"));
+    return Array.isArray(metadata.failedRoutes) ? metadata.failedRoutes : [];
+  } catch {
+    return [];
+  }
 }
 
 export interface MarketCoverage {
@@ -75,6 +113,8 @@ export interface MarketCoverage {
   newest?: string;
   /** Last date the picker offers for this market today. */
   required: string;
+  /** Configured routes with no committed file and no recorded failure. */
+  uncollected?: readonly string[];
 }
 
 export interface ScrapePassDecision {
@@ -91,15 +131,20 @@ export function decideScrapePass(markets: readonly MarketCoverage[]): ScrapePass
   // A market with no rows at all cannot show the window is stale — it is broken
   // or unwired, and a nightly full scrape would not fix that.
   const withData = markets.filter((market) => market.newest);
-  const shortfalls = withData
-    .filter((market) => market.newest! < market.required)
-    .map((market) => `${market.country} covers to ${market.newest}, picker offers to ${market.required}`);
+  const shortfalls = [
+    ...withData
+      .filter((market) => market.newest! < market.required)
+      .map((market) => `${market.country} covers to ${market.newest}, picker offers to ${market.required}`),
+    ...markets
+      .filter((market) => market.uncollected?.length)
+      .map((market) => `${market.country} has never collected ${market.uncollected!.join(", ")}`),
+  ];
 
   if (withData.length === 0) {
     return { pass: "full", shortfalls, reason: "no committed rows to judge coverage by" };
   }
   if (shortfalls.length > 0) {
-    return { pass: "full", shortfalls, reason: `${shortfalls.length} market(s) short of the search window` };
+    return { pass: "full", shortfalls, reason: `${shortfalls.length} shortfall(s) in committed coverage` };
   }
   return {
     pass: "live-only",
@@ -109,13 +154,30 @@ export function decideScrapePass(markets: readonly MarketCoverage[]): ScrapePass
 }
 
 function main() {
+  // stdout carries the one-word verdict the workflow reads; keep anything a
+  // scraper module prints while it is constructed off it.
+  const log = console.log;
+  console.log = console.error;
+  const configured = new Map<string, RoutePair[]>();
+  try {
+    for (const scraper of createTimetableScrapers()) {
+      configured.set(scraper.country, [...(configured.get(scraper.country) ?? []), ...scraper.routes]);
+    }
+  } finally {
+    console.log = log;
+  }
+
   const markets = configuredCountryOptions
     .filter((country) => !getCountryCapability(country).liveOnly)
-    .map((country) => ({
-      country,
-      newest: newestCommittedDate(country),
-      required: addDateValueDays(providerDateValue(country), SEARCH_WINDOW_DAYS - 1),
-    }));
+    .map((country) => {
+      const routes = committedRoutes(country);
+      return {
+        country,
+        newest: coveredThroughBySource(routes),
+        required: addDateValueDays(providerDateValue(country), SEARCH_WINDOW_DAYS - 1),
+        uncollected: uncollectedRoutes(configured.get(country) ?? [], routes, recordedFailures(country)),
+      };
+    });
 
   const decision = decideScrapePass(markets);
   for (const line of decision.shortfalls) console.error(`  ${line}`);

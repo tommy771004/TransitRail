@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { coveredThroughBySource, decideScrapePass } from "./scrape-plan";
+import { coveredThroughBySource, decideScrapePass, uncollectedRoutes } from "./scrape-plan";
 import { FULL_SCRAPE_INTERVAL_DAYS, SCRAPE_WINDOW_DAYS, SEARCH_WINDOW_DAYS } from "../src/data/countries";
 
 /** The window a full run collects must outlast the gap until the next one. */
@@ -89,5 +89,36 @@ describe("nightly pass decision", () => {
     ]);
 
     expect(decision.pass).toBe("full");
+  });
+});
+
+describe("configured routes nothing has collected", () => {
+  it("names a configured route with no file and no recorded failure", () => {
+    expect(uncollectedRoutes(
+      [{ origin: "Kyoto", destination: "Tokyo" }, { origin: "Tokyo", destination: "Kyoto" }],
+      [{ origin: "Tokyo", destination: "Kyoto" }],
+      [],
+    )).toEqual(["Kyoto → Tokyo"]);
+  });
+
+  it("does not count a route that was tried and failed", () => {
+    // A pair the provider does not serve fails every night; counting it would
+    // pin the job to a full scrape forever.
+    expect(uncollectedRoutes(
+      [{ origin: "Chur", destination: "Zürich Flughafen" }],
+      [],
+      [{ origin: "Chur", destination: "Zürich Flughafen" }],
+    )).toEqual([]);
+  });
+
+  it("runs a full scrape for a new route even when every date is covered", () => {
+    // The return directions added on 2026-09-23 waited out a live-only night:
+    // the market's other files still covered the whole window.
+    const decision = decideScrapePass([
+      { country: "japan", newest: "2026-09-30", required: "2026-09-29", uncollected: ["Kyoto → Tokyo"] },
+    ]);
+
+    expect(decision.pass).toBe("full");
+    expect(decision.shortfalls).toEqual(["japan has never collected Kyoto → Tokyo"]);
   });
 });
