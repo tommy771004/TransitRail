@@ -178,7 +178,7 @@ export function KoreaResultView({
                 triggerHaptic("medium");
                 onSelectSeat(trip);
               }}
-              className="m3-button m3-button-small m3-state shrink-0 bg-emerald-600 text-white"
+              className="m3-button m3-button-small m3-state shrink-0 bg-emerald-700 text-white"
             >
               {t("result.select_seat")}
             </button>

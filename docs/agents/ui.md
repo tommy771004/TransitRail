@@ -22,7 +22,13 @@ Every market renders departures through `src/components/ResultList.tsx` and
 market extras (seat preference, amenities, the Korea filter rail, the Metro headsign).
 Do not add a second card layout to a view. Tapping a card opens `TripDetails`, which is
 always a `TripSheet` (a portal on `<body>`, so a `layout`-animated card can never pin it);
-the card owns `open` / `onOpenChange`.
+the card owns `open` / `onOpenChange`. Save, map and the market's primary action live in the
+sheet; the next departure alone repeats the primary action in a slim row under its card.
+
+The card's first line is a status row: the next badge, a countdown on every departure within
+the hour (only when the searched day is today on the market clock), platform, live status,
+then duration and fare. It wraps rather than clips and is omitted when empty. A realtime flag
+without a provider status is neutral slate, never green, and a delay replaces the countdown.
 
 Layout invariants the card keeps, so nothing overlaps or leaves the card:
 

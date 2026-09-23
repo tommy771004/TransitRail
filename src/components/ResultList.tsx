@@ -6,7 +6,7 @@
 
 import { hasDisplayableFare } from "@/src/utils/fare";
 import { ChevronDown } from "lucide-react";
-import { Fragment, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "motion/react";
 import type { Country, CoverageGap, NoResultReason, SearchFailureKind, SortMode, TransitResult } from "../types";
@@ -154,12 +154,55 @@ export function ResultList({
 }: ResultListProps) {
   const { t } = useTranslation();
   const [showPast, setShowPast] = useState(false);
+  const nowRef = useRef(now);
+  nowRef.current = now;
+  const [, setTick] = useState(0);
+
+  // The countdowns follow the wall clock: one re-render on each minute
+  // boundary, paused while the page is hidden.
+  useEffect(() => {
+    if (!date) return;
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    let interval: ReturnType<typeof setInterval> | undefined;
+    const stop = () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    };
+    const start = () => {
+      stop();
+      timeout = setTimeout(() => {
+        setTick((value) => value + 1);
+        interval = setInterval(() => setTick((value) => value + 1), 60_000);
+      }, 60_000 - (nowRef.current().getTime() % 60_000));
+    };
+    const onVisibility = () => {
+      if (document.hidden) {
+        stop();
+      } else {
+        setTick((value) => value + 1);
+        start();
+      }
+    };
+    start();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [date]);
 
   // "Departs in N min" and the departed fold are only honest against the
   // market's wall clock on the searched day; any other day gets neither, and
-  // the searched time merely picks which departure counts as next.
-  const clock = date ? marketClock(country, now()) : null;
-  const reference = clock && clock.date === date ? clock.minutes : null;
+  // the searched time merely picks which departure counts as next. Which rows
+  // count as departed is read once per result set, so a card never leaves the
+  // list under the reader's finger; only the countdown text keeps moving.
+  const listClock = useMemo(
+    () => (date ? marketClock(country, nowRef.current()) : null),
+    [country, date, results],
+  );
+  const reference = listClock && listClock.date === date ? listClock.minutes : null;
+  const liveClock = date ? marketClock(country, now()) : null;
+  const liveReference = liveClock && liveClock.date === date ? liveClock.minutes : null;
   const searched = reference ?? minutesOf(time);
   const departure = (trip: TransitResult) => minutesOf(trip.departureTime);
   const isPast = (trip: TransitResult) => {
@@ -322,7 +365,7 @@ export function ResultList({
                           fastest: fastest !== undefined && trip.durationMinutes === fastest,
                           cheapest: cheapest !== undefined && hasDisplayableFare(trip) && trip.price === cheapest,
                         }}
-                        minutesUntil={reference !== null && dep !== null ? dep - reference : undefined}
+                        minutesUntil={liveReference !== null && dep !== null ? dep - liveReference : undefined}
                         past={isPast(trip)}
                         withExit={withExit}
                         {...extras}
