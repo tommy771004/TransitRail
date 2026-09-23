@@ -1,26 +1,37 @@
 {
   "origin": "Jecheon",
   "destination": "Seodaejeon",
-  "date": "2026-09-23..2026-09-30",
-  "scrapedAt": "2026-09-22T00:22:02.306Z",
+  "date": "2026-09-23..2026-10-01",
+  "scrapedAt": "2026-09-23T07:02:03.230Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 9. 18. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/17/202609171a0ae588ec1170.xlsx",
       "effectiveFrom": "2026-09-18",
-      "retrievedAt": "2026-09-22T00:21:59.098Z",
       "sha256": "e97adbb9c8b520d4db1ddd44ddf1165aa6c0e0c118d5acbe55103fdbd768e212",
+      "effectiveUntil": "2026-09-30",
+      "retrievedAt": "2026-09-23T07:01:58.719Z",
       "exclusions": []
     },
     {
       "title": "일반열차 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-22T00:21:59.868Z",
+      "retrievedAt": "2026-09-23T07:01:59.622Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
+      ]
+    },
+    {
+      "title": "KTX 시간표(2026. 10. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/23/202609231a0cb38a2c5200.xlsx",
+      "effectiveFrom": "2026-10-01",
+      "retrievedAt": "2026-09-23T07:02:02.937Z",
+      "sha256": "eaadc99d90aa9fb4e009ca74d812cc4aa4885a7aee98950adc715dca6c0ad623",
+      "exclusions": [
+        "Korail excluded 호남선 450: times run backwards at Gwangmyeong"
       ]
     }
   ],
@@ -2208,6 +2219,279 @@
           "durationMinutes": 15
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-01-regular-충북선-46-4",
+      "country": "korea",
+      "date": "2026-10-01",
+      "operator": "Korail",
+      "service": "ITX-마음 1541",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Seodaejeon",
+      "departureTime": "08:15",
+      "arrivalTime": "10:27",
+      "durationMinutes": 132,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Chungju",
+        "Eumseong",
+        "Jeungpyeong",
+        "Cheongju Int'l Airport",
+        "Ogeunjang",
+        "Cheongju",
+        "Osong",
+        "Jochiwon",
+        "Sintanjin",
+        "Seodaejeon"
+      ],
+      "headsign": "Seodaejeon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1541",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Chungju",
+          "departureTime": "08:15",
+          "arrivalTime": "08:44",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "ITX-마음 1541",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Chungju",
+          "destination": "Eumseong",
+          "departureTime": "08:44",
+          "arrivalTime": "09:00",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1541",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Eumseong",
+          "destination": "Jeungpyeong",
+          "departureTime": "09:00",
+          "arrivalTime": "09:17",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1541",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Jeungpyeong",
+          "destination": "Cheongju Int'l Airport",
+          "departureTime": "09:17",
+          "arrivalTime": "09:27",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1541",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Cheongju Int'l Airport",
+          "destination": "Ogeunjang",
+          "departureTime": "09:27",
+          "arrivalTime": "09:31",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "ITX-마음 1541",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Ogeunjang",
+          "destination": "Cheongju",
+          "departureTime": "09:31",
+          "arrivalTime": "09:39",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1541",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Cheongju",
+          "destination": "Osong",
+          "departureTime": "09:39",
+          "arrivalTime": "09:47",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1541",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Jochiwon",
+          "departureTime": "09:47",
+          "arrivalTime": "09:53",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1541",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Jochiwon",
+          "destination": "Sintanjin",
+          "departureTime": "09:53",
+          "arrivalTime": "10:11",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "ITX-마음 1541",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Sintanjin",
+          "destination": "Seodaejeon",
+          "departureTime": "10:11",
+          "arrivalTime": "10:27",
+          "durationMinutes": 16
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-01-regular-충북선-46-10",
+      "country": "korea",
+      "date": "2026-10-01",
+      "operator": "Korail",
+      "service": "ITX-마음 1381",
+      "trainType": "ITX-마음",
+      "origin": "Jecheon",
+      "destination": "Seodaejeon",
+      "departureTime": "17:15",
+      "arrivalTime": "19:28",
+      "durationMinutes": 133,
+      "direct": true,
+      "stops": [
+        "Jecheon",
+        "Chungju",
+        "Judeok",
+        "Eumseong",
+        "Jeungpyeong",
+        "Cheongju Int'l Airport",
+        "Ogeunjang",
+        "Cheongju",
+        "Osong",
+        "Jochiwon",
+        "Sintanjin",
+        "Seodaejeon"
+      ],
+      "headsign": "Seodaejeon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1381",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Chungju",
+          "departureTime": "17:15",
+          "arrivalTime": "17:44",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "ITX-마음 1381",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Chungju",
+          "destination": "Judeok",
+          "departureTime": "17:44",
+          "arrivalTime": "17:53",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1381",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Judeok",
+          "destination": "Eumseong",
+          "departureTime": "17:53",
+          "arrivalTime": "18:03",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1381",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Eumseong",
+          "destination": "Jeungpyeong",
+          "departureTime": "18:03",
+          "arrivalTime": "18:20",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1381",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Jeungpyeong",
+          "destination": "Cheongju Int'l Airport",
+          "departureTime": "18:20",
+          "arrivalTime": "18:30",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1381",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Cheongju Int'l Airport",
+          "destination": "Ogeunjang",
+          "departureTime": "18:30",
+          "arrivalTime": "18:34",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "ITX-마음 1381",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Ogeunjang",
+          "destination": "Cheongju",
+          "departureTime": "18:34",
+          "arrivalTime": "18:42",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1381",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Cheongju",
+          "destination": "Osong",
+          "departureTime": "18:42",
+          "arrivalTime": "18:50",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1381",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Jochiwon",
+          "departureTime": "18:50",
+          "arrivalTime": "18:56",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "ITX-마음 1381",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Jochiwon",
+          "destination": "Sintanjin",
+          "departureTime": "18:56",
+          "arrivalTime": "19:13",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1381",
+          "lineCode": "충북선",
+          "mode": "train",
+          "origin": "Sintanjin",
+          "destination": "Seodaejeon",
+          "departureTime": "19:13",
+          "arrivalTime": "19:28",
+          "durationMinutes": 15
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -2218,7 +2502,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-22T00:22:02.033Z",
+    "fetchedAt": "2026-09-23T07:02:02.941Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

@@ -9,7 +9,46 @@
       "declaredStations": 12,
       "lines": [
         {
-          "id": "norway-route-oslo-lufthavn-lillehammer-1",
+          "id": "norway-route-bergen-stasjon-oslo-s-1",
+          "name": "Bergen stasjon → Oslo S",
+          "color": "#4B5563",
+          "stations": [
+            {
+              "name": "Bergen stasjon"
+            },
+            {
+              "name": "Oslo S"
+            }
+          ]
+        },
+        {
+          "id": "norway-route-bod-stasjon-trondheim-s-2",
+          "name": "Bodø stasjon → Trondheim S",
+          "color": "#4B5563",
+          "stations": [
+            {
+              "name": "Bodø stasjon"
+            },
+            {
+              "name": "Trondheim S"
+            }
+          ]
+        },
+        {
+          "id": "norway-route-lillehammer-oslo-lufthavn-3",
+          "name": "Lillehammer → Oslo lufthavn",
+          "color": "#8B1D3D",
+          "stations": [
+            {
+              "name": "Lillehammer"
+            },
+            {
+              "name": "Oslo lufthavn"
+            }
+          ]
+        },
+        {
+          "id": "norway-route-oslo-lufthavn-lillehammer-4",
           "name": "Oslo lufthavn → Lillehammer",
           "color": "#8B1D3D",
           "stations": [
@@ -22,7 +61,7 @@
           ]
         },
         {
-          "id": "norway-route-oslo-s-bergen-stasjon-2",
+          "id": "norway-route-oslo-s-bergen-stasjon-5",
           "name": "Oslo S → Bergen stasjon",
           "color": "#8B1D3D",
           "stations": [
@@ -35,7 +74,7 @@
           ]
         },
         {
-          "id": "norway-route-oslo-s-stavanger-stasjon-3",
+          "id": "norway-route-oslo-s-stavanger-stasjon-6",
           "name": "Oslo S → Stavanger stasjon",
           "color": "#8B1D3D",
           "stations": [
@@ -48,7 +87,7 @@
           ]
         },
         {
-          "id": "norway-route-oslo-s-trondheim-s-4",
+          "id": "norway-route-oslo-s-trondheim-s-7",
           "name": "Oslo S → Trondheim S",
           "color": "#8B1D3D",
           "stations": [
@@ -61,9 +100,22 @@
           ]
         },
         {
-          "id": "norway-route-trondheim-s-bod-stasjon-5",
-          "name": "Trondheim S → Bodø stasjon",
+          "id": "norway-route-stavanger-stasjon-oslo-s-8",
+          "name": "Stavanger stasjon → Oslo S",
           "color": "#4B5563",
+          "stations": [
+            {
+              "name": "Stavanger stasjon"
+            },
+            {
+              "name": "Oslo S"
+            }
+          ]
+        },
+        {
+          "id": "norway-route-trondheim-s-bod-stasjon-9",
+          "name": "Trondheim S → Bodø stasjon",
+          "color": "#8B1D3D",
           "stations": [
             {
               "name": "Trondheim S"
@@ -72,13 +124,65 @@
               "name": "Bodø stasjon"
             }
           ]
+        },
+        {
+          "id": "norway-route-trondheim-s-oslo-s-10",
+          "name": "Trondheim S → Oslo S",
+          "color": "#8B1D3D",
+          "stations": [
+            {
+              "name": "Trondheim S"
+            },
+            {
+              "name": "Oslo S"
+            }
+          ]
         }
       ]
     }
   ],
   "lines": [
     {
-      "id": "norway-route-oslo-lufthavn-lillehammer-1",
+      "id": "norway-route-bergen-stasjon-oslo-s-1",
+      "name": "Bergen stasjon → Oslo S",
+      "color": "#4B5563",
+      "stations": [
+        {
+          "name": "Bergen stasjon"
+        },
+        {
+          "name": "Oslo S"
+        }
+      ]
+    },
+    {
+      "id": "norway-route-bod-stasjon-trondheim-s-2",
+      "name": "Bodø stasjon → Trondheim S",
+      "color": "#4B5563",
+      "stations": [
+        {
+          "name": "Bodø stasjon"
+        },
+        {
+          "name": "Trondheim S"
+        }
+      ]
+    },
+    {
+      "id": "norway-route-lillehammer-oslo-lufthavn-3",
+      "name": "Lillehammer → Oslo lufthavn",
+      "color": "#8B1D3D",
+      "stations": [
+        {
+          "name": "Lillehammer"
+        },
+        {
+          "name": "Oslo lufthavn"
+        }
+      ]
+    },
+    {
+      "id": "norway-route-oslo-lufthavn-lillehammer-4",
       "name": "Oslo lufthavn → Lillehammer",
       "color": "#8B1D3D",
       "stations": [
@@ -91,7 +195,7 @@
       ]
     },
     {
-      "id": "norway-route-oslo-s-bergen-stasjon-2",
+      "id": "norway-route-oslo-s-bergen-stasjon-5",
       "name": "Oslo S → Bergen stasjon",
       "color": "#8B1D3D",
       "stations": [
@@ -104,7 +208,7 @@
       ]
     },
     {
-      "id": "norway-route-oslo-s-stavanger-stasjon-3",
+      "id": "norway-route-oslo-s-stavanger-stasjon-6",
       "name": "Oslo S → Stavanger stasjon",
       "color": "#8B1D3D",
       "stations": [
@@ -117,7 +221,7 @@
       ]
     },
     {
-      "id": "norway-route-oslo-s-trondheim-s-4",
+      "id": "norway-route-oslo-s-trondheim-s-7",
       "name": "Oslo S → Trondheim S",
       "color": "#8B1D3D",
       "stations": [
@@ -130,15 +234,41 @@
       ]
     },
     {
-      "id": "norway-route-trondheim-s-bod-stasjon-5",
-      "name": "Trondheim S → Bodø stasjon",
+      "id": "norway-route-stavanger-stasjon-oslo-s-8",
+      "name": "Stavanger stasjon → Oslo S",
       "color": "#4B5563",
+      "stations": [
+        {
+          "name": "Stavanger stasjon"
+        },
+        {
+          "name": "Oslo S"
+        }
+      ]
+    },
+    {
+      "id": "norway-route-trondheim-s-bod-stasjon-9",
+      "name": "Trondheim S → Bodø stasjon",
+      "color": "#8B1D3D",
       "stations": [
         {
           "name": "Trondheim S"
         },
         {
           "name": "Bodø stasjon"
+        }
+      ]
+    },
+    {
+      "id": "norway-route-trondheim-s-oslo-s-10",
+      "name": "Trondheim S → Oslo S",
+      "color": "#8B1D3D",
+      "stations": [
+        {
+          "name": "Trondheim S"
+        },
+        {
+          "name": "Oslo S"
         }
       ]
     }
@@ -160,21 +290,31 @@
     "Bankgata",
     "Bergen busstasjon",
     "Bergen lufthavn",
+    "Bjørvika",
     "Bodø lufthavn",
     "Bodø rådhus",
     "Buran",
     "Eidsvoll stasjon",
+    "Furuset skole",
     "Gildheim",
+    "Helsfyr T",
+    "Jernbanetorget",
     "Jernbaneveien",
     "Lillehammer skysstasjon",
+    "Manglerud",
+    "Manglerud T",
     "Nonneseter",
     "Olav Tryggvasons gate",
     "Oslo lufthavn stasjon",
+    "Oslo S Trelastgata",
+    "Prestaskjersveien",
     "Sande terrasse",
     "Sandefjord lufthavn",
     "Sandefjord lufthavn Torp",
     "Søndre gate Regionbuss",
+    "Stavanger bussterminal",
     "Stavanger lufthavn",
+    "Stjørdal stasjon",
     "Tjora",
     "Torp stasjon",
     "Trondheim lufthavn",

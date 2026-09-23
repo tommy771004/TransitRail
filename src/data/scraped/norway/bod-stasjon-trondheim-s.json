@@ -1,0 +1,4407 @@
+{
+  "origin": "Bodø stasjon",
+  "destination": "Trondheim S",
+  "date": "2026-09-23..2026-10-01",
+  "scrapedAt": "2026-09-23T07:18:50.804Z",
+  "source": "Entur Journey Planner v3",
+  "results": [
+    {
+      "id": "2026-09-23-no-entur-2026-09-23-1-2026-09-23T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + FB73 + foot",
+      "durationMinutes": 204,
+      "departureTime": "09:46",
+      "arrivalTime": "13:10",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": true,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:04",
+          "durationMinutes": 74
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:19",
+          "arrivalTime": "12:20",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "12:30",
+          "arrivalTime": "13:04",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "13:04",
+          "arrivalTime": "13:10",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-09-23"
+    },
+    {
+      "id": "2026-09-23-no-entur-2026-09-23-2-2026-09-23T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + 311",
+      "durationMinutes": 212,
+      "departureTime": "09:46",
+      "arrivalTime": "13:18",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": true,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:04",
+          "durationMinutes": 74
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:19",
+          "arrivalTime": "12:23",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "311",
+          "lineCode": "311",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim S",
+          "departureTime": "12:45",
+          "arrivalTime": "13:18",
+          "durationMinutes": 33
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn"
+      ],
+      "date": "2026-09-23"
+    },
+    {
+      "id": "2026-09-23-no-entur-2026-09-23-0-2026-09-23T09:51:19+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "400 + foot + Bergen-Bodø + foot + FB73 + 70",
+      "trainType": "400",
+      "durationMinutes": 197,
+      "departureTime": "09:51",
+      "arrivalTime": "13:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": true,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "400",
+          "lineCode": "400",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:51",
+          "arrivalTime": "10:01",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:01",
+          "arrivalTime": "10:01",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:04",
+          "durationMinutes": 74
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:19",
+          "arrivalTime": "12:20",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "12:30",
+          "arrivalTime": "12:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "13:01",
+          "arrivalTime": "13:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-09-23"
+    },
+    {
+      "id": "2026-09-23-no-entur-2026-09-23-3-2026-09-23T10:01:39+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "4 + 2 + foot + Bodø-Trondheim + foot + FB73 + 70",
+      "trainType": "4",
+      "durationMinutes": 246,
+      "departureTime": "10:01",
+      "arrivalTime": "14:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": true,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "4",
+          "lineCode": "4",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Aspåsen",
+          "departureTime": "10:01",
+          "arrivalTime": "10:08",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "2",
+          "lineCode": "2",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Aspåsen",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:12",
+          "arrivalTime": "10:14",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:14",
+          "arrivalTime": "10:14",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:55",
+          "arrivalTime": "13:10",
+          "durationMinutes": 135
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:25",
+          "arrivalTime": "13:26",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "13:30",
+          "arrivalTime": "13:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "14:01",
+          "arrivalTime": "14:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Aspåsen",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-09-23"
+    },
+    {
+      "id": "2026-09-23-no-entur-2026-09-23-5-2026-09-23T10:01:39+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "4 + 2 + foot + Bodø-Trondheim + foot + R70",
+      "trainType": "4",
+      "durationMinutes": 279,
+      "departureTime": "10:01",
+      "arrivalTime": "14:41",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": true,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "4",
+          "lineCode": "4",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Aspåsen",
+          "departureTime": "10:01",
+          "arrivalTime": "10:08",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "2",
+          "lineCode": "2",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Aspåsen",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:12",
+          "arrivalTime": "10:14",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:14",
+          "arrivalTime": "10:14",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:55",
+          "arrivalTime": "13:10",
+          "durationMinutes": 135
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn stasjon",
+          "departureTime": "13:25",
+          "arrivalTime": "13:28",
+          "durationMinutes": 4
+        },
+        {
+          "lineName": "R70",
+          "lineCode": "R70",
+          "color": "#8B1D3D",
+          "mode": "rail",
+          "origin": "Trondheim lufthavn stasjon",
+          "destination": "Trondheim S",
+          "departureTime": "14:03",
+          "arrivalTime": "14:41",
+          "durationMinutes": 38
+        }
+      ],
+      "transferStations": [
+        "Aspåsen",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn stasjon"
+      ],
+      "date": "2026-09-23"
+    },
+    {
+      "id": "2026-09-23-no-entur-2026-09-23-4-2026-09-23T10:06:21+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + 1 + foot + Bodø-Trondheim + foot + FB73 + 70",
+      "durationMinutes": 242,
+      "departureTime": "10:06",
+      "arrivalTime": "14:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": true,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bankgata",
+          "departureTime": "10:06",
+          "arrivalTime": "10:13",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bankgata",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:13",
+          "arrivalTime": "10:19",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:19",
+          "arrivalTime": "10:19",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "11:00",
+          "arrivalTime": "13:10",
+          "durationMinutes": 130
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:25",
+          "arrivalTime": "13:26",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "13:30",
+          "arrivalTime": "13:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "14:01",
+          "arrivalTime": "14:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bankgata",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-09-23"
+    },
+    {
+      "id": "2026-09-24-no-entur-2026-09-24-1-2026-09-24T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + FB73 + foot",
+      "durationMinutes": 204,
+      "departureTime": "09:46",
+      "arrivalTime": "13:10",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "12:30",
+          "arrivalTime": "13:04",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "13:04",
+          "arrivalTime": "13:10",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-09-24"
+    },
+    {
+      "id": "2026-09-24-no-entur-2026-09-24-2-2026-09-24T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + 311",
+      "durationMinutes": 212,
+      "departureTime": "09:46",
+      "arrivalTime": "13:18",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:19",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "311",
+          "lineCode": "311",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim S",
+          "departureTime": "12:45",
+          "arrivalTime": "13:18",
+          "durationMinutes": 33
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn"
+      ],
+      "date": "2026-09-24"
+    },
+    {
+      "id": "2026-09-24-no-entur-2026-09-24-0-2026-09-24T09:50:00+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "400 + foot + Bergen-Bodø + foot + FB73 + 70",
+      "trainType": "400",
+      "durationMinutes": 198,
+      "departureTime": "09:50",
+      "arrivalTime": "13:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "400",
+          "lineCode": "400",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:50",
+          "arrivalTime": "09:59",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:59",
+          "arrivalTime": "09:59",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "12:30",
+          "arrivalTime": "12:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "13:01",
+          "arrivalTime": "13:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-09-24"
+    },
+    {
+      "id": "2026-09-24-no-entur-2026-09-24-3-2026-09-24T09:51:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bodø-Trondheim + foot + FB73 + foot",
+      "durationMinutes": 244,
+      "departureTime": "09:51",
+      "arrivalTime": "13:55",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:51",
+          "arrivalTime": "10:20",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:55",
+          "arrivalTime": "12:55",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:10",
+          "arrivalTime": "13:11",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "13:15",
+          "arrivalTime": "13:49",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "13:49",
+          "arrivalTime": "13:55",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-09-24"
+    },
+    {
+      "id": "2026-09-24-no-entur-2026-09-24-4-2026-09-24T10:02:00+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "4 + 2 + foot + Bodø-Trondheim + foot + FB73 + 10",
+      "trainType": "4",
+      "durationMinutes": 234,
+      "departureTime": "10:02",
+      "arrivalTime": "13:56",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "4",
+          "lineCode": "4",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Aspåsen",
+          "departureTime": "10:02",
+          "arrivalTime": "10:08",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "2",
+          "lineCode": "2",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Aspåsen",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:14",
+          "arrivalTime": "10:17",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:17",
+          "arrivalTime": "10:17",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:55",
+          "arrivalTime": "12:55",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:10",
+          "arrivalTime": "13:11",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Buran",
+          "departureTime": "13:15",
+          "arrivalTime": "13:42",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "10",
+          "lineCode": "10",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Buran",
+          "destination": "Trondheim S",
+          "departureTime": "13:52",
+          "arrivalTime": "13:56",
+          "durationMinutes": 4
+        }
+      ],
+      "transferStations": [
+        "Aspåsen",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Buran"
+      ],
+      "date": "2026-09-24"
+    },
+    {
+      "id": "2026-09-24-no-entur-2026-09-24-5-2026-09-24T10:05:53+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + 1 + foot + Bodø-Trondheim + foot + FB73 + 70",
+      "durationMinutes": 242,
+      "departureTime": "10:05",
+      "arrivalTime": "14:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bankgata",
+          "departureTime": "10:05",
+          "arrivalTime": "10:13",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bankgata",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:13",
+          "arrivalTime": "10:20",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:20",
+          "arrivalTime": "10:20",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "11:00",
+          "arrivalTime": "13:00",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:15",
+          "arrivalTime": "13:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "13:30",
+          "arrivalTime": "13:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "14:01",
+          "arrivalTime": "14:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bankgata",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-09-24"
+    },
+    {
+      "id": "2026-09-25-no-entur-2026-09-25-1-2026-09-25T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + FB73 + foot",
+      "durationMinutes": 204,
+      "departureTime": "09:46",
+      "arrivalTime": "13:10",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "12:30",
+          "arrivalTime": "13:04",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "13:04",
+          "arrivalTime": "13:10",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-09-25"
+    },
+    {
+      "id": "2026-09-25-no-entur-2026-09-25-2-2026-09-25T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + 311",
+      "durationMinutes": 212,
+      "departureTime": "09:46",
+      "arrivalTime": "13:18",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:19",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "311",
+          "lineCode": "311",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim S",
+          "departureTime": "12:45",
+          "arrivalTime": "13:18",
+          "durationMinutes": 33
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn"
+      ],
+      "date": "2026-09-25"
+    },
+    {
+      "id": "2026-09-25-no-entur-2026-09-25-0-2026-09-25T09:50:00+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "400 + foot + Bergen-Bodø + foot + FB73 + 70",
+      "trainType": "400",
+      "durationMinutes": 198,
+      "departureTime": "09:50",
+      "arrivalTime": "13:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "400",
+          "lineCode": "400",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:50",
+          "arrivalTime": "09:59",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:59",
+          "arrivalTime": "09:59",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "12:30",
+          "arrivalTime": "12:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "13:01",
+          "arrivalTime": "13:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-09-25"
+    },
+    {
+      "id": "2026-09-25-no-entur-2026-09-25-3-2026-09-25T09:51:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bodø-Trondheim + foot + FB73 + foot",
+      "durationMinutes": 244,
+      "departureTime": "09:51",
+      "arrivalTime": "13:55",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:51",
+          "arrivalTime": "10:20",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:55",
+          "arrivalTime": "12:55",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:10",
+          "arrivalTime": "13:11",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "13:15",
+          "arrivalTime": "13:49",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "13:49",
+          "arrivalTime": "13:55",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-09-25"
+    },
+    {
+      "id": "2026-09-25-no-entur-2026-09-25-4-2026-09-25T10:02:00+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "4 + 2 + foot + Bodø-Trondheim + foot + FB73 + 10",
+      "trainType": "4",
+      "durationMinutes": 234,
+      "departureTime": "10:02",
+      "arrivalTime": "13:56",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "4",
+          "lineCode": "4",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Aspåsen",
+          "departureTime": "10:02",
+          "arrivalTime": "10:08",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "2",
+          "lineCode": "2",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Aspåsen",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:14",
+          "arrivalTime": "10:17",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:17",
+          "arrivalTime": "10:17",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:55",
+          "arrivalTime": "12:55",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:10",
+          "arrivalTime": "13:11",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Buran",
+          "departureTime": "13:15",
+          "arrivalTime": "13:42",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "10",
+          "lineCode": "10",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Buran",
+          "destination": "Trondheim S",
+          "departureTime": "13:52",
+          "arrivalTime": "13:56",
+          "durationMinutes": 4
+        }
+      ],
+      "transferStations": [
+        "Aspåsen",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Buran"
+      ],
+      "date": "2026-09-25"
+    },
+    {
+      "id": "2026-09-25-no-entur-2026-09-25-5-2026-09-25T10:05:53+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + 1 + foot + Bodø-Trondheim + foot + FB73 + 70",
+      "durationMinutes": 242,
+      "departureTime": "10:05",
+      "arrivalTime": "14:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bankgata",
+          "departureTime": "10:05",
+          "arrivalTime": "10:13",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bankgata",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:13",
+          "arrivalTime": "10:20",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:20",
+          "arrivalTime": "10:20",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "11:00",
+          "arrivalTime": "13:00",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:15",
+          "arrivalTime": "13:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "13:30",
+          "arrivalTime": "13:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "14:01",
+          "arrivalTime": "14:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bankgata",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-09-25"
+    },
+    {
+      "id": "2026-09-26-no-entur-2026-09-26-1-2026-09-26T08:27:53+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + 2 + foot + Oslo-Bodø + Oslo-Trondheim + foot + FB73 + 10",
+      "durationMinutes": 358,
+      "departureTime": "08:27",
+      "arrivalTime": "14:26",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bankgata",
+          "departureTime": "08:27",
+          "arrivalTime": "08:35",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "2",
+          "lineCode": "2",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bankgata",
+          "destination": "Bodø lufthavn",
+          "departureTime": "08:35",
+          "arrivalTime": "08:42",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "08:42",
+          "arrivalTime": "08:42",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Oslo-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Oslo lufthavn",
+          "departureTime": "09:30",
+          "arrivalTime": "11:00",
+          "durationMinutes": 90
+        },
+        {
+          "lineName": "Oslo-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:20",
+          "arrivalTime": "13:15",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:30",
+          "arrivalTime": "13:31",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Buran",
+          "departureTime": "13:45",
+          "arrivalTime": "14:12",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "10",
+          "lineCode": "10",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Buran",
+          "destination": "Trondheim S",
+          "departureTime": "14:22",
+          "arrivalTime": "14:26",
+          "durationMinutes": 4
+        }
+      ],
+      "transferStations": [
+        "Bankgata",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Oslo lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Buran"
+      ],
+      "date": "2026-09-26"
+    },
+    {
+      "id": "2026-09-26-no-entur-2026-09-26-2-2026-09-26T08:27:53+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + 2 + foot + Oslo-Bodø + Oslo-Trondheim + foot + 70",
+      "durationMinutes": 363,
+      "departureTime": "08:27",
+      "arrivalTime": "14:31",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bankgata",
+          "departureTime": "08:27",
+          "arrivalTime": "08:35",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "2",
+          "lineCode": "2",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bankgata",
+          "destination": "Bodø lufthavn",
+          "departureTime": "08:35",
+          "arrivalTime": "08:42",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "08:42",
+          "arrivalTime": "08:42",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Oslo-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Oslo lufthavn",
+          "departureTime": "09:30",
+          "arrivalTime": "11:00",
+          "durationMinutes": 90
+        },
+        {
+          "lineName": "Oslo-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:20",
+          "arrivalTime": "13:15",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:30",
+          "arrivalTime": "13:34",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim S",
+          "departureTime": "13:40",
+          "arrivalTime": "14:31",
+          "durationMinutes": 51
+        }
+      ],
+      "transferStations": [
+        "Bankgata",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Oslo lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn"
+      ],
+      "date": "2026-09-26"
+    },
+    {
+      "id": "2026-09-26-no-entur-2026-09-26-0-2026-09-26T08:31:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Oslo-Bodø + Oslo-Trondheim + foot + FB73 + foot",
+      "durationMinutes": 354,
+      "departureTime": "08:31",
+      "arrivalTime": "14:25",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "08:31",
+          "arrivalTime": "09:00",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Oslo-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Oslo lufthavn",
+          "departureTime": "09:35",
+          "arrivalTime": "11:05",
+          "durationMinutes": 90
+        },
+        {
+          "lineName": "Oslo-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:20",
+          "arrivalTime": "13:15",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:30",
+          "arrivalTime": "13:31",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "13:45",
+          "arrivalTime": "14:19",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "14:19",
+          "arrivalTime": "14:25",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Oslo lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-09-26"
+    },
+    {
+      "id": "2026-09-26-no-entur-2026-09-26-3-2026-09-26T08:31:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Oslo-Bodø + Oslo-Trondheim + foot + 70",
+      "durationMinutes": 360,
+      "departureTime": "08:31",
+      "arrivalTime": "14:31",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "08:31",
+          "arrivalTime": "09:00",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Oslo-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Oslo lufthavn",
+          "departureTime": "09:35",
+          "arrivalTime": "11:05",
+          "durationMinutes": 90
+        },
+        {
+          "lineName": "Oslo-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Oslo lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:20",
+          "arrivalTime": "13:15",
+          "durationMinutes": 55
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:30",
+          "arrivalTime": "13:34",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim S",
+          "departureTime": "13:40",
+          "arrivalTime": "14:31",
+          "durationMinutes": 51
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Oslo lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn"
+      ],
+      "date": "2026-09-26"
+    },
+    {
+      "id": "2026-09-26-no-entur-2026-09-26-5-2026-09-26T11:41:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bodø-Trondheim + foot + FB73 + foot",
+      "durationMinutes": 254,
+      "departureTime": "11:41",
+      "arrivalTime": "15:55",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "11:41",
+          "arrivalTime": "12:10",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:45",
+          "arrivalTime": "14:45",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "15:00",
+          "arrivalTime": "15:01",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "15:15",
+          "arrivalTime": "15:49",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "15:49",
+          "arrivalTime": "15:55",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-09-26"
+    },
+    {
+      "id": "2026-09-26-no-entur-2026-09-26-4-2026-09-26T11:48:00+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "400 + foot + Bodø-Trondheim + foot + FB73 + 70",
+      "trainType": "400",
+      "durationMinutes": 246,
+      "departureTime": "11:48",
+      "arrivalTime": "15:54",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "400",
+          "lineCode": "400",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "11:48",
+          "arrivalTime": "11:57",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "11:57",
+          "arrivalTime": "11:57",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:45",
+          "arrivalTime": "14:45",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "15:00",
+          "arrivalTime": "15:01",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "15:15",
+          "arrivalTime": "15:39",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "15:47",
+          "arrivalTime": "15:54",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-09-26"
+    },
+    {
+      "id": "2026-09-27-no-entur-2026-09-27-0-2026-09-27T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + FB73 + foot",
+      "durationMinutes": 204,
+      "departureTime": "09:46",
+      "arrivalTime": "13:10",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "12:30",
+          "arrivalTime": "13:04",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "13:04",
+          "arrivalTime": "13:10",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-09-27"
+    },
+    {
+      "id": "2026-09-27-no-entur-2026-09-27-1-2026-09-27T09:55:53+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + 1 + foot + Bergen-Bodø + foot + FB73 + 10",
+      "durationMinutes": 198,
+      "departureTime": "09:55",
+      "arrivalTime": "13:14",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bankgata",
+          "departureTime": "09:55",
+          "arrivalTime": "10:03",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bankgata",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:03",
+          "arrivalTime": "10:10",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:10",
+          "arrivalTime": "10:10",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Buran",
+          "departureTime": "12:30",
+          "arrivalTime": "12:57",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "10",
+          "lineCode": "10",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Buran",
+          "destination": "Trondheim S",
+          "departureTime": "13:11",
+          "arrivalTime": "13:14",
+          "durationMinutes": 3
+        }
+      ],
+      "transferStations": [
+        "Bankgata",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Buran"
+      ],
+      "date": "2026-09-27"
+    },
+    {
+      "id": "2026-09-27-no-entur-2026-09-27-2-2026-09-27T09:55:53+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + 1 + foot + Bergen-Bodø + foot + 70",
+      "durationMinutes": 230,
+      "departureTime": "09:55",
+      "arrivalTime": "13:46",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bankgata",
+          "departureTime": "09:55",
+          "arrivalTime": "10:03",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bankgata",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:03",
+          "arrivalTime": "10:10",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:10",
+          "arrivalTime": "10:10",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:19",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim S",
+          "departureTime": "12:59",
+          "arrivalTime": "13:46",
+          "durationMinutes": 47
+        }
+      ],
+      "transferStations": [
+        "Bankgata",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn"
+      ],
+      "date": "2026-09-27"
+    },
+    {
+      "id": "2026-09-28-no-entur-2026-09-28-1-2026-09-28T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + FB73 + foot",
+      "durationMinutes": 204,
+      "departureTime": "09:46",
+      "arrivalTime": "13:10",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "12:30",
+          "arrivalTime": "13:04",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "13:04",
+          "arrivalTime": "13:10",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-09-28"
+    },
+    {
+      "id": "2026-09-28-no-entur-2026-09-28-2-2026-09-28T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + 311",
+      "durationMinutes": 212,
+      "departureTime": "09:46",
+      "arrivalTime": "13:18",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:19",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "311",
+          "lineCode": "311",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim S",
+          "departureTime": "12:45",
+          "arrivalTime": "13:18",
+          "durationMinutes": 33
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn"
+      ],
+      "date": "2026-09-28"
+    },
+    {
+      "id": "2026-09-28-no-entur-2026-09-28-0-2026-09-28T09:50:00+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "400 + foot + Bergen-Bodø + foot + FB73 + 70",
+      "trainType": "400",
+      "durationMinutes": 198,
+      "departureTime": "09:50",
+      "arrivalTime": "13:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "400",
+          "lineCode": "400",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:50",
+          "arrivalTime": "09:59",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:59",
+          "arrivalTime": "09:59",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "12:30",
+          "arrivalTime": "12:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "13:01",
+          "arrivalTime": "13:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-09-28"
+    },
+    {
+      "id": "2026-09-28-no-entur-2026-09-28-3-2026-09-28T09:51:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bodø-Trondheim + foot + FB73 + foot",
+      "durationMinutes": 244,
+      "departureTime": "09:51",
+      "arrivalTime": "13:55",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:51",
+          "arrivalTime": "10:20",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:55",
+          "arrivalTime": "12:55",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:10",
+          "arrivalTime": "13:11",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "13:15",
+          "arrivalTime": "13:49",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "13:49",
+          "arrivalTime": "13:55",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-09-28"
+    },
+    {
+      "id": "2026-09-28-no-entur-2026-09-28-4-2026-09-28T10:02:00+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "4 + 2 + foot + Bodø-Trondheim + foot + FB73 + 10",
+      "trainType": "4",
+      "durationMinutes": 234,
+      "departureTime": "10:02",
+      "arrivalTime": "13:56",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "4",
+          "lineCode": "4",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Aspåsen",
+          "departureTime": "10:02",
+          "arrivalTime": "10:08",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "2",
+          "lineCode": "2",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Aspåsen",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:14",
+          "arrivalTime": "10:17",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:17",
+          "arrivalTime": "10:17",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:55",
+          "arrivalTime": "12:55",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:10",
+          "arrivalTime": "13:11",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Buran",
+          "departureTime": "13:15",
+          "arrivalTime": "13:42",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "10",
+          "lineCode": "10",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Buran",
+          "destination": "Trondheim S",
+          "departureTime": "13:52",
+          "arrivalTime": "13:56",
+          "durationMinutes": 4
+        }
+      ],
+      "transferStations": [
+        "Aspåsen",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Buran"
+      ],
+      "date": "2026-09-28"
+    },
+    {
+      "id": "2026-09-28-no-entur-2026-09-28-5-2026-09-28T10:05:53+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + 1 + foot + Bodø-Trondheim + foot + FB73 + 70",
+      "durationMinutes": 242,
+      "departureTime": "10:05",
+      "arrivalTime": "14:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bankgata",
+          "departureTime": "10:05",
+          "arrivalTime": "10:13",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bankgata",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:13",
+          "arrivalTime": "10:20",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:20",
+          "arrivalTime": "10:20",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "11:00",
+          "arrivalTime": "13:00",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:15",
+          "arrivalTime": "13:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "13:30",
+          "arrivalTime": "13:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "14:01",
+          "arrivalTime": "14:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bankgata",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-09-28"
+    },
+    {
+      "id": "2026-09-29-no-entur-2026-09-29-1-2026-09-29T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + FB73 + foot",
+      "durationMinutes": 204,
+      "departureTime": "09:46",
+      "arrivalTime": "13:10",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "12:30",
+          "arrivalTime": "13:04",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "13:04",
+          "arrivalTime": "13:10",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-09-29"
+    },
+    {
+      "id": "2026-09-29-no-entur-2026-09-29-2-2026-09-29T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + 311",
+      "durationMinutes": 212,
+      "departureTime": "09:46",
+      "arrivalTime": "13:18",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:19",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "311",
+          "lineCode": "311",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim S",
+          "departureTime": "12:45",
+          "arrivalTime": "13:18",
+          "durationMinutes": 33
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn"
+      ],
+      "date": "2026-09-29"
+    },
+    {
+      "id": "2026-09-29-no-entur-2026-09-29-0-2026-09-29T09:50:00+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "400 + foot + Bergen-Bodø + foot + FB73 + 70",
+      "trainType": "400",
+      "durationMinutes": 198,
+      "departureTime": "09:50",
+      "arrivalTime": "13:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "400",
+          "lineCode": "400",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:50",
+          "arrivalTime": "09:59",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:59",
+          "arrivalTime": "09:59",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "12:30",
+          "arrivalTime": "12:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "13:01",
+          "arrivalTime": "13:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-09-29"
+    },
+    {
+      "id": "2026-09-29-no-entur-2026-09-29-3-2026-09-29T09:51:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bodø-Trondheim + foot + FB73 + foot",
+      "durationMinutes": 244,
+      "departureTime": "09:51",
+      "arrivalTime": "13:55",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:51",
+          "arrivalTime": "10:20",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:55",
+          "arrivalTime": "12:55",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:10",
+          "arrivalTime": "13:11",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "13:15",
+          "arrivalTime": "13:49",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "13:49",
+          "arrivalTime": "13:55",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-09-29"
+    },
+    {
+      "id": "2026-09-29-no-entur-2026-09-29-4-2026-09-29T10:02:00+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "4 + 2 + foot + Bodø-Trondheim + foot + FB73 + 10",
+      "trainType": "4",
+      "durationMinutes": 234,
+      "departureTime": "10:02",
+      "arrivalTime": "13:56",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "4",
+          "lineCode": "4",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Aspåsen",
+          "departureTime": "10:02",
+          "arrivalTime": "10:08",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "2",
+          "lineCode": "2",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Aspåsen",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:14",
+          "arrivalTime": "10:17",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:17",
+          "arrivalTime": "10:17",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:55",
+          "arrivalTime": "12:55",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:10",
+          "arrivalTime": "13:11",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Buran",
+          "departureTime": "13:15",
+          "arrivalTime": "13:42",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "10",
+          "lineCode": "10",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Buran",
+          "destination": "Trondheim S",
+          "departureTime": "13:52",
+          "arrivalTime": "13:56",
+          "durationMinutes": 4
+        }
+      ],
+      "transferStations": [
+        "Aspåsen",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Buran"
+      ],
+      "date": "2026-09-29"
+    },
+    {
+      "id": "2026-09-29-no-entur-2026-09-29-5-2026-09-29T10:05:53+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + 1 + foot + Bodø-Trondheim + foot + FB73 + 70",
+      "durationMinutes": 242,
+      "departureTime": "10:05",
+      "arrivalTime": "14:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bankgata",
+          "departureTime": "10:05",
+          "arrivalTime": "10:13",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bankgata",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:13",
+          "arrivalTime": "10:20",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:20",
+          "arrivalTime": "10:20",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "11:00",
+          "arrivalTime": "13:00",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:15",
+          "arrivalTime": "13:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "13:30",
+          "arrivalTime": "13:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "14:01",
+          "arrivalTime": "14:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bankgata",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-09-29"
+    },
+    {
+      "id": "2026-09-30-no-entur-2026-09-30-1-2026-09-30T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + FB73 + foot",
+      "durationMinutes": 204,
+      "departureTime": "09:46",
+      "arrivalTime": "13:10",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "12:30",
+          "arrivalTime": "13:04",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "13:04",
+          "arrivalTime": "13:10",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-09-30"
+    },
+    {
+      "id": "2026-09-30-no-entur-2026-09-30-2-2026-09-30T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + 311",
+      "durationMinutes": 212,
+      "departureTime": "09:46",
+      "arrivalTime": "13:18",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:19",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "311",
+          "lineCode": "311",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim S",
+          "departureTime": "12:45",
+          "arrivalTime": "13:18",
+          "durationMinutes": 33
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn"
+      ],
+      "date": "2026-09-30"
+    },
+    {
+      "id": "2026-09-30-no-entur-2026-09-30-0-2026-09-30T09:50:00+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "400 + foot + Bergen-Bodø + foot + FB73 + 70",
+      "trainType": "400",
+      "durationMinutes": 198,
+      "departureTime": "09:50",
+      "arrivalTime": "13:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "400",
+          "lineCode": "400",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:50",
+          "arrivalTime": "09:59",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:59",
+          "arrivalTime": "09:59",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "12:30",
+          "arrivalTime": "12:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "13:01",
+          "arrivalTime": "13:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-09-30"
+    },
+    {
+      "id": "2026-09-30-no-entur-2026-09-30-3-2026-09-30T09:51:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bodø-Trondheim + foot + FB73 + foot",
+      "durationMinutes": 244,
+      "departureTime": "09:51",
+      "arrivalTime": "13:55",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:51",
+          "arrivalTime": "10:20",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:55",
+          "arrivalTime": "12:55",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:10",
+          "arrivalTime": "13:11",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "13:15",
+          "arrivalTime": "13:49",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "13:49",
+          "arrivalTime": "13:55",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-09-30"
+    },
+    {
+      "id": "2026-09-30-no-entur-2026-09-30-4-2026-09-30T10:02:00+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "4 + 2 + foot + Bodø-Trondheim + foot + FB73 + 10",
+      "trainType": "4",
+      "durationMinutes": 234,
+      "departureTime": "10:02",
+      "arrivalTime": "13:56",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "4",
+          "lineCode": "4",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Aspåsen",
+          "departureTime": "10:02",
+          "arrivalTime": "10:08",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "2",
+          "lineCode": "2",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Aspåsen",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:14",
+          "arrivalTime": "10:17",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:17",
+          "arrivalTime": "10:17",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:55",
+          "arrivalTime": "12:55",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:10",
+          "arrivalTime": "13:11",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Buran",
+          "departureTime": "13:15",
+          "arrivalTime": "13:42",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "10",
+          "lineCode": "10",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Buran",
+          "destination": "Trondheim S",
+          "departureTime": "13:52",
+          "arrivalTime": "13:56",
+          "durationMinutes": 4
+        }
+      ],
+      "transferStations": [
+        "Aspåsen",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Buran"
+      ],
+      "date": "2026-09-30"
+    },
+    {
+      "id": "2026-09-30-no-entur-2026-09-30-5-2026-09-30T10:05:53+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + 1 + foot + Bodø-Trondheim + foot + FB73 + 70",
+      "durationMinutes": 242,
+      "departureTime": "10:05",
+      "arrivalTime": "14:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bankgata",
+          "departureTime": "10:05",
+          "arrivalTime": "10:13",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bankgata",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:13",
+          "arrivalTime": "10:20",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:20",
+          "arrivalTime": "10:20",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "11:00",
+          "arrivalTime": "13:00",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:15",
+          "arrivalTime": "13:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "13:30",
+          "arrivalTime": "13:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "14:01",
+          "arrivalTime": "14:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bankgata",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-09-30"
+    },
+    {
+      "id": "2026-10-01-no-entur-2026-10-01-1-2026-10-01T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + FB73 + foot",
+      "durationMinutes": 204,
+      "departureTime": "09:46",
+      "arrivalTime": "13:10",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "12:30",
+          "arrivalTime": "13:04",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "13:04",
+          "arrivalTime": "13:10",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-10-01"
+    },
+    {
+      "id": "2026-10-01-no-entur-2026-10-01-2-2026-10-01T09:46:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bergen-Bodø + foot + 311",
+      "durationMinutes": 212,
+      "departureTime": "09:46",
+      "arrivalTime": "13:18",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:46",
+          "arrivalTime": "10:15",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:19",
+          "durationMinutes": 5
+        },
+        {
+          "lineName": "311",
+          "lineCode": "311",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim S",
+          "departureTime": "12:45",
+          "arrivalTime": "13:18",
+          "durationMinutes": 33
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn"
+      ],
+      "date": "2026-10-01"
+    },
+    {
+      "id": "2026-10-01-no-entur-2026-10-01-0-2026-10-01T09:50:00+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "400 + foot + Bergen-Bodø + foot + FB73 + 70",
+      "trainType": "400",
+      "durationMinutes": 198,
+      "departureTime": "09:50",
+      "arrivalTime": "13:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "400",
+          "lineCode": "400",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:50",
+          "arrivalTime": "09:59",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:59",
+          "arrivalTime": "09:59",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bergen-Bodø",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:50",
+          "arrivalTime": "12:00",
+          "durationMinutes": 70
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "12:15",
+          "arrivalTime": "12:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "12:30",
+          "arrivalTime": "12:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "13:01",
+          "arrivalTime": "13:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-10-01"
+    },
+    {
+      "id": "2026-10-01-no-entur-2026-10-01-3-2026-10-01T09:51:30+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + Bodø-Trondheim + foot + FB73 + foot",
+      "durationMinutes": 244,
+      "departureTime": "09:51",
+      "arrivalTime": "13:55",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bodø lufthavn",
+          "departureTime": "09:51",
+          "arrivalTime": "10:20",
+          "durationMinutes": 29
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:55",
+          "arrivalTime": "12:55",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:10",
+          "arrivalTime": "13:11",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Olav Tryggvasons gate",
+          "departureTime": "13:15",
+          "arrivalTime": "13:49",
+          "durationMinutes": 34
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Olav Tryggvasons gate",
+          "destination": "Trondheim S",
+          "departureTime": "13:49",
+          "arrivalTime": "13:55",
+          "durationMinutes": 6
+        }
+      ],
+      "transferStations": [
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Olav Tryggvasons gate"
+      ],
+      "date": "2026-10-01"
+    },
+    {
+      "id": "2026-10-01-no-entur-2026-10-01-4-2026-10-01T10:02:00+02:00",
+      "country": "norway",
+      "operator": "Nordland fylkeskommune",
+      "service": "4 + 2 + foot + Bodø-Trondheim + foot + FB73 + 10",
+      "trainType": "4",
+      "durationMinutes": 234,
+      "departureTime": "10:02",
+      "arrivalTime": "13:56",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "4",
+          "lineCode": "4",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bodø stasjon",
+          "destination": "Aspåsen",
+          "departureTime": "10:02",
+          "arrivalTime": "10:08",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "2",
+          "lineCode": "2",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Aspåsen",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:14",
+          "arrivalTime": "10:17",
+          "durationMinutes": 3
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:17",
+          "arrivalTime": "10:17",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "10:55",
+          "arrivalTime": "12:55",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:10",
+          "arrivalTime": "13:11",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Buran",
+          "departureTime": "13:15",
+          "arrivalTime": "13:42",
+          "durationMinutes": 27
+        },
+        {
+          "lineName": "10",
+          "lineCode": "10",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Buran",
+          "destination": "Trondheim S",
+          "departureTime": "13:52",
+          "arrivalTime": "13:56",
+          "durationMinutes": 4
+        }
+      ],
+      "transferStations": [
+        "Aspåsen",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Buran"
+      ],
+      "date": "2026-10-01"
+    },
+    {
+      "id": "2026-10-01-no-entur-2026-10-01-5-2026-10-01T10:05:53+02:00",
+      "country": "norway",
+      "operator": "Entur",
+      "service": "foot + 1 + foot + Bodø-Trondheim + foot + FB73 + 70",
+      "durationMinutes": 242,
+      "departureTime": "10:05",
+      "arrivalTime": "14:08",
+      "origin": "Bodø stasjon",
+      "destination": "Trondheim S",
+      "direct": false,
+      "stops": [],
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø stasjon",
+          "destination": "Bankgata",
+          "departureTime": "10:05",
+          "arrivalTime": "10:13",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "1",
+          "lineCode": "1",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Bankgata",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:13",
+          "arrivalTime": "10:20",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Bodø lufthavn",
+          "destination": "Bodø lufthavn",
+          "departureTime": "10:20",
+          "arrivalTime": "10:20",
+          "durationMinutes": 0
+        },
+        {
+          "lineName": "Bodø-Trondheim",
+          "lineCode": null,
+          "color": "#4B5563",
+          "mode": "air",
+          "origin": "Bodø lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "11:00",
+          "arrivalTime": "13:00",
+          "durationMinutes": 120
+        },
+        {
+          "lineName": "foot",
+          "color": "#4B5563",
+          "mode": "foot",
+          "origin": "Trondheim lufthavn",
+          "destination": "Trondheim lufthavn",
+          "departureTime": "13:15",
+          "arrivalTime": "13:16",
+          "durationMinutes": 2
+        },
+        {
+          "lineName": "FB73",
+          "lineCode": "FB73",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Trondheim lufthavn",
+          "destination": "Gildheim",
+          "departureTime": "13:30",
+          "arrivalTime": "13:54",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "70",
+          "lineCode": "70",
+          "color": "#4B5563",
+          "mode": "bus",
+          "origin": "Gildheim",
+          "destination": "Trondheim S",
+          "departureTime": "14:01",
+          "arrivalTime": "14:08",
+          "durationMinutes": 7
+        }
+      ],
+      "transferStations": [
+        "Bankgata",
+        "Bodø lufthavn",
+        "Bodø lufthavn",
+        "Trondheim lufthavn",
+        "Trondheim lufthavn",
+        "Gildheim"
+      ],
+      "date": "2026-10-01"
+    }
+  ],
+  "sourceMeta": {
+    "sourceId": "no-entur",
+    "sourceType": "official-json",
+    "sourceTier": "A",
+    "sourceName": "Entur Journey Planner v3",
+    "sourceUrl": "https://api.entur.io/journey-planner/v3/graphql",
+    "provider": "Entur AS",
+    "country": "norway",
+    "fetchedAt": "2026-09-23T07:18:50.803Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official"
+}

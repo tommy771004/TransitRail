@@ -1,26 +1,37 @@
 {
   "origin": "Pohang",
   "destination": "Gyeongju",
-  "date": "2026-09-23..2026-09-30",
-  "scrapedAt": "2026-09-22T00:22:02.329Z",
+  "date": "2026-09-23..2026-10-01",
+  "scrapedAt": "2026-09-23T07:02:03.254Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 9. 18. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/17/202609171a0ae588ec1170.xlsx",
       "effectiveFrom": "2026-09-18",
-      "retrievedAt": "2026-09-22T00:21:59.098Z",
       "sha256": "e97adbb9c8b520d4db1ddd44ddf1165aa6c0e0c118d5acbe55103fdbd768e212",
+      "effectiveUntil": "2026-09-30",
+      "retrievedAt": "2026-09-23T07:01:58.719Z",
       "exclusions": []
     },
     {
       "title": "일반열차 시간표(2026. 9. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
-      "retrievedAt": "2026-09-22T00:21:59.868Z",
+      "retrievedAt": "2026-09-23T07:01:59.622Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
+      ]
+    },
+    {
+      "title": "KTX 시간표(2026. 10. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/23/202609231a0cb38a2c5200.xlsx",
+      "effectiveFrom": "2026-10-01",
+      "retrievedAt": "2026-09-23T07:02:02.937Z",
+      "sha256": "eaadc99d90aa9fb4e009ca74d812cc4aa4885a7aee98950adc715dca6c0ad623",
+      "exclusions": [
+        "Korail excluded 호남선 450: times run backwards at Gwangmyeong"
       ]
     }
   ],
@@ -2176,6 +2187,275 @@
           "durationMinutes": 13
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-01-regular-대구선-34-2",
+      "country": "korea",
+      "date": "2026-10-01",
+      "operator": "Korail",
+      "service": "무궁화 1896",
+      "trainType": "무궁화",
+      "origin": "Pohang",
+      "destination": "Gyeongju",
+      "departureTime": "05:49",
+      "arrivalTime": "06:25",
+      "durationMinutes": 36,
+      "direct": true,
+      "stops": [
+        "Pohang",
+        "Angang",
+        "Seogyeongju",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Pohang",
+          "destination": "Angang",
+          "departureTime": "05:49",
+          "arrivalTime": "06:02",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Angang",
+          "destination": "Seogyeongju",
+          "departureTime": "06:02",
+          "arrivalTime": "06:12",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Gyeongju",
+          "departureTime": "06:12",
+          "arrivalTime": "06:25",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-01-regular-대구선-34-5",
+      "country": "korea",
+      "date": "2026-10-01",
+      "operator": "Korail",
+      "service": "ITX-마음 1822",
+      "trainType": "ITX-마음",
+      "origin": "Pohang",
+      "destination": "Gyeongju",
+      "departureTime": "08:38",
+      "arrivalTime": "09:11",
+      "durationMinutes": 33,
+      "direct": true,
+      "stops": [
+        "Pohang",
+        "Seogyeongju",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1822",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Pohang",
+          "destination": "Seogyeongju",
+          "departureTime": "08:38",
+          "arrivalTime": "08:58",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "ITX-마음 1822",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Gyeongju",
+          "departureTime": "08:58",
+          "arrivalTime": "09:11",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-01-regular-대구선-34-13",
+      "country": "korea",
+      "date": "2026-10-01",
+      "operator": "Korail",
+      "service": "ITX-마음 1802",
+      "trainType": "ITX-마음",
+      "origin": "Pohang",
+      "destination": "Gyeongju",
+      "departureTime": "14:32",
+      "arrivalTime": "15:07",
+      "durationMinutes": 35,
+      "direct": true,
+      "stops": [
+        "Pohang",
+        "Seogyeongju",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1802",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Pohang",
+          "destination": "Seogyeongju",
+          "departureTime": "14:32",
+          "arrivalTime": "14:53",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-마음 1802",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Gyeongju",
+          "departureTime": "14:53",
+          "arrivalTime": "15:07",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-01-regular-대구선-34-19",
+      "country": "korea",
+      "date": "2026-10-01",
+      "operator": "Korail",
+      "service": "ITX-마음 1804",
+      "trainType": "ITX-마음",
+      "origin": "Pohang",
+      "destination": "Gyeongju",
+      "departureTime": "19:52",
+      "arrivalTime": "20:26",
+      "durationMinutes": 34,
+      "direct": true,
+      "stops": [
+        "Pohang",
+        "Seogyeongju",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1804",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Pohang",
+          "destination": "Seogyeongju",
+          "departureTime": "19:52",
+          "arrivalTime": "20:13",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-마음 1804",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Gyeongju",
+          "departureTime": "20:13",
+          "arrivalTime": "20:26",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-01-regular-대구선-34-20",
+      "country": "korea",
+      "date": "2026-10-01",
+      "operator": "Korail",
+      "service": "ITX-마음 1814",
+      "trainType": "ITX-마음",
+      "origin": "Pohang",
+      "destination": "Gyeongju",
+      "departureTime": "19:52",
+      "arrivalTime": "20:26",
+      "durationMinutes": 34,
+      "direct": true,
+      "stops": [
+        "Pohang",
+        "Seogyeongju",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1814",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Pohang",
+          "destination": "Seogyeongju",
+          "departureTime": "19:52",
+          "arrivalTime": "20:13",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-마음 1814",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Gyeongju",
+          "departureTime": "20:13",
+          "arrivalTime": "20:26",
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-01-regular-대구선-34-21",
+      "country": "korea",
+      "date": "2026-10-01",
+      "operator": "Korail",
+      "service": "ITX-마음 1806",
+      "trainType": "ITX-마음",
+      "origin": "Pohang",
+      "destination": "Gyeongju",
+      "departureTime": "20:34",
+      "arrivalTime": "21:11",
+      "durationMinutes": 37,
+      "direct": true,
+      "stops": [
+        "Pohang",
+        "Seogyeongju",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1806",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Pohang",
+          "destination": "Seogyeongju",
+          "departureTime": "20:34",
+          "arrivalTime": "20:58",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "ITX-마음 1806",
+          "lineCode": "대구선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Gyeongju",
+          "departureTime": "20:58",
+          "arrivalTime": "21:11",
+          "durationMinutes": 13
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -2186,7 +2466,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-22T00:22:02.033Z",
+    "fetchedAt": "2026-09-23T07:02:02.941Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
