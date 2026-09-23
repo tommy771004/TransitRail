@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { JapanOdptScraper, JapanJrCentralScraper } from "./japan";
 import { japanJrCentralRoutes } from "./routes";
 import { odptRoutes } from "../../src/data/odptRoutes";
+import { isJrCentralRoute } from "../../src/server/jrCentralTimetable";
 
 const odptResult = {
   id: "2026-08-03-jp-odpt-test",
@@ -99,6 +100,14 @@ describe("Japan JR Central scraper", () => {
     // The generated Shinkansen and Yamanote routes are gone, not moved.
     expect(scraper.routes).not.toContainEqual({ origin: "Tokyo", destination: "Hakata" });
     expect(scraper.routes).not.toContainEqual({ origin: "Tokyo", destination: "Ikebukuro" });
+  });
+
+  it("asks JR Central only for pairs its provider accepts", () => {
+    // The provider keeps its own list. Kyoto → Tokyo, Nagoya → Tokyo and
+    // Shin-Osaka → Nagoya were scheduled but missing from it, so every scrape
+    // of them failed as JR_CENTRAL_ROUTE_NOT_CONFIGURED.
+    const refused = japanJrCentralRoutes.filter((route) => !isJrCentralRoute(route.origin, route.destination));
+    expect(refused).toEqual([]);
   });
 
   it("preserves the official rows JR Central returned", async () => {

@@ -323,10 +323,11 @@ const MBTA_STATION_ALIASES: Record<string, string> = {
 // The parent "Airport" stop is the Blue Line station. The route page names
 // Logan's terminal bus service, so use Terminal A as a stable representative
 // stop for the live Silver Line SL1 schedule instead.
+const LOGAN_SL1_STOP_ID = "17091";
 const MBTA_SPECIAL_STATIONS: Record<string, MbtaStation> = {
-  "logan international airport": { id: "17091", name: "Logan International Airport" },
-  "logan airport": { id: "17091", name: "Logan International Airport" },
-  "boston logan": { id: "17091", name: "Logan International Airport" },
+  "logan international airport": { id: LOGAN_SL1_STOP_ID, name: "Logan International Airport" },
+  "logan airport": { id: LOGAN_SL1_STOP_ID, name: "Logan International Airport" },
+  "boston logan": { id: LOGAN_SL1_STOP_ID, name: "Logan International Airport" },
 };
 
 async function resolveMbtaStation(query: string) {
@@ -688,7 +689,10 @@ export async function searchMbtaJourney(
       ]);
       let transferStation: MbtaStation | null = null;
       let transferScheduleResponse: MbtaResponse | null = null;
-      if (resolvedOrigin.id === "place-harsq" && resolvedDestination.id === "17091") {
+      // Harvard and Logan share no route: Red Line to South Station, then the
+      // SL1. The ride runs both ways, and so does the connection.
+      const ends = new Set([resolvedOrigin.id, resolvedDestination.id]);
+      if (ends.size === 2 && ends.has("place-harsq") && ends.has(LOGAN_SL1_STOP_ID)) {
         transferStation = await resolveMbtaStation("South Station");
         if (transferStation) {
           transferScheduleResponse = await schedulesForStop(transferStation.id, date);
