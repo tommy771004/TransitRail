@@ -140,3 +140,63 @@ describe("TfL service-day bounds", () => {
     expect(body.serviceDayAdvisory?.lastDeparture).toBe("00:27");
   });
 });
+
+describe("TfL service-day bounds on a line the stations are not named for", () => {
+  // Paddington and Liverpool Street resolve to their Tube stops, but the fastest
+  // journey rides the Elizabeth line from its own platforms. TfL answers
+  // /Line/elizabeth/Timetable for the Tube ids with HTTP 500 — nightly scrapes
+  // logged it about 100 times per run and the route never had bounds.
+  function installElizabeth() {
+    const timetableCalls: string[] = [];
+    vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
+      const url = new URL(String(input));
+      if (url.pathname.startsWith("/StopPoint/Search/")) {
+        const query = decodeURIComponent(url.pathname.split("/").pop() || "");
+        return new Response(JSON.stringify({
+          matches: [{ id: query.includes("Paddington") ? "940GZZLUPAC" : "940GZZLULVT", name: query }],
+        }), { status: 200 });
+      }
+      if (url.pathname.includes("/Timetable/")) {
+        timetableCalls.push(url.pathname);
+        if (!url.pathname.includes("/910GPADTLL/to/910GLIVSTLL")) {
+          return new Response(JSON.stringify({ message: "error" }), { status: 500 });
+        }
+        return new Response(JSON.stringify({
+          timetable: { routes: [{ schedules: [{
+            name: "Monday - Friday",
+            knownJourneys: [{ hour: "5", minute: "31" }, { hour: "23", minute: "58" }],
+          }] }] },
+        }), { status: 200 });
+      }
+      if (url.pathname.startsWith("/Journey/JourneyResults/")) {
+        const start = `${WEEKDAY}T14:00:00`;
+        return new Response(JSON.stringify({
+          journeys: [{
+            startDateTime: start,
+            arrivalDateTime: start,
+            duration: 11,
+            legs: [{
+              departureTime: start,
+              arrivalTime: start,
+              duration: 11,
+              mode: { name: "elizabeth-line" },
+              departurePoint: { commonName: "Paddington", naptanId: "910GPADTLL" },
+              arrivalPoint: { commonName: "Liverpool Street", naptanId: "910GLIVSTLL" },
+              routeOptions: [{ lineIdentifier: { id: "elizabeth", name: "Elizabeth line" } }],
+            }],
+          }],
+        }), { status: 200 });
+      }
+      throw new Error(`Unexpected TfL request: ${url}`);
+    }));
+    return timetableCalls;
+  }
+
+  it("asks the line's timetable for the stops the leg actually uses", async () => {
+    const calls = installElizabeth();
+    const { body } = await searchTflJourney("Paddington Station", "Liverpool Street Station", WEEKDAY, "14:00");
+
+    expect(calls).toEqual(["/Line/elizabeth/Timetable/910GPADTLL/to/910GLIVSTLL"]);
+    expect(body.serviceDayAdvisory).toMatchObject({ firstDeparture: "05:31", lastDeparture: "23:58" });
+  });
+});
