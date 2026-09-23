@@ -122,6 +122,8 @@ export interface ResultListProps {
   toolbar?: ReactNode;
   /** Market filter chips on the sort row itself, after a divider (Korea's direct / first class). */
   filters?: ReactNode;
+  /** A way forward once every listed departure has left (the following day's search). */
+  allDepartedAction?: ReactNode;
   /** A notice above the first card (Metro's transfer hint). */
   beforeList?: ReactNode;
   afterResults?: ReactNode;
@@ -156,6 +158,7 @@ export function ResultList({
   formatRowPrice,
   toolbar,
   filters,
+  allDepartedAction,
   beforeList,
   afterResults,
   card,
@@ -241,10 +244,21 @@ export function ResultList({
     if (dep === null) return best;
     const bestDep = best ? departure(best) : null;
     return bestDep === null || dep < bestDep ? trip : best;
-  }, undefined)?.id ?? upcoming[0]?.id ?? results[0]?.id;
+  }, undefined)?.id ?? upcoming[0]?.id;
+  // No fallback to a row before the searched time: with the fold open, a
+  // departed train must never carry the Next badge.
 
   const departed = results.filter(isPast);
   const visible = showPast ? results : results.filter((trip) => !isPast(trip));
+  // Late at night the list could be nothing but the fold line. Say what that
+  // means instead: the verified departures shown have left. Never "no service"
+  // or "last train", which only a full timetable could claim.
+  const allDeparted = !showPast && departed.length > 0 && visible.length === 0;
+  const lastShown = departed.reduce<TransitResult | undefined>((latest, trip) => {
+    const dep = departure(trip);
+    const latestDep = latest ? departure(latest) : null;
+    return dep !== null && (latestDep === null || dep > latestDep) ? trip : latest;
+  }, undefined);
 
   // A long day in departure order gets an hour heading before the first
   // verified row of each hour. Headings come only from rows: an hour without
@@ -351,13 +365,32 @@ export function ResultList({
               className="min-w-0 space-y-3"
             >
               {beforeList}
-              {sharedFare && (
+              {sharedFare && !allDeparted && (
                 <p className="m3-body-small flex min-w-0 items-baseline justify-between gap-3 px-1 text-slate-500 dark:text-slate-400">
                   <span className="truncate">{t("result.fare_all")}</span>
                   <span className="m3-label-large shrink-0 tabular-nums text-slate-900 dark:text-white">{sharedFare}</span>
                 </p>
               )}
-              {departed.length > 0 && !showPast && (
+              {allDeparted ? (
+                <div role="status" className="m3-card m3-card-large m3-elevation-1 bg-white p-4 dark:bg-slate-900">
+                  <p className="m3-title-medium text-slate-900 dark:text-white">{t("result.all_departed_title")}</p>
+                  <p className="m3-body-medium mt-1 text-slate-600 dark:text-slate-300">
+                    {t("result.all_departed_body", { count: departed.length, time: lastShown?.departureTime ?? "--:--" })}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setShowPast(true)}
+                      className="m3-button m3-state border border-slate-300 text-slate-700 dark:border-slate-700 dark:text-slate-200"
+                    >
+                      {t("result.show_departed")}
+                    </button>
+                    {allDepartedAction}
+                  </div>
+                </div>
+              ) : null}
+              {allDeparted ? afterResults : null}
+              {departed.length > 0 && !showPast && !allDeparted && (
                 <button
                   type="button"
                   onClick={() => setShowPast(true)}

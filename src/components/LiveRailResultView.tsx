@@ -31,6 +31,7 @@ interface LiveRailResultViewProps {
   onOpenLegend?: (highlight?: string) => void;
   formatPrice?: (trip: TransitResult) => string | null;
   formatRowPrice?: (trip: TransitResult) => string | null;
+  allDepartedAction?: ReactNode;
   overview?: ReactNode;
   afterResults?: ReactNode;
   /** Injectable wall clock for the countdown; tests pin it. */
@@ -59,6 +60,7 @@ export function LiveRailResultView({
   onOpenLegend,
   formatPrice,
   formatRowPrice,
+  allDepartedAction,
   overview,
   afterResults,
   now,
@@ -121,6 +123,7 @@ export function LiveRailResultView({
         onOpenLegend={onOpenLegend}
         formatPrice={formatPrice}
         formatRowPrice={formatRowPrice}
+        allDepartedAction={allDepartedAction}
         afterResults={afterResults}
       />
     </main>
