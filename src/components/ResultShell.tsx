@@ -34,6 +34,24 @@ export const formatDuration = (t: TFunction, minutes?: number) => {
   return hours > 0 ? `${hours}${hourLabel} ${mins}${minLabel}` : `${mins}${minLabel}`;
 };
 
+/**
+ * The searched service day as the reader's locale writes it, weekday included
+ * ("Sun, 9/13", "9/13（週日）"): the weekday decides which timetable runs, and an
+ * ISO string is a format for machines. The date is a calendar day, so it is
+ * formatted at noon UTC and never shifts across a time zone.
+ */
+export const formatServiceDay = (date: string, language?: string) => {
+  const day = new Date(`${date}T12:00:00Z`);
+  if (Number.isNaN(day.getTime())) return date;
+  try {
+    return new Intl.DateTimeFormat(language || i18n.language || "en", {
+      month: "numeric", day: "numeric", weekday: "short", timeZone: "UTC",
+    }).format(day);
+  } catch {
+    return date;
+  }
+};
+
 const defaultHeaderSectionClass =
   "border-b border-slate-200 bg-white px-4 py-4 dark:border-slate-800 dark:bg-slate-900";
 

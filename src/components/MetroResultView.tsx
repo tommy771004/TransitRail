@@ -6,7 +6,7 @@
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import type { Country, CoverageGap, NoResultReason, SearchFailureKind, SortMode, TransitResult } from "../types";
-import { ResultShellHeader } from "./ResultShell";
+import { ResultShellHeader, formatServiceDay } from "./ResultShell";
 import { ResultList } from "./ResultList";
 
 interface MetroResultViewProps {
@@ -63,7 +63,7 @@ export function MetroResultView({
   afterResults,
   now,
 }: MetroResultViewProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const hasTransferResults = results.some((trip) => !trip.direct);
 
   return (
@@ -74,7 +74,7 @@ export function MetroResultView({
         destination={destination}
         meta={
           <p className="m3-body-small mt-1 flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
-            <span className="font-mono">{date}</span>
+            <span className="whitespace-nowrap">{formatServiceDay(date, i18n.language)}</span>
             {time ? <span className="font-mono text-slate-400 dark:text-slate-500">≥ {time}</span> : null}
           </p>
         }

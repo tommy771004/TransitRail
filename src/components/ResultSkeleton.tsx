@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import type { Country } from "../types";
 import { countryConfig } from "../data/countries";
-import { ResultShellHeader } from "./ResultShell";
+import { ResultShellHeader, formatServiceDay } from "./ResultShell";
 
 interface ResultSkeletonProps {
   country: Country;
@@ -13,14 +13,14 @@ interface ResultSkeletonProps {
 }
 
 export function ResultSkeleton({ country, origin, destination, date, time, onModify }: ResultSkeletonProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <main className="min-h-screen bg-transparent pb-nav">
       <ResultShellHeader
         country={country}
         origin={origin}
         destination={destination}
-        meta={<p className="m3-body-small mt-1 font-mono text-slate-500 dark:text-slate-400">{date}{time ? ` · ≥ ${time}` : ""}</p>}
+        meta={<p className="m3-body-small mt-1 text-slate-500 dark:text-slate-400">{formatServiceDay(date, i18n.language)}{time ? <span className="font-mono"> · ≥ {time}</span> : null}</p>}
         onModify={onModify}
       />
       <p role="status" className="m3-body-medium mx-auto max-w-md px-4 py-3 text-slate-600 dark:text-slate-300">
