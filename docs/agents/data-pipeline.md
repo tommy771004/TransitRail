@@ -25,7 +25,9 @@ warning, and `npm run validate:data` commits on warnings.
 Korail uses `KorailTimetableScraper` alongside Korea's subway CSV collector. It
 reads the public KTX/regular XLSX board, selects effective editions and weekdays,
 and caches downloads across the scrape window. Snapshot `sourceDocuments` records
-the exact files, hashes and excluded contradictory trains. See
+the exact files, hashes and excluded contradictory trains. Korail replaces a board post when it
+announces the next edition, so the scraper also reuses editions those committed `sourceDocuments`
+cite, provided the hash still matches. The board wins wherever it lists an edition for that date. See
 [supported workbook evidence](../../scripts/lib/fixtures/korail-README.md).
 
 ## Storage

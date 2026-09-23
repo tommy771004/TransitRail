@@ -8,6 +8,9 @@
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { searchTflJourney, resetTflStationResolutionCache } from "./tfl";
+import { recordError } from "./errorLog";
+
+vi.mock("./errorLog", () => ({ recordError: vi.fn(async () => ({})) }));
 
 const WEEKDAY = "2026-09-09";
 const SUNDAY = "2026-09-13";
@@ -73,7 +76,7 @@ function installTfl(onTimetable?: () => Response) {
   return timetableCalls;
 }
 
-beforeEach(() => { resetTflStationResolutionCache(); });
+beforeEach(() => { resetTflStationResolutionCache(); vi.mocked(recordError).mockClear(); });
 afterEach(() => { vi.unstubAllGlobals(); });
 
 const search = (date: string, time: string) =>
@@ -143,10 +146,11 @@ describe("TfL service-day bounds", () => {
 
 describe("TfL service-day bounds on a line the stations are not named for", () => {
   // Paddington and Liverpool Street resolve to their Tube stops, but the fastest
-  // journey rides the Elizabeth line from its own platforms. TfL answers
-  // /Line/elizabeth/Timetable for the Tube ids with HTTP 500 — nightly scrapes
-  // logged it about 100 times per run and the route never had bounds.
-  function installElizabeth() {
+  // journey rides the Elizabeth line from its own platforms, so the timetable is
+  // asked for the leg's stops. (TfL in fact publishes no Elizabeth line
+  // timetable — see the 404 case below — but the stop choice is the same for
+  // any line whose platforms carry their own ids.)
+  function installElizabeth(timetableStatus = 200) {
     const timetableCalls: string[] = [];
     vi.stubGlobal("fetch", vi.fn(async (input: RequestInfo | URL) => {
       const url = new URL(String(input));
@@ -158,6 +162,7 @@ describe("TfL service-day bounds on a line the stations are not named for", () =
       }
       if (url.pathname.includes("/Timetable/")) {
         timetableCalls.push(url.pathname);
+        if (timetableStatus !== 200) return new Response(JSON.stringify({ message: "error" }), { status: timetableStatus });
         if (!url.pathname.includes("/910GPADTLL/to/910GLIVSTLL")) {
           return new Response(JSON.stringify({ message: "error" }), { status: 500 });
         }
@@ -198,5 +203,25 @@ describe("TfL service-day bounds on a line the stations are not named for", () =
 
     expect(calls).toEqual(["/Line/elizabeth/Timetable/910GPADTLL/to/910GLIVSTLL"]);
     expect(body.serviceDayAdvisory).toMatchObject({ firstDeparture: "05:31", lastDeparture: "23:58" });
+  });
+
+  it("treats a line TfL publishes no timetable for as unavailable, not as a failure", async () => {
+    // Live TfL, 2026-09-23: /Line/elizabeth/Timetable/{from}/to/{to} is 404 for
+    // every pair, and the nightly scrape logged TFL_SERVICE_DAY_FAILED for each.
+    const calls = installElizabeth(404);
+    const { status, body } = await searchTflJourney("Paddington Station", "Liverpool Street Station", "2026-09-14", "14:00");
+
+    expect(status).toBe(200);
+    expect(body.results.length).toBeGreaterThan(0);
+    expect(calls).toHaveLength(1);
+    expect(body.serviceDayAdvisory).toMatchObject({ coverage: "unavailable", risk: "unavailable" });
+    expect(body.serviceDayAdvisory?.lastDeparture).toBeUndefined();
+    expect(recordError).not.toHaveBeenCalled();
+  });
+
+  it("still reports a timetable outage on the same line as a failure", async () => {
+    installElizabeth(503);
+    await searchTflJourney("Paddington Station", "Liverpool Street Station", "2026-09-15", "14:00");
+    expect(recordError).toHaveBeenCalledWith(expect.objectContaining({ errorCode: "TFL_SERVICE_DAY_FAILED" }));
   });
 });

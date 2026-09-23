@@ -1,7 +1,23 @@
+import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { DownloadScraper } from "./kinds";
 import type { ScrapedRoute, ScrapedRouteData } from "./types";
 import { addDateValueDays } from "../../src/data/countries";
-import { createKorailTimetableSource, korailResults, type KorailDocument } from "../lib/korailTimetable";
+import { createKorailTimetableSource, korailResults, type KorailDocument, type KorailKnownDocument } from "../lib/korailTimetable";
+
+/** The Korail documents this scraper's committed snapshots were verified against. */
+export function committedKorailDocuments(dir = resolve("src/data/scraped/korea")): KorailKnownDocument[] {
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir).filter((file) => file.endsWith(".json")).flatMap((file) => {
+    try {
+      const route = JSON.parse(readFileSync(resolve(dir, file), "utf-8")) as ScrapedRouteData;
+      return (route.sourceDocuments ?? []).filter((document) => typeof document?.title === "string"
+        && typeof document.url === "string" && typeof document.sha256 === "string");
+    } catch {
+      return [];
+    }
+  });
+}
 
 /** Public operator downloads; no journey-search automation or API key. */
 export class KorailTimetableScraper extends DownloadScraper {
@@ -12,7 +28,7 @@ export class KorailTimetableScraper extends DownloadScraper {
   private slices = new Map<string, ScrapedRouteData>();
   private documents = new Map<string, NonNullable<ScrapedRouteData["sourceDocuments"]>[number]>();
 
-  constructor(private readonly source: { load(date: string): Promise<KorailDocument[]> } = createKorailTimetableSource()) {
+  constructor(private readonly source: { load(date: string): Promise<KorailDocument[]> } = createKorailTimetableSource(fetch, committedKorailDocuments())) {
     super();
   }
 

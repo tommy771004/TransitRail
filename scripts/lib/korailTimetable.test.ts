@@ -1,13 +1,15 @@
-import { readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { unzipSync, zipSync, strFromU8, strToU8 } from "fflate";
-import { createKorailTimetableSource, korailResults, korailWeekdays, parseKorailEditions, parseKorailWorkbook, selectKorailEdition, type KorailDocument } from "./korailTimetable";
+import { createKorailTimetableSource, korailResults, korailWeekdays, parseKorailEditions, parseKorailWorkbook, selectKorailEdition, withKnownKorailEditions, type KorailDocument } from "./korailTimetable";
 import { buildSourceMeta } from "../../src/data/sourceRegistry";
 import { findInRoutes, type ScrapedRouteData } from "../../src/data/scraped/timetableDay";
-import { KorailTimetableScraper } from "../scrapers/korailTimetable";
+import { committedKorailDocuments, KorailTimetableScraper } from "../scrapers/korailTimetable";
 import { getProviderRouteLines } from "../../src/data/providerRouteLines";
 
-const bytes = (family: string) => readFileSync(new URL(`./fixtures/korail-${family}-2026-09-01.xlsx`, import.meta.url));
+const bytes = (family: string, effective = "2026-09-01") => readFileSync(new URL(`./fixtures/korail-${family}-${effective}.xlsx`, import.meta.url));
 const names = new Map<string, string>();
 const ktx = parseKorailWorkbook(bytes("ktx"), "ktx", names);
 const exclusions: string[] = [];
@@ -64,10 +66,59 @@ describe("Korail operator XLSX", () => {
     expect(() => korailResults(document, "2026-08-31")).toThrow();
   });
 
+  it("excludes a KTX train whose published times run backwards, and keeps the rest", () => {
+    // 10/1 호남선 row 61: up train 450 (광주송정 20:50 → 용산 22:54) typed into the down block.
+    const excluded: string[] = [];
+    const october = parseKorailWorkbook(bytes("ktx", "2026-10-01"), "ktx", new Map(), (message) => excluded.push(message));
+    expect(excluded).toEqual(["Korail excluded 호남선 450: times run backwards at Gwangmyeong"]);
+    expect(october).toHaveLength(620);
+    expect(october.some((run) => run.line === "호남선" && run.trainNumber === "450")).toBe(false);
+    expect(october.some((run) => run.line === "호남선" && run.trainNumber === "474")).toBe(true);
+  });
+
   it("fails closed on an unrecognized workbook layout", () => {
     const archive = unzipSync(bytes("ktx"));
     archive["xl/sharedStrings.xml"] = strToU8(strFromU8(archive["xl/sharedStrings.xml"]).replaceAll("열차번호", "changed-layout"));
     expect(() => parseKorailWorkbook(zipSync(archive), "ktx")).toThrow("Expected both KTX directions");
+  });
+
+  it("keeps a verified edition in force after Korail replaces its board post", async () => {
+    // Live board, 2026-09-23: the 9/18 KTX post was edited into the 10/1 edition.
+    const live = { strResult: "SUCC", totcnt: 3, boardList: [
+      { bdCode: "_ticketTable02", bdTitle: "KTX 시간표(2026. 10. 1. 기준)", fileId: ["jfile/ktx-10.xlsx"] },
+      { bdCode: "_ticketTable02", bdTitle: "일반열차 시간표(2026. 9. 1. 기준)", fileId: ["jfile/regular-9.xlsx"] },
+      { bdCode: "_ticketTable02", bdTitle: "KTX 시간표(2026. 5. 15. 기준)", fileId: ["jfile/ktx-5.xlsx"] },
+    ] };
+    const root = "https://www.korail.com/file/cubedata/COMMON/jfile/";
+    const verified = { title: "KTX 시간표(2026. 9. 18. 기준)", url: `${root}ktx-9.xlsx`, sha256: "cf69ea35e0b6ad9fb82c0e0b44f60833e34eadab55ea610eaf6784622351e9d0" };
+    const board = parseKorailEditions(live);
+    expect(selectKorailEdition(board, "ktx", "2026-09-23").effectiveFrom).toBe("2026-05-15");
+
+    const editions = withKnownKorailEditions(board, [
+      verified, verified,
+      { ...verified, title: "KTX 시간표(2026. 10. 1. 기준)", url: `${root}ktx-10-old.xlsx` },
+      { ...verified, title: "KTX 시간표(2026. 9. 20. 기준)", url: "https://example.com/ktx.xlsx" },
+    ]);
+    expect(selectKorailEdition(editions, "ktx", "2026-09-17")).toMatchObject({ effectiveFrom: "2026-05-15", effectiveUntil: "2026-09-17" });
+    expect(selectKorailEdition(editions, "ktx", "2026-09-30")).toMatchObject({ url: verified.url, effectiveUntil: "2026-09-30" });
+    expect(selectKorailEdition(editions, "ktx", "2026-10-01").url).toBe(`${root}ktx-10.xlsx`);
+
+    const fetcher = vi.fn(async (url: string | URL | Request) => new Response(String(url).includes("userBoard")
+      ? JSON.stringify(live) : bytes(String(url).includes("ktx-") ? "ktx" : "regular")));
+    const [ktxDocument] = await createKorailTimetableSource(fetcher as typeof fetch, [verified]).load("2026-09-23");
+    expect(ktxDocument).toMatchObject({ title: verified.title, sha256: verified.sha256 });
+    await expect(createKorailTimetableSource(fetcher as typeof fetch, [{ ...verified, sha256: "0".repeat(64) }]).load("2026-09-23"))
+      .rejects.toThrow("no longer serves the verified KTX 시간표(2026. 9. 18. 기준)");
+  });
+
+  it("reads the documents committed Korea snapshots were verified against", () => {
+    const dir = mkdtempSync(join(tmpdir(), "korail-"));
+    const sourceDocument = { title: "KTX 시간표(2026. 9. 18. 기준)", url: "https://www.korail.com/file/cubedata/COMMON/jfile/x.xlsx", sha256: "a".repeat(64), retrievedAt: "2026-09-22T00:00:00Z", effectiveFrom: "2026-09-18" };
+    writeFileSync(join(dir, "seoul-busan.json"), JSON.stringify({ sourceDocuments: [sourceDocument] }));
+    writeFileSync(join(dir, "subway.json"), JSON.stringify({ results: [] }));
+    writeFileSync(join(dir, "broken.json"), "{");
+    expect(committedKorailDocuments(dir)).toEqual([sourceDocument]);
+    expect(committedKorailDocuments(join(dir, "missing"))).toEqual([]);
   });
 
   it("downloads the board and each edition once for a multi-date scrape", async () => {

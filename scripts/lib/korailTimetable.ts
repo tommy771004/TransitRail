@@ -13,6 +13,8 @@ export interface KorailEdition {
   url: string;
   effectiveFrom: string;
   effectiveUntil?: string;
+  /** Set only for an edition recovered from a snapshot: the download must match it. */
+  sha256?: string;
 }
 
 export interface KorailRun {
@@ -38,6 +40,14 @@ const calendarDate = (year: string, month: string, day: string): string => {
   return date;
 };
 
+const titleFamily = (title: string): KorailFamily | undefined => /^KTX\s*(열차)?시간표/.test(title)
+  ? "ktx" : /^일반열차\s*시간표/.test(title) ? "regular" : undefined;
+
+function titleEffectiveFrom(title: string): string | undefined {
+  const match = /\((\d{4})\s*[.년]\s*(\d{1,2})\s*[.월]\s*(\d{1,2})\s*[.일]?\s*(?:기준|부터)\)/.exec(title);
+  return match ? calendarDate(match[1], match[2], match[3]) : undefined;
+}
+
 /** Board publication dates are not timetable effective dates. Read the title. */
 export function parseKorailEditions(payload: unknown): KorailEdition[] {
   const board = payload as { strResult?: string; boardList?: any[]; totcnt?: number };
@@ -49,20 +59,47 @@ export function parseKorailEditions(payload: unknown): KorailEdition[] {
   for (const row of board.boardList) {
     if (row.bdCode !== "_ticketTable02" || typeof row.bdTitle !== "string") continue;
     const title = row.bdTitle.trim();
-    const family: KorailFamily | undefined = /^KTX\s*(열차)?시간표/.test(title)
-      ? "ktx" : /^일반열차\s*시간표/.test(title) ? "regular" : undefined;
+    const family = titleFamily(title);
     if (!family) continue;
-    const match = /\((\d{4})\s*[.년]\s*(\d{1,2})\s*[.월]\s*(\d{1,2})\s*[.일]?\s*(?:기준|부터)\)/.exec(title);
-    if (!match || !Array.isArray(row.fileId) || row.fileId.length !== 1
+    const effectiveFrom = titleEffectiveFrom(title);
+    if (!effectiveFrom || !Array.isArray(row.fileId) || row.fileId.length !== 1
       || !/^jfile\/[A-Za-z0-9_/-]+\.xlsx$/.test(row.fileId[0])) {
       throw new Error(`Unsupported Korail timetable edition: ${title}`);
     }
-    editions.push({
-      family, title,
-      url: `${DOWNLOAD_ROOT}${row.fileId[0]}`,
-      effectiveFrom: calendarDate(match[1], match[2], match[3]),
-    });
+    editions.push({ family, title, url: `${DOWNLOAD_ROOT}${row.fileId[0]}`, effectiveFrom });
   }
+  return withEditionBoundaries(editions);
+}
+
+/** A document a committed snapshot already verified: its URL, title and hash. */
+export type KorailKnownDocument = Pick<KorailDocument, "title" | "url" | "sha256">;
+
+/**
+ * Korail edits its KTX board post in place when a new edition is announced, so
+ * the edition still in force (9/18) disappears the day its successor (10/1) is
+ * posted. Reading the board alone would then hand those remaining days to the
+ * last edition still listed (5/15), a timetable two editions out of date.
+ *
+ * An edition a committed snapshot already verified keeps its place, but only
+ * where the board has no edition of its own for that family and date, and only
+ * if the operator still serves the identical file (checked on download).
+ */
+export function withKnownKorailEditions(board: KorailEdition[], known: KorailKnownDocument[]): KorailEdition[] {
+  const editions = board.map(({ effectiveUntil: _until, ...edition }) => edition);
+  for (const document of known) {
+    const title = document.title.trim();
+    const family = titleFamily(title);
+    const effectiveFrom = titleEffectiveFrom(title);
+    if (!family || !effectiveFrom || !document.url.startsWith(DOWNLOAD_ROOT)
+      || !/^[0-9a-f]{64}$/.test(document.sha256)
+      || editions.some((edition) => edition.url === document.url
+        || (edition.family === family && edition.effectiveFrom === effectiveFrom))) continue;
+    editions.push({ family, title, url: document.url, effectiveFrom, sha256: document.sha256 });
+  }
+  return withEditionBoundaries(editions);
+}
+
+function withEditionBoundaries(editions: KorailEdition[]): KorailEdition[] {
   for (const family of ["ktx", "regular"] as const) {
     const sorted = editions.filter((edition) => edition.family === family)
       .sort((a, b) => a.effectiveFrom.localeCompare(b.effectiveFrom));
@@ -103,6 +140,9 @@ function timeMinutes(value: XlsxValue | undefined): number | undefined {
   return Math.floor(value * 1440 + 1e-7);
 }
 
+/** The workbook contradicts itself about one train; the rest of it is still readable. */
+class KorailContradiction extends Error {}
+
 function normalizeStops(stops: KorailRun["stops"], startMinutes?: number): KorailRun["stops"] {
   let previous = startMinutes ?? stops[0]?.minutes ?? 0;
   let offset = 0;
@@ -110,7 +150,7 @@ function normalizeStops(stops: KorailRun["stops"], startMinutes?: number): Korai
     let minutes = stop.minutes + offset;
     if (minutes < previous) {
       if (previous % 1440 < 20 * 60 || stop.minutes >= 6 * 60 || offset !== 0) {
-        throw new Error(`Korail times run backwards at ${stop.name}`);
+        throw new KorailContradiction(`times run backwards at ${stop.name}`);
       }
       offset = 1440;
       minutes += offset;
@@ -137,13 +177,14 @@ function addRun(runs: KorailRun[], run: KorailRun, startMinutes?: number): void 
   try {
     run.stops = normalizeStops(run.stops, startMinutes);
   } catch (error) {
+    if (error instanceof KorailContradiction) throw error;
     throw new Error(`${run.id} (${run.trainNumber}): ${error instanceof Error ? error.message : error}`);
   }
   if (run.stops.at(-1)!.minutes <= run.stops[0].minutes) throw new Error(`Invalid Korail train duration: ${run.id}`);
   runs.push(run);
 }
 
-function parseKtxSheet(sheet: XlsxSheet, names: Map<string, string>): KorailRun[] {
+function parseKtxSheet(sheet: XlsxSheet, names: Map<string, string>, exclude: (message: string) => void): KorailRun[] {
   const runs: KorailRun[] = [];
   let directions = 0;
   for (const [rowNumber, headers] of sheet.rows) {
@@ -169,12 +210,19 @@ function parseKtxSheet(sheet: XlsxSheet, names: Map<string, string>): KorailRun[
           const minutes = timeMinutes(row.get(column));
           return minutes === undefined ? [] : [{ name, minutes }];
         });
-        addRun(runs, {
-          id: `ktx-${sheet.name}-${number}-${trainColumn}`,
-          trainNumber, trainType, line: sheet.name,
-          weekdays: korailWeekdays(row.get(remarkColumn)), stops,
-        });
         count++;
+        try {
+          addRun(runs, {
+            id: `ktx-${sheet.name}-${number}-${trainColumn}`,
+            trainNumber, trainType, line: sheet.name,
+            weekdays: korailWeekdays(row.get(remarkColumn)), stops,
+          });
+        } catch (error) {
+          // e.g. 10/1 호남선 450: an up train typed into the down block. Its
+          // times are not reversed into the other direction on our own authority.
+          if (!(error instanceof KorailContradiction)) throw error;
+          exclude(`Korail excluded ${sheet.name} ${trainNumber}: ${error.message}`);
+        }
       }
       if (!count) throw new Error(`Empty KTX direction in ${sheet.name}`);
     }
@@ -236,7 +284,7 @@ function parseRegularSheet(sheet: XlsxSheet, names: Map<string, string>, exclude
 }
 
 export function parseKorailWorkbook(bytes: Uint8Array, family: KorailFamily, names = new Map<string, string>(), exclude: (message: string) => void = console.warn): KorailRun[] {
-  const runs = readXlsxValues(bytes).flatMap((sheet) => family === "ktx" ? parseKtxSheet(sheet, names) : parseRegularSheet(sheet, names, exclude));
+  const runs = readXlsxValues(bytes).flatMap((sheet) => family === "ktx" ? parseKtxSheet(sheet, names, exclude) : parseRegularSheet(sheet, names, exclude));
   if (runs.length === 0) throw new Error(`Korail ${family} workbook has no trains`);
   return runs;
 }
@@ -278,7 +326,7 @@ export function korailResults(document: KorailDocument, date: string, targetDate
   });
 }
 
-export function createKorailTimetableSource(fetcher: typeof fetch = fetch) {
+export function createKorailTimetableSource(fetcher: typeof fetch = fetch, known: KorailKnownDocument[] = []) {
   let editions: Promise<KorailEdition[]> | undefined;
   const documents = new Map<string, Promise<KorailDocument>>();
   const names = new Map<string, string>();
@@ -291,7 +339,8 @@ export function createKorailTimetableSource(fetcher: typeof fetch = fetch) {
   }
   return {
     async load(date: string): Promise<KorailDocument[]> {
-      editions ??= download(KORAIL_BOARD_URL).then((bytes) => parseKorailEditions(JSON.parse(new TextDecoder().decode(bytes))));
+      editions ??= download(KORAIL_BOARD_URL).then((bytes) => withKnownKorailEditions(
+        parseKorailEditions(JSON.parse(new TextDecoder().decode(bytes))), known));
       const listing = await editions;
       const selected: KorailDocument[] = [];
       // Parse KTX first to establish the shared operator-published station names.
@@ -300,6 +349,10 @@ export function createKorailTimetableSource(fetcher: typeof fetch = fetch) {
         let document = documents.get(edition.url);
         if (!document) {
           document = download(edition.url).then((bytes): KorailDocument => {
+            const sha256 = createHash("sha256").update(bytes).digest("hex");
+            if (edition.sha256 && edition.sha256 !== sha256) {
+              throw new Error(`Korail no longer serves the verified ${edition.title}: ${edition.url}`);
+            }
             const exclusions: string[] = [];
             const runs = parseKorailWorkbook(bytes, family, names, (message) => {
               exclusions.push(message);
@@ -307,8 +360,7 @@ export function createKorailTimetableSource(fetcher: typeof fetch = fetch) {
             });
             return { ...edition,
             retrievedAt: new Date().toISOString(),
-            sha256: createHash("sha256").update(bytes).digest("hex"),
-            runs, exclusions,
+            sha256, runs, exclusions,
           }; });
           documents.set(edition.url, document);
         }
