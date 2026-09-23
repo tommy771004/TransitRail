@@ -6,6 +6,7 @@ import {
   normalizeHeadsigns,
   normalizeResults,
   normalizeTransferLegTimes,
+  singleTrainPairs,
   type ScrapedRouteData,
 } from "./timetableDay";
 
@@ -116,108 +117,59 @@ describe("findInRoutes — result-level destination match", () => {
   });
 });
 
-describe("findInRoutes — reverse match", () => {
-  it("returns the reverse of a stored route and clears platform and headsign", () => {
-    const routes = [
-      route([
-        trip({
-          id: "2026-07-10-hikari-1",
-          date: "2026-07-10",
-          departureTime: "08:00",
-          arrivalTime: "10:16",
-          platform: "14",
-          headsign: "Shin-Osaka",
-          realtime: true,
-        }),
-      ]),
-    ];
+describe("findInRoutes — direction", () => {
+  const tokyoKyoto = route([
+    trip({
+      id: "2026-07-10-hikari-1",
+      date: "2026-07-10",
+      departureTime: "08:00",
+      arrivalTime: "10:16",
+      platform: "14",
+      headsign: "Shin-Osaka",
+    }),
+  ]);
 
-    const found = findInRoutes(routes, "Kyoto", "Tokyo", "2026-07-10");
-
-    expect(found).toHaveLength(1);
-    expect(found![0].origin).toBe("Kyoto");
-    expect(found![0].destination).toBe("Tokyo");
-    expect(found![0].stops).toEqual(["Kyoto", "Tokyo"]);
-    expect(found![0].platform).toBeUndefined();
-    expect(found![0].headsign).toBeUndefined();
-    expect(found![0].realtime).toBe(false);
-    expect(found![0].tags).toContain("reverse");
-    expect(found![0].warning).toContain("estimated from the opposite direction");
-    expect(found![0].id).toBe("rev-2026-07-10-hikari-1");
+  it("does not answer the way back from the way out", () => {
+    // Kyoto → Tokyo used to come back as this train mirrored, still leaving at
+    // 08:00: a return timetable nobody published.
+    expect(findInRoutes([tokyoKyoto], "Kyoto", "Tokyo", "2026-07-10")).toBeNull();
   });
 
-  it("rebuilds multi-leg reverse times from durations and transfer waits", () => {
-    // Forward: Tokyo 08:00 → Nagoya 09:40, wait 10, Nagoya 09:50 → Kyoto 10:40
-    const routes = [
-      route([
-        trip({
-          id: "2026-07-10-via-nagoya",
-          date: "2026-07-10",
-          origin: "Tokyo",
-          destination: "Kyoto",
-          departureTime: "08:00",
-          arrivalTime: "10:40",
-          durationMinutes: 160,
-          direct: false,
-          stops: ["Tokyo", "Nagoya", "Kyoto"],
-          transferStations: ["Nagoya"],
-          platform: "14",
-          headsign: "Kyoto",
-          legs: [
-            {
-              lineName: "Hikari",
-              origin: "Tokyo",
-              destination: "Nagoya",
-              departureTime: "08:00",
-              arrivalTime: "09:40",
-              durationMinutes: 100,
-              platform: "14",
-              headsign: "Hakata",
-            },
-            {
-              lineName: "Hikari",
-              origin: "Nagoya",
-              destination: "Kyoto",
-              departureTime: "09:50",
-              arrivalTime: "10:40",
-              durationMinutes: 50,
-              platform: "3",
-              headsign: "Kyoto",
-            },
-          ],
-        }),
-      ]),
-    ];
+  it("answers the way back from its own scraped route", () => {
+    const kyotoTokyo = route([
+      trip({
+        id: "2026-07-10-hikari-2",
+        date: "2026-07-10",
+        origin: "Kyoto",
+        destination: "Tokyo",
+        departureTime: "09:30",
+        arrivalTime: "11:46",
+        stops: ["Kyoto", "Tokyo"],
+      }),
+    ], "Kyoto", "Tokyo");
 
-    const found = findInRoutes(routes, "Kyoto", "Tokyo", "2026-07-10");
+    const found = findInRoutes([tokyoKyoto, kyotoTokyo], "Kyoto", "Tokyo", "2026-07-10");
 
-    expect(found).toHaveLength(1);
-    const rev = found![0];
-    expect(rev.origin).toBe("Kyoto");
-    expect(rev.destination).toBe("Tokyo");
-    expect(rev.stops).toEqual(["Kyoto", "Nagoya", "Tokyo"]);
-    expect(rev.transferStations).toEqual(["Nagoya"]);
-    expect(rev.platform).toBeUndefined();
-    expect(rev.headsign).toBeUndefined();
-    // Reverse keeps top departure clock and rebuilds legs from durations + waits:
-    // leg Kyoto→Nagoya 50m from 08:00 → 08:50; wait 10; Nagoya→Tokyo 100m → 10:40
-    expect(rev.legs).toHaveLength(2);
-    expect(rev.legs![0]).toMatchObject({
-      origin: "Kyoto",
-      destination: "Nagoya",
-      departureTime: "08:00",
-      arrivalTime: "08:50",
-      durationMinutes: 50,
-    });
-    expect(rev.legs![0].platform).toBeUndefined();
-    expect(rev.legs![0].headsign).toBeUndefined();
-    expect(rev.legs![1]).toMatchObject({
-      origin: "Nagoya",
-      destination: "Tokyo",
-      departureTime: "09:00",
-      arrivalTime: "10:40",
-      durationMinutes: 100,
-    });
+    expect(found?.map((row) => [row.id, row.departureTime])).toEqual([["2026-07-10-hikari-2", "09:30"]]);
+    expect(found![0].tags ?? []).not.toContain("reverse");
+  });
+
+  it("does not chain through a leg run the wrong way", () => {
+    const kyotoOsaka = route([
+      trip({
+        id: "2026-07-10-kyoto-osaka",
+        date: "2026-07-10",
+        origin: "Kyoto",
+        destination: "Shin-Osaka",
+        departureTime: "11:00",
+        arrivalTime: "11:15",
+        stops: ["Kyoto", "Shin-Osaka"],
+      }),
+    ], "Kyoto", "Shin-Osaka");
+
+    // Tokyo → Kyoto → Shin-Osaka runs; Shin-Osaka → Kyoto → Tokyo does not exist here.
+    expect(findInRoutes([tokyoKyoto, kyotoOsaka], "Tokyo", "Shin-Osaka", "2026-07-10")).not.toBeNull();
+    expect(findInRoutes([tokyoKyoto, kyotoOsaka], "Shin-Osaka", "Tokyo", "2026-07-10")).toBeNull();
   });
 });
 
@@ -658,6 +610,44 @@ describe("findInRoutes — a train's own calling pattern", () => {
 
   it("keeps a partial ride out of the row when only the terminals are timed", () => {
     expect(findInRoutes([lineRoute([])], "Kuramae", "Nihombashi", "2026-07-10", "japan")).toBeNull();
+  });
+
+  describe("singleTrainPairs", () => {
+    const keys = (pairs: Array<[string, string]>) => pairs.map((pair) => pair.join(" → ")).sort();
+
+    it("offers every stop a timed train serves, and only what search answers", () => {
+      const wholeLine = lineRoute(fullPattern);
+      const pairs = singleTrainPairs(wholeLine, "2026-07-10", "japan");
+
+      // Five stops, ten pairs in the direction of travel — not just the terminals.
+      expect(pairs).toHaveLength(10);
+      expect(keys(pairs)).toEqual(expect.arrayContaining([
+        "Kuramae → Nihombashi",
+        "Nishi-magome → Oshiage",
+      ]));
+      for (const [origin, destination] of pairs) {
+        expect(findInRoutes([wholeLine], origin, destination, "2026-07-10", "japan")?.length).toBeGreaterThan(0);
+      }
+    });
+
+    it("never offers a direction the source did not publish", () => {
+      const wholeLine = lineRoute(fullPattern);
+      const pairs = keys(singleTrainPairs(wholeLine, "2026-07-10", "japan"));
+      expect(pairs).not.toContain("Nihombashi → Kuramae");
+      expect(pairs).not.toContain("Oshiage → Nishi-magome");
+      // Nor does search: the picker and the search agree.
+      expect(findInRoutes([wholeLine], "Nihombashi", "Kuramae", "2026-07-10", "japan")).toBeNull();
+    });
+
+    it("keeps to the terminals when the source did not time the stops between", () => {
+      expect(keys(singleTrainPairs(lineRoute([]), "2026-07-10", "japan"))).toEqual([
+        "Nishi-magome → Oshiage",
+      ]);
+    });
+
+    it("answers nothing for a service day the route has no rows on", () => {
+      expect(singleTrainPairs(lineRoute(fullPattern), "2026-07-11", "japan")).toEqual([]);
+    });
   });
 });
 

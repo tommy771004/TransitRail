@@ -137,68 +137,44 @@ export function canonicalDay(results: TransitResult[]): TransitResult[] {
   return Array.from(byBaseId.values());
 }
 
+/**
+ * A route's rows for one service day, sliced once per rows array.
+ *
+ * Deciding which destinations an origin reaches asks {@link findInRoutes}
+ * about every station pair, and each ask used to re-filter every row of every
+ * route. Keyed on the rows array itself, so a route whose rows are replaced is
+ * sliced afresh.
+ */
+const resultsByDate = new WeakMap<readonly TransitResult[], Map<string, TransitResult[]>>();
+
 function resultsForDate(route: ScrapedRouteData, date?: string): TransitResult[] {
   if (!date) return route.results;
   const target = date.trim();
-  return route.results.filter((result) => (result.date || "").trim() === target);
+  let byDate = resultsByDate.get(route.results);
+  if (!byDate) {
+    byDate = new Map();
+    resultsByDate.set(route.results, byDate);
+  }
+  let rows = byDate.get(target);
+  if (!rows) {
+    rows = route.results.filter((result) => (result.date || "").trim() === target);
+    byDate.set(target, rows);
+  }
+  return rows;
 }
 
-function reverseResult(result: TransitResult): TransitResult {
-  const originalLegs = result.legs || [];
-  const waits = originalLegs.slice(0, -1).map((leg, index) => {
-    if (!leg.arrivalTime || !originalLegs[index + 1].departureTime) return 0;
-    const arrival = parseTime(leg.arrivalTime);
-    const departure = parseTime(originalLegs[index + 1].departureTime!);
-    return departure - arrival + (departure < arrival ? 1440 : 0);
-  }).reverse();
-  let cursor = parseTime(result.departureTime);
-  const reversedLegs = [...originalLegs].reverse().map((leg, index): JourneyLeg => {
-    const duration = leg.durationMinutes
-      ?? (leg.departureTime && leg.arrivalTime
-        ? parseTime(leg.arrivalTime) - parseTime(leg.departureTime)
-        : 0);
-    const departureTime = formatTime(cursor);
-    cursor += Math.max(0, duration);
-    const arrivalTime = formatTime(cursor);
-    cursor += waits[index] || 0;
-    return {
-      ...leg,
-      origin: leg.destination,
-      destination: leg.origin,
-      departureTime,
-      arrivalTime,
-      platform: undefined,
-      headsign: undefined,
-    };
-  });
-
-  return {
-    ...result,
-    id: `rev-${result.id}`,
-    origin: result.destination,
-    destination: result.origin,
-    stops: [...result.stops].reverse(),
-    // Reverse timetable cannot safely reuse direction-specific fields.
-    platform: undefined,
-    headsign: undefined,
-    realtime: false,
-    warning: [
-      result.warning,
-      "Reverse timetable times are estimated from the opposite direction; confirm with the operator.",
-    ].filter(Boolean).join(" "),
-    tags: Array.from(new Set([...(result.tags || []), "reverse"])),
-    legs: reversedLegs.length > 0 ? reversedLegs : undefined,
-    transferStations: result.transferStations
-      ? [...result.transferStations].reverse()
-      : undefined,
-  };
-}
-
+/**
+ * One ride on one route, in the direction its rows run.
+ *
+ * There is no reversed edge. Search used to answer B → A from an A → B row by
+ * mirroring its stops and estimating its clock times; a return train runs on
+ * its own timetable, so that answer was a synthesized one. The way back is
+ * answered by its own scraped route or not at all.
+ */
 interface RouteEdge {
   route: ScrapedRouteData;
   from: string;
   to: string;
-  reversed: boolean;
 }
 
 function stationKeyFor(country: Country | undefined, name: string): string {
@@ -224,7 +200,24 @@ function resultStopPath(
   return path.length >= 2 ? path : [origin, destination];
 }
 
+/** The segments of one route for one day and country, built once per rows array. */
+const segmentsByRoute = new WeakMap<readonly TransitResult[], Map<string, Array<[string, string]>>>();
+
 function routeSegments(route: ScrapedRouteData, date?: string, country?: Country): Array<[string, string]> {
+  const cacheKey = [route.origin, route.destination, date ?? "", country ?? ""].join("\u0000");
+  let cached = segmentsByRoute.get(route.results);
+  if (!cached) {
+    cached = new Map();
+    segmentsByRoute.set(route.results, cached);
+  }
+  const hit = cached.get(cacheKey);
+  if (hit) return hit;
+  const built = buildRouteSegments(route, date, country);
+  cached.set(cacheKey, built);
+  return built;
+}
+
+function buildRouteSegments(route: ScrapedRouteData, date?: string, country?: Country): Array<[string, string]> {
   const segments = new Map<string, [string, string]>();
   const addPath = (path: string[]) => {
     for (let index = 0; index < path.length - 1; index += 1) {
@@ -296,6 +289,32 @@ function legSpan(
   return null;
 }
 
+const callingKeysByResult = new WeakMap<TransitResult, Map<string, Set<string>>>();
+
+/**
+ * Every station key {@link resultStopPath} could place on this row's path — a
+ * superset, since the route's endpoints stand in for a row that names none of
+ * its own.
+ */
+function callingKeys(result: TransitResult, route: ScrapedRouteData, country?: Country): Set<string> {
+  let byCountry = callingKeysByResult.get(result);
+  if (!byCountry) {
+    byCountry = new Map();
+    callingKeysByResult.set(result, byCountry);
+  }
+  const cacheKey = [route.origin, route.destination, country ?? ""].join("\u0000");
+  let keys = byCountry.get(cacheKey);
+  if (!keys) {
+    keys = new Set(
+      [route.origin, route.destination, result.origin, result.destination, ...(result.stops || [])]
+        .filter((name): name is string => Boolean(name))
+        .map((name) => stationKeyFor(country, name)),
+    );
+    byCountry.set(cacheKey, keys);
+  }
+  return keys;
+}
+
 function segmentResult(
   result: TransitResult,
   route: ScrapedRouteData,
@@ -303,9 +322,11 @@ function segmentResult(
   country?: Country,
 ): TransitResult | null {
   const korail = route.sourceMeta?.sourceId === "kr-korail-timetable-xlsx";
-  if (korail && edge.reversed) return null;
-  const oriented = edge.reversed ? reverseResult(result) : result;
-  const path = resultStopPath(route, oriented, country);
+  // A train that never calls at both stations cannot serve the pair; say so
+  // before walking its calling pattern.
+  const calls = callingKeys(result, route, country);
+  if (!calls.has(stationKeyFor(country, edge.from)) || !calls.has(stationKeyFor(country, edge.to))) return null;
+  const path = resultStopPath(route, result, country);
   const fromKey = stationKeyFor(country, edge.from);
   const toKey = stationKeyFor(country, edge.to);
   const fromIndex = path.findIndex((station) => stationKeyFor(country, station) === fromKey);
@@ -316,13 +337,13 @@ function segmentResult(
 
   const fullPath = path.slice(fromIndex, toIndex + 1);
   const isFullResult = fromIndex === 0 && toIndex === path.length - 1;
-  if (isFullResult) return oriented;
+  if (isFullResult) return result;
 
   // An intermediate stop is a valid graph node, but a route-level departure
   // and arrival do not tell us when the train reached that stop. Only expose a
   // partial edge when the source supplied explicit legs for it; proportional
   // interpolation would turn an unknown time into fabricated timetable data.
-  const span = legSpan(oriented.legs, fromKey, toKey, country);
+  const span = legSpan(result.legs, fromKey, toKey, country);
   if (!span) return null;
   const first = span[0];
   const last = span[span.length - 1];
@@ -337,18 +358,18 @@ function segmentResult(
     : spanDuration(departureMinutes, arrivalMinutes);
   // One leg is one train, whatever journey it was cut out of. Several legs are
   // only direct when the journey they came from was.
-  const direct = span.length === 1 || oriented.direct !== false;
+  const direct = span.length === 1 || result.direct !== false;
 
   return {
-    ...oriented,
-    id: `${oriented.id}-segment-${fromIndex}-${toIndex}`,
+    ...result,
+    id: `${result.id}-segment-${fromIndex}-${toIndex}`,
     origin: fullPath[0],
     destination: fullPath[fullPath.length - 1],
-    service: first.lineName || oriented.service,
+    service: first.lineName || result.service,
     departureTime,
     arrivalTime,
     durationMinutes,
-    price: fromIndex === 0 ? oriented.price : undefined,
+    price: fromIndex === 0 ? result.price : undefined,
     platform: first.platform,
     headsign: first.headsign,
     direct,
@@ -390,8 +411,34 @@ function dedupeDepartures(results: TransitResult[]): TransitResult[] {
   });
 }
 
+const callingIndexByRoute = new WeakMap<readonly TransitResult[], Map<string, Map<string, TransitResult[]>>>();
+
+/** A route's rows for one day, grouped by each station they call at, in row order. */
+function rowsCallingAt(route: ScrapedRouteData, date: string | undefined, country: Country | undefined, key: string): TransitResult[] {
+  const cacheKey = [route.origin, route.destination, date ?? "", country ?? ""].join("\u0000");
+  let byContext = callingIndexByRoute.get(route.results);
+  if (!byContext) {
+    byContext = new Map();
+    callingIndexByRoute.set(route.results, byContext);
+  }
+  let index = byContext.get(cacheKey);
+  if (!index) {
+    index = new Map();
+    for (const result of resultsForDate(route, date)) {
+      for (const station of callingKeys(result, route, country)) {
+        const rows = index.get(station) ?? [];
+        rows.push(result);
+        index.set(station, rows);
+      }
+    }
+    byContext.set(cacheKey, index);
+  }
+  return index.get(key) ?? [];
+}
+
 function resultsForEdge(edge: RouteEdge, date?: string, country?: Country): TransitResult[] {
-  return resultsForDate(edge.route, date)
+  // Only a row calling at both stations can serve the edge (see segmentResult).
+  return rowsCallingAt(edge.route, date, country, stationKeyFor(country, edge.from))
     .flatMap((result) => segmentResult(result, edge.route, edge, country) || []);
 }
 
@@ -450,10 +497,7 @@ function findRoutePaths(
 ): RouteEdge[][] {
   const edges: RouteEdge[] = routes
     .filter((route) => resultsForDate(route, date).length > 0)
-    .flatMap((route) => routeSegments(route, date, country).flatMap(([from, to]) => [
-      { route, from, to, reversed: false },
-      { route, from: to, to: from, reversed: true },
-    ]));
+    .flatMap((route) => routeSegments(route, date, country).map(([from, to]) => ({ route, from, to })));
   const outgoing = new Map<string, Array<{ edge: RouteEdge; toKey: string }>>();
   for (const edge of edges) {
     const fromKey = stationKeyFor(country, edge.from);
@@ -534,28 +578,29 @@ function chainResults(
       const nextResults = resultsForEdge(edge, date, country)
         .filter((result) => result.departureTime && result.arrivalTime)
         .sort((a, b) => a.departureTime.localeCompare(b.departureTime));
+      // Parsed once per edge, not once per partial chain: a busy line offers
+      // thousands of departures and a path keeps up to 200 partials alive.
+      const nextDepartures = nextResults.map((result) => parseTime(result.departureTime));
       const extended: PartialChain[] = [];
 
       for (const partial of partials) {
         const previous = partial.results[partial.results.length - 1];
         const previousArrival = parseTime(previous.arrivalTime!);
-        const connections = nextResults
-          .map((result) => {
-            const departure = parseTime(result.departureTime);
-            const wrapsUnverifiedDay = departure < previousArrival
-              && (previous.operator === "Korail" || result.operator === "Korail");
-            const wait = wrapsUnverifiedDay ? -1 : departure - previousArrival + (departure < previousArrival ? 1440 : 0);
-            return { result, wait };
-          })
-          .filter(({ wait }) => {
-            const transferStation = previous.destination;
-            const minimum = getMinimumTransferMinutes(
-              country ?? previous.country,
-              transferStation,
-            );
-            return wait >= minimum && wait <= 120;
-          })
-          .slice(0, 2);
+        const minimum = getMinimumTransferMinutes(
+          country ?? previous.country,
+          previous.destination,
+        );
+        // The first two departures, in time order, that respect the transfer
+        // window.
+        const connections: Array<{ result: TransitResult }> = [];
+        for (let index = 0; index < nextResults.length && connections.length < 2; index += 1) {
+          const result = nextResults[index];
+          const departure = nextDepartures[index];
+          const wrapsUnverifiedDay = departure < previousArrival
+            && (previous.operator === "Korail" || result.operator === "Korail");
+          const wait = wrapsUnverifiedDay ? -1 : departure - previousArrival + (departure < previousArrival ? 1440 : 0);
+          if (wait >= minimum && wait <= 120) connections.push({ result });
+        }
 
         for (const { result } of connections) {
           extended.push({
@@ -634,8 +679,63 @@ export function endpointNamesForRoute(route: ScrapedRouteData): string[] {
 }
 
 /**
+ * Every station pair one of this route's trains carries a passenger between on
+ * `date` without a connection — what {@link findInRoutes} answers from its span
+ * stage, including stops between the file's two terminals.
+ *
+ * A route file is named for its terminals, but its rows ride the whole line:
+ * the Asakusa → Shibuya file answers Ginza → Ueno. Listing only the file's own
+ * endpoints left Ginza with no destination at all in the station picker while
+ * search could answer it for eighteen.
+ *
+ * Admission is {@link segmentResult}'s own, run once per distinct calling
+ * pattern rather than once per departure, so every pair is one search answers
+ * from the operator's own times.
+ */
+export function singleTrainPairs(
+  route: ScrapedRouteData,
+  date: string,
+  country?: Country,
+): Array<[string, string]> {
+  const korail = route.sourceMeta?.sourceId === "kr-korail-timetable-xlsx";
+  const patterns = new Map<string, TransitResult>();
+  for (const result of resultsForDate(route, date)) {
+    // Everything segmentResult's answer depends on, other than clock values.
+    const signature = JSON.stringify([
+      result.origin,
+      result.destination,
+      result.stops,
+      (result.legs || []).map((leg) => [
+        leg.origin,
+        leg.destination,
+        Boolean(leg.departureTime),
+        Boolean(leg.arrivalTime),
+        leg.lineName || "",
+        korail && leg.departureTime ? parseTime(leg.departureTime) >= 1440 : false,
+      ]),
+    ]);
+    if (!patterns.has(signature)) patterns.set(signature, result);
+  }
+
+  const pairs = new Map<string, [string, string]>();
+  for (const result of patterns.values()) {
+    const path = resultStopPath(route, result, country);
+    for (let from = 0; from < path.length - 1; from += 1) {
+      for (let to = from + 1; to < path.length; to += 1) {
+        const edge = { route, from: path[from], to: path[to] };
+        const key = `${stationKeyFor(country, edge.from)}\u0000${stationKeyFor(country, edge.to)}`;
+        if (pairs.has(key)) continue;
+        if (segmentResult(result, route, edge, country)) pairs.set(key, [edge.from, edge.to]);
+      }
+    }
+  }
+  return [...pairs.values()];
+}
+
+/**
  * Find timetable results in an in-memory set of route snapshots.
- * Matching order: exact file O/D → result-level destination → reverse → chain.
+ * Matching order: one train's own span → a single stop-graph edge → chain.
+ * Only rows running origin → destination answer; see {@link RouteEdge}.
  * Pass `country` so chained results get correct ids (`chain-${country}-n`) at construction.
  * Pure — no filesystem.
  */
@@ -663,14 +763,12 @@ export function findInRoutes(
   // builds edges between consecutive stops, so without this the pair would fall
   // through to chaining and be rejected — a single train is not a connection,
   // and no transfer window applies to staying seated.
-  for (const reversed of [false, true]) {
-    const spans = dedupeDepartures(routes
-      .filter((route) => resultsForDate(route, date).length > 0)
-      .flatMap((route) => resultsForEdge({ route, from: origin, to: destination, reversed }, date, country)))
-      .sort((left, right) => left.departureTime.localeCompare(right.departureTime));
-    if (spans.length > 0) {
-      return country ? spans.map((result) => (result.country ? result : { ...result, country })) : spans;
-    }
+  const spans = dedupeDepartures(routes
+    .filter((route) => resultsForDate(route, date).length > 0)
+    .flatMap((route) => resultsForEdge({ route, from: origin, to: destination }, date, country)))
+    .sort((left, right) => left.departureTime.localeCompare(right.departureTime));
+  if (spans.length > 0) {
+    return country ? spans.map((result) => (result.country ? result : { ...result, country })) : spans;
   }
 
   const graphPaths = findRoutePaths(routes, origin, destination, date, country);

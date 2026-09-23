@@ -5,17 +5,16 @@
   "sourceUrl": "https://ressources.data.sncf.com/explore/dataset/horaires-des-train-voyages-tgvinouiouigo/",
   "sourceTier": "A",
   "fetchedAt": "2026-09-22T00:25:57.104Z",
-  "builtAt": "2026-09-22T00:40:34.049Z",
-  "recordCount": 665,
+  "builtAt": "2026-09-23T03:12:00.445Z",
+  "recordCount": 591,
   "routeCount": 4,
-  "successRate": 1,
+  "successRate": null,
   "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 4,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-09-22",
       "2026-09-23",
       "2026-09-24",
       "2026-09-25",
@@ -26,14 +25,14 @@
       "2026-09-30"
     ]
   },
-  "checksum": "a08d1243eee5bd565d3e155add147e0d1a1301058babd34f4156d3e6daa896b1",
+  "checksum": "1077bbd9a63638ce016ec021c663b6ed67aba0dde262fa6b452dbb7fdcbc1b4b",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Paris Gare de l'Est",
       "destination": "Strasbourg",
-      "resultCount": 218,
-      "date": "2026-09-22..2026-09-30",
+      "resultCount": 194,
+      "date": "2026-09-23..2026-09-30",
       "sourceId": "fr-sncf-gtfs",
       "completeness": "full-timetable",
       "fetchedAt": "2026-09-22T00:25:55.199Z",
@@ -42,8 +41,8 @@
     {
       "origin": "Paris Gare de Lyon",
       "destination": "Lyon Part-Dieu",
-      "resultCount": 187,
-      "date": "2026-09-22..2026-09-30",
+      "resultCount": 166,
+      "date": "2026-09-23..2026-09-30",
       "sourceId": "fr-sncf-gtfs",
       "completeness": "full-timetable",
       "fetchedAt": "2026-09-22T00:25:55.837Z",
@@ -52,8 +51,8 @@
     {
       "origin": "Paris Gare de Lyon",
       "destination": "Marseille St-Charles",
-      "resultCount": 167,
-      "date": "2026-09-22..2026-09-30",
+      "resultCount": 149,
+      "date": "2026-09-23..2026-09-30",
       "sourceId": "fr-sncf-gtfs",
       "completeness": "full-timetable",
       "fetchedAt": "2026-09-22T00:25:56.476Z",
@@ -62,8 +61,8 @@
     {
       "origin": "Paris Gare du Nord",
       "destination": "Lille Europe",
-      "resultCount": 93,
-      "date": "2026-09-22..2026-09-30",
+      "resultCount": 82,
+      "date": "2026-09-23..2026-09-30",
       "sourceId": "fr-sncf-gtfs",
       "completeness": "full-timetable",
       "fetchedAt": "2026-09-22T00:25:57.104Z",

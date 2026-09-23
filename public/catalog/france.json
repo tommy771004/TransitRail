@@ -1,6 +1,6 @@
 {
   "country": "france",
-  "serviceDate": "2026-09-22",
+  "serviceDate": "2026-09-23",
   "regions": [
     {
       "id": "france-intercity",
@@ -17,25 +17,10 @@
               "name": "Paris Gare de Lyon"
             },
             {
-              "name": "Le Creusot TGV"
-            },
-            {
-              "name": "Mâcon-Loché TGV"
-            },
-            {
-              "name": "Lyon Perrache"
-            },
-            {
               "name": "Lyon Part-Dieu"
             },
             {
-              "name": "Avignon TGV"
-            },
-            {
               "name": "Marseille St-Charles"
-            },
-            {
-              "name": "Nice"
             }
           ]
         },
@@ -46,12 +31,6 @@
           "stations": [
             {
               "name": "Paris Gare du Nord"
-            },
-            {
-              "name": "Arras"
-            },
-            {
-              "name": "Lille Flandres"
             },
             {
               "name": "Lille Europe"
@@ -84,25 +63,10 @@
           "name": "Paris Gare de Lyon"
         },
         {
-          "name": "Le Creusot TGV"
-        },
-        {
-          "name": "Mâcon-Loché TGV"
-        },
-        {
-          "name": "Lyon Perrache"
-        },
-        {
           "name": "Lyon Part-Dieu"
         },
         {
-          "name": "Avignon TGV"
-        },
-        {
           "name": "Marseille St-Charles"
-        },
-        {
-          "name": "Nice"
         }
       ]
     },
@@ -113,12 +77,6 @@
       "stations": [
         {
           "name": "Paris Gare du Nord"
-        },
-        {
-          "name": "Arras"
-        },
-        {
-          "name": "Lille Flandres"
         },
         {
           "name": "Lille Europe"
@@ -140,16 +98,9 @@
     }
   ],
   "stations": [
-    "Arras",
-    "Avignon TGV",
-    "Le Creusot TGV",
     "Lille Europe",
-    "Lille Flandres",
     "Lyon Part-Dieu",
-    "Lyon Perrache",
-    "Mâcon-Loché TGV",
     "Marseille St-Charles",
-    "Nice",
     "Paris Gare de l'Est",
     "Paris Gare de Lyon",
     "Paris Gare du Nord",
@@ -157,16 +108,9 @@
   ],
   "source": "https://www.sncf.com/en",
   "destinationsByOrigin": {
-    "Arras": [],
-    "Avignon TGV": [],
-    "Le Creusot TGV": [],
     "Lille Europe": [],
-    "Lille Flandres": [],
     "Lyon Part-Dieu": [],
-    "Lyon Perrache": [],
-    "Mâcon-Loché TGV": [],
     "Marseille St-Charles": [],
-    "Nice": [],
     "Paris Gare de l'Est": [
       "Strasbourg"
     ],
@@ -181,12 +125,23 @@
   },
   "coverage": {
     "mode": "scraped",
+    "covered": [
+      "Lille Europe",
+      "Lyon Part-Dieu",
+      "Marseille St-Charles",
+      "Paris Gare de l'Est",
+      "Paris Gare de Lyon",
+      "Paris Gare du Nord",
+      "Strasbourg"
+    ],
+    "date": "2026-09-23",
     "dateRange": {
-      "start": "2026-09-22",
-      "end": "2026-09-28",
+      "start": "2026-09-23",
+      "end": "2026-09-29",
       "days": 7,
       "liveOnly": false
     },
-    "date": "2026-09-22"
+    "provenance": "official",
+    "truthMode": "verified"
   }
 }

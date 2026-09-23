@@ -1,6 +1,26 @@
 import type { ScrapedRoute } from "./types";
 
 /**
+ * The listed pairs, plus the way back for any pair listed one way only.
+ *
+ * A stored route answers only the direction its operator ran. Search used to
+ * answer the other one by reversing the stored rows and estimating their clock
+ * times, which is a synthesized timetable: the return trip runs on its own
+ * timetable, often from other platforms, and has to be scraped like any other.
+ */
+export function withReturnDirections(routes: readonly ScrapedRoute[]): ScrapedRoute[] {
+  const listed = new Set(routes.map((route) => `${route.origin}\u0000${route.destination}`));
+  const all = [...routes];
+  for (const route of routes) {
+    const back = `${route.destination}\u0000${route.origin}`;
+    if (listed.has(back)) continue;
+    listed.add(back);
+    all.push({ origin: route.destination, destination: route.origin });
+  }
+  return all;
+}
+
+/**
  * The Tokaido Shinkansen pairs JR Central's own timetable search answers for a
  * requested date.
  *
@@ -11,7 +31,7 @@ import type { ScrapedRoute } from "./types";
  * JR Hokkaido and JR Shikoku have no source wired up here, so their routes are
  * not listed: no source, no route, no departures.
  */
-export const japanJrCentralRoutes: ScrapedRoute[] = [
+export const japanJrCentralRoutes: ScrapedRoute[] = withReturnDirections([
   { origin: "Tokyo", destination: "Shin-Osaka" },
   { origin: "Tokyo", destination: "Kyoto" },
   { origin: "Tokyo", destination: "Nagoya" },
@@ -26,12 +46,12 @@ export const japanJrCentralRoutes: ScrapedRoute[] = [
   { origin: "Hiroshima", destination: "Shin-Osaka" },
   { origin: "Shin-Osaka", destination: "Hakata" },
   { origin: "Hakata", destination: "Shin-Osaka" },
-];
+]);
 
 // Korea's subway CSV artifacts and dynamically discovered Korail XLSX routes
 // are owned by KoreaScraper and KorailTimetableScraper respectively.
 
-export const singaporeRoutes: ScrapedRoute[] = [
+export const singaporeRoutes: ScrapedRoute[] = withReturnDirections([
   // Changi Airport → Jurong East is not a single service: the airport branch
   // terminates at Tanah Merah, so the GTFS feed publishes no direct trip and
   // the pair failed every night. Scraping the two real legs keeps the journey
@@ -42,18 +62,18 @@ export const singaporeRoutes: ScrapedRoute[] = [
   { origin: "HarbourFront", destination: "Punggol" },
   { origin: "Jurong East", destination: "Raffles Place" },
   { origin: "Woodlands", destination: "Orchard" },
-];
+]);
 
 /**
  * KTMB pairs verified against the official data.gov.my GTFS feed. This is a
  * deliberately small catalogue: every endpoint also exists in the Malaysia
  * station menu, and the crawler only writes dates declared by GTFS calendar.
  */
-export const malaysiaKtmbRoutes: ScrapedRoute[] = [
+export const malaysiaKtmbRoutes: ScrapedRoute[] = withReturnDirections([
   { origin: "Rawang", destination: "Kuala Lumpur" },
   { origin: "Batu Caves", destination: "Kuala Lumpur" },
   { origin: "Klang", destination: "Subang Jaya" },
-];
+]);
 
 export const thailandRoutes: ScrapedRoute[] = [
   { origin: "Mo Chit", destination: "Hua Lamphong" },
@@ -62,56 +82,56 @@ export const thailandRoutes: ScrapedRoute[] = [
   { origin: "Sukhumvit", destination: "Hua Lamphong" },
 ];
 
-export const hongKongRoutes: ScrapedRoute[] = [
+export const hongKongRoutes: ScrapedRoute[] = withReturnDirections([
   { origin: "Admiralty", destination: "Tsim Sha Tsui" },
   { origin: "Central", destination: "Tsuen Wan" },
   { origin: "Hong Kong", destination: "Airport" },
   { origin: "Tung Chung", destination: "Sunny Bay" },
-];
+]);
 
-export const unitedKingdomRoutes: ScrapedRoute[] = [
+export const unitedKingdomRoutes: ScrapedRoute[] = withReturnDirections([
   { origin: "Heathrow Terminals 2&3", destination: "Oxford Circus Underground Station" },
   { origin: "King's Cross St. Pancras Underground Station", destination: "Oxford Circus Underground Station" },
   { origin: "Leicester Square", destination: "Camden Town" },
   { origin: "Paddington Station", destination: "Liverpool Street Station" },
-];
+]);
 
-export const unitedStatesRoutes: ScrapedRoute[] = [
+export const unitedStatesRoutes: ScrapedRoute[] = withReturnDirections([
   { origin: "Harvard", destination: "Logan International Airport" },
   { origin: "Park Street", destination: "Andrew" },
   { origin: "Park Street", destination: "Boston College" },
   { origin: "South Station", destination: "Harvard" },
-];
+]);
 
-export const germanyRoutes: ScrapedRoute[] = [
+export const germanyRoutes: ScrapedRoute[] = withReturnDirections([
   { origin: "Berlin Hbf", destination: "Hamburg Hbf" },
   { origin: "Berlin Hbf", destination: "Munich Hbf" },
   { origin: "Frankfurt Hbf", destination: "Cologne Hbf" },
   { origin: "Munich Hbf", destination: "Frankfurt Hbf" },
-];
+]);
 
-export const franceRoutes: ScrapedRoute[] = [
+export const franceRoutes: ScrapedRoute[] = withReturnDirections([
   { origin: "Paris Gare de l'Est", destination: "Strasbourg" },
   { origin: "Paris Gare de Lyon", destination: "Lyon Part-Dieu" },
   { origin: "Paris Gare de Lyon", destination: "Marseille St-Charles" },
   { origin: "Paris Gare du Nord", destination: "Lille Europe" },
-];
+]);
 
-export const belgiumRoutes: ScrapedRoute[] = [
+export const belgiumRoutes: ScrapedRoute[] = withReturnDirections([
   { origin: "Brussels-Central", destination: "Antwerpen-Centraal" },
   { origin: "Brussels-Luxembourg", destination: "Antwerpen-Centraal" },
   { origin: "Gent-Sint-Pieters", destination: "Brussels Airport-Zaventem" },
   { origin: "Brugge", destination: "Liège-Guillemins" },
   { origin: "Brussels-South/Brussels-Midi", destination: "Namur" },
-];
+]);
 
-export const norwayRoutes: ScrapedRoute[] = [
+export const norwayRoutes: ScrapedRoute[] = withReturnDirections([
   { origin: "Oslo S", destination: "Bergen stasjon" },
   { origin: "Oslo S", destination: "Trondheim S" },
   { origin: "Oslo S", destination: "Stavanger stasjon" },
   { origin: "Oslo lufthavn", destination: "Lillehammer" },
   { origin: "Trondheim S", destination: "Bodø stasjon" },
-];
+]);
 
 /**
  * Every pair the destination picker marks as a direct connection.
@@ -123,13 +143,13 @@ export const norwayRoutes: ScrapedRoute[] = [
  * the picker promised an "IC1 direct" the search then called unsupported.
  *
  * The list is derived from the market topology: one entry per pair of stations
- * that share a line, which is exactly the set the picker badges. A stored route
- * answers both directions, so each pair is listed once.
+ * that share a line, which is exactly the set the picker badges. Each pair is
+ * listed once; {@link withReturnDirections} adds the return trip.
  *
  * The OJP token buys live answers for pairs beyond these lines; it is not what
  * makes these work. The GTFS static feed behind them needs no credential.
  */
-export const switzerlandRoutes: ScrapedRoute[] = [
+export const switzerlandRoutes: ScrapedRoute[] = withReturnDirections([
   // off-line hub pairs
   { origin: "Bern", destination: "Interlaken Ost" },
   { origin: "Luzern", destination: "Zürich HB" },
@@ -211,7 +231,7 @@ export const switzerlandRoutes: ScrapedRoute[] = [
   { origin: "Lausanne", destination: "Montreux" },
   { origin: "Lausanne", destination: "Sion" },
   { origin: "Montreux", destination: "Sion" },
-];
+]);
 
 /**
  * China has no listed routes. The four high-speed pairs previously stored here

@@ -421,7 +421,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     timeZone: "Europe/Berlin",
     search: { kind: "scraped" },
     scrape: "official_source",
-    authenticityGates: { catalog: false },
+    authenticityGates: { catalog: true },
     marketTopology: { regions: [{ id: "germany-intercity", name: "Germany intercity rail", declaredLines: 6, declaredStations: 17 }] },
     resultView: "japan",
     serviceDay: { coverage: "unavailable", source: "gtfs.de timetable is not yet published as a service-day advisory artifact", scope: "No service-day advisory" },
@@ -439,7 +439,7 @@ export const countryConfig: Record<Country, CountryConfigEntry> = {
     timeZone: "Europe/Paris",
     search: { kind: "scraped" },
     scrape: "official_source",
-    authenticityGates: { catalog: false },
+    authenticityGates: { catalog: true },
     marketTopology: { regions: [{ id: "france-intercity", name: "France intercity rail", declaredLines: 4, declaredStations: 18 }] },
     resultView: "japan",
     serviceDay: {
