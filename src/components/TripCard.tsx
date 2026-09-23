@@ -15,7 +15,7 @@ import { triggerHaptic } from "../utils/haptics";
 import { stationLabel, stationListLabel } from "../utils/stationLabel";
 import { formatPlatform } from "./TransitIcon";
 import { displayClock, formatDuration, tripCardMotion } from "./ResultShell";
-import { RouteBand, bandLegs, tightestWait } from "./RouteBand";
+import { RouteBand, bandLegs, rideLegs, tightestWait } from "./RouteBand";
 import { TripDetails } from "./TripDetails";
 import { transferPressure } from "../utils/journeyLegs";
 
@@ -92,18 +92,25 @@ export function TripCard({
   const platformText = [firstPlatform, lastLegPlatform].filter(Boolean).join(" → ");
 
   // "Direct · 8 stops", or "Change at Piccadilly Circus to Bakerloo · 3 min wait".
-  const transferStations = trip.transferStations && trip.transferStations.length > 0
-    ? trip.transferStations
-    : trip.legs && trip.legs.length > 1 ? trip.legs.slice(0, -1).map((leg) => leg.destination) : [];
+  // Changes are between rides: a walk between two rides is part of one change,
+  // so a journey with walks names the stations where each ride ends.
+  const rides = rideLegs(trip);
+  const walks = Boolean(rides && trip.legs && rides.length < trip.legs.length);
+  const transferStations = (walks && rides
+    ? rides.slice(0, -1).map((leg) => leg.destination)
+    : trip.transferStations && trip.transferStations.length > 0
+      ? trip.transferStations
+      : rides ? rides.slice(0, -1).map((leg) => leg.destination) : []
+  ).filter((station, index, list) => index === 0 || station !== list[index - 1]);
   const composition = trip.direct
     ? [
         t("result.direct"),
         trip.stops.length > 0 ? `${trip.stops.length} ${t("result.stops")}` : null,
         headsign ? t("metro.towards", { destination: stationLabel(t, headsign, trip.country) }) : null,
       ].filter(Boolean).join(" · ")
-    : transferStations.length === 1 && trip.legs && trip.legs.length === 2
+    : transferStations.length === 1 && rides && rides.length === 2
       ? [
-          t("result.transfer_to", { station: stationLabel(t, transferStations[0], trip.country), line: trip.legs[1].lineName }),
+          t("result.transfer_to", { station: stationLabel(t, transferStations[0], trip.country), line: rides[1].lineName }),
           wait !== undefined ? t("result.transfer_wait", { count: wait }) : null,
         ].filter(Boolean).join(" · ")
       : [

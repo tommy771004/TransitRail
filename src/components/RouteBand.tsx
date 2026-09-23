@@ -16,6 +16,22 @@ export interface BandLeg {
   waitMinutes?: number;
 }
 
+const isWalk = (leg: JourneyLeg) => /^(foot|walk|walking)$/i.test(leg.mode ?? "");
+
+/**
+ * The rides of a multi-leg journey: every leg but the walks between them.
+ *
+ * Entur files each walk (platform to platform, station to airport) as its
+ * own leg named "foot". Those are not rides: counted as rides they turned the
+ * band into confetti and made every walk a "change" with a zero-minute wait.
+ * The time a walk takes stays inside the gap between the rides around it.
+ */
+export function rideLegs(trip: TransitResult): JourneyLeg[] | undefined {
+  if (trip.direct !== false || !trip.legs || trip.legs.length < 2) return undefined;
+  const rides = trip.legs.filter((leg) => !isWalk(leg));
+  return rides.length > 0 ? rides : trip.legs;
+}
+
 /**
  * The rides of one journey, in band form.
  *
@@ -25,7 +41,15 @@ export interface BandLeg {
  * than shrinking to a sliver the band would misrepresent.
  */
 export function bandLegs(trip: TransitResult): BandLeg[] {
-  const legs = trip.direct === false && trip.legs && trip.legs.length > 1 ? trip.legs : undefined;
+  const rides = rideLegs(trip);
+  const legs = rides && rides.length > 1 ? rides : undefined;
+  if (rides?.length === 1) {
+    return [{
+      name: rides[0].lineName,
+      color: getLegColor(rides[0], trip.lineColor),
+      minutes: Math.max(trip.durationMinutes ?? 1, 1),
+    }];
+  }
   if (!legs) {
     return [{
       name: trip.service || trip.trainType || "",
@@ -33,7 +57,7 @@ export function bandLegs(trip: TransitResult): BandLeg[] {
       minutes: Math.max(trip.durationMinutes ?? 1, 1),
     }];
   }
-  const rides = legs.map((leg, index) => {
+  const timed = legs.map((leg, index) => {
     const next = legs[index + 1];
     const start = minutesOf(leg.departureTime);
     const end = minutesOf(leg.arrivalTime);
@@ -42,12 +66,12 @@ export function bandLegs(trip: TransitResult): BandLeg[] {
     const wait = next && end !== null && nextStart !== null && nextStart >= end ? nextStart - end : undefined;
     return { leg, ride, wait: next ? wait : undefined };
   });
-  const known = rides.map((ride) => ride.ride).filter((minutes): minutes is number => typeof minutes === "number" && minutes > 0);
+  const known = timed.map((ride) => ride.ride).filter((minutes): minutes is number => typeof minutes === "number" && minutes > 0);
   const total = trip.durationMinutes && trip.durationMinutes > 0 ? trip.durationMinutes : undefined;
   const fallback = known.length > 0
     ? known.reduce((sum, minutes) => sum + minutes, 0) / known.length
     : total ? total / legs.length : 1;
-  return rides.map(({ leg, ride, wait }) => ({
+  return timed.map(({ leg, ride, wait }) => ({
     name: leg.lineName,
     color: getLegColor(leg, trip.lineColor),
     minutes: Math.max(ride && ride > 0 ? ride : fallback, 1),
