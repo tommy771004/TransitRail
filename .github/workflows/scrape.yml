@@ -26,6 +26,12 @@ on:
 permissions:
   contents: write
 
+# One scrape at a time. Two overlapping runs each commit a full dataset, and
+# whichever pushes second is rejected with everything it collected.
+concurrency:
+  group: scrape-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   scrape:
     runs-on: ubuntu-latest
@@ -198,6 +204,14 @@ jobs:
       - name: Test scraped output
         run: npm run test:data
 
+      # A scrape runs for half an hour, and anything merged meanwhile moves the
+      # branch ahead of this checkout. Run #117 lost a complete, validated
+      # dataset that way: its push was rejected as non-fast-forward. Code merges
+      # never touch the scraped files, so fast-forward first and keep this run's
+      # changes on top; a genuine conflict still fails loudly here.
+      - name: Catch up with commits merged during the scrape
+        run: git -c user.name="TransitRail Scraper Bot" -c user.email="scraper@transitrail.app" pull --ff-only --autostash origin "${{ github.ref_name }}"
+
       # Publish the validated source-of-truth artifacts before rebuilding any
       # derived browsing catalog. A provider directory outage or catalog bug
       # must never strand a good timetable on the ephemeral runner again.
@@ -233,6 +247,9 @@ jobs:
 
       - name: Check generated output formatting
         run: git diff --check
+
+      - name: Catch up with commits merged during catalog generation
+        run: git -c user.name="TransitRail Scraper Bot" -c user.email="scraper@transitrail.app" pull --ff-only --autostash origin "${{ github.ref_name }}"
 
       - name: Commit generated station catalog
         uses: stefanzweifel/git-auto-commit-action@v5
