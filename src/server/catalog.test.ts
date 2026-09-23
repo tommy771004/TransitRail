@@ -79,6 +79,16 @@ describe("station and line catalog integrity scope", { timeout: 20_000 }, () => 
     expect(catalog.stations.filter((station) => departsFrom.has(station) && destinations[station].length === 0)).toEqual([]);
   });
 
+  it.each(["france", "germany"] as const)("offers %s only the stations its timetables answer", async (country) => {
+    const catalog = await buildServiceRegionCatalog({ country, date: catalogDate, includeProvider: false });
+
+    // Without the catalog gate the picker got no coverage list at all, so line-
+    // map stations with no timetable (Arras, Freiburg Hbf) passed for origins.
+    expect(catalog.coverage.covered?.length).toBeGreaterThan(0);
+    expect(catalog.stations).toEqual(catalog.coverage.covered);
+    expect(catalog.coverage).toMatchObject({ truthMode: "verified", provenance: "official" });
+  });
+
   it("keeps source directories while exposing only verified route coverage", async () => {
     const singapore = await buildServiceRegionCatalog({ country: "singapore", date: catalogDate, includeProvider: false, includeDestinations: true });
     expect(singapore.lines).toHaveLength(9);

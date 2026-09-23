@@ -143,12 +143,18 @@ export class UnitedKingdomScraper extends OfficialFeedScraper {
   }
 }
 
+/** Green Line B, in either direction: the pair the V3 schedules omit during diversions. */
+function isGreenLineBPair(route: ScrapedRoute): boolean {
+  const ends = new Set([route.origin, route.destination]);
+  return ends.size === 2 && ends.has("Park Street") && ends.has("Boston College");
+}
+
 export class UnitedStatesScraper extends OfficialFeedScraper {
   constructor() {
     super(
       "MBTA",
       "united_states",
-      unitedStatesRoutes.filter((route) => !(route.origin === "Park Street" && route.destination === "Boston College")),
+      unitedStatesRoutes.filter((route) => !isGreenLineBPair(route)),
       "us-mbta-v3",
       searchMbtaJourney,
     );
@@ -158,15 +164,13 @@ export class UnitedStatesScraper extends OfficialFeedScraper {
 /**
  * The MBTA V3 schedules endpoint omits Green Line B journeys during planned
  * diversions even though the official passenger planner publishes usable
- * alternatives. Drive that page for the affected station pair and keep only
- * itinerary groups that the page marks as available.
+ * alternatives. Drive that page for the affected station pair, both ways, and
+ * keep only itinerary groups that the page marks as available.
  */
 export class UnitedStatesBrowserScraper extends BrowserScraper {
   readonly name = "MBTA Trip Planner browser";
   readonly country = "united_states";
-  readonly routes = unitedStatesRoutes.filter(
-    (route) => route.origin === "Park Street" && route.destination === "Boston College",
-  );
+  readonly routes = unitedStatesRoutes.filter(isGreenLineBPair);
   readonly sourceId = "us-mbta-journey-planner-web";
   protected override readonly browserTimezoneId = "America/New_York";
 
