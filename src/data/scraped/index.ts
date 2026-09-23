@@ -14,6 +14,7 @@ import {
   type KoreanSubwayArtifact,
 } from "../koreanSubwayArtifact";
 import { buildSourceMeta } from "../sourceRegistry";
+import { providerDateValue } from "../countries";
 import { stationSearchKey } from "../stationKey";
 import {
   coveredEndpointNames,
@@ -96,6 +97,40 @@ const KOREAN_ARTIFACT_FILES = [
 
 let koreanArtifacts: KoreanSubwayArtifact[] = [];
 const loadedCountries = new Set<string>();
+
+/**
+ * Whole-market derivations — the policy-filtered route set, its covered names,
+ * its searchability summary — memoized per loaded corpus.
+ *
+ * Each walks every route of the market, and one Japan search asked for them
+ * three times: once to answer, twice more to build the line menu it enriches
+ * the answer with. They depend on nothing but the loaded files, the requested
+ * service day and the market's own "today" (a live-only market's rows expire
+ * with it, and the date-range check moves with it), so all three sit in the
+ * key: a new day starts an empty memo, and a reload of the files drops it.
+ */
+const derived = new Map<string, { day: string; values: Map<string, unknown> }>();
+
+function memoizeDerived<T>(country: Country, name: string, date: string | undefined, compute: () => T): T {
+  const day = providerDateValue(country);
+  let memo = derived.get(country);
+  if (!memo || memo.day !== day) {
+    memo = { day, values: new Map() };
+    derived.set(country, memo);
+  }
+  const key = `${name}|${date ?? ""}`;
+  if (memo.values.has(key)) return memo.values.get(key) as T;
+  const value = compute();
+  memo.values.set(key, value);
+  return value;
+}
+
+function routeSelection(country: Country, date?: string) {
+  return memoizeDerived(country, "selection", date, () => searchableRoutesForContext(cache[country] || [], {
+    country,
+    serviceDay: date,
+  }));
+}
 
 function loadKoreanArtifacts(): KoreanSubwayArtifact[] {
   const artifacts: KoreanSubwayArtifact[] = [];
@@ -185,6 +220,7 @@ export function loadScrapedData(): void {
   for (const country of ALL_COUNTRIES) cache[country] = [];
   koreanArtifacts = [];
   loadedCountries.clear();
+  derived.clear();
 }
 
 /** Load only the requested market on cold requests; explicit reloads still refresh all. */
@@ -193,11 +229,17 @@ function ensureCountryLoaded(country: Country): void {
   cache[country] = loadDir(country);
   if (country === "korea") koreanArtifacts = loadKoreanArtifacts();
   loadedCountries.add(country);
+  derived.delete(country);
 }
 
 /** All names backed by committed timetable data, including compact artifacts. */
 export function getScrapedCoverageNames(country: Country, date?: string): string[] {
   ensureCountryLoaded(country);
+  // A copy, so a caller sorting or trimming its list cannot edit the memo.
+  return [...memoizeDerived(country, "coverage", date, () => computeCoverageNames(country, date))];
+}
+
+function computeCoverageNames(country: Country, date?: string): string[] {
   const names = coveredEndpointNames(cache[country] || [], country, date);
   if (country === "korea" && koreanArtifacts.length > 0) {
     const byKey = new Map(names.map((name) => [stationSearchKey(name), name]));
@@ -292,10 +334,11 @@ export function getScrapedCountryFreshness(country: Country): string | undefined
 /** Shared provenance/truth summary for station and line discovery. */
 export function getScrapedSearchabilitySummary(country: Country, date?: string) {
   ensureCountryLoaded(country);
-  const selection = searchableRoutesForContext(cache[country] || [], {
-    country,
-    serviceDay: date,
-  });
+  return { ...memoizeDerived(country, "summary", date, () => computeSearchabilitySummary(country, date)) };
+}
+
+function computeSearchabilitySummary(country: Country, date?: string) {
+  const selection = routeSelection(country, date);
   const decisions = [...selection.decisions];
   const artifactDecision = country === "korea" ? koreanArtifactDecision(date) : undefined;
   if (artifactDecision) decisions.push(artifactDecision);
@@ -381,10 +424,7 @@ export function findScrapedSearchability(
     }
   }
 
-  const selection = searchableRoutesForContext(cache[country] || [], {
-    country,
-    serviceDay: date,
-  });
+  const selection = routeSelection(country, date);
   if (selection.routes.length === 0) return null;
 
   const found = findInRoutes(selection.routes, origin, destination, date, country)

@@ -308,6 +308,35 @@ function indexRunsByStation(runs: ArtifactRunView[]): Map<number, ArtifactRunVie
   return runsByStation;
 }
 
+interface ArtifactDayIndex {
+  runs: ArtifactRunView[];
+  runsByStation: Map<number, ArtifactRunView[]>;
+}
+
+/**
+ * One service day's runs and their by-station index, built once per artifact.
+ *
+ * Every Korea journey search used to rebuild both over all ~12k runs before
+ * looking at a single train. Keyed by the artifact object rather than its hash
+ * so a reload drops the old views together with the artifact they describe.
+ */
+const dayIndexCache = new WeakMap<KoreanSubwayArtifact, Map<ServiceDayType, ArtifactDayIndex>>();
+
+function dayIndex(artifact: KoreanSubwayArtifact, dayType: ServiceDayType): ArtifactDayIndex {
+  let byDay = dayIndexCache.get(artifact);
+  if (!byDay) {
+    byDay = new Map();
+    dayIndexCache.set(artifact, byDay);
+  }
+  let index = byDay.get(dayType);
+  if (!index) {
+    const runs = runsForDay(artifact, dayType);
+    index = { runs, runsByStation: indexRunsByStation(runs) };
+    byDay.set(dayType, index);
+  }
+  return index;
+}
+
 function cloneReachability(source: Map<number, Set<number>>): Map<number, Set<number>> {
   return new Map([...source].map(([origin, destinations]) => [origin, new Set(destinations)]));
 }
@@ -347,7 +376,7 @@ function reachabilityForDay(
   const cached = reachabilityCache.get(cacheKey);
   if (cached) return cached;
 
-  const runs = runsForDay(artifact, dayType);
+  const { runs } = dayIndex(artifact, dayType);
   const reachable = cloneReachability(directReachability(artifact, dayType));
   type EndpointLineTimes = Map<number, Map<string, number>>;
   const arrivalsByTransfer = new Map<number, EndpointLineTimes>();
@@ -501,22 +530,40 @@ function crossLineJourneys(
   date: string,
   dayType: ServiceDayType,
 ): TransitResult[] {
-  const runs = runsForDay(artifact, dayType);
-  const runsByStation = indexRunsByStation(runs);
+  const { runsByStation } = dayIndex(artifact, dayType);
+  // Only a train that calls at the destination can finish a journey, and only
+  // a station one of those trains calls at can be the change. Pruning to them
+  // up front skips exactly the pairs the scan below would reject anyway.
+  const destinationRuns = new Set(runsByStation.get(destinationIndex) || []);
+  const changeStations = new Set<number>();
+  for (const run of destinationRuns) for (const [stationIndex] of run.calls) changeStations.add(stationIndex);
 
-  const results: TransitResult[] = [];
+  const results: Array<{ result: TransitResult; departs: number; arrives: number }> = [];
   const seen = new Set<string>();
-  for (const first of runs) {
+  for (const first of runsByStation.get(originIndex) || []) {
     const fromIndex = runCallIndex(first, originIndex);
     if (fromIndex < 0) continue;
     for (let transferIndex = fromIndex + 1; transferIndex < first.calls.length; transferIndex += 1) {
       const transfer = first.calls[transferIndex][0];
       if (transfer === originIndex || transfer === destinationIndex) continue;
+      if (!changeStations.has(transfer)) continue;
       const arrival = callTime(first.calls[transferIndex], true);
       if (arrival === null) continue;
       const minimum = getMinimumTransferMinutes("korea", artifact.stations[transfer]);
+      // One journey per line boarded here: the train that reaches the
+      // destination first. Every later train on that line is the same journey
+      // with a longer wait, and emitting all of them made ~100k journeys a
+      // search, of which the first 200 by clock were kept — so Seoul Station →
+      // Gangnam answered 00:00–05:19 and nothing after, and an evening search
+      // reported no service. `reachabilityForDay` makes the same reduction.
+      const best = new Map<string, {
+        second: ArtifactRunView;
+        secondTransferIndex: number;
+        destinationCallIndex: number;
+        arrivesAt: number;
+      }>();
       for (const second of runsByStation.get(transfer) || []) {
-        if (second.line === first.line) continue;
+        if (second.line === first.line || !destinationRuns.has(second)) continue;
         const secondTransferIndex = runCallIndex(second, transfer);
         const departure = secondTransferIndex < 0
           ? null
@@ -524,14 +571,23 @@ function crossLineJourneys(
         if (secondTransferIndex < 0 || departure === null || departure < arrival + minimum) continue;
         const destinationCallIndex = runCallIndex(second, destinationIndex, secondTransferIndex + 1);
         if (destinationCallIndex < 0) continue;
+        const arrivesAt = callTime(second.calls[destinationCallIndex], true);
+        if (arrivesAt === null) continue;
+        const incumbent = best.get(second.line);
+        if (incumbent && incumbent.arrivesAt <= arrivesAt) continue;
+        best.set(second.line, { second, secondTransferIndex, destinationCallIndex, arrivesAt });
+      }
+      if (best.size === 0) continue;
 
-        const firstResult = segmentResult(first, fromIndex, transferIndex, artifact, date);
+      const firstResult = segmentResult(first, fromIndex, transferIndex, artifact, date);
+      if (!firstResult) continue;
+      for (const { second, secondTransferIndex, destinationCallIndex, arrivesAt } of best.values()) {
         const secondResult = segmentResult(second, secondTransferIndex, destinationCallIndex, artifact, date);
-        if (!firstResult || !secondResult) continue;
+        if (!secondResult) continue;
         const id = `${firstResult.id}-x-${secondResult.id}-${transfer}`;
         if (seen.has(id)) continue;
         seen.add(id);
-        results.push({
+        results.push({ departs: callTime(first.calls[fromIndex], false) ?? 0, arrives: arrivesAt, result: {
           id,
           country: "korea",
           date,
@@ -572,14 +628,29 @@ function crossLineJourneys(
           ],
           transferStations: [artifact.stations[transfer]],
           tags: ["transfer"],
-        });
+        } });
       }
     }
   }
-  return results.sort((a, b) => {
+
+  // Drop a journey another one beats: leaves no earlier and arrives no later.
+  // The same first train changing at three stations, or an earlier train that
+  // only catches the connection a later one also makes, is the same trip for a
+  // passenger at a worse time. Latest departure first, so each survivor must
+  // arrive strictly earlier than everything leaving after it; the sort is
+  // stable, so of two identical timings the one found first stays.
+  results.sort((a, b) => b.departs - a.departs || a.arrives - b.arrives);
+  const undominated: TransitResult[] = [];
+  let earliestLater = Number.POSITIVE_INFINITY;
+  for (const { result, arrives } of results) {
+    if (arrives >= earliestLater) continue;
+    undominated.push(result);
+    earliestLater = arrives;
+  }
+  return undominated.sort((a, b) => {
     const departure = a.departureTime.localeCompare(b.departureTime);
     return departure || (a.arrivalTime || "").localeCompare(b.arrivalTime || "");
-  }).slice(0, 200);
+  });
 }
 
 export function searchKoreanSubwayArtifact(

@@ -333,4 +333,17 @@ describe("classification helpers", () => {
     expect(parseClockMinutes("25:05")).toBe(1505);
     expect(parseClockMinutes("not-a-time")).toBeUndefined();
   });
+
+  it("accepts exactly the H:MM and HH:MM clocks it always has", () => {
+    // The parser reads characters instead of a regex; these pin the old rule.
+    expect(parseClockMinutes("0:00")).toBe(0);
+    expect(parseClockMinutes("7:30")).toBe(450);
+    expect(parseClockMinutes("99:59")).toBe(5999);
+    for (const value of [
+      "", "7", ":30", "7:3", "07:60", "007:30", "07:30 ", " 7:30", "07-30",
+      "7a:30", "07:3a", "٠٧:٣٠", undefined,
+    ]) {
+      expect(parseClockMinutes(value)).toBeUndefined();
+    }
+  });
 });

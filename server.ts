@@ -21,6 +21,7 @@ import { getTransitSituations } from "./src/server/situations";
 import { countryOptions, providerDateValue, searchDateRange } from "./src/data/countries";
 import { runTransitSearch } from "./src/server/transitSearch";
 import { cachedTransitSearch } from "./src/server/searchResponseCache";
+import { afterResponse } from "./src/server/afterResponse";
 import { timetableFingerprint } from "./src/utils/timetableChanges";
 import { recordError } from "./src/server/errorLog";
 import { sendTelemetry } from "./src/server/telemetry";
@@ -299,7 +300,7 @@ async function logTransitSearch(
     const { statusCode, payload } = searchResult;
 
     if (statusCode === 404 || statusCode === 422 || statusCode >= 500) {
-      const receipt = await recordError({
+      const recorded = recordError({
         severity: statusCode >= 500 ? "error" : "warning",
         module: "transit-search",
         operation: "journey.search",
@@ -310,7 +311,11 @@ async function logTransitSearch(
         httpStatus: statusCode,
         context: { origin, destination, date, time: timeValue },
       });
-      if (statusCode >= 500) payload.referenceId = receipt.id;
+      // A failure hands the passenger a reference, and a repeat of an open error
+      // resolves to that row's id, so only then does the reply wait for the
+      // write. An expected miss — any uncovered pair — does not.
+      if (statusCode >= 500) payload.referenceId = (await recorded).id;
+      else afterResponse(recorded);
     }
 
     // Provider details belong in error_log, never in a browser response.
@@ -318,7 +323,7 @@ async function logTransitSearch(
       payload.message = "Transit data is temporarily unavailable. Please try again later.";
     }
 
-    await logTransitSearch(req, {
+    afterResponse(logTransitSearch(req, {
       origin,
       destination,
       date,
@@ -329,7 +334,7 @@ async function logTransitSearch(
       resultCount: payload.results.length,
     }).catch((error) => {
       console.error("[audit] Failed to record transit search:", error);
-      void recordError({
+      return recordError({
         severity: "error",
         module: "audit",
         operation: "transit-search.insert",
@@ -338,7 +343,7 @@ async function logTransitSearch(
         country: countryValue,
         context: { origin, destination, date },
       });
-    });
+    }));
 
     return res.status(statusCode).json(payload);
   });
@@ -550,7 +555,7 @@ async function logTransitSearch(
     // explicit station search belongs in TN_AUDIT_LOG; station selection is
     // recorded separately by the station.select audit event.
     if (queryValue) {
-      await insertAuditLog(req, {
+      afterResponse(insertAuditLog(req, {
         transportType: "rail",
         originStationName: queryValue,
         activeFilter: buildActiveFilter({
@@ -565,7 +570,7 @@ async function logTransitSearch(
         resultCount: payload.stations.length,
       }).catch((error) => {
         console.error("[audit] Failed to record station catalog search:", error);
-        void recordError({
+        return recordError({
           severity: "error",
           module: "audit",
           operation: "station-catalog.insert",
@@ -574,7 +579,7 @@ async function logTransitSearch(
           country: countryValue,
           context: { query: queryValue },
         });
-      });
+      }));
     }
     void sendTelemetry("station.catalog.completed", {
       has_country: Boolean(countryValue),
@@ -693,7 +698,7 @@ async function logTransitSearch(
       });
     }
 
-    await insertAuditLog(req, {
+    afterResponse(insertAuditLog(req, {
       transportType: "rail",
       originStationName: payload.station,
       activeFilter: buildActiveFilter({
@@ -709,7 +714,7 @@ async function logTransitSearch(
       geoAccuracy: accuracyValue,
     }).catch((error) => {
       console.error("[audit] Failed to record nearest-station lookup:", error);
-      void recordError({
+      return recordError({
         severity: "error",
         module: "audit",
         operation: "station-nearest.insert",
@@ -717,7 +722,7 @@ async function logTransitSearch(
         error,
         country: countryValue,
       });
-    });
+    }));
     void sendTelemetry("station.nearest.completed", {
       has_country: Boolean(countryValue),
       result_count: payload.station ? 1 : 0,

@@ -9,6 +9,7 @@ import {
   koreanServiceDayType,
   searchKoreanSubwayArtifact,
 } from "./koreanSubwayArtifact";
+import { getMinimumTransferMinutes } from "./transferRules";
 
 const timetable: SeoulTimetable = {
   encoding: "utf-8",
@@ -187,6 +188,97 @@ describe("Seoul subway compact artifact", () => {
       arrivalTime: "08:25",
     });
     expect(koreanArtifactReachableNames(artifact, "Gangnam", "2026-08-03")).toContain("Seoul Station");
+  });
+
+  describe("a day of connecting trains", () => {
+    // Line A every 5 minutes from 05:00 to 23:55 reaching the interchange in 10;
+    // Line B every 5 minutes from it on to the destination in 10.
+    const everyFiveMinutes = Array.from({ length: 228 }, (_, index) => 300 + index * 5);
+    const day: SeoulTimetable = {
+      encoding: "utf-8",
+      dropped: {},
+      runs: [
+        ...everyFiveMinutes.map((start) => ({
+          trainNo: `A${start}`,
+          line: "Line A",
+          dayType: "weekday" as const,
+          direction: "OUT",
+          calls: [
+            { station: "Origin", arrival: start, departure: start },
+            { station: "Interchange", arrival: start + 10, departure: start + 10 },
+          ],
+        })),
+        ...everyFiveMinutes.map((start) => ({
+          trainNo: `B${start}`,
+          line: "Line B",
+          dayType: "weekday" as const,
+          direction: "OUT",
+          calls: [
+            { station: "Interchange", arrival: start, departure: start },
+            { station: "Destination", arrival: start + 10, departure: start + 10 },
+          ],
+        })),
+      ],
+    };
+    const search = () => searchKoreanSubwayArtifact(
+      buildKoreanSubwayArtifact(day, { retrievedAt: "2026-08-01T00:00:00.000Z", sourceSha256: "day-fixture" }),
+      { origin: "Origin", destination: "Destination", date: "2026-08-03" },
+    );
+
+    it("answers the whole day, not only the morning", () => {
+      // Every Line A train paired with every later Line B train was ~26k
+      // journeys, cut to the first 200 by clock: nothing after 08:00 survived,
+      // and an evening search reported no service.
+      const departures = search().map((result) => result.departureTime);
+      expect(departures).toContain("18:00");
+      expect(departures).toContain("23:00");
+    });
+
+    it("rides each train into the first connection, not every later one", () => {
+      // At the interchange 06:10; Line B runs every 5 minutes after the floor.
+      const floor = 370 + getMinimumTransferMinutes("korea", "Interchange");
+      const connection = Math.ceil(floor / 5) * 5;
+      const clock = (minutes: number) => `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
+      const fromSix = search().filter((result) => result.departureTime === "06:00");
+      expect(fromSix).toHaveLength(1);
+      expect(fromSix[0].legs?.[1]).toMatchObject({
+        departureTime: clock(connection),
+        arrivalTime: clock(connection + 10),
+      });
+    });
+  });
+
+  it("drops a transfer journey another one beats on both clocks", () => {
+    const run = (trainNo: string, line: string, calls: Array<[string, number]>) => ({
+      trainNo,
+      line,
+      dayType: "weekday" as const,
+      direction: "OUT",
+      calls: calls.map(([station, time]) => ({ station, arrival: time, departure: time })),
+    });
+    const artifact = buildKoreanSubwayArtifact({
+      encoding: "utf-8",
+      dropped: {},
+      runs: [
+        // One Line A train passes two interchanges; changing at X arrives first.
+        run("A1", "Line A", [["Origin", 360], ["X", 370], ["Y", 380]]),
+        run("B1", "Line B", [["X", 385], ["Destination", 400]]),
+        run("C1", "Line C", [["Y", 395], ["Destination", 410]]),
+        // An earlier Line D train only makes the Line E connection that a later
+        // Line D train makes too — same arrival, less time at home.
+        run("D1", "Line D", [["Origin", 500], ["Z", 510]]),
+        run("D2", "Line D", [["Origin", 505], ["Z", 515]]),
+        run("E1", "Line E", [["Z", 530], ["Destination", 545]]),
+      ],
+    }, { retrievedAt: "2026-08-01T00:00:00.000Z", sourceSha256: "dominance-fixture" });
+
+    const journeys = searchKoreanSubwayArtifact(artifact, {
+      origin: "Origin",
+      destination: "Destination",
+      date: "2026-08-03",
+    }).map((result) => `${result.departureTime}-${result.arrivalTime} via ${result.transferStations?.[0]}`);
+
+    expect(journeys).toEqual(["06:00-06:40 via X", "08:25-09:05 via Z"]);
   });
 
   it("offers a destination whose only usable connection is a later train", () => {

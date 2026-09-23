@@ -93,12 +93,28 @@ export interface CompleteTimetableSnapshot extends TimetableSnapshot {
   sourceMeta: TimetableSourceMeta;
 }
 
-/** "06:05" → 365. Undefined for anything that is not a HH:MM clock time. */
+/**
+ * "06:05" → 365: minutes past midnight for an `H:MM` / `HH:MM` clock (hours may
+ * pass 23 for a service day that runs past midnight), undefined for anything else.
+ *
+ * Read by character rather than regex and split: loading and validating the
+ * committed timetables calls this for every departure and every leg — about
+ * 600k times for Japan alone — and the allocating version was most of it.
+ */
 export function parseClockMinutes(time: string | undefined): number | undefined {
-  if (!time || !/^\d{1,2}:\d{2}$/.test(time)) return undefined;
-  const [hours, minutes] = time.split(":").map(Number);
-  if (minutes > 59) return undefined;
-  return hours * 60 + minutes;
+  if (typeof time !== "string") return undefined;
+  const colon = time.length - 3;
+  if ((colon !== 1 && colon !== 2) || time.charCodeAt(colon) !== 58 /* : */) return undefined;
+  let hours = 0;
+  for (let index = 0; index < colon; index += 1) {
+    const digit = time.charCodeAt(index) - 48;
+    if (digit < 0 || digit > 9) return undefined;
+    hours = hours * 10 + digit;
+  }
+  const tens = time.charCodeAt(colon + 1) - 48;
+  const ones = time.charCodeAt(colon + 2) - 48;
+  if (tens < 0 || tens > 5 || ones < 0 || ones > 9) return undefined;
+  return hours * 60 + tens * 10 + ones;
 }
 
 /**
@@ -358,13 +374,43 @@ function unusableSourceFact(
   };
 }
 
+/**
+ * A committed corpus carries a handful of distinct dates across ~100k rows.
+ * Request dates pass through here too, so the memo stops growing at a size no
+ * scrape window reaches rather than holding every date anyone asks for.
+ */
+const isoCalendarDates = new Set<string>();
+const ISO_CALENDAR_DATE_MEMO_LIMIT = 4_096;
+
 function isIsoCalendarDate(value: string): boolean {
+  if (isoCalendarDates.has(value)) return true;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
   const parsed = new Date(`${value}T12:00:00Z`);
-  return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+  const valid = Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+  if (valid && isoCalendarDates.size < ISO_CALENDAR_DATE_MEMO_LIMIT) isoCalendarDates.add(value);
+  return valid;
 }
 
+/**
+ * Rows already proven well-formed, by identity.
+ *
+ * Search re-normalizes every committed route on every request — once to pick
+ * the routes, twice more to build the line menu for enrichment — and walking
+ * Japan's 31k rows field by field was ~1s of each Japan search. A row's shape
+ * cannot change under us (nothing mutates a loaded row; every consumer copies),
+ * so the verdict for an object is permanent. Only passes are kept: a failed
+ * row is rare and re-checking it keeps the rejection path exactly as before.
+ */
+const wellFormedRows = new WeakSet<object>();
+
 function isTimetableResult(value: unknown): value is TransitResult {
+  if (isRecord(value) && wellFormedRows.has(value)) return true;
+  if (!isWellFormedTimetableResult(value)) return false;
+  wellFormedRows.add(value as object);
+  return true;
+}
+
+function isWellFormedTimetableResult(value: unknown): value is TransitResult {
   if (!isRecord(value)) return false;
   if (
     typeof value.id !== "string"

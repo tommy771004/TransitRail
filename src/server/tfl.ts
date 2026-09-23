@@ -126,6 +126,12 @@ interface TflSweepContext {
   bounds: Map<string, Promise<{ first: ServiceBound; last: ServiceBound } | null>>;
   /** Applies to every request the sweep makes, retries included. */
   gate: TflRateGate;
+  /**
+   * How many times a journey request that got no answer is asked again. A
+   * nightly sweep can afford the wait; a passenger searching live cannot — a
+   * stalled TfL would hold them ~33 s instead of 10 s before hearing so.
+   */
+  transportRetries: number;
 }
 
 /**
@@ -267,6 +273,16 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 const TFL_RATE_LIMIT_RETRIES = 3;
 
 /**
+ * How often a sweep asks again for a journey request that got no answer — a
+ * reset, DNS, or no complete response inside the timeout. Nightly London runs
+ * lost single sampled hours to "This operation was aborted", and the sweep
+ * saved the rest of the day around the hole. A request TfL did answer, however
+ * badly, is not retried: it publishes pairs that answer 500 every time, and
+ * backing off on those buys nothing.
+ */
+const TFL_SWEEP_TRANSPORT_RETRIES = 2;
+
+/**
  * Serializes request *starts* to at most one per interval.
  *
  * A concurrency limit is not a rate limit. Pacing only the start of each sampled
@@ -327,11 +343,13 @@ async function describeTflRateLimit(response: Response) {
   return `TfL returned HTTP 429.${retryAfter ? ` Retry-After: ${retryAfter}.` : ""}${body ? ` Provider said: ${body}` : ""}`;
 }
 
-async function fetchTflJson<T>(url: URL, gate?: TflRateGate): Promise<T> {
-  for (let attempt = 0; ; attempt += 1) {
+async function fetchTflJson<T>(url: URL, gate?: TflRateGate, transportRetries = 0): Promise<T> {
+  // Separate budgets: a stalled request must not spend the rate-limit retries.
+  for (let rateLimited = 0, transportFailures = 0; ;) {
     await gate?.();
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 10_000);
+    let answered = false;
     try {
       const response = await fetch(url, {
         signal: controller.signal,
@@ -340,24 +358,32 @@ async function fetchTflJson<T>(url: URL, gate?: TflRateGate): Promise<T> {
           "User-Agent": "TransitRail/1.0",
         },
       });
+      answered = true;
       if (response.status === 429) {
-        if (attempt >= TFL_RATE_LIMIT_RETRIES) {
+        if (rateLimited >= TFL_RATE_LIMIT_RETRIES) {
           throw new Error(await describeTflRateLimit(response));
         }
         const retryAfter = Number(response.headers.get("retry-after"));
         clearTimeout(timeout);
         await sleep(Number.isFinite(retryAfter) && retryAfter > 0
           ? retryAfter * 1000
-          : 2_000 * 2 ** attempt);
+          : 2_000 * 2 ** rateLimited);
+        rateLimited += 1;
         continue;
       }
       if (!response.ok) {
         throw new Error(`TfL returned HTTP ${response.status}.`);
       }
       return await response.json() as T;
+    } catch (error) {
+      // The timeout can fire mid-body too, after the status line arrived.
+      const unanswered = !answered || controller.signal.aborted;
+      if (!unanswered || transportFailures >= transportRetries) throw error;
+      transportFailures += 1;
     } finally {
       clearTimeout(timeout);
     }
+    await sleep(1_000 * 2 ** (transportFailures - 1));
   }
 }
 
@@ -759,6 +785,7 @@ export async function searchTflJourney(
   const requestContext: TflSweepContext = sweep ?? {
     bounds: new Map(),
     gate: createTflRateGate(tflRuntimeRequestIntervalMs()),
+    transportRetries: 0,
   };
 
   try {
@@ -788,7 +815,11 @@ export async function searchTflJourney(
       date: tflDate,
       time: tflTime,
     };
-    const data = await fetchTflJson<TflJourneyResponse>(tflUrl(journeyPath, journeyParams), requestContext.gate);
+    const data = await fetchTflJson<TflJourneyResponse>(
+      tflUrl(journeyPath, journeyParams),
+      requestContext.gate,
+      requestContext.transportRetries,
+    );
 
     // The bounds come from the *line's* published timetable, so they can only be
     // asked for once the journey has named the line it runs on. A sweep's eleven
@@ -1045,6 +1076,7 @@ export async function searchTflServiceDay(
   const sweep: TflSweepContext = {
     bounds: new Map(),
     gate: createTflRateGate(tflRequestIntervalMs(keyed)),
+    transportRetries: TFL_SWEEP_TRANSPORT_RETRIES,
   };
 
   const responses = await mapWithConcurrency(
@@ -1061,8 +1093,14 @@ export async function searchTflServiceDay(
   }
   const last = responses.at(-1);
 
-  // Every sample failed: hand back the last failure so the caller's existing
-  // provider-fallback path reports it rather than seeing a silent empty day.
+  // One sample failing, even after its retries, leaves an hour of the day
+  // unasked. Saving the other hours would publish that one as a gap a passenger
+  // reads as no service, so the whole route fails instead and the scraper keeps
+  // its previous verified file. This used to require every sample to fail.
+  const failed = responses.find((response) => response.status < 200 || response.status >= 300);
+  if (failed) return failed;
+
+  // Every sample answered with no journeys: an empty day, reported as such.
   if (byId.size === 0) {
     return last ?? {
       status: 502,

@@ -1,5 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { resetTflKeyProbe, resetTflStationResolutionCache, searchTflServiceDay } from "./tfl";
+import {
+  resetTflKeyProbe,
+  resetTflStationResolutionCache,
+  searchTflJourney,
+  searchTflServiceDay,
+} from "./tfl";
 
 /**
  * The sweep that builds a London service day used to issue every request once
@@ -274,6 +279,72 @@ describe("TfL service-day sweep", () => {
     await runSweep();
 
     expect(seenKeys).toEqual(new Set(["test-app-key"]));
+  });
+
+  it("asks again when a sample gets no answer inside the timeout", async () => {
+    installTflStub();
+    const underlying = globalThis.fetch as typeof fetch;
+    let stalled = 0;
+    vi.stubGlobal("fetch", (input: RequestInfo | URL, init?: RequestInit) => {
+      const url = new URL(String(input));
+      if (url.searchParams.get("time") === "1200" && stalled === 0) {
+        stalled += 1;
+        // TfL never answers: only the caller's own timeout ends the request.
+        return new Promise<Response>((_, reject) => {
+          init?.signal?.addEventListener("abort", () => (
+            reject(new DOMException("This operation was aborted", "AbortError"))
+          ));
+        });
+      }
+      return underlying(input);
+    });
+
+    const { status, body } = await runSweep();
+
+    expect(stalled).toBe(1);
+    expect(status).toBe(200);
+    expect(body.results.map((result) => result.departureTime)).toContain("12:00");
+  });
+
+  it("does not make a passenger's live search wait out the sweep's retries", async () => {
+    installTflStub();
+    const underlying = globalThis.fetch as typeof fetch;
+    let journeyRequests = 0;
+    vi.stubGlobal("fetch", (input: RequestInfo | URL, init?: RequestInit) => {
+      if (!new URL(String(input)).pathname.startsWith("/Journey/JourneyResults/")) return underlying(input);
+      journeyRequests += 1;
+      return new Promise<Response>((_, reject) => {
+        init?.signal?.addEventListener("abort", () => (
+          reject(new DOMException("This operation was aborted", "AbortError"))
+        ));
+      });
+    });
+
+    const pending = searchTflJourney("Green Park", "Oxford Circus", DATE, "12:00");
+    await vi.runAllTimersAsync();
+    const { status } = await pending;
+
+    // One timeout, then the answer: a live search reports the outage in 10 s.
+    expect(status).toBe(502);
+    expect(journeyRequests).toBe(1);
+  });
+
+  it("fails the route rather than saving a day with an unasked hour", async () => {
+    installTflStub();
+    const underlying = globalThis.fetch as typeof fetch;
+    vi.stubGlobal("fetch", async (input: RequestInfo | URL) => {
+      if (new URL(String(input)).searchParams.get("time") === "1200") {
+        throw new TypeError("fetch failed");
+      }
+      return underlying(input);
+    });
+
+    const { status, body } = await runSweep();
+
+    // Ten of eleven hours answered. Publishing them would show 12:00 as a gap
+    // in service; the scraper keeps its previous file on a failure instead.
+    expect(status).toBe(502);
+    expect(body.results).toEqual([]);
   });
 
   it("returns the sampled departures in time order, de-duplicated by id", async () => {

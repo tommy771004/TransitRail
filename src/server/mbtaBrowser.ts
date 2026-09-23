@@ -218,6 +218,15 @@ async function configureTrip(page: Page, origin: string, destination: string, da
   await page.locator(`.flatpickr-day[aria-label="${dateLabel(date)}"]:not(.flatpickr-disabled)`).first().click();
 }
 
+/**
+ * The planner never finished answering one query. Seen in nightly runs with the
+ * page still holding its screen-reader-only "Waiting for results" marker after
+ * 45 s, while the visible text showed a results list — so the page state in the
+ * message looks settled even though the request behind it never completed.
+ * The same query answers in seconds on a fresh page, so this is retried.
+ */
+class PlannerNotSettledError extends Error {}
+
 async function selectQueryTime(page: Page, time: string) {
   const parts = queryTimeParts(time);
   await page.selectOption("#timepicker_ampm", parts.meridiem);
@@ -237,8 +246,12 @@ async function selectQueryTime(page: Page, time: string) {
     await page.waitForFunction(resultsReady, parts.display, { timeout: 45_000 });
   } catch (error) {
     const state = (await page.locator("main").innerText()).replace(/\s+/g, " ").slice(0, 600);
-    throw new Error(
-      `MBTA Trip Planner did not settle for ${time} (${parts.display}). Page state: ${state}`,
+    // The marker is visually hidden, so `state` above cannot show it.
+    const stillLoading = ((await page.locator("#trip-planner-results").textContent().catch(() => "")) || "")
+      .includes("Waiting for results");
+    throw new PlannerNotSettledError(
+      `MBTA Trip Planner did not settle for ${time} (${parts.display})`
+        + `${stillLoading ? "; results still loading" : ""}. Page state: ${state}`,
       { cause: error },
     );
   }
@@ -344,8 +357,14 @@ async function queryJourneysAt(
   time: string,
 ) {
   for (let attempt = 1; attempt <= 2; attempt += 1) {
-    await selectQueryTime(page, time);
-    if (!await hasTransientPlannerError(page)) return readJourneySummaries(page);
+    let settled = true;
+    try {
+      await selectQueryTime(page, time);
+    } catch (error) {
+      if (!(error instanceof PlannerNotSettledError) || attempt >= 2) throw error;
+      settled = false;
+    }
+    if (settled && !await hasTransientPlannerError(page)) return readJourneySummaries(page);
     if (attempt < 2) {
       console.warn(`  MBTA browser query retry ${date} at ${time}`);
       await configureTrip(page, origin, destination, date);
