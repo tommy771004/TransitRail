@@ -6,6 +6,7 @@ import {
   normalizeHeadsigns,
   normalizeResults,
   normalizeTransferLegTimes,
+  singleTrainPairs,
   type ScrapedRouteData,
 } from "./timetableDay";
 
@@ -658,6 +659,43 @@ describe("findInRoutes — a train's own calling pattern", () => {
 
   it("keeps a partial ride out of the row when only the terminals are timed", () => {
     expect(findInRoutes([lineRoute([])], "Kuramae", "Nihombashi", "2026-07-10", "japan")).toBeNull();
+  });
+
+  describe("singleTrainPairs", () => {
+    const keys = (pairs: Array<[string, string]>) => pairs.map((pair) => pair.join(" → ")).sort();
+
+    it("offers every stop a timed train serves, and only what search answers", () => {
+      const wholeLine = lineRoute(fullPattern);
+      const pairs = singleTrainPairs(wholeLine, "2026-07-10", "japan");
+
+      // Five stops, ten pairs in the direction of travel — not just the terminals.
+      expect(pairs).toHaveLength(10);
+      expect(keys(pairs)).toEqual(expect.arrayContaining([
+        "Kuramae → Nihombashi",
+        "Nishi-magome → Oshiage",
+      ]));
+      for (const [origin, destination] of pairs) {
+        expect(findInRoutes([wholeLine], origin, destination, "2026-07-10", "japan")?.length).toBeGreaterThan(0);
+      }
+    });
+
+    it("never offers a direction the source did not publish", () => {
+      // Search can answer Nihombashi → Kuramae by reversing this train's times,
+      // but those times are an estimate, not the operator's timetable.
+      const pairs = keys(singleTrainPairs(lineRoute(fullPattern), "2026-07-10", "japan"));
+      expect(pairs).not.toContain("Nihombashi → Kuramae");
+      expect(pairs).not.toContain("Oshiage → Nishi-magome");
+    });
+
+    it("keeps to the terminals when the source did not time the stops between", () => {
+      expect(keys(singleTrainPairs(lineRoute([]), "2026-07-10", "japan"))).toEqual([
+        "Nishi-magome → Oshiage",
+      ]);
+    });
+
+    it("answers nothing for a service day the route has no rows on", () => {
+      expect(singleTrainPairs(lineRoute(fullPattern), "2026-07-11", "japan")).toEqual([]);
+    });
   });
 });
 

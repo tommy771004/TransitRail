@@ -32,6 +32,7 @@ import {
   type StationCatalogMessageKey,
 } from "../data/stationCoverage";
 import { authenticityOptionsFor, classifyTimetable, isVerifiableTimetable } from "../data/timetableAuthenticity";
+import { singleTrainPairs } from "../data/scraped/timetableDay";
 import {
   findScrapedResults,
   getArtifactLineNames,
@@ -435,10 +436,18 @@ export async function buildServiceRegionCatalog(
   if (options.includeDestinations && coverage.mode !== "provider") {
     const key = (name: string) => stationSearchKey(resolveStationAlias(country, name));
     const pairs = new Map<string, Set<string>>();
-    for (const pair of answerablePairs(country, serviceDate)) {
-      const destinations = pairs.get(key(pair.origin)) ?? new Set<string>();
-      destinations.add(key(pair.destination));
-      pairs.set(key(pair.origin), destinations);
+    const addPair = (origin: string, destination: string) => {
+      const destinations = pairs.get(key(origin)) ?? new Set<string>();
+      destinations.add(key(destination));
+      pairs.set(key(origin), destinations);
+    };
+    for (const pair of answerablePairs(country, serviceDate)) addPair(pair.origin, pair.destination);
+    // A row's endpoints are only its train's terminals. Every stop that train
+    // serves on the way is a journey search answers too, and the picker reads
+    // only this map for a same-day snapshot.
+    for (const route of getScrapedRoutes(country)) {
+      if (!decideSearchability({ country, serviceDay: serviceDate, source: route }).searchable) continue;
+      for (const [origin, destination] of singleTrainPairs(route, serviceDate, country)) addPair(origin, destination);
     }
     destinationsByOrigin = Object.fromEntries(allStations.map(origin => {
       const reachable = new Set([
