@@ -112,6 +112,25 @@ export interface BuildMetadataOptions {
   countries?: readonly Country[];
 }
 
+type FailedRoute = CountryMetadata["failedRoutes"][number];
+
+/**
+ * The failures a market reports when tonight's pass did not attempt it.
+ *
+ * A live-only night rebuilds every market's metadata but runs only Hong Kong
+ * and Thailand. Rebuilding the others with no failures erased the one record
+ * that a route was tried and could not be collected, and the nightly planner
+ * needs that record to tell a route nobody has scraped yet from one no scrape
+ * can fix. The last known failures carry over until the route has a file.
+ */
+export function carriedFailures(
+  previous: readonly FailedRoute[] | undefined,
+  routes: readonly Pick<ScrapedRouteData, "origin" | "destination">[],
+): FailedRoute[] {
+  const collected = new Set(routes.map((route) => `${route.origin}\u0000${route.destination}`));
+  return (previous ?? []).filter((failure) => !collected.has(`${failure.origin}\u0000${failure.destination}`));
+}
+
 /** Return a measured run rate, or null when no run report was supplied. */
 export function scrapeSuccessRate(report?: ScrapeRunReport): number | null {
   if (!report || report.outcomes.length === 0) return null;
@@ -136,6 +155,7 @@ export function buildCountryMetadata(options: BuildMetadataOptions = {}): Countr
 
     const routes = loadRouteData(country);
     const report = options.reports?.[country];
+    const previous = readJson<Pick<CountryMetadata, "failedRoutes">>(resolve(dir, "metadata.json"));
 
     const verifiedRoutes = routes.filter((route) => isValidSourceMeta(route.sourceMeta));
     const withRows = verifiedRoutes.filter((route) => route.results.length > 0);
@@ -162,9 +182,11 @@ export function buildCountryMetadata(options: BuildMetadataOptions = {}): Countr
       // A metadata-only rebuild has no run report; null means "not measured"
       // instead of making a healthy committed snapshot look like a failed run.
       successRate: scrapeSuccessRate(report),
-      failedRoutes: (report?.outcomes ?? [])
-        .filter((outcome) => outcome.status === "failed")
-        .map((outcome) => ({ origin: outcome.origin, destination: outcome.destination, error: outcome.error })),
+      failedRoutes: report
+        ? report.outcomes
+          .filter((outcome) => outcome.status === "failed")
+          .map((outcome) => ({ origin: outcome.origin, destination: outcome.destination, error: outcome.error }))
+        : carriedFailures(previous?.failedRoutes, routes),
       coverage: {
         verifiedRoutes: withRows.length,
         emptyRoutes: verifiedRoutes.length - withRows.length,

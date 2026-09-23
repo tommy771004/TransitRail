@@ -205,25 +205,18 @@ describe("station and line catalog integrity scope", { timeout: 20_000 }, () => 
   });
 
   it("exposes snapshot-backed route catalogs for Belgium, Norway, and the United States", async () => {
-    const expectedCounts = {
-      belgium: 5,
-      norway: 5,
-      united_states: 4,
-    } as const;
-
-    for (const country of Object.keys(expectedCounts) as Array<keyof typeof expectedCounts>) {
+    // One route card per committed snapshot with rows. Derived from the data
+    // rather than pinned: the scrape adds return directions and new pairs, and a
+    // hardcoded count fails on that without saying anything about the catalog.
+    for (const country of ["belgium", "norway", "united_states"] as const) {
+      const snapshots = getScrapedRoutes(country).filter((route) => route.results.length > 0);
       const routeLines = getProviderRouteLines(country, getScrapedRoutes(country));
-      expect(routeLines).toHaveLength(expectedCounts[country]);
+      expect(snapshots.length).toBeGreaterThan(0);
+      expect(routeLines).toHaveLength(snapshots.length);
       expect(routeLines.every((line) => line.name.includes(" → "))).toBe(true);
-    }
 
-    for (const [country, expectedCount] of Object.entries(expectedCounts) as Array<[
-      keyof typeof expectedCounts,
-      number,
-    ]>) {
       const lines = await getLinesForCountry(country, undefined, false);
-      expect(lines.length).toBeGreaterThan(0);
-      expect(lines).toHaveLength(expectedCount);
+      expect(lines).toHaveLength(routeLines.length);
       expect(lines.every((line) => line.name.includes(" → "))).toBe(true);
       expect(lines.every((line) => line.stations.length >= 2)).toBe(true);
     }
