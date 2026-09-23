@@ -104,7 +104,7 @@ export function ResultShellHeader({
 
   return (
     <section className={sectionClassName || defaultHeaderSectionClass}>
-      <div className="mx-auto flex max-w-md min-w-0 flex-row items-center justify-between gap-2">
+      <div className="mx-auto flex max-w-md min-w-0 flex-row items-center justify-between gap-2 lg:max-w-5xl">
         <div className="min-w-0 flex-1">
           <h1 className="m3-title-large flex min-w-0 items-center gap-2 text-slate-900 dark:text-white">
             <span className="min-w-0 break-words">{stationLabel(t, origin, country)}</span>

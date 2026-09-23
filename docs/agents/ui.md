@@ -39,4 +39,7 @@ Layout invariants the card keeps, so nothing overlaps or leaves the card:
   ride names; in the sheet it keeps proportional labels and hides one under 16%. Label text
   is slate; the line colour stays on the track.
 - The card is `overflow-hidden`; the sheet body scrolls inside `max-h-[85dvh]`.
+- From `lg` the list is a 40rem column beside a sticky aside for the supplementary blocks
+  (route overview). Only containers change there, and the aside stays after every card in
+  the DOM.
 

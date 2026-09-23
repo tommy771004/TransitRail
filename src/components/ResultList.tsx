@@ -315,7 +315,7 @@ export function ResultList({
     <>
       {(showSort || (toolbar && !error && results.length > 0)) && (
         <div className="sticky top-16 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-sm dark:border-slate-700/50 dark:bg-slate-900/95">
-          <div className="mx-auto max-w-md min-w-0">
+          <div className="mx-auto max-w-md min-w-0 lg:max-w-5xl">
             {toolbar}
             {showSort && (
               <div className="no-scrollbar flex min-w-0 items-center gap-2 overflow-x-auto px-4 py-2.5">
@@ -368,7 +368,10 @@ export function ResultList({
         </div>
       )}
 
-      <section className="mx-auto max-w-md min-w-0 space-y-3 px-4 py-4">
+      {/* One column on phones and tablets; from lg the same cards take a 40rem
+          column and the supplementary blocks a sticky aside. Only containers
+          change: the aside follows every card in the DOM. */}
+      <section className="mx-auto max-w-md min-w-0 space-y-3 px-4 py-4 lg:grid lg:max-w-5xl lg:grid-cols-[minmax(0,40rem)_minmax(18rem,22rem)] lg:items-start lg:gap-8 lg:space-y-0">
         <AnimatePresence mode="popLayout">
           {error ? (
             renderMissBlock({
@@ -418,7 +421,6 @@ export function ResultList({
                   </div>
                 </div>
               ) : null}
-              {allDeparted ? afterResults : null}
               {departed.length > 0 && !showPast && !allDeparted && (
                 <button
                   type="button"
@@ -469,7 +471,6 @@ export function ResultList({
                         withExit={withExit}
                         {...extras}
                       />
-                      {index === visible.length - 1 ? afterResults : null}
                     </Fragment>
                   );
                 })}
@@ -477,6 +478,9 @@ export function ResultList({
             </motion.div>
           )}
         </AnimatePresence>
+        {!error && results.length > 0 && afterResults ? (
+          <aside className="min-w-0 space-y-3 lg:sticky lg:top-36">{afterResults}</aside>
+        ) : null}
       </section>
     </>
   );
