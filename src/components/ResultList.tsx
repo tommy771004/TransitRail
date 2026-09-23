@@ -120,6 +120,8 @@ export interface ResultListProps {
   formatRowPrice?: (trip: TransitResult) => string | null;
   /** Market controls that share the sticky bar with the sort chips. */
   toolbar?: ReactNode;
+  /** Market filter chips on the sort row itself, after a divider (Korea's direct / first class). */
+  filters?: ReactNode;
   /** A notice above the first card (Metro's transfer hint). */
   beforeList?: ReactNode;
   afterResults?: ReactNode;
@@ -153,6 +155,7 @@ export function ResultList({
   formatPrice,
   formatRowPrice,
   toolbar,
+  filters,
   beforeList,
   afterResults,
   card,
@@ -277,11 +280,8 @@ export function ResultList({
           <div className="mx-auto max-w-md min-w-0">
             {toolbar}
             {showSort && (
-              <div
-                role="group"
-                aria-label={t("result.sort_by")}
-                className="no-scrollbar flex min-w-0 gap-2 overflow-x-auto px-4 py-2.5"
-              >
+              <div className="no-scrollbar flex min-w-0 items-center gap-2 overflow-x-auto px-4 py-2.5">
+              <div role="group" aria-label={t("result.sort_by")} className="flex shrink-0 gap-2">
                 {sortChips.map((chip) => (
                   <button
                     key={chip.mode}
@@ -300,6 +300,13 @@ export function ResultList({
                     {chip.label}
                   </button>
                 ))}
+              </div>
+              {filters ? (
+                <>
+                  <span aria-hidden="true" className="h-6 w-px shrink-0 bg-slate-300 dark:bg-slate-600" />
+                  {filters}
+                </>
+              ) : null}
               </div>
             )}
           </div>

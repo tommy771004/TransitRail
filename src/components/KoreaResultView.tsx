@@ -1,12 +1,11 @@
 // Author: AI Coding Agent
 // OS support: Linux, macOS, Windows
-// Description: Korea result view — the shared result list with the KTX filter rail in the
-// sticky bar, amenities on each card and seat preference as the primary action.
+// Description: Korea result view — the shared result list with direct / first-class filter
+// chips on the sort row, amenities on each card and seat preference as the primary action.
 
 import { Utensils, Wifi, Zap } from "lucide-react";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { motion } from "motion/react";
 import type { CoverageGap, NoResultReason, KoreaFilter, SearchFailureKind, SortMode, TransitResult } from "../types";
 import { triggerHaptic } from "../utils/haptics";
 import { effectiveSortMode } from "../utils/searchConditions";
@@ -72,49 +71,39 @@ export function KoreaResultView({
   now,
 }: KoreaResultViewProps) {
   const { t } = useTranslation();
-  const filters: Array<{ key: KoreaFilter; label: string }> = [
-    { key: "all", label: t("result.all_times") },
-    { key: "cheapest", label: t(time ? "journey.secondary_cheapest" : "result.cheapest_first") },
-    { key: "direct", label: t("result.direct") },
-    { key: "first_class", label: t("result.first_class") },
-  ];
+  // Direct and first class are filter chips on the one sort row every market
+  // uses. A chip appears only when it would change the list (some rows match,
+  // some do not) or while it is on, so it can be turned off; cheapest is the
+  // sort chip's job, not a filter's.
+  const splits = (matches: (trip: TransitResult) => boolean) =>
+    results.some(matches) && results.some((trip) => !matches(trip));
+  const filterChips: Array<{ key: KoreaFilter; label: string }> = [
+    { key: "direct" as const, label: t("result.direct"), matches: (trip: TransitResult) => trip.direct },
+    { key: "first_class" as const, label: t("result.first_class"), matches: (trip: TransitResult) => trip.seatClass === "first" },
+  ].filter((chip) => filter === chip.key || splits(chip.matches));
 
-  const filterRail = (
-    <div className="no-scrollbar min-w-0 overflow-x-auto px-4 pt-3">
-      <div
-        data-korea-filter-control="true"
-        className="m3-shape-full flex w-max min-w-full overflow-hidden divide-x divide-slate-300 border border-slate-300 dark:divide-slate-600 dark:border-slate-600"
-        role="group"
-        aria-label={t("result.filter", { defaultValue: "篩選車次" })}
-      >
-        {filters.map((item) => (
-          <button
-            key={item.key}
-            type="button"
-            aria-pressed={filter === item.key}
-            onClick={() => {
-              triggerHaptic("light");
-              onFilterChange(item.key);
-            }}
-            className={`m3-state m3-label-large relative flex min-h-12 min-w-24 flex-1 shrink-0 items-center justify-center px-3 py-2 text-center leading-tight ${
-              filter === item.key
-                ? "text-emerald-700 dark:text-emerald-300"
-                : "bg-transparent text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
-            }`}
-          >
-            <span className="relative z-10">{item.label}</span>
-            {filter === item.key && (
-              <motion.div
-                layoutId="koreaActiveFilterBg"
-                className="absolute inset-0 bg-emerald-50 dark:bg-emerald-950/30"
-                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-              />
-            )}
-          </button>
-        ))}
-      </div>
+  const filterRow = filterChips.length > 0 ? (
+    <div role="group" aria-label={t("result.filter", { defaultValue: "篩選車次" })} data-korea-filter-control="true" className="flex shrink-0 gap-2">
+      {filterChips.map((chip) => (
+        <button
+          key={chip.key}
+          type="button"
+          aria-pressed={filter === chip.key}
+          onClick={() => {
+            triggerHaptic("light");
+            onFilterChange(filter === chip.key ? "all" : chip.key);
+          }}
+          className={`m3-chip m3-state m3-shape-full shrink-0 border ${
+            filter === chip.key
+              ? "border-emerald-700 bg-emerald-50 text-emerald-800 dark:border-emerald-400 dark:bg-emerald-950/40 dark:text-emerald-200"
+              : "border-slate-300 text-slate-700 dark:border-slate-600 dark:text-slate-300"
+          }`}
+        >
+          {chip.label}
+        </button>
+      ))}
     </div>
-  );
+  ) : null;
 
   return (
     <main className="min-h-screen bg-transparent pb-nav">
@@ -159,7 +148,7 @@ export function KoreaResultView({
         onOpenLegend={onOpenLegend}
         formatPrice={formatPrice}
         formatRowPrice={formatRowPrice}
-        toolbar={filterRail}
+        filters={filterRow}
         afterResults={afterResults}
         card={(trip) => ({
           extraMeta: (
