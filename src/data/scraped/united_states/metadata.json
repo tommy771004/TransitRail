@@ -4,109 +4,125 @@
   "source": "MBTA V3 API schedules",
   "sourceUrl": "https://api-v3.mbta.com",
   "sourceTier": "A",
-  "fetchedAt": "2026-09-23T07:36:47.755Z",
-  "builtAt": "2026-09-25T00:07:30.730Z",
-  "recordCount": 12225,
+  "fetchedAt": "2026-09-26T00:51:37.958Z",
+  "builtAt": "2026-09-26T00:51:38.041Z",
+  "recordCount": 11891,
   "routeCount": 8,
-  "successRate": null,
-  "failedRoutes": [],
+  "successRate": 0.9583,
+  "failedRoutes": [
+    {
+      "origin": "Boston College",
+      "destination": "Park Street",
+      "error": "MBTA Trip Planner failed twice for Boston College → Park Street on 2026-09-26 at 04:00."
+    },
+    {
+      "origin": "Park Street",
+      "destination": "Boston College",
+      "error": "MBTA Trip Planner failed twice for Park Street → Boston College on 2026-09-27 at 00:00."
+    },
+    {
+      "origin": "Boston College",
+      "destination": "Park Street",
+      "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('[role=option]').filter({ hasText: 'Boston College' }).first()\n    - locator resolved to <li role=\"option\" class=\"aa-Item\" aria-selected=\"false\" id=\"autocomplete-2-algolia-item-0\">…</li>\n  - attempting click action\n    - waiting for element to be visible, enabled and stable\n    - element is visible, enabled and stable\n    - scrolling into view if needed\n    - done scrolling\n"
+    }
+  ],
   "coverage": {
     "verifiedRoutes": 8,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-09-23",
-      "2026-09-24",
-      "2026-09-25",
       "2026-09-26",
       "2026-09-27",
       "2026-09-28",
       "2026-09-29",
       "2026-09-30",
-      "2026-10-01"
+      "2026-10-01",
+      "2026-10-02",
+      "2026-10-03",
+      "2026-10-04"
     ]
   },
-  "checksum": "3485f7c678926869e09af28f304203c1bc48ed8d0b9496f56d139cd694a80f5c",
+  "checksum": "137772649912c1554e9a9cfc792b290c78102d17614ab7913c0cd123a261379c",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Andrew",
       "destination": "Park Street",
-      "resultCount": 2037,
-      "date": "2026-09-23..2026-10-01",
+      "resultCount": 1943,
+      "date": "2026-09-26..2026-10-04",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T07:06:01.765Z",
+      "fetchedAt": "2026-09-26T00:18:03.016Z",
       "verified": true
     },
     {
       "origin": "Boston College",
       "destination": "Park Street",
-      "resultCount": 483,
-      "date": "2026-09-23..2026-10-01",
+      "resultCount": 559,
+      "date": "2026-09-26..2026-10-04",
       "sourceId": "us-mbta-journey-planner-web",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T07:36:47.755Z",
+      "fetchedAt": "2026-09-26T00:51:37.958Z",
       "verified": true
     },
     {
       "origin": "Harvard",
       "destination": "Logan International Airport",
-      "resultCount": 2037,
-      "date": "2026-09-23..2026-10-01",
+      "resultCount": 1943,
+      "date": "2026-09-26..2026-10-04",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T07:05:06.720Z",
+      "fetchedAt": "2026-09-26T00:18:02.629Z",
       "verified": true
     },
     {
       "origin": "Harvard",
       "destination": "South Station",
-      "resultCount": 2037,
-      "date": "2026-09-23..2026-10-01",
+      "resultCount": 1943,
+      "date": "2026-09-26..2026-10-04",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T07:06:01.807Z",
+      "fetchedAt": "2026-09-26T00:18:03.050Z",
       "verified": true
     },
     {
       "origin": "Logan International Airport",
       "destination": "Harvard",
-      "resultCount": 1088,
-      "date": "2026-09-23..2026-10-01",
+      "resultCount": 1067,
+      "date": "2026-09-26..2026-10-04",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T07:06:01.718Z",
+      "fetchedAt": "2026-09-26T00:18:02.979Z",
       "verified": true
     },
     {
       "origin": "Park Street",
       "destination": "Andrew",
-      "resultCount": 2036,
-      "date": "2026-09-23..2026-10-01",
+      "resultCount": 1943,
+      "date": "2026-09-26..2026-10-04",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T07:06:01.609Z",
+      "fetchedAt": "2026-09-26T00:18:02.899Z",
       "verified": true
     },
     {
       "origin": "Park Street",
       "destination": "Boston College",
-      "resultCount": 471,
-      "date": "2026-09-23..2026-10-01",
+      "resultCount": 550,
+      "date": "2026-09-26..2026-10-04",
       "sourceId": "us-mbta-journey-planner-web",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T07:35:55.444Z",
+      "fetchedAt": "2026-09-26T00:51:00.323Z",
       "verified": true
     },
     {
       "origin": "South Station",
       "destination": "Harvard",
-      "resultCount": 2036,
-      "date": "2026-09-23..2026-10-01",
+      "resultCount": 1943,
+      "date": "2026-09-26..2026-10-04",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-23T07:06:01.655Z",
+      "fetchedAt": "2026-09-26T00:18:02.932Z",
       "verified": true
     }
   ]
