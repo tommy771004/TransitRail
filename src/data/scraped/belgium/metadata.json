@@ -4,24 +4,17 @@
   "source": "iRail official NMBS/SNCB connections API",
   "sourceUrl": "https://api.irail.be",
   "sourceTier": "A",
-  "fetchedAt": "2026-09-27T00:10:33.800Z",
-  "builtAt": "2026-09-27T00:35:16.258Z",
+  "fetchedAt": "2026-09-28T00:17:15.154Z",
+  "builtAt": "2026-09-28T00:37:44.627Z",
   "recordCount": 540,
   "routeCount": 10,
-  "successRate": 0.9889,
-  "failedRoutes": [
-    {
-      "origin": "Brugge",
-      "destination": "Liège-Guillemins",
-      "error": "iRail returned HTTP 504."
-    }
-  ],
+  "successRate": 1,
+  "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 10,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-09-27",
       "2026-09-28",
       "2026-09-29",
       "2026-09-30",
@@ -29,110 +22,111 @@
       "2026-10-02",
       "2026-10-03",
       "2026-10-04",
-      "2026-10-05"
+      "2026-10-05",
+      "2026-10-06"
     ]
   },
-  "checksum": "0f34461ff9709efedd89ff44c803c2d3e07c30d42c4dba2c983073407bb4066f",
+  "checksum": "2f21dba6359a7be421fc36e243da06458c0a05ba5ff383d648e63ec46a16dd4e",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Antwerpen-Centraal",
       "destination": "Brussels-Central",
       "resultCount": 54,
-      "date": "2026-09-27..2026-10-05",
+      "date": "2026-09-28..2026-10-06",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-27T00:10:31.670Z",
+      "fetchedAt": "2026-09-28T00:17:13.234Z",
       "verified": true
     },
     {
       "origin": "Antwerpen-Centraal",
       "destination": "Brussels-Luxembourg",
       "resultCount": 54,
-      "date": "2026-09-27..2026-10-05",
+      "date": "2026-09-28..2026-10-06",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-27T00:10:32.176Z",
+      "fetchedAt": "2026-09-28T00:17:13.731Z",
       "verified": true
     },
     {
       "origin": "Brugge",
       "destination": "Liège-Guillemins",
       "resultCount": 54,
-      "date": "2026-09-27..2026-10-05",
+      "date": "2026-09-28..2026-10-06",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-27T00:10:30.650Z",
+      "fetchedAt": "2026-09-28T00:17:12.288Z",
       "verified": true
     },
     {
       "origin": "Brussels Airport-Zaventem",
       "destination": "Gent-Sint-Pieters",
       "resultCount": 54,
-      "date": "2026-09-27..2026-10-05",
+      "date": "2026-09-28..2026-10-06",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-27T00:10:32.668Z",
+      "fetchedAt": "2026-09-28T00:17:14.213Z",
       "verified": true
     },
     {
       "origin": "Brussels-Central",
       "destination": "Antwerpen-Centraal",
       "resultCount": 54,
-      "date": "2026-09-27..2026-10-05",
+      "date": "2026-09-28..2026-10-06",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-27T00:10:28.793Z",
+      "fetchedAt": "2026-09-28T00:17:09.272Z",
       "verified": true
     },
     {
       "origin": "Brussels-Luxembourg",
       "destination": "Antwerpen-Centraal",
       "resultCount": 54,
-      "date": "2026-09-27..2026-10-05",
+      "date": "2026-09-28..2026-10-06",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-27T00:10:29.457Z",
+      "fetchedAt": "2026-09-28T00:17:11.204Z",
       "verified": true
     },
     {
       "origin": "Brussels-South/Brussels-Midi",
       "destination": "Namur",
       "resultCount": 54,
-      "date": "2026-09-27..2026-10-05",
+      "date": "2026-09-28..2026-10-06",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-27T00:10:31.208Z",
+      "fetchedAt": "2026-09-28T00:17:12.775Z",
       "verified": true
     },
     {
       "origin": "Gent-Sint-Pieters",
       "destination": "Brussels Airport-Zaventem",
       "resultCount": 54,
-      "date": "2026-09-27..2026-10-05",
+      "date": "2026-09-28..2026-10-06",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-27T00:10:30.068Z",
+      "fetchedAt": "2026-09-28T00:17:11.723Z",
       "verified": true
     },
     {
       "origin": "Liège-Guillemins",
       "destination": "Brugge",
       "resultCount": 54,
-      "date": "2026-09-27..2026-10-05",
+      "date": "2026-09-28..2026-10-06",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-27T00:10:33.295Z",
+      "fetchedAt": "2026-09-28T00:17:14.708Z",
       "verified": true
     },
     {
       "origin": "Namur",
       "destination": "Brussels-South/Brussels-Midi",
       "resultCount": 54,
-      "date": "2026-09-27..2026-10-05",
+      "date": "2026-09-28..2026-10-06",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-27T00:10:33.800Z",
+      "fetchedAt": "2026-09-28T00:17:15.154Z",
       "verified": true
     }
   ]

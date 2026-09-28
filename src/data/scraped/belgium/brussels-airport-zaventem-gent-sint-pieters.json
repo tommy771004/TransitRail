@@ -1,365 +1,10 @@
 {
   "origin": "Brussels Airport-Zaventem",
   "destination": "Gent-Sint-Pieters",
-  "date": "2026-09-27..2026-10-05",
-  "scrapedAt": "2026-09-27T00:10:32.669Z",
+  "date": "2026-09-28..2026-10-06",
+  "scrapedAt": "2026-09-28T00:17:14.214Z",
   "source": "iRail official NMBS/SNCB connections API",
   "results": [
-    {
-      "id": "2026-09-27-be-irail-0",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 3726 + IC 527",
-      "trainType": "IC + IC",
-      "durationMinutes": 61,
-      "departureTime": "05:30",
-      "arrivalTime": "06:31",
-      "origin": "Brussels Airport - Zaventem",
-      "originLat": 50.896456,
-      "originLng": 4.482076,
-      "destination": "Ghent-Sint-Pieters",
-      "destLat": 51.035896,
-      "destLng": 3.710675,
-      "direct": false,
-      "stops": [
-        "Brussels-North",
-        "Brussels-Central"
-      ],
-      "platform": "1",
-      "headsign": "Oostende",
-      "realtime": true,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 3726",
-          "lineCode": "BE.NMBS.IC3726",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels Airport - Zaventem",
-          "originLat": 50.896456,
-          "originLng": 4.482076,
-          "destination": "Brussels-South/Brussels-Midi",
-          "destLat": 50.835707,
-          "destLng": 4.336531,
-          "departureTime": "05:30",
-          "arrivalTime": "05:52",
-          "durationMinutes": 22,
-          "platform": "1",
-          "headsign": "Mons",
-          "stopCount": 2,
-          "stops": [
-            "Brussels-North",
-            "Brussels-Central"
-          ]
-        },
-        {
-          "lineName": "IC 527",
-          "lineCode": "BE.NMBS.IC527",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-South/Brussels-Midi",
-          "originLat": 50.835707,
-          "originLng": 4.336531,
-          "destination": "Ghent-Sint-Pieters",
-          "destLat": 51.035896,
-          "destLng": 3.710675,
-          "departureTime": "06:03",
-          "arrivalTime": "06:31",
-          "durationMinutes": 28,
-          "platform": "7",
-          "headsign": "Oostende"
-        }
-      ],
-      "transferStations": [
-        "Brussels-South/Brussels-Midi"
-      ],
-      "date": "2026-09-27"
-    },
-    {
-      "id": "2026-09-27-be-irail-1",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 2626 + IC 1827",
-      "trainType": "IC + IC",
-      "durationMinutes": 87,
-      "departureTime": "05:41",
-      "arrivalTime": "07:08",
-      "origin": "Brussels Airport - Zaventem",
-      "originLat": 50.896456,
-      "originLng": 4.482076,
-      "destination": "Ghent-Sint-Pieters",
-      "destLat": 51.035896,
-      "destLng": 3.710675,
-      "direct": false,
-      "stops": [
-        "Mechelen",
-        "Antwerp-South",
-        "Beveren",
-        "Sint-Niklaas",
-        "Lokeren",
-        "Ghent-Dampoort"
-      ],
-      "platform": "1",
-      "headsign": "Ghent-Sint-Pieters",
-      "realtime": true,
-      "warning": "Bruges / Brugge - Aalter - Gand-Saint-Pierre / Gent-Sint-Pieters",
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 2626",
-          "lineCode": "BE.NMBS.IC2626",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels Airport - Zaventem",
-          "originLat": 50.896456,
-          "originLng": 4.482076,
-          "destination": "Antwerp-Berchem",
-          "destLat": 51.19923,
-          "destLng": 4.432221,
-          "departureTime": "05:41",
-          "arrivalTime": "06:06",
-          "durationMinutes": 25,
-          "platform": "1",
-          "headsign": "Antwerp-Central",
-          "stopCount": 1,
-          "stops": [
-            "Mechelen"
-          ]
-        },
-        {
-          "lineName": "IC 1827",
-          "lineCode": "BE.NMBS.IC1827",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Berchem",
-          "originLat": 51.19923,
-          "originLng": 4.432221,
-          "destination": "Ghent-Sint-Pieters",
-          "destLat": 51.035896,
-          "destLng": 3.710675,
-          "departureTime": "06:12",
-          "arrivalTime": "07:08",
-          "durationMinutes": 56,
-          "platform": "6",
-          "headsign": "Ghent-Sint-Pieters",
-          "stopCount": 5,
-          "stops": [
-            "Antwerp-South",
-            "Beveren",
-            "Sint-Niklaas",
-            "Lokeren",
-            "Ghent-Dampoort"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Antwerp-Berchem"
-      ],
-      "date": "2026-09-27"
-    },
-    {
-      "id": "2026-09-27-be-irail-2",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 2227",
-      "trainType": "IC",
-      "durationMinutes": 83,
-      "departureTime": "05:57",
-      "arrivalTime": "07:20",
-      "origin": "Brussels Airport - Zaventem",
-      "originLat": 50.896456,
-      "originLng": 4.482076,
-      "destination": "Ghent-Sint-Pieters",
-      "destLat": 51.035896,
-      "destLng": 3.710675,
-      "direct": true,
-      "stops": [
-        "Brussels-North",
-        "Brussels-Central",
-        "Brussels-South/Brussels-Midi",
-        "Denderleeuw",
-        "Aalst",
-        "Lede",
-        "Wetteren",
-        "Melle",
-        "Merelbeke"
-      ],
-      "platform": "1",
-      "headsign": "Ghent-Sint-Pieters",
-      "realtime": true,
-      "lineColor": "#0055A4",
-      "transferStations": [],
-      "date": "2026-09-27"
-    },
-    {
-      "id": "2026-09-27-be-irail-3",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 3727 + IC 528",
-      "trainType": "IC + IC",
-      "durationMinutes": 61,
-      "departureTime": "06:30",
-      "arrivalTime": "07:31",
-      "origin": "Brussels Airport - Zaventem",
-      "originLat": 50.896456,
-      "originLng": 4.482076,
-      "destination": "Ghent-Sint-Pieters",
-      "destLat": 51.035896,
-      "destLng": 3.710675,
-      "direct": false,
-      "stops": [
-        "Brussels-North",
-        "Brussels-Central"
-      ],
-      "platform": "1",
-      "headsign": "Oostende",
-      "realtime": true,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 3727",
-          "lineCode": "BE.NMBS.IC3727",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels Airport - Zaventem",
-          "originLat": 50.896456,
-          "originLng": 4.482076,
-          "destination": "Brussels-South/Brussels-Midi",
-          "destLat": 50.835707,
-          "destLng": 4.336531,
-          "departureTime": "06:30",
-          "arrivalTime": "06:52",
-          "durationMinutes": 22,
-          "platform": "1",
-          "headsign": "Mons",
-          "stopCount": 2,
-          "stops": [
-            "Brussels-North",
-            "Brussels-Central"
-          ]
-        },
-        {
-          "lineName": "IC 528",
-          "lineCode": "BE.NMBS.IC528",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-South/Brussels-Midi",
-          "originLat": 50.835707,
-          "originLng": 4.336531,
-          "destination": "Ghent-Sint-Pieters",
-          "destLat": 51.035896,
-          "destLng": 3.710675,
-          "departureTime": "07:03",
-          "arrivalTime": "07:31",
-          "durationMinutes": 28,
-          "platform": "13",
-          "headsign": "Oostende"
-        }
-      ],
-      "transferStations": [
-        "Brussels-South/Brussels-Midi"
-      ],
-      "date": "2026-09-27"
-    },
-    {
-      "id": "2026-09-27-be-irail-4",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 2228 + IC 1528",
-      "trainType": "IC + IC",
-      "durationMinutes": 59,
-      "departureTime": "06:57",
-      "arrivalTime": "07:56",
-      "origin": "Brussels Airport - Zaventem",
-      "originLat": 50.896456,
-      "originLng": 4.482076,
-      "destination": "Ghent-Sint-Pieters",
-      "destLat": 51.035896,
-      "destLng": 3.710675,
-      "direct": false,
-      "stops": [
-        "Brussels-North",
-        "Brussels-Central"
-      ],
-      "platform": "1",
-      "headsign": "Ghent-Sint-Pieters",
-      "realtime": true,
-      "warning": "Bruges / Brugge - Aalter - Gand-Saint-Pierre / Gent-Sint-Pieters",
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 2228",
-          "lineCode": "BE.NMBS.IC2228",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels Airport - Zaventem",
-          "originLat": 50.896456,
-          "originLng": 4.482076,
-          "destination": "Brussels-South/Brussels-Midi",
-          "destLat": 50.835707,
-          "destLng": 4.336531,
-          "departureTime": "06:57",
-          "arrivalTime": "07:20",
-          "durationMinutes": 23,
-          "platform": "1",
-          "headsign": "Ghent-Sint-Pieters",
-          "stopCount": 2,
-          "stops": [
-            "Brussels-North",
-            "Brussels-Central"
-          ]
-        },
-        {
-          "lineName": "IC 1528",
-          "lineCode": "BE.NMBS.IC1528",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-South/Brussels-Midi",
-          "originLat": 50.835707,
-          "originLng": 4.336531,
-          "destination": "Ghent-Sint-Pieters",
-          "destLat": 51.035896,
-          "destLng": 3.710675,
-          "departureTime": "07:28",
-          "arrivalTime": "07:56",
-          "durationMinutes": 28,
-          "platform": "17",
-          "headsign": "Ghent-Sint-Pieters"
-        }
-      ],
-      "transferStations": [
-        "Brussels-South/Brussels-Midi"
-      ],
-      "date": "2026-09-27"
-    },
-    {
-      "id": "2026-09-27-be-irail-5",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 2829",
-      "trainType": "IC",
-      "durationMinutes": 55,
-      "departureTime": "07:24",
-      "arrivalTime": "08:19",
-      "origin": "Brussels Airport - Zaventem",
-      "originLat": 50.896456,
-      "originLng": 4.482076,
-      "destination": "Ghent-Sint-Pieters",
-      "destLat": 51.035896,
-      "destLng": 3.710675,
-      "direct": true,
-      "stops": [
-        "Brussels-North",
-        "Brussels-Central",
-        "Brussels-South/Brussels-Midi"
-      ],
-      "platform": "2",
-      "headsign": "Blankenberge",
-      "realtime": true,
-      "lineColor": "#0055A4",
-      "transferStations": [],
-      "date": "2026-09-27"
-    },
     {
       "id": "2026-09-28-be-irail-0",
       "country": "belgium",
@@ -384,7 +29,7 @@
       ],
       "platform": "3",
       "headsign": "Blankenberge",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -457,7 +102,7 @@
       ],
       "platform": "2",
       "headsign": "Knokke",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "transferStations": [],
       "date": "2026-09-28"
@@ -484,7 +129,7 @@
       ],
       "platform": "1",
       "headsign": "Oostende",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -554,7 +199,7 @@
       ],
       "platform": "1",
       "headsign": "Blankenberge",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -625,7 +270,7 @@
       ],
       "platform": "2",
       "headsign": "Knokke",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "transferStations": [],
       "date": "2026-09-28"
@@ -652,7 +297,7 @@
       ],
       "platform": "1",
       "headsign": "Oostende",
-      "realtime": false,
+      "realtime": true,
       "lineColor": "#0055A4",
       "legs": [
         {
@@ -3170,6 +2815,391 @@
         "Brussels-South/Brussels-Midi"
       ],
       "date": "2026-10-05"
+    },
+    {
+      "id": "2026-10-06-be-irail-0",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 1926 + IC 1526",
+      "trainType": "IC + IC",
+      "durationMinutes": 74,
+      "departureTime": "04:43",
+      "arrivalTime": "05:57",
+      "origin": "Brussels Airport - Zaventem",
+      "originLat": 50.896456,
+      "originLng": 4.482076,
+      "destination": "Ghent-Sint-Pieters",
+      "destLat": 51.035896,
+      "destLng": 3.710675,
+      "direct": false,
+      "stops": [
+        "Brussels-North",
+        "Brussels-Central"
+      ],
+      "platform": "2",
+      "headsign": "Blankenberge",
+      "realtime": false,
+      "warning": "Brussels Airport-Zaventem",
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 1926",
+          "lineCode": "BE.NMBS.IC1926",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels Airport - Zaventem",
+          "originLat": 50.896456,
+          "originLng": 4.482076,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "04:43",
+          "arrivalTime": "05:10",
+          "durationMinutes": 27,
+          "platform": "2",
+          "headsign": "Tournai",
+          "stopCount": 2,
+          "stops": [
+            "Brussels-North",
+            "Brussels-Central"
+          ]
+        },
+        {
+          "lineName": "IC 1526",
+          "lineCode": "BE.NMBS.IC1526",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Ghent-Sint-Pieters",
+          "destLat": 51.035896,
+          "destLng": 3.710675,
+          "departureTime": "05:29",
+          "arrivalTime": "05:57",
+          "durationMinutes": 28,
+          "platform": "12",
+          "headsign": "Blankenberge"
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-10-06"
+    },
+    {
+      "id": "2026-10-06-be-irail-1",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2328 + IC 2827",
+      "trainType": "IC + IC",
+      "durationMinutes": 65,
+      "departureTime": "05:14",
+      "arrivalTime": "06:19",
+      "origin": "Brussels Airport - Zaventem",
+      "originLat": 50.896456,
+      "originLng": 4.482076,
+      "destination": "Ghent-Sint-Pieters",
+      "destLat": 51.035896,
+      "destLng": 3.710675,
+      "direct": false,
+      "stops": [
+        "Brussels-North",
+        "Brussels-Central"
+      ],
+      "platform": "1",
+      "headsign": "Knokke",
+      "realtime": false,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 2328",
+          "lineCode": "BE.NMBS.IC2328",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels Airport - Zaventem",
+          "originLat": 50.896456,
+          "originLng": 4.482076,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "05:14",
+          "arrivalTime": "05:36",
+          "durationMinutes": 22,
+          "platform": "1",
+          "headsign": "Oostende",
+          "stopCount": 2,
+          "stops": [
+            "Brussels-North",
+            "Brussels-Central"
+          ]
+        },
+        {
+          "lineName": "IC 2827",
+          "lineCode": "BE.NMBS.IC2827",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Ghent-Sint-Pieters",
+          "destLat": 51.035896,
+          "destLng": 3.710675,
+          "departureTime": "05:51",
+          "arrivalTime": "06:19",
+          "durationMinutes": 28,
+          "platform": "9",
+          "headsign": "Knokke"
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-10-06"
+    },
+    {
+      "id": "2026-10-06-be-irail-2",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 3726 + IC 527",
+      "trainType": "IC + IC",
+      "durationMinutes": 68,
+      "departureTime": "05:27",
+      "arrivalTime": "06:35",
+      "origin": "Brussels Airport - Zaventem",
+      "originLat": 50.896456,
+      "originLng": 4.482076,
+      "destination": "Ghent-Sint-Pieters",
+      "destLat": 51.035896,
+      "destLng": 3.710675,
+      "direct": false,
+      "stops": [
+        "Brussels-North",
+        "Brussels-Central"
+      ],
+      "platform": "2",
+      "headsign": "Oostende",
+      "realtime": false,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 3726",
+          "lineCode": "BE.NMBS.IC3726",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels Airport - Zaventem",
+          "originLat": 50.896456,
+          "originLng": 4.482076,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "05:27",
+          "arrivalTime": "05:52",
+          "durationMinutes": 25,
+          "platform": "2",
+          "headsign": "Mons",
+          "stopCount": 2,
+          "stops": [
+            "Brussels-North",
+            "Brussels-Central"
+          ]
+        },
+        {
+          "lineName": "IC 527",
+          "lineCode": "BE.NMBS.IC527",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Ghent-Sint-Pieters",
+          "destLat": 51.035896,
+          "destLng": 3.710675,
+          "departureTime": "06:07",
+          "arrivalTime": "06:35",
+          "durationMinutes": 28,
+          "platform": "11",
+          "headsign": "Oostende"
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-10-06"
+    },
+    {
+      "id": "2026-10-06-be-irail-3",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2227 + IC 1527",
+      "trainType": "IC + IC",
+      "durationMinutes": 61,
+      "departureTime": "05:57",
+      "arrivalTime": "06:58",
+      "origin": "Brussels Airport - Zaventem",
+      "originLat": 50.896456,
+      "originLng": 4.482076,
+      "destination": "Ghent-Sint-Pieters",
+      "destLat": 51.035896,
+      "destLng": 3.710675,
+      "direct": false,
+      "stops": [
+        "Brussels-North",
+        "Brussels-Central"
+      ],
+      "platform": "3",
+      "headsign": "Blankenberge",
+      "realtime": false,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 2227",
+          "lineCode": "BE.NMBS.IC2227",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels Airport - Zaventem",
+          "originLat": 50.896456,
+          "originLng": 4.482076,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "05:57",
+          "arrivalTime": "06:20",
+          "durationMinutes": 23,
+          "platform": "3",
+          "headsign": "Ghent-Sint-Pieters",
+          "stopCount": 2,
+          "stops": [
+            "Brussels-North",
+            "Brussels-Central"
+          ]
+        },
+        {
+          "lineName": "IC 1527",
+          "lineCode": "BE.NMBS.IC1527",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Ghent-Sint-Pieters",
+          "destLat": 51.035896,
+          "destLng": 3.710675,
+          "departureTime": "06:30",
+          "arrivalTime": "06:58",
+          "durationMinutes": 28,
+          "platform": "13",
+          "headsign": "Blankenberge"
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-10-06"
+    },
+    {
+      "id": "2026-10-06-be-irail-4",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2227",
+      "trainType": "IC",
+      "durationMinutes": 86,
+      "departureTime": "05:57",
+      "arrivalTime": "07:23",
+      "origin": "Brussels Airport - Zaventem",
+      "originLat": 50.896456,
+      "originLng": 4.482076,
+      "destination": "Ghent-Sint-Pieters",
+      "destLat": 51.035896,
+      "destLng": 3.710675,
+      "direct": true,
+      "stops": [
+        "Brussels-North",
+        "Brussels-Central",
+        "Brussels-South/Brussels-Midi",
+        "Denderleeuw",
+        "Aalst",
+        "Lede",
+        "Wetteren",
+        "Melle",
+        "Merelbeke"
+      ],
+      "platform": "3",
+      "headsign": "Ghent-Sint-Pieters",
+      "realtime": false,
+      "lineColor": "#0055A4",
+      "transferStations": [],
+      "date": "2026-10-06"
+    },
+    {
+      "id": "2026-10-06-be-irail-5",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2329 + IC 2828",
+      "trainType": "IC + IC",
+      "durationMinutes": 64,
+      "departureTime": "06:14",
+      "arrivalTime": "07:18",
+      "origin": "Brussels Airport - Zaventem",
+      "originLat": 50.896456,
+      "originLng": 4.482076,
+      "destination": "Ghent-Sint-Pieters",
+      "destLat": 51.035896,
+      "destLng": 3.710675,
+      "direct": false,
+      "stops": [
+        "Brussels-North",
+        "Brussels-Central"
+      ],
+      "platform": "1",
+      "headsign": "Knokke",
+      "realtime": false,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 2329",
+          "lineCode": "BE.NMBS.IC2329",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels Airport - Zaventem",
+          "originLat": 50.896456,
+          "originLng": 4.482076,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "06:14",
+          "arrivalTime": "06:36",
+          "durationMinutes": 22,
+          "platform": "1",
+          "headsign": "Oostende",
+          "stopCount": 2,
+          "stops": [
+            "Brussels-North",
+            "Brussels-Central"
+          ]
+        },
+        {
+          "lineName": "IC 2828",
+          "lineCode": "BE.NMBS.IC2828",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Ghent-Sint-Pieters",
+          "destLat": 51.035896,
+          "destLng": 3.710675,
+          "departureTime": "06:50",
+          "arrivalTime": "07:18",
+          "durationMinutes": 28,
+          "platform": "11",
+          "headsign": "Knokke"
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-10-06"
     }
   ],
   "sourceMeta": {
@@ -3180,7 +3210,7 @@
     "sourceUrl": "https://api.irail.be",
     "provider": "NMBS/SNCB (via iRail)",
     "country": "belgium",
-    "fetchedAt": "2026-09-27T00:10:32.668Z",
+    "fetchedAt": "2026-09-28T00:17:14.213Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
