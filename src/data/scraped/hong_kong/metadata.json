@@ -4,113 +4,101 @@
   "source": "MTR real-time next train API",
   "sourceUrl": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
   "sourceTier": "A",
-  "fetchedAt": "2026-09-28T00:06:34.282Z",
-  "builtAt": "2026-09-28T00:37:44.627Z",
+  "fetchedAt": "2026-09-29T01:21:46.133Z",
+  "builtAt": "2026-09-29T01:58:31.985Z",
   "recordCount": 32,
   "routeCount": 8,
-  "successRate": 0.75,
-  "failedRoutes": [
-    {
-      "origin": "Hong Kong",
-      "destination": "Airport",
-      "error": "MTR returned no departures for Hong Kong → Airport on 2026-09-28"
-    },
-    {
-      "origin": "Airport",
-      "destination": "Hong Kong",
-      "error": "MTR returned no departures for Airport → Hong Kong on 2026-09-28"
-    }
-  ],
+  "successRate": 1,
+  "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 8,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-09-27",
-      "2026-09-28"
+      "2026-09-29"
     ]
   },
-  "checksum": "e0527af704d50ae845361509df60badb0362c2453901631631f54b7621495864",
+  "checksum": "ce6c908256c24e5e2e0c24032b359cc614f4415d3bffb95f40b227b510be6429",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Admiralty",
       "destination": "Tsim Sha Tsui",
       "resultCount": 4,
-      "date": "2026-09-28",
+      "date": "2026-09-29",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-28T00:06:31.083Z",
+      "fetchedAt": "2026-09-29T01:21:39.095Z",
       "verified": true
     },
     {
       "origin": "Airport",
       "destination": "Hong Kong",
       "resultCount": 4,
-      "date": "2026-09-27",
+      "date": "2026-09-29",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-27T00:00:14.318Z",
+      "fetchedAt": "2026-09-29T01:21:45.455Z",
       "verified": true
     },
     {
       "origin": "Central",
       "destination": "Tsuen Wan",
       "resultCount": 4,
-      "date": "2026-09-28",
+      "date": "2026-09-29",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-28T00:06:31.386Z",
+      "fetchedAt": "2026-09-29T01:21:40.434Z",
       "verified": true
     },
     {
       "origin": "Hong Kong",
       "destination": "Airport",
       "resultCount": 4,
-      "date": "2026-09-27",
+      "date": "2026-09-29",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-27T00:00:12.898Z",
+      "fetchedAt": "2026-09-29T01:21:41.232Z",
       "verified": true
     },
     {
       "origin": "Sunny Bay",
       "destination": "Tung Chung",
       "resultCount": 4,
-      "date": "2026-09-28",
+      "date": "2026-09-29",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-28T00:06:34.282Z",
+      "fetchedAt": "2026-09-29T01:21:46.133Z",
       "verified": true
     },
     {
       "origin": "Tsim Sha Tsui",
       "destination": "Admiralty",
       "resultCount": 4,
-      "date": "2026-09-28",
+      "date": "2026-09-29",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-28T00:06:32.935Z",
+      "fetchedAt": "2026-09-29T01:21:42.724Z",
       "verified": true
     },
     {
       "origin": "Tsuen Wan",
       "destination": "Central",
       "resultCount": 4,
-      "date": "2026-09-28",
+      "date": "2026-09-29",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-28T00:06:33.525Z",
+      "fetchedAt": "2026-09-29T01:21:44.125Z",
       "verified": true
     },
     {
       "origin": "Tung Chung",
       "destination": "Sunny Bay",
       "resultCount": 4,
-      "date": "2026-09-28",
+      "date": "2026-09-29",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-28T00:06:32.557Z",
+      "fetchedAt": "2026-09-29T01:21:42.018Z",
       "verified": true
     }
   ]

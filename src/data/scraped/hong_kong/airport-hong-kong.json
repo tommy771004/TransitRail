@@ -1,10 +1,91 @@
 {
   "origin": "Airport",
   "destination": "Hong Kong",
-  "date": "2026-09-27",
-  "scrapedAt": "2026-09-27T00:00:14.318Z",
+  "date": "2026-09-29",
+  "scrapedAt": "2026-09-29T01:21:45.455Z",
   "source": "MTR real-time next train API",
-  "results": [],
+  "results": [
+    {
+      "id": "2026-09-29-hk-AEL-AIR-2026-09-29 09:26:00-1",
+      "country": "hong_kong",
+      "operator": "MTR",
+      "service": "Airport Express",
+      "trainType": "Next train",
+      "departureTime": "09:26",
+      "origin": "Airport",
+      "destination": "Hong Kong",
+      "direct": true,
+      "stops": [
+        "Kowloon",
+        "Tsing Yi"
+      ],
+      "platform": "2/4",
+      "headsign": "Hong Kong",
+      "realtime": true,
+      "lineColor": "#00888E",
+      "date": "2026-09-29"
+    },
+    {
+      "id": "2026-09-29-hk-AEL-AIR-2026-09-29 09:35:00-2",
+      "country": "hong_kong",
+      "operator": "MTR",
+      "service": "Airport Express",
+      "trainType": "Next train",
+      "departureTime": "09:35",
+      "origin": "Airport",
+      "destination": "Hong Kong",
+      "direct": true,
+      "stops": [
+        "Kowloon",
+        "Tsing Yi"
+      ],
+      "platform": "2/4",
+      "headsign": "Hong Kong",
+      "realtime": true,
+      "lineColor": "#00888E",
+      "date": "2026-09-29"
+    },
+    {
+      "id": "2026-09-29-hk-AEL-AIR-2026-09-29 09:44:00-3",
+      "country": "hong_kong",
+      "operator": "MTR",
+      "service": "Airport Express",
+      "trainType": "Next train",
+      "departureTime": "09:44",
+      "origin": "Airport",
+      "destination": "Hong Kong",
+      "direct": true,
+      "stops": [
+        "Kowloon",
+        "Tsing Yi"
+      ],
+      "platform": "2/4",
+      "headsign": "Hong Kong",
+      "realtime": true,
+      "lineColor": "#00888E",
+      "date": "2026-09-29"
+    },
+    {
+      "id": "2026-09-29-hk-AEL-AIR-2026-09-29 09:55:00-4",
+      "country": "hong_kong",
+      "operator": "MTR",
+      "service": "Airport Express",
+      "trainType": "Next train",
+      "departureTime": "09:55",
+      "origin": "Airport",
+      "destination": "Hong Kong",
+      "direct": true,
+      "stops": [
+        "Kowloon",
+        "Tsing Yi"
+      ],
+      "platform": "2/4",
+      "headsign": "Hong Kong",
+      "realtime": true,
+      "lineColor": "#00888E",
+      "date": "2026-09-29"
+    }
+  ],
   "sourceMeta": {
     "sourceId": "hk-mtr-next-train",
     "sourceType": "official-json",
@@ -13,7 +94,7 @@
     "sourceUrl": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
     "provider": "MTR Corporation",
     "country": "hong_kong",
-    "fetchedAt": "2026-09-27T00:00:14.318Z",
+    "fetchedAt": "2026-09-29T01:21:45.455Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
