@@ -1,8 +1,8 @@
 {
   "origin": "Donghae",
   "destination": "Dogye",
-  "date": "2026-09-29..2026-10-01",
-  "scrapedAt": "2026-09-29T01:21:51.196Z",
+  "date": "2026-09-30..2026-10-01",
+  "scrapedAt": "2026-09-30T00:51:41.856Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
@@ -11,7 +11,7 @@
       "effectiveFrom": "2026-09-18",
       "sha256": "e97adbb9c8b520d4db1ddd44ddf1165aa6c0e0c118d5acbe55103fdbd768e212",
       "effectiveUntil": "2026-09-30",
-      "retrievedAt": "2026-09-29T01:21:49.849Z",
+      "retrievedAt": "2026-09-30T00:51:40.988Z",
       "exclusions": []
     },
     {
@@ -19,7 +19,7 @@
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
       "effectiveUntil": "2026-09-30",
-      "retrievedAt": "2026-09-29T01:21:50.809Z",
+      "retrievedAt": "2026-09-30T00:51:41.715Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
@@ -27,102 +27,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-29-regular-영동선-9-2",
-      "country": "korea",
-      "date": "2026-09-29",
-      "operator": "Korail",
-      "service": "무궁화 1672",
-      "trainType": "무궁화",
-      "origin": "Donghae",
-      "destination": "Dogye",
-      "departureTime": "05:55",
-      "arrivalTime": "06:34",
-      "durationMinutes": 39,
-      "direct": true,
-      "stops": [
-        "Donghae",
-        "Dogye"
-      ],
-      "headsign": "Dogye",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1672",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Donghae",
-          "destination": "Dogye",
-          "departureTime": "05:55",
-          "arrivalTime": "06:34",
-          "durationMinutes": 39
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-29-regular-영동선-9-5",
-      "country": "korea",
-      "date": "2026-09-29",
-      "operator": "Korail",
-      "service": "ITX-마음 1642",
-      "trainType": "ITX-마음",
-      "origin": "Donghae",
-      "destination": "Dogye",
-      "departureTime": "07:43",
-      "arrivalTime": "08:23",
-      "durationMinutes": 40,
-      "direct": true,
-      "stops": [
-        "Donghae",
-        "Dogye"
-      ],
-      "headsign": "Dogye",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1642",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Donghae",
-          "destination": "Dogye",
-          "departureTime": "07:43",
-          "arrivalTime": "08:23",
-          "durationMinutes": 40
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-09-29-regular-영동선-9-12",
-      "country": "korea",
-      "date": "2026-09-29",
-      "operator": "Korail",
-      "service": "무궁화 1678",
-      "trainType": "무궁화",
-      "origin": "Donghae",
-      "destination": "Dogye",
-      "departureTime": "18:26",
-      "arrivalTime": "19:05",
-      "durationMinutes": 39,
-      "direct": true,
-      "stops": [
-        "Donghae",
-        "Dogye"
-      ],
-      "headsign": "Dogye",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1678",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Donghae",
-          "destination": "Dogye",
-          "departureTime": "18:26",
-          "arrivalTime": "19:05",
-          "durationMinutes": 39
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-30-regular-영동선-9-2",
       "country": "korea",
@@ -324,7 +228,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-29T01:21:51.042Z",
+    "fetchedAt": "2026-09-30T00:51:41.732Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

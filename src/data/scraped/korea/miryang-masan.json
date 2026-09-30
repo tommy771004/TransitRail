@@ -1,8 +1,8 @@
 {
   "origin": "Miryang",
   "destination": "Masan",
-  "date": "2026-09-29..2026-10-01",
-  "scrapedAt": "2026-09-29T01:21:51.210Z",
+  "date": "2026-09-30..2026-10-01",
+  "scrapedAt": "2026-09-30T00:51:41.868Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
@@ -11,7 +11,7 @@
       "effectiveFrom": "2026-09-18",
       "sha256": "e97adbb9c8b520d4db1ddd44ddf1165aa6c0e0c118d5acbe55103fdbd768e212",
       "effectiveUntil": "2026-09-30",
-      "retrievedAt": "2026-09-29T01:21:49.849Z",
+      "retrievedAt": "2026-09-30T00:51:40.988Z",
       "exclusions": []
     },
     {
@@ -19,7 +19,7 @@
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
       "effectiveUntil": "2026-09-30",
-      "retrievedAt": "2026-09-29T01:21:50.809Z",
+      "retrievedAt": "2026-09-30T00:51:41.715Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
@@ -27,49 +27,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-28-ktx-경전선-32-1-next-day",
-      "country": "korea",
-      "date": "2026-09-29",
-      "operator": "Korail",
-      "service": "KTX-산천 229",
-      "trainType": "KTX-산천",
-      "origin": "Miryang",
-      "destination": "Masan",
-      "departureTime": "00:32",
-      "arrivalTime": "01:08",
-      "durationMinutes": 36,
-      "direct": true,
-      "stops": [
-        "Miryang",
-        "Changwon",
-        "Masan"
-      ],
-      "headsign": "Masan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 229",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Miryang",
-          "destination": "Changwon",
-          "departureTime": "00:32",
-          "arrivalTime": "01:03",
-          "durationMinutes": 31
-        },
-        {
-          "lineName": "KTX-산천 229",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Changwon",
-          "destination": "Masan",
-          "departureTime": "01:03",
-          "arrivalTime": "01:08",
-          "durationMinutes": 5
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-29-ktx-경전선-32-1-next-day",
       "country": "korea",
@@ -165,7 +122,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-29T01:21:51.042Z",
+    "fetchedAt": "2026-09-30T00:51:41.732Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

@@ -1,12 +1,72 @@
 {
   "origin": "Airport",
   "destination": "Hong Kong",
-  "date": "2026-09-29",
-  "scrapedAt": "2026-09-29T01:21:45.455Z",
+  "date": "2026-09-30",
+  "scrapedAt": "2026-09-30T00:50:45.595Z",
   "source": "MTR real-time next train API",
   "results": [
     {
-      "id": "2026-09-29-hk-AEL-AIR-2026-09-29 09:26:00-1",
+      "id": "2026-09-30-hk-AEL-AIR-2026-09-30 08:55:00-1",
+      "country": "hong_kong",
+      "operator": "MTR",
+      "service": "Airport Express",
+      "trainType": "Next train",
+      "departureTime": "08:55",
+      "origin": "Airport",
+      "destination": "Hong Kong",
+      "direct": true,
+      "stops": [
+        "Kowloon",
+        "Tsing Yi"
+      ],
+      "platform": "2/4",
+      "headsign": "Hong Kong",
+      "realtime": true,
+      "lineColor": "#00888E",
+      "date": "2026-09-30"
+    },
+    {
+      "id": "2026-09-30-hk-AEL-AIR-2026-09-30 09:06:00-2",
+      "country": "hong_kong",
+      "operator": "MTR",
+      "service": "Airport Express",
+      "trainType": "Next train",
+      "departureTime": "09:06",
+      "origin": "Airport",
+      "destination": "Hong Kong",
+      "direct": true,
+      "stops": [
+        "Kowloon",
+        "Tsing Yi"
+      ],
+      "platform": "2/4",
+      "headsign": "Hong Kong",
+      "realtime": true,
+      "lineColor": "#00888E",
+      "date": "2026-09-30"
+    },
+    {
+      "id": "2026-09-30-hk-AEL-AIR-2026-09-30 09:15:00-3",
+      "country": "hong_kong",
+      "operator": "MTR",
+      "service": "Airport Express",
+      "trainType": "Next train",
+      "departureTime": "09:15",
+      "origin": "Airport",
+      "destination": "Hong Kong",
+      "direct": true,
+      "stops": [
+        "Kowloon",
+        "Tsing Yi"
+      ],
+      "platform": "2/4",
+      "headsign": "Hong Kong",
+      "realtime": true,
+      "lineColor": "#00888E",
+      "date": "2026-09-30"
+    },
+    {
+      "id": "2026-09-30-hk-AEL-AIR-2026-09-30 09:26:00-4",
       "country": "hong_kong",
       "operator": "MTR",
       "service": "Airport Express",
@@ -23,67 +83,7 @@
       "headsign": "Hong Kong",
       "realtime": true,
       "lineColor": "#00888E",
-      "date": "2026-09-29"
-    },
-    {
-      "id": "2026-09-29-hk-AEL-AIR-2026-09-29 09:35:00-2",
-      "country": "hong_kong",
-      "operator": "MTR",
-      "service": "Airport Express",
-      "trainType": "Next train",
-      "departureTime": "09:35",
-      "origin": "Airport",
-      "destination": "Hong Kong",
-      "direct": true,
-      "stops": [
-        "Kowloon",
-        "Tsing Yi"
-      ],
-      "platform": "2/4",
-      "headsign": "Hong Kong",
-      "realtime": true,
-      "lineColor": "#00888E",
-      "date": "2026-09-29"
-    },
-    {
-      "id": "2026-09-29-hk-AEL-AIR-2026-09-29 09:44:00-3",
-      "country": "hong_kong",
-      "operator": "MTR",
-      "service": "Airport Express",
-      "trainType": "Next train",
-      "departureTime": "09:44",
-      "origin": "Airport",
-      "destination": "Hong Kong",
-      "direct": true,
-      "stops": [
-        "Kowloon",
-        "Tsing Yi"
-      ],
-      "platform": "2/4",
-      "headsign": "Hong Kong",
-      "realtime": true,
-      "lineColor": "#00888E",
-      "date": "2026-09-29"
-    },
-    {
-      "id": "2026-09-29-hk-AEL-AIR-2026-09-29 09:55:00-4",
-      "country": "hong_kong",
-      "operator": "MTR",
-      "service": "Airport Express",
-      "trainType": "Next train",
-      "departureTime": "09:55",
-      "origin": "Airport",
-      "destination": "Hong Kong",
-      "direct": true,
-      "stops": [
-        "Kowloon",
-        "Tsing Yi"
-      ],
-      "platform": "2/4",
-      "headsign": "Hong Kong",
-      "realtime": true,
-      "lineColor": "#00888E",
-      "date": "2026-09-29"
+      "date": "2026-09-30"
     }
   ],
   "sourceMeta": {
@@ -94,7 +94,7 @@
     "sourceUrl": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
     "provider": "MTR Corporation",
     "country": "hong_kong",
-    "fetchedAt": "2026-09-29T01:21:45.455Z",
+    "fetchedAt": "2026-09-30T00:50:45.595Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

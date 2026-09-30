@@ -1,8 +1,8 @@
 {
   "origin": "Seoul",
   "destination": "Dongdaegu",
-  "date": "2026-09-29..2026-10-01",
-  "scrapedAt": "2026-09-29T01:21:51.056Z",
+  "date": "2026-09-30..2026-10-01",
+  "scrapedAt": "2026-09-30T00:51:41.745Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
@@ -11,7 +11,7 @@
       "effectiveFrom": "2026-09-18",
       "sha256": "e97adbb9c8b520d4db1ddd44ddf1165aa6c0e0c118d5acbe55103fdbd768e212",
       "effectiveUntil": "2026-09-30",
-      "retrievedAt": "2026-09-29T01:21:49.849Z",
+      "retrievedAt": "2026-09-30T00:51:40.988Z",
       "exclusions": []
     },
     {
@@ -19,7 +19,7 @@
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
       "effectiveUntil": "2026-09-30",
-      "retrievedAt": "2026-09-29T01:21:50.809Z",
+      "retrievedAt": "2026-09-30T00:51:41.715Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
@@ -27,104 +27,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-29-ktx-경부선-129-2",
-      "country": "korea",
-      "date": "2026-09-29",
-      "operator": "Korail",
-      "service": "KTX 137",
-      "trainType": "KTX",
-      "origin": "Seoul",
-      "destination": "Dongdaegu",
-      "departureTime": "22:58",
-      "arrivalTime": "25:05",
-      "durationMinutes": 127,
-      "direct": true,
-      "stops": [
-        "Seoul",
-        "Gwangmyeong",
-        "Cheonan-Asan",
-        "Osong",
-        "Daejeon",
-        "Gimcheon(Gumi)",
-        "Seodaegu",
-        "Dongdaegu"
-      ],
-      "headsign": "Dongdaegu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 137",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Seoul",
-          "destination": "Gwangmyeong",
-          "departureTime": "22:58",
-          "arrivalTime": "23:17",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "KTX 137",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Cheonan-Asan",
-          "departureTime": "23:17",
-          "arrivalTime": "23:39",
-          "durationMinutes": 22
-        },
-        {
-          "lineName": "KTX 137",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Cheonan-Asan",
-          "destination": "Osong",
-          "departureTime": "23:39",
-          "arrivalTime": "23:52",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "KTX 137",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Osong",
-          "destination": "Daejeon",
-          "departureTime": "23:52",
-          "arrivalTime": "24:09",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "KTX 137",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Daejeon",
-          "destination": "Gimcheon(Gumi)",
-          "departureTime": "24:09",
-          "arrivalTime": "24:33",
-          "durationMinutes": 24
-        },
-        {
-          "lineName": "KTX 137",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gimcheon(Gumi)",
-          "destination": "Seodaegu",
-          "departureTime": "24:33",
-          "arrivalTime": "24:57",
-          "durationMinutes": 24
-        },
-        {
-          "lineName": "KTX 137",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Seodaegu",
-          "destination": "Dongdaegu",
-          "departureTime": "24:57",
-          "arrivalTime": "25:05",
-          "durationMinutes": 8
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-30-ktx-경부선-129-2",
       "country": "korea",
@@ -330,7 +232,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-29T01:21:51.042Z",
+    "fetchedAt": "2026-09-30T00:51:41.731Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

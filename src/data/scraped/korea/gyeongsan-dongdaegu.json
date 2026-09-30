@@ -1,8 +1,8 @@
 {
   "origin": "Gyeongsan",
   "destination": "Dongdaegu",
-  "date": "2026-09-29..2026-10-01",
-  "scrapedAt": "2026-09-29T01:21:51.213Z",
+  "date": "2026-09-30..2026-10-01",
+  "scrapedAt": "2026-09-30T00:51:41.871Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
@@ -11,7 +11,7 @@
       "effectiveFrom": "2026-09-18",
       "sha256": "e97adbb9c8b520d4db1ddd44ddf1165aa6c0e0c118d5acbe55103fdbd768e212",
       "effectiveUntil": "2026-09-30",
-      "retrievedAt": "2026-09-29T01:21:49.849Z",
+      "retrievedAt": "2026-09-30T00:51:40.988Z",
       "exclusions": []
     },
     {
@@ -19,7 +19,7 @@
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx",
       "effectiveFrom": "2026-09-01",
       "effectiveUntil": "2026-09-30",
-      "retrievedAt": "2026-09-29T01:21:50.809Z",
+      "retrievedAt": "2026-09-30T00:51:41.715Z",
       "sha256": "2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d",
       "exclusions": [
         "Korail excluded 서해선 1237: stop outside published start/end span"
@@ -27,38 +27,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-09-28-regular-경부선-67-40-next-day",
-      "country": "korea",
-      "date": "2026-09-29",
-      "operator": "Korail",
-      "service": "ITX-새마을 1146",
-      "trainType": "ITX-새마을",
-      "origin": "Gyeongsan",
-      "destination": "Dongdaegu",
-      "departureTime": "00:01",
-      "arrivalTime": "00:11",
-      "durationMinutes": 10,
-      "direct": true,
-      "stops": [
-        "Gyeongsan",
-        "Dongdaegu"
-      ],
-      "headsign": "Dongdaegu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-새마을 1146",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gyeongsan",
-          "destination": "Dongdaegu",
-          "departureTime": "00:01",
-          "arrivalTime": "00:11",
-          "durationMinutes": 10
-        }
-      ]
-    },
     {
       "id": "korail-2026-09-29-regular-경부선-67-40-next-day",
       "country": "korea",
@@ -132,7 +100,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-09-29T01:21:51.042Z",
+    "fetchedAt": "2026-09-30T00:51:41.732Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
