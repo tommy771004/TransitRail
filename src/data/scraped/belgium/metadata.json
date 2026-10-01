@@ -4,12 +4,433 @@
   "source": "iRail official NMBS/SNCB connections API",
   "sourceUrl": "https://api.irail.be",
   "sourceTier": "A",
-  "fetchedAt": "2026-09-30T01:00:34.980Z",
-  "builtAt": "2026-09-30T01:33:05.167Z",
-  "recordCount": 540,
+  "fetchedAt": "2026-10-01T01:05:57.052Z",
+  "builtAt": "2026-10-01T01:27:01.295Z",
+  "recordCount": 534,
   "routeCount": 10,
-  "successRate": 1,
-  "failedRoutes": [],
+  "successRate": 0.0667,
+  "failedRoutes": [
+    {
+      "origin": "Brussels-Central",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Luxembourg",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brugge",
+      "destination": "Liège-Guillemins",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Central",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Luxembourg",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels Airport-Zaventem",
+      "destination": "Gent-Sint-Pieters",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Liège-Guillemins",
+      "destination": "Brugge",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Namur",
+      "destination": "Brussels-South/Brussels-Midi",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Central",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Luxembourg",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Gent-Sint-Pieters",
+      "destination": "Brussels Airport-Zaventem",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brugge",
+      "destination": "Liège-Guillemins",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-South/Brussels-Midi",
+      "destination": "Namur",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Central",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Luxembourg",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels Airport-Zaventem",
+      "destination": "Gent-Sint-Pieters",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Liège-Guillemins",
+      "destination": "Brugge",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Namur",
+      "destination": "Brussels-South/Brussels-Midi",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Central",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Luxembourg",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Gent-Sint-Pieters",
+      "destination": "Brussels Airport-Zaventem",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brugge",
+      "destination": "Liège-Guillemins",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-South/Brussels-Midi",
+      "destination": "Namur",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Central",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Luxembourg",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels Airport-Zaventem",
+      "destination": "Gent-Sint-Pieters",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Liège-Guillemins",
+      "destination": "Brugge",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Namur",
+      "destination": "Brussels-South/Brussels-Midi",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Central",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Luxembourg",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Gent-Sint-Pieters",
+      "destination": "Brussels Airport-Zaventem",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brugge",
+      "destination": "Liège-Guillemins",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-South/Brussels-Midi",
+      "destination": "Namur",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Central",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Luxembourg",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels Airport-Zaventem",
+      "destination": "Gent-Sint-Pieters",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Liège-Guillemins",
+      "destination": "Brugge",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Namur",
+      "destination": "Brussels-South/Brussels-Midi",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Central",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Luxembourg",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Gent-Sint-Pieters",
+      "destination": "Brussels Airport-Zaventem",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brugge",
+      "destination": "Liège-Guillemins",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-South/Brussels-Midi",
+      "destination": "Namur",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Central",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Luxembourg",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels Airport-Zaventem",
+      "destination": "Gent-Sint-Pieters",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Liège-Guillemins",
+      "destination": "Brugge",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Namur",
+      "destination": "Brussels-South/Brussels-Midi",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Central",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Luxembourg",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Gent-Sint-Pieters",
+      "destination": "Brussels Airport-Zaventem",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brugge",
+      "destination": "Liège-Guillemins",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-South/Brussels-Midi",
+      "destination": "Namur",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Central",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Luxembourg",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels Airport-Zaventem",
+      "destination": "Gent-Sint-Pieters",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Liège-Guillemins",
+      "destination": "Brugge",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Namur",
+      "destination": "Brussels-South/Brussels-Midi",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Central",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Luxembourg",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Gent-Sint-Pieters",
+      "destination": "Brussels Airport-Zaventem",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brugge",
+      "destination": "Liège-Guillemins",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-South/Brussels-Midi",
+      "destination": "Namur",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Central",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Luxembourg",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels Airport-Zaventem",
+      "destination": "Gent-Sint-Pieters",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Liège-Guillemins",
+      "destination": "Brugge",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Namur",
+      "destination": "Brussels-South/Brussels-Midi",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Central",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Luxembourg",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Gent-Sint-Pieters",
+      "destination": "Brussels Airport-Zaventem",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brugge",
+      "destination": "Liège-Guillemins",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-South/Brussels-Midi",
+      "destination": "Namur",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Central",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Luxembourg",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels Airport-Zaventem",
+      "destination": "Gent-Sint-Pieters",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Liège-Guillemins",
+      "destination": "Brugge",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Namur",
+      "destination": "Brussels-South/Brussels-Midi",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Central",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brussels-Luxembourg",
+      "destination": "Antwerpen-Centraal",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Gent-Sint-Pieters",
+      "destination": "Brussels Airport-Zaventem",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Brugge",
+      "destination": "Liège-Guillemins",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Antwerpen-Centraal",
+      "destination": "Brussels-Luxembourg",
+      "error": "iRail returned HTTP 504."
+    },
+    {
+      "origin": "Namur",
+      "destination": "Brussels-South/Brussels-Midi",
+      "error": "iRail returned HTTP 504."
+    }
+  ],
   "coverage": {
     "verifiedRoutes": 10,
     "emptyRoutes": 0,
@@ -23,20 +444,21 @@
       "2026-10-05",
       "2026-10-06",
       "2026-10-07",
-      "2026-10-08"
+      "2026-10-08",
+      "2026-10-09"
     ]
   },
-  "checksum": "3652cbc7efba0ce0968a39c88889a647333ae50b4b9cfb243f2898edede92c45",
+  "checksum": "a45e968302d8bc675f9384edbdff3616f4eec7f3b9645d790fbf7da3facfa237",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Antwerpen-Centraal",
       "destination": "Brussels-Central",
       "resultCount": 54,
-      "date": "2026-09-30..2026-10-08",
+      "date": "2026-10-01..2026-10-09",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-30T01:00:32.542Z",
+      "fetchedAt": "2026-10-01T01:05:53.432Z",
       "verified": true
     },
     {
@@ -63,10 +485,10 @@
       "origin": "Brussels Airport-Zaventem",
       "destination": "Gent-Sint-Pieters",
       "resultCount": 54,
-      "date": "2026-09-30..2026-10-08",
+      "date": "2026-10-01..2026-10-09",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-30T01:00:33.750Z",
+      "fetchedAt": "2026-10-01T01:05:56.325Z",
       "verified": true
     },
     {
@@ -93,30 +515,30 @@
       "origin": "Brussels-South/Brussels-Midi",
       "destination": "Namur",
       "resultCount": 54,
-      "date": "2026-09-30..2026-10-08",
+      "date": "2026-10-01..2026-10-09",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-30T01:00:31.952Z",
+      "fetchedAt": "2026-10-01T01:05:52.672Z",
       "verified": true
     },
     {
       "origin": "Gent-Sint-Pieters",
       "destination": "Brussels Airport-Zaventem",
-      "resultCount": 54,
-      "date": "2026-09-30..2026-10-08",
+      "resultCount": 48,
+      "date": "2026-10-01..2026-10-08",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-30T01:00:30.594Z",
+      "fetchedAt": "2026-10-01T01:05:07.712Z",
       "verified": true
     },
     {
       "origin": "Liège-Guillemins",
       "destination": "Brugge",
       "resultCount": 54,
-      "date": "2026-09-30..2026-10-08",
+      "date": "2026-10-01..2026-10-09",
       "sourceId": "be-irail",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-09-30T01:00:34.372Z",
+      "fetchedAt": "2026-10-01T01:05:57.052Z",
       "verified": true
     },
     {
