@@ -72,6 +72,13 @@ daily; `scripts/scrape-plan.ts` calls a full pass as soon as committed data stop
 offered window — the steady-state cadence, and it self-heals after a failed run. `npm run
 prune:past` then drops past service days, which a pass only prunes for the dates it collected.
 
+The publication gate is per market. The workflow runs `validate:data --against-head
+--quarantine-blocked`: a market with a blocking finding is restored to HEAD
+(`scripts/lib/marketQuarantine.ts` owns its scraped directory, service-day artifact and
+scrape-written catalog files), every other market publishes, and the job fails at the end. Keep
+every check scoped to one market — a cross-market check would let one market's data decide another's
+publication. Only when every market is blocked is the whole run discarded.
+
 ## Tests
 
 New France and Thailand service-day suites must use `serviceDayArtifactFixture()`, and their

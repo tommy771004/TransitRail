@@ -6,12 +6,17 @@
  * something false, so the run must be discarded and the previous committed
  * version kept.
  *
+ * `--quarantine-blocked` narrows that discard to the markets with blocking
+ * findings: their files are restored to HEAD, the exit is 0 so the others can
+ * publish, and `quarantined=<ids>` is written to `$GITHUB_OUTPUT` for the
+ * workflow to fail on after publication. If every market is blocked, exit 1.
+ *
  * The daily workflow runs this between the scrape and the commit step for
  * exactly that reason: the useful property of a data pipeline is not that it
  * always produces something, it is that it never publishes something wrong.
  */
 import { execFileSync } from "child_process";
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "fs";
+import { appendFileSync, mkdtempSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 import { getStationsForCountry } from "../src/server/catalog";
@@ -27,6 +32,7 @@ import {
   validateCommittedTimetables,
   type CountryRowCounts,
 } from "./lib/timetableValidation";
+import { blockedCountries, restoreCountriesFromHead } from "./lib/marketQuarantine";
 
 async function knownStationsByCountry(): Promise<Record<string, Set<string>>> {
   const catalogs: Record<string, Set<string>> = {};
@@ -130,12 +136,27 @@ async function main() {
     return;
   }
 
-  if (hasBlockingFindings(report)) {
+  if (!hasBlockingFindings(report)) {
+    console.log("\nWarnings only — safe to commit.");
+    return;
+  }
+
+  const blocked = blockedCountries(report.findings);
+  const passed = readdirSync("src/data/scraped", { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && !blocked.includes(entry.name));
+  if (!process.argv.includes("--quarantine-blocked") || passed.length === 0) {
     console.error("\nBlocking findings present — this run must not be committed.");
     process.exitCode = 1;
     return;
   }
-  console.log("\nWarnings only — safe to commit.");
+
+  // Each check reads one market, so the others were judged on their own data.
+  // Restoring the blocked ones to HEAD keeps their published data unchanged
+  // and lets the rest publish; the workflow still fails after publication.
+  restoreCountriesFromHead(blocked);
+  console.error(`\nBlocking findings in ${blocked.join(", ")} — kept the previously published data for`
+    + ` ${blocked.length === 1 ? "that market" : "those markets"}; ${passed.length} other market(s) may publish.`);
+  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `quarantined=${blocked.join(",")}\n`);
 }
 
 main().catch((error) => {

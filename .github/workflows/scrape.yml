@@ -158,12 +158,18 @@ jobs:
       # Keep the exact findings after a failed run. GitHub's job annotation only
       # says that this command exited non-zero; the report distinguishes a real
       # source/provenance violation from a provider's transient row loss.
+      #
+      # `--quarantine-blocked` scopes a failure to the markets that caused it:
+      # their files go back to the published version and every other market
+      # publishes. One market used to hold all of them back — Korea's Korail
+      # abort kept every timetable unpublished for four nights in October 2026.
+      # A quarantined run still fails, at the end, once the rest is published.
       - name: Validate scraped data
         id: validate_data
         continue-on-error: true
         run: |
           set -o pipefail
-          npm run validate:data -- --against-head 2>&1 | tee validation-report.txt
+          npm run validate:data -- --against-head --quarantine-blocked 2>&1 | tee validation-report.txt
 
       - name: Publish validation report
         if: always()
@@ -186,10 +192,11 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
-      # Only runs when validation failed. Restores the previously committed
-      # data so the runner's tree matches what is published, then the job stops
-      # before the commit step: a bad run leaves yesterday's real timetable in
-      # place rather than replacing it with something wrong.
+      # Only runs when validation failed outright (every market blocked, or the
+      # validator itself crashed). Restores the previously committed data so the
+      # runner's tree matches what is published, then the job stops before the
+      # commit step: a bad run leaves yesterday's real timetable in place rather
+      # than replacing it with something wrong.
       - name: Discard the failed run
         if: steps.validate_data.outcome == 'failure'
         run: |
@@ -273,3 +280,11 @@ jobs:
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
         run: npm run push:check
+
+      # The quarantined markets kept yesterday's data, which ages out under
+      # `prune:past`; a green run would let that pass unnoticed.
+      - name: Fail for quarantined markets
+        if: steps.validate_data.outputs.quarantined != ''
+        run: |
+          echo "::error::Validation blocked ${{ steps.validate_data.outputs.quarantined }}; their previously published data was kept and the other markets were published. See the timetable validation report."
+          exit 1
