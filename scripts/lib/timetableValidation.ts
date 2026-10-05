@@ -396,11 +396,18 @@ export function countRowsByCountry(options: ValidateCommittedOptions = {}): Coun
   return counts;
 }
 
-/** Group findings for a readable console report. */
+/**
+ * Group findings for a readable console report.
+ *
+ * Blocking findings lead their group. The report prints ten per check, and a
+ * country-wide row loss behind 194 per-route warnings read only as "… and 184
+ * more" for four nights while it held every market's publication back.
+ */
 export function summarizeFindings(findings: readonly ValidationFinding[]): Map<ValidationCheckId, ValidationFinding[]> {
   const grouped = new Map<ValidationCheckId, ValidationFinding[]>();
   for (const check of VALIDATION_CHECKS) {
-    const matching = findings.filter((finding) => finding.check === check);
+    const matching = findings.filter((finding) => finding.check === check && finding.severity === "blocking")
+      .concat(findings.filter((finding) => finding.check === check && finding.severity !== "blocking"));
     if (matching.length > 0) grouped.set(check, matching);
   }
   return grouped;

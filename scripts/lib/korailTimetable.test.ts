@@ -76,6 +76,30 @@ describe("Korail operator XLSX", () => {
     expect(october.some((run) => run.line === "호남선" && run.trainNumber === "474")).toBe(true);
   });
 
+  it("excludes a regular train whose published start or end time is blank, and keeps the rest", () => {
+    // 10/1 경전선 1958 names 동대구 as its terminus but publishes no time there;
+    // the 서해선 ITX-마음 trains still name 홍성 but its cells are blank.
+    const excluded: string[] = [];
+    const october = parseKorailWorkbook(bytes("regular", "2026-10-01"), "regular", new Map(), (message) => excluded.push(message));
+    expect(excluded).toEqual([
+      "Korail excluded 경전선 1958: published start or end time missing",
+      ...["1231", "1233", "1235", "1237", "1232", "1234", "1236", "1238"]
+        .map((train) => `Korail excluded 서해선 ${train}: published start or end time missing`),
+    ]);
+    expect(october).toHaveLength(448);
+    expect(october.some((run) => run.line === "경전선" && run.trainNumber === "1958")).toBe(false);
+    expect(october.some((run) => run.line === "서해선" && run.trainNumber === "1242")).toBe(true);
+  });
+
+  it("fails closed when a whole regular direction loses its start/end rows", () => {
+    // Blank every sheet's start-time row: a layout shift, not one train's omission.
+    const archive = unzipSync(bytes("regular"));
+    for (const path of Object.keys(archive).filter((name) => name.startsWith("xl/worksheets/sheet"))) {
+      archive[path] = strToU8(strFromU8(archive[path]).replace(/<row r="7"[^>]*>.*?<\/row>/s, (row) => row.replace(/<v>[^<]*<\/v>/g, "")));
+    }
+    expect(() => parseKorailWorkbook(zipSync(archive), "regular")).toThrow("Missing regular train endpoints in");
+  });
+
   it("fails closed on an unrecognized workbook layout", () => {
     const archive = unzipSync(bytes("ktx"));
     archive["xl/sharedStrings.xml"] = strToU8(strFromU8(archive["xl/sharedStrings.xml"]).replaceAll("열차번호", "changed-layout"));

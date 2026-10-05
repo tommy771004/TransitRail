@@ -337,6 +337,16 @@ describe("reporting", () => {
     const grouped = [...summarizeFindings(findings).keys()];
     expect(grouped).toEqual(VALIDATION_CHECKS.filter((check) => grouped.includes(check)));
   });
+
+  it("lists a check's blocking findings before its warnings", () => {
+    const warnings = Array.from({ length: 12 }, (_, index) => validateRoute({
+      country: "korea", route: route([], { origin: `Station ${index}` }),
+    })).flat().filter((finding) => finding.check === "empty-data");
+    const loss = detectRowLossRegressions({ korea: 953 }, { korea: 0 });
+    const reported = summarizeFindings([...warnings, ...loss]).get("empty-data")!;
+    expect(reported.slice(0, 10)).toContainEqual(loss[0]);
+    expect(reported[0].severity).toBe("blocking");
+  });
 });
 
 describe("data-loss guard", () => {

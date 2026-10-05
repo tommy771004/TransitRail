@@ -10,9 +10,12 @@ Both titles explicitly say effective 2026-09-01; board publication dates are not
 | korail-ktx-2026-09-01.xlsx | https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036897009480.xlsx | cf69ea35e0b6ad9fb82c0e0b44f60833e34eadab55ea610eaf6784622351e9d0 |
 | korail-regular-2026-09-01.xlsx | https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx | 2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d |
 | korail-ktx-2026-10-01.xlsx | https://www.korail.com/file/cubedata/COMMON/jfile/202609/23/202609231a0cb38a2c5200.xlsx | eaadc99d90aa9fb4e009ca74d812cc4aa4885a7aee98950adc715dca6c0ad623 |
+| korail-regular-2026-10-01.xlsx | https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10a842d5b580.xlsx | 530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd |
 
 The 10/1 KTX workbook was downloaded on 2026-09-23 UTC, the day it replaced the
-9/18 edition's board post.
+9/18 edition's board post. The 10/1 regular workbook was downloaded on
+2026-10-05 UTC; it is Korail's re-upload of that edition, which still carries
+the omissions below.
 
 The parser reads cached published values, never evaluates formulas. KTX sheets
 have horizontal trains; regular sheets have vertical trains and a `보는방법`
@@ -34,6 +37,15 @@ the down block, so its times run backwards (용산 22:54 → 광명 22:38 → �
 광주송정 20:50). It is not reversed into the other direction. Only a KTX train
 whose times run backwards is excluded; other unrecognized layouts, remarks or
 times abort the download before writes.
+
+A regular train whose published start or end time is blank is excluded too.
+The 10/1 `경전선` train 1958 names 동대구 as its terminus but has no time there
+or in the end row (its last timed stop is 경산 23:45); the 10/1 `서해선` trains
+1231–1238 still name 홍성 but their 홍성 cells are blank. The last timed stop is
+never promoted to a terminus. That exclusion applies to individual trains only:
+a direction in which no train has both a start and an end time is a layout
+change, and aborts. Until 2026-10-05 the 1958 omission aborted the whole Korea
+scrape, so Korea's committed data aged out and blocked every nightly publish.
 
 Korail edits a board post in place when it announces a new edition, so the
 edition still in force can vanish from the board before its successor takes

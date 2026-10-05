@@ -247,14 +247,27 @@ function parseRegularSheet(sheet: XlsxSheet, names: Map<string, string>, exclude
       const remarkRow = [...sheet.rows.keys()].sort((a, b) => a - b)
         .find((number) => number > headerRow && compact(sheet.rows.get(number)?.get(stationColumn)) === "비고");
       if (!remarkRow) throw new Error(`Regular operating-day row missing in ${sheet.name}`);
+      const startOf = (column: number) => timeMinutes(sheet.rows.get(headerRow - 2)?.get(column));
+      const endOf = (column: number) => timeMinutes(sheet.rows.get(remarkRow + 4)?.get(column));
+      // A shifted start/end row would leave every train without endpoints;
+      // that is a layout change, not one train's omission.
+      if (!trainColumns.some((column) => startOf(column) !== undefined && endOf(column) !== undefined)) {
+        throw new Error(`Missing regular train endpoints in ${sheet.name}`);
+      }
       trains: for (const column of trainColumns) {
         const trainNumber = compact(row.get(column));
         const trainType = compact(sheet.rows.get(headerRow - 1)?.get(column));
         if (!/^(ITX-[가-힣]+|무궁화|새마을|누리로)$/.test(trainType)) throw new Error(`Unknown regular train type: ${trainType}`);
         const stops: KorailRun["stops"] = [];
-        const start = timeMinutes(sheet.rows.get(headerRow - 2)?.get(column));
-        const end = timeMinutes(sheet.rows.get(remarkRow + 4)?.get(column));
-        if (start === undefined || end === undefined) throw new Error(`Missing regular train endpoints: ${sheet.name} ${trainNumber}`);
+        const start = startOf(column);
+        const end = endOf(column);
+        // e.g. 10/1 경전선 1958: 종착역 says 동대구, but neither its arrival
+        // there nor the end row carries a time. The last timed stop is not
+        // promoted to a terminus on our own authority.
+        if (start === undefined || end === undefined) {
+          exclude(`Korail excluded ${sheet.name} ${trainNumber}: published start or end time missing`);
+          continue;
+        }
         const endMinutes = end < start ? end + 1440 : end;
         for (let number = headerRow + 1; number < remarkRow; number++) {
           const stopRow = sheet.rows.get(number);

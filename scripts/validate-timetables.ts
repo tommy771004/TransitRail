@@ -120,7 +120,7 @@ async function main() {
     const blocking = findings.filter((finding) => finding.severity === "blocking").length;
     console.log(`${blocking > 0 ? "✗" : "!"} ${check} — ${findings.length} finding(s), ${blocking} blocking`);
     for (const finding of findings.slice(0, 10)) {
-      console.log(`    [${finding.severity}] ${finding.country}/${finding.route}: ${finding.message}`);
+      console.log(`    [${finding.severity}] ${finding.country}${finding.route ? `/${finding.route}` : ""}: ${finding.message}`);
     }
     if (findings.length > 10) console.log(`    … and ${findings.length - 10} more`);
   }
