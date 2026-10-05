@@ -4,272 +4,12 @@
   "source": "OpenTransportData Swiss GTFS Static",
   "sourceUrl": "https://opentransportdata.swiss/en/dataset/timetable-2025-gtfs2020",
   "sourceTier": "A",
-  "fetchedAt": "2026-10-01T01:15:07.153Z",
-  "builtAt": "2026-10-01T01:27:01.295Z",
-  "recordCount": 61104,
+  "fetchedAt": "2026-10-05T08:01:58.844Z",
+  "builtAt": "2026-10-05T08:11:39.470Z",
+  "recordCount": 60063,
   "routeCount": 144,
-  "successRate": 0.9393,
+  "successRate": 0.9081,
   "failedRoutes": [
-    {
-      "origin": "Chur",
-      "destination": "Zürich Flughafen",
-      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-10-01."
-    },
-    {
-      "origin": "Biel/Bienne",
-      "destination": "Genève",
-      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-10-01."
-    },
-    {
-      "origin": "Biel/Bienne",
-      "destination": "Genève-Aéroport",
-      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-10-01."
-    },
-    {
-      "origin": "Zürich Flughafen",
-      "destination": "Chur",
-      "error": "Swiss GTFS published no Zürich Flughafen → Chur service for 2026-10-01."
-    },
-    {
-      "origin": "Genève",
-      "destination": "Biel/Bienne",
-      "error": "Swiss GTFS published no Genève → Biel/Bienne service for 2026-10-01."
-    },
-    {
-      "origin": "Genève-Aéroport",
-      "destination": "Biel/Bienne",
-      "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-10-01."
-    },
-    {
-      "origin": "Chur",
-      "destination": "Zürich Flughafen",
-      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-10-02."
-    },
-    {
-      "origin": "Biel/Bienne",
-      "destination": "Genève",
-      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-10-02."
-    },
-    {
-      "origin": "Biel/Bienne",
-      "destination": "Genève-Aéroport",
-      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-10-02."
-    },
-    {
-      "origin": "Zürich Flughafen",
-      "destination": "Chur",
-      "error": "Swiss GTFS published no Zürich Flughafen → Chur service for 2026-10-02."
-    },
-    {
-      "origin": "Genève",
-      "destination": "Biel/Bienne",
-      "error": "Swiss GTFS published no Genève → Biel/Bienne service for 2026-10-02."
-    },
-    {
-      "origin": "Genève-Aéroport",
-      "destination": "Biel/Bienne",
-      "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-10-02."
-    },
-    {
-      "origin": "Bern",
-      "destination": "St. Gallen",
-      "error": "Swiss GTFS published no Bern → St. Gallen service for 2026-10-03."
-    },
-    {
-      "origin": "Fribourg/Freiburg",
-      "destination": "St. Gallen",
-      "error": "Swiss GTFS published no Fribourg/Freiburg → St. Gallen service for 2026-10-03."
-    },
-    {
-      "origin": "Fribourg/Freiburg",
-      "destination": "Winterthur",
-      "error": "Swiss GTFS published no Fribourg/Freiburg → Winterthur service for 2026-10-03."
-    },
-    {
-      "origin": "Genève",
-      "destination": "St. Gallen",
-      "error": "Swiss GTFS published no Genève → St. Gallen service for 2026-10-03."
-    },
-    {
-      "origin": "Genève",
-      "destination": "Winterthur",
-      "error": "Swiss GTFS published no Genève → Winterthur service for 2026-10-03."
-    },
-    {
-      "origin": "Genève-Aéroport",
-      "destination": "St. Gallen",
-      "error": "Swiss GTFS published no Genève-Aéroport → St. Gallen service for 2026-10-03."
-    },
-    {
-      "origin": "Genève-Aéroport",
-      "destination": "Winterthur",
-      "error": "Swiss GTFS published no Genève-Aéroport → Winterthur service for 2026-10-03."
-    },
-    {
-      "origin": "Chur",
-      "destination": "Zürich Flughafen",
-      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-10-03."
-    },
-    {
-      "origin": "Biel/Bienne",
-      "destination": "Genève",
-      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-10-03."
-    },
-    {
-      "origin": "Biel/Bienne",
-      "destination": "Genève-Aéroport",
-      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-10-03."
-    },
-    {
-      "origin": "St. Gallen",
-      "destination": "Bern",
-      "error": "Swiss GTFS published no St. Gallen → Bern service for 2026-10-03."
-    },
-    {
-      "origin": "St. Gallen",
-      "destination": "Fribourg/Freiburg",
-      "error": "Swiss GTFS published no St. Gallen → Fribourg/Freiburg service for 2026-10-03."
-    },
-    {
-      "origin": "Winterthur",
-      "destination": "Fribourg/Freiburg",
-      "error": "Swiss GTFS published no Winterthur → Fribourg/Freiburg service for 2026-10-03."
-    },
-    {
-      "origin": "St. Gallen",
-      "destination": "Genève",
-      "error": "Swiss GTFS published no St. Gallen → Genève service for 2026-10-03."
-    },
-    {
-      "origin": "Winterthur",
-      "destination": "Genève",
-      "error": "Swiss GTFS published no Winterthur → Genève service for 2026-10-03."
-    },
-    {
-      "origin": "St. Gallen",
-      "destination": "Genève-Aéroport",
-      "error": "Swiss GTFS published no St. Gallen → Genève-Aéroport service for 2026-10-03."
-    },
-    {
-      "origin": "Winterthur",
-      "destination": "Genève-Aéroport",
-      "error": "Swiss GTFS published no Winterthur → Genève-Aéroport service for 2026-10-03."
-    },
-    {
-      "origin": "Zürich Flughafen",
-      "destination": "Chur",
-      "error": "Swiss GTFS published no Zürich Flughafen → Chur service for 2026-10-03."
-    },
-    {
-      "origin": "Genève",
-      "destination": "Biel/Bienne",
-      "error": "Swiss GTFS published no Genève → Biel/Bienne service for 2026-10-03."
-    },
-    {
-      "origin": "Genève-Aéroport",
-      "destination": "Biel/Bienne",
-      "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-10-03."
-    },
-    {
-      "origin": "Bern",
-      "destination": "St. Gallen",
-      "error": "Swiss GTFS published no Bern → St. Gallen service for 2026-10-04."
-    },
-    {
-      "origin": "Fribourg/Freiburg",
-      "destination": "St. Gallen",
-      "error": "Swiss GTFS published no Fribourg/Freiburg → St. Gallen service for 2026-10-04."
-    },
-    {
-      "origin": "Fribourg/Freiburg",
-      "destination": "Winterthur",
-      "error": "Swiss GTFS published no Fribourg/Freiburg → Winterthur service for 2026-10-04."
-    },
-    {
-      "origin": "Genève",
-      "destination": "St. Gallen",
-      "error": "Swiss GTFS published no Genève → St. Gallen service for 2026-10-04."
-    },
-    {
-      "origin": "Genève",
-      "destination": "Winterthur",
-      "error": "Swiss GTFS published no Genève → Winterthur service for 2026-10-04."
-    },
-    {
-      "origin": "Genève-Aéroport",
-      "destination": "St. Gallen",
-      "error": "Swiss GTFS published no Genève-Aéroport → St. Gallen service for 2026-10-04."
-    },
-    {
-      "origin": "Genève-Aéroport",
-      "destination": "Winterthur",
-      "error": "Swiss GTFS published no Genève-Aéroport → Winterthur service for 2026-10-04."
-    },
-    {
-      "origin": "Chur",
-      "destination": "Zürich Flughafen",
-      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-10-04."
-    },
-    {
-      "origin": "Biel/Bienne",
-      "destination": "Genève",
-      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-10-04."
-    },
-    {
-      "origin": "Biel/Bienne",
-      "destination": "Genève-Aéroport",
-      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-10-04."
-    },
-    {
-      "origin": "St. Gallen",
-      "destination": "Bern",
-      "error": "Swiss GTFS published no St. Gallen → Bern service for 2026-10-04."
-    },
-    {
-      "origin": "St. Gallen",
-      "destination": "Fribourg/Freiburg",
-      "error": "Swiss GTFS published no St. Gallen → Fribourg/Freiburg service for 2026-10-04."
-    },
-    {
-      "origin": "Winterthur",
-      "destination": "Fribourg/Freiburg",
-      "error": "Swiss GTFS published no Winterthur → Fribourg/Freiburg service for 2026-10-04."
-    },
-    {
-      "origin": "St. Gallen",
-      "destination": "Genève",
-      "error": "Swiss GTFS published no St. Gallen → Genève service for 2026-10-04."
-    },
-    {
-      "origin": "Winterthur",
-      "destination": "Genève",
-      "error": "Swiss GTFS published no Winterthur → Genève service for 2026-10-04."
-    },
-    {
-      "origin": "St. Gallen",
-      "destination": "Genève-Aéroport",
-      "error": "Swiss GTFS published no St. Gallen → Genève-Aéroport service for 2026-10-04."
-    },
-    {
-      "origin": "Winterthur",
-      "destination": "Genève-Aéroport",
-      "error": "Swiss GTFS published no Winterthur → Genève-Aéroport service for 2026-10-04."
-    },
-    {
-      "origin": "Zürich Flughafen",
-      "destination": "Chur",
-      "error": "Swiss GTFS published no Zürich Flughafen → Chur service for 2026-10-04."
-    },
-    {
-      "origin": "Genève",
-      "destination": "Biel/Bienne",
-      "error": "Swiss GTFS published no Genève → Biel/Bienne service for 2026-10-04."
-    },
-    {
-      "origin": "Genève-Aéroport",
-      "destination": "Biel/Bienne",
-      "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-10-04."
-    },
     {
       "origin": "Chur",
       "destination": "Zürich Flughafen",
@@ -419,6 +159,476 @@
       "origin": "Genève-Aéroport",
       "destination": "Biel/Bienne",
       "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-10-09."
+    },
+    {
+      "origin": "Bern",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Bern → St. Gallen service for 2026-10-10."
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Fribourg/Freiburg → St. Gallen service for 2026-10-10."
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Winterthur",
+      "error": "Swiss GTFS published no Fribourg/Freiburg → Winterthur service for 2026-10-10."
+    },
+    {
+      "origin": "Genève",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Genève → St. Gallen service for 2026-10-10."
+    },
+    {
+      "origin": "Genève",
+      "destination": "Winterthur",
+      "error": "Swiss GTFS published no Genève → Winterthur service for 2026-10-10."
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Genève-Aéroport → St. Gallen service for 2026-10-10."
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "Winterthur",
+      "error": "Swiss GTFS published no Genève-Aéroport → Winterthur service for 2026-10-10."
+    },
+    {
+      "origin": "Lausanne",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Lausanne → St. Gallen service for 2026-10-10."
+    },
+    {
+      "origin": "Lausanne",
+      "destination": "Winterthur",
+      "error": "Swiss GTFS published no Lausanne → Winterthur service for 2026-10-10."
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Chur",
+      "error": "Swiss GTFS published no Basel SBB → Chur service for 2026-10-10."
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Sargans",
+      "error": "Swiss GTFS published no Basel SBB → Sargans service for 2026-10-10."
+    },
+    {
+      "origin": "Chur",
+      "destination": "Zürich Flughafen",
+      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-10-10."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-10-10."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-10-10."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Lausanne",
+      "error": "Swiss GTFS published no Biel/Bienne → Lausanne service for 2026-10-10."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Biel/Bienne → St. Gallen service for 2026-10-10."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Winterthur",
+      "error": "Swiss GTFS published no Biel/Bienne → Winterthur service for 2026-10-10."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no Biel/Bienne → Yverdon-les-Bains service for 2026-10-10."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no St. Gallen → Yverdon-les-Bains service for 2026-10-10."
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no Winterthur → Yverdon-les-Bains service for 2026-10-10."
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Zürich HB",
+      "error": "Swiss GTFS published no Yverdon-les-Bains → Zürich HB service for 2026-10-10."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Bern",
+      "error": "Swiss GTFS published no St. Gallen → Bern service for 2026-10-10."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Fribourg/Freiburg",
+      "error": "Swiss GTFS published no St. Gallen → Fribourg/Freiburg service for 2026-10-10."
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Fribourg/Freiburg",
+      "error": "Swiss GTFS published no Winterthur → Fribourg/Freiburg service for 2026-10-10."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no St. Gallen → Genève service for 2026-10-10."
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Winterthur → Genève service for 2026-10-10."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no St. Gallen → Genève-Aéroport service for 2026-10-10."
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Winterthur → Genève-Aéroport service for 2026-10-10."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Lausanne",
+      "error": "Swiss GTFS published no St. Gallen → Lausanne service for 2026-10-10."
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Lausanne",
+      "error": "Swiss GTFS published no Winterthur → Lausanne service for 2026-10-10."
+    },
+    {
+      "origin": "Zürich Flughafen",
+      "destination": "Chur",
+      "error": "Swiss GTFS published no Zürich Flughafen → Chur service for 2026-10-10."
+    },
+    {
+      "origin": "Genève",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no Genève → Biel/Bienne service for 2026-10-10."
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-10-10."
+    },
+    {
+      "origin": "Lausanne",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no Lausanne → Biel/Bienne service for 2026-10-10."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no St. Gallen → Biel/Bienne service for 2026-10-10."
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no Winterthur → Biel/Bienne service for 2026-10-10."
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no Yverdon-les-Bains → Biel/Bienne service for 2026-10-10."
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Yverdon-les-Bains → St. Gallen service for 2026-10-10."
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Winterthur",
+      "error": "Swiss GTFS published no Yverdon-les-Bains → Winterthur service for 2026-10-10."
+    },
+    {
+      "origin": "Zürich HB",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no Zürich HB → Yverdon-les-Bains service for 2026-10-10."
+    },
+    {
+      "origin": "Bern",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Bern → St. Gallen service for 2026-10-11."
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Fribourg/Freiburg → St. Gallen service for 2026-10-11."
+    },
+    {
+      "origin": "Fribourg/Freiburg",
+      "destination": "Winterthur",
+      "error": "Swiss GTFS published no Fribourg/Freiburg → Winterthur service for 2026-10-11."
+    },
+    {
+      "origin": "Genève",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Genève → St. Gallen service for 2026-10-11."
+    },
+    {
+      "origin": "Genève",
+      "destination": "Winterthur",
+      "error": "Swiss GTFS published no Genève → Winterthur service for 2026-10-11."
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Genève-Aéroport → St. Gallen service for 2026-10-11."
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "Winterthur",
+      "error": "Swiss GTFS published no Genève-Aéroport → Winterthur service for 2026-10-11."
+    },
+    {
+      "origin": "Lausanne",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Lausanne → St. Gallen service for 2026-10-11."
+    },
+    {
+      "origin": "Lausanne",
+      "destination": "Winterthur",
+      "error": "Swiss GTFS published no Lausanne → Winterthur service for 2026-10-11."
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Chur",
+      "error": "Swiss GTFS published no Basel SBB → Chur service for 2026-10-11."
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Sargans",
+      "error": "Swiss GTFS published no Basel SBB → Sargans service for 2026-10-11."
+    },
+    {
+      "origin": "Chur",
+      "destination": "Zürich Flughafen",
+      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-10-11."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-10-11."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-10-11."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Lausanne",
+      "error": "Swiss GTFS published no Biel/Bienne → Lausanne service for 2026-10-11."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Biel/Bienne → St. Gallen service for 2026-10-11."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Winterthur",
+      "error": "Swiss GTFS published no Biel/Bienne → Winterthur service for 2026-10-11."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no Biel/Bienne → Yverdon-les-Bains service for 2026-10-11."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no St. Gallen → Yverdon-les-Bains service for 2026-10-11."
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no Winterthur → Yverdon-les-Bains service for 2026-10-11."
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Zürich HB",
+      "error": "Swiss GTFS published no Yverdon-les-Bains → Zürich HB service for 2026-10-11."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Bern",
+      "error": "Swiss GTFS published no St. Gallen → Bern service for 2026-10-11."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Fribourg/Freiburg",
+      "error": "Swiss GTFS published no St. Gallen → Fribourg/Freiburg service for 2026-10-11."
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Fribourg/Freiburg",
+      "error": "Swiss GTFS published no Winterthur → Fribourg/Freiburg service for 2026-10-11."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no St. Gallen → Genève service for 2026-10-11."
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Winterthur → Genève service for 2026-10-11."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no St. Gallen → Genève-Aéroport service for 2026-10-11."
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Winterthur → Genève-Aéroport service for 2026-10-11."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Lausanne",
+      "error": "Swiss GTFS published no St. Gallen → Lausanne service for 2026-10-11."
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Lausanne",
+      "error": "Swiss GTFS published no Winterthur → Lausanne service for 2026-10-11."
+    },
+    {
+      "origin": "Zürich Flughafen",
+      "destination": "Chur",
+      "error": "Swiss GTFS published no Zürich Flughafen → Chur service for 2026-10-11."
+    },
+    {
+      "origin": "Genève",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no Genève → Biel/Bienne service for 2026-10-11."
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-10-11."
+    },
+    {
+      "origin": "Lausanne",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no Lausanne → Biel/Bienne service for 2026-10-11."
+    },
+    {
+      "origin": "St. Gallen",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no St. Gallen → Biel/Bienne service for 2026-10-11."
+    },
+    {
+      "origin": "Winterthur",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no Winterthur → Biel/Bienne service for 2026-10-11."
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no Yverdon-les-Bains → Biel/Bienne service for 2026-10-11."
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "St. Gallen",
+      "error": "Swiss GTFS published no Yverdon-les-Bains → St. Gallen service for 2026-10-11."
+    },
+    {
+      "origin": "Yverdon-les-Bains",
+      "destination": "Winterthur",
+      "error": "Swiss GTFS published no Yverdon-les-Bains → Winterthur service for 2026-10-11."
+    },
+    {
+      "origin": "Zürich HB",
+      "destination": "Yverdon-les-Bains",
+      "error": "Swiss GTFS published no Zürich HB → Yverdon-les-Bains service for 2026-10-11."
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Chur",
+      "error": "Swiss GTFS published no Basel SBB → Chur service for 2026-10-12."
+    },
+    {
+      "origin": "Basel SBB",
+      "destination": "Sargans",
+      "error": "Swiss GTFS published no Basel SBB → Sargans service for 2026-10-12."
+    },
+    {
+      "origin": "Chur",
+      "destination": "Zürich Flughafen",
+      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-10-12."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-10-12."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-10-12."
+    },
+    {
+      "origin": "Zürich Flughafen",
+      "destination": "Chur",
+      "error": "Swiss GTFS published no Zürich Flughafen → Chur service for 2026-10-12."
+    },
+    {
+      "origin": "Genève",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no Genève → Biel/Bienne service for 2026-10-12."
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-10-12."
+    },
+    {
+      "origin": "Chur",
+      "destination": "Zürich Flughafen",
+      "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-10-13."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève service for 2026-10-13."
+    },
+    {
+      "origin": "Biel/Bienne",
+      "destination": "Genève-Aéroport",
+      "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-10-13."
+    },
+    {
+      "origin": "Zürich Flughafen",
+      "destination": "Chur",
+      "error": "Swiss GTFS published no Zürich Flughafen → Chur service for 2026-10-13."
+    },
+    {
+      "origin": "Genève",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no Genève → Biel/Bienne service for 2026-10-13."
+    },
+    {
+      "origin": "Genève-Aéroport",
+      "destination": "Biel/Bienne",
+      "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-10-13."
     }
   ],
   "coverage": {
@@ -426,1458 +636,1458 @@
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-10-01",
-      "2026-10-02",
-      "2026-10-03",
-      "2026-10-04",
       "2026-10-05",
       "2026-10-06",
       "2026-10-07",
       "2026-10-08",
-      "2026-10-09"
+      "2026-10-09",
+      "2026-10-10",
+      "2026-10-11",
+      "2026-10-12",
+      "2026-10-13"
     ]
   },
-  "checksum": "ac1477f26814fcb518cacef0c85dbea00bfc7115fa64ad82b73c4ab9fe2408d4",
+  "checksum": "2d39e3bd4b9b79744b10276f0fcea505bf3958f7b8807982c9e1bb69ce14d580",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Arth-Goldau",
       "destination": "Bellinzona",
-      "resultCount": 435,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 433,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.860Z",
+      "fetchedAt": "2026-10-05T08:01:58.580Z",
       "verified": true
     },
     {
       "origin": "Arth-Goldau",
       "destination": "Lugano",
-      "resultCount": 293,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 291,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.862Z",
+      "fetchedAt": "2026-10-05T08:01:58.582Z",
       "verified": true
     },
     {
       "origin": "Arth-Goldau",
       "destination": "Zug",
-      "resultCount": 502,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 503,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.864Z",
+      "fetchedAt": "2026-10-05T08:01:58.583Z",
       "verified": true
     },
     {
       "origin": "Arth-Goldau",
       "destination": "Zürich HB",
-      "resultCount": 315,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 316,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.866Z",
+      "fetchedAt": "2026-10-05T08:01:58.585Z",
       "verified": true
     },
     {
       "origin": "Basel SBB",
       "destination": "Chur",
-      "resultCount": 95,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 46,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.884Z",
+      "fetchedAt": "2026-10-05T08:01:58.608Z",
       "verified": true
     },
     {
       "origin": "Basel SBB",
       "destination": "Sargans",
-      "resultCount": 95,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 46,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.885Z",
+      "fetchedAt": "2026-10-05T08:01:58.608Z",
       "verified": true
     },
     {
       "origin": "Basel SBB",
       "destination": "Zürich Flughafen",
       "resultCount": 144,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.886Z",
+      "fetchedAt": "2026-10-05T08:01:58.609Z",
       "verified": true
     },
     {
       "origin": "Basel SBB",
       "destination": "Zürich HB",
-      "resultCount": 831,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 766,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.887Z",
+      "fetchedAt": "2026-10-05T08:01:58.610Z",
       "verified": true
     },
     {
       "origin": "Bellinzona",
       "destination": "Arth-Goldau",
       "resultCount": 461,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.042Z",
+      "fetchedAt": "2026-10-05T08:01:58.753Z",
       "verified": true
     },
     {
       "origin": "Bellinzona",
       "destination": "Lugano",
-      "resultCount": 705,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 702,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.869Z",
+      "fetchedAt": "2026-10-05T08:01:58.587Z",
       "verified": true
     },
     {
       "origin": "Bellinzona",
       "destination": "Zug",
       "resultCount": 298,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.872Z",
+      "fetchedAt": "2026-10-05T08:01:58.590Z",
       "verified": true
     },
     {
       "origin": "Bellinzona",
       "destination": "Zürich HB",
       "resultCount": 299,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.873Z",
+      "fetchedAt": "2026-10-05T08:01:58.598Z",
       "verified": true
     },
     {
       "origin": "Bern",
       "destination": "Fribourg/Freiburg",
       "resultCount": 819,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.786Z",
+      "fetchedAt": "2026-10-05T08:01:58.513Z",
       "verified": true
     },
     {
       "origin": "Bern",
       "destination": "Genève",
-      "resultCount": 276,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 274,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.790Z",
+      "fetchedAt": "2026-10-05T08:01:58.517Z",
       "verified": true
     },
     {
       "origin": "Bern",
       "destination": "Genève-Aéroport",
-      "resultCount": 276,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 274,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.791Z",
+      "fetchedAt": "2026-10-05T08:01:58.518Z",
       "verified": true
     },
     {
       "origin": "Bern",
       "destination": "Interlaken Ost",
-      "resultCount": 219,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 225,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.782Z",
+      "fetchedAt": "2026-10-05T08:01:58.510Z",
       "verified": true
     },
     {
       "origin": "Bern",
       "destination": "Lausanne",
-      "resultCount": 328,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 327,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.793Z",
+      "fetchedAt": "2026-10-05T08:01:58.520Z",
       "verified": true
     },
     {
       "origin": "Bern",
       "destination": "St. Gallen",
-      "resultCount": 116,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 119,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.795Z",
+      "fetchedAt": "2026-10-05T08:01:58.521Z",
       "verified": true
     },
     {
       "origin": "Bern",
       "destination": "Winterthur",
-      "resultCount": 228,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 233,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.795Z",
+      "fetchedAt": "2026-10-05T08:01:58.522Z",
       "verified": true
     },
     {
       "origin": "Bern",
       "destination": "Zürich HB",
-      "resultCount": 617,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 618,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.797Z",
+      "fetchedAt": "2026-10-05T08:01:58.524Z",
       "verified": true
     },
     {
       "origin": "Biel/Bienne",
       "destination": "Lausanne",
-      "resultCount": 337,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 260,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.923Z",
+      "fetchedAt": "2026-10-05T08:01:58.638Z",
       "verified": true
     },
     {
       "origin": "Biel/Bienne",
       "destination": "St. Gallen",
-      "resultCount": 126,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 98,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.925Z",
+      "fetchedAt": "2026-10-05T08:01:58.639Z",
       "verified": true
     },
     {
       "origin": "Biel/Bienne",
       "destination": "Winterthur",
-      "resultCount": 126,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 98,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.926Z",
+      "fetchedAt": "2026-10-05T08:01:58.639Z",
       "verified": true
     },
     {
       "origin": "Biel/Bienne",
       "destination": "Yverdon-les-Bains",
-      "resultCount": 485,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 372,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.926Z",
+      "fetchedAt": "2026-10-05T08:01:58.640Z",
       "verified": true
     },
     {
       "origin": "Biel/Bienne",
       "destination": "Zürich HB",
-      "resultCount": 319,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 317,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.930Z",
+      "fetchedAt": "2026-10-05T08:01:58.642Z",
       "verified": true
     },
     {
       "origin": "Brig",
       "destination": "Genève",
-      "resultCount": 327,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 329,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.939Z",
+      "fetchedAt": "2026-10-05T08:01:58.650Z",
       "verified": true
     },
     {
       "origin": "Brig",
       "destination": "Genève-Aéroport",
-      "resultCount": 288,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 284,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.941Z",
+      "fetchedAt": "2026-10-05T08:01:58.652Z",
       "verified": true
     },
     {
       "origin": "Brig",
       "destination": "Lausanne",
-      "resultCount": 339,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 346,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.943Z",
+      "fetchedAt": "2026-10-05T08:01:58.653Z",
       "verified": true
     },
     {
       "origin": "Brig",
       "destination": "Montreux",
-      "resultCount": 312,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 317,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.945Z",
+      "fetchedAt": "2026-10-05T08:01:58.655Z",
       "verified": true
     },
     {
       "origin": "Brig",
       "destination": "Sion",
-      "resultCount": 654,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 662,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.946Z",
+      "fetchedAt": "2026-10-05T08:01:58.657Z",
       "verified": true
     },
     {
       "origin": "Chur",
       "destination": "Basel SBB",
-      "resultCount": 97,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 74,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.074Z",
+      "fetchedAt": "2026-10-05T08:01:58.775Z",
       "verified": true
     },
     {
       "origin": "Chur",
       "destination": "Sargans",
       "resultCount": 932,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.891Z",
+      "fetchedAt": "2026-10-05T08:01:58.613Z",
       "verified": true
     },
     {
       "origin": "Chur",
       "destination": "Zürich HB",
-      "resultCount": 446,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 444,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.896Z",
+      "fetchedAt": "2026-10-05T08:01:58.621Z",
       "verified": true
     },
     {
       "origin": "Fribourg/Freiburg",
       "destination": "Bern",
       "resultCount": 819,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.970Z",
+      "fetchedAt": "2026-10-05T08:01:58.686Z",
       "verified": true
     },
     {
       "origin": "Fribourg/Freiburg",
       "destination": "Genève",
-      "resultCount": 276,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 274,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.800Z",
+      "fetchedAt": "2026-10-05T08:01:58.533Z",
       "verified": true
     },
     {
       "origin": "Fribourg/Freiburg",
       "destination": "Genève-Aéroport",
-      "resultCount": 276,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 274,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.801Z",
+      "fetchedAt": "2026-10-05T08:01:58.534Z",
       "verified": true
     },
     {
       "origin": "Fribourg/Freiburg",
       "destination": "Lausanne",
-      "resultCount": 613,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 653,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.803Z",
+      "fetchedAt": "2026-10-05T08:01:58.536Z",
       "verified": true
     },
     {
       "origin": "Fribourg/Freiburg",
       "destination": "St. Gallen",
-      "resultCount": 109,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 112,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.806Z",
+      "fetchedAt": "2026-10-05T08:01:58.539Z",
       "verified": true
     },
     {
       "origin": "Fribourg/Freiburg",
       "destination": "Winterthur",
-      "resultCount": 109,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 112,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.807Z",
+      "fetchedAt": "2026-10-05T08:01:58.540Z",
       "verified": true
     },
     {
       "origin": "Fribourg/Freiburg",
       "destination": "Zürich HB",
       "resultCount": 162,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.807Z",
+      "fetchedAt": "2026-10-05T08:01:58.540Z",
       "verified": true
     },
     {
       "origin": "Genève-Aéroport",
       "destination": "Bern",
-      "resultCount": 282,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 281,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.975Z",
+      "fetchedAt": "2026-10-05T08:01:58.691Z",
       "verified": true
     },
     {
       "origin": "Genève-Aéroport",
       "destination": "Brig",
-      "resultCount": 299,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 294,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.121Z",
+      "fetchedAt": "2026-10-05T08:01:58.821Z",
       "verified": true
     },
     {
       "origin": "Genève-Aéroport",
       "destination": "Fribourg/Freiburg",
-      "resultCount": 282,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 281,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.993Z",
+      "fetchedAt": "2026-10-05T08:01:58.701Z",
       "verified": true
     },
     {
       "origin": "Genève-Aéroport",
       "destination": "Genève",
-      "resultCount": 744,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 741,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.001Z",
+      "fetchedAt": "2026-10-05T08:01:58.708Z",
       "verified": true
     },
     {
       "origin": "Genève-Aéroport",
       "destination": "Lausanne",
-      "resultCount": 689,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 680,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.821Z",
+      "fetchedAt": "2026-10-05T08:01:58.552Z",
       "verified": true
     },
     {
       "origin": "Genève-Aéroport",
       "destination": "Montreux",
-      "resultCount": 356,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 350,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.955Z",
+      "fetchedAt": "2026-10-05T08:01:58.671Z",
       "verified": true
     },
     {
       "origin": "Genève-Aéroport",
       "destination": "Sion",
-      "resultCount": 300,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 294,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.957Z",
+      "fetchedAt": "2026-10-05T08:01:58.674Z",
       "verified": true
     },
     {
       "origin": "Genève-Aéroport",
       "destination": "St. Gallen",
-      "resultCount": 102,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 105,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.825Z",
+      "fetchedAt": "2026-10-05T08:01:58.556Z",
       "verified": true
     },
     {
       "origin": "Genève-Aéroport",
       "destination": "Winterthur",
-      "resultCount": 102,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 105,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.825Z",
+      "fetchedAt": "2026-10-05T08:01:58.556Z",
       "verified": true
     },
     {
       "origin": "Genève-Aéroport",
       "destination": "Yverdon-les-Bains",
       "resultCount": 46,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.933Z",
+      "fetchedAt": "2026-10-05T08:01:58.644Z",
       "verified": true
     },
     {
       "origin": "Genève-Aéroport",
       "destination": "Zürich HB",
       "resultCount": 144,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.826Z",
+      "fetchedAt": "2026-10-05T08:01:58.557Z",
       "verified": true
     },
     {
       "origin": "Genève",
       "destination": "Bern",
-      "resultCount": 282,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 281,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.974Z",
+      "fetchedAt": "2026-10-05T08:01:58.690Z",
       "verified": true
     },
     {
       "origin": "Genève",
       "destination": "Brig",
-      "resultCount": 344,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 347,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.119Z",
+      "fetchedAt": "2026-10-05T08:01:58.819Z",
       "verified": true
     },
     {
       "origin": "Genève",
       "destination": "Fribourg/Freiburg",
-      "resultCount": 282,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 281,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.992Z",
+      "fetchedAt": "2026-10-05T08:01:58.700Z",
       "verified": true
     },
     {
       "origin": "Genève",
       "destination": "Genève-Aéroport",
-      "resultCount": 764,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 760,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.808Z",
+      "fetchedAt": "2026-10-05T08:01:58.541Z",
       "verified": true
     },
     {
       "origin": "Genève",
       "destination": "Lausanne",
-      "resultCount": 1012,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 1010,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.812Z",
+      "fetchedAt": "2026-10-05T08:01:58.545Z",
       "verified": true
     },
     {
       "origin": "Genève",
       "destination": "Montreux",
-      "resultCount": 643,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 641,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.949Z",
+      "fetchedAt": "2026-10-05T08:01:58.660Z",
       "verified": true
     },
     {
       "origin": "Genève",
       "destination": "Sion",
-      "resultCount": 352,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 354,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.953Z",
+      "fetchedAt": "2026-10-05T08:01:58.663Z",
       "verified": true
     },
     {
       "origin": "Genève",
       "destination": "St. Gallen",
-      "resultCount": 102,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 105,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.819Z",
+      "fetchedAt": "2026-10-05T08:01:58.550Z",
       "verified": true
     },
     {
       "origin": "Genève",
       "destination": "Winterthur",
-      "resultCount": 102,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 105,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.819Z",
+      "fetchedAt": "2026-10-05T08:01:58.551Z",
       "verified": true
     },
     {
       "origin": "Genève",
       "destination": "Yverdon-les-Bains",
       "resultCount": 46,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.932Z",
+      "fetchedAt": "2026-10-05T08:01:58.643Z",
       "verified": true
     },
     {
       "origin": "Genève",
       "destination": "Zürich HB",
       "resultCount": 144,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.820Z",
+      "fetchedAt": "2026-10-05T08:01:58.552Z",
       "verified": true
     },
     {
       "origin": "Interlaken Ost",
       "destination": "Bern",
-      "resultCount": 232,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 234,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.966Z",
+      "fetchedAt": "2026-10-05T08:01:58.683Z",
       "verified": true
     },
     {
       "origin": "Lausanne",
       "destination": "Bern",
-      "resultCount": 325,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 326,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.984Z",
+      "fetchedAt": "2026-10-05T08:01:58.693Z",
       "verified": true
     },
     {
       "origin": "Lausanne",
       "destination": "Biel/Bienne",
-      "resultCount": 334,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 259,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.104Z",
+      "fetchedAt": "2026-10-05T08:01:58.801Z",
       "verified": true
     },
     {
       "origin": "Lausanne",
       "destination": "Brig",
-      "resultCount": 365,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 372,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.123Z",
+      "fetchedAt": "2026-10-05T08:01:58.823Z",
       "verified": true
     },
     {
       "origin": "Lausanne",
       "destination": "Fribourg/Freiburg",
-      "resultCount": 614,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 658,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.995Z",
+      "fetchedAt": "2026-10-05T08:01:58.702Z",
       "verified": true
     },
     {
       "origin": "Lausanne",
       "destination": "Genève",
-      "resultCount": 1014,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 1007,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.005Z",
+      "fetchedAt": "2026-10-05T08:01:58.712Z",
       "verified": true
     },
     {
       "origin": "Lausanne",
       "destination": "Genève-Aéroport",
-      "resultCount": 691,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 684,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.013Z",
+      "fetchedAt": "2026-10-05T08:01:58.718Z",
       "verified": true
     },
     {
       "origin": "Lausanne",
       "destination": "Montreux",
-      "resultCount": 1037,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 1040,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.959Z",
+      "fetchedAt": "2026-10-05T08:01:58.675Z",
       "verified": true
     },
     {
       "origin": "Lausanne",
       "destination": "Sion",
-      "resultCount": 376,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 382,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.963Z",
+      "fetchedAt": "2026-10-05T08:01:58.679Z",
       "verified": true
     },
     {
       "origin": "Lausanne",
       "destination": "St. Gallen",
-      "resultCount": 219,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 196,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.827Z",
+      "fetchedAt": "2026-10-05T08:01:58.558Z",
       "verified": true
     },
     {
       "origin": "Lausanne",
       "destination": "Winterthur",
-      "resultCount": 219,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 196,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.837Z",
+      "fetchedAt": "2026-10-05T08:01:58.559Z",
       "verified": true
     },
     {
       "origin": "Lausanne",
       "destination": "Yverdon-les-Bains",
-      "resultCount": 698,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 690,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.933Z",
+      "fetchedAt": "2026-10-05T08:01:58.645Z",
       "verified": true
     },
     {
       "origin": "Lausanne",
       "destination": "Zürich HB",
-      "resultCount": 315,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 279,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.838Z",
+      "fetchedAt": "2026-10-05T08:01:58.560Z",
       "verified": true
     },
     {
       "origin": "Lugano",
       "destination": "Arth-Goldau",
       "resultCount": 309,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.045Z",
+      "fetchedAt": "2026-10-05T08:01:58.755Z",
       "verified": true
     },
     {
       "origin": "Lugano",
       "destination": "Bellinzona",
-      "resultCount": 720,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 716,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.058Z",
+      "fetchedAt": "2026-10-05T08:01:58.760Z",
       "verified": true
     },
     {
       "origin": "Lugano",
       "destination": "Zug",
       "resultCount": 218,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.875Z",
+      "fetchedAt": "2026-10-05T08:01:58.599Z",
       "verified": true
     },
     {
       "origin": "Lugano",
       "destination": "Zürich HB",
       "resultCount": 219,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.876Z",
+      "fetchedAt": "2026-10-05T08:01:58.601Z",
       "verified": true
     },
     {
       "origin": "Luzern",
       "destination": "Zürich HB",
       "resultCount": 364,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.783Z",
+      "fetchedAt": "2026-10-05T08:01:58.511Z",
       "verified": true
     },
     {
       "origin": "Montreux",
       "destination": "Brig",
-      "resultCount": 365,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 372,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.124Z",
+      "fetchedAt": "2026-10-05T08:01:58.824Z",
       "verified": true
     },
     {
       "origin": "Montreux",
       "destination": "Genève",
-      "resultCount": 607,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 602,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.137Z",
+      "fetchedAt": "2026-10-05T08:01:58.829Z",
       "verified": true
     },
     {
       "origin": "Montreux",
       "destination": "Genève-Aéroport",
-      "resultCount": 346,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 338,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.142Z",
+      "fetchedAt": "2026-10-05T08:01:58.834Z",
       "verified": true
     },
     {
       "origin": "Montreux",
       "destination": "Lausanne",
-      "resultCount": 991,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 993,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.146Z",
+      "fetchedAt": "2026-10-05T08:01:58.837Z",
       "verified": true
     },
     {
       "origin": "Montreux",
       "destination": "Sion",
-      "resultCount": 376,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 382,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.965Z",
+      "fetchedAt": "2026-10-05T08:01:58.681Z",
       "verified": true
     },
     {
       "origin": "Sargans",
       "destination": "Basel SBB",
-      "resultCount": 97,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 74,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.075Z",
+      "fetchedAt": "2026-10-05T08:01:58.775Z",
       "verified": true
     },
     {
       "origin": "Sargans",
       "destination": "Chur",
-      "resultCount": 937,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 936,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.081Z",
+      "fetchedAt": "2026-10-05T08:01:58.781Z",
       "verified": true
     },
     {
       "origin": "Sargans",
       "destination": "Zürich Flughafen",
       "resultCount": 153,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.899Z",
+      "fetchedAt": "2026-10-05T08:01:58.623Z",
       "verified": true
     },
     {
       "origin": "Sargans",
       "destination": "Zürich HB",
-      "resultCount": 599,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 597,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.900Z",
+      "fetchedAt": "2026-10-05T08:01:58.624Z",
       "verified": true
     },
     {
       "origin": "Sion",
       "destination": "Brig",
-      "resultCount": 689,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 696,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.126Z",
+      "fetchedAt": "2026-10-05T08:01:58.826Z",
       "verified": true
     },
     {
       "origin": "Sion",
       "destination": "Genève",
-      "resultCount": 352,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 354,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.140Z",
+      "fetchedAt": "2026-10-05T08:01:58.832Z",
       "verified": true
     },
     {
       "origin": "Sion",
       "destination": "Genève-Aéroport",
-      "resultCount": 306,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 302,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.144Z",
+      "fetchedAt": "2026-10-05T08:01:58.836Z",
       "verified": true
     },
     {
       "origin": "Sion",
       "destination": "Lausanne",
-      "resultCount": 366,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 373,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.150Z",
+      "fetchedAt": "2026-10-05T08:01:58.842Z",
       "verified": true
     },
     {
       "origin": "Sion",
       "destination": "Montreux",
-      "resultCount": 339,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 344,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.153Z",
+      "fetchedAt": "2026-10-05T08:01:58.844Z",
       "verified": true
     },
     {
       "origin": "St. Gallen",
       "destination": "Bern",
-      "resultCount": 116,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 119,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.986Z",
+      "fetchedAt": "2026-10-05T08:01:58.695Z",
       "verified": true
     },
     {
       "origin": "St. Gallen",
       "destination": "Biel/Bienne",
-      "resultCount": 135,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 105,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.106Z",
+      "fetchedAt": "2026-10-05T08:01:58.808Z",
       "verified": true
     },
     {
       "origin": "St. Gallen",
       "destination": "Fribourg/Freiburg",
-      "resultCount": 110,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 112,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.998Z",
+      "fetchedAt": "2026-10-05T08:01:58.706Z",
       "verified": true
     },
     {
       "origin": "St. Gallen",
       "destination": "Genève",
       "resultCount": 92,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.010Z",
+      "fetchedAt": "2026-10-05T08:01:58.716Z",
       "verified": true
     },
     {
       "origin": "St. Gallen",
       "destination": "Genève-Aéroport",
       "resultCount": 92,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.016Z",
+      "fetchedAt": "2026-10-05T08:01:58.722Z",
       "verified": true
     },
     {
       "origin": "St. Gallen",
       "destination": "Lausanne",
-      "resultCount": 239,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 210,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.019Z",
+      "fetchedAt": "2026-10-05T08:01:58.724Z",
       "verified": true
     },
     {
       "origin": "St. Gallen",
       "destination": "Winterthur",
-      "resultCount": 639,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 637,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.840Z",
+      "fetchedAt": "2026-10-05T08:01:58.562Z",
       "verified": true
     },
     {
       "origin": "St. Gallen",
       "destination": "Yverdon-les-Bains",
-      "resultCount": 135,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 105,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.937Z",
+      "fetchedAt": "2026-10-05T08:01:58.648Z",
       "verified": true
     },
     {
       "origin": "St. Gallen",
       "destination": "Zürich HB",
-      "resultCount": 623,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 620,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.843Z",
+      "fetchedAt": "2026-10-05T08:01:58.565Z",
       "verified": true
     },
     {
       "origin": "Winterthur",
       "destination": "Bern",
-      "resultCount": 234,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 240,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.987Z",
+      "fetchedAt": "2026-10-05T08:01:58.695Z",
       "verified": true
     },
     {
       "origin": "Winterthur",
       "destination": "Biel/Bienne",
-      "resultCount": 135,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 105,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.107Z",
+      "fetchedAt": "2026-10-05T08:01:58.809Z",
       "verified": true
     },
     {
       "origin": "Winterthur",
       "destination": "Fribourg/Freiburg",
-      "resultCount": 110,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 112,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.999Z",
+      "fetchedAt": "2026-10-05T08:01:58.706Z",
       "verified": true
     },
     {
       "origin": "Winterthur",
       "destination": "Genève",
       "resultCount": 92,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.011Z",
+      "fetchedAt": "2026-10-05T08:01:58.717Z",
       "verified": true
     },
     {
       "origin": "Winterthur",
       "destination": "Genève-Aéroport",
       "resultCount": 92,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.017Z",
+      "fetchedAt": "2026-10-05T08:01:58.722Z",
       "verified": true
     },
     {
       "origin": "Winterthur",
       "destination": "Lausanne",
-      "resultCount": 239,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 210,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.020Z",
+      "fetchedAt": "2026-10-05T08:01:58.725Z",
       "verified": true
     },
     {
       "origin": "Winterthur",
       "destination": "St. Gallen",
       "resultCount": 626,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.023Z",
+      "fetchedAt": "2026-10-05T08:01:58.728Z",
       "verified": true
     },
     {
       "origin": "Winterthur",
       "destination": "Yverdon-les-Bains",
-      "resultCount": 135,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 105,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.938Z",
+      "fetchedAt": "2026-10-05T08:01:58.649Z",
       "verified": true
     },
     {
       "origin": "Winterthur",
       "destination": "Zürich HB",
-      "resultCount": 2680,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 2678,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.846Z",
+      "fetchedAt": "2026-10-05T08:01:58.568Z",
       "verified": true
     },
     {
       "origin": "Yverdon-les-Bains",
       "destination": "Biel/Bienne",
-      "resultCount": 483,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 371,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.107Z",
+      "fetchedAt": "2026-10-05T08:01:58.810Z",
       "verified": true
     },
     {
       "origin": "Yverdon-les-Bains",
       "destination": "Genève",
       "resultCount": 46,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.112Z",
+      "fetchedAt": "2026-10-05T08:01:58.813Z",
       "verified": true
     },
     {
       "origin": "Yverdon-les-Bains",
       "destination": "Genève-Aéroport",
       "resultCount": 46,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.112Z",
+      "fetchedAt": "2026-10-05T08:01:58.814Z",
       "verified": true
     },
     {
       "origin": "Yverdon-les-Bains",
       "destination": "Lausanne",
-      "resultCount": 701,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 692,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.113Z",
+      "fetchedAt": "2026-10-05T08:01:58.814Z",
       "verified": true
     },
     {
       "origin": "Yverdon-les-Bains",
       "destination": "St. Gallen",
-      "resultCount": 117,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 91,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.116Z",
+      "fetchedAt": "2026-10-05T08:01:58.817Z",
       "verified": true
     },
     {
       "origin": "Yverdon-les-Bains",
       "destination": "Winterthur",
-      "resultCount": 117,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 91,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.118Z",
+      "fetchedAt": "2026-10-05T08:01:58.818Z",
       "verified": true
     },
     {
       "origin": "Yverdon-les-Bains",
       "destination": "Zürich HB",
-      "resultCount": 162,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 126,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.939Z",
+      "fetchedAt": "2026-10-05T08:01:58.649Z",
       "verified": true
     },
     {
       "origin": "Zug",
       "destination": "Arth-Goldau",
       "resultCount": 470,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.047Z",
+      "fetchedAt": "2026-10-05T08:01:58.757Z",
       "verified": true
     },
     {
       "origin": "Zug",
       "destination": "Bellinzona",
       "resultCount": 279,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.062Z",
+      "fetchedAt": "2026-10-05T08:01:58.764Z",
       "verified": true
     },
     {
       "origin": "Zug",
       "destination": "Lugano",
-      "resultCount": 201,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 200,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.065Z",
+      "fetchedAt": "2026-10-05T08:01:58.767Z",
       "verified": true
     },
     {
       "origin": "Zug",
       "destination": "Zürich HB",
-      "resultCount": 1373,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 1374,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.877Z",
+      "fetchedAt": "2026-10-05T08:01:58.602Z",
       "verified": true
     },
     {
       "origin": "Zürich Flughafen",
       "destination": "Basel SBB",
       "resultCount": 144,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.076Z",
+      "fetchedAt": "2026-10-05T08:01:58.776Z",
       "verified": true
     },
     {
       "origin": "Zürich Flughafen",
       "destination": "Sargans",
       "resultCount": 126,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.088Z",
+      "fetchedAt": "2026-10-05T08:01:58.787Z",
       "verified": true
     },
     {
       "origin": "Zürich Flughafen",
       "destination": "Zürich HB",
-      "resultCount": 2117,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 2114,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.903Z",
+      "fetchedAt": "2026-10-05T08:01:58.627Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Arth-Goldau",
-      "resultCount": 291,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 290,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.049Z",
+      "fetchedAt": "2026-10-05T08:01:58.759Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Basel SBB",
-      "resultCount": 824,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 767,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.077Z",
+      "fetchedAt": "2026-10-05T08:01:58.777Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Bellinzona",
       "resultCount": 279,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.063Z",
+      "fetchedAt": "2026-10-05T08:01:58.765Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Bern",
-      "resultCount": 617,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 616,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.989Z",
+      "fetchedAt": "2026-10-05T08:01:58.697Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Biel/Bienne",
       "resultCount": 306,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.110Z",
+      "fetchedAt": "2026-10-05T08:01:58.812Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Chur",
-      "resultCount": 449,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 446,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.086Z",
+      "fetchedAt": "2026-10-05T08:01:58.785Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Fribourg/Freiburg",
-      "resultCount": 152,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 153,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.000Z",
+      "fetchedAt": "2026-10-05T08:01:58.707Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Genève",
       "resultCount": 128,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.012Z",
+      "fetchedAt": "2026-10-05T08:01:58.718Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Genève-Aéroport",
       "resultCount": 128,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.018Z",
+      "fetchedAt": "2026-10-05T08:01:58.723Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Lausanne",
-      "resultCount": 299,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 264,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.022Z",
+      "fetchedAt": "2026-10-05T08:01:58.726Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Lugano",
-      "resultCount": 201,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 200,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.066Z",
+      "fetchedAt": "2026-10-05T08:01:58.768Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Luzern",
       "resultCount": 364,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:06.968Z",
+      "fetchedAt": "2026-10-05T08:01:58.684Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Sargans",
-      "resultCount": 579,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 575,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.089Z",
+      "fetchedAt": "2026-10-05T08:01:58.788Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "St. Gallen",
       "resultCount": 616,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.026Z",
+      "fetchedAt": "2026-10-05T08:01:58.731Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Winterthur",
-      "resultCount": 2636,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 2638,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.029Z",
+      "fetchedAt": "2026-10-05T08:01:58.741Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Yverdon-les-Bains",
-      "resultCount": 156,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 120,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.119Z",
+      "fetchedAt": "2026-10-05T08:01:58.819Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Zug",
       "resultCount": 1354,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.067Z",
+      "fetchedAt": "2026-10-05T08:01:58.769Z",
       "verified": true
     },
     {
       "origin": "Zürich HB",
       "destination": "Zürich Flughafen",
       "resultCount": 2104,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "ch-opentransportdata-gtfs",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:15:07.092Z",
+      "fetchedAt": "2026-10-05T08:01:58.790Z",
       "verified": true
     }
   ]

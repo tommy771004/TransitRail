@@ -4,145 +4,129 @@
   "source": "Entur Journey Planner v3",
   "sourceUrl": "https://api.entur.io/journey-planner/v3/graphql",
   "sourceTier": "A",
-  "fetchedAt": "2026-10-01T01:07:25.145Z",
-  "builtAt": "2026-10-01T01:27:01.295Z",
-  "recordCount": 466,
+  "fetchedAt": "2026-10-05T07:54:40.605Z",
+  "builtAt": "2026-10-05T08:11:39.470Z",
+  "recordCount": 460,
   "routeCount": 10,
-  "successRate": 0.9667,
-  "failedRoutes": [
-    {
-      "origin": "Lillehammer",
-      "destination": "Oslo lufthavn",
-      "error": "Entur Journey Planner returned no departures for Lillehammer → Oslo lufthavn on 2026-10-01"
-    },
-    {
-      "origin": "Lillehammer",
-      "destination": "Oslo lufthavn",
-      "error": "Entur Journey Planner returned no departures for Lillehammer → Oslo lufthavn on 2026-10-02"
-    },
-    {
-      "origin": "Lillehammer",
-      "destination": "Oslo lufthavn",
-      "error": "Entur Journey Planner returned no departures for Lillehammer → Oslo lufthavn on 2026-10-03"
-    }
-  ],
+  "successRate": 1,
+  "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 10,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-10-01",
-      "2026-10-02",
-      "2026-10-03",
-      "2026-10-04",
       "2026-10-05",
       "2026-10-06",
       "2026-10-07",
       "2026-10-08",
-      "2026-10-09"
+      "2026-10-09",
+      "2026-10-10",
+      "2026-10-11",
+      "2026-10-12",
+      "2026-10-13"
     ]
   },
-  "checksum": "86f665c4a1b21cdaef46dc8bdc3cc84a6e07749bb4abca1b26a348f963c179be",
+  "checksum": "0a92209b98b4ac1a639e98a65cc66d9f9a3ecca01ccbd6c17f1f9b3d9526924d",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Bergen stasjon",
       "destination": "Oslo S",
       "resultCount": 54,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "no-entur",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:07:22.029Z",
+      "fetchedAt": "2026-10-05T07:54:36.400Z",
       "verified": true
     },
     {
       "origin": "Bodø stasjon",
       "destination": "Trondheim S",
-      "resultCount": 53,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 51,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "no-entur",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:07:25.145Z",
+      "fetchedAt": "2026-10-05T07:54:40.605Z",
       "verified": true
     },
     {
       "origin": "Lillehammer",
       "destination": "Oslo lufthavn",
-      "resultCount": 21,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 15,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "no-entur",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:07:24.458Z",
+      "fetchedAt": "2026-10-05T07:54:39.905Z",
       "verified": true
     },
     {
       "origin": "Oslo lufthavn",
       "destination": "Lillehammer",
-      "resultCount": 34,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 33,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "no-entur",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:07:19.993Z",
+      "fetchedAt": "2026-10-05T07:54:34.364Z",
       "verified": true
     },
     {
       "origin": "Oslo S",
       "destination": "Bergen stasjon",
       "resultCount": 54,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "no-entur",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:07:16.811Z",
+      "fetchedAt": "2026-10-05T07:54:31.079Z",
       "verified": true
     },
     {
       "origin": "Oslo S",
       "destination": "Stavanger stasjon",
       "resultCount": 54,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "no-entur",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:07:19.511Z",
+      "fetchedAt": "2026-10-05T07:54:33.778Z",
       "verified": true
     },
     {
       "origin": "Oslo S",
       "destination": "Trondheim S",
       "resultCount": 54,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "no-entur",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:07:17.745Z",
+      "fetchedAt": "2026-10-05T07:54:32.130Z",
       "verified": true
     },
     {
       "origin": "Stavanger stasjon",
       "destination": "Oslo S",
-      "resultCount": 46,
-      "date": "2026-10-01..2026-10-09",
+      "resultCount": 49,
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "no-entur",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:07:23.974Z",
+      "fetchedAt": "2026-10-05T07:54:39.164Z",
       "verified": true
     },
     {
       "origin": "Trondheim S",
       "destination": "Bodø stasjon",
       "resultCount": 42,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "no-entur",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:07:20.909Z",
+      "fetchedAt": "2026-10-05T07:54:35.338Z",
       "verified": true
     },
     {
       "origin": "Trondheim S",
       "destination": "Oslo S",
       "resultCount": 54,
-      "date": "2026-10-01..2026-10-09",
+      "date": "2026-10-05..2026-10-13",
       "sourceId": "no-entur",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-01T01:07:23.035Z",
+      "fetchedAt": "2026-10-05T07:54:37.666Z",
       "verified": true
     }
   ]

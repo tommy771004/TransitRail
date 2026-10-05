@@ -1,0 +1,440 @@
+{
+  "origin": "Janghang",
+  "destination": "Iksan",
+  "date": "2026-10-05..2026-10-13",
+  "scrapedAt": "2026-10-05T07:42:34.323Z",
+  "source": "Korail official KTX and regular train timetables",
+  "sourceDocuments": [
+    {
+      "title": "KTX 시간표(2026. 10. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/23/202609231a0cb38a2c5200.xlsx",
+      "effectiveFrom": "2026-10-01",
+      "retrievedAt": "2026-10-05T07:42:31.471Z",
+      "sha256": "eaadc99d90aa9fb4e009ca74d812cc4aa4885a7aee98950adc715dca6c0ad623",
+      "exclusions": [
+        "Korail excluded 호남선 450: times run backwards at Gwangmyeong"
+      ]
+    },
+    {
+      "title": "일반열차 시간표(2026. 10. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10a842d5b580.xlsx",
+      "effectiveFrom": "2026-10-01",
+      "retrievedAt": "2026-10-05T07:42:32.269Z",
+      "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
+      "exclusions": [
+        "Korail excluded 경전선 1958: published start or end time missing",
+        "Korail excluded 서해선 1231: published start or end time missing",
+        "Korail excluded 서해선 1233: published start or end time missing",
+        "Korail excluded 서해선 1235: published start or end time missing",
+        "Korail excluded 서해선 1237: published start or end time missing",
+        "Korail excluded 서해선 1232: published start or end time missing",
+        "Korail excluded 서해선 1234: published start or end time missing",
+        "Korail excluded 서해선 1236: published start or end time missing",
+        "Korail excluded 서해선 1238: published start or end time missing"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "korail-2026-10-04-regular-장항선-9-20-next-day",
+      "country": "korea",
+      "date": "2026-10-05",
+      "operator": "Korail",
+      "service": "무궁화 1287",
+      "trainType": "무궁화",
+      "origin": "Janghang",
+      "destination": "Iksan",
+      "departureTime": "00:05",
+      "arrivalTime": "00:30",
+      "durationMinutes": 25,
+      "direct": true,
+      "stops": [
+        "Janghang",
+        "Gunsan",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Janghang",
+          "destination": "Gunsan",
+          "departureTime": "00:05",
+          "arrivalTime": "00:12",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Gunsan",
+          "destination": "Iksan",
+          "departureTime": "00:12",
+          "arrivalTime": "00:30",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-05-regular-장항선-9-20-next-day",
+      "country": "korea",
+      "date": "2026-10-06",
+      "operator": "Korail",
+      "service": "무궁화 1287",
+      "trainType": "무궁화",
+      "origin": "Janghang",
+      "destination": "Iksan",
+      "departureTime": "00:05",
+      "arrivalTime": "00:30",
+      "durationMinutes": 25,
+      "direct": true,
+      "stops": [
+        "Janghang",
+        "Gunsan",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Janghang",
+          "destination": "Gunsan",
+          "departureTime": "00:05",
+          "arrivalTime": "00:12",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Gunsan",
+          "destination": "Iksan",
+          "departureTime": "00:12",
+          "arrivalTime": "00:30",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-06-regular-장항선-9-20-next-day",
+      "country": "korea",
+      "date": "2026-10-07",
+      "operator": "Korail",
+      "service": "무궁화 1287",
+      "trainType": "무궁화",
+      "origin": "Janghang",
+      "destination": "Iksan",
+      "departureTime": "00:05",
+      "arrivalTime": "00:30",
+      "durationMinutes": 25,
+      "direct": true,
+      "stops": [
+        "Janghang",
+        "Gunsan",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Janghang",
+          "destination": "Gunsan",
+          "departureTime": "00:05",
+          "arrivalTime": "00:12",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Gunsan",
+          "destination": "Iksan",
+          "departureTime": "00:12",
+          "arrivalTime": "00:30",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-07-regular-장항선-9-20-next-day",
+      "country": "korea",
+      "date": "2026-10-08",
+      "operator": "Korail",
+      "service": "무궁화 1287",
+      "trainType": "무궁화",
+      "origin": "Janghang",
+      "destination": "Iksan",
+      "departureTime": "00:05",
+      "arrivalTime": "00:30",
+      "durationMinutes": 25,
+      "direct": true,
+      "stops": [
+        "Janghang",
+        "Gunsan",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Janghang",
+          "destination": "Gunsan",
+          "departureTime": "00:05",
+          "arrivalTime": "00:12",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Gunsan",
+          "destination": "Iksan",
+          "departureTime": "00:12",
+          "arrivalTime": "00:30",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-08-regular-장항선-9-20-next-day",
+      "country": "korea",
+      "date": "2026-10-09",
+      "operator": "Korail",
+      "service": "무궁화 1287",
+      "trainType": "무궁화",
+      "origin": "Janghang",
+      "destination": "Iksan",
+      "departureTime": "00:05",
+      "arrivalTime": "00:30",
+      "durationMinutes": 25,
+      "direct": true,
+      "stops": [
+        "Janghang",
+        "Gunsan",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Janghang",
+          "destination": "Gunsan",
+          "departureTime": "00:05",
+          "arrivalTime": "00:12",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Gunsan",
+          "destination": "Iksan",
+          "departureTime": "00:12",
+          "arrivalTime": "00:30",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-09-regular-장항선-9-20-next-day",
+      "country": "korea",
+      "date": "2026-10-10",
+      "operator": "Korail",
+      "service": "무궁화 1287",
+      "trainType": "무궁화",
+      "origin": "Janghang",
+      "destination": "Iksan",
+      "departureTime": "00:05",
+      "arrivalTime": "00:30",
+      "durationMinutes": 25,
+      "direct": true,
+      "stops": [
+        "Janghang",
+        "Gunsan",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Janghang",
+          "destination": "Gunsan",
+          "departureTime": "00:05",
+          "arrivalTime": "00:12",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Gunsan",
+          "destination": "Iksan",
+          "departureTime": "00:12",
+          "arrivalTime": "00:30",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-10-regular-장항선-9-20-next-day",
+      "country": "korea",
+      "date": "2026-10-11",
+      "operator": "Korail",
+      "service": "무궁화 1287",
+      "trainType": "무궁화",
+      "origin": "Janghang",
+      "destination": "Iksan",
+      "departureTime": "00:05",
+      "arrivalTime": "00:30",
+      "durationMinutes": 25,
+      "direct": true,
+      "stops": [
+        "Janghang",
+        "Gunsan",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Janghang",
+          "destination": "Gunsan",
+          "departureTime": "00:05",
+          "arrivalTime": "00:12",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Gunsan",
+          "destination": "Iksan",
+          "departureTime": "00:12",
+          "arrivalTime": "00:30",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-11-regular-장항선-9-20-next-day",
+      "country": "korea",
+      "date": "2026-10-12",
+      "operator": "Korail",
+      "service": "무궁화 1287",
+      "trainType": "무궁화",
+      "origin": "Janghang",
+      "destination": "Iksan",
+      "departureTime": "00:05",
+      "arrivalTime": "00:30",
+      "durationMinutes": 25,
+      "direct": true,
+      "stops": [
+        "Janghang",
+        "Gunsan",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Janghang",
+          "destination": "Gunsan",
+          "departureTime": "00:05",
+          "arrivalTime": "00:12",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Gunsan",
+          "destination": "Iksan",
+          "departureTime": "00:12",
+          "arrivalTime": "00:30",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-12-regular-장항선-9-20-next-day",
+      "country": "korea",
+      "date": "2026-10-13",
+      "operator": "Korail",
+      "service": "무궁화 1287",
+      "trainType": "무궁화",
+      "origin": "Janghang",
+      "destination": "Iksan",
+      "departureTime": "00:05",
+      "arrivalTime": "00:30",
+      "durationMinutes": 25,
+      "direct": true,
+      "stops": [
+        "Janghang",
+        "Gunsan",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Janghang",
+          "destination": "Gunsan",
+          "departureTime": "00:05",
+          "arrivalTime": "00:12",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1287",
+          "lineCode": "장항선",
+          "mode": "train",
+          "origin": "Gunsan",
+          "destination": "Iksan",
+          "departureTime": "00:12",
+          "arrivalTime": "00:30",
+          "durationMinutes": 18
+        }
+      ]
+    }
+  ],
+  "sourceMeta": {
+    "sourceId": "kr-korail-timetable-xlsx",
+    "sourceType": "official-download",
+    "sourceTier": "A",
+    "sourceName": "Korail official KTX and regular train timetables",
+    "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
+    "provider": "Korail",
+    "country": "korea",
+    "fetchedAt": "2026-10-05T07:42:33.951Z",
+    "verified": true,
+    "completeness": "full-timetable",
+    "artifactVersion": 2
+  },
+  "provenance": "official"
+}
