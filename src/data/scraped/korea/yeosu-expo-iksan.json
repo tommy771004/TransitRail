@@ -1,25 +1,23 @@
 {
   "origin": "Yeosu-Expo",
   "destination": "Iksan",
-  "date": "2026-10-07..2026-10-13",
-  "scrapedAt": "2026-10-05T07:42:34.221Z",
+  "date": "2026-10-08..2026-10-16",
+  "scrapedAt": "2026-10-08T01:25:49.979Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 10. 1. 기준)",
-      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/23/202609231a0cb38a2c5200.xlsx",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10bacb336520.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-05T07:42:31.471Z",
-      "sha256": "eaadc99d90aa9fb4e009ca74d812cc4aa4885a7aee98950adc715dca6c0ad623",
-      "exclusions": [
-        "Korail excluded 호남선 450: times run backwards at Gwangmyeong"
-      ]
+      "retrievedAt": "2026-10-08T01:25:46.564Z",
+      "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
+      "exclusions": []
     },
     {
       "title": "일반열차 시간표(2026. 10. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10a842d5b580.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-05T07:42:32.269Z",
+      "retrievedAt": "2026-10-08T01:25:47.426Z",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
@@ -35,628 +33,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-10-07-regular-전라선-54-2",
-      "country": "korea",
-      "date": "2026-10-07",
-      "operator": "Korail",
-      "service": "ITX-마음 1522",
-      "trainType": "ITX-마음",
-      "origin": "Yeosu-Expo",
-      "destination": "Iksan",
-      "departureTime": "06:13",
-      "arrivalTime": "08:09",
-      "durationMinutes": 116,
-      "direct": true,
-      "stops": [
-        "Yeosu-Expo",
-        "Yeocheon",
-        "Suncheon",
-        "Guryegu",
-        "Gokseong",
-        "Namwon",
-        "Osu",
-        "Imsil",
-        "Jeonju",
-        "Samnye",
-        "Iksan"
-      ],
-      "headsign": "Iksan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1522",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yeosu-Expo",
-          "destination": "Yeocheon",
-          "departureTime": "06:13",
-          "arrivalTime": "06:21",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "ITX-마음 1522",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yeocheon",
-          "destination": "Suncheon",
-          "departureTime": "06:21",
-          "arrivalTime": "06:36",
-          "durationMinutes": 15
-        },
-        {
-          "lineName": "ITX-마음 1522",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Suncheon",
-          "destination": "Guryegu",
-          "departureTime": "06:36",
-          "arrivalTime": "06:52",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "ITX-마음 1522",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Guryegu",
-          "destination": "Gokseong",
-          "departureTime": "06:52",
-          "arrivalTime": "07:04",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "ITX-마음 1522",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Gokseong",
-          "destination": "Namwon",
-          "departureTime": "07:04",
-          "arrivalTime": "07:15",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "ITX-마음 1522",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Namwon",
-          "destination": "Osu",
-          "departureTime": "07:15",
-          "arrivalTime": "07:25",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1522",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Osu",
-          "destination": "Imsil",
-          "departureTime": "07:25",
-          "arrivalTime": "07:33",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "ITX-마음 1522",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Imsil",
-          "destination": "Jeonju",
-          "departureTime": "07:33",
-          "arrivalTime": "07:49",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "ITX-마음 1522",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Jeonju",
-          "destination": "Samnye",
-          "departureTime": "07:49",
-          "arrivalTime": "07:58",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "ITX-마음 1522",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Samnye",
-          "destination": "Iksan",
-          "departureTime": "07:58",
-          "arrivalTime": "08:09",
-          "durationMinutes": 11
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-07-regular-전라선-54-5",
-      "country": "korea",
-      "date": "2026-10-07",
-      "operator": "Korail",
-      "service": "ITX-마음 1524",
-      "trainType": "ITX-마음",
-      "origin": "Yeosu-Expo",
-      "destination": "Iksan",
-      "departureTime": "09:51",
-      "arrivalTime": "11:48",
-      "durationMinutes": 117,
-      "direct": true,
-      "stops": [
-        "Yeosu-Expo",
-        "Yeocheon",
-        "Suncheon",
-        "Guryegu",
-        "Gokseong",
-        "Namwon",
-        "Osu",
-        "Imsil",
-        "Jeonju",
-        "Samnye",
-        "Iksan"
-      ],
-      "headsign": "Iksan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1524",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yeosu-Expo",
-          "destination": "Yeocheon",
-          "departureTime": "09:51",
-          "arrivalTime": "09:59",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "ITX-마음 1524",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yeocheon",
-          "destination": "Suncheon",
-          "departureTime": "09:59",
-          "arrivalTime": "10:13",
-          "durationMinutes": 14
-        },
-        {
-          "lineName": "ITX-마음 1524",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Suncheon",
-          "destination": "Guryegu",
-          "departureTime": "10:13",
-          "arrivalTime": "10:28",
-          "durationMinutes": 15
-        },
-        {
-          "lineName": "ITX-마음 1524",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Guryegu",
-          "destination": "Gokseong",
-          "departureTime": "10:28",
-          "arrivalTime": "10:41",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1524",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Gokseong",
-          "destination": "Namwon",
-          "departureTime": "10:41",
-          "arrivalTime": "10:52",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "ITX-마음 1524",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Namwon",
-          "destination": "Osu",
-          "departureTime": "10:52",
-          "arrivalTime": "11:03",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "ITX-마음 1524",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Osu",
-          "destination": "Imsil",
-          "departureTime": "11:03",
-          "arrivalTime": "11:12",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "ITX-마음 1524",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Imsil",
-          "destination": "Jeonju",
-          "departureTime": "11:12",
-          "arrivalTime": "11:29",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "ITX-마음 1524",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Jeonju",
-          "destination": "Samnye",
-          "departureTime": "11:29",
-          "arrivalTime": "11:38",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "ITX-마음 1524",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Samnye",
-          "destination": "Iksan",
-          "departureTime": "11:38",
-          "arrivalTime": "11:48",
-          "durationMinutes": 10
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-07-regular-전라선-54-11",
-      "country": "korea",
-      "date": "2026-10-07",
-      "operator": "Korail",
-      "service": "ITX-마음 1526",
-      "trainType": "ITX-마음",
-      "origin": "Yeosu-Expo",
-      "destination": "Iksan",
-      "departureTime": "17:40",
-      "arrivalTime": "19:36",
-      "durationMinutes": 116,
-      "direct": true,
-      "stops": [
-        "Yeosu-Expo",
-        "Yeocheon",
-        "Suncheon",
-        "Guryegu",
-        "Gokseong",
-        "Namwon",
-        "Osu",
-        "Imsil",
-        "Jeonju",
-        "Samnye",
-        "Iksan"
-      ],
-      "headsign": "Iksan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1526",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yeosu-Expo",
-          "destination": "Yeocheon",
-          "departureTime": "17:40",
-          "arrivalTime": "17:48",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "ITX-마음 1526",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yeocheon",
-          "destination": "Suncheon",
-          "departureTime": "17:48",
-          "arrivalTime": "18:03",
-          "durationMinutes": 15
-        },
-        {
-          "lineName": "ITX-마음 1526",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Suncheon",
-          "destination": "Guryegu",
-          "departureTime": "18:03",
-          "arrivalTime": "18:19",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "ITX-마음 1526",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Guryegu",
-          "destination": "Gokseong",
-          "departureTime": "18:19",
-          "arrivalTime": "18:31",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "ITX-마음 1526",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Gokseong",
-          "destination": "Namwon",
-          "departureTime": "18:31",
-          "arrivalTime": "18:42",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "ITX-마음 1526",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Namwon",
-          "destination": "Osu",
-          "departureTime": "18:42",
-          "arrivalTime": "18:52",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1526",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Osu",
-          "destination": "Imsil",
-          "departureTime": "18:52",
-          "arrivalTime": "19:00",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "ITX-마음 1526",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Imsil",
-          "destination": "Jeonju",
-          "departureTime": "19:00",
-          "arrivalTime": "19:16",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "ITX-마음 1526",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Jeonju",
-          "destination": "Samnye",
-          "departureTime": "19:16",
-          "arrivalTime": "19:25",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "ITX-마음 1526",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Samnye",
-          "destination": "Iksan",
-          "departureTime": "19:25",
-          "arrivalTime": "19:36",
-          "durationMinutes": 11
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-07-regular-전라선-54-14",
-      "country": "korea",
-      "date": "2026-10-07",
-      "operator": "Korail",
-      "service": "ITX-마음 1528",
-      "trainType": "ITX-마음",
-      "origin": "Yeosu-Expo",
-      "destination": "Iksan",
-      "departureTime": "21:00",
-      "arrivalTime": "23:00",
-      "durationMinutes": 120,
-      "direct": true,
-      "stops": [
-        "Yeosu-Expo",
-        "Yeocheon",
-        "Suncheon",
-        "Guryegu",
-        "Gokseong",
-        "Namwon",
-        "Osu",
-        "Imsil",
-        "Jeonju",
-        "Samnye",
-        "Iksan"
-      ],
-      "headsign": "Iksan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1528",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yeosu-Expo",
-          "destination": "Yeocheon",
-          "departureTime": "21:00",
-          "arrivalTime": "21:08",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "ITX-마음 1528",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yeocheon",
-          "destination": "Suncheon",
-          "departureTime": "21:08",
-          "arrivalTime": "21:24",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "ITX-마음 1528",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Suncheon",
-          "destination": "Guryegu",
-          "departureTime": "21:24",
-          "arrivalTime": "21:41",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "ITX-마음 1528",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Guryegu",
-          "destination": "Gokseong",
-          "departureTime": "21:41",
-          "arrivalTime": "21:53",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "ITX-마음 1528",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Gokseong",
-          "destination": "Namwon",
-          "departureTime": "21:53",
-          "arrivalTime": "22:04",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "ITX-마음 1528",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Namwon",
-          "destination": "Osu",
-          "departureTime": "22:04",
-          "arrivalTime": "22:15",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "ITX-마음 1528",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Osu",
-          "destination": "Imsil",
-          "departureTime": "22:15",
-          "arrivalTime": "22:23",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "ITX-마음 1528",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Imsil",
-          "destination": "Jeonju",
-          "departureTime": "22:23",
-          "arrivalTime": "22:41",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "ITX-마음 1528",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Jeonju",
-          "destination": "Samnye",
-          "departureTime": "22:41",
-          "arrivalTime": "22:50",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "ITX-마음 1528",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Samnye",
-          "destination": "Iksan",
-          "departureTime": "22:50",
-          "arrivalTime": "23:00",
-          "durationMinutes": 10
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-07-regular-전라선-54-15",
-      "country": "korea",
-      "date": "2026-10-07",
-      "operator": "Korail",
-      "service": "ITX-마음 1530",
-      "trainType": "ITX-마음",
-      "origin": "Yeosu-Expo",
-      "destination": "Iksan",
-      "departureTime": "22:40",
-      "arrivalTime": "24:30",
-      "durationMinutes": 110,
-      "direct": true,
-      "stops": [
-        "Yeosu-Expo",
-        "Yeocheon",
-        "Suncheon",
-        "Guryegu",
-        "Gokseong",
-        "Namwon",
-        "Jeonju",
-        "Iksan"
-      ],
-      "headsign": "Iksan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1530",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yeosu-Expo",
-          "destination": "Yeocheon",
-          "departureTime": "22:40",
-          "arrivalTime": "22:48",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "ITX-마음 1530",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yeocheon",
-          "destination": "Suncheon",
-          "departureTime": "22:48",
-          "arrivalTime": "23:04",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "ITX-마음 1530",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Suncheon",
-          "destination": "Guryegu",
-          "departureTime": "23:04",
-          "arrivalTime": "23:21",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "ITX-마음 1530",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Guryegu",
-          "destination": "Gokseong",
-          "departureTime": "23:21",
-          "arrivalTime": "23:33",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "ITX-마음 1530",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Gokseong",
-          "destination": "Namwon",
-          "departureTime": "23:33",
-          "arrivalTime": "23:44",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "ITX-마음 1530",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Namwon",
-          "destination": "Jeonju",
-          "departureTime": "23:44",
-          "arrivalTime": "24:15",
-          "durationMinutes": 31
-        },
-        {
-          "lineName": "ITX-마음 1530",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Jeonju",
-          "destination": "Iksan",
-          "departureTime": "24:15",
-          "arrivalTime": "24:30",
-          "durationMinutes": 15
-        }
-      ]
-    },
     {
       "id": "korail-2026-10-08-regular-전라선-54-2",
       "country": "korea",
@@ -4388,6 +3764,1872 @@
           "durationMinutes": 15
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-14-regular-전라선-54-2",
+      "country": "korea",
+      "date": "2026-10-14",
+      "operator": "Korail",
+      "service": "ITX-마음 1522",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "06:13",
+      "arrivalTime": "08:09",
+      "durationMinutes": 116,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Osu",
+        "Imsil",
+        "Jeonju",
+        "Samnye",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "06:13",
+          "arrivalTime": "06:21",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "06:21",
+          "arrivalTime": "06:36",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "06:36",
+          "arrivalTime": "06:52",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "06:52",
+          "arrivalTime": "07:04",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "07:04",
+          "arrivalTime": "07:15",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Osu",
+          "departureTime": "07:15",
+          "arrivalTime": "07:25",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osu",
+          "destination": "Imsil",
+          "departureTime": "07:25",
+          "arrivalTime": "07:33",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Imsil",
+          "destination": "Jeonju",
+          "departureTime": "07:33",
+          "arrivalTime": "07:49",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Samnye",
+          "departureTime": "07:49",
+          "arrivalTime": "07:58",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Samnye",
+          "destination": "Iksan",
+          "departureTime": "07:58",
+          "arrivalTime": "08:09",
+          "durationMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-14-regular-전라선-54-5",
+      "country": "korea",
+      "date": "2026-10-14",
+      "operator": "Korail",
+      "service": "ITX-마음 1524",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "09:51",
+      "arrivalTime": "11:48",
+      "durationMinutes": 117,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Osu",
+        "Imsil",
+        "Jeonju",
+        "Samnye",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "09:51",
+          "arrivalTime": "09:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "09:59",
+          "arrivalTime": "10:13",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "10:13",
+          "arrivalTime": "10:28",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "10:28",
+          "arrivalTime": "10:41",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "10:41",
+          "arrivalTime": "10:52",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Osu",
+          "departureTime": "10:52",
+          "arrivalTime": "11:03",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osu",
+          "destination": "Imsil",
+          "departureTime": "11:03",
+          "arrivalTime": "11:12",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Imsil",
+          "destination": "Jeonju",
+          "departureTime": "11:12",
+          "arrivalTime": "11:29",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Samnye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:38",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Samnye",
+          "destination": "Iksan",
+          "departureTime": "11:38",
+          "arrivalTime": "11:48",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-14-regular-전라선-54-11",
+      "country": "korea",
+      "date": "2026-10-14",
+      "operator": "Korail",
+      "service": "ITX-마음 1526",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "17:40",
+      "arrivalTime": "19:36",
+      "durationMinutes": 116,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Osu",
+        "Imsil",
+        "Jeonju",
+        "Samnye",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "17:40",
+          "arrivalTime": "17:48",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "17:48",
+          "arrivalTime": "18:03",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "18:03",
+          "arrivalTime": "18:19",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "18:19",
+          "arrivalTime": "18:31",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "18:31",
+          "arrivalTime": "18:42",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Osu",
+          "departureTime": "18:42",
+          "arrivalTime": "18:52",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osu",
+          "destination": "Imsil",
+          "departureTime": "18:52",
+          "arrivalTime": "19:00",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Imsil",
+          "destination": "Jeonju",
+          "departureTime": "19:00",
+          "arrivalTime": "19:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Samnye",
+          "departureTime": "19:16",
+          "arrivalTime": "19:25",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Samnye",
+          "destination": "Iksan",
+          "departureTime": "19:25",
+          "arrivalTime": "19:36",
+          "durationMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-14-regular-전라선-54-14",
+      "country": "korea",
+      "date": "2026-10-14",
+      "operator": "Korail",
+      "service": "ITX-마음 1528",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "21:00",
+      "arrivalTime": "23:00",
+      "durationMinutes": 120,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Osu",
+        "Imsil",
+        "Jeonju",
+        "Samnye",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "21:00",
+          "arrivalTime": "21:08",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "21:08",
+          "arrivalTime": "21:24",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "21:24",
+          "arrivalTime": "21:41",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "21:41",
+          "arrivalTime": "21:53",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "21:53",
+          "arrivalTime": "22:04",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Osu",
+          "departureTime": "22:04",
+          "arrivalTime": "22:15",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osu",
+          "destination": "Imsil",
+          "departureTime": "22:15",
+          "arrivalTime": "22:23",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Imsil",
+          "destination": "Jeonju",
+          "departureTime": "22:23",
+          "arrivalTime": "22:41",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Samnye",
+          "departureTime": "22:41",
+          "arrivalTime": "22:50",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Samnye",
+          "destination": "Iksan",
+          "departureTime": "22:50",
+          "arrivalTime": "23:00",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-14-regular-전라선-54-15",
+      "country": "korea",
+      "date": "2026-10-14",
+      "operator": "Korail",
+      "service": "ITX-마음 1530",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "22:40",
+      "arrivalTime": "24:30",
+      "durationMinutes": 110,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Jeonju",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "22:40",
+          "arrivalTime": "22:48",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "22:48",
+          "arrivalTime": "23:04",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "23:04",
+          "arrivalTime": "23:21",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "23:21",
+          "arrivalTime": "23:33",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "23:33",
+          "arrivalTime": "23:44",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Jeonju",
+          "departureTime": "23:44",
+          "arrivalTime": "24:15",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Iksan",
+          "departureTime": "24:15",
+          "arrivalTime": "24:30",
+          "durationMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-15-regular-전라선-54-2",
+      "country": "korea",
+      "date": "2026-10-15",
+      "operator": "Korail",
+      "service": "ITX-마음 1522",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "06:13",
+      "arrivalTime": "08:09",
+      "durationMinutes": 116,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Osu",
+        "Imsil",
+        "Jeonju",
+        "Samnye",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "06:13",
+          "arrivalTime": "06:21",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "06:21",
+          "arrivalTime": "06:36",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "06:36",
+          "arrivalTime": "06:52",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "06:52",
+          "arrivalTime": "07:04",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "07:04",
+          "arrivalTime": "07:15",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Osu",
+          "departureTime": "07:15",
+          "arrivalTime": "07:25",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osu",
+          "destination": "Imsil",
+          "departureTime": "07:25",
+          "arrivalTime": "07:33",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Imsil",
+          "destination": "Jeonju",
+          "departureTime": "07:33",
+          "arrivalTime": "07:49",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Samnye",
+          "departureTime": "07:49",
+          "arrivalTime": "07:58",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Samnye",
+          "destination": "Iksan",
+          "departureTime": "07:58",
+          "arrivalTime": "08:09",
+          "durationMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-15-regular-전라선-54-5",
+      "country": "korea",
+      "date": "2026-10-15",
+      "operator": "Korail",
+      "service": "ITX-마음 1524",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "09:51",
+      "arrivalTime": "11:48",
+      "durationMinutes": 117,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Osu",
+        "Imsil",
+        "Jeonju",
+        "Samnye",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "09:51",
+          "arrivalTime": "09:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "09:59",
+          "arrivalTime": "10:13",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "10:13",
+          "arrivalTime": "10:28",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "10:28",
+          "arrivalTime": "10:41",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "10:41",
+          "arrivalTime": "10:52",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Osu",
+          "departureTime": "10:52",
+          "arrivalTime": "11:03",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osu",
+          "destination": "Imsil",
+          "departureTime": "11:03",
+          "arrivalTime": "11:12",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Imsil",
+          "destination": "Jeonju",
+          "departureTime": "11:12",
+          "arrivalTime": "11:29",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Samnye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:38",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Samnye",
+          "destination": "Iksan",
+          "departureTime": "11:38",
+          "arrivalTime": "11:48",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-15-regular-전라선-54-11",
+      "country": "korea",
+      "date": "2026-10-15",
+      "operator": "Korail",
+      "service": "ITX-마음 1526",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "17:40",
+      "arrivalTime": "19:36",
+      "durationMinutes": 116,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Osu",
+        "Imsil",
+        "Jeonju",
+        "Samnye",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "17:40",
+          "arrivalTime": "17:48",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "17:48",
+          "arrivalTime": "18:03",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "18:03",
+          "arrivalTime": "18:19",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "18:19",
+          "arrivalTime": "18:31",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "18:31",
+          "arrivalTime": "18:42",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Osu",
+          "departureTime": "18:42",
+          "arrivalTime": "18:52",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osu",
+          "destination": "Imsil",
+          "departureTime": "18:52",
+          "arrivalTime": "19:00",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Imsil",
+          "destination": "Jeonju",
+          "departureTime": "19:00",
+          "arrivalTime": "19:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Samnye",
+          "departureTime": "19:16",
+          "arrivalTime": "19:25",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Samnye",
+          "destination": "Iksan",
+          "departureTime": "19:25",
+          "arrivalTime": "19:36",
+          "durationMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-15-regular-전라선-54-14",
+      "country": "korea",
+      "date": "2026-10-15",
+      "operator": "Korail",
+      "service": "ITX-마음 1528",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "21:00",
+      "arrivalTime": "23:00",
+      "durationMinutes": 120,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Osu",
+        "Imsil",
+        "Jeonju",
+        "Samnye",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "21:00",
+          "arrivalTime": "21:08",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "21:08",
+          "arrivalTime": "21:24",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "21:24",
+          "arrivalTime": "21:41",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "21:41",
+          "arrivalTime": "21:53",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "21:53",
+          "arrivalTime": "22:04",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Osu",
+          "departureTime": "22:04",
+          "arrivalTime": "22:15",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osu",
+          "destination": "Imsil",
+          "departureTime": "22:15",
+          "arrivalTime": "22:23",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Imsil",
+          "destination": "Jeonju",
+          "departureTime": "22:23",
+          "arrivalTime": "22:41",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Samnye",
+          "departureTime": "22:41",
+          "arrivalTime": "22:50",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Samnye",
+          "destination": "Iksan",
+          "departureTime": "22:50",
+          "arrivalTime": "23:00",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-15-regular-전라선-54-15",
+      "country": "korea",
+      "date": "2026-10-15",
+      "operator": "Korail",
+      "service": "ITX-마음 1530",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "22:40",
+      "arrivalTime": "24:30",
+      "durationMinutes": 110,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Jeonju",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "22:40",
+          "arrivalTime": "22:48",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "22:48",
+          "arrivalTime": "23:04",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "23:04",
+          "arrivalTime": "23:21",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "23:21",
+          "arrivalTime": "23:33",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "23:33",
+          "arrivalTime": "23:44",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Jeonju",
+          "departureTime": "23:44",
+          "arrivalTime": "24:15",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Iksan",
+          "departureTime": "24:15",
+          "arrivalTime": "24:30",
+          "durationMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-16-regular-전라선-54-2",
+      "country": "korea",
+      "date": "2026-10-16",
+      "operator": "Korail",
+      "service": "ITX-마음 1522",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "06:13",
+      "arrivalTime": "08:09",
+      "durationMinutes": 116,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Osu",
+        "Imsil",
+        "Jeonju",
+        "Samnye",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "06:13",
+          "arrivalTime": "06:21",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "06:21",
+          "arrivalTime": "06:36",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "06:36",
+          "arrivalTime": "06:52",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "06:52",
+          "arrivalTime": "07:04",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "07:04",
+          "arrivalTime": "07:15",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Osu",
+          "departureTime": "07:15",
+          "arrivalTime": "07:25",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osu",
+          "destination": "Imsil",
+          "departureTime": "07:25",
+          "arrivalTime": "07:33",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Imsil",
+          "destination": "Jeonju",
+          "departureTime": "07:33",
+          "arrivalTime": "07:49",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Samnye",
+          "departureTime": "07:49",
+          "arrivalTime": "07:58",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1522",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Samnye",
+          "destination": "Iksan",
+          "departureTime": "07:58",
+          "arrivalTime": "08:09",
+          "durationMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-16-regular-전라선-54-5",
+      "country": "korea",
+      "date": "2026-10-16",
+      "operator": "Korail",
+      "service": "ITX-마음 1524",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "09:51",
+      "arrivalTime": "11:48",
+      "durationMinutes": 117,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Osu",
+        "Imsil",
+        "Jeonju",
+        "Samnye",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "09:51",
+          "arrivalTime": "09:59",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "09:59",
+          "arrivalTime": "10:13",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "10:13",
+          "arrivalTime": "10:28",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "10:28",
+          "arrivalTime": "10:41",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "10:41",
+          "arrivalTime": "10:52",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Osu",
+          "departureTime": "10:52",
+          "arrivalTime": "11:03",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osu",
+          "destination": "Imsil",
+          "departureTime": "11:03",
+          "arrivalTime": "11:12",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Imsil",
+          "destination": "Jeonju",
+          "departureTime": "11:12",
+          "arrivalTime": "11:29",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Samnye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:38",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1524",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Samnye",
+          "destination": "Iksan",
+          "departureTime": "11:38",
+          "arrivalTime": "11:48",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-16-regular-전라선-54-11",
+      "country": "korea",
+      "date": "2026-10-16",
+      "operator": "Korail",
+      "service": "ITX-마음 1526",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "17:40",
+      "arrivalTime": "19:36",
+      "durationMinutes": 116,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Osu",
+        "Imsil",
+        "Jeonju",
+        "Samnye",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "17:40",
+          "arrivalTime": "17:48",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "17:48",
+          "arrivalTime": "18:03",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "18:03",
+          "arrivalTime": "18:19",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "18:19",
+          "arrivalTime": "18:31",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "18:31",
+          "arrivalTime": "18:42",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Osu",
+          "departureTime": "18:42",
+          "arrivalTime": "18:52",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osu",
+          "destination": "Imsil",
+          "departureTime": "18:52",
+          "arrivalTime": "19:00",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Imsil",
+          "destination": "Jeonju",
+          "departureTime": "19:00",
+          "arrivalTime": "19:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Samnye",
+          "departureTime": "19:16",
+          "arrivalTime": "19:25",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1526",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Samnye",
+          "destination": "Iksan",
+          "departureTime": "19:25",
+          "arrivalTime": "19:36",
+          "durationMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-16-regular-전라선-54-14",
+      "country": "korea",
+      "date": "2026-10-16",
+      "operator": "Korail",
+      "service": "ITX-마음 1528",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "21:00",
+      "arrivalTime": "23:00",
+      "durationMinutes": 120,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Osu",
+        "Imsil",
+        "Jeonju",
+        "Samnye",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "21:00",
+          "arrivalTime": "21:08",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "21:08",
+          "arrivalTime": "21:24",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "21:24",
+          "arrivalTime": "21:41",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "21:41",
+          "arrivalTime": "21:53",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "21:53",
+          "arrivalTime": "22:04",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Osu",
+          "departureTime": "22:04",
+          "arrivalTime": "22:15",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osu",
+          "destination": "Imsil",
+          "departureTime": "22:15",
+          "arrivalTime": "22:23",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Imsil",
+          "destination": "Jeonju",
+          "departureTime": "22:23",
+          "arrivalTime": "22:41",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Samnye",
+          "departureTime": "22:41",
+          "arrivalTime": "22:50",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1528",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Samnye",
+          "destination": "Iksan",
+          "departureTime": "22:50",
+          "arrivalTime": "23:00",
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-16-regular-전라선-54-15",
+      "country": "korea",
+      "date": "2026-10-16",
+      "operator": "Korail",
+      "service": "ITX-마음 1530",
+      "trainType": "ITX-마음",
+      "origin": "Yeosu-Expo",
+      "destination": "Iksan",
+      "departureTime": "22:40",
+      "arrivalTime": "24:30",
+      "durationMinutes": 110,
+      "direct": true,
+      "stops": [
+        "Yeosu-Expo",
+        "Yeocheon",
+        "Suncheon",
+        "Guryegu",
+        "Gokseong",
+        "Namwon",
+        "Jeonju",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeosu-Expo",
+          "destination": "Yeocheon",
+          "departureTime": "22:40",
+          "arrivalTime": "22:48",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Suncheon",
+          "departureTime": "22:48",
+          "arrivalTime": "23:04",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Guryegu",
+          "departureTime": "23:04",
+          "arrivalTime": "23:21",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Guryegu",
+          "destination": "Gokseong",
+          "departureTime": "23:21",
+          "arrivalTime": "23:33",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gokseong",
+          "destination": "Namwon",
+          "departureTime": "23:33",
+          "arrivalTime": "23:44",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Namwon",
+          "destination": "Jeonju",
+          "departureTime": "23:44",
+          "arrivalTime": "24:15",
+          "durationMinutes": 31
+        },
+        {
+          "lineName": "ITX-마음 1530",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Iksan",
+          "departureTime": "24:15",
+          "arrivalTime": "24:30",
+          "durationMinutes": 15
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -4398,7 +5640,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-05T07:42:33.950Z",
+    "fetchedAt": "2026-10-08T01:25:49.728Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

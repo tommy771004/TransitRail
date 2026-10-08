@@ -4,9 +4,9 @@
   "source": "MTR official service hours",
   "sourceUrl": "https://www.mtr.com.hk/en/customer/services/service_hours_search.php",
   "timezone": "Asia/Hong_Kong",
-  "retrievedAt": "2026-10-07T01:05:55.118Z",
+  "retrievedAt": "2026-10-08T01:25:45.842Z",
   "validFrom": "2026-08-02",
-  "validTo": "2026-10-07",
+  "validTo": "2026-10-08",
   "routes": {
     "admiralty->tsim sha tsui": {
       "2026-08-02": {
@@ -1220,6 +1220,34 @@
         ],
         "note": "MTR publishes one first/last train per direction, not a departure timetable and not a separate set per service day. Frequency is the operator's published headway.",
         "minutesToLastDeparture": 951
+      },
+      "2026-10-08": {
+        "coverage": "partial",
+        "serviceDate": "2026-10-08",
+        "timezone": "Asia/Hong_Kong",
+        "serviceDayType": "weekday",
+        "firstDeparture": "06:07",
+        "lastDeparture": "00:56",
+        "risk": "safe",
+        "source": "MTR official service hours",
+        "sourceUrl": "https://www.mtr.com.hk/en/customer/services/service_hours_search.php",
+        "checkedAt": "2026-10-08T01:25:44.521Z",
+        "frequency": [
+          {
+            "label": "Weekday morning peak",
+            "minutes": "2.1"
+          },
+          {
+            "label": "Weekday evening peak",
+            "minutes": "2.1"
+          },
+          {
+            "label": "Weekday off-peak",
+            "minutes": "3.5-5"
+          }
+        ],
+        "note": "MTR publishes one first/last train per direction, not a departure timetable and not a separate set per service day. Frequency is the operator's published headway.",
+        "minutesToLastDeparture": 931
       }
     },
     "central->tsuen wan": {
@@ -2434,6 +2462,34 @@
         ],
         "note": "MTR publishes one first/last train per direction, not a departure timetable and not a separate set per service day. Frequency is the operator's published headway.",
         "minutesToLastDeparture": 949
+      },
+      "2026-10-08": {
+        "coverage": "partial",
+        "serviceDate": "2026-10-08",
+        "timezone": "Asia/Hong_Kong",
+        "serviceDayType": "weekday",
+        "firstDeparture": "06:06",
+        "lastDeparture": "00:54",
+        "risk": "safe",
+        "source": "MTR official service hours",
+        "sourceUrl": "https://www.mtr.com.hk/en/customer/services/service_hours_search.php",
+        "checkedAt": "2026-10-08T01:25:45.368Z",
+        "frequency": [
+          {
+            "label": "Weekday morning peak",
+            "minutes": "2.1"
+          },
+          {
+            "label": "Weekday evening peak",
+            "minutes": "2.1"
+          },
+          {
+            "label": "Weekday off-peak",
+            "minutes": "3.5-5"
+          }
+        ],
+        "note": "MTR publishes one first/last train per direction, not a departure timetable and not a separate set per service day. Frequency is the operator's published headway.",
+        "minutesToLastDeparture": 929
       }
     },
     "tung chung->sunny bay": {
@@ -3648,6 +3704,34 @@
         ],
         "note": "MTR publishes one first/last train per direction, not a departure timetable and not a separate set per service day. Frequency is the operator's published headway.",
         "minutesToLastDeparture": 938
+      },
+      "2026-10-08": {
+        "coverage": "partial",
+        "serviceDate": "2026-10-08",
+        "timezone": "Asia/Hong_Kong",
+        "serviceDayType": "weekday",
+        "firstDeparture": "06:02",
+        "lastDeparture": "00:43",
+        "risk": "safe",
+        "source": "MTR official service hours",
+        "sourceUrl": "https://www.mtr.com.hk/en/customer/services/service_hours_search.php",
+        "checkedAt": "2026-10-08T01:25:45.842Z",
+        "frequency": [
+          {
+            "label": "Weekday morning peak",
+            "minutes": "6-8"
+          },
+          {
+            "label": "Weekday evening peak",
+            "minutes": "4-9"
+          },
+          {
+            "label": "Weekday off-peak",
+            "minutes": "7-10"
+          }
+        ],
+        "note": "MTR publishes one first/last train per direction, not a departure timetable and not a separate set per service day. Frequency is the operator's published headway.",
+        "minutesToLastDeparture": 918
       }
     }
   }

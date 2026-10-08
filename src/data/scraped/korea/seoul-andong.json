@@ -1,25 +1,23 @@
 {
   "origin": "Seoul",
   "destination": "Andong",
-  "date": "2026-10-07..2026-10-13",
-  "scrapedAt": "2026-10-05T07:42:34.177Z",
+  "date": "2026-10-08..2026-10-16",
+  "scrapedAt": "2026-10-08T01:25:49.938Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 10. 1. 기준)",
-      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/23/202609231a0cb38a2c5200.xlsx",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10bacb336520.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-05T07:42:31.471Z",
-      "sha256": "eaadc99d90aa9fb4e009ca74d812cc4aa4885a7aee98950adc715dca6c0ad623",
-      "exclusions": [
-        "Korail excluded 호남선 450: times run backwards at Gwangmyeong"
-      ]
+      "retrievedAt": "2026-10-08T01:25:46.564Z",
+      "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
+      "exclusions": []
     },
     {
       "title": "일반열차 시간표(2026. 10. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10a842d5b580.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-05T07:42:32.269Z",
+      "retrievedAt": "2026-10-08T01:25:47.426Z",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
@@ -35,115 +33,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-10-07-ktx-중앙선-21-2",
-      "country": "korea",
-      "date": "2026-10-07",
-      "operator": "Korail",
-      "service": "KTX-이음 719",
-      "trainType": "KTX-이음",
-      "origin": "Seoul",
-      "destination": "Andong",
-      "departureTime": "21:31",
-      "arrivalTime": "23:51",
-      "durationMinutes": 140,
-      "direct": true,
-      "stops": [
-        "Seoul",
-        "Cheongnyangni",
-        "Yangpyeong",
-        "Seowonju",
-        "Wonju",
-        "Jecheon",
-        "Punggi",
-        "Yeongju",
-        "Andong"
-      ],
-      "headsign": "Andong",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-이음 719",
-          "lineCode": "중앙선",
-          "mode": "train",
-          "origin": "Seoul",
-          "destination": "Cheongnyangni",
-          "departureTime": "21:31",
-          "arrivalTime": "21:52",
-          "durationMinutes": 21
-        },
-        {
-          "lineName": "KTX-이음 719",
-          "lineCode": "중앙선",
-          "mode": "train",
-          "origin": "Cheongnyangni",
-          "destination": "Yangpyeong",
-          "departureTime": "21:52",
-          "arrivalTime": "22:18",
-          "durationMinutes": 26
-        },
-        {
-          "lineName": "KTX-이음 719",
-          "lineCode": "중앙선",
-          "mode": "train",
-          "origin": "Yangpyeong",
-          "destination": "Seowonju",
-          "departureTime": "22:18",
-          "arrivalTime": "22:42",
-          "durationMinutes": 24
-        },
-        {
-          "lineName": "KTX-이음 719",
-          "lineCode": "중앙선",
-          "mode": "train",
-          "origin": "Seowonju",
-          "destination": "Wonju",
-          "departureTime": "22:42",
-          "arrivalTime": "22:49",
-          "durationMinutes": 7
-        },
-        {
-          "lineName": "KTX-이음 719",
-          "lineCode": "중앙선",
-          "mode": "train",
-          "origin": "Wonju",
-          "destination": "Jecheon",
-          "departureTime": "22:49",
-          "arrivalTime": "23:06",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "KTX-이음 719",
-          "lineCode": "중앙선",
-          "mode": "train",
-          "origin": "Jecheon",
-          "destination": "Punggi",
-          "departureTime": "23:06",
-          "arrivalTime": "23:28",
-          "durationMinutes": 22
-        },
-        {
-          "lineName": "KTX-이음 719",
-          "lineCode": "중앙선",
-          "mode": "train",
-          "origin": "Punggi",
-          "destination": "Yeongju",
-          "departureTime": "23:28",
-          "arrivalTime": "23:37",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "KTX-이음 719",
-          "lineCode": "중앙선",
-          "mode": "train",
-          "origin": "Yeongju",
-          "destination": "Andong",
-          "departureTime": "23:37",
-          "arrivalTime": "23:51",
-          "durationMinutes": 14
-        }
-      ]
-    },
     {
       "id": "korail-2026-10-08-ktx-중앙선-21-2",
       "country": "korea",
@@ -797,6 +686,333 @@
           "durationMinutes": 14
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-14-ktx-중앙선-21-2",
+      "country": "korea",
+      "date": "2026-10-14",
+      "operator": "Korail",
+      "service": "KTX-이음 719",
+      "trainType": "KTX-이음",
+      "origin": "Seoul",
+      "destination": "Andong",
+      "departureTime": "21:31",
+      "arrivalTime": "23:51",
+      "durationMinutes": 140,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Cheongnyangni",
+        "Yangpyeong",
+        "Seowonju",
+        "Wonju",
+        "Jecheon",
+        "Punggi",
+        "Yeongju",
+        "Andong"
+      ],
+      "headsign": "Andong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Cheongnyangni",
+          "departureTime": "21:31",
+          "arrivalTime": "21:52",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Yangpyeong",
+          "departureTime": "21:52",
+          "arrivalTime": "22:18",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Seowonju",
+          "departureTime": "22:18",
+          "arrivalTime": "22:42",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Wonju",
+          "departureTime": "22:42",
+          "arrivalTime": "22:49",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Jecheon",
+          "departureTime": "22:49",
+          "arrivalTime": "23:06",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Punggi",
+          "departureTime": "23:06",
+          "arrivalTime": "23:28",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Punggi",
+          "destination": "Yeongju",
+          "departureTime": "23:28",
+          "arrivalTime": "23:37",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Andong",
+          "departureTime": "23:37",
+          "arrivalTime": "23:51",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-15-ktx-중앙선-21-2",
+      "country": "korea",
+      "date": "2026-10-15",
+      "operator": "Korail",
+      "service": "KTX-이음 719",
+      "trainType": "KTX-이음",
+      "origin": "Seoul",
+      "destination": "Andong",
+      "departureTime": "21:31",
+      "arrivalTime": "23:51",
+      "durationMinutes": 140,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Cheongnyangni",
+        "Yangpyeong",
+        "Seowonju",
+        "Wonju",
+        "Jecheon",
+        "Punggi",
+        "Yeongju",
+        "Andong"
+      ],
+      "headsign": "Andong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Cheongnyangni",
+          "departureTime": "21:31",
+          "arrivalTime": "21:52",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Yangpyeong",
+          "departureTime": "21:52",
+          "arrivalTime": "22:18",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Seowonju",
+          "departureTime": "22:18",
+          "arrivalTime": "22:42",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Wonju",
+          "departureTime": "22:42",
+          "arrivalTime": "22:49",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Jecheon",
+          "departureTime": "22:49",
+          "arrivalTime": "23:06",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Punggi",
+          "departureTime": "23:06",
+          "arrivalTime": "23:28",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Punggi",
+          "destination": "Yeongju",
+          "departureTime": "23:28",
+          "arrivalTime": "23:37",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Andong",
+          "departureTime": "23:37",
+          "arrivalTime": "23:51",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-16-ktx-중앙선-21-2",
+      "country": "korea",
+      "date": "2026-10-16",
+      "operator": "Korail",
+      "service": "KTX-이음 719",
+      "trainType": "KTX-이음",
+      "origin": "Seoul",
+      "destination": "Andong",
+      "departureTime": "21:31",
+      "arrivalTime": "23:51",
+      "durationMinutes": 140,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Cheongnyangni",
+        "Yangpyeong",
+        "Seowonju",
+        "Wonju",
+        "Jecheon",
+        "Punggi",
+        "Yeongju",
+        "Andong"
+      ],
+      "headsign": "Andong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Cheongnyangni",
+          "departureTime": "21:31",
+          "arrivalTime": "21:52",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Cheongnyangni",
+          "destination": "Yangpyeong",
+          "departureTime": "21:52",
+          "arrivalTime": "22:18",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yangpyeong",
+          "destination": "Seowonju",
+          "departureTime": "22:18",
+          "arrivalTime": "22:42",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Seowonju",
+          "destination": "Wonju",
+          "departureTime": "22:42",
+          "arrivalTime": "22:49",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Wonju",
+          "destination": "Jecheon",
+          "departureTime": "22:49",
+          "arrivalTime": "23:06",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Jecheon",
+          "destination": "Punggi",
+          "departureTime": "23:06",
+          "arrivalTime": "23:28",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Punggi",
+          "destination": "Yeongju",
+          "departureTime": "23:28",
+          "arrivalTime": "23:37",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "KTX-이음 719",
+          "lineCode": "중앙선",
+          "mode": "train",
+          "origin": "Yeongju",
+          "destination": "Andong",
+          "departureTime": "23:37",
+          "arrivalTime": "23:51",
+          "durationMinutes": 14
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -807,7 +1023,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-05T07:42:33.950Z",
+    "fetchedAt": "2026-10-08T01:25:49.728Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

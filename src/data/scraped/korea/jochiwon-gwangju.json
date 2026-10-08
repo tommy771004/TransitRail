@@ -1,25 +1,23 @@
 {
   "origin": "Jochiwon",
   "destination": "Gwangju",
-  "date": "2026-10-07..2026-10-13",
-  "scrapedAt": "2026-10-05T07:42:34.209Z",
+  "date": "2026-10-08..2026-10-16",
+  "scrapedAt": "2026-10-08T01:25:49.967Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 10. 1. 기준)",
-      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/23/202609231a0cb38a2c5200.xlsx",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10bacb336520.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-05T07:42:31.471Z",
-      "sha256": "eaadc99d90aa9fb4e009ca74d812cc4aa4885a7aee98950adc715dca6c0ad623",
-      "exclusions": [
-        "Korail excluded 호남선 450: times run backwards at Gwangmyeong"
-      ]
+      "retrievedAt": "2026-10-08T01:25:46.564Z",
+      "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
+      "exclusions": []
     },
     {
       "title": "일반열차 시간표(2026. 10. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10a842d5b580.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-05T07:42:32.269Z",
+      "retrievedAt": "2026-10-08T01:25:47.426Z",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
@@ -35,126 +33,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-10-07-regular-호남선-9-17",
-      "country": "korea",
-      "date": "2026-10-07",
-      "operator": "Korail",
-      "service": "ITX-마음 1331",
-      "trainType": "ITX-마음",
-      "origin": "Jochiwon",
-      "destination": "Gwangju",
-      "departureTime": "18:56",
-      "arrivalTime": "21:40",
-      "durationMinutes": 164,
-      "direct": true,
-      "stops": [
-        "Jochiwon",
-        "Sintanjin",
-        "Seodaejeon",
-        "Gyeryong",
-        "Nonsan",
-        "Ganggyeong",
-        "Iksan",
-        "Gimje",
-        "Jeongeup",
-        "Gwangju"
-      ],
-      "headsign": "Gwangju",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1331",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jochiwon",
-          "destination": "Sintanjin",
-          "departureTime": "18:56",
-          "arrivalTime": "19:13",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "ITX-마음 1331",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Sintanjin",
-          "destination": "Seodaejeon",
-          "departureTime": "19:13",
-          "arrivalTime": "19:28",
-          "durationMinutes": 15
-        },
-        {
-          "lineName": "ITX-마음 1331",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Seodaejeon",
-          "destination": "Gyeryong",
-          "departureTime": "19:28",
-          "arrivalTime": "19:44",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "ITX-마음 1331",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gyeryong",
-          "destination": "Nonsan",
-          "departureTime": "19:44",
-          "arrivalTime": "20:03",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "ITX-마음 1331",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Nonsan",
-          "destination": "Ganggyeong",
-          "departureTime": "20:03",
-          "arrivalTime": "20:13",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1331",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Ganggyeong",
-          "destination": "Iksan",
-          "departureTime": "20:13",
-          "arrivalTime": "20:34",
-          "durationMinutes": 21
-        },
-        {
-          "lineName": "ITX-마음 1331",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Gimje",
-          "departureTime": "20:34",
-          "arrivalTime": "20:46",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "ITX-마음 1331",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gimje",
-          "destination": "Jeongeup",
-          "departureTime": "20:46",
-          "arrivalTime": "21:01",
-          "durationMinutes": 15
-        },
-        {
-          "lineName": "ITX-마음 1331",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jeongeup",
-          "destination": "Gwangju",
-          "departureTime": "21:01",
-          "arrivalTime": "21:40",
-          "durationMinutes": 39
-        }
-      ]
-    },
     {
       "id": "korail-2026-10-08-regular-호남선-9-17",
       "country": "korea",
@@ -874,6 +752,366 @@
           "durationMinutes": 39
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-14-regular-호남선-9-17",
+      "country": "korea",
+      "date": "2026-10-14",
+      "operator": "Korail",
+      "service": "ITX-마음 1331",
+      "trainType": "ITX-마음",
+      "origin": "Jochiwon",
+      "destination": "Gwangju",
+      "departureTime": "18:56",
+      "arrivalTime": "21:40",
+      "durationMinutes": 164,
+      "direct": true,
+      "stops": [
+        "Jochiwon",
+        "Sintanjin",
+        "Seodaejeon",
+        "Gyeryong",
+        "Nonsan",
+        "Ganggyeong",
+        "Iksan",
+        "Gimje",
+        "Jeongeup",
+        "Gwangju"
+      ],
+      "headsign": "Gwangju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jochiwon",
+          "destination": "Sintanjin",
+          "departureTime": "18:56",
+          "arrivalTime": "19:13",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Sintanjin",
+          "destination": "Seodaejeon",
+          "departureTime": "19:13",
+          "arrivalTime": "19:28",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Seodaejeon",
+          "destination": "Gyeryong",
+          "departureTime": "19:28",
+          "arrivalTime": "19:44",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gyeryong",
+          "destination": "Nonsan",
+          "departureTime": "19:44",
+          "arrivalTime": "20:03",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Nonsan",
+          "destination": "Ganggyeong",
+          "departureTime": "20:03",
+          "arrivalTime": "20:13",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Ganggyeong",
+          "destination": "Iksan",
+          "departureTime": "20:13",
+          "arrivalTime": "20:34",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Gimje",
+          "departureTime": "20:34",
+          "arrivalTime": "20:46",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gimje",
+          "destination": "Jeongeup",
+          "departureTime": "20:46",
+          "arrivalTime": "21:01",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Gwangju",
+          "departureTime": "21:01",
+          "arrivalTime": "21:40",
+          "durationMinutes": 39
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-15-regular-호남선-9-17",
+      "country": "korea",
+      "date": "2026-10-15",
+      "operator": "Korail",
+      "service": "ITX-마음 1331",
+      "trainType": "ITX-마음",
+      "origin": "Jochiwon",
+      "destination": "Gwangju",
+      "departureTime": "18:56",
+      "arrivalTime": "21:40",
+      "durationMinutes": 164,
+      "direct": true,
+      "stops": [
+        "Jochiwon",
+        "Sintanjin",
+        "Seodaejeon",
+        "Gyeryong",
+        "Nonsan",
+        "Ganggyeong",
+        "Iksan",
+        "Gimje",
+        "Jeongeup",
+        "Gwangju"
+      ],
+      "headsign": "Gwangju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jochiwon",
+          "destination": "Sintanjin",
+          "departureTime": "18:56",
+          "arrivalTime": "19:13",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Sintanjin",
+          "destination": "Seodaejeon",
+          "departureTime": "19:13",
+          "arrivalTime": "19:28",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Seodaejeon",
+          "destination": "Gyeryong",
+          "departureTime": "19:28",
+          "arrivalTime": "19:44",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gyeryong",
+          "destination": "Nonsan",
+          "departureTime": "19:44",
+          "arrivalTime": "20:03",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Nonsan",
+          "destination": "Ganggyeong",
+          "departureTime": "20:03",
+          "arrivalTime": "20:13",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Ganggyeong",
+          "destination": "Iksan",
+          "departureTime": "20:13",
+          "arrivalTime": "20:34",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Gimje",
+          "departureTime": "20:34",
+          "arrivalTime": "20:46",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gimje",
+          "destination": "Jeongeup",
+          "departureTime": "20:46",
+          "arrivalTime": "21:01",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Gwangju",
+          "departureTime": "21:01",
+          "arrivalTime": "21:40",
+          "durationMinutes": 39
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-16-regular-호남선-9-17",
+      "country": "korea",
+      "date": "2026-10-16",
+      "operator": "Korail",
+      "service": "ITX-마음 1331",
+      "trainType": "ITX-마음",
+      "origin": "Jochiwon",
+      "destination": "Gwangju",
+      "departureTime": "18:56",
+      "arrivalTime": "21:40",
+      "durationMinutes": 164,
+      "direct": true,
+      "stops": [
+        "Jochiwon",
+        "Sintanjin",
+        "Seodaejeon",
+        "Gyeryong",
+        "Nonsan",
+        "Ganggyeong",
+        "Iksan",
+        "Gimje",
+        "Jeongeup",
+        "Gwangju"
+      ],
+      "headsign": "Gwangju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jochiwon",
+          "destination": "Sintanjin",
+          "departureTime": "18:56",
+          "arrivalTime": "19:13",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Sintanjin",
+          "destination": "Seodaejeon",
+          "departureTime": "19:13",
+          "arrivalTime": "19:28",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Seodaejeon",
+          "destination": "Gyeryong",
+          "departureTime": "19:28",
+          "arrivalTime": "19:44",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gyeryong",
+          "destination": "Nonsan",
+          "departureTime": "19:44",
+          "arrivalTime": "20:03",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Nonsan",
+          "destination": "Ganggyeong",
+          "departureTime": "20:03",
+          "arrivalTime": "20:13",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Ganggyeong",
+          "destination": "Iksan",
+          "departureTime": "20:13",
+          "arrivalTime": "20:34",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Gimje",
+          "departureTime": "20:34",
+          "arrivalTime": "20:46",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Gimje",
+          "destination": "Jeongeup",
+          "departureTime": "20:46",
+          "arrivalTime": "21:01",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "ITX-마음 1331",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Jeongeup",
+          "destination": "Gwangju",
+          "departureTime": "21:01",
+          "arrivalTime": "21:40",
+          "durationMinutes": 39
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -884,7 +1122,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-05T07:42:33.950Z",
+    "fetchedAt": "2026-10-08T01:25:49.728Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

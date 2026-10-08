@@ -1,25 +1,23 @@
 {
   "origin": "Daejeon",
   "destination": "Suseo",
-  "date": "2026-10-07..2026-10-13",
-  "scrapedAt": "2026-10-05T07:42:34.317Z",
+  "date": "2026-10-08..2026-10-16",
+  "scrapedAt": "2026-10-08T01:25:50.074Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 10. 1. 기준)",
-      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/23/202609231a0cb38a2c5200.xlsx",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10bacb336520.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-05T07:42:31.471Z",
-      "sha256": "eaadc99d90aa9fb4e009ca74d812cc4aa4885a7aee98950adc715dca6c0ad623",
-      "exclusions": [
-        "Korail excluded 호남선 450: times run backwards at Gwangmyeong"
-      ]
+      "retrievedAt": "2026-10-08T01:25:46.564Z",
+      "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
+      "exclusions": []
     },
     {
       "title": "일반열차 시간표(2026. 10. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10a842d5b580.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-05T07:42:32.269Z",
+      "retrievedAt": "2026-10-08T01:25:47.426Z",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
@@ -35,146 +33,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-10-06-ktx-경부선-132-27-next-day",
-      "country": "korea",
-      "date": "2026-10-07",
-      "operator": "Korail",
-      "service": "KTX-산천 366",
-      "trainType": "KTX-산천",
-      "origin": "Daejeon",
-      "destination": "Suseo",
-      "departureTime": "00:06",
-      "arrivalTime": "01:06",
-      "durationMinutes": 60,
-      "direct": true,
-      "stops": [
-        "Daejeon",
-        "Osong",
-        "Dongtan",
-        "Suseo"
-      ],
-      "headsign": "Suseo",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 366",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Daejeon",
-          "destination": "Osong",
-          "departureTime": "00:06",
-          "arrivalTime": "00:24",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "KTX-산천 366",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Osong",
-          "destination": "Dongtan",
-          "departureTime": "00:24",
-          "arrivalTime": "00:49",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "KTX-산천 366",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Dongtan",
-          "destination": "Suseo",
-          "departureTime": "00:49",
-          "arrivalTime": "01:06",
-          "durationMinutes": 17
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-06-ktx-경전선-33-25-next-day",
-      "country": "korea",
-      "date": "2026-10-07",
-      "operator": "Korail",
-      "service": "KTX-산천 390",
-      "trainType": "KTX-산천",
-      "origin": "Daejeon",
-      "destination": "Suseo",
-      "departureTime": "00:06",
-      "arrivalTime": "01:06",
-      "durationMinutes": 60,
-      "direct": true,
-      "stops": [
-        "Daejeon",
-        "Osong",
-        "Dongtan",
-        "Suseo"
-      ],
-      "headsign": "Suseo",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 390",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Daejeon",
-          "destination": "Osong",
-          "departureTime": "00:06",
-          "arrivalTime": "00:24",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "KTX-산천 390",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Osong",
-          "destination": "Dongtan",
-          "departureTime": "00:24",
-          "arrivalTime": "00:49",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "KTX-산천 390",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Dongtan",
-          "destination": "Suseo",
-          "departureTime": "00:49",
-          "arrivalTime": "01:06",
-          "durationMinutes": 17
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-06-ktx-경부선-134-27-next-day",
-      "country": "korea",
-      "date": "2026-10-07",
-      "operator": "Korail",
-      "service": "KTX 368",
-      "trainType": "KTX",
-      "origin": "Daejeon",
-      "destination": "Suseo",
-      "departureTime": "00:30",
-      "arrivalTime": "01:17",
-      "durationMinutes": 47,
-      "direct": true,
-      "stops": [
-        "Daejeon",
-        "Suseo"
-      ],
-      "headsign": "Suseo",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 368",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Daejeon",
-          "destination": "Suseo",
-          "departureTime": "00:30",
-          "arrivalTime": "01:17",
-          "durationMinutes": 47
-        }
-      ]
-    },
     {
       "id": "korail-2026-10-07-ktx-경부선-132-27-next-day",
       "country": "korea",
@@ -1014,6 +872,426 @@
           "durationMinutes": 47
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-13-ktx-경부선-132-27-next-day",
+      "country": "korea",
+      "date": "2026-10-14",
+      "operator": "Korail",
+      "service": "KTX-산천 366",
+      "trainType": "KTX-산천",
+      "origin": "Daejeon",
+      "destination": "Suseo",
+      "departureTime": "00:06",
+      "arrivalTime": "01:06",
+      "durationMinutes": 60,
+      "direct": true,
+      "stops": [
+        "Daejeon",
+        "Osong",
+        "Dongtan",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 366",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "00:06",
+          "arrivalTime": "00:24",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 366",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Dongtan",
+          "departureTime": "00:24",
+          "arrivalTime": "00:49",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 366",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongtan",
+          "destination": "Suseo",
+          "departureTime": "00:49",
+          "arrivalTime": "01:06",
+          "durationMinutes": 17
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-13-ktx-경전선-33-25-next-day",
+      "country": "korea",
+      "date": "2026-10-14",
+      "operator": "Korail",
+      "service": "KTX-산천 390",
+      "trainType": "KTX-산천",
+      "origin": "Daejeon",
+      "destination": "Suseo",
+      "departureTime": "00:06",
+      "arrivalTime": "01:06",
+      "durationMinutes": 60,
+      "direct": true,
+      "stops": [
+        "Daejeon",
+        "Osong",
+        "Dongtan",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 390",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "00:06",
+          "arrivalTime": "00:24",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 390",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Dongtan",
+          "departureTime": "00:24",
+          "arrivalTime": "00:49",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 390",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongtan",
+          "destination": "Suseo",
+          "departureTime": "00:49",
+          "arrivalTime": "01:06",
+          "durationMinutes": 17
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-13-ktx-경부선-134-27-next-day",
+      "country": "korea",
+      "date": "2026-10-14",
+      "operator": "Korail",
+      "service": "KTX 368",
+      "trainType": "KTX",
+      "origin": "Daejeon",
+      "destination": "Suseo",
+      "departureTime": "00:30",
+      "arrivalTime": "01:17",
+      "durationMinutes": 47,
+      "direct": true,
+      "stops": [
+        "Daejeon",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 368",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Suseo",
+          "departureTime": "00:30",
+          "arrivalTime": "01:17",
+          "durationMinutes": 47
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-14-ktx-경부선-132-27-next-day",
+      "country": "korea",
+      "date": "2026-10-15",
+      "operator": "Korail",
+      "service": "KTX-산천 366",
+      "trainType": "KTX-산천",
+      "origin": "Daejeon",
+      "destination": "Suseo",
+      "departureTime": "00:06",
+      "arrivalTime": "01:06",
+      "durationMinutes": 60,
+      "direct": true,
+      "stops": [
+        "Daejeon",
+        "Osong",
+        "Dongtan",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 366",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "00:06",
+          "arrivalTime": "00:24",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 366",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Dongtan",
+          "departureTime": "00:24",
+          "arrivalTime": "00:49",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 366",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongtan",
+          "destination": "Suseo",
+          "departureTime": "00:49",
+          "arrivalTime": "01:06",
+          "durationMinutes": 17
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-14-ktx-경전선-33-25-next-day",
+      "country": "korea",
+      "date": "2026-10-15",
+      "operator": "Korail",
+      "service": "KTX-산천 390",
+      "trainType": "KTX-산천",
+      "origin": "Daejeon",
+      "destination": "Suseo",
+      "departureTime": "00:06",
+      "arrivalTime": "01:06",
+      "durationMinutes": 60,
+      "direct": true,
+      "stops": [
+        "Daejeon",
+        "Osong",
+        "Dongtan",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 390",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "00:06",
+          "arrivalTime": "00:24",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 390",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Dongtan",
+          "departureTime": "00:24",
+          "arrivalTime": "00:49",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 390",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongtan",
+          "destination": "Suseo",
+          "departureTime": "00:49",
+          "arrivalTime": "01:06",
+          "durationMinutes": 17
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-14-ktx-경부선-134-27-next-day",
+      "country": "korea",
+      "date": "2026-10-15",
+      "operator": "Korail",
+      "service": "KTX 368",
+      "trainType": "KTX",
+      "origin": "Daejeon",
+      "destination": "Suseo",
+      "departureTime": "00:30",
+      "arrivalTime": "01:17",
+      "durationMinutes": 47,
+      "direct": true,
+      "stops": [
+        "Daejeon",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 368",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Suseo",
+          "departureTime": "00:30",
+          "arrivalTime": "01:17",
+          "durationMinutes": 47
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-15-ktx-경부선-132-27-next-day",
+      "country": "korea",
+      "date": "2026-10-16",
+      "operator": "Korail",
+      "service": "KTX-산천 366",
+      "trainType": "KTX-산천",
+      "origin": "Daejeon",
+      "destination": "Suseo",
+      "departureTime": "00:06",
+      "arrivalTime": "01:06",
+      "durationMinutes": 60,
+      "direct": true,
+      "stops": [
+        "Daejeon",
+        "Osong",
+        "Dongtan",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 366",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "00:06",
+          "arrivalTime": "00:24",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 366",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Dongtan",
+          "departureTime": "00:24",
+          "arrivalTime": "00:49",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 366",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongtan",
+          "destination": "Suseo",
+          "departureTime": "00:49",
+          "arrivalTime": "01:06",
+          "durationMinutes": 17
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-15-ktx-경전선-33-25-next-day",
+      "country": "korea",
+      "date": "2026-10-16",
+      "operator": "Korail",
+      "service": "KTX-산천 390",
+      "trainType": "KTX-산천",
+      "origin": "Daejeon",
+      "destination": "Suseo",
+      "departureTime": "00:06",
+      "arrivalTime": "01:06",
+      "durationMinutes": 60,
+      "direct": true,
+      "stops": [
+        "Daejeon",
+        "Osong",
+        "Dongtan",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 390",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "00:06",
+          "arrivalTime": "00:24",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 390",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Dongtan",
+          "departureTime": "00:24",
+          "arrivalTime": "00:49",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 390",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Dongtan",
+          "destination": "Suseo",
+          "departureTime": "00:49",
+          "arrivalTime": "01:06",
+          "durationMinutes": 17
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-15-ktx-경부선-134-27-next-day",
+      "country": "korea",
+      "date": "2026-10-16",
+      "operator": "Korail",
+      "service": "KTX 368",
+      "trainType": "KTX",
+      "origin": "Daejeon",
+      "destination": "Suseo",
+      "departureTime": "00:30",
+      "arrivalTime": "01:17",
+      "durationMinutes": 47,
+      "direct": true,
+      "stops": [
+        "Daejeon",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 368",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Suseo",
+          "departureTime": "00:30",
+          "arrivalTime": "01:17",
+          "durationMinutes": 47
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -1024,7 +1302,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-05T07:42:33.951Z",
+    "fetchedAt": "2026-10-08T01:25:49.728Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

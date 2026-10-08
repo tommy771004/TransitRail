@@ -1,25 +1,23 @@
 {
   "origin": "Pohang",
   "destination": "Bujeon",
-  "date": "2026-10-07..2026-10-13",
-  "scrapedAt": "2026-10-05T07:42:34.269Z",
+  "date": "2026-10-08..2026-10-16",
+  "scrapedAt": "2026-10-08T01:25:50.025Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 10. 1. 기준)",
-      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/23/202609231a0cb38a2c5200.xlsx",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10bacb336520.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-05T07:42:31.471Z",
-      "sha256": "eaadc99d90aa9fb4e009ca74d812cc4aa4885a7aee98950adc715dca6c0ad623",
-      "exclusions": [
-        "Korail excluded 호남선 450: times run backwards at Gwangmyeong"
-      ]
+      "retrievedAt": "2026-10-08T01:25:46.564Z",
+      "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
+      "exclusions": []
     },
     {
       "title": "일반열차 시간표(2026. 10. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10a842d5b580.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-05T07:42:32.269Z",
+      "retrievedAt": "2026-10-08T01:25:47.426Z",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
@@ -35,137 +33,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-10-07-regular-동해선-9-2",
-      "country": "korea",
-      "date": "2026-10-07",
-      "operator": "Korail",
-      "service": "무궁화 1896",
-      "trainType": "무궁화",
-      "origin": "Pohang",
-      "destination": "Bujeon",
-      "departureTime": "05:49",
-      "arrivalTime": "07:57",
-      "durationMinutes": 128,
-      "direct": true,
-      "stops": [
-        "Pohang",
-        "Angang",
-        "Seogyeongju",
-        "Gyeongju",
-        "Bugulsan",
-        "Taehwagang",
-        "Namchang",
-        "Gijang",
-        "Sinhaeundae",
-        "Centum",
-        "Bujeon"
-      ],
-      "headsign": "Bujeon",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1896",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Pohang",
-          "destination": "Angang",
-          "departureTime": "05:49",
-          "arrivalTime": "06:02",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "무궁화 1896",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Angang",
-          "destination": "Seogyeongju",
-          "departureTime": "06:02",
-          "arrivalTime": "06:12",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "무궁화 1896",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Seogyeongju",
-          "destination": "Gyeongju",
-          "departureTime": "06:12",
-          "arrivalTime": "06:25",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "무궁화 1896",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Gyeongju",
-          "destination": "Bugulsan",
-          "departureTime": "06:25",
-          "arrivalTime": "06:44",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "무궁화 1896",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Bugulsan",
-          "destination": "Taehwagang",
-          "departureTime": "06:44",
-          "arrivalTime": "06:52",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "무궁화 1896",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Taehwagang",
-          "destination": "Namchang",
-          "departureTime": "06:52",
-          "arrivalTime": "07:08",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "무궁화 1896",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Namchang",
-          "destination": "Gijang",
-          "departureTime": "07:08",
-          "arrivalTime": "07:29",
-          "durationMinutes": 21
-        },
-        {
-          "lineName": "무궁화 1896",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Gijang",
-          "destination": "Sinhaeundae",
-          "departureTime": "07:29",
-          "arrivalTime": "07:39",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "무궁화 1896",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Sinhaeundae",
-          "destination": "Centum",
-          "departureTime": "07:39",
-          "arrivalTime": "07:46",
-          "durationMinutes": 7
-        },
-        {
-          "lineName": "무궁화 1896",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Centum",
-          "destination": "Bujeon",
-          "departureTime": "07:46",
-          "arrivalTime": "07:57",
-          "durationMinutes": 11
-        }
-      ]
-    },
     {
       "id": "korail-2026-10-08-regular-동해선-9-2",
       "country": "korea",
@@ -951,6 +818,399 @@
           "durationMinutes": 11
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-14-regular-동해선-9-2",
+      "country": "korea",
+      "date": "2026-10-14",
+      "operator": "Korail",
+      "service": "무궁화 1896",
+      "trainType": "무궁화",
+      "origin": "Pohang",
+      "destination": "Bujeon",
+      "departureTime": "05:49",
+      "arrivalTime": "07:57",
+      "durationMinutes": 128,
+      "direct": true,
+      "stops": [
+        "Pohang",
+        "Angang",
+        "Seogyeongju",
+        "Gyeongju",
+        "Bugulsan",
+        "Taehwagang",
+        "Namchang",
+        "Gijang",
+        "Sinhaeundae",
+        "Centum",
+        "Bujeon"
+      ],
+      "headsign": "Bujeon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Pohang",
+          "destination": "Angang",
+          "departureTime": "05:49",
+          "arrivalTime": "06:02",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Angang",
+          "destination": "Seogyeongju",
+          "departureTime": "06:02",
+          "arrivalTime": "06:12",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Gyeongju",
+          "departureTime": "06:12",
+          "arrivalTime": "06:25",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Gyeongju",
+          "destination": "Bugulsan",
+          "departureTime": "06:25",
+          "arrivalTime": "06:44",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Taehwagang",
+          "departureTime": "06:44",
+          "arrivalTime": "06:52",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Namchang",
+          "departureTime": "06:52",
+          "arrivalTime": "07:08",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Namchang",
+          "destination": "Gijang",
+          "departureTime": "07:08",
+          "arrivalTime": "07:29",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Gijang",
+          "destination": "Sinhaeundae",
+          "departureTime": "07:29",
+          "arrivalTime": "07:39",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Sinhaeundae",
+          "destination": "Centum",
+          "departureTime": "07:39",
+          "arrivalTime": "07:46",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Centum",
+          "destination": "Bujeon",
+          "departureTime": "07:46",
+          "arrivalTime": "07:57",
+          "durationMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-15-regular-동해선-9-2",
+      "country": "korea",
+      "date": "2026-10-15",
+      "operator": "Korail",
+      "service": "무궁화 1896",
+      "trainType": "무궁화",
+      "origin": "Pohang",
+      "destination": "Bujeon",
+      "departureTime": "05:49",
+      "arrivalTime": "07:57",
+      "durationMinutes": 128,
+      "direct": true,
+      "stops": [
+        "Pohang",
+        "Angang",
+        "Seogyeongju",
+        "Gyeongju",
+        "Bugulsan",
+        "Taehwagang",
+        "Namchang",
+        "Gijang",
+        "Sinhaeundae",
+        "Centum",
+        "Bujeon"
+      ],
+      "headsign": "Bujeon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Pohang",
+          "destination": "Angang",
+          "departureTime": "05:49",
+          "arrivalTime": "06:02",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Angang",
+          "destination": "Seogyeongju",
+          "departureTime": "06:02",
+          "arrivalTime": "06:12",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Gyeongju",
+          "departureTime": "06:12",
+          "arrivalTime": "06:25",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Gyeongju",
+          "destination": "Bugulsan",
+          "departureTime": "06:25",
+          "arrivalTime": "06:44",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Taehwagang",
+          "departureTime": "06:44",
+          "arrivalTime": "06:52",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Namchang",
+          "departureTime": "06:52",
+          "arrivalTime": "07:08",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Namchang",
+          "destination": "Gijang",
+          "departureTime": "07:08",
+          "arrivalTime": "07:29",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Gijang",
+          "destination": "Sinhaeundae",
+          "departureTime": "07:29",
+          "arrivalTime": "07:39",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Sinhaeundae",
+          "destination": "Centum",
+          "departureTime": "07:39",
+          "arrivalTime": "07:46",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Centum",
+          "destination": "Bujeon",
+          "departureTime": "07:46",
+          "arrivalTime": "07:57",
+          "durationMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-16-regular-동해선-9-2",
+      "country": "korea",
+      "date": "2026-10-16",
+      "operator": "Korail",
+      "service": "무궁화 1896",
+      "trainType": "무궁화",
+      "origin": "Pohang",
+      "destination": "Bujeon",
+      "departureTime": "05:49",
+      "arrivalTime": "07:57",
+      "durationMinutes": 128,
+      "direct": true,
+      "stops": [
+        "Pohang",
+        "Angang",
+        "Seogyeongju",
+        "Gyeongju",
+        "Bugulsan",
+        "Taehwagang",
+        "Namchang",
+        "Gijang",
+        "Sinhaeundae",
+        "Centum",
+        "Bujeon"
+      ],
+      "headsign": "Bujeon",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Pohang",
+          "destination": "Angang",
+          "departureTime": "05:49",
+          "arrivalTime": "06:02",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Angang",
+          "destination": "Seogyeongju",
+          "departureTime": "06:02",
+          "arrivalTime": "06:12",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Seogyeongju",
+          "destination": "Gyeongju",
+          "departureTime": "06:12",
+          "arrivalTime": "06:25",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Gyeongju",
+          "destination": "Bugulsan",
+          "departureTime": "06:25",
+          "arrivalTime": "06:44",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Taehwagang",
+          "departureTime": "06:44",
+          "arrivalTime": "06:52",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Namchang",
+          "departureTime": "06:52",
+          "arrivalTime": "07:08",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Namchang",
+          "destination": "Gijang",
+          "departureTime": "07:08",
+          "arrivalTime": "07:29",
+          "durationMinutes": 21
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Gijang",
+          "destination": "Sinhaeundae",
+          "departureTime": "07:29",
+          "arrivalTime": "07:39",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Sinhaeundae",
+          "destination": "Centum",
+          "departureTime": "07:39",
+          "arrivalTime": "07:46",
+          "durationMinutes": 7
+        },
+        {
+          "lineName": "무궁화 1896",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Centum",
+          "destination": "Bujeon",
+          "departureTime": "07:46",
+          "arrivalTime": "07:57",
+          "durationMinutes": 11
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -961,7 +1221,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-05T07:42:33.950Z",
+    "fetchedAt": "2026-10-08T01:25:49.728Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

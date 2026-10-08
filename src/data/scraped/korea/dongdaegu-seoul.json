@@ -1,25 +1,23 @@
 {
   "origin": "Dongdaegu",
   "destination": "Seoul",
-  "date": "2026-10-07..2026-10-13",
-  "scrapedAt": "2026-10-05T07:42:34.035Z",
+  "date": "2026-10-08..2026-10-16",
+  "scrapedAt": "2026-10-08T01:25:49.796Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 10. 1. 기준)",
-      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202609/23/202609231a0cb38a2c5200.xlsx",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10bacb336520.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-05T07:42:31.471Z",
-      "sha256": "eaadc99d90aa9fb4e009ca74d812cc4aa4885a7aee98950adc715dca6c0ad623",
-      "exclusions": [
-        "Korail excluded 호남선 450: times run backwards at Gwangmyeong"
-      ]
+      "retrievedAt": "2026-10-08T01:25:46.564Z",
+      "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
+      "exclusions": []
     },
     {
       "title": "일반열차 시간표(2026. 10. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10a842d5b580.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-05T07:42:32.269Z",
+      "retrievedAt": "2026-10-08T01:25:47.426Z",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
@@ -35,104 +33,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-10-07-ktx-경부선-20-27",
-      "country": "korea",
-      "date": "2026-10-07",
-      "operator": "Korail",
-      "service": "KTX 140",
-      "trainType": "KTX",
-      "origin": "Dongdaegu",
-      "destination": "Seoul",
-      "departureTime": "06:31",
-      "arrivalTime": "08:43",
-      "durationMinutes": 132,
-      "direct": true,
-      "stops": [
-        "Dongdaegu",
-        "Seodaegu",
-        "Gimcheon(Gumi)",
-        "Daejeon",
-        "Osong",
-        "Cheonan-Asan",
-        "Gwangmyeong",
-        "Seoul"
-      ],
-      "headsign": "Seoul",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 140",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Dongdaegu",
-          "destination": "Seodaegu",
-          "departureTime": "06:31",
-          "arrivalTime": "06:40",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "KTX 140",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Seodaegu",
-          "destination": "Gimcheon(Gumi)",
-          "departureTime": "06:40",
-          "arrivalTime": "07:03",
-          "durationMinutes": 23
-        },
-        {
-          "lineName": "KTX 140",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gimcheon(Gumi)",
-          "destination": "Daejeon",
-          "departureTime": "07:03",
-          "arrivalTime": "07:28",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "KTX 140",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Daejeon",
-          "destination": "Osong",
-          "departureTime": "07:28",
-          "arrivalTime": "07:46",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "KTX 140",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Osong",
-          "destination": "Cheonan-Asan",
-          "departureTime": "07:46",
-          "arrivalTime": "07:59",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "KTX 140",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Cheonan-Asan",
-          "destination": "Gwangmyeong",
-          "departureTime": "07:59",
-          "arrivalTime": "08:25",
-          "durationMinutes": 26
-        },
-        {
-          "lineName": "KTX 140",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Seoul",
-          "departureTime": "08:25",
-          "arrivalTime": "08:43",
-          "durationMinutes": 18
-        }
-      ]
-    },
     {
       "id": "korail-2026-10-08-ktx-경부선-20-27",
       "country": "korea",
@@ -720,6 +620,300 @@
           "durationMinutes": 18
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-14-ktx-경부선-20-27",
+      "country": "korea",
+      "date": "2026-10-14",
+      "operator": "Korail",
+      "service": "KTX 140",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Seoul",
+      "departureTime": "06:31",
+      "arrivalTime": "08:43",
+      "durationMinutes": 132,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Seodaegu",
+        "Gimcheon(Gumi)",
+        "Daejeon",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Seodaegu",
+          "departureTime": "06:31",
+          "arrivalTime": "06:40",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seodaegu",
+          "destination": "Gimcheon(Gumi)",
+          "departureTime": "06:40",
+          "arrivalTime": "07:03",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gimcheon(Gumi)",
+          "destination": "Daejeon",
+          "departureTime": "07:03",
+          "arrivalTime": "07:28",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "07:28",
+          "arrivalTime": "07:46",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "07:46",
+          "arrivalTime": "07:59",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "07:59",
+          "arrivalTime": "08:25",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "08:25",
+          "arrivalTime": "08:43",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-15-ktx-경부선-20-27",
+      "country": "korea",
+      "date": "2026-10-15",
+      "operator": "Korail",
+      "service": "KTX 140",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Seoul",
+      "departureTime": "06:31",
+      "arrivalTime": "08:43",
+      "durationMinutes": 132,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Seodaegu",
+        "Gimcheon(Gumi)",
+        "Daejeon",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Seodaegu",
+          "departureTime": "06:31",
+          "arrivalTime": "06:40",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seodaegu",
+          "destination": "Gimcheon(Gumi)",
+          "departureTime": "06:40",
+          "arrivalTime": "07:03",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gimcheon(Gumi)",
+          "destination": "Daejeon",
+          "departureTime": "07:03",
+          "arrivalTime": "07:28",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "07:28",
+          "arrivalTime": "07:46",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "07:46",
+          "arrivalTime": "07:59",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "07:59",
+          "arrivalTime": "08:25",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "08:25",
+          "arrivalTime": "08:43",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-16-ktx-경부선-20-27",
+      "country": "korea",
+      "date": "2026-10-16",
+      "operator": "Korail",
+      "service": "KTX 140",
+      "trainType": "KTX",
+      "origin": "Dongdaegu",
+      "destination": "Seoul",
+      "departureTime": "06:31",
+      "arrivalTime": "08:43",
+      "durationMinutes": 132,
+      "direct": true,
+      "stops": [
+        "Dongdaegu",
+        "Seodaegu",
+        "Gimcheon(Gumi)",
+        "Daejeon",
+        "Osong",
+        "Cheonan-Asan",
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Dongdaegu",
+          "destination": "Seodaegu",
+          "departureTime": "06:31",
+          "arrivalTime": "06:40",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seodaegu",
+          "destination": "Gimcheon(Gumi)",
+          "departureTime": "06:40",
+          "arrivalTime": "07:03",
+          "durationMinutes": 23
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gimcheon(Gumi)",
+          "destination": "Daejeon",
+          "departureTime": "07:03",
+          "arrivalTime": "07:28",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Daejeon",
+          "destination": "Osong",
+          "departureTime": "07:28",
+          "arrivalTime": "07:46",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "07:46",
+          "arrivalTime": "07:59",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Gwangmyeong",
+          "departureTime": "07:59",
+          "arrivalTime": "08:25",
+          "durationMinutes": 26
+        },
+        {
+          "lineName": "KTX 140",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "08:25",
+          "arrivalTime": "08:43",
+          "durationMinutes": 18
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -730,7 +924,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-05T07:42:33.950Z",
+    "fetchedAt": "2026-10-08T01:25:49.728Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
