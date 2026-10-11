@@ -4,51 +4,58 @@
   "source": "MTR real-time next train API",
   "sourceUrl": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
   "sourceTier": "A",
-  "fetchedAt": "2026-10-10T01:22:17.279Z",
-  "builtAt": "2026-10-10T01:22:19.225Z",
+  "fetchedAt": "2026-10-11T00:35:45.586Z",
+  "builtAt": "2026-10-11T01:06:20.480Z",
   "recordCount": 32,
   "routeCount": 8,
-  "successRate": 1,
-  "failedRoutes": [],
+  "successRate": 0.875,
+  "failedRoutes": [
+    {
+      "origin": "Hong Kong",
+      "destination": "Airport",
+      "error": "MTR returned no departures for Hong Kong → Airport on 2026-10-11"
+    }
+  ],
   "coverage": {
     "verifiedRoutes": 8,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-10-10"
+      "2026-10-10",
+      "2026-10-11"
     ]
   },
-  "checksum": "301468e5c124f6018d72870c3d9f5649a2225fbf5f9dd003994f289410f23b1f",
+  "checksum": "7b355759787367bf30be48c011fd32725e6280480544c0a5c6b7ec9dbcc5824f",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Admiralty",
       "destination": "Tsim Sha Tsui",
       "resultCount": 4,
-      "date": "2026-10-10",
+      "date": "2026-10-11",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-10T01:22:13.576Z",
+      "fetchedAt": "2026-10-11T00:35:40.506Z",
       "verified": true
     },
     {
       "origin": "Airport",
       "destination": "Hong Kong",
       "resultCount": 4,
-      "date": "2026-10-10",
+      "date": "2026-10-11",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-10T01:22:16.939Z",
+      "fetchedAt": "2026-10-11T00:35:44.550Z",
       "verified": true
     },
     {
       "origin": "Central",
       "destination": "Tsuen Wan",
       "resultCount": 4,
-      "date": "2026-10-10",
+      "date": "2026-10-11",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-10T01:22:14.218Z",
+      "fetchedAt": "2026-10-11T00:35:41.343Z",
       "verified": true
     },
     {
@@ -65,40 +72,40 @@
       "origin": "Sunny Bay",
       "destination": "Tung Chung",
       "resultCount": 4,
-      "date": "2026-10-10",
+      "date": "2026-10-11",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-10T01:22:17.279Z",
+      "fetchedAt": "2026-10-11T00:35:45.586Z",
       "verified": true
     },
     {
       "origin": "Tsim Sha Tsui",
       "destination": "Admiralty",
       "resultCount": 4,
-      "date": "2026-10-10",
+      "date": "2026-10-11",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-10T01:22:15.840Z",
+      "fetchedAt": "2026-10-11T00:35:43.019Z",
       "verified": true
     },
     {
       "origin": "Tsuen Wan",
       "destination": "Central",
       "resultCount": 4,
-      "date": "2026-10-10",
+      "date": "2026-10-11",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-10T01:22:16.502Z",
+      "fetchedAt": "2026-10-11T00:35:43.793Z",
       "verified": true
     },
     {
       "origin": "Tung Chung",
       "destination": "Sunny Bay",
       "resultCount": 4,
-      "date": "2026-10-10",
+      "date": "2026-10-11",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-10-10T01:22:15.214Z",
+      "fetchedAt": "2026-10-11T00:35:42.602Z",
       "verified": true
     }
   ]

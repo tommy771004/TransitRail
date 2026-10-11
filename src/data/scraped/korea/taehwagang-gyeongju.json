@@ -1,15 +1,15 @@
 {
   "origin": "Taehwagang",
   "destination": "Gyeongju",
-  "date": "2026-10-10..2026-10-16",
-  "scrapedAt": "2026-10-08T01:25:50.040Z",
+  "date": "2026-10-11..2026-10-19",
+  "scrapedAt": "2026-10-11T00:35:51.763Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 10. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10bacb336520.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-08T01:25:46.564Z",
+      "retrievedAt": "2026-10-11T00:35:47.218Z",
       "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 10. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10a842d5b580.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-08T01:25:47.426Z",
+      "retrievedAt": "2026-10-11T00:35:49.148Z",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
@@ -33,264 +33,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-10-10-regular-동해선-60-8",
-      "country": "korea",
-      "date": "2026-10-10",
-      "operator": "Korail",
-      "service": "누리로 1872",
-      "trainType": "누리로",
-      "origin": "Taehwagang",
-      "destination": "Gyeongju",
-      "departureTime": "09:30",
-      "arrivalTime": "09:59",
-      "durationMinutes": 29,
-      "direct": true,
-      "stops": [
-        "Taehwagang",
-        "Bugulsan",
-        "Gyeongju"
-      ],
-      "headsign": "Gyeongju",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "누리로 1872",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Taehwagang",
-          "destination": "Bugulsan",
-          "departureTime": "09:30",
-          "arrivalTime": "09:38",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "누리로 1872",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Bugulsan",
-          "destination": "Gyeongju",
-          "departureTime": "09:38",
-          "arrivalTime": "09:59",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-10-regular-동해선-60-13",
-      "country": "korea",
-      "date": "2026-10-10",
-      "operator": "Korail",
-      "service": "누리로 1874",
-      "trainType": "누리로",
-      "origin": "Taehwagang",
-      "destination": "Gyeongju",
-      "departureTime": "14:19",
-      "arrivalTime": "14:48",
-      "durationMinutes": 29,
-      "direct": true,
-      "stops": [
-        "Taehwagang",
-        "Bugulsan",
-        "Gyeongju"
-      ],
-      "headsign": "Gyeongju",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "누리로 1874",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Taehwagang",
-          "destination": "Bugulsan",
-          "departureTime": "14:19",
-          "arrivalTime": "14:27",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "누리로 1874",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Bugulsan",
-          "destination": "Gyeongju",
-          "departureTime": "14:27",
-          "arrivalTime": "14:48",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-10-regular-동해선-60-17",
-      "country": "korea",
-      "date": "2026-10-10",
-      "operator": "Korail",
-      "service": "누리로 1876",
-      "trainType": "누리로",
-      "origin": "Taehwagang",
-      "destination": "Gyeongju",
-      "departureTime": "16:12",
-      "arrivalTime": "16:41",
-      "durationMinutes": 29,
-      "direct": true,
-      "stops": [
-        "Taehwagang",
-        "Bugulsan",
-        "Gyeongju"
-      ],
-      "headsign": "Gyeongju",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "누리로 1876",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Taehwagang",
-          "destination": "Bugulsan",
-          "departureTime": "16:12",
-          "arrivalTime": "16:20",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "누리로 1876",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Bugulsan",
-          "destination": "Gyeongju",
-          "departureTime": "16:20",
-          "arrivalTime": "16:41",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-10-regular-동해선-60-19",
-      "country": "korea",
-      "date": "2026-10-10",
-      "operator": "Korail",
-      "service": "누리로 1878",
-      "trainType": "누리로",
-      "origin": "Taehwagang",
-      "destination": "Gyeongju",
-      "departureTime": "17:50",
-      "arrivalTime": "18:19",
-      "durationMinutes": 29,
-      "direct": true,
-      "stops": [
-        "Taehwagang",
-        "Bugulsan",
-        "Gyeongju"
-      ],
-      "headsign": "Gyeongju",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "누리로 1878",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Taehwagang",
-          "destination": "Bugulsan",
-          "departureTime": "17:50",
-          "arrivalTime": "17:58",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "누리로 1878",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Bugulsan",
-          "destination": "Gyeongju",
-          "departureTime": "17:58",
-          "arrivalTime": "18:19",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-10-regular-동해선-60-24",
-      "country": "korea",
-      "date": "2026-10-10",
-      "operator": "Korail",
-      "service": "누리로 1880",
-      "trainType": "누리로",
-      "origin": "Taehwagang",
-      "destination": "Gyeongju",
-      "departureTime": "21:00",
-      "arrivalTime": "21:29",
-      "durationMinutes": 29,
-      "direct": true,
-      "stops": [
-        "Taehwagang",
-        "Bugulsan",
-        "Gyeongju"
-      ],
-      "headsign": "Gyeongju",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "누리로 1880",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Taehwagang",
-          "destination": "Bugulsan",
-          "departureTime": "21:00",
-          "arrivalTime": "21:08",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "누리로 1880",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Bugulsan",
-          "destination": "Gyeongju",
-          "departureTime": "21:08",
-          "arrivalTime": "21:29",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-10-regular-동해선-60-25",
-      "country": "korea",
-      "date": "2026-10-10",
-      "operator": "Korail",
-      "service": "누리로 1882",
-      "trainType": "누리로",
-      "origin": "Taehwagang",
-      "destination": "Gyeongju",
-      "departureTime": "21:38",
-      "arrivalTime": "22:07",
-      "durationMinutes": 29,
-      "direct": true,
-      "stops": [
-        "Taehwagang",
-        "Bugulsan",
-        "Gyeongju"
-      ],
-      "headsign": "Gyeongju",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "누리로 1882",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Taehwagang",
-          "destination": "Bugulsan",
-          "departureTime": "21:38",
-          "arrivalTime": "21:46",
-          "durationMinutes": 8
-        },
-        {
-          "lineName": "누리로 1882",
-          "lineCode": "동해선",
-          "mode": "train",
-          "origin": "Bugulsan",
-          "destination": "Gyeongju",
-          "departureTime": "21:46",
-          "arrivalTime": "22:07",
-          "durationMinutes": 21
-        }
-      ]
-    },
     {
       "id": "korail-2026-10-11-regular-동해선-60-8",
       "country": "korea",
@@ -1838,6 +1580,780 @@
           "durationMinutes": 21
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-17-regular-동해선-60-8",
+      "country": "korea",
+      "date": "2026-10-17",
+      "operator": "Korail",
+      "service": "누리로 1872",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "09:30",
+      "arrivalTime": "09:59",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1872",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "09:30",
+          "arrivalTime": "09:38",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1872",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "09:38",
+          "arrivalTime": "09:59",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-17-regular-동해선-60-13",
+      "country": "korea",
+      "date": "2026-10-17",
+      "operator": "Korail",
+      "service": "누리로 1874",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "14:19",
+      "arrivalTime": "14:48",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1874",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "14:19",
+          "arrivalTime": "14:27",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1874",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "14:27",
+          "arrivalTime": "14:48",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-17-regular-동해선-60-17",
+      "country": "korea",
+      "date": "2026-10-17",
+      "operator": "Korail",
+      "service": "누리로 1876",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "16:12",
+      "arrivalTime": "16:41",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1876",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "16:12",
+          "arrivalTime": "16:20",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1876",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "16:20",
+          "arrivalTime": "16:41",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-17-regular-동해선-60-19",
+      "country": "korea",
+      "date": "2026-10-17",
+      "operator": "Korail",
+      "service": "누리로 1878",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "17:50",
+      "arrivalTime": "18:19",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1878",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "17:50",
+          "arrivalTime": "17:58",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1878",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "17:58",
+          "arrivalTime": "18:19",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-17-regular-동해선-60-24",
+      "country": "korea",
+      "date": "2026-10-17",
+      "operator": "Korail",
+      "service": "누리로 1880",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "21:00",
+      "arrivalTime": "21:29",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1880",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "21:00",
+          "arrivalTime": "21:08",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1880",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "21:08",
+          "arrivalTime": "21:29",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-17-regular-동해선-60-25",
+      "country": "korea",
+      "date": "2026-10-17",
+      "operator": "Korail",
+      "service": "누리로 1882",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "21:38",
+      "arrivalTime": "22:07",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1882",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "21:38",
+          "arrivalTime": "21:46",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1882",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "21:46",
+          "arrivalTime": "22:07",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-18-regular-동해선-60-8",
+      "country": "korea",
+      "date": "2026-10-18",
+      "operator": "Korail",
+      "service": "누리로 1872",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "09:30",
+      "arrivalTime": "09:59",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1872",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "09:30",
+          "arrivalTime": "09:38",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1872",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "09:38",
+          "arrivalTime": "09:59",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-18-regular-동해선-60-13",
+      "country": "korea",
+      "date": "2026-10-18",
+      "operator": "Korail",
+      "service": "누리로 1874",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "14:19",
+      "arrivalTime": "14:48",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1874",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "14:19",
+          "arrivalTime": "14:27",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1874",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "14:27",
+          "arrivalTime": "14:48",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-18-regular-동해선-60-17",
+      "country": "korea",
+      "date": "2026-10-18",
+      "operator": "Korail",
+      "service": "누리로 1876",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "16:12",
+      "arrivalTime": "16:41",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1876",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "16:12",
+          "arrivalTime": "16:20",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1876",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "16:20",
+          "arrivalTime": "16:41",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-18-regular-동해선-60-19",
+      "country": "korea",
+      "date": "2026-10-18",
+      "operator": "Korail",
+      "service": "누리로 1878",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "17:50",
+      "arrivalTime": "18:19",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1878",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "17:50",
+          "arrivalTime": "17:58",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1878",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "17:58",
+          "arrivalTime": "18:19",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-18-regular-동해선-60-24",
+      "country": "korea",
+      "date": "2026-10-18",
+      "operator": "Korail",
+      "service": "누리로 1880",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "21:00",
+      "arrivalTime": "21:29",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1880",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "21:00",
+          "arrivalTime": "21:08",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1880",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "21:08",
+          "arrivalTime": "21:29",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-18-regular-동해선-60-25",
+      "country": "korea",
+      "date": "2026-10-18",
+      "operator": "Korail",
+      "service": "누리로 1882",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "21:38",
+      "arrivalTime": "22:07",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1882",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "21:38",
+          "arrivalTime": "21:46",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1882",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "21:46",
+          "arrivalTime": "22:07",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-19-regular-동해선-60-8",
+      "country": "korea",
+      "date": "2026-10-19",
+      "operator": "Korail",
+      "service": "누리로 1872",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "09:30",
+      "arrivalTime": "09:59",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1872",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "09:30",
+          "arrivalTime": "09:38",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1872",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "09:38",
+          "arrivalTime": "09:59",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-19-regular-동해선-60-13",
+      "country": "korea",
+      "date": "2026-10-19",
+      "operator": "Korail",
+      "service": "누리로 1874",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "14:19",
+      "arrivalTime": "14:48",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1874",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "14:19",
+          "arrivalTime": "14:27",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1874",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "14:27",
+          "arrivalTime": "14:48",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-19-regular-동해선-60-17",
+      "country": "korea",
+      "date": "2026-10-19",
+      "operator": "Korail",
+      "service": "누리로 1876",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "16:12",
+      "arrivalTime": "16:41",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1876",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "16:12",
+          "arrivalTime": "16:20",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1876",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "16:20",
+          "arrivalTime": "16:41",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-19-regular-동해선-60-19",
+      "country": "korea",
+      "date": "2026-10-19",
+      "operator": "Korail",
+      "service": "누리로 1878",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "17:50",
+      "arrivalTime": "18:19",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1878",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "17:50",
+          "arrivalTime": "17:58",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1878",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "17:58",
+          "arrivalTime": "18:19",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-19-regular-동해선-60-24",
+      "country": "korea",
+      "date": "2026-10-19",
+      "operator": "Korail",
+      "service": "누리로 1880",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "21:00",
+      "arrivalTime": "21:29",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1880",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "21:00",
+          "arrivalTime": "21:08",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1880",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "21:08",
+          "arrivalTime": "21:29",
+          "durationMinutes": 21
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-19-regular-동해선-60-25",
+      "country": "korea",
+      "date": "2026-10-19",
+      "operator": "Korail",
+      "service": "누리로 1882",
+      "trainType": "누리로",
+      "origin": "Taehwagang",
+      "destination": "Gyeongju",
+      "departureTime": "21:38",
+      "arrivalTime": "22:07",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Taehwagang",
+        "Bugulsan",
+        "Gyeongju"
+      ],
+      "headsign": "Gyeongju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "누리로 1882",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Taehwagang",
+          "destination": "Bugulsan",
+          "departureTime": "21:38",
+          "arrivalTime": "21:46",
+          "durationMinutes": 8
+        },
+        {
+          "lineName": "누리로 1882",
+          "lineCode": "동해선",
+          "mode": "train",
+          "origin": "Bugulsan",
+          "destination": "Gyeongju",
+          "departureTime": "21:46",
+          "arrivalTime": "22:07",
+          "durationMinutes": 21
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -1848,7 +2364,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-08T01:25:49.728Z",
+    "fetchedAt": "2026-10-11T00:35:51.437Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

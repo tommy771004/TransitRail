@@ -1,15 +1,15 @@
 {
   "origin": "Suncheon",
   "destination": "Yeosu-Expo",
-  "date": "2026-10-10..2026-10-16",
-  "scrapedAt": "2026-10-08T01:25:50.077Z",
+  "date": "2026-10-11..2026-10-19",
+  "scrapedAt": "2026-10-11T00:35:51.799Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 10. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10bacb336520.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-08T01:25:46.564Z",
+      "retrievedAt": "2026-10-11T00:35:47.218Z",
       "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 10. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10a842d5b580.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-08T01:25:47.426Z",
+      "retrievedAt": "2026-10-11T00:35:49.148Z",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
@@ -33,92 +33,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-10-09-regular-전라선-9-15-next-day",
-      "country": "korea",
-      "date": "2026-10-10",
-      "operator": "Korail",
-      "service": "무궁화 1575",
-      "trainType": "무궁화",
-      "origin": "Suncheon",
-      "destination": "Yeosu-Expo",
-      "departureTime": "00:02",
-      "arrivalTime": "00:26",
-      "durationMinutes": 24,
-      "direct": true,
-      "stops": [
-        "Suncheon",
-        "Yeocheon",
-        "Yeosu-Expo"
-      ],
-      "headsign": "Yeosu-Expo",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1575",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Suncheon",
-          "destination": "Yeocheon",
-          "departureTime": "00:02",
-          "arrivalTime": "00:17",
-          "durationMinutes": 15
-        },
-        {
-          "lineName": "무궁화 1575",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yeocheon",
-          "destination": "Yeosu-Expo",
-          "departureTime": "00:17",
-          "arrivalTime": "00:26",
-          "durationMinutes": 9
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-09-ktx-전라선-38-2-next-day",
-      "country": "korea",
-      "date": "2026-10-10",
-      "operator": "Korail",
-      "service": "KTX-산천 531",
-      "trainType": "KTX-산천",
-      "origin": "Suncheon",
-      "destination": "Yeosu-Expo",
-      "departureTime": "00:14",
-      "arrivalTime": "00:36",
-      "durationMinutes": 22,
-      "direct": true,
-      "stops": [
-        "Suncheon",
-        "Yeocheon",
-        "Yeosu-Expo"
-      ],
-      "headsign": "Yeosu-Expo",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 531",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Suncheon",
-          "destination": "Yeocheon",
-          "departureTime": "00:14",
-          "arrivalTime": "00:28",
-          "durationMinutes": 14
-        },
-        {
-          "lineName": "KTX-산천 531",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yeocheon",
-          "destination": "Yeosu-Expo",
-          "departureTime": "00:28",
-          "arrivalTime": "00:36",
-          "durationMinutes": 8
-        }
-      ]
-    },
     {
       "id": "korail-2026-10-10-regular-전라선-9-15-next-day",
       "country": "korea",
@@ -634,6 +548,264 @@
           "durationMinutes": 8
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-16-regular-전라선-9-15-next-day",
+      "country": "korea",
+      "date": "2026-10-17",
+      "operator": "Korail",
+      "service": "무궁화 1575",
+      "trainType": "무궁화",
+      "origin": "Suncheon",
+      "destination": "Yeosu-Expo",
+      "departureTime": "00:02",
+      "arrivalTime": "00:26",
+      "durationMinutes": 24,
+      "direct": true,
+      "stops": [
+        "Suncheon",
+        "Yeocheon",
+        "Yeosu-Expo"
+      ],
+      "headsign": "Yeosu-Expo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1575",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Yeocheon",
+          "departureTime": "00:02",
+          "arrivalTime": "00:17",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1575",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Yeosu-Expo",
+          "departureTime": "00:17",
+          "arrivalTime": "00:26",
+          "durationMinutes": 9
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-16-ktx-전라선-38-2-next-day",
+      "country": "korea",
+      "date": "2026-10-17",
+      "operator": "Korail",
+      "service": "KTX-산천 531",
+      "trainType": "KTX-산천",
+      "origin": "Suncheon",
+      "destination": "Yeosu-Expo",
+      "departureTime": "00:14",
+      "arrivalTime": "00:36",
+      "durationMinutes": 22,
+      "direct": true,
+      "stops": [
+        "Suncheon",
+        "Yeocheon",
+        "Yeosu-Expo"
+      ],
+      "headsign": "Yeosu-Expo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 531",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Yeocheon",
+          "departureTime": "00:14",
+          "arrivalTime": "00:28",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX-산천 531",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Yeosu-Expo",
+          "departureTime": "00:28",
+          "arrivalTime": "00:36",
+          "durationMinutes": 8
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-17-regular-전라선-9-15-next-day",
+      "country": "korea",
+      "date": "2026-10-18",
+      "operator": "Korail",
+      "service": "무궁화 1575",
+      "trainType": "무궁화",
+      "origin": "Suncheon",
+      "destination": "Yeosu-Expo",
+      "departureTime": "00:02",
+      "arrivalTime": "00:26",
+      "durationMinutes": 24,
+      "direct": true,
+      "stops": [
+        "Suncheon",
+        "Yeocheon",
+        "Yeosu-Expo"
+      ],
+      "headsign": "Yeosu-Expo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1575",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Yeocheon",
+          "departureTime": "00:02",
+          "arrivalTime": "00:17",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1575",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Yeosu-Expo",
+          "departureTime": "00:17",
+          "arrivalTime": "00:26",
+          "durationMinutes": 9
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-17-ktx-전라선-38-2-next-day",
+      "country": "korea",
+      "date": "2026-10-18",
+      "operator": "Korail",
+      "service": "KTX-산천 531",
+      "trainType": "KTX-산천",
+      "origin": "Suncheon",
+      "destination": "Yeosu-Expo",
+      "departureTime": "00:14",
+      "arrivalTime": "00:36",
+      "durationMinutes": 22,
+      "direct": true,
+      "stops": [
+        "Suncheon",
+        "Yeocheon",
+        "Yeosu-Expo"
+      ],
+      "headsign": "Yeosu-Expo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 531",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Yeocheon",
+          "departureTime": "00:14",
+          "arrivalTime": "00:28",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX-산천 531",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Yeosu-Expo",
+          "departureTime": "00:28",
+          "arrivalTime": "00:36",
+          "durationMinutes": 8
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-18-regular-전라선-9-15-next-day",
+      "country": "korea",
+      "date": "2026-10-19",
+      "operator": "Korail",
+      "service": "무궁화 1575",
+      "trainType": "무궁화",
+      "origin": "Suncheon",
+      "destination": "Yeosu-Expo",
+      "departureTime": "00:02",
+      "arrivalTime": "00:26",
+      "durationMinutes": 24,
+      "direct": true,
+      "stops": [
+        "Suncheon",
+        "Yeocheon",
+        "Yeosu-Expo"
+      ],
+      "headsign": "Yeosu-Expo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1575",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Yeocheon",
+          "departureTime": "00:02",
+          "arrivalTime": "00:17",
+          "durationMinutes": 15
+        },
+        {
+          "lineName": "무궁화 1575",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Yeosu-Expo",
+          "departureTime": "00:17",
+          "arrivalTime": "00:26",
+          "durationMinutes": 9
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-18-ktx-전라선-38-2-next-day",
+      "country": "korea",
+      "date": "2026-10-19",
+      "operator": "Korail",
+      "service": "KTX-산천 531",
+      "trainType": "KTX-산천",
+      "origin": "Suncheon",
+      "destination": "Yeosu-Expo",
+      "departureTime": "00:14",
+      "arrivalTime": "00:36",
+      "durationMinutes": 22,
+      "direct": true,
+      "stops": [
+        "Suncheon",
+        "Yeocheon",
+        "Yeosu-Expo"
+      ],
+      "headsign": "Yeosu-Expo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 531",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Yeocheon",
+          "departureTime": "00:14",
+          "arrivalTime": "00:28",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "KTX-산천 531",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yeocheon",
+          "destination": "Yeosu-Expo",
+          "departureTime": "00:28",
+          "arrivalTime": "00:36",
+          "durationMinutes": 8
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -644,7 +816,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-08T01:25:49.728Z",
+    "fetchedAt": "2026-10-11T00:35:51.437Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

@@ -1,15 +1,15 @@
 {
   "origin": "Jeonju",
   "destination": "Seoul",
-  "date": "2026-10-10..2026-10-16",
-  "scrapedAt": "2026-10-08T01:25:49.914Z",
+  "date": "2026-10-11..2026-10-18",
+  "scrapedAt": "2026-10-11T00:35:51.271Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 10. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10bacb336520.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-08T01:25:46.564Z",
+      "retrievedAt": "2026-10-11T00:35:47.218Z",
       "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 10. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10a842d5b580.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-08T01:25:47.426Z",
+      "retrievedAt": "2026-10-11T00:35:49.148Z",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
@@ -33,115 +33,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-10-10-ktx-전라선-29-28",
-      "country": "korea",
-      "date": "2026-10-10",
-      "operator": "Korail",
-      "service": "KTX-산천 586",
-      "trainType": "KTX-산천",
-      "origin": "Jeonju",
-      "destination": "Seoul",
-      "departureTime": "17:46",
-      "arrivalTime": "20:23",
-      "durationMinutes": 157,
-      "direct": true,
-      "stops": [
-        "Jeonju",
-        "Iksan",
-        "Nonsan",
-        "Gyeryong",
-        "Seodaejeon",
-        "Osong",
-        "Gwangmyeong",
-        "Yongsan",
-        "Seoul"
-      ],
-      "headsign": "Seoul",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 586",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Jeonju",
-          "destination": "Iksan",
-          "departureTime": "17:46",
-          "arrivalTime": "18:06",
-          "durationMinutes": 20
-        },
-        {
-          "lineName": "KTX-산천 586",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Nonsan",
-          "departureTime": "18:06",
-          "arrivalTime": "18:31",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "KTX-산천 586",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Nonsan",
-          "destination": "Gyeryong",
-          "departureTime": "18:31",
-          "arrivalTime": "18:50",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "KTX-산천 586",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Gyeryong",
-          "destination": "Seodaejeon",
-          "departureTime": "18:50",
-          "arrivalTime": "19:07",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "KTX-산천 586",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Seodaejeon",
-          "destination": "Osong",
-          "departureTime": "19:07",
-          "arrivalTime": "19:26",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "KTX-산천 586",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Osong",
-          "destination": "Gwangmyeong",
-          "departureTime": "19:26",
-          "arrivalTime": "19:59",
-          "durationMinutes": 33
-        },
-        {
-          "lineName": "KTX-산천 586",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Yongsan",
-          "departureTime": "19:59",
-          "arrivalTime": "20:18",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "KTX-산천 586",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yongsan",
-          "destination": "Seoul",
-          "departureTime": "20:18",
-          "arrivalTime": "20:23",
-          "durationMinutes": 5
-        }
-      ]
-    },
     {
       "id": "korail-2026-10-11-ktx-전라선-29-28",
       "country": "korea",
@@ -359,6 +250,224 @@
           "durationMinutes": 5
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-17-ktx-전라선-29-28",
+      "country": "korea",
+      "date": "2026-10-17",
+      "operator": "Korail",
+      "service": "KTX-산천 586",
+      "trainType": "KTX-산천",
+      "origin": "Jeonju",
+      "destination": "Seoul",
+      "departureTime": "17:46",
+      "arrivalTime": "20:23",
+      "durationMinutes": 157,
+      "direct": true,
+      "stops": [
+        "Jeonju",
+        "Iksan",
+        "Nonsan",
+        "Gyeryong",
+        "Seodaejeon",
+        "Osong",
+        "Gwangmyeong",
+        "Yongsan",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Iksan",
+          "departureTime": "17:46",
+          "arrivalTime": "18:06",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Nonsan",
+          "departureTime": "18:06",
+          "arrivalTime": "18:31",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Nonsan",
+          "destination": "Gyeryong",
+          "departureTime": "18:31",
+          "arrivalTime": "18:50",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gyeryong",
+          "destination": "Seodaejeon",
+          "departureTime": "18:50",
+          "arrivalTime": "19:07",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Seodaejeon",
+          "destination": "Osong",
+          "departureTime": "19:07",
+          "arrivalTime": "19:26",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Gwangmyeong",
+          "departureTime": "19:26",
+          "arrivalTime": "19:59",
+          "durationMinutes": 33
+        },
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "19:59",
+          "arrivalTime": "20:18",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yongsan",
+          "destination": "Seoul",
+          "departureTime": "20:18",
+          "arrivalTime": "20:23",
+          "durationMinutes": 5
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-18-ktx-전라선-29-28",
+      "country": "korea",
+      "date": "2026-10-18",
+      "operator": "Korail",
+      "service": "KTX-산천 586",
+      "trainType": "KTX-산천",
+      "origin": "Jeonju",
+      "destination": "Seoul",
+      "departureTime": "17:46",
+      "arrivalTime": "20:23",
+      "durationMinutes": 157,
+      "direct": true,
+      "stops": [
+        "Jeonju",
+        "Iksan",
+        "Nonsan",
+        "Gyeryong",
+        "Seodaejeon",
+        "Osong",
+        "Gwangmyeong",
+        "Yongsan",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Jeonju",
+          "destination": "Iksan",
+          "departureTime": "17:46",
+          "arrivalTime": "18:06",
+          "durationMinutes": 20
+        },
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Nonsan",
+          "departureTime": "18:06",
+          "arrivalTime": "18:31",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Nonsan",
+          "destination": "Gyeryong",
+          "departureTime": "18:31",
+          "arrivalTime": "18:50",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gyeryong",
+          "destination": "Seodaejeon",
+          "departureTime": "18:50",
+          "arrivalTime": "19:07",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Seodaejeon",
+          "destination": "Osong",
+          "departureTime": "19:07",
+          "arrivalTime": "19:26",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Gwangmyeong",
+          "departureTime": "19:26",
+          "arrivalTime": "19:59",
+          "durationMinutes": 33
+        },
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Yongsan",
+          "departureTime": "19:59",
+          "arrivalTime": "20:18",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 586",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yongsan",
+          "destination": "Seoul",
+          "departureTime": "20:18",
+          "arrivalTime": "20:23",
+          "durationMinutes": 5
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -369,7 +478,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-08T01:25:49.728Z",
+    "fetchedAt": "2026-10-11T00:35:51.112Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
