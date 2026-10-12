@@ -1,6 +1,6 @@
 {
   "country": "belgium",
-  "serviceDate": "2026-10-11",
+  "serviceDate": "2026-10-12",
   "regions": [
     {
       "id": "belgium-intercity",
@@ -42,13 +42,19 @@
               "name": "Antwerp-Berchem"
             },
             {
-              "name": "Mechelen"
+              "name": "Muizen"
             },
             {
-              "name": "Brussels-North"
+              "name": "Hofstade"
             },
             {
-              "name": "Brussels-Central"
+              "name": "Vilvoorde"
+            },
+            {
+              "name": "Evere"
+            },
+            {
+              "name": "Meiser"
             },
             {
               "name": "Brussels-Schuman"
@@ -101,6 +107,36 @@
               "name": "Brussels-Central"
             },
             {
+              "name": "Brussels-South/Brussels-Midi"
+            },
+            {
+              "name": "Denderleeuw"
+            },
+            {
+              "name": "Balegem-Zuid"
+            },
+            {
+              "name": "Balegem-Dorp"
+            },
+            {
+              "name": "Scheldewindeke"
+            },
+            {
+              "name": "Moortsele"
+            },
+            {
+              "name": "Landskouter"
+            },
+            {
+              "name": "Gontrode"
+            },
+            {
+              "name": "Melle"
+            },
+            {
+              "name": "Merelbeke"
+            },
+            {
               "name": "Ghent-Sint-Pieters"
             }
           ]
@@ -130,16 +166,13 @@
         {
           "id": "belgium-route-brussels-luxembourg-antwerpen-centraal-6",
           "name": "Brussels-Luxemburg/Brussels-Luxembourg → Antwerp-Central",
-          "color": "#4B5563",
+          "color": "#0055A4",
           "stations": [
             {
               "name": "Brussels-Luxemburg/Brussels-Luxembourg"
             },
             {
               "name": "Brussels-Schuman"
-            },
-            {
-              "name": "Bordet"
             },
             {
               "name": "Mechelen"
@@ -161,22 +194,19 @@
               "name": "Brussels-South/Brussels-Midi"
             },
             {
-              "name": "Brussels-Central"
+              "name": "Braine-l'Alleud"
             },
             {
-              "name": "Brussels-North"
+              "name": "Nivelles"
             },
             {
-              "name": "Brussels-Schuman"
+              "name": "Luttre"
             },
             {
-              "name": "Brussels-Luxemburg/Brussels-Luxembourg"
+              "name": "Marchienne-au-Pont"
             },
             {
-              "name": "Ottignies"
-            },
-            {
-              "name": "Gembloux"
+              "name": "Tamines"
             },
             {
               "name": "Namur"
@@ -192,6 +222,27 @@
               "name": "Ghent-Sint-Pieters"
             },
             {
+              "name": "Merelbeke"
+            },
+            {
+              "name": "Melle"
+            },
+            {
+              "name": "Wetteren"
+            },
+            {
+              "name": "Lede"
+            },
+            {
+              "name": "Aalst"
+            },
+            {
+              "name": "Denderleeuw"
+            },
+            {
+              "name": "Brussels-South/Brussels-Midi"
+            },
+            {
               "name": "Brussels-Central"
             },
             {
@@ -205,7 +256,7 @@
         {
           "id": "belgium-route-liege-guillemins-brugge-9",
           "name": "Liège-Guillemins → Brugge",
-          "color": "#0055A4",
+          "color": "#4B5563",
           "stations": [
             {
               "name": "Liège-Guillemins"
@@ -214,10 +265,25 @@
               "name": "Ans"
             },
             {
-              "name": "Waremme"
+              "name": "Bierset-Awans"
             },
             {
-              "name": "Landen"
+              "name": "Voroux"
+            },
+            {
+              "name": "Fexhe-le-Haut-Clocher"
+            },
+            {
+              "name": "Momalle"
+            },
+            {
+              "name": "Remicourt"
+            },
+            {
+              "name": "Bleret"
+            },
+            {
+              "name": "Waremme"
             },
             {
               "name": "Tienen"
@@ -236,6 +302,9 @@
             },
             {
               "name": "Ghent-Sint-Pieters"
+            },
+            {
+              "name": "Aalter"
             },
             {
               "name": "Brugge"
@@ -311,13 +380,19 @@
           "name": "Antwerp-Berchem"
         },
         {
-          "name": "Mechelen"
+          "name": "Muizen"
         },
         {
-          "name": "Brussels-North"
+          "name": "Hofstade"
         },
         {
-          "name": "Brussels-Central"
+          "name": "Vilvoorde"
+        },
+        {
+          "name": "Evere"
+        },
+        {
+          "name": "Meiser"
         },
         {
           "name": "Brussels-Schuman"
@@ -370,6 +445,36 @@
           "name": "Brussels-Central"
         },
         {
+          "name": "Brussels-South/Brussels-Midi"
+        },
+        {
+          "name": "Denderleeuw"
+        },
+        {
+          "name": "Balegem-Zuid"
+        },
+        {
+          "name": "Balegem-Dorp"
+        },
+        {
+          "name": "Scheldewindeke"
+        },
+        {
+          "name": "Moortsele"
+        },
+        {
+          "name": "Landskouter"
+        },
+        {
+          "name": "Gontrode"
+        },
+        {
+          "name": "Melle"
+        },
+        {
+          "name": "Merelbeke"
+        },
+        {
           "name": "Ghent-Sint-Pieters"
         }
       ]
@@ -399,16 +504,13 @@
     {
       "id": "belgium-route-brussels-luxembourg-antwerpen-centraal-6",
       "name": "Brussels-Luxemburg/Brussels-Luxembourg → Antwerp-Central",
-      "color": "#4B5563",
+      "color": "#0055A4",
       "stations": [
         {
           "name": "Brussels-Luxemburg/Brussels-Luxembourg"
         },
         {
           "name": "Brussels-Schuman"
-        },
-        {
-          "name": "Bordet"
         },
         {
           "name": "Mechelen"
@@ -430,22 +532,19 @@
           "name": "Brussels-South/Brussels-Midi"
         },
         {
-          "name": "Brussels-Central"
+          "name": "Braine-l'Alleud"
         },
         {
-          "name": "Brussels-North"
+          "name": "Nivelles"
         },
         {
-          "name": "Brussels-Schuman"
+          "name": "Luttre"
         },
         {
-          "name": "Brussels-Luxemburg/Brussels-Luxembourg"
+          "name": "Marchienne-au-Pont"
         },
         {
-          "name": "Ottignies"
-        },
-        {
-          "name": "Gembloux"
+          "name": "Tamines"
         },
         {
           "name": "Namur"
@@ -461,6 +560,27 @@
           "name": "Ghent-Sint-Pieters"
         },
         {
+          "name": "Merelbeke"
+        },
+        {
+          "name": "Melle"
+        },
+        {
+          "name": "Wetteren"
+        },
+        {
+          "name": "Lede"
+        },
+        {
+          "name": "Aalst"
+        },
+        {
+          "name": "Denderleeuw"
+        },
+        {
+          "name": "Brussels-South/Brussels-Midi"
+        },
+        {
           "name": "Brussels-Central"
         },
         {
@@ -474,7 +594,7 @@
     {
       "id": "belgium-route-liege-guillemins-brugge-9",
       "name": "Liège-Guillemins → Brugge",
-      "color": "#0055A4",
+      "color": "#4B5563",
       "stations": [
         {
           "name": "Liège-Guillemins"
@@ -483,10 +603,25 @@
           "name": "Ans"
         },
         {
-          "name": "Waremme"
+          "name": "Bierset-Awans"
         },
         {
-          "name": "Landen"
+          "name": "Voroux"
+        },
+        {
+          "name": "Fexhe-le-Haut-Clocher"
+        },
+        {
+          "name": "Momalle"
+        },
+        {
+          "name": "Remicourt"
+        },
+        {
+          "name": "Bleret"
+        },
+        {
+          "name": "Waremme"
         },
         {
           "name": "Tienen"
@@ -505,6 +640,9 @@
         },
         {
           "name": "Ghent-Sint-Pieters"
+        },
+        {
+          "name": "Aalter"
         },
         {
           "name": "Brugge"
@@ -1265,11 +1403,11 @@
   "coverage": {
     "mode": "provider",
     "dateRange": {
-      "start": "2026-10-11",
-      "end": "2026-10-24",
+      "start": "2026-10-12",
+      "end": "2026-10-25",
       "days": 14,
       "liveOnly": false
     },
-    "date": "2026-10-11"
+    "date": "2026-10-12"
   }
 }
