@@ -1,24 +1,26 @@
 {
   "origin": "Dogye",
   "destination": "Donghae",
-  "date": "2026-10-13..2026-10-19",
-  "scrapedAt": "2026-10-11T00:35:51.778Z",
+  "date": "2026-10-14..2026-10-22",
+  "scrapedAt": "2026-10-14T00:44:19.418Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 10. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10bacb336520.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-11T00:35:47.218Z",
       "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
+      "effectiveUntil": "2026-10-31",
+      "retrievedAt": "2026-10-14T00:44:16.015Z",
       "exclusions": []
     },
     {
       "title": "일반열차 시간표(2026. 10. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10a842d5b580.xlsx",
       "effectiveFrom": "2026-10-01",
-      "retrievedAt": "2026-10-11T00:35:49.148Z",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
+      "effectiveUntil": "2026-10-31",
+      "retrievedAt": "2026-10-14T00:44:16.828Z",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
         "Korail excluded 서해선 1231: published start or end time missing",
@@ -33,38 +35,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-10-13-regular-영동선-9-25",
-      "country": "korea",
-      "date": "2026-10-13",
-      "operator": "Korail",
-      "service": "ITX-마음 1641",
-      "trainType": "ITX-마음",
-      "origin": "Dogye",
-      "destination": "Donghae",
-      "departureTime": "20:30",
-      "arrivalTime": "21:08",
-      "durationMinutes": 38,
-      "direct": true,
-      "stops": [
-        "Dogye",
-        "Donghae"
-      ],
-      "headsign": "Donghae",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1641",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Dogye",
-          "destination": "Donghae",
-          "departureTime": "20:30",
-          "arrivalTime": "21:08",
-          "durationMinutes": 38
-        }
-      ]
-    },
     {
       "id": "korail-2026-10-14-regular-영동선-9-25",
       "country": "korea",
@@ -256,6 +226,102 @@
           "durationMinutes": 38
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-20-regular-영동선-9-25",
+      "country": "korea",
+      "date": "2026-10-20",
+      "operator": "Korail",
+      "service": "ITX-마음 1641",
+      "trainType": "ITX-마음",
+      "origin": "Dogye",
+      "destination": "Donghae",
+      "departureTime": "20:30",
+      "arrivalTime": "21:08",
+      "durationMinutes": 38,
+      "direct": true,
+      "stops": [
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "20:30",
+          "arrivalTime": "21:08",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-21-regular-영동선-9-25",
+      "country": "korea",
+      "date": "2026-10-21",
+      "operator": "Korail",
+      "service": "ITX-마음 1641",
+      "trainType": "ITX-마음",
+      "origin": "Dogye",
+      "destination": "Donghae",
+      "departureTime": "20:30",
+      "arrivalTime": "21:08",
+      "durationMinutes": 38,
+      "direct": true,
+      "stops": [
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "20:30",
+          "arrivalTime": "21:08",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-22-regular-영동선-9-25",
+      "country": "korea",
+      "date": "2026-10-22",
+      "operator": "Korail",
+      "service": "ITX-마음 1641",
+      "trainType": "ITX-마음",
+      "origin": "Dogye",
+      "destination": "Donghae",
+      "departureTime": "20:30",
+      "arrivalTime": "21:08",
+      "durationMinutes": 38,
+      "direct": true,
+      "stops": [
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1641",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "20:30",
+          "arrivalTime": "21:08",
+          "durationMinutes": 38
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -266,7 +332,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-11T00:35:51.437Z",
+    "fetchedAt": "2026-10-14T00:44:19.100Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
