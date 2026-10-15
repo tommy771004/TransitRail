@@ -12,6 +12,7 @@ import { BottomNav } from "./components/BottomNav";
 import { SearchForm } from "./components/SearchForm";
 import { StationBrowser } from "./components/StationBrowser";
 import { StationBoard } from "./components/StationBoard";
+import { KtmbLiveTrains } from "./components/KtmbLiveTrains";
 import { DataWorkflowView } from "./components/DataWorkflowView";
 import { FeedbackView } from "./components/FeedbackView";
 import { DiagnosticOverlay } from "./components/DiagnosticOverlay";
@@ -312,6 +313,7 @@ export default function App() {
   const [originLineId, setOriginLineId] = useState<string | undefined>();
   const [showStations, setShowStations] = useState(false);
   const [boardStation, setBoardStation] = useState<string>();
+  const [showKtmbLive, setShowKtmbLive] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -1524,6 +1526,7 @@ export default function App() {
             formatRowPrice={formatRowPrice}
             overview={routeOverview}
             onOpenBoard={setBoardStation}
+            onOpenLiveTrains={() => setShowKtmbLive(true)}
           />
         );
       case "legend":
@@ -1967,6 +1970,10 @@ export default function App() {
             selectedDate={draftSearch.date}
           />
         )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showKtmbLive && <KtmbLiveTrains onClose={() => setShowKtmbLive(false)} />}
       </AnimatePresence>
 
       <AnimatePresence>

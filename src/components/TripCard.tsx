@@ -20,6 +20,7 @@ import { SplitFlap } from "./SplitFlap";
 import { TripDetails } from "./TripDetails";
 import { transferPressure } from "../utils/journeyLegs";
 import { formatRelativeTime } from "../utils/relativeTime";
+import { livePositionText } from "../utils/livePosition";
 
 export interface TripCardProps {
   trip: TransitResult;
@@ -280,9 +281,7 @@ export function TripCard({
           <p className="m3-label-medium mb-2 flex min-w-0 items-center gap-1.5 text-slate-700 dark:text-slate-200" data-live-position>
             <span aria-hidden="true" className="h-2 w-2 shrink-0 rounded-full bg-accent" />
             <span className="min-w-0 truncate">
-              {trip.livePosition.nearStation
-                ? t("result.train_near", { station: stationLabel(t, trip.livePosition.nearStation, trip.country) })
-                : t("result.train_between")}
+              {livePositionText(t, trip.livePosition, trip.country)}
             </span>
             <span className="shrink-0 whitespace-nowrap text-slate-500 dark:text-slate-400">· {formatRelativeTime(trip.livePosition.reportedAt, i18n.language)}</span>
           </p>

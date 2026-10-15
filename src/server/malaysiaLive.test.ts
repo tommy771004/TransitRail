@@ -1,7 +1,8 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { decodeVehiclePositions } from "./gtfsRealtime";
-import { ktmbStationName, liveTrainsFrom, nearestStation } from "./malaysiaLive";
+import type { GtfsFeed } from "./gtfs/feed";
+import { betweenCalls, ktmbStationName, ktmbTripInfo, liveTrainsFrom, nearestStation } from "./malaysiaLive";
 import { withKtmbLivePositions } from "../hooks/useKtmbLiveTrains";
 import type { TransitResult } from "../types";
 
@@ -61,5 +62,51 @@ describe("KTMB live trains", () => {
     expect(today.departureTime).toBe("15:06");
     expect(other.livePosition).toBeUndefined();
     expect(tomorrow.livePosition).toBeUndefined();
+  });
+});
+
+describe("KTMB trip ends", () => {
+  const feed: GtfsFeed = {
+    stops: [
+      { id: "19100", name: "KL SENTRAL" },
+      { id: "19000", name: "KUALA LUMPUR" },
+      { id: "10000", name: "BUTTERWORTH" },
+    ],
+    trips: new Map([["9130", { serviceId: "ets", routeId: "ETS" }]]),
+    routes: new Map([["ETS", { shortName: "ETS", longName: "Electric Train Service Padang Besar - JB Sentral" }]]),
+    stopTimes: "trip_id,arrival_time,departure_time,stop_id,stop_sequence\n9130,,14:00:00,19000,2\n9130,19:30:00,,10000,12\n9130,,13:55:00,19100,1\n",
+    activeDates: new Map(),
+  };
+
+  it("reads the service and both end stations from stop_times", () => {
+    expect(ktmbTripInfo(feed).get("9130")).toMatchObject({ service: "ETS", from: "KL Sentral", to: "Butterworth" });
+  });
+
+  it("attaches them to the live train and lists trains in service order", () => {
+    const [first, second] = liveTrainsFrom([
+      { entityId: "1", tripId: "9326", label: "ETS305", latitude: 3.75, longitude: 101.44, reportedAt: "2026-10-15T07:32:42.000Z" },
+      { entityId: "0", tripId: "9130", label: "ETS309", latitude: 4.25, longitude: 101.18, reportedAt: "2026-10-15T07:32:42.000Z" },
+    ], feed.stops, fedAt, ktmbTripInfo(feed));
+    expect(first).toMatchObject({ tripId: "9130", service: "ETS", to: "Butterworth" });
+    expect(second).toMatchObject({ tripId: "9326" });
+    expect(second.service).toBeUndefined();
+  });
+});
+
+describe("Placing a train between its own calling points", () => {
+  const calls = [
+    { name: "KL Sentral", latitude: 3.1343, longitude: 101.6863 },
+    { name: "Rawang", latitude: 3.3190, longitude: 101.5750 },
+    { name: "Ipoh", latitude: 4.5975, longitude: 101.0901 },
+  ];
+
+  it("names the leg the train is on", () => {
+    expect(betweenCalls({ latitude: 3.9, longitude: 101.35 }, calls)).toEqual(["Rawang", "Ipoh"]);
+    expect(betweenCalls({ latitude: 3.22, longitude: 101.63 }, calls)).toEqual(["KL Sentral", "Rawang"]);
+  });
+
+  it("says nothing when the position does not fit the trip", () => {
+    expect(betweenCalls({ latitude: 2.2, longitude: 102.25 }, calls)).toBeUndefined();
+    expect(betweenCalls({ latitude: 3.9, longitude: 101.35 }, [])).toBeUndefined();
   });
 });

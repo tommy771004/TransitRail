@@ -5,7 +5,7 @@
 // static feed. Realtime trip ids are the static trip ids, so a timetable row can
 // find its own train. Nothing here moves a departure time.
 
-import type { GtfsStop } from "./gtfs/feed";
+import { forEachGtfsCsvRow, type GtfsFeed, type GtfsStop } from "./gtfs/feed";
 import { decodeVehiclePositions, type RealtimeVehicle } from "./gtfsRealtime";
 import { loadMalaysiaKtmbFeed } from "./malaysiaGtfs";
 
@@ -17,12 +17,21 @@ const SERVICE_AREA = { minLat: 1.0, maxLat: 7.0, minLon: 99.5, maxLon: 104.5 };
 const MAX_REPORT_AGE_MS = 10 * 60_000;
 /** Farther than this from every station, the train is between stations. */
 const NEAR_STATION_KM = 2;
+/** Farther than this from every leg of its own trip, the position does not fit the trip. */
+const ON_TRIP_KM = 15;
 
 export interface LiveTrain {
   tripId: string;
   label?: string;
+  /** Service as the static feed names its route, such as "ETS". */
+  service?: string;
+  /** First and last stations of the trip, in the passenger-facing spelling. */
+  from?: string;
+  to?: string;
   /** Nearest station within reach, in the passenger-facing spelling. */
   nearStation?: string;
+  /** Otherwise, the two calling points of its own trip the train is between. */
+  between?: [string, string];
   reportedAt: string;
 }
 
@@ -59,8 +68,96 @@ export function nearestStation(vehicle: Pick<RealtimeVehicle, "latitude" | "long
   return best && best.km <= NEAR_STATION_KM ? ktmbStationName(best.name) : undefined;
 }
 
+interface TripInfo {
+  service?: string;
+  from?: string;
+  to?: string;
+  /** Calling points in order, with coordinates, for placing a train between two of them. */
+  calls?: Array<{ name: string; latitude: number; longitude: number }>;
+}
+
+/** Distance from a point to a short segment, on a flat local projection. */
+function segmentDistanceKm(
+  point: { latitude: number; longitude: number },
+  a: { latitude: number; longitude: number },
+  b: { latitude: number; longitude: number },
+) {
+  const kmPerLat = 110.574;
+  const kmPerLon = 111.32 * Math.cos((point.latitude * Math.PI) / 180);
+  const ax = (a.longitude - point.longitude) * kmPerLon;
+  const ay = (a.latitude - point.latitude) * kmPerLat;
+  const bx = (b.longitude - point.longitude) * kmPerLon;
+  const by = (b.latitude - point.latitude) * kmPerLat;
+  const dx = bx - ax;
+  const dy = by - ay;
+  const lengthSquared = dx * dx + dy * dy;
+  const t = lengthSquared === 0 ? 0 : Math.max(0, Math.min(1, -(ax * dx + ay * dy) / lengthSquared));
+  return Math.hypot(ax + t * dx, ay + t * dy);
+}
+
+/** The pair of consecutive calling points whose leg the train is on. */
+export function betweenCalls(
+  vehicle: { latitude: number; longitude: number },
+  calls: TripInfo["calls"],
+): [string, string] | undefined {
+  let best: { pair: [string, string]; km: number } | undefined;
+  for (let index = 1; index < (calls?.length ?? 0); index += 1) {
+    const from = calls![index - 1];
+    const to = calls![index];
+    const km = segmentDistanceKm(vehicle, from, to);
+    if (!best || km < best.km) best = { pair: [from.name, to.name], km };
+  }
+  return best && best.km <= ON_TRIP_KM ? best.pair : undefined;
+}
+
+const tripInfoCache = new WeakMap<GtfsFeed, Map<string, TripInfo>>();
+
+/**
+ * Each trip's service and end stations, read once per static feed. KTMB's
+ * trips.txt carries no headsign, so the ends come from stop_times.
+ */
+export function ktmbTripInfo(feed: GtfsFeed): Map<string, TripInfo> {
+  const cached = tripInfoCache.get(feed);
+  if (cached) return cached;
+  const callsByTrip = new Map<string, Array<[number, string]>>();
+  forEachGtfsCsvRow(feed.stopTimes, (row) => {
+    const sequence = Number(row.stop_sequence);
+    if (!row.trip_id || !row.stop_id || !Number.isFinite(sequence)) return;
+    const calls = callsByTrip.get(row.trip_id) || [];
+    calls.push([sequence, row.stop_id]);
+    callsByTrip.set(row.trip_id, calls);
+  });
+  const stopsById = new Map(feed.stops.map((stop) => [stop.id, stop]));
+  const info = new Map<string, TripInfo>();
+  for (const [tripId, trip] of feed.trips) {
+    const route = trip.routeId ? feed.routes.get(trip.routeId) : undefined;
+    const ordered = (callsByTrip.get(tripId) || [])
+      .sort((a, b) => a[0] - b[0])
+      .map(([, stopId]) => stopsById.get(stopId))
+      .filter((stop): stop is GtfsStop => Boolean(stop));
+    const named = (stop?: GtfsStop) => (stop ? ktmbStationName(stop.name) : undefined);
+    info.set(tripId, {
+      service: trip.shortName?.trim() || route?.shortName?.trim() || route?.longName?.trim() || undefined,
+      from: named(ordered[0]),
+      to: named(ordered[ordered.length - 1]),
+      calls: ordered.flatMap((stop) => (
+        stop.latitude === undefined || stop.longitude === undefined
+          ? []
+          : [{ name: ktmbStationName(stop.name), latitude: stop.latitude, longitude: stop.longitude }]
+      )),
+    });
+  }
+  tripInfoCache.set(feed, info);
+  return info;
+}
+
 /** Trains that are plausibly where they say, recently; one row per trip. */
-export function liveTrainsFrom(vehicles: readonly RealtimeVehicle[], stops: readonly GtfsStop[], now = new Date()): LiveTrain[] {
+export function liveTrainsFrom(
+  vehicles: readonly RealtimeVehicle[],
+  stops: readonly GtfsStop[],
+  now = new Date(),
+  trips: ReadonlyMap<string, TripInfo> = new Map(),
+): LiveTrain[] {
   const byTrip = new Map<string, LiveTrain>();
   for (const vehicle of vehicles) {
     if (!vehicle.tripId || !vehicle.reportedAt) continue;
@@ -70,14 +167,24 @@ export function liveTrainsFrom(vehicles: readonly RealtimeVehicle[], stops: read
     if (!(age <= MAX_REPORT_AGE_MS)) continue;
     const previous = byTrip.get(vehicle.tripId);
     if (previous && previous.reportedAt >= vehicle.reportedAt) continue;
+    const { calls, ...trip } = trips.get(vehicle.tripId) || {};
+    const nearStation = nearestStation(vehicle, stops);
+    const between = nearStation ? undefined : betweenCalls(vehicle, calls);
     byTrip.set(vehicle.tripId, {
       tripId: vehicle.tripId,
       label: vehicle.label,
-      nearStation: nearestStation(vehicle, stops),
+      ...trip,
+      nearStation,
+      ...(between ? { between } : {}),
       reportedAt: vehicle.reportedAt,
     });
   }
-  return [...byTrip.values()];
+  // Grouped by service, trains the static feed does not know last.
+  return [...byTrip.values()].sort((a, b) => (
+    Number(!a.service) - Number(!b.service)
+    || (a.service || "").localeCompare(b.service || "")
+    || (a.label || a.tripId).localeCompare(b.label || b.tripId)
+  ));
 }
 
 let lastGood: LiveTrainsResponse | undefined;
@@ -103,9 +210,13 @@ export async function getKtmbLiveTrains(now = new Date()): Promise<LiveTrainsRes
       clearTimeout(timeout);
     }
     const feed = decodeVehiclePositions(bytes);
-    // Stations only name the place; without them the trains are still live.
-    const stops = await loadMalaysiaKtmbFeed().then((static_) => static_.stops).catch(() => []);
-    lastGood = { trains: liveTrainsFrom(feed.vehicles, stops, now), checkedAt: now.toISOString(), source: KTMB_VEHICLE_POSITIONS_URL };
+    // The static feed only names places and ends; without it the trains are still live.
+    const staticFeed = await loadMalaysiaKtmbFeed().catch(() => undefined);
+    lastGood = {
+      trains: liveTrainsFrom(feed.vehicles, staticFeed?.stops ?? [], now, staticFeed ? ktmbTripInfo(staticFeed) : undefined),
+      checkedAt: now.toISOString(),
+      source: KTMB_VEHICLE_POSITIONS_URL,
+    };
     return lastGood;
   } catch (error) {
     if (!lastGood) throw error;

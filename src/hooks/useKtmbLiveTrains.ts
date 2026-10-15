@@ -16,7 +16,7 @@ export function withKtmbLivePositions(results: TransitResult[], date: string, tr
   const byTrip = new Map(trains.map((train) => [train.tripId, train]));
   return results.map((trip) => {
     const train = trip.country === "malaysia" && trip.id.startsWith(prefix) ? byTrip.get(trip.id.slice(prefix.length)) : undefined;
-    return train ? { ...trip, livePosition: { nearStation: train.nearStation, reportedAt: train.reportedAt } } : trip;
+    return train ? { ...trip, livePosition: { nearStation: train.nearStation, between: train.between, reportedAt: train.reportedAt } } : trip;
   });
 }
 

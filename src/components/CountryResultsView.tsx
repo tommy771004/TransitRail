@@ -70,6 +70,8 @@ export type CountryResultsViewProps = {
   now?: () => Date;
   /** Opens the live station screen, where the market has one. */
   onOpenBoard?: (station: string) => void;
+  /** Opens the list of trains reporting their position, where the market has one. */
+  onOpenLiveTrains?: () => void;
 };
 
 function OfflineCacheNotice({ deliveryStatus }: { deliveryStatus?: SearchDeliveryStatus }) {
@@ -157,6 +159,19 @@ export function CountryResultsView(props: CountryResultsViewProps) {
       </button>
     </div>
   ) : null;
+  const liveTrainsEntry = props.country === "malaysia" && props.onOpenLiveTrains ? (
+    <div className="mx-auto max-w-md px-4 pt-3 lg:max-w-5xl">
+      <button
+        type="button"
+        className="m3-button m3-button-icon-leading m3-state border border-accent bg-accent-container text-accent"
+        onClick={props.onOpenLiveTrains}
+        data-live-trains-entry
+      >
+        <RadioTower aria-hidden="true" className="h-4 w-4" />
+        {t("ktmb.title")}
+      </button>
+    </div>
+  ) : null;
   // TfL's crowding feed covers London only; it sits beside, never inside, the timetable.
   const crowding = props.country === "united_kingdom" && props.origin
     ? <StationCrowding station={props.origin} country={props.country} />
@@ -195,7 +210,7 @@ export function CountryResultsView(props: CountryResultsViewProps) {
     sortMode: props.sortMode,
     onSortChange: props.onSortChange,
     now: props.now,
-    overview: <>{resultAnnouncement}{deliveryNotice}{boardEntry}{crowding}</>,
+    overview: <>{resultAnnouncement}{deliveryNotice}{boardEntry}{liveTrainsEntry}{crowding}</>,
     afterResults: props.overview,
   };
   const supplementary = <TransitAppSupplement country={props.country} origin={props.origin} destination={props.destination} />;

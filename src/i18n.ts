@@ -251,6 +251,7 @@ const resources = {
         min_label: "min",
         train_near: "Train now near {{station}}",
         train_between: "Train between stations",
+        train_between_stations: "Train between {{from}} and {{to}}",
         then: "Then",
         hour_label: "h",
         forecast_title: "{{station}} Forecast",
@@ -448,6 +449,11 @@ const resources = {
         very_busy: "is very busy now",
         quiet_from: "usually quiet from {{time}}",
         source: "TfL live crowding",
+      },
+      ktmb: {
+        title: "KTMB live trains",
+        none: "No train is reporting its position right now. That does not mean there is no service.",
+        source: "Source: data.gov.my GTFS Realtime. The official feed covers only some trains for now.",
       },
       board: {
         open: "Live station board",
@@ -930,6 +936,7 @@ const resources = {
         min_label: "分鐘",
         train_near: "列車目前在 {{station}} 附近",
         train_between: "列車行駛於兩站之間",
+        train_between_stations: "列車行駛於 {{from}} 與 {{to}} 之間",
         then: "之後",
         hour_label: "小時",
         forecast_title: "{{station}}天氣預報",
@@ -1124,6 +1131,11 @@ const resources = {
         very_busy: "目前非常擁擠",
         quiet_from: "通常 {{time}} 起人較少",
         source: "TfL 即時人潮",
+      },
+      ktmb: {
+        title: "KTMB 列車即時位置",
+        none: "目前沒有列車回報位置，不代表沒有班次。",
+        source: "資料來源：data.gov.my GTFS Realtime。官方即時位置目前只涵蓋部分列車。",
       },
       board: {
         open: "車站即時看板",
@@ -2011,6 +2023,7 @@ const resources = {
         min_label: "分",
         train_near: "列車は現在 {{station}} 付近",
         train_between: "列車は駅間を走行中",
+        train_between_stations: "列車は {{from}}〜{{to}} 間を走行中",
         then: "その後",
         hour_label: "時間",
         forecast_title: "{{station}}の天気予報",
@@ -2205,6 +2218,11 @@ const resources = {
         very_busy: "は現在大変混雑しています",
         quiet_from: "通常 {{time}} から空いてきます",
         source: "TfL リアルタイム混雑",
+      },
+      ktmb: {
+        title: "KTMB 列車の現在位置",
+        none: "現在位置を報告している列車はありません。運行がないという意味ではありません。",
+        source: "出典：data.gov.my GTFS Realtime。公式の位置情報は現在一部の列車のみが対象です。",
       },
       board: {
         open: "駅の発車案内",
@@ -2714,6 +2732,7 @@ const resources = {
         min_label: "분",
         train_near: "열차 현재 {{station}} 부근",
         train_between: "열차가 역 사이를 운행 중",
+        train_between_stations: "열차가 {{from}}–{{to}} 사이를 운행 중",
         then: "이후",
         hour_label: "시간",
         forecast_title: "{{station}} 날씨 예보",
@@ -2908,6 +2927,11 @@ const resources = {
         very_busy: "현재 매우 혼잡",
         quiet_from: "보통 {{time}}부터 한산해짐",
         source: "TfL 실시간 혼잡도",
+      },
+      ktmb: {
+        title: "KTMB 열차 실시간 위치",
+        none: "현재 위치를 보고하는 열차가 없습니다. 운행이 없다는 뜻은 아닙니다.",
+        source: "출처: data.gov.my GTFS Realtime. 공식 위치 정보는 현재 일부 열차만 제공합니다.",
       },
       board: {
         open: "역 실시간 안내판",
