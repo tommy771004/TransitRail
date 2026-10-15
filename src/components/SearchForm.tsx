@@ -259,7 +259,7 @@ export function SearchForm({
       <section className="mx-auto min-w-0 w-full max-w-md lg:mx-0 lg:max-w-2xl">
 
         {/* Country Selector */}
-        <div role="group" aria-label={t("search.country", { defaultValue: "Country" })} className="mb-4 flex gap-2 overflow-x-auto px-0.5 pb-2 soft-scrollbar">
+        <div role="group" aria-label={t("search.country", { defaultValue: "Country" })} className="mb-4 flex overflow-x-auto px-0.5 pb-2 soft-scrollbar">
           {countryOptions.map((item) => (
             <button
               key={item}
@@ -278,7 +278,7 @@ export function SearchForm({
               }}
               aria-label={t(countryConfig[item].labelKey)}
               aria-pressed={country === item}
-              className={`m3-chip m3-chip-touch m3-state shrink-0 border ${
+              className={`m3-chip m3-chip-touch m3-state shrink-0 rounded-none border first:rounded-l-lg last:rounded-r-lg [&:not(:first-child)]:-ml-px ${
                 country === item
                   ? `border-transparent ${countryThemes[item].buttonBg} text-white`
                   : "border-slate-300 bg-transparent text-slate-700 dark:border-slate-700 dark:text-slate-300"
