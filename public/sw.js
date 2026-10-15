@@ -110,7 +110,7 @@ self.addEventListener("push", (event) => {
   event.waitUntil(
     self.registration.showNotification(payload.title, {
       body: payload.body,
-      icon: "/pwa-icon.svg",
+      icon: "/icon-192.png",
       badge: "/pwa-icon.svg",
       data: { url: "/" },
     }),
