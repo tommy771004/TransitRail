@@ -15,6 +15,10 @@ import { stationSearchKey } from "@/src/data/stationKey";
 import { resolveStationAlias } from "@/src/data/stationAliases";
 import { TripFare } from "./TripFare";
 import { getLegColor, minutesOf, transferPressure } from "../utils/journeyLegs";
+import { lineBadge } from "../utils/lineBadge";
+import { hasDisplayableFare } from "../utils/fare";
+import { LineLabel } from "./LineBadge";
+import { rideLegs } from "./RouteBand";
 
 interface TripDetailsProps {
   trip: TransitResult;
@@ -77,6 +81,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
       arrivalTime: trip.arrivalTime,
       durationMinutes: trip.durationMinutes,
       mode: trip.trainType,
+      lineCode: trip.legs?.[0]?.lineCode,
       stops: legsAreCallingPattern && trip.legs
         ? [trip.legs[0].origin, ...trip.legs.map((leg) => leg.destination)]
         : undefined,
@@ -231,6 +236,19 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
 
   const isChinese = i18n.language.toLowerCase().startsWith("zh");
 
+  // The sheet opens on the three numbers a rider weighs first. A figure the
+  // source did not give is left out rather than shown as a dash.
+  const rides = rideLegs(trip);
+  const changes = rides ? rides.length - 1 : 0;
+  const durationText = formatDuration(t, trip.durationMinutes);
+  const fareText = hasDisplayableFare(trip) ? formatPrice?.(trip) || `${trip.price} ${trip.currency}` : null;
+  const summary = [
+    durationText ? { key: "duration", label: t("result.summary_duration"), value: durationText } : null,
+    fareText ? { key: "fare", label: t("result.summary_fare"), value: fareText } : null,
+    { key: "changes", label: t("result.summary_changes"), value: changes > 0 ? String(changes) : t("result.direct") },
+  ].filter((cell): cell is { key: string; label: string; value: string } => Boolean(cell));
+  const summaryColumns = summary.length === 3 ? "grid-cols-3" : "grid-cols-2";
+
   const closeTransferInfo = () => {
     setSelectedTransferStationId(null);
     setSelectedTransferStationName(null);
@@ -254,6 +272,16 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
 
   const body = (
     <>
+          {summary.length > 1 ? (
+            <dl className={`mb-5 grid ${summaryColumns} divide-x divide-slate-200 dark:divide-slate-700`} data-trip-summary>
+              {summary.map((cell) => (
+                <div key={cell.key} className="flex min-w-0 flex-col-reverse items-center gap-1 px-2 text-center">
+                  <dt className="m3-label-medium text-slate-500 dark:text-slate-400">{cell.label}</dt>
+                  <dd className="m3-title-large font-bold tabular-nums text-slate-900 dark:text-white">{cell.value}</dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
           <div className="m3-card mb-5 border border-sky-200 bg-sky-50/70 p-4 dark:border-sky-900/60 dark:bg-sky-950/25">
             <div className="flex items-center justify-between gap-3">
               <div className="flex min-w-0 items-center gap-2">
@@ -343,7 +371,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
                       key={item.id}
                       className="flex gap-x-4 min-h-[48px] relative"
                     >
-                      <div className="w-12 shrink-0 pt-0.5 text-right text-xs font-semibold tabular-nums text-slate-600 dark:text-slate-300">
+                      <div className="m3-label-large w-12 shrink-0 text-right font-mono font-semibold tabular-nums text-slate-900 dark:text-white">
                         {item.time || "--:--"}
                       </div>
 
@@ -360,14 +388,9 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
                         )}
                         
                         <div
-                          className="z-10 flex h-4.5 w-4.5 items-center justify-center rounded-full border-2 bg-white dark:bg-slate-900"
+                          className="z-10 h-4.5 w-4.5 rounded-full border-[3px] bg-white dark:bg-slate-900"
                           style={{ borderColor: legColor }}
-                        >
-                          <div
-                            className="h-2 w-2 rounded-full"
-                            style={{ backgroundColor: legColor }}
-                          />
-                        </div>
+                        />
                       </div>
 
                       <div className="flex-1 pb-4">
@@ -375,16 +398,8 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
                           <span className="m3-title-medium text-slate-800 dark:text-slate-100">
                             {stationLabel(t, item.name, trip.country)}
                           </span>
-                          {item.isStart && (
-                            <span className="m3-chip m3-label-small min-h-6 bg-sky-50 px-2 text-sky-700 dark:bg-sky-950/40 dark:text-sky-300">
-                              {t("search.origin", { defaultValue: "Origin" })}
-                            </span>
-                          )}
                           {item.isEnd && (
                             <>
-                              <span className="m3-chip m3-label-small min-h-6 bg-emerald-50 px-2 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
-                                {t("search.destination", { defaultValue: "Destination" })}
-                              </span>
                               {getTransferInfo(item.name, trip.country) && (
                                 <button
                                   type="button"
@@ -439,13 +454,15 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
                       </div>
 
                       <div className="flex-1 pb-4 pr-1">
-                        <div className="m3-card bg-white p-4 dark:bg-slate-900/70">
+                        <div className="py-1">
                           <div className="flex items-start justify-between gap-3">
                             <div className="flex items-start gap-2.5">
-                              <TrainFront aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-slate-500 dark:text-slate-300" />
+                              {lineBadge(leg.lineName, leg.lineCode).code ? null : (
+                                <TrainFront aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-slate-500 dark:text-slate-300" />
+                              )}
                               <div className="min-w-0">
-                                <h5 className="text-xs font-semibold text-slate-800 dark:text-slate-200">
-                                  {leg.lineName}
+                                <h5 className="m3-title-small text-slate-800 dark:text-slate-200">
+                                  <LineLabel name={leg.lineName} code={leg.lineCode} color={legColor} />
                                 </h5>
                                 {leg.headsign && (
                                   <p className="m3-label-small mt-0.5 text-slate-400 dark:text-slate-500">
@@ -479,7 +496,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
                                 {leg.upcomingDepartures.map((time: string) => (
                                   <span
                                     key={time}
-                                    className="m3-chip m3-label-small min-h-6 shrink-0 bg-emerald-50 px-2 tabular-nums text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300"
+                                    className="m3-chip m3-label-small min-h-6 shrink-0 bg-slate-100 px-2 font-mono tabular-nums text-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                   >
                                     {time}
                                   </span>
@@ -495,7 +512,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
                                 onClick={() => setExpandedLegs((prev) => ({ ...prev, [item.legIndex]: !prev[item.legIndex] }))}
                                 aria-expanded={Boolean(expandedLegs[item.legIndex])}
                                 aria-controls={`${detailsPanelId}-leg-${item.legIndex}-stops`}
-                                className="m3-label-medium flex min-h-8 items-center gap-1 text-emerald-700 transition-colors hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-200"
+                                className="m3-label-medium flex min-h-8 items-center gap-1 text-slate-600 transition-colors hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
                               >
                                 <TrainFront aria-hidden="true" className="h-3.5 w-3.5" />
                                 {expandedLegs[item.legIndex]
@@ -537,7 +554,6 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
                     >
                       <div className="m3-label-small flex w-12 shrink-0 flex-col justify-between py-1 text-right tabular-nums text-slate-500 dark:text-slate-400">
                         <div>{item.arrivalTime}</div>
-                        <div className="text-slate-300 dark:text-slate-700">|</div>
                         <div>{item.departureTime}</div>
                       </div>
 
@@ -552,7 +568,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
                       </div>
 
                       <div className="flex-1 py-1.5 pb-4">
-                        <div className="m3-card bg-slate-100/70 p-3 dark:bg-slate-900/60">
+                        <div className="py-1">
                           <div className="m3-title-small flex flex-wrap items-center justify-between gap-2 text-slate-700 dark:text-slate-300">
                             <div className="flex items-center gap-1.5">
                               <ArrowRightLeft className="h-3.5 w-3.5 text-slate-400 shrink-0" />

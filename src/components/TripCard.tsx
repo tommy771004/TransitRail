@@ -6,7 +6,7 @@
 // trip sheet, which carries save, map and the market's primary action.
 
 import { AlertTriangle, Bookmark, Check } from "lucide-react";
-import { useId, useState, type ReactNode } from "react";
+import { Fragment, useId, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
 import type { Country, TransitResult } from "../types";
@@ -15,6 +15,7 @@ import { stationLabel, stationListLabel } from "../utils/stationLabel";
 import { formatPlatform } from "./TransitIcon";
 import { displayClock, formatDuration, tripCardMotion } from "./ResultShell";
 import { RouteBand, bandLegs, rideLegs, tightestWait } from "./RouteBand";
+import { LineLabel } from "./LineBadge";
 import { TripDetails } from "./TripDetails";
 import { transferPressure } from "../utils/journeyLegs";
 
@@ -120,6 +121,13 @@ export function TripCard({
         ].filter(Boolean).join(" · ");
   // The band is decorative; this is what assistive technology hears for it.
   const lineNames = legs.map((leg) => leg.name).filter(Boolean).join(" → ");
+  // What the eye reads on the band: each ride's code badge, then its name.
+  const caption = legs.map((leg, legIndex) => (
+    <Fragment key={legIndex}>
+      {legIndex > 0 ? " → " : null}
+      <LineLabel name={leg.name} code={leg.code} color={leg.color} />
+    </Fragment>
+  ));
 
   // Every upcoming departure within the hour counts down, not only the next one.
   // A delayed train's countdown would run from a time it will not keep, so the
@@ -221,7 +229,7 @@ export function TripCard({
         <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-end gap-3">
           <p className="m3-headline-small shrink-0 whitespace-nowrap font-mono font-bold tabular-nums leading-none text-slate-950 dark:text-white">{clock(departureClock)}</p>
           {lineNames ? <span className="sr-only">{lineNames}</span> : null}
-          <RouteBand trip={trip} caption={lineNames || undefined} className="pb-[9px]" />
+          <RouteBand trip={trip} caption={lineNames ? caption : undefined} className="pb-[9px]" />
           <p className="m3-headline-small shrink-0 whitespace-nowrap text-right font-mono font-bold tabular-nums leading-none text-slate-950 dark:text-white">{clock(arrivalClock)}</p>
         </div>
 

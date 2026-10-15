@@ -3,13 +3,15 @@
 // Description: The proportional route band on a result card — one thin track per ride,
 // sized by minutes, coloured by the line, with a pressure-coloured dot at each change.
 
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import type { JourneyLeg, TransitResult } from "../types";
 import { getLegColor, minutesOf, pressureKey, transferPressure, type PressureKey } from "../utils/journeyLegs";
 
 export interface BandLeg {
   name: string;
+  /** The provider's line code, when it gave one; LineLabel decides whether it reads as a badge. */
+  code?: string;
   color: string;
   minutes: number;
   /** Minutes waiting before the next ride; undefined on the last ride or when unknown. */
@@ -46,6 +48,7 @@ export function bandLegs(trip: TransitResult): BandLeg[] {
   if (rides?.length === 1) {
     return [{
       name: rides[0].lineName,
+      code: rides[0].lineCode,
       color: getLegColor(rides[0], trip.lineColor),
       minutes: Math.max(trip.durationMinutes ?? 1, 1),
     }];
@@ -73,6 +76,7 @@ export function bandLegs(trip: TransitResult): BandLeg[] {
     : total ? total / legs.length : 1;
   return timed.map(({ leg, ride, wait }) => ({
     name: leg.lineName,
+    code: leg.lineCode,
     color: getLegColor(leg, trip.lineColor),
     minutes: Math.max(ride && ride > 0 ? ride : fallback, 1),
     waitMinutes: wait,
@@ -98,10 +102,10 @@ interface RouteBandProps {
   compact?: boolean;
   /**
    * One readable line in place of the proportional labels: the card names its
-   * train here ("Nozomi 135", "Piccadilly → Bakerloo"). It wraps to two lines
-   * rather than losing the train number.
+   * train here ("Nozomi 135", "Piccadilly → Bakerloo", or line badges). It
+   * wraps to two lines rather than losing the train number.
    */
-  caption?: string;
+  caption?: ReactNode;
   className?: string;
 }
 
