@@ -41,7 +41,14 @@ tsx scripts/audit-station-mapping.ts  # Run after changing routes or station lis
 ```bash
 npm run routes && npm run sitemap   # Regenerate SEO pages, then sitemaps
 npm run redirects                   # Required after route-slug changes; not part of build
+npm run brand:fonts                 # Re-subset assets/fonts/og/ when `routes` warns a card font lacks a glyph
+npm run brand:assets                # Re-render favicons, app icons and og-image.png from assets/brand/
 ```
+
+`npm run routes` also renders each route page's 1200×630 social card to `public/og-routes/`
+(gitignored, rebuilt every build). A page whose station names need a glyph outside the committed
+font subsets falls back to the site card `/og-image.png` with a warning; re-sourcing station
+labels can trigger this, so run `brand:fonts` afterwards and commit `assets/fonts/og/`.
 
 ## Station i18n
 

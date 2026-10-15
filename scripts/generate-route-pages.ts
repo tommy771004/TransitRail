@@ -35,8 +35,11 @@ import {
 } from "./lib/routePages";
 import type { Country, TransitResult } from "../src/types";
 import { languageForTimezone } from "../src/utils/languagePreference";
+import { renderRouteCardPng, missingGlyphs, type CardScript, type RouteCard } from "./lib/routeOgCard";
 
 const SITE_URL = (process.env.SITE_URL || "https://rail-national.vercel.app").replace(/\/$/, "");
+/** The site-wide social card (assets/brand/og-image.html), used when a route card cannot be drawn. */
+const SITE_OG_IMAGE = "/og-image.png";
 const PUBLIC_DIR = resolve("public");
 const MAX_TABLE_ROWS = 40;
 const MAX_SCHEMA_TRIPS = 10;
@@ -756,15 +759,6 @@ const UI: Record<Lang, UiBundle> = {
   },
 };
 
-const OG_LABELS: Record<Lang, { early: string; departure: string; snapshot: string }> = {
-  en: { early: "EARLY", departure: "DEPARTURE", snapshot: "Timetable · first three departures" },
-  zh: { early: "早班", departure: "班次", snapshot: "今日時刻表 · 前三班車" },
-  ja: { early: "始発", departure: "発車", snapshot: "本日の時刻表・上位3便" },
-  ko: { early: "첫차", departure: "출발", snapshot: "오늘의 시간표・상위 3편" },
-  fr: { early: "PREMIER", departure: "DÉPART", snapshot: "Horaires · trois premiers départs" },
-  de: { early: "ERSTER", departure: "ABFAHRT", snapshot: "Fahrplan · erste drei Abfahrten" },
-};
-
 function esc(value: string): string {
   return value
     .replace(/&/g, "&amp;")
@@ -1010,6 +1004,7 @@ ${geoTags}
 <meta property="og:url" content="${SITE_URL}${path}">
 <meta property="og:locale" content="${ui.ogLocale}">
 ${ogImagePath ? `<meta property="og:image" content="${SITE_URL}${ogImagePath}">
+<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -1084,25 +1079,34 @@ ${body}
 `;
 }
 
-function renderRouteOgSvg(page: RoutePageData, lang: Lang): string {
+const CARD_SCRIPT: Record<Lang, CardScript> = { en: "latin", fr: "latin", de: "latin", zh: "tc", ja: "jp", ko: "kr" };
+
+/** Route line colour on a social card, one per market. */
+const CARD_ACCENT: Record<string, string> = {
+  japan: "#be123c", korea: "#1d4ed8", china: "#b91c1c", singapore: "#047857", malaysia: "#0f766e",
+  thailand: "#7c3aed", hong_kong: "#be123c", united_kingdom: "#1d4ed8", united_states: "#0369a1",
+  germany: "#b91c1c", france: "#1d4ed8", belgium: "#111827", norway: "#8b1d3d", switzerland: "#b91c1c",
+};
+
+/** Everything a route's social card shows, in the page's language. */
+export function routeCard(page: RoutePageData, lang: Lang): RouteCard {
   const ui = UI[lang];
-  const labels = OG_LABELS[lang];
-  const origin = displayStationName(page.origin, page.country, lang);
-  const destination = displayStationName(page.destination, page.country, lang);
-  const country = countryLabel(page.country, lang);
-  const departures = page.dayResults.slice(0, 3).map((result) => result.departureTime || "—");
-  const palette = {
-    japan: ["#be123c", "#fb7185"], korea: ["#1d4ed8", "#38bdf8"], china: ["#b91c1c", "#f97316"],
-    singapore: ["#047857", "#2dd4bf"], malaysia: ["#0f766e", "#5eead4"], thailand: ["#7c3aed", "#f472b6"],
-    hong_kong: ["#be123c", "#f43f5e"], united_kingdom: ["#1d4ed8", "#60a5fa"], united_states: ["#0369a1", "#22d3ee"],
-    germany: ["#b91c1c", "#f59e0b"], france: ["#1d4ed8", "#818cf8"], belgium: ["#111827", "#facc15"],
-    norway: ["#8b1d3d", "#e11d48"], switzerland: ["#b91c1c", "#ef4444"],
-  }[page.country] || ["#0f766e", "#2dd4bf"];
-  const departureCards = departures.map((time, index) => {
-    const x = 76 + index * 346;
-    return `<g transform="translate(${x} 456)"><rect width="308" height="98" rx="22" fill="#fff" fill-opacity=".13" stroke="#fff" stroke-opacity=".22"/><text x="24" y="33" fill="#e2e8f0" font-size="18" font-family="system-ui, sans-serif" font-weight="700">${esc(index === 0 ? labels.early : labels.departure)}</text><text x="24" y="76" fill="#fff" font-size="38" font-family="ui-monospace, SFMono-Regular, monospace" font-weight="800">${esc(time)}</text></g>`;
-  }).join("");
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="${esc(`${origin} to ${destination} timetable`)}"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${palette[0]}"/><stop offset="1" stop-color="${palette[1]}"/></linearGradient><filter id="blur"><feGaussianBlur stdDeviation="36"/></filter></defs><rect width="1200" height="630" fill="url(#bg)"/><circle cx="1050" cy="90" r="175" fill="#fff" fill-opacity=".14" filter="url(#blur)"/><circle cx="130" cy="590" r="210" fill="#020617" fill-opacity=".18" filter="url(#blur)"/><path d="M-30 420 C260 250 480 610 760 378 S1120 290 1260 180" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="7" stroke-dasharray="13 17"/><text x="76" y="90" fill="#fff" font-size="27" font-family="system-ui, sans-serif" font-weight="800" letter-spacing="2">RAIL NATION · ${esc(country.toUpperCase())}</text><text x="76" y="200" fill="#fff" font-size="62" font-family="system-ui, sans-serif" font-weight="800">${esc(origin)}</text><text x="76" y="275" fill="#fff" fill-opacity=".92" font-size="48" font-family="system-ui, sans-serif" font-weight="700">→ ${esc(destination)}</text><text x="76" y="352" fill="#fff" fill-opacity=".82" font-size="25" font-family="system-ui, sans-serif">${esc(labels.snapshot)}</text>${departureCards}<text x="76" y="601" fill="#fff" fill-opacity=".72" font-size="17" font-family="system-ui, sans-serif">${esc(ui.disclaimer)}</text></svg>`;
+  const stats = computeStats(page.dayResults);
+  const first = page.dayResults[0];
+  return {
+    script: CARD_SCRIPT[lang],
+    eyebrow: countryLabel(page.country, lang),
+    origin: displayStationName(page.origin, page.country, lang),
+    destination: displayStationName(page.destination, page.country, lang),
+    accent: CARD_ACCENT[page.country] ?? "#0f766e",
+    departTime: first?.departureTime || "",
+    arriveTime: first?.arrivalTime || "",
+    stats: [
+      { label: ui.firstDeparture, value: stats.first || "" },
+      { label: ui.lastDeparture, value: stats.last || "" },
+      { label: ui.fastest, value: stats.fastestMinutes !== undefined ? formatDuration(stats.fastestMinutes, lang) : "" },
+    ].filter((stat) => stat.value),
+  };
 }
 
 function transferCell(result: TransitResult, country: Country, lang: Lang): string {
@@ -1112,7 +1116,7 @@ function transferCell(result: TransitResult, country: Country, lang: Lang): stri
   return stations.length > 0 ? `${ui.via} ${stations.join(", ")}` : `${ui.transfer}`;
 }
 
-function renderRoutePage(page: RoutePageData, siblings: RoutePageData[], lang: Lang): string {
+function renderRoutePage(page: RoutePageData, siblings: RoutePageData[], lang: Lang, ogImagePath: string): string {
   const ui = UI[lang];
   const origin = displayStationName(page.origin, page.country, lang);
   const destination = displayStationName(page.destination, page.country, lang);
@@ -1144,7 +1148,6 @@ function renderRoutePage(page: RoutePageData, siblings: RoutePageData[], lang: L
   }, lang);
   const appLink = `${page.countryPath}?origin=${encodeURIComponent(page.origin)}&destination=${encodeURIComponent(page.destination)}`;
   const hubPath = HUB_PATH[lang];
-  const ogImagePath = `/og-routes/${page.country}/${page.slug}-${lang}.svg`;
   const operatorLabel = page.source.replace(/\s*(curated snapshot|snapshot)\s*(fallback)?\s*$/i, "").trim() || ui.siteName;
 
   const rows = page.dayResults.slice(0, MAX_TABLE_ROWS).map((r) => {
@@ -1490,10 +1493,21 @@ function writePage(urlPath: string, html: string): void {
   writeFileSync(join(dir, "index.html"), html, "utf8");
 }
 
-function writeRouteOgImage(page: RoutePageData, lang: Lang): void {
+/** The page's social card path: its own PNG, or the site card when a station
+ *  name needs a glyph the committed card fonts lack. */
+function writeRouteOgImage(page: RoutePageData, lang: Lang): string {
+  const card = routeCard(page, lang);
+  const png = renderRouteCardPng(card);
+  if (!png) {
+    console.warn(
+      `[route-pages] Site card for ${lang} ${page.urlPath}: card fonts lack ${missingGlyphs(card).join("")} (run npm run brand:fonts)`,
+    );
+    return SITE_OG_IMAGE;
+  }
   const dir = join(PUBLIC_DIR, "og-routes", page.country);
   mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, `${page.slug}-${lang}.svg`), renderRouteOgSvg(page, lang), "utf8");
+  writeFileSync(join(dir, `${page.slug}-${lang}.png`), png);
+  return `/og-routes/${page.country}/${page.slug}-${lang}.png`;
 }
 
 export function main(): void {
@@ -1519,8 +1533,7 @@ export function main(): void {
   for (const page of pages) {
     const siblings = byCountry.get(page.country) || [];
     for (const lang of ALL_LANGS) {
-      writePage(pagePath(page, lang), renderRoutePage(page, siblings, lang));
-      writeRouteOgImage(page, lang);
+      writePage(pagePath(page, lang), renderRoutePage(page, siblings, lang, writeRouteOgImage(page, lang)));
     }
   }
   // Static country hubs at /japan/, /zh/japan/, … so sitemap country URLs are not SPA shells.
