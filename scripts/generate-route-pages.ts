@@ -76,6 +76,9 @@ const HUB_PATH = Object.fromEntries(
  */
 const TITLE_WIDTH_BUDGET = 60;
 
+/** Snippet budget for meta descriptions (~920px ≈ 160 Latin characters), same units. */
+const DESCRIPTION_WIDTH_BUDGET = 160;
+
 const FULLWIDTH = /[ᄀ-ᅟ⺀-〾ぁ-㏿㐀-䶿一-鿿ꀀ-꓏가-힣豈-﫿︰-﹯＀-｠￠-￦]/;
 
 function displayWidth(text: string): number {
@@ -172,7 +175,7 @@ const COUNTRY_LABELS: Record<"fr" | "de", Record<string, string>> = {
 
 /** Everything a meta description may draw on. Which fields it actually uses
  *  differs per route, which is what keeps descriptions distinct page to page. */
-interface DescriptionContext {
+export interface DescriptionContext {
   origin: string;
   destination: string;
   count: number;
@@ -643,7 +646,7 @@ const UI: Record<Lang, UiBundle> = {
     reverseDirection: "Sens inverse",
     routesHubTitle: "Tous les horaires de trains",
     routesHubDescription:
-      "Parcourez tous les horaires origine–destination de TransitRail : heures de départ, durée du trajet, correspondances et tarifs en Asie, en Europe et en Amérique du Nord.",
+      "Tous les horaires origine–destination de TransitRail : heures de départ, durée du trajet, correspondances et tarifs en Asie, en Europe et en Amérique du Nord.",
     routesOnHub: (n: number) => `${n} lignes`,
     countryApp: (c: string) => `Ouvrir ${c} dans le planificateur`,
     countryHubDescription: (c: string, n: number) =>
@@ -749,7 +752,7 @@ const UI: Record<Lang, UiBundle> = {
           (c.headway ? `, ungefähr alle ${c.headway}` : "") +
           ` zwischen ${c.first} und ${c.last}. Orientierungsfahrplan.`
         : `${c.count} Züge täglich von ${c.origin} nach ${c.destination}${c.services ? ` mit ${c.services}` : ""}. ` +
-          `Erster ${c.first}, letzter ${c.last}, schnellster ${c.fastest}${c.price ? `, ab ${c.price}` : ""}.`,
+          endSentence(`Erster ${c.first}, letzter ${c.last}, schnellster ${c.fastest}${c.price ? `, ab ${c.price}` : ""}`),
   },
 };
 
@@ -822,6 +825,22 @@ function buildTitle(subject: string, ui: UiBundle): string {
     subject,
   ];
   return candidates.find((candidate) => displayWidth(candidate) <= TITLE_WIDTH_BUDGET) ?? subject;
+}
+
+/**
+ * Longest meta description that fits the snippet budget. The service list goes
+ * first — a multi-leg route lists every leg ("R12 + foot + Oslo-Stavanger + …")
+ * and crowds out the times — then the fare; counts and times always stay.
+ */
+export function buildDescription(ctx: DescriptionContext, lang: Lang): string {
+  const candidates = [ctx, { ...ctx, services: "" }, { ...ctx, services: "", price: null }]
+    .map((candidate) => UI[lang].metaDescription(candidate));
+  return candidates.find((candidate) => displayWidth(candidate) <= DESCRIPTION_WIDTH_BUDGET) ?? candidates[candidates.length - 1];
+}
+
+/** Closes a sentence whose last token may already end in an abbreviation's period ("52 Min."). */
+function endSentence(text: string): string {
+  return text.endsWith(".") ? text : `${text}.`;
 }
 
 /** Hub pages have no route/suffix split — just drop the brand when it overflows. */
@@ -1106,7 +1125,7 @@ function renderRoutePage(page: RoutePageData, siblings: RoutePageData[], lang: L
   const updated = (page.scrapedAt || "").slice(0, 10);
   const title_ = routeTitle(origin, destination, lang);
   const title = buildTitle(title_, ui);
-  const description = ui.metaDescription({
+  const description = buildDescription({
     origin,
     destination,
     count: stats.count,
@@ -1115,10 +1134,11 @@ function renderRoutePage(page: RoutePageData, siblings: RoutePageData[], lang: L
     fastest,
     typical,
     price: cheapest,
-    services: serviceNames.slice(0, 2).join(", "),
+    // A transfer journey's service is its leg chain ("foot + FB73 + foot + …"), not a family.
+    services: serviceNames.filter((name) => !name.includes(" + ")).slice(0, 2).join(", "),
     headway,
     indicative: page.indicative,
-  });
+  }, lang);
   const appLink = `${page.countryPath}?origin=${encodeURIComponent(page.origin)}&destination=${encodeURIComponent(page.destination)}`;
   const hubPath = HUB_PATH[lang];
   const ogImagePath = `/og-routes/${page.country}/${page.slug}-${lang}.svg`;
