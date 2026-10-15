@@ -78,6 +78,9 @@ const resources = {
         tomorrow: "Tomorrow",
         day_after_tomorrow: "Day after",
         popular_routes: "Popular Routes",
+        frequent_stations: "Frequent stations",
+        frequent_to_origin: "Tap to set as departure",
+        frequent_to_destination: "Tap to set as arrival",
         learn_more: "Learn more about TransitRail",
         faq_title: "Frequently Asked Questions FAQ",
         about_title: "About Global Transit Search",
@@ -442,7 +445,10 @@ const resources = {
         trip_copied: "Trip details copied",
         share_failed: "Could not share or copy the trip details",
         route_added: "Added to favourite routes",
-        route_removed: "Removed from favourite routes"
+        route_removed: "Removed from favourite routes",
+        trip_removed: "Removed from saved trips",
+        history_cleared: "Search history cleared",
+        saved_cleared: "Saved trips cleared"
       },
       feedback: {
         title: "Feedback",
@@ -729,6 +735,9 @@ const resources = {
         tomorrow: "明天",
         day_after_tomorrow: "後天",
         popular_routes: "熱門路線",
+        frequent_stations: "常用車站",
+        frequent_to_origin: "點選設為出發站",
+        frequent_to_destination: "點選設為抵達站",
         learn_more: "進一步了解 TransitRail",
         faq_title: "常見問題 FAQ",
         about_title: "關於全球鐵道查詢",
@@ -1088,7 +1097,10 @@ const resources = {
         trip_copied: "已複製行程資訊",
         share_failed: "無法分享或複製行程資訊",
         route_added: "已加入常用路線",
-        route_removed: "已從常用路線移除"
+        route_removed: "已從常用路線移除",
+        trip_removed: "已從收藏移除",
+        history_cleared: "已清除搜尋紀錄",
+        saved_cleared: "已清除所有收藏"
       },
       feedback: {
         title: "意見回饋",
@@ -1780,6 +1792,9 @@ const resources = {
         tomorrow: "明日",
         day_after_tomorrow: "明後日",
         popular_routes: "人気の路線",
+        frequent_stations: "よく使う駅",
+        frequent_to_origin: "タップで出発駅に設定",
+        frequent_to_destination: "タップで到着駅に設定",
         learn_more: "TransitRailについて詳しく見る",
         faq_title: "よくある質問 FAQ",
         about_title: "グローバル鉄道検索について",
@@ -2139,7 +2154,10 @@ const resources = {
         trip_copied: "旅程をコピーしました",
         share_failed: "旅程を共有・コピーできませんでした",
         route_added: "お気に入りの経路に追加しました",
-        route_removed: "お気に入りの経路から削除しました"
+        route_removed: "お気に入りの経路から削除しました",
+        trip_removed: "保存した便から削除しました",
+        history_cleared: "検索履歴を消去しました",
+        saved_cleared: "保存した便をすべて削除しました"
       },
       feedback: {
         title: "フィードバック",
@@ -2453,6 +2471,9 @@ const resources = {
         tomorrow: "내일",
         day_after_tomorrow: "모레",
         popular_routes: "인기 노선",
+        frequent_stations: "자주 쓰는 역",
+        frequent_to_origin: "눌러서 출발역으로 설정",
+        frequent_to_destination: "눌러서 도착역으로 설정",
         learn_more: "TransitRail 자세히 알아보기",
         faq_title: "자주 묻는 질문 FAQ",
         about_title: "글로벌 대중교통 검색 소개",
@@ -2812,7 +2833,10 @@ const resources = {
         trip_copied: "일정 정보를 복사했습니다",
         share_failed: "일정 정보를 공유하거나 복사할 수 없습니다",
         route_added: "즐겨찾는 경로에 추가했습니다",
-        route_removed: "즐겨찾는 경로에서 삭제했습니다"
+        route_removed: "즐겨찾는 경로에서 삭제했습니다",
+        trip_removed: "저장한 열차에서 삭제했습니다",
+        history_cleared: "검색 기록을 삭제했습니다",
+        saved_cleared: "저장한 열차를 모두 삭제했습니다"
       },
       feedback: {
         title: "피드백",

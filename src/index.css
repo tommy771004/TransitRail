@@ -193,7 +193,8 @@
     transition:
       background-color var(--m3-duration-short-4) var(--ease-m3-standard),
       box-shadow var(--m3-duration-short-4) var(--ease-m3-standard),
-      color var(--m3-duration-short-4) var(--ease-m3-standard);
+      color var(--m3-duration-short-4) var(--ease-m3-standard),
+      transform var(--m3-duration-short-4) var(--ease-m3-standard);
   }
   /* An icon before the label eats into the leading padding (M3: 16dp/24dp). */
   .m3-button-icon-leading { padding-inline-start: 16px; }
@@ -223,7 +224,8 @@
     border-radius: 9999px;
     transition:
       background-color var(--m3-duration-short-4) var(--ease-m3-standard),
-      color var(--m3-duration-short-4) var(--ease-m3-standard);
+      color var(--m3-duration-short-4) var(--ease-m3-standard),
+      transform var(--m3-duration-short-4) var(--ease-m3-standard);
   }
   .m3-icon-button-small { width: 32px; height: 32px; }
   .m3-icon-button-large { width: 48px; height: 48px; }
@@ -238,7 +240,9 @@
     height: 56px;
     border-radius: 16px;
     box-shadow: var(--m3-elevation-3);
-    transition: box-shadow var(--m3-duration-short-4) var(--ease-m3-standard);
+    transition:
+      box-shadow var(--m3-duration-short-4) var(--ease-m3-standard),
+      transform var(--m3-duration-short-4) var(--ease-m3-standard);
   }
   .m3-fab-small {
     width: 40px;
@@ -264,12 +268,34 @@
     transition:
       background-color var(--m3-duration-short-4) var(--ease-m3-standard),
       border-color var(--m3-duration-short-4) var(--ease-m3-standard),
-      color var(--m3-duration-short-4) var(--ease-m3-standard);
+      color var(--m3-duration-short-4) var(--ease-m3-standard),
+      transform var(--m3-duration-short-4) var(--ease-m3-standard);
   }
   /* A leading icon/avatar tightens the leading padding to 8dp. */
   .m3-chip-icon-leading { padding-inline-start: 8px; }
   /* Chips inside a scrolling rail still need a 48dp tap height on touch. */
   .m3-chip-touch { min-height: 40px; }
+
+  /*
+   * Press feedback: a pressed button, chip or FAB dips slightly, so a tap reads
+   * as taken before anything else answers it. The bottom navigation
+   * (.m3-nav-item) is left out on purpose and keeps its own feedback; reduced
+   * motion drops the dip entirely.
+   */
+  .m3-button:active:not(:disabled),
+  .m3-chip:active:not(:disabled),
+  .m3-fab:active:not(:disabled),
+  .m3-icon-button:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .m3-button:active,
+    .m3-chip:active,
+    .m3-fab:active,
+    .m3-icon-button:active {
+      transform: none;
+    }
+  }
 
   /* --------------------------------------------------------------- cards */
   .m3-card {

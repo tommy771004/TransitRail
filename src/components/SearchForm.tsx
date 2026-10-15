@@ -10,6 +10,7 @@ import type { Country, SearchHistoryItem, SearchParams, FavoriteRoute, TimeMode 
 import { searchTimeMode, nearestAvailableDate } from "../utils/searchConditions";
 import { loadStationCatalog } from "../utils/catalogClient";
 import { triggerHaptic } from "../utils/haptics";
+import { frequentStations } from "../utils/frequentStations";
 import { stationLabel } from "../utils/stationLabel";
 import { AffiliateMarquee } from "./AffiliateMarquee";
 
@@ -210,8 +211,24 @@ export function SearchForm({
     });
   };
 
+  // The rider's own stations for this market, one tap from the empty field:
+  // the departure until it is set, then the arrival. A station already chosen
+  // is left out so a tap can never make both ends the same.
+  const frequentTarget: "origin" | "destination" = origin ? "destination" : "origin";
+  const frequent = useMemo(
+    () => frequentStations(recentHistory, favorites, country).filter((station) => station !== origin && station !== destination),
+    [recentHistory, favorites, country, origin, destination],
+  );
+  const pickFrequent = (station: string) => {
+    triggerHaptic("light");
+    updateParam(frequentTarget, station);
+  };
+
+  // Each swap turns the arrows another half turn, so the control shows it acted.
+  const [swapTurns, setSwapTurns] = useState(0);
   const swapStations = () => {
     triggerHaptic("medium");
+    setSwapTurns((turns) => turns + 1);
     onChange({ ...params, origin: destination, destination: origin });
   };
 
@@ -321,6 +338,27 @@ export function SearchForm({
           </p>
         )}
 
+        {frequent.length > 0 ? (
+          <div className="mb-3" role="group" aria-label={t("search.frequent_stations")}>
+            <p className="m3-label-medium mb-1.5 flex items-baseline gap-2 px-0.5 text-slate-600 dark:text-slate-300">
+              <span className="font-semibold text-slate-800 dark:text-slate-100">{t("search.frequent_stations")}</span>
+              <span>{t(frequentTarget === "origin" ? "search.frequent_to_origin" : "search.frequent_to_destination")}</span>
+            </p>
+            <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 no-scrollbar">
+              {frequent.map((station) => (
+                <button
+                  key={station}
+                  type="button"
+                  onClick={() => pickFrequent(station)}
+                  className="m3-chip m3-chip-touch m3-state shrink-0 border border-slate-300 bg-white text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                >
+                  {stationLabel(t, station, country)}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : null}
+
         {/* Main Search Card */}
         <div className="m3-card m3-card-large m3-elevation-1 relative overflow-hidden bg-white dark:bg-slate-900">
           {/* Stable progress track during network latency */}
@@ -366,7 +404,11 @@ export function SearchForm({
                   className={`m3-fab m3-fab-small m3-state h-12 w-12 bg-slate-100 dark:bg-slate-800 text-accent`}
                   aria-label={t("search.swap")}
                 >
-                  <ArrowLeftRight aria-hidden="true" className="h-5 w-5" />
+                  <ArrowLeftRight
+                    aria-hidden="true"
+                    className="h-5 w-5 transition-transform duration-300 ease-out motion-reduce:transition-none"
+                    style={{ transform: `rotate(${swapTurns * 180}deg)` }}
+                  />
                 </button>
               </div>
 

@@ -29,6 +29,7 @@ import { countriesForSituationFeed, migrateTransitAlerts, situationsForCountries
 import { RouteServiceOverview } from "./components/RouteServiceOverview";
 import { ServiceDayAdvisoryNotice } from "./components/ServiceDayAdvisoryNotice";
 import { Snackbar, type SnackbarMessage } from "./components/Snackbar";
+import { restoreRemoved, takeRemoved } from "./utils/undoList";
 import { get, set } from "idb-keyval";
 import { countryConfig, providerDateValue, countryFlags, countryOptions } from "./data/countries";
 import { resolveSearchConditions, searchQuery, searchTimeMode, sortResults } from "./utils/searchConditions";
@@ -826,6 +827,12 @@ export default function App() {
     action?: Pick<SnackbarMessage, "actionLabel" | "onAction">,
   ) => setSnack((current) => ({ id: (current?.id ?? 0) + 1, text, ...action }));
 
+  /** The snackbar action that reverses a removal the passenger just made. */
+  const undoAction = (restore: () => void): Pick<SnackbarMessage, "actionLabel" | "onAction"> => ({
+    actionLabel: t("snack.undo"),
+    onAction: restore,
+  });
+
   const handleCountryChange = (country: Country) => {
     if (country === draftSearch.country) return;
     const previous = draftSearch;
@@ -1026,7 +1033,9 @@ export default function App() {
 
   const toggleSaveTrip = (trip: TransitResult) => {
     if (savedIds.has(trip.id)) {
+      const removed = takeRemoved(savedTrips, (item) => item.id === trip.id);
       setSavedTrips((current) => current.filter((item) => item.id !== trip.id));
+      showSnack(t("snack.trip_removed"), undoAction(() => setSavedTrips((current) => restoreRemoved(current, removed))));
       return;
     }
     showSnack(`${t("alerts.trip_saved")} · ${trip.origin} → ${trip.destination}`);
@@ -1044,7 +1053,9 @@ export default function App() {
   };
 
   const removeSavedTrip = (tripId: string) => {
+    const removed = takeRemoved(savedTrips, (trip) => trip.id === tripId);
     setSavedTrips((current) => current.filter((trip) => trip.id !== tripId));
+    showSnack(t("snack.trip_removed"), undoAction(() => setSavedTrips((current) => restoreRemoved(current, removed))));
   };
 
   const getTripDepartureDate = (trip: SavedTrip): Date | null => {
@@ -1361,12 +1372,10 @@ export default function App() {
     );
 
     if (isFavorited) {
-      setFavorites((current) =>
-        current.filter(
-          (f) => !(f.origin === origin && f.destination === destination && f.country === country)
-        )
-      );
-      showSnack(t("snack.route_removed"));
+      const matches = (f: FavoriteRoute) => f.origin === origin && f.destination === destination && f.country === country;
+      const removed = takeRemoved(favorites, matches);
+      setFavorites((current) => current.filter((f) => !matches(f)));
+      showSnack(t("snack.route_removed"), undoAction(() => setFavorites((current) => restoreRemoved(current, removed))));
     } else {
       const newFav: FavoriteRoute = {
         id: `${Date.now()}`,
@@ -1381,8 +1390,9 @@ export default function App() {
   };
 
   const removeFavoriteById = (id: string) => {
+    const removed = takeRemoved(favorites, (fav) => fav.id === id);
     setFavorites((current) => current.filter((fav) => fav.id !== id));
-    showSnack(t("snack.route_removed"));
+    showSnack(t("snack.route_removed"), undoAction(() => setFavorites((current) => restoreRemoved(current, removed))));
   };
 
   const rerunFavoriteSearch = (fav: FavoriteRoute) => {
@@ -1508,7 +1518,9 @@ export default function App() {
               <button
                 onClick={() => {
                   triggerHaptic("medium");
+                  const removed = takeRemoved(history, () => true);
                   setHistory([]);
+                  showSnack(t("snack.history_cleared"), undoAction(() => setHistory((current) => restoreRemoved(current, removed))));
                 }}
                 className="m3-button m3-button-icon-leading m3-button-small m3-state bg-red-50 text-red-600 dark:bg-red-950/20 dark:text-red-400"
               >
@@ -1568,7 +1580,9 @@ export default function App() {
               <button
                 onClick={() => {
                   triggerHaptic("medium");
+                  const removed = takeRemoved(savedTrips, () => true);
                   setSavedTrips([]);
+                  showSnack(t("snack.saved_cleared"), undoAction(() => setSavedTrips((current) => restoreRemoved(current, removed))));
                 }}
                 className="m3-button m3-button-icon-leading m3-button-small m3-state bg-red-50 text-red-600 dark:bg-red-950/20 dark:text-red-400"
               >
