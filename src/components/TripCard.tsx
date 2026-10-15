@@ -16,6 +16,7 @@ import { formatPlatform } from "./TransitIcon";
 import { displayClock, formatDuration, tripCardMotion } from "./ResultShell";
 import { RouteBand, bandLegs, rideLegs, tightestWait } from "./RouteBand";
 import { LineLabel } from "./LineBadge";
+import { SplitFlap } from "./SplitFlap";
 import { TripDetails } from "./TripDetails";
 import { transferPressure } from "../utils/journeyLegs";
 
@@ -132,7 +133,19 @@ export function TripCard({
   // Every upcoming departure within the hour counts down, not only the next one.
   // A delayed train's countdown would run from a time it will not keep, so the
   // delay takes its place; no expected time is computed.
-  const countdown = minutesUntil === undefined || delayed
+  // A realtime next departure within the next 99 minutes reads as a platform
+  // board: the line, its direction and platform, and a flap countdown. A
+  // timetable departure keeps the text countdown, so a schedule is never
+  // dressed up as live; a delay keeps replacing the countdown either way.
+  const liveMinutes = tags.next && trip.realtime && !delayed && minutesUntil !== undefined && minutesUntil >= 0 && minutesUntil <= 99
+    ? minutesUntil
+    : undefined;
+  const live = liveMinutes !== undefined;
+  const firstRide = legs[0];
+  const towards = headsign ?? trip.headsign ?? trip.legs?.[0]?.headsign;
+  const laterDepartures = trip.legs?.[0]?.upcomingDepartures?.slice(0, 3) ?? [];
+
+  const countdown = minutesUntil === undefined || delayed || live
     ? null
     : minutesUntil < 0
       ? t("result.departed")
@@ -144,7 +157,11 @@ export function TripCard({
   const countdownClass = tags.next && minutesUntil !== undefined && minutesUntil >= 0
     ? "m3-label-large font-semibold text-slate-900 dark:text-white"
     : "m3-label-medium text-slate-600 dark:text-slate-300";
-  const hasStatus = Boolean(tags.next || tags.cheapest || countdown || platformText || liveNote || fare);
+  // In the live header the platform and the live status travel together, so
+  // the status row drops both.
+  const statusPlatform = live ? "" : platformText;
+  const statusLiveNote = live ? null : liveNote;
+  const hasStatus = Boolean(tags.next || tags.cheapest || countdown || statusPlatform || statusLiveNote || fare);
 
   const openSheet = () => {
     triggerHaptic("light");
@@ -204,16 +221,49 @@ export function TripCard({
         aria-controls={panelId}
         className="m3-state m3-focus-inset block w-full min-w-0 scroll-mt-10 px-4 pb-3 pt-3 text-left text-slate-900 dark:text-white"
       >
+        {/* Line 0, live next departure only: the line's colour as a stripe (text
+            never sits on the line colour), then line, direction and platform,
+            then the flap countdown and the provider's later departures. */}
+        {live && firstRide ? (
+          <div
+            className="-mx-4 -mt-3 mb-3 border-t-4 px-4 pt-2.5"
+            style={{ borderTopColor: firstRide.color }}
+            data-live-departure
+          >
+            <div className="m3-label-large flex min-w-0 items-center gap-2 text-slate-700 dark:text-slate-200">
+              <LineLabel name={firstRide.name} code={firstRide.code} color={firstRide.color} className="font-semibold text-slate-900 dark:text-white" />
+              {towards ? (
+                <span className="min-w-0 truncate">{t("metro.towards", { destination: stationLabel(t, towards, trip.country) })}</span>
+              ) : null}
+              {platformText || liveNote ? (
+                <span className="ml-auto flex shrink-0 gap-1.5 whitespace-nowrap">
+                  {platformText ? <span className="font-semibold">{platformText}</span> : null}
+                  {liveNote ? <span className={liveNote.className}>{liveNote.text}</span> : null}
+                </span>
+              ) : null}
+            </div>
+            <div className="mt-2.5 flex min-w-0 items-end justify-between gap-3">
+              <SplitFlap minutes={liveMinutes} />
+              {laterDepartures.length > 0 ? (
+                <p className="m3-label-medium min-w-0 text-right text-slate-600 dark:text-slate-300">
+                  {t("result.then")}{" "}
+                  <span className="whitespace-nowrap font-mono font-semibold tabular-nums text-slate-900 dark:text-white">{laterDepartures.join(" · ")}</span>
+                </p>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
+
         {/* Line 1, the status row: every item is shrink-0 and nowrap, so the row
             wraps instead of clipping; it is omitted when there is nothing to say. */}
         {hasStatus ? (
           <div className="mb-2 flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1">
             {tags.next && badge(t("result.next_departure_tag"), "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900")}
             {countdown ? <span className={`shrink-0 whitespace-nowrap tabular-nums ${countdownClass}`}>{countdown}</span> : null}
-            {platformText || liveNote ? (
+            {statusPlatform || statusLiveNote ? (
               <span className="m3-label-medium flex shrink-0 gap-1.5 whitespace-nowrap text-slate-600 dark:text-slate-300">
-                {platformText ? <span>{platformText}</span> : null}
-                {liveNote ? <span className={liveNote.className}>{liveNote.text}</span> : null}
+                {statusPlatform ? <span>{statusPlatform}</span> : null}
+                {statusLiveNote ? <span className={statusLiveNote.className}>{statusLiveNote.text}</span> : null}
               </span>
             ) : null}
             {fare || tags.cheapest ? (

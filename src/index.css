@@ -282,6 +282,42 @@
    * (.m3-nav-item) is left out on purpose and keeps its own feedback; reduced
    * motion drops the dip entirely.
    */
+  /* One minute digit of the live countdown (SplitFlap): a dark tile split by a
+   * hairline, which turns over once when its digit changes. */
+  .split-flap-tile {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 32px;
+    height: 44px;
+    border-radius: 6px;
+    background: var(--color-slate-900);
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: 1.875rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    animation: split-flap-turn var(--m3-duration-medium-2) var(--ease-m3-standard);
+  }
+  .split-flap-tile::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    height: 1px;
+    background: rgb(0 0 0 / 0.55);
+  }
+  .dark .split-flap-tile {
+    background: var(--color-slate-100);
+    color: var(--color-slate-900);
+  }
+  .dark .split-flap-tile::after { background: rgb(255 255 255 / 0.6); }
+  @keyframes split-flap-turn {
+    from { transform: perspective(240px) rotateX(-90deg); }
+    to { transform: perspective(240px) rotateX(0); }
+  }
+
   .m3-button:active:not(:disabled),
   .m3-chip:active:not(:disabled),
   .m3-fab:active:not(:disabled),
