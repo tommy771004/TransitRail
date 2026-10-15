@@ -5,27 +5,11 @@
   "sourceUrl": "https://api-v3.mbta.com",
   "sourceTier": "A",
   "fetchedAt": "2026-10-14T01:19:53.857Z",
-  "builtAt": "2026-10-14T01:19:53.947Z",
+  "builtAt": "2026-10-15T00:10:48.462Z",
   "recordCount": 11910,
   "routeCount": 8,
-  "successRate": 0.9583,
-  "failedRoutes": [
-    {
-      "origin": "Boston College",
-      "destination": "Park Street",
-      "error": "locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('[role=option]').filter({ hasText: 'Boston College' }).first() to be visible\n"
-    },
-    {
-      "origin": "Boston College",
-      "destination": "Park Street",
-      "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('.flatpickr-day[aria-label=\"October 16, 2026\"]:not(.flatpickr-disabled)').first()\n    - locator resolved to <span tabindex=\"-1\" class=\"flatpickr-day\" aria-label=\"October 16, 2026\">16</span>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not stable\n    - retrying click action\n    - waiting 20ms\n    - waiting for element to be visible, enabled and stable\n    - element is visible, enabled and stable\n    - scrolling into view if needed\n    - done scrolling\n    - performing click action\n"
-    },
-    {
-      "origin": "Boston College",
-      "destination": "Park Street",
-      "error": "page.waitForFunction: Timeout 15000ms exceeded."
-    }
-  ],
+  "successRate": null,
+  "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 8,
     "emptyRoutes": 0,
