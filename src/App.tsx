@@ -32,6 +32,7 @@ import { Snackbar, type SnackbarMessage } from "./components/Snackbar";
 import { get, set } from "idb-keyval";
 import { countryConfig, providerDateValue, countryThemes, countryFlags, countryOptions } from "./data/countries";
 import { resolveSearchConditions, searchQuery, searchTimeMode, sortResults } from "./utils/searchConditions";
+import { canonicalPathFor, countryFromPath } from "./utils/countryPath";
 import type {
   AppAlert,
   AppAlertCategory,
@@ -67,23 +68,6 @@ const emptySearch: SearchParams = {
 
 const USER_ALERTS_STORAGE_KEY = "transitrail.alerts.user-v2";
 
-const seoCountryPathMap: Record<Country, string> = {
-  japan: "/japan",
-  korea: "/korea",
-  china: "/china",
-  singapore: "/singapore",
-  malaysia: "/malaysia",
-  thailand: "/thailand",
-  hong_kong: "/hong-kong",
-  united_kingdom: "/united-kingdom",
-  united_states: "/united-states",
-  germany: "/germany",
-  france: "/france",
-  belgium: "/belgium",
-  norway: "/norway",
-  switzerland: "/switzerland",
-};
-
 function normalizeCountrySlug(value: string | null): Country | undefined {
   if (!value) {
     return undefined;
@@ -91,32 +75,6 @@ function normalizeCountrySlug(value: string | null): Country | undefined {
 
   const normalized = value.trim().toLowerCase().replace(/-/g, "_");
   return countryOptions.includes(normalized as Country) ? (normalized as Country) : undefined;
-}
-
-function countryFromPath(pathname: string): Country | undefined {
-  const normalizedPath = pathname.replace(/\/+$/, "").toLowerCase() || "/";
-  const pathMap: Record<string, Country> = {
-    "/japan": "japan",
-    "/korea": "korea",
-    "/china": "china",
-    "/singapore": "singapore",
-    "/malaysia": "malaysia",
-    "/thailand": "thailand",
-    "/hong-kong": "hong_kong",
-    "/hong_kong": "hong_kong",
-    "/united-kingdom": "united_kingdom",
-    "/united_kingdom": "united_kingdom",
-    "/united-states": "united_states",
-    "/united_states": "united_states",
-    "/germany": "germany",
-    "/france": "france",
-    "/belgium": "belgium",
-    "/norway": "norway",
-    "/switzerland": "switzerland",
-  };
-
-  const country = pathMap[normalizedPath];
-  return country && countryOptions.includes(country) ? country : undefined;
 }
 
 function buildInitialSearch(defaultCountry: Country): SearchParams {
@@ -141,34 +99,6 @@ function buildInitialSearch(defaultCountry: Country): SearchParams {
     country: resolvedCountry,
     preferredTransitTypes: [],
   };
-}
-
-function buildCanonicalSearchUrl(params: SearchParams) {
-  const path = seoCountryPathMap[params.country] || "/";
-  const query = new URLSearchParams();
-  const origin = params.origin.trim();
-  const destination = params.destination.trim();
-  const date = params.date?.trim();
-  const time = params.time?.trim();
-  query.set("timeMode", searchTimeMode(params));
-
-  if (origin) {
-    query.set("origin", origin);
-  }
-  if (destination) {
-    query.set("destination", destination);
-  }
-  if (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
-    query.set("date", date);
-  }
-  if (time && /^\d{2}:\d{2}$/.test(time)) {
-    query.set("time", time);
-  }
-
-  const queryString = query.toString();
-  return queryString
-    ? `${window.location.origin}${path}?${queryString}`
-    : `${window.location.origin}${path}`;
 }
 
 function buildDynamicShareUrl(trip: SavedTrip, date: string) {
@@ -468,11 +398,11 @@ export default function App() {
     let title = baseTitle;
     let description = seoText.default;
     let schemaJson: any = null;
-    const searchLikeParams = view === "results" ? searchParams : draftSearch;
-    const canonicalUrl =
+    const canonicalPath =
       view === "search" || view === "results"
-        ? buildCanonicalSearchUrl(searchLikeParams)
-        : `${window.location.origin}/`;
+        ? canonicalPathFor(window.location.pathname)
+        : "/";
+    const canonicalUrl = `${window.location.origin}${canonicalPath ?? window.location.pathname}`;
 
     if (view === "search") {
       const countryLabel = t(countryConfig[draftSearch.country].labelKey);
@@ -483,7 +413,7 @@ export default function App() {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": baseTitle,
-        "url": canonicalUrl,
+        "url": `${window.location.origin}/`,
         "description": description,
         "potentialAction": {
           "@type": "SearchAction",
@@ -562,14 +492,18 @@ export default function App() {
       : `train, transit, schedule, routing, international rail, subway, travel planner, timetables`;
     metaKeywords.setAttribute("content", keywords);
 
-    // Apply Canonical URL
+    // Apply Canonical URL; a path no page backs declares none and is noindexed below
     let canonicalLink = document.querySelector('link[rel="canonical"]');
-    if (!canonicalLink) {
-      canonicalLink = document.createElement("link");
-      canonicalLink.setAttribute("rel", "canonical");
-      document.head.appendChild(canonicalLink);
+    if (canonicalPath === null) {
+      canonicalLink?.remove();
+    } else {
+      if (!canonicalLink) {
+        canonicalLink = document.createElement("link");
+        canonicalLink.setAttribute("rel", "canonical");
+        document.head.appendChild(canonicalLink);
+      }
+      canonicalLink.setAttribute("href", canonicalUrl);
     }
-    canonicalLink.setAttribute("href", canonicalUrl);
 
     // Apply OpenGraph & Twitter Card Meta Tags
     const ogTags = {
@@ -603,7 +537,7 @@ export default function App() {
       robotsMeta.setAttribute("name", "robots");
       document.head.appendChild(robotsMeta);
     }
-    const shouldNoIndex = view === "alerts" || view === "saved" || view === "history" || view === "workflow" || view === "feedback";
+    const shouldNoIndex = canonicalPath === null || view === "alerts" || view === "saved" || view === "history" || view === "workflow" || view === "feedback";
     robotsMeta.setAttribute(
       "content",
       shouldNoIndex
