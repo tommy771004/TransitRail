@@ -636,24 +636,26 @@ body {
 .dark [data-country="china"] { --accent: #d07f3a; --accent-container: #3e2510; }
 
 /*
- * Each country supplies two restrained accent hues for a soft, blurred backdrop,
- * plus a landmark scene (--country-backdrop) drawn as a faint, accent-tinted
- * silhouette anchored to the bottom of the page (see .country-shell::before).
+ * Each country supplies two restrained hues for a soft, blurred backdrop: its
+ * accent hue (see --accent above) at OKLCH L 0.64, and a neighbour 35° along the
+ * wheel at L 0.70, so the backdrop always agrees with the accent. A landmark
+ * scene (--country-backdrop) is drawn as a faint, accent-tinted silhouette
+ * anchored to the bottom of the page (see .country-shell::before).
  */
-[data-country="japan"] { --country-a: 244, 63, 94; --country-b: 251, 146, 60; --country-backdrop: url("/backdrops/japan.svg"); }
-[data-country="korea"] { --country-a: 99, 102, 241; --country-b: 56, 189, 248; --country-backdrop: url("/backdrops/korea.svg"); }
-[data-country="singapore"] { --country-a: 217, 70, 239; --country-b: 244, 114, 182; --country-backdrop: url("/backdrops/singapore.svg"); }
-[data-country="malaysia"] { --country-a: 16, 185, 129; --country-b: 74, 222, 128; --country-backdrop: url("/backdrops/malaysia.svg"); }
-[data-country="thailand"] { --country-a: 245, 158, 11; --country-b: 251, 113, 133; --country-backdrop: url("/backdrops/thailand.svg"); }
-[data-country="hong_kong"] { --country-a: 6, 182, 212; --country-b: 45, 212, 191; --country-backdrop: url("/backdrops/hong_kong.svg"); }
-[data-country="united_kingdom"] { --country-a: 37, 99, 235; --country-b: 56, 189, 248; --country-backdrop: url("/backdrops/united_kingdom.svg"); }
-[data-country="united_states"] { --country-a: 71, 85, 105; --country-b: 14, 165, 233; --country-backdrop: url("/backdrops/united_states.svg"); }
-[data-country="germany"] { --country-a: 220, 38, 38; --country-b: 251, 146, 60; --country-backdrop: url("/backdrops/germany.svg"); }
-[data-country="france"] { --country-a: 124, 58, 237; --country-b: 59, 130, 246; --country-backdrop: url("/backdrops/france.svg"); }
-[data-country="belgium"] { --country-a: 202, 138, 4; --country-b: 239, 68, 68; --country-backdrop: url("/backdrops/belgium.svg"); }
-[data-country="norway"] { --country-a: 190, 24, 93; --country-b: 251, 113, 133; --country-backdrop: url("/backdrops/norway.svg"); }
-[data-country="switzerland"] { --country-a: 225, 29, 72; --country-b: 239, 68, 68; --country-backdrop: url("/backdrops/switzerland.svg"); }
-[data-country="china"] { --country-a: 234, 88, 12; --country-b: 239, 68, 68; --country-backdrop: url("/backdrops/china.svg"); }
+[data-country="japan"] { --country-a: 218, 100, 56; --country-b: 204, 146, 51; --country-backdrop: url("/backdrops/japan.svg"); }
+[data-country="korea"] { --country-a: 73, 139, 235; --country-b: 162, 142, 230; --country-backdrop: url("/backdrops/korea.svg"); }
+[data-country="singapore"] { --country-a: 200, 97, 173; --country-b: 226, 123, 136; --country-backdrop: url("/backdrops/singapore.svg"); }
+[data-country="malaysia"] { --country-a: 9, 166, 104; --country-b: 16, 181, 178; --country-backdrop: url("/backdrops/malaysia.svg"); }
+[data-country="thailand"] { --country-a: 94, 161, 48; --country-b: 44, 184, 146; --country-backdrop: url("/backdrops/thailand.svg"); }
+[data-country="hong_kong"] { --country-a: 9, 158, 171; --country-b: 70, 168, 230; --country-backdrop: url("/backdrops/hong_kong.svg"); }
+[data-country="united_kingdom"] { --country-a: 127, 124, 233; --country-b: 190, 132, 211; --country-backdrop: url("/backdrops/united_kingdom.svg"); }
+[data-country="united_states"] { --country-a: 122, 143, 164; --country-b: 156, 156, 178; --country-backdrop: url("/backdrops/united_states.svg"); }
+[data-country="germany"] { --country-a: 182, 129, 3; --country-b: 156, 167, 64; --country-backdrop: url("/backdrops/germany.svg"); }
+[data-country="france"] { --country-a: 163, 111, 217; --country-b: 211, 125, 183; --country-backdrop: url("/backdrops/france.svg"); }
+[data-country="belgium"] { --country-a: 3, 152, 205; --country-b: 123, 155, 238; --country-backdrop: url("/backdrops/belgium.svg"); }
+[data-country="norway"] { --country-a: 5, 162, 145; --country-b: 8, 176, 208; --country-backdrop: url("/backdrops/norway.svg"); }
+[data-country="switzerland"] { --country-a: 220, 93, 95; --country-b: 218, 136, 71; --country-backdrop: url("/backdrops/switzerland.svg"); }
+[data-country="china"] { --country-a: 206, 112, 5; --country-b: 186, 156, 46; --country-backdrop: url("/backdrops/china.svg"); }
 
 .country-shell {
   background:
