@@ -182,7 +182,7 @@ function tflAppKey() {
   return key || undefined;
 }
 
-function tflUrl(pathname: string, params: Record<string, string> = {}) {
+export function tflUrl(pathname: string, params: Record<string, string> = {}) {
   const url = new URL(pathname, TFL_API_URL);
   Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
   const key = tflAppKey();
@@ -343,7 +343,7 @@ async function describeTflRateLimit(response: Response) {
   return `TfL returned HTTP 429.${retryAfter ? ` Retry-After: ${retryAfter}.` : ""}${body ? ` Provider said: ${body}` : ""}`;
 }
 
-async function fetchTflJson<T>(url: URL, gate?: TflRateGate, transportRetries = 0): Promise<T> {
+export async function fetchTflJson<T>(url: URL, gate?: TflRateGate, transportRetries = 0): Promise<T> {
   // Separate budgets: a stalled request must not spend the rate-limit retries.
   for (let rateLimited = 0, transportFailures = 0; ;) {
     await gate?.();
@@ -604,7 +604,7 @@ async function searchTflStopPoints(query: string, gate?: TflRateGate) {
  * routes named "… Underground Station" worked. Retrying without the suffix costs
  * one request on the paths that were previously dead ends.
  */
-function resolveTflStation(query: string, gate?: TflRateGate): Promise<ResolvedTflStation> {
+export function resolveTflStation(query: string, gate?: TflRateGate): Promise<ResolvedTflStation> {
   // Station ids are stable, so this shares the existing station-cache lifetime.
   // Keyed on the raw query because the un-normalized spelling is what the first
   // lookup attempt sends.

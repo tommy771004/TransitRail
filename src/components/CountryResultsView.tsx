@@ -22,7 +22,9 @@ import { MetroResultView } from "./MetroResultView";
 import { LiveRailResultView } from "./LiveRailResultView";
 import { MalaysiaCatalogView } from "./MalaysiaCatalogView";
 import { TransitAppSupplement } from "./TransitAppSupplement";
-import { addDateValueDays, countryConfig, providerDateValues } from "../data/countries";
+import { StationCrowding } from "./StationCrowding";
+import { addDateValueDays, countryConfig, providerDateValue, providerDateValues } from "../data/countries";
+import { useKtmbLiveTrains } from "../hooks/useKtmbLiveTrains";
 import { formatServiceDay } from "./ResultShell";
 import { nearestAvailableDate, searchTimeMode } from "../utils/searchConditions";
 import { loadStationCatalog } from "../utils/catalogClient";
@@ -89,6 +91,12 @@ function OfflineCacheNotice({ deliveryStatus }: { deliveryStatus?: SearchDeliver
 export function CountryResultsView(props: CountryResultsViewProps) {
   const { t } = useTranslation();
   const capability = getCountryCapability(props.country);
+  // Today's KTMB rows learn where their train is; any other day has nothing live to say.
+  const results = useKtmbLiveTrains(
+    props.country === "malaysia" && props.results.length > 0 && props.date === providerDateValue(props.country, props.now?.()),
+    props.results,
+    props.date,
+  );
   const totalResults = props.totalResults ?? props.results.length;
   const hasNoMatchingResults = props.results.length === 0 && totalResults > 0;
   const hasNoSearchResults = props.results.length === 0 && totalResults === 0;
@@ -149,6 +157,10 @@ export function CountryResultsView(props: CountryResultsViewProps) {
       </button>
     </div>
   ) : null;
+  // TfL's crowding feed covers London only; it sits beside, never inside, the timetable.
+  const crowding = props.country === "united_kingdom" && props.origin
+    ? <StationCrowding station={props.origin} country={props.country} />
+    : null;
   const deliveryNotice = <OfflineCacheNotice deliveryStatus={props.deliveryStatus} />;
   const resultAnnouncement = props.results.length > 0 ? (
     <p role="status" aria-live="polite" className="sr-only">
@@ -169,7 +181,7 @@ export function CountryResultsView(props: CountryResultsViewProps) {
     failureKind: props.failureKind,
     officialSourceUrl: props.officialSourceUrl ?? props.dataStatus?.sourceUrl,
     coverageGap: props.coverageGap,
-    results: props.results,
+    results,
     savedIds: props.savedIds,
     onModify: props.onModify,
     onRetry: props.onRetry,
@@ -183,7 +195,7 @@ export function CountryResultsView(props: CountryResultsViewProps) {
     sortMode: props.sortMode,
     onSortChange: props.onSortChange,
     now: props.now,
-    overview: <>{resultAnnouncement}{deliveryNotice}{boardEntry}</>,
+    overview: <>{resultAnnouncement}{deliveryNotice}{boardEntry}{crowding}</>,
     afterResults: props.overview,
   };
   const supplementary = <TransitAppSupplement country={props.country} origin={props.origin} destination={props.destination} />;

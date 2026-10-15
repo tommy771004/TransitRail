@@ -8,6 +8,8 @@ export type GtfsStop = {
   parentStation?: string;
   /** National station register number, when the publisher carries one. */
   registerId?: string;
+  latitude?: number;
+  longitude?: number;
 };
 
 export type GtfsTrip = {
@@ -189,6 +191,11 @@ export function parseGtfsFeed(
   }
 
   const stops: GtfsStop[] = [];
+  const stopCoordinates = (lat?: string, lon?: string) => {
+    const latitude = Number(lat);
+    const longitude = Number(lon);
+    return lat && lon && Number.isFinite(latitude) && Number.isFinite(longitude) ? { latitude, longitude } : {};
+  };
   forEachGtfsCsvRow(archive.get("stops.txt") || "", (row) => {
     if (row.stop_id && row.stop_name) {
       stops.push({
@@ -200,6 +207,7 @@ export function parseGtfsFeed(
         // rather than one of its platforms and does not change when the feed is
         // rebuilt, which is what makes it usable as a matching key.
         registerId: row.didok || undefined,
+        ...stopCoordinates(row.stop_lat, row.stop_lon),
       });
     }
   });

@@ -249,6 +249,8 @@ const resources = {
         summary_fare: "Fare",
         summary_changes: "Changes",
         min_label: "min",
+        train_near: "Train now near {{station}}",
+        train_between: "Train between stations",
         then: "Then",
         hour_label: "h",
         forecast_title: "{{station}} Forecast",
@@ -439,6 +441,13 @@ const resources = {
         notifications_enabled: "Browser notifications enabled",
         reminder_set: "Reminder enabled",
         reminder_removed: "Reminder removed"
+      },
+      crowding: {
+        quiet: "is quiet now",
+        busy: "is busy now",
+        very_busy: "is very busy now",
+        quiet_from: "usually quiet from {{time}}",
+        source: "TfL live crowding",
       },
       board: {
         open: "Live station board",
@@ -919,6 +928,8 @@ const resources = {
         summary_fare: "票價",
         summary_changes: "轉乘",
         min_label: "分鐘",
+        train_near: "列車目前在 {{station}} 附近",
+        train_between: "列車行駛於兩站之間",
         then: "之後",
         hour_label: "小時",
         forecast_title: "{{station}}天氣預報",
@@ -1106,6 +1117,13 @@ const resources = {
         notifications_enabled: "已啟用瀏覽器通知",
         reminder_set: "已啟用提醒",
         reminder_removed: "已移除提醒"
+      },
+      crowding: {
+        quiet: "目前人少",
+        busy: "目前繁忙",
+        very_busy: "目前非常擁擠",
+        quiet_from: "通常 {{time}} 起人較少",
+        source: "TfL 即時人潮",
       },
       board: {
         open: "車站即時看板",
@@ -1991,6 +2009,8 @@ const resources = {
         summary_fare: "運賃",
         summary_changes: "乗換",
         min_label: "分",
+        train_near: "列車は現在 {{station}} 付近",
+        train_between: "列車は駅間を走行中",
         then: "その後",
         hour_label: "時間",
         forecast_title: "{{station}}の天気予報",
@@ -2178,6 +2198,13 @@ const resources = {
         notifications_enabled: "ブラウザ通知を有効にしました",
         reminder_set: "リマインダーを設定しました",
         reminder_removed: "リマインダーを削除しました"
+      },
+      crowding: {
+        quiet: "は現在空いています",
+        busy: "は現在混雑しています",
+        very_busy: "は現在大変混雑しています",
+        quiet_from: "通常 {{time}} から空いてきます",
+        source: "TfL リアルタイム混雑",
       },
       board: {
         open: "駅の発車案内",
@@ -2685,6 +2712,8 @@ const resources = {
         summary_fare: "요금",
         summary_changes: "환승",
         min_label: "분",
+        train_near: "열차 현재 {{station}} 부근",
+        train_between: "열차가 역 사이를 운행 중",
         then: "이후",
         hour_label: "시간",
         forecast_title: "{{station}} 날씨 예보",
@@ -2872,6 +2901,13 @@ const resources = {
         notifications_enabled: "브라우저 알림이 활성화되었습니다",
         reminder_set: "알림이 설정되었습니다",
         reminder_removed: "알림이 삭제되었습니다"
+      },
+      crowding: {
+        quiet: "현재 한산함",
+        busy: "현재 혼잡",
+        very_busy: "현재 매우 혼잡",
+        quiet_from: "보통 {{time}}부터 한산해짐",
+        source: "TfL 실시간 혼잡도",
       },
       board: {
         open: "역 실시간 안내판",

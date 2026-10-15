@@ -78,6 +78,11 @@ export interface TransitResult {
   delayMinutes?: number;
   headsign?: string;
   realtime?: boolean;
+  /**
+   * Where this departure's train was last seen, from a vehicle-position feed.
+   * It never makes the times realtime: the timetable row stays as published.
+   */
+  livePosition?: { nearStation?: string; reportedAt: string };
   amenities?: string[];
   warning?: string;
   tags?: string[];

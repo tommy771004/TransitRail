@@ -30,6 +30,8 @@ import { requestOrigin, requestPath, requestQuery } from "./src/server/requestOr
 import { getAffiliateOffers } from "./src/server/affiliates";
 import { transitAppClient } from "./src/server/transitApp";
 import { hongKongStationBoard } from "./src/server/hongKongMtr";
+import { londonStationCrowding } from "./src/server/tflCrowding";
+import { getKtmbLiveTrains } from "./src/server/malaysiaLive";
 
 dotenv.config();
 
@@ -371,6 +373,28 @@ async function logTransitSearch(
     }
     res.set("Cache-Control", "public, s-maxage=15, stale-while-revalidate=15");
     return res.json(board);
+  });
+
+  /** London Underground station busyness from TfL's live crowding feed. */
+  app.get("/api/transit/london/crowding", async (req, res) => {
+    const { station } = requestQuery(req);
+    if (typeof station !== "string" || !station.trim()) {
+      return res.status(400).json({ error: "A station is required." });
+    }
+    const crowding = await londonStationCrowding(station.trim());
+    res.set("Cache-Control", "public, s-maxage=120, stale-while-revalidate=180");
+    return res.json({ crowding });
+  });
+
+  /** Where KTMB trains are now, from the official GTFS Realtime vehicle positions. */
+  app.get("/api/transit/malaysia/live-trains", async (_req, res) => {
+    try {
+      const live = await getKtmbLiveTrains();
+      res.set("Cache-Control", "public, s-maxage=20, stale-while-revalidate=10");
+      return res.json(live);
+    } catch {
+      return res.status(502).json({ error: "KTMB live positions are unavailable.", trains: [] });
+    }
   });
 
   /**

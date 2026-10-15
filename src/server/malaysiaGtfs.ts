@@ -94,6 +94,11 @@ export async function searchMalaysiaKtmbGtfs(
   };
 }
 
+/** The same cached KTMB feed the timetable reads, for live features that need its stops. */
+export function loadMalaysiaKtmbFeed(): Promise<GtfsFeed> {
+  return malaysiaKtmbFeedSource.load();
+}
+
 export function resetMalaysiaKtmbGtfsFeedCache() {
   malaysiaKtmbFeedSource.reset();
 }
