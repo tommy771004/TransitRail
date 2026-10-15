@@ -120,11 +120,25 @@ export function migrateTransitAlerts(alerts: unknown, now = Date.now()): AppAler
  * showed someone searching Tokyo the London tube's severity and Boston's MBTA
  * alerts. A disruption on a network you have never opened is not information.
  */
+const SEVERITY_ORDER = { major: 0, minor: 1, info: 2 } as const;
+
+/** The passenger's markets only, most severe first; the feed's own order breaks ties. */
 export function situationsForCountries(
   situations: readonly TransitSituation[],
   countries: ReadonlySet<Country>,
 ): TransitSituation[] {
-  return situations.filter((situation) => countries.has(situation.country));
+  return situations
+    .filter((situation) => countries.has(situation.country))
+    .map((situation, index) => ({ situation, index }))
+    .sort((a, b) => (
+      SEVERITY_ORDER[a.situation.severity || "info"] - SEVERITY_ORDER[b.situation.severity || "info"] || a.index - b.index
+    ))
+    .map(({ situation }) => situation);
+}
+
+/** Planned works and restored service: worth reading, not worth leading with. */
+export function isBackgroundSituation(situation: TransitSituation): boolean {
+  return (situation.severity || "info") === "info";
 }
 
 type CountryRecord = { country: Country };

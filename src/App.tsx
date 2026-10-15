@@ -26,7 +26,7 @@ import { triggerHaptic } from "./utils/haptics";
 import { getAuditHeaders } from "./utils/audit";
 import { describeTimetableChange, timetableFingerprint } from "./utils/timetableChanges";
 import { formatRelativeTime } from "./utils/relativeTime";
-import { countriesForSituationFeed, migrateTransitAlerts, situationsForCountries, saveJsonSafely, persistTransitAlerts, renderTransitAlert } from "./utils/alertFeed";
+import { countriesForSituationFeed, isBackgroundSituation, migrateTransitAlerts, situationsForCountries, saveJsonSafely, persistTransitAlerts, renderTransitAlert } from "./utils/alertFeed";
 import { RouteServiceOverview } from "./components/RouteServiceOverview";
 import { ServiceDayAdvisoryNotice } from "./components/ServiceDayAdvisoryNotice";
 import { Snackbar, type SnackbarMessage } from "./components/Snackbar";
@@ -1419,6 +1419,27 @@ export default function App() {
     setShowStations(false);
   };
 
+  const renderSituation = (situation: TransitSituation) => (
+    <div
+      key={situation.id}
+      className={`m3-card border p-4 ${situation.severity === "major"
+        ? "border-rose-200 bg-rose-50 dark:border-rose-900/60 dark:bg-rose-950/25"
+        : isBackgroundSituation(situation)
+          ? "border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900"
+          : "border-amber-200 bg-amber-50 dark:border-amber-900/60 dark:bg-amber-950/25"}`}
+    >
+      <p className="m3-title-small text-slate-900 dark:text-white">{situation.title}</p>
+      {situation.description ? <p className="m3-body-medium mt-1 whitespace-pre-line leading-relaxed text-slate-600 dark:text-slate-300">{situation.description}</p> : null}
+      <p className="m3-label-small mt-2 text-slate-500 dark:text-slate-400">
+        {[
+          t(`alerts.severity.${situation.severity || "info"}`),
+          situation.updatedAt ? formatRelativeTime(situation.updatedAt, i18n.language) : undefined,
+          situation.source,
+        ].filter(Boolean).join(" \u00b7 ")}
+      </p>
+    </div>
+  );
+
   const renderView = () => {
     const routeOverview = view === "results" && visibleResults.length > 0 ? (
       <RouteServiceOverview
@@ -1847,19 +1868,18 @@ export default function App() {
                   <p className="m3-card m3-body-medium border border-slate-200 bg-white px-4 py-3 text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">{t("alerts.no_situations")}</p>
                 ) : (
                   <div className="space-y-2">
-                    {situations.map((situation) => (
-                      <div key={situation.id} className={`m3-card border p-4 ${situation.severity === "major" ? "border-rose-200 bg-rose-50 dark:border-rose-900/60 dark:bg-rose-950/25" : "border-amber-200 bg-amber-50 dark:border-amber-900/60 dark:bg-amber-950/25"}`}>
-                        <p className="m3-title-small text-slate-900 dark:text-white">{situation.title}</p>
-                        {situation.description ? <p className="m3-body-medium mt-1 leading-relaxed text-slate-600 dark:text-slate-300">{situation.description}</p> : null}
-                        <p className="m3-label-small mt-2 text-slate-500 dark:text-slate-400">
-                          {[
-                            t(`alerts.severity.${situation.severity || "info"}`),
-                            situation.updatedAt ? formatRelativeTime(situation.updatedAt, i18n.language) : undefined,
-                            situation.source,
-                          ].filter(Boolean).join(" \u00b7 ")}
-                        </p>
-                      </div>
-                    ))}
+                    {situations.filter((situation) => !isBackgroundSituation(situation)).map(renderSituation)}
+                    {situations.some(isBackgroundSituation) ? (
+                      <details className="group">
+                        <summary className="m3-state m3-label-large flex min-h-12 cursor-pointer items-center gap-2 rounded-xl px-1 text-slate-700 dark:text-slate-200">
+                          <ChevronDown aria-hidden="true" className="h-4 w-4 transition-transform group-open:rotate-180" />
+                          {t("alerts.background_situations", { count: situations.filter(isBackgroundSituation).length })}
+                        </summary>
+                        <div className="mt-2 space-y-2">
+                          {situations.filter(isBackgroundSituation).map(renderSituation)}
+                        </div>
+                      </details>
+                    ) : null}
                   </div>
                 )}
               </section>
@@ -1872,7 +1892,7 @@ export default function App() {
                     {alerts.map((alert) => {
                       const display = renderTransitAlert(alert, t);
                       const relatedSituation = alert.country
-                        ? situations.find((situation) => situation.country === alert.country)
+                        ? situations.find((situation) => situation.country === alert.country && !isBackgroundSituation(situation))
                         : undefined;
                       return (
                         <div key={alert.id} className="m3-card m3-card-large border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">

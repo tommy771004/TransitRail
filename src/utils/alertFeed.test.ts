@@ -103,6 +103,17 @@ describe("service status is scoped to the passenger's own networks", () => {
     expect(shown.map((entry) => entry.id)).toEqual(["tfl", "sbb"]);
   });
 
+  it("leads with the most severe notices and keeps feed order within a level", () => {
+    const shown = situationsForCountries([
+      { ...situation("belgium", "planned"), severity: "info" },
+      situation("belgium", "fault-1"),
+      { ...situation("belgium", "closure"), severity: "major" },
+      situation("belgium", "fault-2"),
+      { ...situation("belgium", "unrated"), severity: undefined },
+    ], new Set(["belgium"] as const));
+    expect(shown.map((entry) => entry.id)).toEqual(["closure", "fault-1", "fault-2", "planned", "unrated"]);
+  });
+
   it("says nothing rather than everything when no market matches", () => {
     expect(situationsForCountries([situation("united_kingdom", "tfl")], new Set(["japan"] as const))).toEqual([]);
   });

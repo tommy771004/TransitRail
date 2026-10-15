@@ -1,5 +1,6 @@
 import type { Country, TransitSituation } from "../types";
 import { getSwissSituations } from "./swissSituations";
+import { getBelgiumSituations, getJapanSituations, getNorwaySituations } from "./railSituations";
 
 const CACHE_TTL_MS = 2 * 60 * 1000;
 let cache: { at: number; situations: TransitSituation[] } | undefined;
@@ -57,21 +58,39 @@ async function getMbtaSituations(): Promise<TransitSituation[]> {
  * arrived on. "Swiss OTD SIRI-SX" identifies a transit-data protocol and told a
  * reader nothing; attribution still has to be there, so it says "SBB".
  */
-async function loadSituations(): Promise<TransitSituation[]> {
-  const [tfl, mbta, swiss] = await Promise.allSettled([getTflSituations(), getMbtaSituations(), getSwissSituations()]);
-  return [
-    ...(tfl.status === "fulfilled" ? tfl.value : []),
-    ...(mbta.status === "fulfilled" ? mbta.value : []),
-    ...(swiss.status === "fulfilled" ? swiss.value.map((situation, index) => ({
-      id: `swiss-${index}-${situation.summary}`,
-      country: "switzerland" as const,
-      title: situation.summary,
-      description: situation.cause,
-      severity: situation.severity?.toLowerCase().includes("high") ? "major" as const : "minor" as const,
-      updatedAt: situation.validFrom ? new Date(situation.validFrom).toISOString() : undefined,
-      source: "SBB",
-    })) : []),
-  ];
+async function swissFeed(): Promise<TransitSituation[]> {
+  const situations = await getSwissSituations();
+  return situations.map((situation, index) => ({
+    id: `swiss-${index}-${situation.summary}`,
+    country: "switzerland" as const,
+    title: situation.summary,
+    description: situation.cause,
+    severity: situation.severity?.toLowerCase().includes("high") ? "major" as const : "minor" as const,
+    updatedAt: situation.validFrom ? new Date(situation.validFrom).toISOString() : undefined,
+    source: "SBB",
+  }));
+}
+
+const feeds: Record<string, () => Promise<TransitSituation[]>> = {
+  tfl: getTflSituations,
+  mbta: getMbtaSituations,
+  swiss: swissFeed,
+  belgium: getBelgiumSituations,
+  japan: getJapanSituations,
+  norway: getNorwaySituations,
+};
+
+/** Each feed's last good answer, so one failed refresh does not erase its notices. */
+const lastGood = new Map<string, TransitSituation[]>();
+
+export async function loadSituations(): Promise<TransitSituation[]> {
+  const names = Object.keys(feeds);
+  const results = await Promise.allSettled(names.map((name) => feeds[name]()));
+  return names.flatMap((name, index) => {
+    const result = results[index];
+    if (result.status === "fulfilled") lastGood.set(name, result.value);
+    return lastGood.get(name) || [];
+  });
 }
 
 export async function getTransitSituations(country?: Country): Promise<TransitSituation[]> {
