@@ -1,9 +1,9 @@
 // Author: AI Coding Agent
 // OS support: Linux, macOS, Windows
 // Description: The one sheet every live screen opens in — a station board, a list of
-// trains on the move — so they share a header, a refresh line and a footer.
+// trains on the move — so they share a header, a refresh control and a footer.
 
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, RotateCw } from "lucide-react";
 import { useRef, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
@@ -26,15 +26,17 @@ interface LiveSheetProps {
   titleId: string;
   title: string;
   subtitle?: string;
-  /** The last successful update on the market clock; omitted until there is one. */
+  /** The last successful update; the refresh control names it on the market clock. */
   updatedAt?: string;
   timeZone: string;
+  onRefresh: () => void;
+  refreshing: boolean;
   onClose: () => void;
   children: ReactNode;
   footer: ReactNode;
 }
 
-export function LiveSheet({ country, titleId, title, subtitle, updatedAt, timeZone, onClose, children, footer }: LiveSheetProps) {
+export function LiveSheet({ country, titleId, title, subtitle, updatedAt, timeZone, onRefresh, refreshing, onClose, children, footer }: LiveSheetProps) {
   const { t } = useTranslation();
   const dialogRef = useRef<HTMLElement>(null);
   useModalFocusTrap(dialogRef, onClose);
@@ -72,15 +74,18 @@ export function LiveSheet({ country, titleId, title, subtitle, updatedAt, timeZo
           <div className="min-w-0 flex-1 pt-1">
             <h1 id={titleId} className="m3-headline-medium font-black text-slate-900 dark:text-white">{title}</h1>
             {subtitle ? <p className="m3-title-small text-slate-600 dark:text-slate-300">{subtitle}</p> : null}
-            {updatedAt ? (
-              <p className="m3-label-medium mt-1 flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
-                <span aria-hidden="true" className="h-2 w-2 rounded-full bg-accent" />
-                <span>{t("board.updated", { time: marketClock(updatedAt, timeZone) })}</span>
-                <span aria-hidden="true">·</span>
-                <span>{t("board.refresh")}</span>
-              </p>
-            ) : null}
           </div>
+          <button
+            type="button"
+            onClick={onRefresh}
+            disabled={refreshing}
+            aria-label={updatedAt ? `${t("board.refresh")} · ${t("board.updated", { time: marketClock(updatedAt, timeZone) })}` : t("board.refresh")}
+            title={updatedAt ? t("board.updated", { time: marketClock(updatedAt, timeZone) }) : undefined}
+            className="m3-icon-button m3-icon-button-large m3-state text-accent disabled:opacity-100"
+            data-live-refresh
+          >
+            <RotateCw aria-hidden="true" className={`h-5 w-5 ${refreshing ? "animate-spin" : ""}`} />
+          </button>
         </header>
 
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-4" aria-live="polite">

@@ -83,6 +83,11 @@ export interface TransitResult {
    * It never makes the times realtime: the timetable row stays as published.
    */
   livePosition?: { nearStation?: string; between?: [string, string]; reportedAt: string };
+  /**
+   * What the operator's trip-update feed says about this departure at the
+   * passenger's own stations. Like livePosition, the timetable times stay as published.
+   */
+  liveStatus?: { delayMinutes?: number; arrivalDelayMinutes?: number; cancelled?: boolean; skipped?: boolean; checkedAt: string };
   amenities?: string[];
   warning?: string;
   tags?: string[];

@@ -9,7 +9,7 @@ export const searchExperienceCopy = {
     all_day_recovery: "Search all day", change_stations: "Change stations", reset_filters: "Show all departures",
     unsupported_route: "Route not covered", reload: "Reload directory",
     choose_country: "Back to manual country selection", manual_stations: "Choose stations manually",
-    live_limit: "This source only provides upcoming departures; a full day or future time may not be available.",
+    live_limit: "This source only lists upcoming departures, so a full day or later time may be missing.",
     hot_route_selected: "{{route}} loaded. Choose a date or search.",
   },
   "zh-TW": {
@@ -21,7 +21,7 @@ export const searchExperienceCopy = {
     all_day_recovery: "改為全天查詢", change_stations: "修改車站", reset_filters: "顯示所有班次",
     unsupported_route: "路線尚未涵蓋", reload: "重新載入",
     choose_country: "返回手動選擇國家", manual_stations: "改為手動選站",
-    live_limit: "此來源僅提供近期到站資料，可能無法提供全天或指定未來時間的班次。",
+    live_limit: "此來源只提供近期班次，不一定能查全天或未來時間。",
     hot_route_selected: "已載入 {{route}}，請選擇日期或查詢。",
   },
   ja: {
@@ -32,7 +32,7 @@ export const searchExperienceCopy = {
     all_day_recovery: "終日で検索", change_stations: "駅を変更", reset_filters: "すべての便を表示",
     unsupported_route: "未対応のルート", reload: "再読み込み",
     choose_country: "国の手動選択に戻る", manual_stations: "駅を手動で選択",
-    live_limit: "この情報源は直近の出発のみを提供し、終日や将来の指定時刻には対応していない場合があります。",
+    live_limit: "この情報源は直近の便のみで、終日や先の時刻は表示できない場合があります。",
     hot_route_selected: "{{route}}を読み込みました。日付を選ぶか検索してください。",
   },
   ko: {
@@ -43,7 +43,7 @@ export const searchExperienceCopy = {
     all_day_recovery: "하루 전체 검색", change_stations: "역 변경", reset_filters: "모든 출발 표시",
     unsupported_route: "지원하지 않는 경로", reload: "다시 불러오기",
     choose_country: "국가 수동 선택으로 돌아가기", manual_stations: "역을 수동으로 선택",
-    live_limit: "이 출처는 곧 출발하는 편만 제공하므로 하루 전체나 미래 지정 시간은 제공되지 않을 수 있습니다.",
+    live_limit: "이 출처는 곧 출발하는 편만 제공해 하루 전체나 이후 시간은 없을 수 있습니다.",
     hot_route_selected: "{{route}}을(를) 불러왔습니다. 날짜를 선택하거나 검색하세요.",
   },
 };

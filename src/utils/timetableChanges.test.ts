@@ -42,8 +42,8 @@ describe("timetable service-boundary fingerprints", () => {
 
   it("describes first-train, last-train, and service-day changes", () => {
     const before = timetableFingerprint(results, advisory());
-    expect(describeFingerprintChange(before, timetableFingerprint(results, advisory({ firstDeparture: "06:30" })), t)).toBe("First service is now 06:30, was 06:00.");
-    expect(describeFingerprintChange(before, timetableFingerprint(results, advisory({ lastDeparture: "21:30" })), t)).toBe("Last service is now 21:30, was 22:00.");
+    expect(describeFingerprintChange(before, timetableFingerprint(results, advisory({ firstDeparture: "06:30" })), t)).toBe("First service: 06:00 → 06:30");
+    expect(describeFingerprintChange(before, timetableFingerprint(results, advisory({ lastDeparture: "21:30" })), t)).toBe("Last service: 22:00 → 21:30");
   });
 
   it("names the service day the way the rest of the app does, never by its enum", () => {

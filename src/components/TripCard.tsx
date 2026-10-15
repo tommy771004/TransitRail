@@ -83,14 +83,25 @@ export function TripCard({
   // The status row carries only what changes per departure: the platform, then
   // the live status. The station itself is already in the header. A realtime
   // flag without a provider status is neutral: green would read as "on time".
-  const delayed = Boolean(trip.realtime && typeof trip.delayMinutes === "number" && trip.delayMinutes > 0);
+  // A timetable row the operator's trip-update feed speaks for (liveStatus) says
+  // the same things, and its countdown gives way the same way.
+  const lateNote = (minutes: number) => minutes > 0
+    ? { text: `+${minutes} ${t("result.delay_min")}`, className: "font-semibold text-rose-700 dark:text-rose-300" }
+    : { text: t("result.on_time"), className: "text-emerald-700 dark:text-emerald-400" };
+  const status = trip.realtime ? undefined : trip.liveStatus;
+  const disrupted = Boolean(status && (status.cancelled || status.skipped || (status.delayMinutes ?? 0) > 0));
+  const delayed = disrupted || Boolean(trip.realtime && typeof trip.delayMinutes === "number" && trip.delayMinutes > 0);
   const liveNote = trip.realtime
     ? typeof trip.delayMinutes === "number"
-      ? trip.delayMinutes > 0
-        ? { text: `+${trip.delayMinutes} ${t("result.delay_min")}`, className: "font-semibold text-rose-700 dark:text-rose-300" }
-        : { text: t("result.on_time"), className: "text-emerald-700 dark:text-emerald-400" }
+      ? lateNote(trip.delayMinutes)
       : { text: t("metro.realtime"), className: "text-slate-600 dark:text-slate-300" }
-    : null;
+    : status?.cancelled
+      ? { text: t("result.cancelled"), className: "font-semibold text-rose-700 dark:text-rose-300" }
+      : status?.skipped
+        ? { text: t("result.skips_station"), className: "font-semibold text-rose-700 dark:text-rose-300" }
+        : typeof status?.delayMinutes === "number"
+          ? lateNote(status.delayMinutes)
+          : null;
   const platformText = [firstPlatform, lastLegPlatform].filter(Boolean).join(" → ");
 
   // "Direct · 8 stops", or "Change at Piccadilly Circus to Bakerloo · 3 min wait".
@@ -265,7 +276,7 @@ export function TripCard({
             {statusPlatform || statusLiveNote ? (
               <span className="m3-label-medium flex shrink-0 gap-1.5 whitespace-nowrap text-slate-600 dark:text-slate-300">
                 {statusPlatform ? <span>{statusPlatform}</span> : null}
-                {statusLiveNote ? <span className={statusLiveNote.className}>{statusLiveNote.text}</span> : null}
+                {statusLiveNote ? <span className={statusLiveNote.className} data-live-status={status ? "" : undefined}>{statusLiveNote.text}</span> : null}
               </span>
             ) : null}
             {fare || tags.cheapest ? (

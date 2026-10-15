@@ -4,208 +4,208 @@ export const transferTranslations = {
       // 1. Switzerland
       switzerland_geneve: {
         recommendedExit: "Place de Cornavin (Pl. 3/4)",
-        guidance: "Transfer to Léman Express for French border towns; Take Tram 15 outside directly to UN European Headquarters.",
-        description: "Geneva Cornavin is the main railway station of Geneva, serving as a major hub for national and international trains."
+        guidance: "Léman Express runs to French border towns; Tram 15 outside goes to the UN Office.",
+        description: "Geneva's main station, with national and international trains."
       },
       switzerland_lausanne: {
         recommendedExit: "Place de la Gare (Pl. 5)",
-        guidance: "Lausanne M2 is Switzerland's only metro. Ride M2 south to the terminal Ouchy-Olympique to transfer to CGN Lake Geneva ferries to Evian, France.",
-        description: "Lausanne Station is a major railway junction in French-speaking Switzerland, connecting Geneva, Bern, and international destinations."
+        guidance: "Take metro M2 south to Ouchy-Olympique for CGN ferries to Evian, France.",
+        description: "Main station of French-speaking Switzerland, linking Geneva, Bern and international routes."
       },
       switzerland_bern: {
         recommendedExit: "Bahnhofplatz (City Exit) (Pl. 11)",
-        guidance: "Bern is the Swiss capital. Transfer to Tram 9 directly to the Federal Palace (Bundeshaus). The PostBus terminal offers regional mountain valley connections.",
-        description: "Bern Station serves as the primary railway station of the Swiss capital, with extensive national S-Bahn and PostBus routes."
+        guidance: "Tram 9 outside runs to the Federal Palace; the PostBus terminal serves mountain valleys.",
+        description: "The Swiss capital's main station, with national rail, S-Bahn and PostBus."
       },
       switzerland_zurich: {
         recommendedExit: "Bahnhofstrasse (Pl. 31-34 Underground)",
-        guidance: "Switzerland's largest hub. Deep underground platforms (Pl. 31-34) offer seamless S-Bahn transfers. Exit to Bahnhofstrasse or connect to river boats.",
-        description: "Zürich Hauptbahnhof is the largest railway station in Switzerland, operating high-speed international trains and dense regional transit."
+        guidance: "Underground platforms 31–34 serve the S-Bahn; Bahnhofstrasse is right outside.",
+        description: "Switzerland's largest station, with international and regional trains."
       },
       // 2. Germany
       germany_berlin: {
         recommendedExit: "Europaplatz / Washingtonplatz (Pl. 12/Upper Level)",
-        guidance: "Multi-level station. Upper tracks (Pl. 11-16) run East-West S-Bahn/long-distance; deep level runs North-South U5 and trains. Tram M10 links to East Berlin.",
-        description: "Berlin Hauptbahnhof is the spectacular multi-level central station of Germany's capital, integrating heavy rail, metro, and tram networks."
+        guidance: "Upper level (Pl. 11–16): east–west S-Bahn and long-distance. Lower level: north–south U5 and trains. Tram M10 goes to East Berlin.",
+        description: "Berlin's multi-level central station for main-line, metro and tram."
       },
       germany_leipzig: {
         recommendedExit: "Willy-Brandt-Platz (Pl. 10)",
-        guidance: "Europe's widest station by floor area. Use the underground City-Tunnel to access the Mitteldeutschland S-Bahn running through central Leipzig.",
-        description: "Leipzig Hauptbahnhof is a majestic historic station, combining a massive railway terminal with a modern subterranean transit tunnel."
+        guidance: "The underground City-Tunnel serves the Mitteldeutschland S-Bahn through central Leipzig.",
+        description: "Leipzig's historic terminus, with an underground through-tunnel."
       },
       germany_nuremberg: {
         recommendedExit: "Königstor (Old Town) (Pl. 8)",
-        guidance: "Transfer to fully automated driverless U-Bahn U2 directly to Nuremberg Airport. Take the Königstor underground walkway to the historic Old Town.",
-        description: "Nuremberg Hauptbahnhof is the major railway hub of northern Bavaria, linking high-speed ICE lines with dense regional subway routes."
+        guidance: "Driverless U2 runs to the airport; the Königstor underpass leads to the Old Town.",
+        description: "Northern Bavaria's main station, with ICE and U-Bahn."
       },
       germany_munich: {
         recommendedExit: "Arnulfstraße / Bayerstraße (Pl. 22)",
-        guidance: "Take S-Bahn S1 or S8 directly to Munich Airport. Transfer to BRB regional trains to explore the scenic Alpine foothills and Tegernsee.",
-        description: "Munich Hauptbahnhof is the primary railway station of Bavaria, serving international routes alongside a comprehensive S-Bahn trunk line."
+        guidance: "S1 or S8 go to the airport; BRB regional trains go to Tegernsee.",
+        description: "Bavaria's main station, with international routes and the S-Bahn trunk line."
       },
       // 3. Japan
       japan_ikebukuro: {
         recommendedExit: "East Exit / West Exit (M-25)",
-        guidance: "Super junction of 3 Tokyo Metro lines and 2 private railways. Tobu Tojo Line goes to Kawagoe; Seibu Ikebukuro Line connects to Chichibu.",
-        description: "Ikebukuro Station is one of Tokyo's primary commercial hubs, handling massive commuter traffic across JR, Tokyo Metro, Seibu, and Tobu lines."
+        guidance: "Three Tokyo Metro lines plus Seibu and Tobu. Tobu Tojo Line to Kawagoe; Seibu to Chichibu.",
+        description: "A major Tokyo hub served by JR, Tokyo Metro, Seibu and Tobu."
       },
       japan_otemachi: {
         recommendedExit: "C10 / B1 Exit (M-18)",
-        guidance: "Tokyo's largest metro transfer hub with 5 connecting lines. An underground pedestrian passage connects directly to JR Tokyo Station.",
-        description: "Otemachi Station is the premier subway hub in Tokyo's financial district, offering unmatched transit options entirely sheltered underground."
+        guidance: "Five metro lines; an underground passage leads to JR Tokyo Station.",
+        description: "Underground hub in Tokyo's financial district, with five metro lines."
       },
       japan_tokyo: {
         recommendedExit: "Marunouchi Central Exit / Yaesu Exit (M-17)",
-        guidance: "The core of Japan's rail network. Marunouchi Line links directly to Shinkansen gates and the underground platform for Narita Express (N'EX).",
-        description: "Tokyo Station is the iconic brick-facade gateway of Japan's capital, serving as the starting terminal for almost all Shinkansen lines."
+        guidance: "The Marunouchi Line connects to the Shinkansen gates; deep platforms serve Narita Express (N'EX) and the Keiyo Line.",
+        description: "Tokyo's red-brick gateway and starting point for most Shinkansen lines."
       },
       japan_shinjuku: {
         recommendedExit: "South Exit / BUSTA Shinjuku (M-08)",
-        guidance: "The world's busiest railway station. Transfer to Odakyu Romancecar for Hakone; BUSTA Shinjuku terminal upstairs offers long-distance highway buses.",
-        description: "Shinjuku Station is a massive urban transit labyrinth, connecting JR East, Tokyo Metro, Toei Subway, Odakyu, and Keio lines."
+        guidance: "Odakyu Romancecar to Hakone; BUSTA Shinjuku above the South Exit has highway buses.",
+        description: "The world's busiest station: JR East, Tokyo Metro, Toei, Odakyu and Keio."
       },
       // 4. South Korea
       korea_hongik: {
         recommendedExit: "Exit 4 (AREX) / Exit 9 (Stn. 239)",
-        guidance: "Youth culture hotspot. Transfer from Line 2 to the AREX Airport Railroad for direct access to Incheon and Gimpo Airports, with city check-in.",
-        description: "Hongik University Station is the gateway to Hongdae district, integrating metropolitan subways with rapid airport rail links."
+        guidance: "Change from Line 2 to AREX for Incheon and Gimpo airports; city check-in available.",
+        description: "The Hongdae station, served by metro and airport rail."
       },
       korea_sinchon: {
         recommendedExit: "Exit 7 / Exit 8 (Stn. 240)",
-        guidance: "Single-line station on Line 2. Highly efficient local bus network right outside Exits 7 & 8 serves the surrounding university district (Yonsei, Sogang, Ewha).",
-        description: "Sinchon Station is a major student and commercial center in western Seoul, surrounded by prominent universities."
+        guidance: "Line 2 only; buses outside Exits 7 and 8 serve Yonsei, Sogang and Ewha.",
+        description: "A student and shopping area in western Seoul."
       },
       korea_cityhall: {
         recommendedExit: "Exit 5 (City Hall Sq) (Stn. 201)",
-        guidance: "Where history meets modern city life. Transfer to Line 1 for Seoul Station. Exit 5 sits right by Deoksugung Palace and the Seoul City Tour Bus stop.",
-        description: "City Hall Station is located in the political and cultural center of Seoul, offering direct transfer between lines 1 and 2."
+        guidance: "Change to Line 1 for Seoul Station. Exit 5 is by Deoksugung Palace and the City Tour Bus stop.",
+        description: "Central Seoul interchange for Lines 1 and 2."
       },
       korea_gangnam: {
         recommendedExit: "Exit 2 / Exit 11 (Stn. 222)",
-        guidance: "Major business district. Transfer to Shinbundang Line for rapid transit to Pangyo Techno Valley. Central bus lanes run red express buses to Gyeonggi cities.",
-        description: "Gangnam Station is one of South Korea's premier commercial and nightlife hubs, linking the circular Line 2 with southern commuter railways."
+        guidance: "Shinbundang Line to Pangyo; red express buses on the central lanes go to Gyeonggi cities.",
+        description: "Seoul business district where Line 2 meets the Shinbundang Line."
       },
       korea_seoul: {
         recommendedExit: "Exit 1 / Main Concourse",
-        guidance: "The grand gateway of South Korea, integrating high-speed KTX with multiple subways (Lines 1 & 4, Gyeongui-Jungang) and direct airport AREX trains.",
-        description: "Seoul Station is the country's central railway terminus, serving as the starting point for the Gyeongbu high-speed line."
+        guidance: "KTX, Lines 1 and 4, Gyeongui–Jungang, and AREX to both airports.",
+        description: "Korea's main rail terminus and start of the Gyeongbu high-speed line."
       },
       korea_busan: {
         recommendedExit: "Exit 1 / Main Concourse",
-        guidance: "Busan's high-speed rail terminal. Seamless connection to Metro Line 1 for easy sightseeing access to Nampo, Jagalchi, and central Busan.",
-        description: "Busan Station is the southern terminus of the KTX railway network, serving as a critical gateway to South Korea's second largest city."
+        guidance: "Metro Line 1 goes to Nampo and Jagalchi.",
+        description: "Southern terminus of the Gyeongbu KTX line."
       },
       // 5. Singapore
       singapore_changi: {
         recommendedExit: "T2 / T3 Pedestrian Link (CG2)",
-        guidance: "Located between Terminals 2 and 3. Board the free Skytrain to other terminals or Jewel Changi; underground bus bay has Bus 36 direct to Orchard Road.",
-        description: "Changi Airport MRT Station is the eastern terminus of the East West Line branch, providing smooth tourist transit directly into the world-famous airport."
+        guidance: "Between Terminals 2 and 3. Free Skytrain to other terminals and Jewel; Bus 36 to Orchard Road from the basement.",
+        description: "Terminus of the East West Line airport branch."
       },
       singapore_tanah: {
         recommendedExit: "Exit A / Exit B (EW4)",
-        guidance: "Airport branch terminus. Employs a double-sided platform layout: mid-track train doors open on both sides for effortless cross-platform transit to the EW Main Line.",
-        description: "Tanah Merah MRT Station is an essential interchange station in eastern Singapore, facilitating quick switches between the airport shuttle and mainline trains."
+        guidance: "Airport branch terminus; the middle-track train opens both sides for a cross-platform change to the main line.",
+        description: "Interchange between the airport branch and the East West Line."
       },
       singapore_paya: {
         recommendedExit: "Exit A (PLQ Mall) (EW8 / CC9)",
-        guidance: "Elevated-to-underground interchange. Transfer between East West Line (elevated) and Circle Line (underground). Outside buses go to historical Katong.",
-        description: "Paya Lebar MRT Station is a major commercial sub-regional hub, seamlessly blending high-elevated transit with modern underground infrastructure."
+        guidance: "Change between the East West Line (elevated) and Circle Line (underground); buses outside go to Katong.",
+        description: "Interchange in an eastern Singapore business district."
       },
       singapore_cityhall: {
         recommendedExit: "Exit B (St. Andrew's) (EW13 / NS25)",
-        guidance: "Ultimate cross-platform interchange. Green and Red lines run parallel: northbound and westbound trains share one level; southbound and eastbound share another.",
-        description: "City Hall MRT Station is a central transit hub in Singapore's civic district, heavily frequented by daily city commuters."
+        guidance: "Cross-platform change: westbound and northbound share one level, eastbound and southbound the other.",
+        description: "Interchange in Singapore's civic district."
       },
       // 6. Thailand
       thailand_mochit: {
         recommendedExit: "Exit 3 (Park Connect) (N8)",
-        guidance: "BTS sky-bridge connects to MRT Blue Line (Chatuchak Park). Shuttle buses A1/A2 depart from ground level directly to Don Mueang Airport (DMK).",
-        description: "Mo Chit BTS Station is the primary transport hub of northern Bangkok, located adjacent to the world-famous Chatuchak Weekend Market."
+        guidance: "Skybridge to MRT Blue Line (Chatuchak Park); A1/A2 buses to Don Mueang Airport at street level.",
+        description: "Northern Bangkok BTS station next to Chatuchak Weekend Market."
       },
       thailand_victory: {
         recommendedExit: "Skywalk Circle Interchange (N3)",
-        guidance: "Bangkok's busiest local bus circle. Massive elevated skywalk wraps around the monument to guide passengers safely to correct regional bus bays.",
-        description: "Victory Monument BTS Station is a massive metropolitan transit roundabout, connecting sky-trains with countless city bus routes."
+        guidance: "A skywalk around the circle leads to the bus stops.",
+        description: "A roundabout where BTS meets many city bus routes."
       },
       thailand_phayathai: {
         recommendedExit: "Exit 5 (ARL Link) (N2)",
-        guidance: "Direct sky-bridge connection to Airport Rail Link (ARL) for rapid express train service to Suvarnabhumi Airport (BKK).",
-        description: "Phaya Thai Station is a crucial junction linking Bangkok's elevated BTS sky-train system with the dedicated eastern airport railway."
+        guidance: "Skybridge to the Airport Rail Link for Suvarnabhumi Airport.",
+        description: "Interchange between BTS and the Airport Rail Link."
       },
       thailand_siam: {
         recommendedExit: "Exit 3 (Siam Paragon) (CEN)",
-        guidance: "BTS dual-level cross-platform central hub. Switch easily between Sukhumvit and Silom lines. Silom Line leads south to Sathorn Pier for river cruises.",
-        description: "Siam BTS Station is the absolute center of Bangkok's sky-train network, connected directly to major shopping destinations like Siam Paragon."
+        guidance: "Cross-platform change between Sukhumvit and Silom lines on two levels; the Silom Line goes to Sathorn Pier for river boats.",
+        description: "BTS central station, linked to malls such as Siam Paragon."
       },
       // 7. Hong Kong
       hongkong_mongkok: {
         recommendedExit: "Exit B2 / Skybridge to Mong Kok East (MOK)",
-        guidance: "Cross-platform interchange between Tsuen Wan and Kwun Tong Lines. A 10-minute walk via Mong Kok Road Elevated Skywalk connects to Mong Kok East for the East Rail Line.",
-        description: "Mong Kok MTR Station is situated in one of the most densely populated districts in the world, serving as a vital transfer point."
+        guidance: "Cross-platform change between Tsuen Wan and Kwun Tong lines; about 10 minutes' walk via the skywalk to Mong Kok East for the East Rail Line.",
+        description: "One of the MTR's busiest interchanges."
       },
       hongkong_admiralty: {
         recommendedExit: "Exit A (Admiralty Centre) (ADM)",
-        guidance: "Mega 4-line interchange. Cross-platform access between Island and Tsuen Wan lines. Lower escalators lead to the South Island Line and the East Rail Line to the border.",
-        description: "Admiralty MTR Station is the primary transit mega-hub on Hong Kong Island, connecting four major MTR lines in an expansive multi-level underground complex."
+        guidance: "Cross-platform change between Island and Tsuen Wan lines; lower levels serve the South Island Line and the East Rail Line to the border.",
+        description: "Four-line interchange on Hong Kong Island."
       },
       hongkong_central: {
         recommendedExit: "Exit A (Ferry Link) / Exit D (CEN / HOK)",
-        guidance: "Sheltered underground moving walkways connect Central Station with Hong Kong Station for Airport Express. Exit A leads to Central Star Ferry Piers.",
-        description: "Central MTR Station is the financial heart of Hong Kong, linking main urban lines with the dedicated high-speed airport railway."
+        guidance: "An underground walkway with travelators links to Hong Kong Station for the Airport Express; Exit A leads to the Star Ferry piers.",
+        description: "Station in Hong Kong's financial district, linked to the Airport Express via Hong Kong Station."
       },
       // 8. United Kingdom
       uk_heathrow: {
         recommendedExit: "Central Terminal Area (Pl. 1)",
-        guidance: "Airport terminal hub. Choose the cost-effective Piccadilly Line, the modern high-frequency Elizabeth Line, or the rapid 15-minute Heathrow Express to Paddington.",
-        description: "Heathrow Terminals 2 & 3 Station is the main rail entrance to London's principal international airport, offering excellent travel options."
+        guidance: "Choose the cheaper Piccadilly line, the Elizabeth line, or the 15-minute Heathrow Express to Paddington.",
+        description: "Rail station for Heathrow Terminals 2 and 3."
       },
       uk_paddington: {
         recommendedExit: "Eastbourne Terrace Exit (Pl. 11/12 Underground)",
-        guidance: "West London's primary gateway. Spacious Elizabeth Line platforms (Pl. 11/12) connect directly to GWR National Rail trains for Windsor, Bath, and Wales.",
-        description: "Paddington Station is a historic railway terminal in London, serving commuter and long-distance trains alongside multiple Tube lines."
+        guidance: "Elizabeth line at Pl. 11/12; GWR trains go to Windsor, Oxford and Bath.",
+        description: "West London terminus with national rail, airport trains and Tube lines."
       },
       uk_farringdon: {
         recommendedExit: "Cowcross Street (Pl. 2)",
-        guidance: "Key Elizabeth Line junction. Seamless same-station transfer to Thameslink railway for direct trains to Gatwick Airport (LGW) and Luton Airport (LUT).",
-        description: "Farringdon Station is a historic London railway station, heavily expanded to serve as a major central intersection for Tube and national rail lines."
+        guidance: "Change between the Elizabeth line and Thameslink for Gatwick and Luton airports.",
+        description: "Central London interchange for Tube and national rail."
       },
       // 9. United States
       us_howard: {
         recommendedExit: "Coleman Square / AirTrain (A-Track)",
-        guidance: "Transfer point for JFK Airport. Exit the subway to the elevated AirTrain people mover (requires MetroCard/OMNY) serving all JFK terminals.",
-        description: "Howard Beach-JFK Airport Station connects NYC Subway Line A with the automated JFK AirTrain transit system in Queens."
+        guidance: "Leave the A train for the AirTrain to all JFK terminals (MetroCard/OMNY).",
+        description: "Interchange between the A train and the JFK AirTrain."
       },
       us_fulton: {
         recommendedExit: "Fulton Center Atrium (Fulton Stn)",
-        guidance: "Lower Manhattan mega-hub. 9+ subway lines intersect here. The indoor Dey Street corridor provides comfortable underground access to WTC and PATH trains to New Jersey.",
-        description: "Fulton Center is a modern transit complex in New York City, featuring an iconic glass dome and extensive underground pedestrian walkways."
+        guidance: "9+ subway lines; the Dey Street passage leads to WTC and PATH trains to New Jersey.",
+        description: "Lower Manhattan subway hub."
       },
       us_penn: {
         recommendedExit: "Moynihan Train Hall (Track 4)",
-        guidance: "Busiest rail hub in North America. The modern Moynihan Train Hall offers comfortable boarding for Amtrak (Acela), LIRR, and NJ Transit to Newark Airport.",
-        description: "Pennsylvania Station is NYC's central heavy rail hub, running intercity trains and suburban transit lines underneath Midtown Manhattan."
+        guidance: "Amtrak, LIRR and NJ Transit to Newark Airport; Moynihan Train Hall is the newer concourse.",
+        description: "North America's busiest rail station."
       },
       // 10. France
       france_cdg: {
         recommendedExit: "Gare de l'Aéroport CDG 2 (Track 41)",
-        guidance: "Terminal 2 basement hub. Ride the free CDGVAL shuttle to Terminals 1 and 3. Station platforms host RER B to Paris and high-speed TGV trains to Lyon/Lille.",
-        description: "Charles de Gaulle Airport Terminal 2 Station is a major high-speed rail hub, connecting air travelers directly with Europe's TGV network."
+        guidance: "Free CDGVAL to Terminals 1 and 3; platforms serve RER B to Paris and TGV to Lyon and Lille.",
+        description: "Station at CDG Terminal 2, served by TGV."
       },
       france_paris_nord: {
         recommendedExit: "Rue de Dunkerque (Track 43 / Underground)",
-        guidance: "Europe's busiest station. Ground level hosts Eurostar high-speed lines to London, Brussels, and Amsterdam. Lower levels connect directly to Metro and RER lines.",
-        description: "Paris Gare du Nord is the majestic northern railway terminus of Paris, handling extensive domestic and international commuter traffic."
+        guidance: "Eurostar to London, Brussels and Amsterdam at ground level; Metro and RER below.",
+        description: "Paris's northern terminus, one of Europe's busiest stations."
       },
       // 11. China
       china_pudong: {
         recommendedExit: "Terminal Hub Walkway (Maglev Bay)",
-        guidance: "Located in the central link between Terminals 1 and 2. Choose the high-speed Maglev (300km/h) for rapid city entry, or Metro Line 2 for local stops.",
-        description: "Pudong International Airport Station is the eastern transport gateway of Shanghai, integrating subways with the world's only commercial high-speed Maglev."
+        guidance: "Between Terminals 1 and 2. Take the Maglev into the city or Metro Line 2 towards Hongqiao.",
+        description: "Pudong Airport station, with metro and Maglev."
       },
       china_longyang: {
         recommendedExit: "Exit 4 / Exit 6 (Platform 1)",
-        guidance: "Five-line super station. High-speed Maglev terminal connects via covered pedestrian walkways to Subway Lines 2, 7, 16 (express to Lingang), and 18.",
-        description: "Longyang Road Station is a massive transit interchange in Pudong, Shanghai, serving as the urban terminal for the airport Maglev line."
+        guidance: "The Maglev terminal links by walkway to Lines 2, 7, 16 (to Lingang) and 18.",
+        description: "Pudong interchange and city terminal of the airport Maglev."
       }
     },
     // General transfer category labels
@@ -474,208 +474,208 @@ export const transferTranslations = {
       // 1. Switzerland
       switzerland_geneve: {
         recommendedExit: "Place de Cornavin 廣場出口 (3/4號月台)",
-        guidance: "轉乘 Léman Express 都市快鐵可前往法國邊境城鎮；出站即為路面電車站，搭乘 Tram 15 可直達聯合國歐洲總部。",
-        description: "日內瓦科爾納萬車站是日內瓦的主要鐵路樞紐，提供便捷的國內與跨國列車服務。"
+        guidance: "轉乘 Léman Express 可往法國邊境城鎮；站外搭 Tram 15 直達聯合國歐洲總部。",
+        description: "日內瓦的主要車站，有國內與跨國列車。"
       },
       switzerland_lausanne: {
         recommendedExit: "Place de la Gare 廣場出口 (5號月台)",
-        guidance: "洛桑地鐵 M2 是瑞士唯一的地下鐵，搭乘 M2 往南至終點站 Ouchy-Olympique 碼頭，可轉乘 CGN 渡輪橫跨日內瓦湖前往法國 Evian。",
-        description: "洛桑車站是瑞士法語區的重要鐵路樞紐，連接日內瓦、伯恩與多個國際主要城市。"
+        guidance: "搭地鐵 M2 往南至終點 Ouchy-Olympique，可轉 CGN 渡輪往法國 Evian。",
+        description: "瑞士法語區的主要車站，連接日內瓦、伯恩與國際線。"
       },
       switzerland_bern: {
         recommendedExit: "Bahnhofplatz 站前廣場 (市區出口) (11號月台)",
-        guidance: "伯恩為瑞士首都，出站後可直接轉乘路面電車 9 號線前往聯邦宮（聯邦議會大廈）。郵政巴士總站提供前往阿爾卑斯山區的接駁服務。",
-        description: "伯恩車站是瑞士首都的核心車站，設有密集的國家路網、都市快鐵與郵政巴士路線。"
+        guidance: "站外搭路面電車 9 號往聯邦宮；郵政巴士總站有往山區的路線。",
+        description: "瑞士首都的主要車站，有國鐵、S-Bahn 與郵政巴士。"
       },
       switzerland_zurich: {
         recommendedExit: "Bahnhofstrasse 班霍夫大街出口 (31-34號地底月台)",
-        guidance: "瑞士最大樞紐。地底深層月台（31-34號）可無縫轉乘遍佈蘇黎世州的 S-Bahn 快鐵。出站即為班霍夫大街，或前往河畔搭乘利馬特河觀光船。",
-        description: "蘇黎世中央車站是瑞士規模最大的鐵路總站，經營高密度國際高速列車及區域鐵路。"
+        guidance: "地下 31–34 號月台轉乘 S-Bahn；出站即班霍夫大街。",
+        description: "瑞士最大的車站，有國際長途與區域列車。"
       },
       // 2. Germany
       germany_berlin: {
         recommendedExit: "Europaplatz / Washingtonplatz 出口 (12號月台/高架上層)",
-        guidance: "大型立體化車站。高架上層（11-16月台）為東西向 S-Bahn 快鐵與長途列車；地底深層則為南北向地鐵 U5 與長途軌道。出站可搭路面電車 M10 前往東柏林。",
-        description: "柏林中央車站是德國首都的標誌性多層鐵路樞紐，完美整合重軌、地鐵與路面電車系統。"
+        guidance: "上層 11–16 月台為東西向 S-Bahn 與長途車；地下層為南北向 U5 與長途車。站外可搭 M10 電車往東柏林。",
+        description: "柏林的多層中央車站，整合長途、地鐵與路面電車。"
       },
       germany_leipzig: {
         recommendedExit: "Willy-Brandt-Platz 廣場出口 (10號月台)",
-        guidance: "歐洲月台面寬度第一的車站。地下設有「城市隧道 (City-Tunnel)」，可直接轉乘中德意志 S-Bahn 快鐵貫穿萊比錫市中心。",
-        description: "萊比錫中央車站是宏偉的歷史地標車站，將古典的終端式大廳與現代化地底貫通隧道相結合。"
+        guidance: "地下的 City-Tunnel 可轉乘中德意志 S-Bahn，穿越市中心。",
+        description: "萊比錫的歷史車站，有終端式大廳與地下貫通隧道。"
       },
       germany_nuremberg: {
         recommendedExit: "Königstor 國王門出口 (8號月台)",
-        guidance: "地底轉乘全自動無人駕駛地鐵 U2 線，可直達紐倫堡國際機場。出站通過國王門（Königstor）行人地下道即達歷史悠久的老城區入口。",
-        description: "紐倫堡中央車站是北巴伐利亞的鐵路大動脈，連接城際高速 ICE 與密集的地方地鐵網。"
+        guidance: "地下轉乘無人駕駛 U2 直達機場；經國王門地下道可到老城區。",
+        description: "北巴伐利亞的主要車站，有 ICE 與地鐵。"
       },
       germany_munich: {
         recommendedExit: "Arnulfstraße / Bayerstraße 街道出口 (22號月台)",
-        guidance: "搭乘都市快鐵 S-Bahn S1 或 S8 線可直達慕尼黑機場。亦可在此轉乘 BRB 地方鐵路前往風景如畫的阿爾卑斯山麓及泰根湖 (Tegernsee)。",
-        description: "慕尼黑中央車站是巴伐利亞州最大的車站，設有便利的國際線路與繁忙的快鐵核心幹線。"
+        guidance: "搭 S1 或 S8 直達機場；可轉 BRB 區域列車往泰根湖。",
+        description: "巴伐利亞最大的車站，有國際線與 S-Bahn 幹線。"
       },
       // 3. Japan
       japan_ikebukuro: {
         recommendedExit: "東口 / 西口 (M-25 出口)",
-        guidance: "東京三大地鐵線與兩大私鐵（西武、東武）的超級交匯點。西武鐵道可直達秩父；東武東上線可快速前往川越老街。",
-        description: "池袋車站是東京副都心之一的樞紐站，每日處理由 JR、東京地下鐵、西武與東武組成的龐大通勤人潮。"
+        guidance: "東京地鐵三線與西武、東武交會。東武東上線往川越，西武線往秩父。",
+        description: "東京副都心的轉乘站，有 JR、東京地鐵、西武與東武。"
       },
       japan_otemachi: {
         recommendedExit: "C10 / B1 出口 (M-18 地鐵站區)",
-        guidance: "東京最大的地鐵轉乘站，五線交匯。經由全空調地下聯絡通道可直接步行至 JR 東京站轉乘新幹線，免受雨淋日曬。",
-        description: "大手町車站是東京金融心臟地帶的地下交通要衝，提供五條地鐵線無縫連接。"
+        guidance: "五條地鐵線交會；地下通道可步行到 JR 東京站。",
+        description: "東京金融區的地下轉乘站，五線交會。"
       },
       japan_tokyo: {
         recommendedExit: "丸之內中央口 / 八重洲口 (M-17 出口)",
-        guidance: "日本鐵路網的絕對核心。地鐵丸之內線出站可直達丸之內地下中央口，便捷轉乘新幹線或地底深層的成田特快 (N'EX) 與京葉線。",
-        description: "東京車站是日本首都最具代表性的紅磚文藝復興式門戶，也是多條新幹線的起訖點。"
+        guidance: "丸之內線可直通新幹線剪票口；地下深層月台有成田特快（N'EX）與京葉線。",
+        description: "東京的紅磚門戶車站，多條新幹線的起點。"
       },
       japan_shinjuku: {
         recommendedExit: "南口 / BUSTA新宿高速巴士總站 (M-08 出口)",
-        guidance: "金氏世界紀錄乘降人數第一。轉乘小田急「浪漫特快」可直達箱根溫泉區；南口上方即為 BUSTA 新宿，可轉乘高速巴士前往日本全國。",
-        description: "新宿車站是極具代表性的超級交通迷宮，整合了 JR 東日本、東京地下鐵、都營地下鐵、小田急與京王電鐵。"
+        guidance: "轉小田急浪漫特快可往箱根；南口上方 BUSTA 新宿有長途巴士。",
+        description: "全球最繁忙的車站，有 JR、東京地鐵、都營、小田急與京王。"
       },
       // 4. South Korea
       korea_hongik: {
         recommendedExit: "4號出口 (機場鐵路) / 9號出口 (地鐵2號線 239站區)",
-        guidance: "青年流行文化中心。在此可由地鐵 2 號線便捷轉乘 A'REX 機場鐵路直達仁川與金浦國際機場，並設有市區預辦登機櫃檯。",
-        description: "弘益大學車站是前往弘大商圈的門戶，完美結合了都市通勤地鐵與機場快捷鐵路。"
+        guidance: "由 2 號線轉 AREX 機場鐵路直達仁川與金浦機場，站內可預辦登機。",
+        description: "弘大商圈的車站，有地鐵與機場鐵路。"
       },
       korea_sinchon: {
         recommendedExit: "7號出口 / 8號出口 (地鐵2號線 240站區)",
-        guidance: "地鐵 2 號線單一車站。出站即可在 7、8 號出口前的巴士中央專用道轉乘多路公車，快速前往周邊各大知名學區（延世、西江、梨花）。",
-        description: "新村車站是首爾西部重要的學生與商業聚集地，周圍名校林立。"
+        guidance: "僅 2 號線；7、8 號出口外的公車可往延世、西江、梨花等大學。",
+        description: "首爾西部的學區與商圈。"
       },
       korea_cityhall: {
         recommendedExit: "5號出口 (市廳廣場) (地鐵2號線 201站區)",
-        guidance: "歷史與現代市景交會。可在此轉乘地鐵 1 號線前往首爾車站。5 號出口一側即為德壽宮，旁邊設有首爾市區雙層觀光巴士停靠站。",
-        description: "市廳車站位於首爾的行政與文化核心，提供地鐵 1 號線與 2 號線的高效轉乘。"
+        guidance: "可轉 1 號線往首爾站；5 號出口旁為德壽宮與城市觀光巴士站。",
+        description: "首爾市中心的 1、2 號線轉乘站。"
       },
       korea_gangnam: {
         recommendedExit: "2號出口 / 11號出口 (地鐵2號線 222站區)",
-        guidance: "頂級商業重鎮。轉乘新盆唐線可直達板橋科技谷；江南大路中央公車專用道可轉乘大量前往水原、盆唐等衛星城市的廣域急行紅色巴士。",
-        description: "江南車站是南韓最具代表性的商業與娛樂中心，也是連接地鐵環狀 2 號線與南部衛星城市通勤線的重要樞紐。"
+        guidance: "轉新盆唐線往板橋；江南大路的紅色廣域巴士往京畿道各城市。",
+        description: "首爾的商業區，2 號線與新盆唐線交會。"
       },
       korea_seoul: {
         recommendedExit: "1號出口 / 車站主大廳",
-        guidance: "南韓主要鐵路交通樞紐。在此可轉乘高速鐵路 KTX、地鐵 1 號線與 4 號線、京義中央線，並可直接搭乘 A'REX 機場鐵路直達兩大機場。",
-        description: "首爾車站是南韓最核心的鐵路客運車站，為京釜高速線、京義線等多條幹線的始發站。"
+        guidance: "可轉 KTX、1 號與 4 號線、京義中央線，以及 AREX 機場鐵路。",
+        description: "南韓的主要鐵路車站，京釜高鐵等幹線的起點。"
       },
       korea_busan: {
         recommendedExit: "1號出口 / 車站主大廳",
-        guidance: "釜山最大的高鐵 KTX 終點站。出站可無縫轉乘釜山地鐵 1 號線，輕鬆前往南浦洞、札嘎其市場等主要市區觀光勝地。",
-        description: "釜山車站是京釜高鐵線的終端站，也是進入南韓第二大城市及最大港口的重要大門。"
+        guidance: "出站轉地鐵 1 號線可往南浦洞與札嘎其市場。",
+        description: "京釜高鐵的終點站。"
       },
       // 5. Singapore
       singapore_changi: {
         recommendedExit: "T2 / T3 航廈行人連廊 (CG2 站區)",
-        guidance: "位於第二與第三航廈之間。出站可搭乘免費 Skytrain 前往其他航廈或星耀樟宜 (Jewel)；地底巴士候車區設有 36 號巴士直達市區烏節路。",
-        description: "樟宜機場地鐵站是東西地鐵線機場支線的起迄站，提供國際旅客最頂級舒適的機場軌道交通服務。"
+        guidance: "位於第二、三航廈之間。免費 Skytrain 往其他航廈與星耀樟宜；地下巴士站有 36 號往烏節路。",
+        description: "東西線機場支線的終點站。"
       },
       singapore_tanah: {
         recommendedExit: "A出口 / B出口 (EW4 站區)",
-        guidance: "機場支線的終點站。採用特殊的「雙側開門」設計，中線列車兩側車門同時開啟，乘客可直接跨月台轉乘東西主線，省去更換樓層的麻煩。",
-        description: "丹那美拉地鐵站是新加坡東部重要的轉乘樞紐，專門負責機場支線與東西主線之間的旅客接駁。"
+        guidance: "機場支線終點；中間軌道列車兩側開門，可同月台轉東西線主線。",
+        description: "機場支線與東西線主線的轉乘站。"
       },
       singapore_paya: {
         recommendedExit: "A出口 (PLQ 購物中心) (EW8 / CC9 站區)",
-        guidance: "高架與地下交會站。在此由東西線（高架）轉乘環線（地下）。出站可轉乘公車前往加東、馬林百列等充滿土生華人風情的歷史老街區。",
-        description: "巴耶利峇地鐵站是新加坡東部新興的商業次中心，成功融合高架與地底站區。"
+        guidance: "東西線（高架）與環線（地下）轉乘；站外公車可往加東。",
+        description: "新加坡東部的商業區轉乘站。"
       },
       singapore_cityhall: {
         recommendedExit: "B出口 (聖安德烈教堂) (EW13 / NS25 站區)",
-        guidance: "極致高效的平行跨月台轉乘。東西線與南北線平行排列：往西與往北方向列車在同一層對面轉乘；往東與往南方向則在另一層對面轉乘。",
-        description: "政府大廈地鐵站座落於新加坡行政區核心，每日分流極其龐大的市中心商務與通勤旅客。"
+        guidance: "東西線與南北線同月台轉乘：往西與往北同一層，往東與往南另一層。",
+        description: "新加坡市政區的轉乘站。"
       },
       // 6. Thailand
       thailand_mochit: {
         recommendedExit: "3號出口 (恰圖恰公園連通道) (N8 站區)",
-        guidance: "空鐵與地鐵的轉乘要道。出站經天橋可下至地面轉乘 MRT 藍線「恰圖恰公園站」；亦可在地面搭乘 A1/A2 機場公車直達廊曼機場 (DMK)。",
-        description: "蒙奇特 BTS 車站是曼谷北部的核心交通門戶，鄰近世界聞名的恰圖恰週末市集。"
+        guidance: "經天橋轉 MRT 藍線恰圖恰公園站；地面有 A1/A2 巴士往廊曼機場。",
+        description: "曼谷北部的 BTS 站，鄰近恰圖恰週末市集。"
       },
       thailand_victory: {
         recommendedExit: "空中步道環形轉乘連通道 (N3 站區)",
-        guidance: "曼谷最大的公車轉運圓環。巨大的環形空中天橋 (Skywalk) 橫跨圓環上方，指引乘客安全漫步至正確的區域與市區公車乘車候車亭。",
-        description: "勝利紀念碑 BTS 車站是曼谷最重要的市中心交通圓環，天鐵與無數市公車路線在此交匯。"
+        guidance: "環形天橋通往圓環周邊各公車站。",
+        description: "BTS 與大量市區公車路線交會的圓環。"
       },
       thailand_phayathai: {
         recommendedExit: "5號出口 (ARL 機場快線連廊) (N2 站區)",
-        guidance: "空鐵與機場快線的轉乘站。出站設有專用空中通道直通 ARL 車站，可搭乘機場捷運直達蘇萬那普國際機場 (BKK)。",
-        description: "披耶泰車站是連接曼谷高架 BTS 軌道交通與東部專用機場快軌線的重要樞紐。"
+        guidance: "空中通道直通機場快線（ARL），往蘇萬那普機場。",
+        description: "BTS 與機場快線的轉乘站。"
       },
       thailand_siam: {
         recommendedExit: "3號出口 (Siam Paragon 暹羅百麗宮) (CEN 站區)",
-        guidance: "BTS 的超級雙層中央樞紐。上下兩層皆提供高效的平行跨月台轉乘，方便在蘇坤蔚線與席隆線之間切換；席隆線可直達沙吞碼頭轉乘湄南河渡輪。",
-        description: "暹羅 BTS 車站是曼谷軌道交通網的幾何心臟，出口直通暹羅百麗宮等大型精品商場。"
+        guidance: "上下兩層同月台轉乘蘇坤蔚線與席隆線；席隆線可到沙吞碼頭搭渡輪。",
+        description: "BTS 的中心站，出口直通暹羅百麗宮等商場。"
       },
       // 7. Hong Kong
       hongkong_mongkok: {
         recommendedExit: "B2出口 / 旺角道行人天橋至旺角東站",
-        guidance: "荃灣綫與觀塘綫的跨月台轉乘站。出站後沿著旺角道行人天橋步行約 10 分鐘，可達旺角東站轉乘東鐵綫前往羅湖或落馬洲口岸。",
-        description: "旺角 MTR 車站位於全球人口密度極高的精華商圈，是港鐵最繁忙的轉乘大站之一。"
+        guidance: "荃灣綫與觀塘綫同月台轉乘；經旺角道天橋步行約 10 分鐘到旺角東轉東鐵綫。",
+        description: "港鐵最繁忙的轉乘站之一。"
       },
       hongkong_admiralty: {
         recommendedExit: "A出口 (海富中心) (ADM 站區)",
-        guidance: "四線匯聚的超級立體樞紐。荃灣綫與港島綫在此進行高效跨月台對面轉乘；地底更深層月台直通南港島綫，以及直達深圳邊境的東鐵綫。",
-        description: "金鐘 MTR 車站是香港島最重要的地鐵交會大站，多條鐵路在此呈多層立體化交錯。"
+        guidance: "荃灣綫與港島綫同月台轉乘；下層為南港島綫與往邊境的東鐵綫。",
+        description: "港島的四線轉乘站。"
       },
       hongkong_central: {
         recommendedExit: "A出口 (渡輪連通道) / D出口 (CEN / HOK 站區)",
-        guidance: "中環站與香港站於地底相連，設有寬敞的行人步道（配有電動輸送帶），可無縫轉乘機場快綫。Exit A 出站沿行人天橋可至中環碼頭搭乘天星小輪。",
-        description: "中環 MTR 車站是香港的金融心臟，將核心都市線與直達機場的快捷鐵路系統緊密相連。"
+        guidance: "地下通道（有輸送帶）連接香港站，可轉機場快綫；A 出口往中環碼頭搭天星小輪。",
+        description: "香港金融區的車站，經香港站接機場快綫。"
       },
       // 8. United Kingdom
       uk_heathrow: {
         recommendedExit: "中央航廈航站區 (1號月台)",
-        guidance: "機場航站樞紐。在此可選擇便宜但站站停的倫敦地鐵皮卡迪利線，或選擇高規格、快速舒適的伊莉莎白線，或 15 分鐘直達帕丁頓站的機場快線。",
-        description: "希斯洛機場 2 號及 3 號客運大樓站是倫敦主要國際機場的鐵路大門，提供極為多元的聯外交通。"
+        guidance: "可選便宜的皮卡迪利線、伊莉莎白線，或 15 分鐘直達帕丁頓的希斯洛快線。",
+        description: "希斯洛機場 2、3 號航廈的車站。"
       },
       uk_paddington: {
         recommendedExit: "Eastbourne Terrace 街道出口 (11/12號地底月台)",
-        guidance: "倫敦西部的主要門戶。伊莉莎白線設有現代化的地下大廳（11與12號月台），出站可直接轉乘大西部鐵路 (GWR) 列車前往溫莎、牛津與巴斯。",
-        description: "帕丁頓車站是倫敦歷史悠久的鐵路終點站，運行頻密的國家重鐵、機場快軌與多條地鐵線。"
+        guidance: "伊莉莎白線在 11、12 號月台；可轉 GWR 往溫莎、牛津與巴斯。",
+        description: "倫敦西部的終點站，有國鐵、機場快線與地鐵。"
       },
       uk_farringdon: {
         recommendedExit: "Cowcross Street 街道出口 (2號月台)",
-        guidance: "伊莉莎白線重要樞紐。提供同站無縫轉乘 Thameslink 鐵路，可搭乘直達列車快速前往蓋威克機場 (Gatwick) 或盧頓機場 (Luton)。",
-        description: "法靈頓車站是倫敦悠久的鐵路車站，近年擴建後成為地鐵與國家重鐵的巨型核心交會點。"
+        guidance: "伊莉莎白線同站轉 Thameslink，可直達蓋威克與盧頓機場。",
+        description: "倫敦市中心的地鐵與國鐵轉乘站。"
       },
       // 9. United States
       us_howard: {
         recommendedExit: "Coleman Square / 往機場電車 AirTrain (A軌道)",
-        guidance: "前往 JFK 國際機場的轉乘站。地鐵 A 線出站後即可轉乘高架自動無人駕駛機場電車 AirTrain（需刷 MetroCard 或 OMNY 卡進站）前往各航廈。",
-        description: "霍華德海灘-JFK機場車站成功將紐約地鐵 A 線與 JFK 機場接駁電車系統整合於一處。"
+        guidance: "由 A 線出站轉 AirTrain 往 JFK 各航廈（需 MetroCard 或 OMNY）。",
+        description: "地鐵 A 線與 JFK AirTrain 的轉乘站。"
       },
       us_fulton: {
         recommendedExit: "Fulton Center 玻璃中庭 (富爾頓車站大廳)",
-        guidance: "下曼哈頓巨型地鐵樞紐。九條以上地鐵線在此交匯。經由 Dey Street 地下通道可直達世界貿易中心 (WTC) 並轉乘 PATH 捷運前往新澤西。",
-        description: "富爾頓中心是紐約市現代化的交通中心，擁有壯麗的穹頂與便捷的地下步道網絡。"
+        guidance: "九條以上地鐵線交會；經 Dey Street 地下通道到世貿中心轉 PATH 往新澤西。",
+        description: "下曼哈頓的地鐵轉乘中心。"
       },
       us_penn: {
         recommendedExit: "Moynihan 候車大廳 (4號軌道區)",
-        guidance: "北美最繁忙的鐵路樞紐。新落成的莫伊尼漢候車大廳（Moynihan Train Hall）極具現代感。可在此搭乘美鐵 (Amtrak) 東北走廊列車、LIRR 或往紐華克機場的火車。",
-        description: "紐約賓夕法尼亞車站是美國最核心的重軌客運大站，密集承載通勤與跨州鐵路。"
+        guidance: "可搭 Amtrak、LIRR，或 NJ Transit 往紐華克機場；Moynihan 大廳為新候車區。",
+        description: "北美最繁忙的鐵路車站。"
       },
       // 10. France
       france_cdg: {
         recommendedExit: "戴高樂機場二號客運大樓火車站 (41號月台區)",
-        guidance: "航廈地下交通樞紐。在此可乘免費 CDGVAL 機場接駁電車至 T1/T3。火車站台層一側為 RER B 區間快鐵（往巴黎市區），另一側為 TGV 高鐵前往里昂或迪士尼。",
-        description: "戴高樂機場二號客運大樓站是重要的機場高鐵樞紐，將國際航線與法國 TGV 高速鐵路網完美對接。"
+        guidance: "免費 CDGVAL 往 T1/T3；月台有 RER B 往巴黎市區，及 TGV 往里昂與里爾。",
+        description: "戴高樂機場 2 航廈的車站，接 TGV 高鐵。"
       },
       france_paris_nord: {
         recommendedExit: "Rue de Dunkerque 街道出口 (43號月台/地底區)",
-        guidance: "歐洲客流量第一。地面層可搭乘歐洲之星 (Eurostar) 高速列車前往倫敦、布魯塞爾與阿姆斯特丹。地下層提供 RER A/B/D 及地鐵的快速轉乘。",
-        description: "巴黎北站是巴黎極具代表性的宏偉鐵路總站，處理極為密集的國內外長途與通勤客運。"
+        guidance: "地面層有歐洲之星往倫敦、布魯塞爾與阿姆斯特丹；地下層轉 RER 與地鐵。",
+        description: "巴黎北部的終點站，歐洲最繁忙的車站之一。"
       },
       // 11. China
       china_pudong: {
         recommendedExit: "航廈中連廊航站樞紐區 (磁浮候車大廳)",
-        guidance: "位於浦東 T1 與 T2 航廈的中間大廳。旅客可在此選擇搭乘時速 300 公里的高速磁浮列車直達市中心，或搭乘地鐵 2 號線前往市區及虹橋樞紐。",
-        description: "浦東國際機場站是上海東部的門戶樞紐，引領了世界上唯一的商業高速磁浮線路。"
+        guidance: "位於 T1 與 T2 之間；可搭磁浮列車往市區，或地鐵 2 號線往虹橋。",
+        description: "浦東機場的車站，有地鐵與磁浮。"
       },
       china_longyang: {
         recommendedExit: "4號出口 / 6號出口 (1號月台區)",
-        guidance: "五線交匯的超級巨無霸。高架磁懸浮車站與地鐵（2、7、16、18號線）通过空調連廊相接。搭乘地鐵 16 號線大站車可快速前往臨港新片區與滴水湖。",
-        description: "龍陽路站是上海浦東新區極為繁忙的交通大動脈，為機場高速磁浮的市區端點站。"
+        guidance: "磁浮站經連廊接地鐵 2、7、16、18 號線；16 號線往臨港。",
+        description: "浦東的轉乘站，磁浮的市區端點。"
       }
     },
     transferCategories: {

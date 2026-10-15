@@ -217,9 +217,11 @@ export function ResultList({
   const liveReference = liveClock && liveClock.date === date ? liveClock.minutes : null;
   const searched = reference ?? minutesOf(time);
   const departure = (trip: TransitResult) => minutesOf(trip.departureTime);
+  // A train the operator reports late has not left until its delay has run out.
   const isPast = (trip: TransitResult) => {
     const dep = departure(trip);
-    return reference !== null && dep !== null && dep < reference;
+    const late = trip.liveStatus && !trip.liveStatus.cancelled ? Math.max(0, trip.liveStatus.delayMinutes ?? 0) : 0;
+    return reference !== null && dep !== null && dep + late < reference;
   };
 
   // Badges are relative to this result set: a fastest that every row shares

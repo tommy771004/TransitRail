@@ -5,6 +5,7 @@ import { StationCrowdingView } from "./StationCrowding";
 import { TripCard } from "./TripCard";
 import { KtmbLiveTrainsView } from "./KtmbLiveTrains";
 import { CountryResultsView } from "./CountryResultsView";
+import type { TransitResult } from "../types";
 
 vi.mock("./D3LeafletRouteMap", () => ({ D3LeafletRouteMap: () => null }));
 beforeAll(async () => { await i18n.changeLanguage("en"); });
@@ -37,6 +38,38 @@ describe("KTMB live train position", () => {
     expect(html).toContain("data-live-position");
     expect(html).toContain("Train now near Sungai Buloh");
     expect(html).not.toContain("data-split-flap");
+  });
+});
+
+describe("SNCF trip status on a timetable row", () => {
+  const trip = (liveStatus: NonNullable<TransitResult["liveStatus"]>): TransitResult => ({
+    id: "2026-10-15-fr-OCESN7829F", country: "france", operator: "SNCF", service: "Train 7829",
+    origin: "Paris Gare de Lyon", destination: "Marseille St-Charles", departureTime: "06:03", arrivalTime: "09:24",
+    durationMinutes: 201, direct: true, stops: [], liveStatus,
+  });
+  const card = (status: NonNullable<TransitResult["liveStatus"]>, minutesUntil?: number) => renderToStaticMarkup(
+    <TripCard trip={trip(status)} country="france" index={0} isSaved={false} onSave={vi.fn()} fare={null} tags={{ next: true }} minutesUntil={minutesUntil} />,
+  );
+  const checkedAt = "2026-10-15T08:08:00.000Z";
+
+  it("shows the delay in place of the countdown, never as a live board", () => {
+    const html = card({ checkedAt, delayMinutes: 40 }, 5);
+    expect(html).toContain("data-live-status");
+    expect(html).toContain("+40 min late");
+    expect(html).not.toContain("Departs in");
+    expect(html).not.toContain("data-split-flap");
+    expect(html).toContain("06:03");
+  });
+
+  it("says on time and keeps the countdown", () => {
+    const html = card({ checkedAt, delayMinutes: 0 }, 5);
+    expect(html).toContain("On time");
+    expect(html).toContain("5 min");
+  });
+
+  it("names a cancellation and a skipped stop", () => {
+    expect(card({ checkedAt, cancelled: true }, 5)).toContain("Cancelled");
+    expect(card({ checkedAt, skipped: true }, 5)).toContain("Doesn&#x27;t stop here");
   });
 });
 

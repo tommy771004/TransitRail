@@ -4,7 +4,6 @@
 // GTFS Realtime feed — which train, where it runs, and where it was last seen.
 
 import { Loader2 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { LiveTrain, LiveTrainsResponse } from "../server/malaysiaLive";
 import { formatRelativeTime } from "../utils/relativeTime";
@@ -12,6 +11,7 @@ import { stationLabel } from "../utils/stationLabel";
 import { livePositionText } from "../utils/livePosition";
 import { LineBadge } from "./LineBadge";
 import { LiveSheet, LiveSheetStatus } from "./LiveSheet";
+import { useLivePoll } from "../hooks/useLivePoll";
 
 const REFRESH_MS = 30_000;
 const BADGE_COLOR = "var(--accent)";
@@ -51,40 +51,14 @@ export function KtmbLiveTrainsView({ trains, now }: { trains: readonly LiveTrain
   );
 }
 
-/** Refreshes every 30 seconds while visible; a failed refresh keeps the last list. */
-export function KtmbLiveTrains({ onClose, now = () => new Date() }: { onClose: () => void; now?: () => Date }) {
-  const { t } = useTranslation();
-  const [live, setLive] = useState<LiveTrainsResponse>();
-  const [failed, setFailed] = useState(false);
-  const [clock, setClock] = useState(now);
-  const nowRef = useRef(now);
-  nowRef.current = now;
+const isLiveTrains = (body: unknown): body is LiveTrainsResponse =>
+  Boolean(body && typeof body === "object" && Array.isArray((body as LiveTrainsResponse).trains));
 
-  useEffect(() => {
-    let active = true;
-    const load = () => {
-      fetch("/api/transit/malaysia/live-trains")
-        .then((response) => (response.ok ? response.json() as Promise<LiveTrainsResponse> : Promise.reject(new Error(String(response.status)))))
-        .then((next) => {
-          if (!active || !Array.isArray(next.trains)) return;
-          setLive(next);
-          setFailed(false);
-          setClock(nowRef.current());
-        })
-        .catch(() => { if (active) setFailed(true); });
-    };
-    load();
-    const timer = window.setInterval(() => {
-      if (document.visibilityState === "visible") load();
-    }, REFRESH_MS);
-    const onVisible = () => { if (document.visibilityState === "visible") load(); };
-    document.addEventListener("visibilitychange", onVisible);
-    return () => {
-      active = false;
-      window.clearInterval(timer);
-      document.removeEventListener("visibilitychange", onVisible);
-    };
-  }, []);
+/** Refreshes every 30 seconds while visible; a failed refresh keeps the last list. */
+export function KtmbLiveTrains({ onClose, now }: { onClose: () => void; now?: () => Date }) {
+  const { t } = useTranslation();
+  const poll = useLivePoll("/api/transit/malaysia/live-trains", REFRESH_MS, isLiveTrains, now);
+  const live = poll.data;
 
   return (
     <LiveSheet
@@ -93,12 +67,14 @@ export function KtmbLiveTrains({ onClose, now = () => new Date() }: { onClose: (
       title={t("ktmb.title")}
       updatedAt={live?.checkedAt}
       timeZone="Asia/Kuala_Lumpur"
+      onRefresh={poll.refresh}
+      refreshing={poll.loading}
       onClose={onClose}
       footer={<p className="m3-body-small text-slate-500 dark:text-slate-400">{t("ktmb.source")}</p>}
     >
       {live ? (
-        <KtmbLiveTrainsView trains={live.trains} now={clock} />
-      ) : failed ? (
+        <KtmbLiveTrainsView trains={live.trains} now={poll.clock} />
+      ) : poll.failed ? (
         <LiveSheetStatus>{t("ktmb.none")}</LiveSheetStatus>
       ) : (
         <LiveSheetStatus>

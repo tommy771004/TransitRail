@@ -44,14 +44,14 @@ describe("English subject/verb agreement", () => {
 
   it("uses a singular verb for one uncovered station", () => {
     expect(t("result.not_covered_body", { count: 1, stations: "Cheongnyangni" }))
-      .toBe("Cheongnyangni appears on the network map, but TransitRail has no timetable data for it yet.");
+      .toBe("Cheongnyangni is on the network map but has no timetable yet.");
     expect(t("result.not_covered_title", { count: 1 })).toBe("This station has no timetable yet");
   });
 
   it("uses a plural verb when both endpoints are uncovered", () => {
-    // "City Hall, Chungjeongno appears" read as a grammar bug in the shipped UI.
+    // "City Hall, Chungjeongno is" read as a grammar bug in the shipped UI.
     expect(t("result.not_covered_body", { count: 2, stations: "City Hall, Chungjeongno" }))
-      .toBe("City Hall, Chungjeongno appear on the network map, but TransitRail has no timetable data for them yet.");
+      .toBe("City Hall, Chungjeongno are on the network map but have no timetable yet.");
     expect(t("result.not_covered_title", { count: 2 })).toBe("These stations have no timetable yet");
   });
 });

@@ -64,7 +64,7 @@ const resources = {
         fetching_live_data: "Connecting to transit provider...",
         plan_ai: "Plan itinerary with AI",
         scroll_dates: "More dates",
-        date_unavailable: "{{date}} is outside the currently offered dates. Choose a date below; your search has not been changed.",
+        date_unavailable: "{{date}} isn't available. Pick another date below.",
         date_unavailable_use_nearest: "Use {{date}} instead",
         validation_required: "Enter both origin and destination.",
         validation_origin_required: "Choose an origin.",
@@ -84,11 +84,11 @@ const resources = {
         learn_more: "Learn more about TransitRail",
         faq_title: "Frequently Asked Questions FAQ",
         about_title: "About Global Transit Search",
-        about_body: "TransitRail is a free cross-border train and public transit timetable search utility. It integrates railway and subway networks across 13 countries and territories, including Japan, Singapore, Malaysia, Thailand, Hong Kong, the United Kingdom, the United States, Germany, France, Belgium, Norway, Switzerland, and China. Malaysia provides KTMB schedules from its official data.gov.my GTFS feed only for the service dates that feed publishes.",
-        data_source_detail: "Schedules, fares, and live statuses are directly integrated from official transit systems and third-party APIs (such as Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF, iRail, Entur, and OpenTransportData Swiss).",
+        about_body: "TransitRail is a free cross-border rail timetable search covering 11 countries and territories, using official sources only.",
+        data_source_detail: "From official sources: Korail, MTR, TfL, MBTA, DB, SNCF, iRail, Entur, OpenTransportData and more.",
         taiwan_rail_link: "Taiwan Rail & Metro",
         date_of_travel: "Date of Travel",
-        timetable_unavailable: "This region currently provides station and transfer data only; searchable timetables aren't available yet.",
+        timetable_unavailable: "Stations and transfers only here; no timetables yet.",
         timetable_unavailable_short: "No timetable yet",
         depart_after: "Earliest departure",
         market_time: "{{timeZone}} local time",
@@ -105,8 +105,8 @@ const resources = {
         no_result: {
           unsupported_route: "This route is not available in the selected network.",
           future_date_unavailable: "A verified timetable is not available for the requested date.",
-          no_verified_data: "TransitRail could not verify this query from a registered timetable source. This does not mean there is no service.",
-          no_service: "The source returned no verified departures matching these conditions. This does not confirm that no service operates.",
+          no_verified_data: "No official timetable found for this route. That doesn't mean there's no service.",
+          no_service: "No departures match these conditions. That doesn't mean there's no service.",
         },
       },
       stations: {
@@ -127,9 +127,9 @@ const resources = {
         interchange: "Interchange",
         lines_loading: "Loading lines...",
         lines_unavailable: "The line catalog is unavailable.",
-        note_japan: "Major stops only. The full station list arrives with the ODPT adapter.",
-        note_singapore: "Official MRT and LRT station names and line order are cached from mytransport.sg. Stations without verified timetable data are marked.",
-        note_malaysia: "Stations are limited to the verified KTMB GTFS routes currently available for the selected date.",
+        note_japan: "Major stations only for now.",
+        note_singapore: "Names and line order from mytransport.sg; stations without a timetable are marked.",
+        note_malaysia: "Only stations with KTMB service on the selected date.",
         note_korea: "Seoul Metro lines 1-9, Incheon Transit, and Korail intercity rail.",
         note_united_states: "Subway and light rail lines. Commuter rail stations are in the all-stations list.",
         featured: "Popular Stations",
@@ -143,7 +143,7 @@ const resources = {
         transfers: "Transfers",
         accessible: "Wheelchair accessible",
         no_timetable: "No timetable",
-        no_timetable_hint: "This station is on the network map, but TransitRail has no timetable data for it yet.",
+        no_timetable_hint: "On the network map, but no timetable yet.",
         catalog_only_no_timetable: "Station names are available, but no verified timetable is available for this market.",
         no_registered_timetable_source: "No verified timetable source is registered for this market.",
         no_verified_timetable_for_date: "No verified timetable data is available for this country on the selected date.",
@@ -155,7 +155,7 @@ const resources = {
       },
       workflow: {
         title: "Data workflow",
-        subtitle: "The app only renders schedules returned by a connected provider. It never generates substitute departure data.",
+        subtitle: "Only shows times returned by connected providers; nothing is generated.",
         back: "Back to search",
         step_form: "Validate the search request",
         origin_empty: "Origin not selected",
@@ -164,11 +164,11 @@ const resources = {
         step_stations: "Load the station catalog",
         step_search: "Request live schedules from {{provider}}",
         step_local: "Store activity on this device",
-        local_body: "Search history, saved trips, seat choices, and alerts use localStorage.",
+        local_body: "History, saved trips, seats and alerts stay on this device.",
         adapter_pending: "Provider adapter required",
-        adapter_body: "The endpoint rejects fabricated schedules and returns an explicit error until the live route adapter is connected.",
+        adapter_body: "Until the live adapter is connected, the API returns an error, never made-up times.",
         live_ready: "Live provider connected",
-        live_ready_body: "Queries use the official {{provider}} data source."
+        live_ready_body: "Uses {{provider}} official data."
       },
       result: {
         data_source: "Source",
@@ -211,14 +211,14 @@ const resources = {
         unable_to_fetch: "Unable to fetch real-time data",
         not_covered_title_one: "This station has no timetable yet",
         not_covered_title_other: "These stations have no timetable yet",
-        not_covered_body_one: "{{stations}} appears on the network map, but TransitRail has no timetable data for it yet.",
-        not_covered_body_other: "{{stations}} appear on the network map, but TransitRail has no timetable data for them yet.",
+        not_covered_body_one: "{{stations}} is on the network map but has no timetable yet.",
+        not_covered_body_other: "{{stations}} are on the network map but have no timetable yet.",
         not_covered_suggestions: "Stations with timetable data:",
         station_separator: ", ",
         no_results: "No real-time results yet",
-        no_results_hint: "Clear the departure time or adjust transit preferences to see other verified departures.",
+        no_results_hint: "Clear the departure time or change preferences to see other departures.",
         offline_cache: "Offline cached result",
-        searching_source: "Searching verified timetable data from {{provider}}…",
+        searching_source: "Searching {{provider}}…",
         results_found: "Found {{count}} verified departures.",
         stops: "stops",
         save_trip: "Save trip",
@@ -239,7 +239,7 @@ const resources = {
         seat_non_reserved: "Non-Reserved / Regular",
         seat_reserved: "Reserved / Designated",
         seat_premium: "Business / Green Car",
-        fare_disclaimer: "Actual fares may vary depending on date, class, optional insurance, or promotional schemes. Please refer to official booking systems.",
+        fare_disclaimer: "Fares may vary; check the official booking site.",
         toward: "toward",
         next_departures: "Upcoming departures",
         platform_label: "Platform",
@@ -278,8 +278,8 @@ const resources = {
         hour_heading: "{{hour}}:00",
         jump_to_hour: "Jump to hour",
         all_departed_title: "Every listed departure has left",
-        all_departed_body_one: "The one departure this verified timetable lists for today left at {{time}}.",
-        all_departed_body_other: "The {{count}} departures this verified timetable lists for today have all left. The last one shown was at {{time}}.",
+        all_departed_body_one: "Today's listed departure left at {{time}}.",
+        all_departed_body_other: "All {{count}} departures listed today have left; the last listed was at {{time}}.",
         search_date: "Search {{date}}",
         next_day: "next day",
         show_departed: "Show departed departures",
@@ -290,6 +290,8 @@ const resources = {
         map_action: "Map",
         on_time: "On time",
         delay_min: "min late",
+        cancelled: "Cancelled",
+        skips_station: "Doesn't stop here",
         close: "Close",
         connection_short: "Very short connection",
         connection_standard: "Standard connection",
@@ -297,9 +299,9 @@ const resources = {
       },
       map: {
         officialRouteMap: "Official Route Map",
-        coordinates_unavailable: "A verified map position is not available for every station on this journey.",
-        positions_missing: "{{count}} station on this journey has no verified map position and is not drawn.",
-        positions_missing_other: "{{count}} stations on this journey have no verified map position and are not drawn."
+        coordinates_unavailable: "Some stations have no map position, so the route can't be drawn.",
+        positions_missing: "{{count}} station has no map position and isn't shown.",
+        positions_missing_other: "{{count}} stations have no map position and aren't shown."
       },
       weather: {
         clear: "Clear",
@@ -321,11 +323,11 @@ const resources = {
         no_departures: "No matching live departures",
         no_departures_hint: "Try another pair of stations on the same supported MTR line.",
         save_departure: "Save",
-        transfer_hint: "Second-leg times are the current next trains at the interchange, not guaranteed connections."
+        transfer_hint: "Second-leg times are the interchange's next trains; connections aren't guaranteed."
       },
       malaysia: {
         catalog_title: "Malaysia timetables are not available yet",
-        catalog_body: "Malaysia now uses the official KTMB GTFS timetable snapshots for both station selection and departures."
+        catalog_body: "Stations and departures come from the official KTMB GTFS."
       },
       london: {
         official_data: "Official TfL journey data",
@@ -354,12 +356,12 @@ const resources = {
         official_data: "Official MBTA realtime predictions",
         current: "Realtime",
         no_journeys: "No direct Boston predictions",
-        no_journeys_hint: "Try two stations served by the same MBTA rail trip today."
+        no_journeys_hint: "Try two stations on the same MBTA trip today."
       },
       belgium: {
         official_data: "Official iRail timetable data",
         no_journeys: "No Belgian rail journey found",
-        no_journeys_hint: "Try another time or a station name from the iRail catalog.",
+        no_journeys_hint: "Try another time or an iRail station name.",
         current: "iRail",
         minutes: "min",
       },
@@ -376,7 +378,7 @@ const resources = {
         transfers: "Swiss transfer journey",
         minutes: "min",
         no_journeys: "No matching Swiss journeys",
-        no_journeys_hint: "Try another SBB / Swiss PT station pair or a different departure date."
+        no_journeys_hint: "Try another station pair or date."
       },
       history: {
         recent: "Recent searches",
@@ -415,8 +417,8 @@ const resources = {
       timetable_change: {
         service_date: "Now running to the {{date}} timetable.",
         service_day: "Now running the {{type}} timetable.",
-        last_service: "Last service is now {{time}}, was {{previous}}.",
-        first_service: "First service is now {{time}}, was {{previous}}.",
+        last_service: "Last service: {{previous}} → {{time}}",
+        first_service: "First service: {{previous}} → {{time}}",
         more_departures_one: "One more departure than before.",
         more_departures_other: "{{count}} more departures than before.",
         fewer_departures_one: "One fewer departure than before.",
@@ -424,7 +426,7 @@ const resources = {
       },
       alerts: {
         empty_title: "No alerts",
-        empty_body: "Timetable changes on routes you have searched, and reminders for saved departures, appear here.",
+        empty_body: "Timetable changes and departure reminders appear here.",
         service_status: "Service status",
         updating: "Updating...",
         no_situations: "No disruptions reported. Not every network has a live provider yet.",
@@ -453,16 +455,16 @@ const resources = {
       ktmb: {
         title: "KTMB live trains",
         none: "No train is reporting its position right now. That does not mean there is no service.",
-        source: "Source: data.gov.my GTFS Realtime. The official feed covers only some trains for now.",
+        source: "Source: data.gov.my (some trains only)",
       },
       board: {
         open: "Live station board",
         platform: "Platform {{platform}}",
-        updated: "Live · updated {{time}}",
-        refresh: "Updates every 30 seconds",
+        updated: "Updated {{time}}",
+        refresh: "Refresh",
         depart: "Plan a trip from here",
         no_live: "No live data right now. That does not mean there is no service.",
-        line_unavailable: "This line's live feed did not respond. That does not mean there is no service.",
+        line_unavailable: "This line's live feed isn't responding. That doesn't mean there's no service.",
         delayed: "MTR reports a delay on this line",
         source: "Source: MTR Next Train",
         loading: "Loading live departures…",
@@ -482,7 +484,7 @@ const resources = {
       },
       feedback: {
         title: "Feedback",
-        description: "With your help, we can do better! If you encounter any system errors or have new feature suggestions, please feel free to fill out the form to let us know.",
+        description: "Found a bug or have an idea? Let us know.",
         category: "Feedback Category",
         category_feature: "Feature Request",
         category_bug: "System Bug",
@@ -493,7 +495,7 @@ const resources = {
         contact: "Contact (Optional)",
         contact_placeholder: "Email, LINE ID or other contact methods",
         location_title: "Attach location (optional)",
-        location_privacy: "Your precise location is requested only after you choose to attach it and is sent with this feedback.",
+        location_privacy: "Your precise location is sent only if you attach it.",
         location_locating: "Locating...",
         location_attached: "Location attached",
         location_attach: "Attach",
@@ -532,7 +534,7 @@ const resources = {
         theme_auto: "Auto",
         currency_converter: "Currency Converter",
         home_currency: "Home:",
-        rates_relative_to: "Rates relative to {{currency}} (via Taiwan Central Bank)",
+        rates_relative_to: "Rates vs {{currency}} (Taiwan Central Bank)",
         favorites: "Favorites"
       },
       days: {
@@ -546,17 +548,17 @@ const resources = {
       },
       faqs: {
         q0: "Is this website free?",
-        a0: "Yes, TransitRail is a completely free global public transit search platform. It aims to provide travelers with an ad-free, clean, and fluid real-time departure and route planning service.",
+        a0: "Yes. It's free and has no ads.",
         q1: "Can I check the real-time status of trains today?",
-        a1: "Yes. We offer real-time schedule lookups for various rail systems. For specific regions (such as Singapore, London, and Boston), we support live arrival updates so you can stay informed on current conditions.",
+        a1: "Yes. Hong Kong, London, Boston, Switzerland, Belgium and Norway show live departures; other regions show official timetables.",
         q2: "Where do schedule and departure data come from?",
-        a2: "Schedules and dynamic departure data are directly integrated with official transit agencies and mainstream third-party databases (including Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF, 12306, etc.), ensuring high reliability.",
+        a2: "Directly from official sources such as Korail, MTR, TfL, MBTA, DB and SNCF.",
         q3: "Why can I only select today's date for some countries?",
-        a3: "Since some transit systems (such as Singapore MRT) utilize real-time live APIs that only offer same-day predictions, the travel date for these regions is automatically locked to today.",
+        a3: "Some sources, such as Hong Kong's MTR, only give today's live departures, so the date is fixed to today.",
         q4: "Can I use it offline or save frequently used routes?",
-        a4: "Yes! You can add routes to your 'Favorite Routes' (by clicking the star icon next to the search button). These routes are safely saved in your browser storage for one-click access next time.",
+        a4: "Yes. Tap the star next to Search to save a route; it stays in your browser.",
         q5: "How do I use the AI itinerary planner?",
-        a5: "Click the 'AI Transit Plan' button below to navigate to the smart AI itinerary helper, where you can generate customized intercity and regional rail travel plans!"
+        a5: "Tap 'AI Transit Plan' below to build an intercity rail itinerary."
       },
       hot_routes: {
         tokyo_osaka: "Tokyo ➔ Shin-Osaka",
@@ -575,7 +577,7 @@ const resources = {
       },
       seat: {
         title: "Seat preference",
-        disclaimer: "This saves a local preference only. It does not reserve a seat or create a booking.",
+        disclaimer: "Saved on this device only. No seat is reserved.",
         standard: "Standard",
         window: "Window",
         aisle: "Aisle",
@@ -586,7 +588,7 @@ const resources = {
       line: {},
       transit_supplement: {
         title: "Third-party live data from Transit",
-        disclaimer: "Live departures, alerts, and journey suggestions are supplementary. They never change TransitRail's verified timetable.",
+        disclaimer: "Supplementary only; the official timetable is unchanged.",
         load_live: "Live data for {{station}}",
         loading_live: "Loading live data…",
         plan_trip: "Plan complete trip with Transit",
@@ -599,15 +601,15 @@ const resources = {
         route_unavailable: "Route unavailable",
         cancelled: "Cancelled",
         plan_title: "Third-party journey suggestion from Transit",
-        plan_empty: "Transit did not return a suggested journey. This does not mean there is no service.",
+        plan_empty: "Transit has no suggested journey. That doesn't mean there's no service.",
         plan_unavailable: "This journey suggestion is currently unavailable.",
         duration_unavailable: "Duration unavailable",
         travel: "Travel",
         minutes: "{{count}} min",
-        status_uncovered: "Transit does not currently confirm coverage for this station. This does not mean that service is unavailable.",
+        status_uncovered: "Transit hasn't confirmed this station. That doesn't mean there's no service.",
         status_unavailable: "Third-party live data is not configured right now.",
-        status_ambiguous: "Transit coverage for this station could not be resolved safely.",
-        status_empty_live_data: "Transit currently has no live departures or alerts to show. This is not a no-service notice.",
+        status_ambiguous: "Couldn't confirm Transit coverage for this station.",
+        status_empty_live_data: "No live info from Transit right now. This isn't a no-service notice.",
         status_error: "Third-party live data is temporarily unavailable."
       },
       station: {
@@ -751,7 +753,7 @@ const resources = {
         fetching_live_data: "正在連接大眾運輸系統...",
         plan_ai: "AI 行程規劃",
         scroll_dates: "更多日期",
-        date_unavailable: "{{date}} 不在目前可選日期內。請在下方重新選擇；系統未更改您的查詢日期。",
+        date_unavailable: "{{date}} 無法查詢，請在下方改選日期。",
         date_unavailable_use_nearest: "改用 {{date}}",
         validation_required: "請輸入出發地和目的地。",
         validation_origin_required: "請選擇起點站。",
@@ -771,11 +773,11 @@ const resources = {
         learn_more: "進一步了解 TransitRail",
         faq_title: "常見問題 FAQ",
         about_title: "關於全球鐵道查詢",
-        about_body: "TransitRail 是免費的跨國鐵道與大眾運輸查詢工具，整合日本、新加坡、馬來西亞、泰國、香港、英國、美國、德國、法國、比利時、挪威、瑞士與中國共 13 個國家及地區。馬來西亞的班次來自官方 data.gov.my KTMB GTFS，僅涵蓋該來源實際發布的服務日。",
-        data_source_detail: "班次、票價與即時狀態資料來源：各國大眾運輸系統與第三方 API（如 Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF 與 OpenTransportData Swiss 等）。",
+        about_body: "TransitRail 是免費的跨國鐵道時刻查詢工具，涵蓋 11 個國家與地區，資料皆取自官方來源。",
+        data_source_detail: "資料取自各國官方來源：Korail、MTR、TfL、MBTA、DB、SNCF、iRail、Entur、OpenTransportData 等。",
         taiwan_rail_link: "台/鐵/捷運 查詢",
         date_of_travel: "出發日期",
-        timetable_unavailable: "這個地區目前提供站點與轉乘資料，尚未提供可查詢的時刻表。",
+        timetable_unavailable: "此地區目前只有站點與轉乘資訊，尚無時刻表。",
         timetable_unavailable_short: "暫無時刻表",
         depart_after: "最早出發時間",
         market_time: "{{timeZone}} 當地時間",
@@ -792,8 +794,8 @@ const resources = {
         no_result: {
           unsupported_route: "這個路線組合不在目前支援的路網內。",
           future_date_unavailable: "查詢日期目前沒有可用的已驗證時刻表。",
-          no_verified_data: "TransitRail 無法從已登錄的官方來源驗證這組查詢；這不代表當天沒有列車。",
-          no_service: "來源未回傳符合這些條件的已驗證班次，不代表這條路線沒有營運。",
+          no_verified_data: "官方來源查無此路線，不代表當天沒有列車。",
+          no_service: "沒有符合條件的班次，不代表沒有營運。",
         },
       },
       stations: {
@@ -814,10 +816,10 @@ const resources = {
         interchange: "轉乘站",
         lines_loading: "正在載入路線...",
         lines_unavailable: "目前無法讀取路線目錄。",
-        note_japan: "僅列出主要停靠站，完整站點將隨 ODPT adapter 提供。",
-        note_singapore: "MRT 與 LRT 的站名及路線順序取自 mytransport.sg 的預存官方目錄；尚無已驗證時刻表的站點會特別標示。",
-        note_malaysia: "站點僅顯示所選日期目前有已驗證 KTMB GTFS 路線資料的車站。",
-        note_korea: "首爾地鐵 1-9 號線、仁川交通公社，以及 Korail 城際鐵路。",
+        note_japan: "目前僅列出主要車站。",
+        note_singapore: "站名與路線順序取自 mytransport.sg；尚無時刻表的車站另有標示。",
+        note_malaysia: "僅顯示所選日期有 KTMB 班次的車站。",
+        note_korea: "首爾地鐵 1–9 號線、仁川地鐵與 Korail 城際列車。",
         note_united_states: "地鐵與輕軌路線；通勤鐵路車站請見全部車站。",
         featured: "熱門車站",
         locating: "正在取得定位...",
@@ -830,7 +832,7 @@ const resources = {
         transfers: "次轉乘",
         accessible: "無障礙通行",
         no_timetable: "無時刻表",
-        no_timetable_hint: "此站在路網圖上，但 TransitRail 尚未收錄其時刻表資料。",
+        no_timetable_hint: "此站在路網圖上，但尚無時刻表。",
         catalog_only_no_timetable: "此市場提供站名，但尚無已驗證的時刻表。",
         no_registered_timetable_source: "此市場尚未登錄已驗證的時刻表來源。",
         no_verified_timetable_for_date: "此國家在所選日期沒有已驗證的時刻表資料。",
@@ -842,7 +844,7 @@ const resources = {
       },
       workflow: {
         title: "資料流程",
-        subtitle: "畫面只呈現已串接供應商回傳的班次，系統不產生替代或虛構時刻。",
+        subtitle: "只顯示供應商回傳的班次，不會產生替代時刻。",
         back: "返回搜尋",
         step_form: "驗證搜尋條件",
         origin_empty: "尚未選擇出發站",
@@ -851,11 +853,11 @@ const resources = {
         step_stations: "讀取車站目錄",
         step_search: "向 {{provider}} 請求即時班次",
         step_local: "儲存在這台裝置",
-        local_body: "搜尋紀錄、儲存行程、座位選擇與通知使用 localStorage。",
+        local_body: "搜尋紀錄、行程、座位與通知只存在本機。",
         adapter_pending: "尚需串接供應商 Adapter",
-        adapter_body: "即時路線 Adapter 接通前，API 會明確回傳錯誤，不會填入假班次。",
+        adapter_body: "即時路線接通前，API 會回傳錯誤，不會產生假班次。",
         live_ready: "已連接即時資料",
-        live_ready_body: "查詢直接使用 {{provider}} 官方資料來源。"
+        live_ready_body: "直接使用 {{provider}} 官方資料。"
       },
       result: {
         data_source: "資料來源",
@@ -897,13 +899,13 @@ const resources = {
         select_seat: "座位偏好",
         unable_to_fetch: "無法取得即時資料",
         not_covered_title_other: "此站尚未收錄時刻表",
-        not_covered_body_other: "{{stations}} 在路網圖上，但 TransitRail 尚未收錄該站的時刻表資料。",
+        not_covered_body_other: "{{stations}} 在路網圖上，但尚無時刻表。",
         not_covered_suggestions: "已收錄時刻表的車站：",
         station_separator: "、",
         no_results: "目前沒有即時結果",
-        no_results_hint: "請清除出發時間或調整交通偏好，查看其他已驗證班次。",
+        no_results_hint: "清除出發時間或調整偏好，查看其他班次。",
         offline_cache: "離線快取結果",
-        searching_source: "正在搜尋 {{provider}} 的已驗證時刻表資料…",
+        searching_source: "正在查詢 {{provider}}…",
         results_found: "找到 {{count}} 筆已驗證班次。",
         stops: "站",
         save_trip: "儲存行程",
@@ -924,7 +926,7 @@ const resources = {
         seat_non_reserved: "自由席/一般",
         seat_reserved: "對號/指定席",
         seat_premium: "商務/綠色車廂",
-        fare_disclaimer: "實際票價可能隨日期、班次、加購保險或特定優惠方案而異，請以官方購票系統為準。",
+        fare_disclaimer: "實際票價以官方售票為準。",
         toward: "往",
         next_departures: "後續班次",
         platform_label: "月台",
@@ -963,8 +965,8 @@ const resources = {
         hour_heading: "{{hour}} 時",
         jump_to_hour: "跳至時段",
         all_departed_title: "列出的班次都已發車",
-        all_departed_body_one: "這份已驗證時刻表今天列出的班次已在 {{time}} 發車。",
-        all_departed_body_other: "這份已驗證時刻表今天列出的 {{count}} 班都已發車，最晚顯示的班次是 {{time}}。",
+        all_departed_body_one: "今天列出的班次已於 {{time}} 發車。",
+        all_departed_body_other: "今天列出的 {{count}} 班皆已發車，最後一班 {{time}}。",
         search_date: "查詢 {{date}}",
         next_day: "翌日",
         show_departed: "顯示已發車班次",
@@ -975,6 +977,8 @@ const resources = {
         map_action: "地圖",
         on_time: "準點",
         delay_min: "分鐘誤點",
+        cancelled: "停駛",
+        skips_station: "本站不停",
         close: "關閉",
         connection_short: "轉乘時間很短",
         connection_standard: "一般轉乘",
@@ -982,8 +986,8 @@ const resources = {
       },
       map: {
         officialRouteMap: "官方路線圖",
-        coordinates_unavailable: "此行程有車站沒有可驗證的地圖座標，無法繪製路線圖。",
-        positions_missing: "有 {{count}} 站沒有可驗證的地圖座標，未在圖上標示。"
+        coordinates_unavailable: "部分車站缺少座標，無法繪製路線圖。",
+        positions_missing: "{{count}} 站缺少座標，未標示於地圖。"
       },
       weather: {
         clear: "晴朗",
@@ -1005,11 +1009,11 @@ const resources = {
         no_departures: "目前沒有符合的即時班次",
         no_departures_hint: "請改選同一條支援路線上的其他起訖站。",
         save_departure: "儲存",
-        transfer_hint: "第二段顯示的是轉乘站目前的下一班列車，實際銜接視抵達時間而定。"
+        transfer_hint: "第二段為轉乘站的下一班車，不保證能銜接。"
       },
       malaysia: {
         catalog_title: "馬來西亞尚無可用時刻表",
-        catalog_body: "馬來西亞目前使用官方 KTMB GTFS 時刻表快照，同時提供站點選擇與班次資料。"
+        catalog_body: "站點與班次皆來自官方 KTMB GTFS。"
       },
       london: {
         official_data: "TfL 官方旅程資料",
@@ -1038,19 +1042,19 @@ const resources = {
         official_data: "MBTA 官方即時預測",
         current: "即時",
         no_journeys: "目前沒有波士頓直達預測",
-        no_journeys_hint: "請選擇今天由同一班 MBTA 軌道旅程停靠的兩站。"
+        no_journeys_hint: "請選擇今天同一班 MBTA 列車停靠的兩站。"
       },
       belgium: {
         official_data: "iRail 官方時刻資料",
         no_journeys: "找不到比利時鐵路行程",
-        no_journeys_hint: "請嘗試其他出發時間，或使用 iRail 站點目錄中的站名。",
+        no_journeys_hint: "請改用其他時間或 iRail 站名。",
         current: "iRail",
         minutes: "分",
       },
       norway: {
         official_data: "Entur 官方旅程資料",
         no_journeys: "找不到挪威大眾運輸行程",
-        no_journeys_hint: "請改選其他出發時間，或從建議的國家樞紐站開始查詢。",
+        no_journeys_hint: "請改用其他時間或建議的樞紐站。",
         current: "Entur",
         minutes: "分",
       },
@@ -1060,7 +1064,7 @@ const resources = {
         transfers: "瑞士轉乘旅程",
         minutes: "分鐘",
         no_journeys: "目前沒有符合的瑞士旅程",
-        no_journeys_hint: "請改查其他 SBB / 瑞士大眾運輸站點組合，或更換出發日期。"
+        no_journeys_hint: "請改用其他站點組合或日期。"
       },
       history: {
         recent: "近期搜尋",
@@ -1099,14 +1103,14 @@ const resources = {
       timetable_change: {
         service_date: "已改用 {{date}} 的時刻表。",
         service_day: "已改用「{{type}}」時刻表。",
-        last_service: "末班車改為 {{time}}，原本是 {{previous}}。",
-        first_service: "首班車改為 {{time}}，原本是 {{previous}}。",
+        last_service: "末班車：{{previous}} → {{time}}",
+        first_service: "首班車：{{previous}} → {{time}}",
         more_departures: "比先前多了 {{count}} 班車。",
         fewer_departures: "比先前少了 {{count}} 班車。"
       },
       alerts: {
         empty_title: "沒有通知",
-        empty_body: "您查詢過的路線時刻表有變動、或已儲存班次即將出發時，會顯示在這裡。",
+        empty_body: "時刻表變動與出發提醒會顯示在這裡。",
         service_status: "營運狀況",
         updating: "更新中…",
         no_situations: "目前沒有異常通報。並非每個路網都已接上即時來源。",
@@ -1133,18 +1137,18 @@ const resources = {
         source: "TfL 即時人潮",
       },
       ktmb: {
-        title: "KTMB 列車即時位置",
+        title: "KTMB 即時列車",
         none: "目前沒有列車回報位置，不代表沒有班次。",
-        source: "資料來源：data.gov.my GTFS Realtime。官方即時位置目前只涵蓋部分列車。",
+        source: "資料來源：data.gov.my（目前僅部分列車）",
       },
       board: {
         open: "車站即時看板",
         platform: "{{platform}} 號月台",
-        updated: "即時 · 更新於 {{time}}",
-        refresh: "每 30 秒更新",
+        updated: "更新於 {{time}}",
+        refresh: "重新整理",
         depart: "從這站出發，查行程",
         no_live: "目前沒有即時資料，不代表沒有班次。",
-        line_unavailable: "這條線的即時資料暫時沒有回應，不代表沒有班次。",
+        line_unavailable: "此線即時資料無回應，不代表沒有班次。",
         delayed: "港鐵表示此線有延誤",
         source: "資料來源：港鐵 Next Train",
         loading: "正在載入即時班次…",
@@ -1164,7 +1168,7 @@ const resources = {
       },
       feedback: {
         title: "意見回饋",
-        description: "在您的協助下，我們能做得更好！如果您遇到任何系統錯誤或有新功能建議，歡迎隨時填寫表單通知我們。",
+        description: "遇到錯誤或有功能建議，歡迎告訴我們。",
         category: "回饋類別",
         category_feature: "功能建議",
         category_bug: "系統錯誤",
@@ -1175,7 +1179,7 @@ const resources = {
         contact: "聯絡方式 (選填)",
         contact_placeholder: "電子信箱、LINE ID 或其它聯絡管道",
         location_title: "附上位置（選填）",
-        location_privacy: "只有在您主動附上時，才會要求精確位置並隨此回饋送出。",
+        location_privacy: "只有你選擇附上時，才會送出精確位置。",
         location_locating: "正在取得位置…",
         location_attached: "已附上位置",
         location_attach: "附上位置",
@@ -1214,7 +1218,7 @@ const resources = {
         theme_auto: "自動",
         currency_converter: "匯率轉換",
         home_currency: "設定本幣:",
-        rates_relative_to: "匯率基準為 {{currency}} (資料來源：台灣中央銀行)",
+        rates_relative_to: "以 {{currency}} 為基準（台灣央行）",
         favorites: "最愛"
       },
       days: {
@@ -1228,17 +1232,17 @@ const resources = {
       },
       faqs: {
         q0: "這個網站是免費的嗎？",
-        a0: "是的，TransitRail 是一個完全免費的全球大眾運輸查詢平台，旨在提供旅客無廣告、乾淨流暢的即時車次與路線規劃服務。",
+        a0: "是的，完全免費，也沒有廣告。",
         q1: "可以查詢到當日列車即時狀態嗎？",
-        a1: "可以。我們針對各國鐵道提供即時的班次查詢，且對於特定地區（如新加坡、倫敦、波士頓等）更支援即時到站狀態，讓您掌握最新行車資訊。",
+        a1: "可以。香港、倫敦、波士頓、瑞士、比利時與挪威有即時資訊，其他地區顯示官方時刻表。",
         q2: "時刻表與班次資料是從哪裡來的？",
-        a2: "時刻表與班次資料直接介接自各國主流大眾運輸系統與第三方官方資料庫（如 Jorudan、Korail、LTA、MTR、TfL、MBTA、DB、SNCF 與 12306 等），確保查詢結果的高參考價值。",
+        a2: "直接取自各國官方來源，例如 Korail、MTR、TfL、MBTA、DB、SNCF。",
         q3: "為什麼有些國家的日期只能選今天？",
-        a3: "由於部分大眾運輸系統（如新加坡 MRT）採用即時動態 API，僅提供當日即時班次與到站預估，因此該地區的旅行日期將會自動鎖定為今日。",
+        a3: "部分來源（如香港港鐵）只提供當天的即時班次，所以日期固定為今天。",
         q4: "可以離線使用或儲存常用路線嗎？",
-        a4: "支援！您可以將常用的路線加入「最愛路線」（點擊搜尋按鈕旁的星號），這些路線將安全地儲存在您的瀏覽器中，方便下次一鍵快速搜尋。",
+        a4: "可以。點搜尋按鈕旁的星號即可加入最愛，資料只存在你的瀏覽器。",
         q5: "如何使用 AI 行程規劃功能？",
-        a5: "點擊下方的「AI 行程規劃」按鈕，系統將引導您至專屬的智慧行程小幫手，為您量身打造跨城市、跨地區的精緻軌道旅行計畫！"
+        a5: "點下方「AI 行程規劃」，即可建立跨城市的鐵道行程。"
       },
       hot_routes: {
         tokyo_osaka: "東京 ➔ 新大阪",
@@ -1257,7 +1261,7 @@ const resources = {
       },
       seat: {
         title: "座位偏好",
-        disclaimer: "這只會儲存本機偏好，不會保留座位、建立訂位或完成購票。",
+        disclaimer: "只存在本機，不會訂位或購票。",
         standard: "標準座",
         window: "靠窗",
         aisle: "走道",
@@ -1334,7 +1338,7 @@ const resources = {
       },
       transit_supplement: {
         title: "來自 Transit 的第三方即時資料",
-        disclaimer: "即時發車、營運通知與行程建議屬於補充資訊，不會改變 TransitRail 已驗證的時刻表。",
+        disclaimer: "以下為補充資訊，不影響官方時刻表。",
         load_live: "查看 {{station}} 的即時資料",
         loading_live: "正在載入即時資料…",
         plan_trip: "用 Transit 規劃完整行程",
@@ -1347,15 +1351,15 @@ const resources = {
         route_unavailable: "無法取得路線",
         cancelled: "已取消",
         plan_title: "來自 Transit 的第三方行程建議",
-        plan_empty: "Transit 沒有回傳建議行程。這不代表沒有班次。",
+        plan_empty: "Transit 沒有建議行程，不代表沒有班次。",
         plan_unavailable: "目前無法取得這則行程建議。",
         duration_unavailable: "無法取得行車時間",
         travel: "移動",
         minutes: "{{count}} 分鐘",
-        status_uncovered: "Transit 目前無法確認這個車站的涵蓋範圍。這不代表沒有班次。",
+        status_uncovered: "Transit 未確認涵蓋此站，不代表沒有班次。",
         status_unavailable: "第三方即時資料目前未設定。",
-        status_ambiguous: "無法安全判定 Transit 對這個車站的涵蓋範圍。",
-        status_empty_live_data: "Transit 目前沒有可顯示的即時發車或營運通知。這不是停駛通知。",
+        status_ambiguous: "無法確認 Transit 是否涵蓋此站。",
+        status_empty_live_data: "Transit 目前沒有即時資訊，這不是停駛通知。",
         status_error: "第三方即時資料暫時無法取得。"
       },
       station: {
@@ -1838,7 +1842,7 @@ const resources = {
         fetching_live_data: "交通機関に接続中...",
         plan_ai: "AIで旅程を計画",
         scroll_dates: "他の日付",
-        date_unavailable: "{{date}} は現在選択できる日付の範囲外です。下から日付を選んでください。検索日は変更していません。",
+        date_unavailable: "{{date}} は選択できません。下から日付を選んでください。",
         date_unavailable_use_nearest: "{{date}} に変更する",
         validation_required: "出発駅と到着駅を両方入力してください。",
         validation_origin_required: "出発駅を選択してください。",
@@ -1858,11 +1862,11 @@ const resources = {
         learn_more: "TransitRailについて詳しく見る",
         faq_title: "よくある質問 FAQ",
         about_title: "グローバル鉄道検索について",
-        about_body: "TransitRailは、日本、シンガポール、マレーシア、タイ、香港、イギリス、アメリカ、ドイツ、フランス、ベルギー、ノルウェー、スイス、中国の13の国と地域の鉄道・地下鉄網を統合した、無料の国際鉄道・公共交通時刻表検索サービスです。マレーシアの時刻は公式の data.gov.my KTMB GTFS に基づき、その提供元が公開している運行日のみを対象としています。",
-        data_source_detail: "時刻表、運賃、リアルタイム状況は、各交通機関の公式システムおよびサードパーティAPI（Jorudan、Korail、LTA、MTR、TfL、MBTA、DB、SNCF、iRail、Entur、OpenTransportData Swissなど）から直接連携しています。",
+        about_body: "TransitRail は 11 の国と地域に対応した無料の国際鉄道時刻表検索です。データはすべて公式情報源から取得しています。",
+        data_source_detail: "各国の公式情報源（Korail、MTR、TfL、MBTA、DB、SNCF、iRail、Entur、OpenTransportData など）から取得しています。",
         taiwan_rail_link: "台湾鉄道・地下鉄",
         date_of_travel: "利用日",
-        timetable_unavailable: "この地域は現在、駅と乗換情報のみ提供しており、検索可能な時刻表はまだありません。",
+        timetable_unavailable: "この地域は駅と乗換情報のみで、時刻表はまだありません。",
         timetable_unavailable_short: "時刻表は未提供です",
         depart_after: "最早出発時刻",
         market_time: "{{timeZone}} 現地時間",
@@ -1879,8 +1883,8 @@ const resources = {
         no_result: {
           unsupported_route: "この路線の組み合わせは現在のネットワークでは利用できません。",
           future_date_unavailable: "指定日の検証済み時刻表は現在利用できません。",
-          no_verified_data: "TransitRail は登録済みの公式情報源からこの検索を確認できませんでした。列車が運行していないという意味ではありません。",
-          no_service: "この条件に合う検証済みの出発便が返されませんでした。運行がないことを示すものではありません。",
+          no_verified_data: "公式時刻表が見つかりません。運行がないという意味ではありません。",
+          no_service: "条件に合う便はありません。運行がないという意味ではありません。",
         }
       },
       stations: {
@@ -1901,10 +1905,10 @@ const resources = {
         interchange: "乗換駅",
         lines_loading: "路線情報を読み込み中...",
         lines_unavailable: "現在、路線一覧を利用できません。",
-        note_japan: "主要駅のみ表示しています。全駅リストはODPTアダプター対応後に追加されます。",
-        note_singapore: "MRT・LRTの駅名と路線順は mytransport.sg の保存済み公式カタログを使用しています。検証済み時刻表がない駅には印が付きます。",
-        note_malaysia: "選択した日付で検証済みのKTMB GTFS路線がある駅のみ表示します。",
-        note_korea: "ソウル地下鉄1〜9号線、仁川交通公社、韓国鉄道公社の都市間鉄道に対応。",
+        note_japan: "現在は主要駅のみ表示しています。",
+        note_singapore: "駅名と路線順は mytransport.sg に基づきます。時刻表のない駅には印が付きます。",
+        note_malaysia: "選択日に KTMB の便がある駅のみ表示します。",
+        note_korea: "ソウル地下鉄1〜9号線、仁川交通公社、KORAILの都市間鉄道。",
         note_united_states: "地下鉄・ライトレール路線に対応。近郊鉄道の駅は「全ての駅」からご確認ください。",
         featured: "人気の駅",
         locating: "現在地を取得中...",
@@ -1917,7 +1921,7 @@ const resources = {
         transfers: "回乗換",
         accessible: "車椅子対応",
         no_timetable: "時刻表なし",
-        no_timetable_hint: "この駅は路線図には含まれますが、TransitRailにはまだ時刻表データがありません。",
+        no_timetable_hint: "路線図にはありますが、時刻表はまだありません。",
         catalog_only_no_timetable: "駅名は利用できますが、この地域では検証済みの時刻表を提供していません。",
         no_registered_timetable_source: "この地域には検証済みの時刻表ソースが登録されていません。",
         no_verified_timetable_for_date: "選択した日付に、この国の検証済み時刻表データはありません。",
@@ -1929,7 +1933,7 @@ const resources = {
       },
       workflow: {
         title: "データフロー",
-        subtitle: "このアプリは接続先の交通機関から返された時刻表のみを表示し、代替データを生成することはありません。",
+        subtitle: "接続先から返された時刻のみ表示し、データを生成しません。",
         back: "検索に戻る",
         step_form: "検索条件を確認",
         origin_empty: "出発駅が未選択です",
@@ -1938,11 +1942,11 @@ const resources = {
         step_stations: "駅一覧を読み込み",
         step_search: "{{provider}}にリアルタイム時刻表を要求",
         step_local: "この端末にデータを保存",
-        local_body: "検索履歴、保存した旅程、座席選択、通知はlocalStorageに保存されます。",
+        local_body: "履歴・旅程・座席・通知は端末に保存されます。",
         adapter_pending: "交通機関アダプターが必要です",
-        adapter_body: "リアルタイム路線アダプターが接続されるまで、このAPIは架空の時刻表を返さず、明確なエラーを返します。",
+        adapter_body: "接続前は API がエラーを返し、架空の時刻は出しません。",
         live_ready: "リアルタイムデータに接続済み",
-        live_ready_body: "検索には{{provider}}の公式データソースを使用しています。"
+        live_ready_body: "{{provider}} の公式データを使用しています。"
       },
       result: {
         data_source: "データ提供元",
@@ -1984,13 +1988,13 @@ const resources = {
         select_seat: "座席の希望",
         unable_to_fetch: "リアルタイムデータを取得できません",
         not_covered_title_other: "この駅の時刻表は未収録です",
-        not_covered_body_other: "{{stations}} は路線図に含まれますが、TransitRailにはまだこの駅の時刻表データがありません。",
+        not_covered_body_other: "{{stations}} は路線図にありますが、時刻表はまだありません。",
         not_covered_suggestions: "時刻表データがある駅：",
         station_separator: "、",
         no_results: "現在、リアルタイムの検索結果はありません",
-        no_results_hint: "出発時刻を解除するか交通手段の設定を変更して、他の確認済み列車を表示してください。",
+        no_results_hint: "出発時刻を解除するか設定を変えて、他の便を表示してください。",
         offline_cache: "オフラインのキャッシュ結果",
-        searching_source: "{{provider}} の確認済み時刻表データを検索しています…",
+        searching_source: "{{provider}} を検索中…",
         results_found: "確認済みの列車を {{count}} 件見つけました。",
         stops: "駅",
         save_trip: "旅程を保存",
@@ -2011,7 +2015,7 @@ const resources = {
         seat_non_reserved: "自由席",
         seat_reserved: "指定席",
         seat_premium: "グリーン車・ビジネスクラス",
-        fare_disclaimer: "実際の運賃は、日付、クラス、任意保険、キャンペーンなどにより異なる場合があります。正式な予約システムでご確認ください。",
+        fare_disclaimer: "実際の運賃は公式予約サイトでご確認ください。",
         toward: "行き",
         next_departures: "この後の発車",
         platform_label: "ホーム",
@@ -2050,8 +2054,8 @@ const resources = {
         hour_heading: "{{hour}}時",
         jump_to_hour: "時間帯へ移動",
         all_departed_title: "表示中の便はすべて出発済みです",
-        all_departed_body_one: "この確認済み時刻表に本日掲載の便は {{time}} に出発しました。",
-        all_departed_body_other: "この確認済み時刻表に本日掲載の {{count}} 本はすべて出発しました。最後に表示された便は {{time}} です。",
+        all_departed_body_one: "本日掲載の便は {{time}} に出発済みです。",
+        all_departed_body_other: "本日掲載の {{count}} 本はすべて出発済みです（最後は {{time}}）。",
         search_date: "{{date}} を検索",
         next_day: "翌日",
         show_departed: "出発済みの便を表示",
@@ -2062,6 +2066,8 @@ const resources = {
         map_action: "地図",
         on_time: "定刻",
         delay_min: "分遅れ",
+        cancelled: "運休",
+        skips_station: "この駅は通過",
         close: "閉じる",
         connection_short: "乗換時間がとても短い",
         connection_standard: "標準的な乗換",
@@ -2069,8 +2075,8 @@ const resources = {
       },
       map: {
         officialRouteMap: "公式路線図",
-        coordinates_unavailable: "この行程には検証済みの地図座標がない駅があるため、路線図を描画できません。",
-        positions_missing: "検証済みの地図座標がない駅が {{count}} 駅あり、地図には表示していません。"
+        coordinates_unavailable: "座標のない駅があるため、路線図を描けません。",
+        positions_missing: "{{count}} 駅は座標がなく、地図に表示していません。"
       },
       weather: {
         clear: "晴れ",
@@ -2092,11 +2098,11 @@ const resources = {
         no_departures: "該当するリアルタイム便がありません",
         no_departures_hint: "同じ路線内の別の駅の組み合わせをお試しください。",
         save_departure: "保存",
-        transfer_hint: "2区間目の時刻は乗換駅の現在の次発列車であり、接続を保証するものではありません。"
+        transfer_hint: "2区間目は乗換駅の次発で、接続は保証されません。"
       },
       malaysia: {
         catalog_title: "マレーシアの時刻表はまだ利用できません",
-        catalog_body: "マレーシアでは公式KTMB GTFS時刻表スナップショットを駅選択と出発時刻の両方に使用します。"
+        catalog_body: "駅と時刻は公式 KTMB GTFS に基づきます。"
       },
       london: {
         official_data: "TfL公式運行データ",
@@ -2130,7 +2136,7 @@ const resources = {
       belgium: {
         official_data: "iRail公式時刻データ",
         no_journeys: "ベルギーの鉄道ルートが見つかりません",
-        no_journeys_hint: "別の時間帯か、iRailの駅一覧にある駅名をお試しください。",
+        no_journeys_hint: "別の時間か iRail の駅名をお試しください。",
         current: "iRail",
         minutes: "分"
       },
@@ -2147,7 +2153,7 @@ const resources = {
         transfers: "スイス乗換ルート",
         minutes: "分",
         no_journeys: "該当するスイスのルートがありません",
-        no_journeys_hint: "別のSBB・スイス公共交通機関の駅の組み合わせか、別の出発日をお試しください。"
+        no_journeys_hint: "別の駅の組み合わせか日付をお試しください。"
       },
       history: {
         recent: "最近の検索",
@@ -2186,14 +2192,14 @@ const resources = {
       timetable_change: {
         service_date: "{{date}}のダイヤに変わりました。",
         service_day: "「{{type}}」のダイヤに変わりました。",
-        last_service: "終電が {{previous}} から {{time}} に変わりました。",
-        first_service: "始発が {{previous}} から {{time}} に変わりました。",
+        last_service: "終電：{{previous}} → {{time}}",
+        first_service: "始発：{{previous}} → {{time}}",
         more_departures: "以前より {{count}} 本増えました。",
         fewer_departures: "以前より {{count}} 本減りました。"
       },
       alerts: {
         empty_title: "通知はありません",
-        empty_body: "検索した経路の時刻表が変わったとき、保存した列車の出発が近づいたときに、ここに表示されます。",
+        empty_body: "時刻表の変更と出発のお知らせがここに表示されます。",
         service_status: "運行状況",
         updating: "更新中…",
         no_situations: "運行の乱れの報告はありません。すべての路線がリアルタイム情報に対応しているわけではありません。",
@@ -2220,18 +2226,18 @@ const resources = {
         source: "TfL リアルタイム混雑",
       },
       ktmb: {
-        title: "KTMB 列車の現在位置",
+        title: "KTMB 列車位置",
         none: "現在位置を報告している列車はありません。運行がないという意味ではありません。",
-        source: "出典：data.gov.my GTFS Realtime。公式の位置情報は現在一部の列車のみが対象です。",
+        source: "出典：data.gov.my（一部の列車のみ）",
       },
       board: {
         open: "駅の発車案内",
         platform: "{{platform}}番線",
-        updated: "リアルタイム · {{time}} 更新",
-        refresh: "30秒ごとに更新",
+        updated: "{{time}} 更新",
+        refresh: "更新",
         depart: "この駅から経路を検索",
         no_live: "現在リアルタイム情報はありません。運行がないという意味ではありません。",
-        line_unavailable: "この路線のリアルタイム情報が応答しませんでした。運行がないという意味ではありません。",
+        line_unavailable: "この路線のリアルタイム情報が応答しません。運行がないという意味ではありません。",
         delayed: "MTRがこの路線の遅延を報告しています",
         source: "出典：MTR Next Train",
         loading: "発車情報を読み込み中…",
@@ -2251,7 +2257,7 @@ const resources = {
       },
       feedback: {
         title: "フィードバック",
-        description: "皆様のご協力でより良いサービスを目指します！システムの不具合や新機能のご提案がございましたら、フォームよりお気軽にお知らせください。",
+        description: "不具合やご要望をお知らせください。",
         category: "フィードバックの種類",
         category_feature: "機能のご要望",
         category_bug: "不具合報告",
@@ -2262,7 +2268,7 @@ const resources = {
         contact: "連絡先（任意）",
         contact_placeholder: "メールアドレス、LINE IDなど",
         location_title: "位置情報を添付（任意）",
-        location_privacy: "位置情報は、添付を選択した場合にのみ取得され、このフィードバックと共に送信されます。",
+        location_privacy: "位置情報は添付を選んだときだけ送信されます。",
         location_locating: "位置情報を取得中...",
         location_attached: "位置情報を添付しました",
         location_attach: "添付する",
@@ -2301,7 +2307,7 @@ const resources = {
         theme_auto: "自動",
         currency_converter: "為替換算",
         home_currency: "自国通貨:",
-        rates_relative_to: "{{currency}}を基準とした為替レート（提供：台湾中央銀行）",
+        rates_relative_to: "{{currency}} 基準（台湾中央銀行）",
         favorites: "お気に入り"
       },
       days: {
@@ -2315,17 +2321,17 @@ const resources = {
       },
       faqs: {
         q0: "このサイトは無料ですか？",
-        a0: "はい、TransitRailは完全無料のグローバル公共交通検索プラットフォームです。旅行者に広告のない、クリーンでスムーズなリアルタイム発車・経路検索サービスを提供することを目指しています。",
+        a0: "はい。無料で、広告もありません。",
         q1: "本日の列車のリアルタイム状況を確認できますか？",
-        a1: "はい。各種鉄道システムのリアルタイム時刻表検索に対応しています。特定の地域（シンガポール、ロンドン、ボストンなど）では、リアルタイムの到着情報にも対応しており、最新の運行状況を確認できます。",
+        a1: "はい。香港・ロンドン・ボストン・スイス・ベルギー・ノルウェーはリアルタイム情報、その他の地域は公式時刻表を表示します。",
         q2: "時刻表や発車データはどこから取得していますか？",
-        a2: "時刻表とリアルタイムの発車データは、各交通機関の公式システムおよび主要なサードパーティデータベース（Jorudan、Korail、LTA、MTR、TfL、MBTA、DB、SNCF、12306など）から直接連携しており、高い信頼性を確保しています。",
+        a2: "Korail、MTR、TfL、MBTA、DB、SNCF など各国の公式情報源から直接取得しています。",
         q3: "一部の国で本日の日付しか選択できないのはなぜですか？",
-        a3: "一部の交通システム（シンガポールMRTなど）はリアルタイムAPIを使用しており、当日の予測情報のみを提供しているため、該当地域の利用日は自動的に本日に固定されます。",
+        a3: "香港MTRなど一部の情報源は当日のリアルタイム情報のみのため、日付は今日に固定されます。",
         q4: "オフラインで利用したり、よく使う路線を保存できますか？",
-        a4: "はい！検索ボタン横の星アイコンをクリックすることで、路線を「お気に入りルート」に追加できます。これらはブラウザに安全に保存され、次回はワンクリックでアクセスできます。",
+        a4: "はい。検索ボタン横の星でお気に入りに追加できます。データはブラウザ内にのみ保存されます。",
         q5: "AI旅程プランナーの使い方は？",
-        a5: "下部の「AIで旅程を計画」ボタンをクリックすると、スマートAI旅程アシスタントに移動し、都市間・地域間の鉄道旅行プランをカスタマイズして作成できます！"
+        a5: "下の「AIで旅程を計画」から都市間の鉄道旅程を作成できます。"
       },
       hot_routes: {
         tokyo_osaka: "東京 ➔ 新大阪",
@@ -2344,7 +2350,7 @@ const resources = {
       },
       seat: {
         title: "座席の希望",
-        disclaimer: "これは端末内の希望設定を保存するのみで、座席の確保や予約は行われません。",
+        disclaimer: "端末に保存するだけで、予約はされません。",
         standard: "標準",
         window: "窓側",
         aisle: "通路側",
@@ -2384,7 +2390,7 @@ const resources = {
       },
       transit_supplement: {
         title: "Transit による第三者提供のリアルタイム情報",
-        disclaimer: "リアルタイムの発車情報・運行情報・経路提案は補足情報です。TransitRail の検証済み時刻表を書き換えることはありません。",
+        disclaimer: "補足情報です。公式時刻表は変わりません。",
         load_live: "{{station}} のリアルタイム情報を見る",
         loading_live: "リアルタイム情報を読み込み中…",
         plan_trip: "Transit で全行程を計画する",
@@ -2397,15 +2403,15 @@ const resources = {
         route_unavailable: "路線を取得できません",
         cancelled: "運休",
         plan_title: "Transit による第三者提供の経路提案",
-        plan_empty: "Transit から経路提案は返されませんでした。運行がないという意味ではありません。",
+        plan_empty: "Transit の経路提案はありません。運行がないという意味ではありません。",
         plan_unavailable: "この経路提案は現在利用できません。",
         duration_unavailable: "所要時間を取得できません",
         travel: "移動",
         minutes: "{{count}}分",
-        status_uncovered: "Transit はこの駅の対応状況を確認できていません。運行がないという意味ではありません。",
+        status_uncovered: "Transit はこの駅を確認できていません。運行がないという意味ではありません。",
         status_unavailable: "第三者提供のリアルタイム情報は現在設定されていません。",
-        status_ambiguous: "この駅に対する Transit の対応範囲を確実に判定できませんでした。",
-        status_empty_live_data: "Transit に表示できるリアルタイムの発車情報や運行情報が現在ありません。運休のお知らせではありません。",
+        status_ambiguous: "この駅の Transit 対応を確認できませんでした。",
+        status_empty_live_data: "Transit のリアルタイム情報は現在ありません。運休のお知らせではありません。",
         status_error: "第三者提供のリアルタイム情報は一時的に利用できません。"
       },
       station: {
@@ -2547,7 +2553,7 @@ const resources = {
         fetching_live_data: "교통 시스템에 연결 중...",
         plan_ai: "AI로 일정 계획하기",
         scroll_dates: "다른 날짜",
-        date_unavailable: "{{date}}은(는) 현재 선택 가능한 날짜 범위 밖입니다. 아래에서 날짜를 선택하세요. 검색 날짜는 변경되지 않았습니다.",
+        date_unavailable: "{{date}}은(는) 선택할 수 없습니다. 아래에서 다른 날짜를 고르세요.",
         date_unavailable_use_nearest: "{{date}}(으)로 변경",
         validation_required: "출발역과 도착역을 모두 입력하세요.",
         validation_origin_required: "출발역을 선택하세요.",
@@ -2567,11 +2573,11 @@ const resources = {
         learn_more: "TransitRail 자세히 알아보기",
         faq_title: "자주 묻는 질문 FAQ",
         about_title: "글로벌 대중교통 검색 소개",
-        about_body: "TransitRail은 일본, 싱가포르, 말레이시아, 태국, 홍콩, 영국, 미국, 독일, 프랑스, 벨기에, 노르웨이, 스위스, 중국 등 13개국의 철도 및 지하철 네트워크를 통합한 무료 국제 열차·대중교통 시간표 검색 서비스입니다. 말레이시아의 시간표는 공식 data.gov.my KTMB GTFS를 사용하며, 해당 피드가 게시한 운행일만 포함합니다.",
-        data_source_detail: "시간표, 요금, 실시간 정보는 각 교통 기관의 공식 시스템 및 서드파티 API(Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF, iRail, Entur, OpenTransportData Swiss 등)와 직접 연동됩니다.",
+        about_body: "TransitRail은 11개 국가·지역을 지원하는 무료 국제 철도 시간표 검색 서비스로, 공식 출처의 데이터만 사용합니다.",
+        data_source_detail: "각국 공식 출처(Korail, MTR, TfL, MBTA, DB, SNCF, iRail, Entur, OpenTransportData 등)에서 가져옵니다.",
         taiwan_rail_link: "대만 철도·지하철",
         date_of_travel: "여행 날짜",
-        timetable_unavailable: "이 지역은 현재 역 정보와 환승 정보만 제공하며, 검색 가능한 시간표는 아직 제공되지 않습니다.",
+        timetable_unavailable: "이 지역은 역·환승 정보만 있고 시간표는 아직 없습니다.",
         timetable_unavailable_short: "시간표 없음",
         depart_after: "최소 출발 시각",
         market_time: "{{timeZone}} 현지 시간",
@@ -2588,8 +2594,8 @@ const resources = {
         no_result: {
           unsupported_route: "선택한 노선 조합은 현재 네트워크에서 지원되지 않습니다.",
           future_date_unavailable: "요청한 날짜의 검증된 시간표를 현재 이용할 수 없습니다.",
-          no_verified_data: "TransitRail이 등록된 공식 출처에서 이 검색을 확인하지 못했습니다. 열차가 운행하지 않는다는 뜻은 아닙니다.",
-          no_service: "이 조건에 맞는 검증된 출발편이 반환되지 않았습니다. 운행하지 않는다는 뜻은 아닙니다.",
+          no_verified_data: "공식 시간표를 찾지 못했습니다. 운행이 없다는 뜻은 아닙니다.",
+          no_service: "조건에 맞는 열차가 없습니다. 운행이 없다는 뜻은 아닙니다.",
         }
       },
       stations: {
@@ -2610,10 +2616,10 @@ const resources = {
         interchange: "환승역",
         lines_loading: "노선 정보를 불러오는 중...",
         lines_unavailable: "현재 노선 목록을 이용할 수 없습니다.",
-        note_japan: "주요 역만 표시됩니다. 전체 역 목록은 ODPT 연동 후 추가될 예정입니다.",
-        note_singapore: "MRT·LRT 역 이름과 노선 순서는 mytransport.sg에서 저장한 공식 카탈로그를 사용합니다. 검증된 시간표가 없는 역은 표시됩니다.",
-        note_malaysia: "선택한 날짜에 검증된 KTMB GTFS 노선이 있는 역만 표시합니다.",
-        note_korea: "서울 지하철 1~9호선, 인천교통공사, 코레일 간선 철도를 지원합니다.",
+        note_japan: "현재 주요 역만 표시합니다.",
+        note_singapore: "역 이름과 노선 순서는 mytransport.sg 기준이며, 시간표가 없는 역은 표시됩니다.",
+        note_malaysia: "선택한 날짜에 KTMB 열차가 있는 역만 표시합니다.",
+        note_korea: "서울 지하철 1~9호선, 인천교통공사, 코레일 간선 철도.",
         note_united_states: "지하철 및 경전철 노선을 지원합니다. 광역철도 역은 전체 역 목록에서 확인하세요.",
         featured: "인기 역",
         locating: "위치 확인 중...",
@@ -2626,7 +2632,7 @@ const resources = {
         transfers: "회 환승",
         accessible: "휠체어 이용 가능",
         no_timetable: "시간표 없음",
-        no_timetable_hint: "이 역은 노선도에 있지만 TransitRail에 아직 시간표 데이터가 없습니다.",
+        no_timetable_hint: "노선도에는 있지만 아직 시간표가 없습니다.",
         catalog_only_no_timetable: "역 이름은 제공되지만 이 지역에는 검증된 시간표가 없습니다.",
         no_registered_timetable_source: "이 지역에는 검증된 시간표 출처가 등록되어 있지 않습니다.",
         no_verified_timetable_for_date: "선택한 날짜에 이 국가의 검증된 시간표 데이터가 없습니다.",
@@ -2638,7 +2644,7 @@ const resources = {
       },
       workflow: {
         title: "데이터 처리 과정",
-        subtitle: "이 앱은 연동된 교통 기관에서 반환한 시간표만 표시하며, 임의로 생성한 데이터는 제공하지 않습니다.",
+        subtitle: "연동된 기관의 시간표만 표시하며 데이터를 생성하지 않습니다.",
         back: "검색으로 돌아가기",
         step_form: "검색 조건 확인",
         origin_empty: "출발역이 선택되지 않았습니다",
@@ -2647,11 +2653,11 @@ const resources = {
         step_stations: "역 목록 불러오기",
         step_search: "{{provider}}에 실시간 시간표 요청",
         step_local: "이 기기에 데이터 저장",
-        local_body: "검색 기록, 저장한 일정, 좌석 선택, 알림은 localStorage에 저장됩니다.",
+        local_body: "기록·일정·좌석·알림은 기기에 저장됩니다.",
         adapter_pending: "교통 기관 연동이 필요합니다",
-        adapter_body: "실시간 노선 연동이 완료되기 전까지 이 API는 임의의 시간표 대신 명확한 오류를 반환합니다.",
+        adapter_body: "연동 전에는 API가 오류를 반환하며 임의 시간표를 만들지 않습니다.",
         live_ready: "실시간 데이터 연동됨",
-        live_ready_body: "검색 시 {{provider}}의 공식 데이터를 사용합니다."
+        live_ready_body: "{{provider}} 공식 데이터를 사용합니다."
       },
       result: {
         data_source: "데이터 출처",
@@ -2693,13 +2699,13 @@ const resources = {
         select_seat: "좌석 선호",
         unable_to_fetch: "실시간 데이터를 가져올 수 없습니다",
         not_covered_title_other: "이 역의 시간표가 아직 없습니다",
-        not_covered_body_other: "{{stations}} 역은 노선도에 있지만 TransitRail에 아직 시간표 데이터가 없습니다.",
+        not_covered_body_other: "{{stations}} 역은 노선도에 있지만 아직 시간표가 없습니다.",
         not_covered_suggestions: "시간표 데이터가 있는 역:",
         station_separator: ", ",
         no_results: "아직 실시간 검색 결과가 없습니다",
-        no_results_hint: "출발 시간이나 교통수단 환경설정을 조정해 다른 검증된 열차를 확인하세요.",
+        no_results_hint: "출발 시간이나 설정을 바꿔 다른 열차를 확인하세요.",
         offline_cache: "오프라인 캐시 결과",
-        searching_source: "{{provider}}의 검증된 시간표 데이터를 검색하고 있습니다…",
+        searching_source: "{{provider}} 검색 중…",
         results_found: "검증된 열차 {{count}}건을 찾았습니다.",
         stops: "정거장",
         save_trip: "일정 저장",
@@ -2720,7 +2726,7 @@ const resources = {
         seat_non_reserved: "자유석 / 일반",
         seat_reserved: "지정석",
         seat_premium: "비즈니스 / 특실",
-        fare_disclaimer: "실제 요금은 날짜, 등급, 선택 보험, 프로모션 등에 따라 달라질 수 있습니다. 공식 예매 시스템을 확인하세요.",
+        fare_disclaimer: "실제 요금은 공식 예매처에서 확인하세요.",
         toward: "행",
         next_departures: "다음 출발 편",
         platform_label: "승강장",
@@ -2759,8 +2765,8 @@ const resources = {
         hour_heading: "{{hour}}시",
         jump_to_hour: "시간대로 이동",
         all_departed_title: "표시된 열차가 모두 출발했습니다",
-        all_departed_body_one: "이 확인된 시간표에 오늘 표시된 열차는 {{time}}에 출발했습니다.",
-        all_departed_body_other: "이 확인된 시간표에 오늘 표시된 {{count}}편이 모두 출발했습니다. 마지막으로 표시된 열차는 {{time}}입니다.",
+        all_departed_body_one: "오늘 표시된 열차는 {{time}}에 출발했습니다.",
+        all_departed_body_other: "오늘 표시된 {{count}}편 모두 출발했습니다(마지막 {{time}}).",
         search_date: "{{date}} 검색",
         next_day: "다음 날",
         show_departed: "출발한 열차 표시",
@@ -2771,6 +2777,8 @@ const resources = {
         map_action: "지도",
         on_time: "정시",
         delay_min: "분 지연",
+        cancelled: "운휴",
+        skips_station: "이 역 무정차",
         close: "닫기",
         connection_short: "환승 시간이 매우 짧음",
         connection_standard: "일반 환승",
@@ -2778,8 +2786,8 @@ const resources = {
       },
       map: {
         officialRouteMap: "공식 노선도",
-        coordinates_unavailable: "이 여정에는 검증된 지도 좌표가 없는 역이 있어 노선도를 그릴 수 없습니다.",
-        positions_missing: "검증된 지도 좌표가 없는 역 {{count}}개는 지도에 표시하지 않았습니다."
+        coordinates_unavailable: "좌표가 없는 역이 있어 노선도를 그릴 수 없습니다.",
+        positions_missing: "좌표가 없는 역 {{count}}개는 지도에 표시하지 않았습니다."
       },
       weather: {
         clear: "맑음",
@@ -2801,11 +2809,11 @@ const resources = {
         no_departures: "일치하는 실시간 열차가 없습니다",
         no_departures_hint: "같은 노선의 다른 역 조합을 시도해 보세요.",
         save_departure: "저장",
-        transfer_hint: "두 번째 구간의 시각은 환승역의 현재 다음 열차 기준이며, 실제 연결을 보장하지 않습니다."
+        transfer_hint: "두 번째 구간은 환승역의 다음 열차이며 연결은 보장되지 않습니다."
       },
       malaysia: {
         catalog_title: "말레이시아 시간표는 아직 제공되지 않습니다",
-        catalog_body: "말레이시아는 공식 KTMB GTFS 시간표 스냅샷을 역 선택과 출발 시간 모두에 사용합니다."
+        catalog_body: "역과 시간표는 공식 KTMB GTFS를 사용합니다."
       },
       london: {
         official_data: "TfL 공식 운행 데이터",
@@ -2839,7 +2847,7 @@ const resources = {
       belgium: {
         official_data: "iRail 공식 시간표 데이터",
         no_journeys: "벨기에 철도 경로를 찾을 수 없습니다",
-        no_journeys_hint: "다른 시간대를 시도하거나 iRail 역 목록의 역 이름을 사용해 보세요.",
+        no_journeys_hint: "다른 시간이나 iRail 역 이름으로 시도해 보세요.",
         current: "iRail",
         minutes: "분"
       },
@@ -2856,7 +2864,7 @@ const resources = {
         transfers: "스위스 환승 경로",
         minutes: "분",
         no_journeys: "일치하는 스위스 경로가 없습니다",
-        no_journeys_hint: "다른 SBB·스위스 대중교통 역 조합이나 다른 출발 날짜를 시도해 보세요."
+        no_journeys_hint: "다른 역 조합이나 날짜로 시도해 보세요."
       },
       history: {
         recent: "최근 검색",
@@ -2895,14 +2903,14 @@ const resources = {
       timetable_change: {
         service_date: "{{date}} 시각표로 바뀌었습니다.",
         service_day: "\u0027{{type}}\u0027 시각표로 바뀌었습니다.",
-        last_service: "막차가 {{previous}}에서 {{time}}(으)로 바뀌었습니다.",
-        first_service: "첫차가 {{previous}}에서 {{time}}(으)로 바뀌었습니다.",
+        last_service: "막차: {{previous}} → {{time}}",
+        first_service: "첫차: {{previous}} → {{time}}",
         more_departures: "이전보다 {{count}}편 늘었습니다.",
         fewer_departures: "이전보다 {{count}}편 줄었습니다."
       },
       alerts: {
         empty_title: "알림이 없습니다",
-        empty_body: "검색한 경로의 시각표가 바뀌거나 저장한 열차의 출발이 가까워지면 여기에 표시됩니다.",
+        empty_body: "시각표 변경과 출발 알림이 여기에 표시됩니다.",
         service_status: "운행 상황",
         updating: "업데이트 중…",
         no_situations: "보고된 장애가 없습니다. 모든 노선이 실시간 정보를 제공하는 것은 아닙니다.",
@@ -2929,18 +2937,18 @@ const resources = {
         source: "TfL 실시간 혼잡도",
       },
       ktmb: {
-        title: "KTMB 열차 실시간 위치",
+        title: "KTMB 실시간 열차",
         none: "현재 위치를 보고하는 열차가 없습니다. 운행이 없다는 뜻은 아닙니다.",
-        source: "출처: data.gov.my GTFS Realtime. 공식 위치 정보는 현재 일부 열차만 제공합니다.",
+        source: "출처: data.gov.my (일부 열차만)",
       },
       board: {
         open: "역 실시간 안내판",
         platform: "{{platform}}번 승강장",
-        updated: "실시간 · {{time}} 업데이트",
-        refresh: "30초마다 업데이트",
+        updated: "{{time}} 업데이트",
+        refresh: "새로고침",
         depart: "이 역에서 출발 경로 찾기",
         no_live: "현재 실시간 정보가 없습니다. 운행이 없다는 뜻은 아닙니다.",
-        line_unavailable: "이 노선의 실시간 정보가 응답하지 않았습니다. 운행이 없다는 뜻은 아닙니다.",
+        line_unavailable: "이 노선의 실시간 정보가 응답하지 않습니다. 운행이 없다는 뜻은 아닙니다.",
         delayed: "MTR이 이 노선의 지연을 알렸습니다",
         source: "출처: MTR Next Train",
         loading: "실시간 출발 정보를 불러오는 중…",
@@ -2960,7 +2968,7 @@ const resources = {
       },
       feedback: {
         title: "피드백",
-        description: "여러분의 도움으로 더 나은 서비스를 만들어갑니다! 시스템 오류를 발견하셨거나 새로운 기능을 제안하고 싶으시다면 언제든 아래 양식을 작성해 알려주세요.",
+        description: "오류나 제안이 있으면 알려 주세요.",
         category: "피드백 유형",
         category_feature: "기능 제안",
         category_bug: "시스템 오류",
@@ -2971,7 +2979,7 @@ const resources = {
         contact: "연락처 (선택)",
         contact_placeholder: "이메일, 라인 ID 등 연락 가능한 방법",
         location_title: "위치 첨부 (선택)",
-        location_privacy: "위치 정보는 첨부를 선택한 경우에만 요청되며, 이 피드백과 함께 전송됩니다.",
+        location_privacy: "위치 정보는 첨부할 때만 전송됩니다.",
         location_locating: "위치 확인 중...",
         location_attached: "위치가 첨부되었습니다",
         location_attach: "첨부하기",
@@ -3024,17 +3032,17 @@ const resources = {
       },
       faqs: {
         q0: "이 사이트는 무료인가요?",
-        a0: "네, TransitRail은 완전 무료의 글로벌 대중교통 검색 플랫폼입니다. 여행자에게 광고 없이 깔끔하고 원활한 실시간 출발 정보와 경로 계획 서비스를 제공하는 것을 목표로 합니다.",
+        a0: "네. 무료이며 광고도 없습니다.",
         q1: "오늘 열차의 실시간 상태를 확인할 수 있나요?",
-        a1: "네. 다양한 철도 시스템의 실시간 시간표 조회를 지원합니다. 특정 지역(싱가포르, 런던, 보스턴 등)에서는 실시간 도착 정보도 지원되어 최신 운행 상황을 확인할 수 있습니다.",
+        a1: "네. 홍콩·런던·보스턴·스위스·벨기에·노르웨이는 실시간 정보를, 그 밖의 지역은 공식 시간표를 보여 줍니다.",
         q2: "시간표와 출발 데이터는 어디서 가져오나요?",
-        a2: "시간표와 실시간 출발 데이터는 각국의 공식 교통 기관 및 주요 서드파티 데이터베이스(Jorudan, Korail, LTA, MTR, TfL, MBTA, DB, SNCF, 12306 등)와 직접 연동되어 높은 신뢰도를 보장합니다.",
+        a2: "Korail, MTR, TfL, MBTA, DB, SNCF 등 각국 공식 출처에서 직접 가져옵니다.",
         q3: "일부 국가는 왜 오늘 날짜만 선택할 수 있나요?",
-        a3: "일부 교통 시스템(싱가포르 MRT 등)은 실시간 API를 사용하여 당일 예측 정보만 제공하기 때문에, 해당 지역의 여행 날짜는 자동으로 오늘로 고정됩니다.",
+        a3: "홍콩 MTR 등 일부 출처는 당일 실시간 정보만 제공하므로 날짜가 오늘로 고정됩니다.",
         q4: "오프라인으로 이용하거나 자주 쓰는 노선을 저장할 수 있나요?",
-        a4: "네! 검색 버튼 옆의 별 아이콘을 클릭해 노선을 '즐겨찾는 노선'에 추가할 수 있습니다. 이 노선들은 브라우저에 안전하게 저장되어 다음에 한 번의 클릭으로 바로 이용할 수 있습니다.",
+        a4: "네. 검색 버튼 옆 별을 눌러 저장하세요. 브라우저에만 저장됩니다.",
         q5: "AI 일정 플래너는 어떻게 사용하나요?",
-        a5: "아래의 'AI로 일정 계획하기' 버튼을 클릭하면 스마트 AI 일정 도우미로 이동하여 도시 간·지역 간 철도 여행 일정을 맞춤으로 만들 수 있습니다!"
+        a5: "아래 'AI로 일정 계획하기'에서 도시 간 철도 일정을 만들 수 있습니다."
       },
       hot_routes: {
         tokyo_osaka: "도쿄 ➔ 신오사카",
@@ -3053,7 +3061,7 @@ const resources = {
       },
       seat: {
         title: "좌석 선호",
-        disclaimer: "이는 기기에 선호 설정만 저장하며, 좌석 예약이나 예매를 진행하지 않습니다.",
+        disclaimer: "기기에만 저장되며 예약되지 않습니다.",
         standard: "일반",
         window: "창가",
         aisle: "통로",
@@ -3093,7 +3101,7 @@ const resources = {
       },
       transit_supplement: {
         title: "Transit 제공 제3자 실시간 정보",
-        disclaimer: "실시간 출발 정보, 운행 알림, 경로 제안은 보조 정보입니다. TransitRail의 검증된 시간표를 바꾸지 않습니다.",
+        disclaimer: "보조 정보이며 공식 시간표에는 영향이 없습니다.",
         load_live: "{{station}} 실시간 정보 보기",
         loading_live: "실시간 정보를 불러오는 중…",
         plan_trip: "Transit으로 전체 여정 계획하기",
@@ -3113,8 +3121,8 @@ const resources = {
         minutes: "{{count}}분",
         status_uncovered: "Transit이 이 역의 지원 여부를 확인하지 못했습니다. 운행이 없다는 뜻은 아닙니다.",
         status_unavailable: "제3자 실시간 정보가 현재 설정되어 있지 않습니다.",
-        status_ambiguous: "이 역에 대한 Transit의 지원 범위를 안전하게 판단할 수 없었습니다.",
-        status_empty_live_data: "Transit에 표시할 실시간 출발 정보나 운행 알림이 현재 없습니다. 운행 중단 안내가 아닙니다.",
+        status_ambiguous: "이 역의 Transit 지원 여부를 확인할 수 없습니다.",
+        status_empty_live_data: "Transit의 실시간 정보가 현재 없습니다. 운행 중단 안내가 아닙니다.",
         status_error: "제3자 실시간 정보를 일시적으로 이용할 수 없습니다."
       },
       station: {

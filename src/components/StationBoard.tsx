@@ -4,13 +4,17 @@
 // every line through the station, each platform and terminus with its next trains.
 
 import { Loader2 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { MtrBoardDeparture, MtrBoardGroup, MtrStationBoard } from "../server/hongKongMtr";
 import { stationLabel } from "../utils/stationLabel";
 import { LineBadge } from "./LineBadge";
 import { SplitFlap } from "./SplitFlap";
 import { LiveSheet, LiveSheetStatus } from "./LiveSheet";
+import { useLivePoll } from "../hooks/useLivePoll";
+
+const isStationBoard = (body: unknown): body is MtrStationBoard =>
+  Boolean(body && typeof body === "object" && Array.isArray((body as MtrStationBoard).lines));
 
 const REFRESH_MS = 30_000;
 
@@ -117,42 +121,11 @@ interface StationBoardProps {
  * Fetches the board, then refreshes every 30 seconds while the page is
  * visible. A failed refresh keeps the last board on screen as it was.
  */
-export function StationBoard({ station, onClose, onDepartFrom, now = () => new Date() }: StationBoardProps) {
+export function StationBoard({ station, onClose, onDepartFrom, now }: StationBoardProps) {
   const { t } = useTranslation();
-  const [board, setBoard] = useState<MtrStationBoard>();
-  const [failed, setFailed] = useState(false);
-  const [clock, setClock] = useState(now);
   const [lineCode, setLineCode] = useState<string>();
-  const nowRef = useRef(now);
-  nowRef.current = now;
-
-  useEffect(() => {
-    let active = true;
-    const load = () => {
-      setClock(nowRef.current());
-      fetch(`/api/transit/hong-kong/board?${new URLSearchParams({ station })}`)
-        .then((response) => (response.ok ? response.json() as Promise<MtrStationBoard> : Promise.reject(new Error(String(response.status)))))
-        .then((next) => {
-          if (!active) return;
-          setBoard(next);
-          setFailed(false);
-          setClock(nowRef.current());
-        })
-        .catch(() => { if (active) setFailed(true); });
-    };
-    load();
-    const timer = window.setInterval(() => {
-      if (document.visibilityState === "visible") load();
-    }, REFRESH_MS);
-    const onVisible = () => { if (document.visibilityState === "visible") load(); };
-    document.addEventListener("visibilitychange", onVisible);
-    return () => {
-      active = false;
-      window.clearInterval(timer);
-      document.removeEventListener("visibilitychange", onVisible);
-    };
-  }, [station]);
-
+  const poll = useLivePoll(`/api/transit/hong-kong/board?${new URLSearchParams({ station })}`, REFRESH_MS, isStationBoard, now);
+  const board = poll.data;
   const name = board?.station ?? station;
   const localName = stationLabel(t, name, "hong_kong");
   return (
@@ -163,6 +136,8 @@ export function StationBoard({ station, onClose, onDepartFrom, now = () => new D
       subtitle={localName !== name ? name : undefined}
       updatedAt={board?.checkedAt}
       timeZone="Asia/Hong_Kong"
+      onRefresh={poll.refresh}
+      refreshing={poll.loading}
       onClose={onClose}
       footer={<>
         <button type="button" className="m3-button m3-state w-full bg-accent text-on-accent" onClick={() => onDepartFrom(name)}>
@@ -172,8 +147,8 @@ export function StationBoard({ station, onClose, onDepartFrom, now = () => new D
       </>}
     >
       {board ? (
-        <StationBoardView board={board} now={clock} lineCode={lineCode} onLineChange={setLineCode} />
-      ) : failed ? (
+        <StationBoardView board={board} now={poll.clock} lineCode={lineCode} onLineChange={setLineCode} />
+      ) : poll.failed ? (
         <LiveSheetStatus>{t("board.no_live")}</LiveSheetStatus>
       ) : (
         <LiveSheetStatus>

@@ -55,8 +55,8 @@ describe("station board", () => {
 
   it("says a silent feed is no live data, never no service", () => {
     const html = render("TWL");
-    expect(html).toContain("live feed did not respond");
-    expect(html).toContain("does not mean there is no service");
+    expect(html).toContain("live feed isn&#x27;t responding");
+    expect(html).toContain("doesn&#x27;t mean there&#x27;s no service");
     expect(html).not.toContain("data-board-group");
   });
 

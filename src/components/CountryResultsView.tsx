@@ -25,6 +25,7 @@ import { TransitAppSupplement } from "./TransitAppSupplement";
 import { StationCrowding } from "./StationCrowding";
 import { addDateValueDays, countryConfig, providerDateValue, providerDateValues } from "../data/countries";
 import { useKtmbLiveTrains } from "../hooks/useKtmbLiveTrains";
+import { useFranceTripStatus } from "../hooks/useFranceTripStatus";
 import { formatServiceDay } from "./ResultShell";
 import { nearestAvailableDate, searchTimeMode } from "../utils/searchConditions";
 import { loadStationCatalog } from "../utils/catalogClient";
@@ -93,12 +94,11 @@ function OfflineCacheNotice({ deliveryStatus }: { deliveryStatus?: SearchDeliver
 export function CountryResultsView(props: CountryResultsViewProps) {
   const { t } = useTranslation();
   const capability = getCountryCapability(props.country);
-  // Today's KTMB rows learn where their train is; any other day has nothing live to say.
-  const results = useKtmbLiveTrains(
-    props.country === "malaysia" && props.results.length > 0 && props.date === providerDateValue(props.country, props.now?.()),
-    props.results,
-    props.date,
-  );
+  // Today's KTMB rows learn where their train is, and today's SNCF rows how it is
+  // running; any other day has nothing live to say.
+  const today = props.results.length > 0 && props.date === providerDateValue(props.country, props.now?.());
+  const withPositions = useKtmbLiveTrains(props.country === "malaysia" && today, props.results, props.date);
+  const results = useFranceTripStatus(props.country === "france" && today, withPositions);
   const totalResults = props.totalResults ?? props.results.length;
   const hasNoMatchingResults = props.results.length === 0 && totalResults > 0;
   const hasNoSearchResults = props.results.length === 0 && totalResults === 0;
