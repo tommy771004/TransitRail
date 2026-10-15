@@ -11,6 +11,7 @@ import { Header } from "./components/Header";
 import { BottomNav } from "./components/BottomNav";
 import { SearchForm } from "./components/SearchForm";
 import { StationBrowser } from "./components/StationBrowser";
+import { StationBoard } from "./components/StationBoard";
 import { DataWorkflowView } from "./components/DataWorkflowView";
 import { FeedbackView } from "./components/FeedbackView";
 import { DiagnosticOverlay } from "./components/DiagnosticOverlay";
@@ -310,6 +311,7 @@ export default function App() {
   const [stationPickTarget, setStationPickTarget] = useState<"origin" | "destination">("origin");
   const [originLineId, setOriginLineId] = useState<string | undefined>();
   const [showStations, setShowStations] = useState(false);
+  const [boardStation, setBoardStation] = useState<string>();
   const [showFeedback, setShowFeedback] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -1500,6 +1502,7 @@ export default function App() {
             formatPrice={formatTripPrice}
             formatRowPrice={formatRowPrice}
             overview={routeOverview}
+            onOpenBoard={setBoardStation}
           />
         );
       case "legend":
@@ -1942,6 +1945,26 @@ export default function App() {
             scrollToLineId={stationPickTarget === "destination" ? originLineId : undefined}
             selectedOrigin={draftSearch.origin}
             selectedDate={draftSearch.date}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {boardStation && (
+          <StationBoard
+            station={boardStation}
+            onClose={() => setBoardStation(undefined)}
+            onDepartFrom={(station) => {
+              setBoardStation(undefined);
+              setDraftSearch((current) => ({
+                ...current,
+                country: "hong_kong",
+                origin: station,
+                destination: current.destination === station ? "" : current.destination,
+              }));
+              setView("search");
+              window.scrollTo({ top: 0 });
+            }}
           />
         )}
       </AnimatePresence>

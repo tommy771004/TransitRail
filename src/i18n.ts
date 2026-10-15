@@ -439,6 +439,19 @@ const resources = {
         reminder_set: "Reminder enabled",
         reminder_removed: "Reminder removed"
       },
+      board: {
+        open: "Live station board",
+        platform: "Platform {{platform}}",
+        updated: "Live · updated {{time}}",
+        refresh: "Updates every 30 seconds",
+        depart: "Plan a trip from here",
+        no_live: "No live data right now. That does not mean there is no service.",
+        line_unavailable: "This line's live feed did not respond. That does not mean there is no service.",
+        delayed: "MTR reports a delay on this line",
+        source: "Source: MTR Next Train",
+        loading: "Loading live departures…",
+        lines: "Lines at this station",
+      },
       snack: {
         offline_cached: "Offline. Showing results cached from an earlier search.",
         stations_cleared: "Stations cleared for the new market.",
@@ -1091,6 +1104,19 @@ const resources = {
         notifications_enabled: "已啟用瀏覽器通知",
         reminder_set: "已啟用提醒",
         reminder_removed: "已移除提醒"
+      },
+      board: {
+        open: "車站即時看板",
+        platform: "{{platform}} 號月台",
+        updated: "即時 · 更新於 {{time}}",
+        refresh: "每 30 秒更新",
+        depart: "從這站出發，查行程",
+        no_live: "目前沒有即時資料，不代表沒有班次。",
+        line_unavailable: "這條線的即時資料暫時沒有回應，不代表沒有班次。",
+        delayed: "港鐵表示此線有延誤",
+        source: "資料來源：港鐵 Next Train",
+        loading: "正在載入即時班次…",
+        lines: "本站路線",
       },
       snack: {
         offline_cached: "目前離線，顯示先前查詢的暫存結果。",
@@ -2150,6 +2176,19 @@ const resources = {
         reminder_set: "リマインダーを設定しました",
         reminder_removed: "リマインダーを削除しました"
       },
+      board: {
+        open: "駅の発車案内",
+        platform: "{{platform}}番線",
+        updated: "リアルタイム · {{time}} 更新",
+        refresh: "30秒ごとに更新",
+        depart: "この駅から経路を検索",
+        no_live: "現在リアルタイム情報はありません。運行がないという意味ではありません。",
+        line_unavailable: "この路線のリアルタイム情報が応答しませんでした。運行がないという意味ではありません。",
+        delayed: "MTRがこの路線の遅延を報告しています",
+        source: "出典：MTR Next Train",
+        loading: "発車情報を読み込み中…",
+        lines: "この駅の路線",
+      },
       snack: {
         offline_cached: "オフラインです。前回の検索のキャッシュを表示しています。",
         stations_cleared: "新しい地域に合わせて駅をクリアしました。",
@@ -2829,6 +2868,19 @@ const resources = {
         notifications_enabled: "브라우저 알림이 활성화되었습니다",
         reminder_set: "알림이 설정되었습니다",
         reminder_removed: "알림이 삭제되었습니다"
+      },
+      board: {
+        open: "역 실시간 안내판",
+        platform: "{{platform}}번 승강장",
+        updated: "실시간 · {{time}} 업데이트",
+        refresh: "30초마다 업데이트",
+        depart: "이 역에서 출발 경로 찾기",
+        no_live: "현재 실시간 정보가 없습니다. 운행이 없다는 뜻은 아닙니다.",
+        line_unavailable: "이 노선의 실시간 정보가 응답하지 않았습니다. 운행이 없다는 뜻은 아닙니다.",
+        delayed: "MTR이 이 노선의 지연을 알렸습니다",
+        source: "출처: MTR Next Train",
+        loading: "실시간 출발 정보를 불러오는 중…",
+        lines: "이 역의 노선",
       },
       snack: {
         offline_cached: "오프라인입니다. 이전 검색의 캐시 결과를 표시합니다.",

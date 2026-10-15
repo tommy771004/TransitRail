@@ -29,6 +29,7 @@ import { serviceDayAdvisoryForWatch, unavailableServiceDayAdvisory } from "./src
 import { requestOrigin, requestPath, requestQuery } from "./src/server/requestOrigin";
 import { getAffiliateOffers } from "./src/server/affiliates";
 import { transitAppClient } from "./src/server/transitApp";
+import { hongKongStationBoard } from "./src/server/hongKongMtr";
 
 dotenv.config();
 
@@ -356,6 +357,20 @@ async function logTransitSearch(
     const situations = await getTransitSituations(country);
     res.set("Cache-Control", "public, s-maxage=120, stale-while-revalidate=300");
     return res.json({ situations, checkedAt: new Date().toISOString() });
+  });
+
+  /** Hong Kong station screen from MTR Next Train; live only, never a timetable. */
+  app.get("/api/transit/hong-kong/board", async (req, res) => {
+    const { station } = requestQuery(req);
+    if (typeof station !== "string" || !station.trim()) {
+      return res.status(400).json({ error: "A station is required." });
+    }
+    const board = await hongKongStationBoard(station.trim());
+    if (!board) {
+      return res.status(404).json({ error: "Not an MTR station in the live feed." });
+    }
+    res.set("Cache-Control", "public, s-maxage=15, stale-while-revalidate=15");
+    return res.json(board);
   });
 
   /**

@@ -1,10 +1,13 @@
 import {
   findMtrJourney,
   findMtrTransferPlan,
+  hongKongMtrLineCatalog,
   mtrLineColors,
   mtrTerminalReachesDestination,
 } from "../data/hongKongMtr";
-import type { MtrJourney } from "../data/hongKongMtr";
+import type { MtrJourney, MtrLineCatalogEntry, MtrStation } from "../data/hongKongMtr";
+import { resolveStationAlias } from "../data/stationAliases";
+import { stationSearchKey } from "../data/stationKey";
 import { getHongKongStationName } from "../data/stationIdentity";
 import type { JourneyLeg, SearchResponse, TransitResult } from "../types";
 
@@ -270,5 +273,115 @@ function mtrRequestFailed(error: unknown): { status: number; body: SearchRespons
       results: [],
       source: MTR_NEXT_TRAIN_URL,
     },
+  };
+}
+
+export interface MtrBoardDeparture {
+  /** Departure instant on the Hong Kong clock. */
+  at: string;
+  /** Termini such as Central alternate platforms, so each train carries its own. */
+  platform?: string;
+}
+
+/** Trains towards one terminus, as the station screens group them. */
+export interface MtrBoardGroup {
+  direction: "UP" | "DOWN";
+  /** Terminus as the line table names it; the client localises it. */
+  destination: string;
+  /** Soonest first. */
+  departures: MtrBoardDeparture[];
+}
+
+export interface MtrBoardLine {
+  code: string;
+  name: string;
+  color?: string;
+  /** MTR's line-wide delay flag; it never names a train. */
+  delayed: boolean;
+  /** The feed did not answer for this line. That is not the same as no trains. */
+  unavailable: boolean;
+  groups: MtrBoardGroup[];
+}
+
+export interface MtrStationBoard {
+  station: string;
+  lines: MtrBoardLine[];
+  checkedAt: string;
+  source: string;
+}
+
+/**
+ * Every line calling at the station, with that line's own code for it. The
+ * name is matched as written first: search treats walkway-linked stations
+ * such as Central and Hong Kong as one, but their platforms are not.
+ */
+export function mtrStationLines(stationName: string): Array<{ line: MtrLineCatalogEntry; station: MtrStation }> {
+  const linesMatching = (keyOf: (name: string) => string) => {
+    const key = keyOf(stationName);
+    return hongKongMtrLineCatalog.flatMap((line) => {
+      const station = line.stations.find((candidate) => keyOf(candidate.name) === key);
+      return station ? [{ line, station }] : [];
+    });
+  };
+  const exact = linesMatching(stationSearchKey);
+  return exact.length > 0
+    ? exact
+    : linesMatching((name) => stationSearchKey(resolveStationAlias("hong_kong", name)));
+}
+
+/** "2026-10-15 14:02:00" on the Hong Kong clock, as an unambiguous instant. */
+function trainInstant(train: MtrTrain): string | undefined {
+  const match = train.time?.match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2})$/);
+  return match ? `${match[1]}T${match[2]}+08:00` : undefined;
+}
+
+function boardGroups(payload: MtrPayload, lineCode: string, stationCode: string): MtrBoardGroup[] {
+  const stationData = payload.data?.[`${lineCode}-${stationCode}`];
+  const groups: MtrBoardGroup[] = [];
+  for (const direction of ["UP", "DOWN"] as const) {
+    for (const train of stationData?.[direction] || []) {
+      const at = trainInstant(train);
+      if (train.valid === "N" || !at || !train.dest) continue;
+      const destination = stationNameForCode(train.dest) || train.dest;
+      let group = groups.find((entry) => entry.direction === direction && entry.destination === destination);
+      if (!group) {
+        group = { direction, destination, departures: [] };
+        groups.push(group);
+      }
+      group.departures.push({ at, platform: train.plat });
+    }
+  }
+  for (const group of groups) group.departures.sort((a, b) => a.at.localeCompare(b.at));
+  return groups;
+}
+
+/**
+ * The live departures screen for one station: every line through it, each
+ * direction and terminus with its next trains. A line whose feed fails is
+ * marked unavailable and the rest still show; nothing is estimated.
+ */
+export async function hongKongStationBoard(stationName: string): Promise<MtrStationBoard | null> {
+  const served = mtrStationLines(stationName);
+  if (served.length === 0) return null;
+  const lines = await Promise.all(served.map(async ({ line, station }): Promise<MtrBoardLine> => {
+    const base = { code: line.code, name: line.name, color: line.color };
+    try {
+      const payload = await fetchNextTrainPayload(line.code, station.code);
+      if (payload.status !== 1) return { ...base, delayed: false, unavailable: true, groups: [] };
+      return {
+        ...base,
+        delayed: payload.isdelay === "Y",
+        unavailable: false,
+        groups: boardGroups(payload, line.code, station.code),
+      };
+    } catch {
+      return { ...base, delayed: false, unavailable: true, groups: [] };
+    }
+  }));
+  return {
+    station: served[0].station.name,
+    lines,
+    checkedAt: new Date().toISOString(),
+    source: MTR_NEXT_TRAIN_URL,
   };
 }

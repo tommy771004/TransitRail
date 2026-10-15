@@ -1,6 +1,7 @@
 // Renders the country-appropriate results chrome from countryConfig policy.
 import { useEffect, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
+import { RadioTower } from "lucide-react";
 import type {
   Country,
   CoverageGap,
@@ -25,6 +26,7 @@ import { addDateValueDays, countryConfig, providerDateValues } from "../data/cou
 import { formatServiceDay } from "./ResultShell";
 import { nearestAvailableDate, searchTimeMode } from "../utils/searchConditions";
 import { loadStationCatalog } from "../utils/catalogClient";
+import { stationLabel } from "../utils/stationLabel";
 
 export type CountryResultsViewProps = {
   country: Country;
@@ -64,6 +66,8 @@ export type CountryResultsViewProps = {
   overview?: ReactNode;
   /** Injectable wall clock for the departure countdown; tests pin it. */
   now?: () => Date;
+  /** Opens the live station screen, where the market has one. */
+  onOpenBoard?: (station: string) => void;
 };
 
 function OfflineCacheNotice({ deliveryStatus }: { deliveryStatus?: SearchDeliveryStatus }) {
@@ -132,6 +136,19 @@ export function CountryResultsView(props: CountryResultsViewProps) {
       {t("result.search_date", { date: formatServiceDay(followingDay) })}
     </button>
   ) : null;
+  const boardEntry = props.country === "hong_kong" && props.onOpenBoard && props.origin ? (
+    <div className="mx-auto max-w-md px-4 pt-3 lg:max-w-5xl">
+      <button
+        type="button"
+        className="m3-button m3-button-icon-leading m3-state border border-accent bg-accent-container text-accent"
+        onClick={() => props.onOpenBoard!(props.origin)}
+        data-board-entry
+      >
+        <RadioTower aria-hidden="true" className="h-4 w-4" />
+        {t("board.open")} · {stationLabel(t, props.origin, props.country)}
+      </button>
+    </div>
+  ) : null;
   const deliveryNotice = <OfflineCacheNotice deliveryStatus={props.deliveryStatus} />;
   const resultAnnouncement = props.results.length > 0 ? (
     <p role="status" aria-live="polite" className="sr-only">
@@ -166,7 +183,7 @@ export function CountryResultsView(props: CountryResultsViewProps) {
     sortMode: props.sortMode,
     onSortChange: props.onSortChange,
     now: props.now,
-    overview: <>{resultAnnouncement}{deliveryNotice}</>,
+    overview: <>{resultAnnouncement}{deliveryNotice}{boardEntry}</>,
     afterResults: props.overview,
   };
   const supplementary = <TransitAppSupplement country={props.country} origin={props.origin} destination={props.destination} />;
