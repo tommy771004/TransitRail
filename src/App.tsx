@@ -30,7 +30,7 @@ import { RouteServiceOverview } from "./components/RouteServiceOverview";
 import { ServiceDayAdvisoryNotice } from "./components/ServiceDayAdvisoryNotice";
 import { Snackbar, type SnackbarMessage } from "./components/Snackbar";
 import { get, set } from "idb-keyval";
-import { countryConfig, providerDateValue, countryThemes, countryFlags, countryOptions } from "./data/countries";
+import { countryConfig, providerDateValue, countryFlags, countryOptions } from "./data/countries";
 import { resolveSearchConditions, searchQuery, searchTimeMode, sortResults } from "./utils/searchConditions";
 import { canonicalPathFor, countryFromPath } from "./utils/countryPath";
 import type {
@@ -264,7 +264,6 @@ export default function App() {
   const [previousView, setPreviousView] = useState<AppView>("search");
   const [draftSearch, setDraftSearch] = useState<SearchParams>(initialSearch);
   const activeCountry = draftSearch.country || initialPreferredCountry;
-  const activeTheme = countryThemes[activeCountry] || countryThemes.japan;
   const [searchParams, setSearchParams] = useState<SearchParams>(initialSearch);
   const [results, setResults] = useState<TransitResult[]>([]);
   const [serviceDayAdvisory, setServiceDayAdvisory] = useState<ServiceDayAdvisory | undefined>();
@@ -1803,7 +1802,7 @@ export default function App() {
                       {trip.seatClass ? (
                         <button
                           onClick={() => openSeatPicker(trip)}
-                          className={`m3-button m3-state m3-elevation-1 mt-3 w-full text-white ${activeTheme.buttonBg}`}
+                          className={`m3-button m3-state m3-elevation-1 mt-3 w-full bg-accent text-on-accent`}
                         >
                           {t("result.select_seat")}
                         </button>
@@ -2167,14 +2166,14 @@ export default function App() {
                     key={seat}
                     onClick={() => setSeatChoice(seat)}
                     className={`m3-card m3-state m3-label-large border p-4 text-left ${
-                      seatChoice === seat ? `border-transparent text-white ${activeTheme.buttonBg}` : "border-slate-300 bg-transparent text-slate-900 dark:border-slate-700 dark:text-white"
+                      seatChoice === seat ? "border-transparent bg-accent text-on-accent" : "border-slate-300 bg-transparent text-slate-900 dark:border-slate-700 dark:text-white"
                     }`}
                   >
                     {t(`seat.${seat}`)}
                   </button>
                 ))}
               </div>
-              <button onClick={confirmSeat} className={`m3-button m3-button-icon-leading m3-state m3-elevation-1 w-full text-white ${activeTheme.buttonBg}`}>
+              <button onClick={confirmSeat} className={`m3-button m3-button-icon-leading m3-state m3-elevation-1 w-full bg-accent text-on-accent`}>
                 <Check className="h-[18px] w-[18px]" />
                 {t("seat.confirm")}
               </button>

@@ -10,7 +10,6 @@ import { useId, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
 import type { Country, TransitResult } from "../types";
-import { countryThemes } from "../data/countries";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel, stationListLabel } from "../utils/stationLabel";
 import { formatPlatform } from "./TransitIcon";
@@ -68,7 +67,6 @@ export function TripCard({
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const panelId = `${useId()}-sheet`;
-  const theme = countryThemes[country] || countryThemes.japan;
 
   const legs = bandLegs(trip);
   // The label answers "how tight is this journey", so the tightest change wins.
@@ -185,8 +183,9 @@ export function TripCard({
     <motion.article
       {...tripCardMotion(index, withExit)}
       data-trip-card
+      data-country={country}
       className={`m3-card m3-card-large m3-elevation-1 min-w-0 overflow-hidden border-2 bg-white dark:bg-slate-900 ${
-        tags.next ? theme.borderActive : "border-transparent"
+        tags.next ? "border-accent" : "border-transparent"
       } ${past ? "opacity-60" : ""}`}
     >
       <button

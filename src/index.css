@@ -580,6 +580,62 @@ body {
 }
 
 /*
+ * Country accent. Each market is one OKLCH hue (noted per line); lightness and
+ * chroma are held fixed and only pulled in where the hue leaves sRGB, so every
+ * market clears the same contrast: white on --accent and --accent on
+ * --accent-container are ≥ 4.5:1 in light mode, and in dark mode --accent clears
+ * 4.5:1 on slate-800 and darker with --on-accent as the dark ink on top.
+ *
+ * The accent paints selection chrome only — chosen chips, primary buttons, the
+ * swap control, the next-departure outline. Line colours stay the operator's,
+ * and status (delay, live) keeps its own fixed colours.
+ *
+ * Any element can carry `data-country` to borrow another market's accent, e.g.
+ * a history row for a different country. The bottom navigation deliberately
+ * keeps its earlier per-country palette (countryThemes) and does not read these.
+ */
+@theme inline {
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-accent-container: var(--accent-container);
+}
+
+:root { --on-accent: #ffffff; }
+.dark { --on-accent: #0b1220; }
+
+:root,
+[data-country="japan"] { --accent: #b5491f; --accent-container: #ffebe5; } /* h40 */
+[data-country="korea"] { --accent: #2e6bc2; --accent-container: #e8f1ff; } /* h258 */
+[data-country="singapore"] { --accent: #a6488f; --accent-container: #ffe9f7; } /* h338 */
+[data-country="malaysia"] { --accent: #067d4d; --accent-container: #def8e7; } /* h158 */
+[data-country="thailand"] { --accent: #3f7b04; --accent-container: #e6f6df; } /* h135 */
+[data-country="hong_kong"] { --accent: #077882; --accent-container: #d6f8fb; } /* h205 */
+[data-country="united_kingdom"] { --accent: #6460c3; --accent-container: #edeffe; } /* h282 */
+[data-country="united_states"] { --accent: #5d6e80; --accent-container: #eaf1f8; } /* h250, low chroma */
+[data-country="germany"] { --accent: #8e6402; --accent-container: #fdeed6; } /* h80 */
+[data-country="france"] { --accent: #8555b5; --accent-container: #f4ecfe; } /* h305 */
+[data-country="belgium"] { --accent: #05749d; --accent-container: #e0f4fe; } /* h232 */
+[data-country="norway"] { --accent: #077a6d; --accent-container: #d8f8f2; } /* h182 */
+[data-country="switzerland"] { --accent: #b84548; --accent-container: #feebea; } /* h22 */
+[data-country="china"] { --accent: #a45803; --accent-container: #ffecdf; } /* h58 */
+
+.dark,
+.dark [data-country="japan"] { --accent: #d97856; --accent-container: #402218; }
+.dark [data-country="korea"] { --accent: #5e93e1; --accent-container: #1a2a42; }
+.dark [data-country="singapore"] { --accent: #ca76b3; --accent-container: #3c2234; }
+.dark [data-country="malaysia"] { --accent: #34a56e; --accent-container: #0f301f; }
+.dark [data-country="thailand"] { --accent: #6ba04a; --accent-container: #1e2e14; }
+.dark [data-country="hong_kong"] { --accent: #05a1ae; --accent-container: #022f33; }
+.dark [data-country="united_kingdom"] { --accent: #8989e2; --accent-container: #272743; }
+.dark [data-country="united_states"] { --accent: #8594a4; --accent-container: #232b34; }
+.dark [data-country="germany"] { --accent: #bd891c; --accent-container: #372709; }
+.dark [data-country="france"] { --accent: #a980d6; --accent-container: #31253f; }
+.dark [data-country="belgium"] { --accent: #139dd2; --accent-container: #092e3e; }
+.dark [data-country="norway"] { --accent: #0ca493; --accent-container: #00302a; }
+.dark [data-country="switzerland"] { --accent: #dc7472; --accent-container: #412120; }
+.dark [data-country="china"] { --accent: #d07f3a; --accent-container: #3e2510; }
+
+/*
  * Each country supplies two restrained accent hues for a soft, blurred backdrop,
  * plus a landmark scene (--country-backdrop) drawn as a faint, accent-tinted
  * silhouette anchored to the bottom of the page (see .country-shell::before).

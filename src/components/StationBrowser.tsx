@@ -8,7 +8,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "../i18n";
 import { motion, AnimatePresence, useDragControls, type Variants } from "motion/react";
-import { countryConfig, countryFlags, countryThemes } from "../data/countries";
+import { countryConfig, countryFlags } from "../data/countries";
 import type { Country, TransitLine } from "../types";
 import { triggerHaptic } from "../utils/haptics";
 import { stationLabel } from "../utils/stationLabel";
@@ -53,7 +53,6 @@ export function StationBrowser({
   const { t } = useTranslation();
   const dialogRef = useRef<HTMLElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const theme = countryThemes[country] || countryThemes.japan;
   const stationKeyForCountry = (name: string) => stationSearchKey(resolveStationAlias(country, name));
   const buildAuditHeaders = () => getAuditHeaders(i18n.language, resolveAuditTimezone());
 
@@ -430,7 +429,8 @@ export function StationBrowser({
   };
 
   return (
-    <motion.div 
+    <motion.div
+      data-country={country}
       initial="visible"
       animate="visible"
       exit="hidden"
@@ -547,7 +547,7 @@ export function StationBrowser({
                 onClick={handleUseLocation}
                 disabled={isLocating}
                 aria-busy={isLocating}
-                className={`m3-button m3-button-icon-leading m3-state w-full border disabled:cursor-wait disabled:opacity-60 ${theme.badgeBg}`}
+                className={`m3-button m3-button-icon-leading m3-state w-full border disabled:cursor-wait disabled:opacity-60 border-accent bg-accent-container text-accent`}
               >
                 {isLocating ? (
                   <Loader2 aria-hidden="true" className="h-[18px] w-[18px] animate-spin text-emerald-600 dark:text-emerald-400" />
@@ -559,7 +559,7 @@ export function StationBrowser({
               {locationError && (
                 <div role="alert" className="mt-2 space-y-2">
                   <p className="m3-body-small text-center text-red-700 dark:text-red-400">{locationError}</p>
-                  <button type="button" className={`m3-button m3-state w-full ${theme.buttonBg} text-white`} onClick={() => {
+                  <button type="button" className="m3-button m3-state w-full bg-accent text-on-accent" onClick={() => {
                     setLocationError(null);
                     searchInputRef.current?.focus();
                     searchInputRef.current?.scrollIntoView({ block: "nearest" });
@@ -573,7 +573,7 @@ export function StationBrowser({
         {loadFailed && !isLoading && <div role="alert" className="mx-5 mt-3 space-y-2">
           <p className="m3-body-medium text-slate-700 dark:text-slate-300">{t("stations.unavailable")}</p>
           <div className="flex flex-wrap gap-2">
-            <button type="button" className={`m3-button m3-state ${theme.buttonBg} text-white`} onClick={() => setReloadAttempt(attempt => attempt + 1)}>{t("journey.reload")}</button>
+            <button type="button" className="m3-button m3-state bg-accent text-on-accent" onClick={() => setReloadAttempt(attempt => attempt + 1)}>{t("journey.reload")}</button>
             <button type="button" className="m3-button m3-state border border-slate-300 dark:border-slate-700" onClick={onChooseCountry ?? onBack}>{t("journey.choose_country")}</button>
           </div>
         </div>}
@@ -657,7 +657,7 @@ export function StationBrowser({
                         }}
                         type="button"
                         className={`m3-state m3-label-large flex min-h-12 w-full items-center justify-between gap-1 rounded-r-full px-3 py-2.5 text-left ${
-                          selectedRegion === region.id ? theme.textActive : "text-slate-500 dark:text-slate-400"
+                          selectedRegion === region.id ? "text-accent" : "text-slate-500 dark:text-slate-400"
                         }`}
                       >
                         <span className="truncate">{t(`service_region.${region.id}`)}</span>
@@ -677,7 +677,7 @@ export function StationBrowser({
                                 type="button"
                                 className={`m3-state group relative flex min-h-12 w-full flex-col justify-center rounded-r-full px-4 py-3 text-left ${
                                   selectedCategory === line.id
-                                    ? `${theme.badgeBg} border-l-4 ${theme.borderActive}`
+                                    ? "border-l-4 border-accent bg-accent-container text-accent"
                                     : "text-slate-600 dark:text-slate-400"
                                 }`}
                               >

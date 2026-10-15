@@ -5,7 +5,7 @@
 import { ArrowLeftRight, Clock3, Star, Search, MapPin, ChevronDown, Loader2, Pin, Sparkles } from "lucide-react";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { countryConfig, countryOptions, providerDateTimeValue, providerDateValue, providerDateValues, countryThemes, countryFlags } from "../data/countries";
+import { countryConfig, countryOptions, providerDateTimeValue, providerDateValue, providerDateValues, countryFlags } from "../data/countries";
 import type { Country, SearchHistoryItem, SearchParams, FavoriteRoute, TimeMode } from "../types";
 import { searchTimeMode, nearestAvailableDate } from "../utils/searchConditions";
 import { loadStationCatalog } from "../utils/catalogClient";
@@ -122,7 +122,6 @@ export function SearchForm({
   const timeMode = searchTimeMode(params);
   const date = timeMode === "now" ? providerDateValue(country) : (params.date || providerDateValue(country));
   const currentMarketTime = providerDateTimeValue(country, new Date(), 0).time;
-  const theme = countryThemes[country] || countryThemes.japan;
 
   useEffect(() => {
     setFieldErrors((current) => {
@@ -254,7 +253,7 @@ export function SearchForm({
   };
 
   return (
-    <main className="min-h-screen bg-transparent px-4 pb-nav pt-22 transition-all duration-500">
+    <main data-country={country} className="min-h-screen bg-transparent px-4 pb-nav pt-22 transition-all duration-500">
       <div className="mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)]">
       <section className="mx-auto min-w-0 w-full max-w-md lg:mx-0 lg:max-w-2xl">
 
@@ -280,7 +279,7 @@ export function SearchForm({
               aria-pressed={country === item}
               className={`m3-chip m3-chip-touch m3-state shrink-0 rounded-none border first:rounded-l-lg last:rounded-r-lg [&:not(:first-child)]:-ml-px ${
                 country === item
-                  ? `border-transparent ${countryThemes[item].buttonBg} text-white`
+                  ? "border-transparent bg-accent text-on-accent"
                   : "border-slate-300 bg-transparent text-slate-700 dark:border-slate-700 dark:text-slate-300"
               }`}
             >
@@ -327,7 +326,7 @@ export function SearchForm({
           {/* Stable progress track during network latency */}
           {isSearching && (
             <div className="absolute top-0 left-0 right-0 h-1 overflow-hidden bg-slate-100 dark:bg-slate-800 z-20">
-              <div className={`absolute top-0 bottom-0 ${theme.buttonBg} animate-loading-bar`} />
+              <div className={`absolute top-0 bottom-0 bg-accent animate-loading-bar`} />
             </div>
           )}
           <div className="relative p-6">
@@ -348,7 +347,7 @@ export function SearchForm({
                 aria-describedby={fieldErrors.origin ? "search-origin-error" : undefined}
                 className={`m3-shape-md m3-state group z-10 flex min-h-24 flex-1 flex-col items-center justify-center py-2 text-center ${fieldErrors.origin ? "outline outline-1 outline-red-500" : ""}`}
               >
-                <div className={`m3-label-medium mb-1.5 flex items-center gap-1 ${theme.textActive}`}>
+                <div className={`m3-label-medium mb-1.5 flex items-center gap-1 text-accent`}>
                   <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
                   {t("search.origin")}
                 </div>
@@ -364,7 +363,7 @@ export function SearchForm({
                 <button
                   type="button"
                   onClick={swapStations}
-                  className={`m3-fab m3-fab-small m3-state h-12 w-12 bg-slate-100 dark:bg-slate-800 ${theme.textActive}`}
+                  className={`m3-fab m3-fab-small m3-state h-12 w-12 bg-slate-100 dark:bg-slate-800 text-accent`}
                   aria-label={t("search.swap")}
                 >
                   <ArrowLeftRight aria-hidden="true" className="h-5 w-5" />
@@ -383,7 +382,7 @@ export function SearchForm({
                 aria-describedby={fieldErrors.destination ? "search-destination-error" : undefined}
                 className={`m3-shape-md m3-state group z-10 flex min-h-24 flex-1 flex-col items-center justify-center py-2 text-center ${fieldErrors.destination ? "outline outline-1 outline-red-500" : ""}`}
               >
-                <div className={`m3-label-medium mb-1.5 flex items-center gap-1 ${theme.textActive}`}>
+                <div className={`m3-label-medium mb-1.5 flex items-center gap-1 text-accent`}>
                   <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
                   {t("search.destination")}
                 </div>
@@ -467,11 +466,11 @@ export function SearchForm({
                         aria-pressed={isSelected}
                         className={`m3-card m3-state m3-label-large flex min-h-18 min-w-[72px] shrink-0 snap-start flex-col items-center justify-center border p-3 text-center ${
                           isSelected
-                            ? theme.badgeBg
+                            ? "border-accent bg-accent-container text-accent"
                             : "border-slate-300 bg-transparent text-slate-600 dark:border-slate-700 dark:text-slate-300"
                         }`}
                       >
-                        <span className={`m3-label-small mb-1.5 ${isSelected ? theme.dateLabelSelected : "text-slate-400 dark:text-slate-400"}`}>{label}</span>
+                        <span className={`m3-label-small mb-1.5 ${isSelected ? "text-accent" : "text-slate-400 dark:text-slate-400"}`}>{label}</span>
                         <span className="m3-title-small leading-tight">{monthStr}</span>
                         <span className="m3-title-medium leading-tight">{dayStr}</span>
                       </button>
@@ -522,7 +521,7 @@ export function SearchForm({
                         }}
                         className={`m3-state m3-label-large flex min-h-12 min-w-0 items-center justify-center px-2 py-2 text-center leading-tight ${
                           selected
-                            ? theme.badgeBg
+                            ? "border-accent bg-accent-container text-accent"
                             : "bg-transparent text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
                         }`}
                       >
@@ -557,7 +556,7 @@ export function SearchForm({
                 aria-label={isSearching ? t("search.searching") : canSearchTimetable ? t("search.search_timetable", { defaultValue: "查詢時刻表" }) : t("search.timetable_unavailable", { defaultValue: "時刻表尚未提供" })}
                 type="button"
                 aria-busy={isSearching}
-                className={`m3-button m3-button-large m3-state m3-elevation-1 flex-1 ${theme.buttonBg} text-white disabled:cursor-wait disabled:opacity-60`}
+                className={`m3-button m3-button-large m3-state m3-elevation-1 flex-1 bg-accent text-on-accent disabled:cursor-wait disabled:opacity-60`}
               >
                 {isSearching ? t("search.searching") : canSearchTimetable ? t("search.search_timetable", { defaultValue: "查詢時刻表" }) : t("search.timetable_unavailable_short", { defaultValue: "暫無時刻表" })}
               </button>
@@ -610,7 +609,7 @@ export function SearchForm({
                       <span className="mx-1.5 text-slate-400">&rarr;</span>
                       {stationLabel(t, fav.destination, fav.country)}
                     </span>
-                    <span className={`m3-label-medium mt-0.5 block ${countryThemes[fav.country]?.textActive || "text-slate-400"}`}>
+                    <span data-country={fav.country} className="m3-label-medium mt-0.5 block text-accent">
                       {countryFlags[fav.country] || ""} {t(countryConfig[fav.country].labelKey)}
                     </span>
                   </button>
@@ -657,7 +656,7 @@ export function SearchForm({
                       {stationLabel(t, item.destination, item.country)}
                     </span>
                     <span className="m3-label-medium mt-0.5 block tabular-nums text-slate-500 dark:text-slate-400">
-                      {item.date} · <span className={`font-bold ${countryThemes[item.country]?.textActive || ""}`}>{countryFlags[item.country] || ""} {t(countryConfig[item.country].labelKey)}</span>
+                      {item.date} · <span data-country={item.country} className="font-bold text-accent">{countryFlags[item.country] || ""} {t(countryConfig[item.country].labelKey)}</span>
                     </span>
                   </button>
                   <div className="flex items-center gap-2 shrink-0">
@@ -736,7 +735,6 @@ export function SearchForm({
           </div>
           <div className="flex gap-3 overflow-x-auto px-0.5 pb-2 soft-scrollbar">
             {hotRoutes.map((route) => {
-              const routeTheme = countryThemes[route.country as Country] || theme;
               return (
                 <button
                   key={`${route.country}-${route.origin}-${route.destination}`}
@@ -758,7 +756,7 @@ export function SearchForm({
                   }}
                   className="m3-chip m3-chip-touch m3-state m3-elevation-1 shrink-0 bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-300"
                 >
-                  <span className={`m3-label-small ${routeTheme.textActive}`}>
+                  <span data-country={route.country} className="m3-label-small text-accent">
                     {countryFlags[route.country] || ""} {t(countryConfig[route.country as Country].labelKey)}
                   </span>
                   <span>{route.label}</span>
