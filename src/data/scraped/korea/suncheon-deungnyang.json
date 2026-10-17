@@ -1,8 +1,8 @@
 {
   "origin": "Suncheon",
   "destination": "Deungnyang",
-  "date": "2026-10-16..2026-10-22",
-  "scrapedAt": "2026-10-14T00:44:19.359Z",
+  "date": "2026-10-17..2026-10-25",
+  "scrapedAt": "2026-10-17T00:03:41.441Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
@@ -11,7 +11,7 @@
       "effectiveFrom": "2026-10-01",
       "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
       "effectiveUntil": "2026-10-31",
-      "retrievedAt": "2026-10-14T00:44:16.015Z",
+      "retrievedAt": "2026-10-17T00:03:38.031Z",
       "exclusions": []
     },
     {
@@ -20,7 +20,7 @@
       "effectiveFrom": "2026-10-01",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
       "effectiveUntil": "2026-10-31",
-      "retrievedAt": "2026-10-14T00:44:16.828Z",
+      "retrievedAt": "2026-10-17T00:03:38.816Z",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
         "Korail excluded 서해선 1231: published start or end time missing",
@@ -35,136 +35,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-10-16-regular-경전선-9-3",
-      "country": "korea",
-      "date": "2026-10-16",
-      "operator": "Korail",
-      "service": "무궁화 1991",
-      "trainType": "무궁화",
-      "origin": "Suncheon",
-      "destination": "Deungnyang",
-      "departureTime": "07:38",
-      "arrivalTime": "08:26",
-      "durationMinutes": 48,
-      "direct": true,
-      "stops": [
-        "Suncheon",
-        "Beolgyo",
-        "Joseong",
-        "Yedang",
-        "Deungnyang"
-      ],
-      "headsign": "Deungnyang",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1991",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Suncheon",
-          "destination": "Beolgyo",
-          "departureTime": "07:38",
-          "arrivalTime": "08:02",
-          "durationMinutes": 24
-        },
-        {
-          "lineName": "무궁화 1991",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Beolgyo",
-          "destination": "Joseong",
-          "departureTime": "08:02",
-          "arrivalTime": "08:14",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "무궁화 1991",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Joseong",
-          "destination": "Yedang",
-          "departureTime": "08:14",
-          "arrivalTime": "08:20",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 1991",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Yedang",
-          "destination": "Deungnyang",
-          "departureTime": "08:20",
-          "arrivalTime": "08:26",
-          "durationMinutes": 6
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-16-regular-경전선-9-6",
-      "country": "korea",
-      "date": "2026-10-16",
-      "operator": "Korail",
-      "service": "무궁화 1993",
-      "trainType": "무궁화",
-      "origin": "Suncheon",
-      "destination": "Deungnyang",
-      "departureTime": "10:04",
-      "arrivalTime": "10:52",
-      "durationMinutes": 48,
-      "direct": true,
-      "stops": [
-        "Suncheon",
-        "Beolgyo",
-        "Joseong",
-        "Yedang",
-        "Deungnyang"
-      ],
-      "headsign": "Deungnyang",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1993",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Suncheon",
-          "destination": "Beolgyo",
-          "departureTime": "10:04",
-          "arrivalTime": "10:28",
-          "durationMinutes": 24
-        },
-        {
-          "lineName": "무궁화 1993",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Beolgyo",
-          "destination": "Joseong",
-          "departureTime": "10:28",
-          "arrivalTime": "10:40",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "무궁화 1993",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Joseong",
-          "destination": "Yedang",
-          "departureTime": "10:40",
-          "arrivalTime": "10:46",
-          "durationMinutes": 6
-        },
-        {
-          "lineName": "무궁화 1993",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Yedang",
-          "destination": "Deungnyang",
-          "departureTime": "10:46",
-          "arrivalTime": "10:52",
-          "durationMinutes": 6
-        }
-      ]
-    },
     {
       "id": "korail-2026-10-17-regular-경전선-9-3",
       "country": "korea",
@@ -944,6 +814,396 @@
           "durationMinutes": 6
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-23-regular-경전선-9-3",
+      "country": "korea",
+      "date": "2026-10-23",
+      "operator": "Korail",
+      "service": "무궁화 1991",
+      "trainType": "무궁화",
+      "origin": "Suncheon",
+      "destination": "Deungnyang",
+      "departureTime": "07:38",
+      "arrivalTime": "08:26",
+      "durationMinutes": 48,
+      "direct": true,
+      "stops": [
+        "Suncheon",
+        "Beolgyo",
+        "Joseong",
+        "Yedang",
+        "Deungnyang"
+      ],
+      "headsign": "Deungnyang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1991",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Beolgyo",
+          "departureTime": "07:38",
+          "arrivalTime": "08:02",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1991",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Beolgyo",
+          "destination": "Joseong",
+          "departureTime": "08:02",
+          "arrivalTime": "08:14",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1991",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Joseong",
+          "destination": "Yedang",
+          "departureTime": "08:14",
+          "arrivalTime": "08:20",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1991",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Yedang",
+          "destination": "Deungnyang",
+          "departureTime": "08:20",
+          "arrivalTime": "08:26",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-23-regular-경전선-9-6",
+      "country": "korea",
+      "date": "2026-10-23",
+      "operator": "Korail",
+      "service": "무궁화 1993",
+      "trainType": "무궁화",
+      "origin": "Suncheon",
+      "destination": "Deungnyang",
+      "departureTime": "10:04",
+      "arrivalTime": "10:52",
+      "durationMinutes": 48,
+      "direct": true,
+      "stops": [
+        "Suncheon",
+        "Beolgyo",
+        "Joseong",
+        "Yedang",
+        "Deungnyang"
+      ],
+      "headsign": "Deungnyang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1993",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Beolgyo",
+          "departureTime": "10:04",
+          "arrivalTime": "10:28",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1993",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Beolgyo",
+          "destination": "Joseong",
+          "departureTime": "10:28",
+          "arrivalTime": "10:40",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1993",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Joseong",
+          "destination": "Yedang",
+          "departureTime": "10:40",
+          "arrivalTime": "10:46",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1993",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Yedang",
+          "destination": "Deungnyang",
+          "departureTime": "10:46",
+          "arrivalTime": "10:52",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-24-regular-경전선-9-3",
+      "country": "korea",
+      "date": "2026-10-24",
+      "operator": "Korail",
+      "service": "무궁화 1991",
+      "trainType": "무궁화",
+      "origin": "Suncheon",
+      "destination": "Deungnyang",
+      "departureTime": "07:38",
+      "arrivalTime": "08:26",
+      "durationMinutes": 48,
+      "direct": true,
+      "stops": [
+        "Suncheon",
+        "Beolgyo",
+        "Joseong",
+        "Yedang",
+        "Deungnyang"
+      ],
+      "headsign": "Deungnyang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1991",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Beolgyo",
+          "departureTime": "07:38",
+          "arrivalTime": "08:02",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1991",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Beolgyo",
+          "destination": "Joseong",
+          "departureTime": "08:02",
+          "arrivalTime": "08:14",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1991",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Joseong",
+          "destination": "Yedang",
+          "departureTime": "08:14",
+          "arrivalTime": "08:20",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1991",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Yedang",
+          "destination": "Deungnyang",
+          "departureTime": "08:20",
+          "arrivalTime": "08:26",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-24-regular-경전선-9-6",
+      "country": "korea",
+      "date": "2026-10-24",
+      "operator": "Korail",
+      "service": "무궁화 1993",
+      "trainType": "무궁화",
+      "origin": "Suncheon",
+      "destination": "Deungnyang",
+      "departureTime": "10:04",
+      "arrivalTime": "10:52",
+      "durationMinutes": 48,
+      "direct": true,
+      "stops": [
+        "Suncheon",
+        "Beolgyo",
+        "Joseong",
+        "Yedang",
+        "Deungnyang"
+      ],
+      "headsign": "Deungnyang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1993",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Beolgyo",
+          "departureTime": "10:04",
+          "arrivalTime": "10:28",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1993",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Beolgyo",
+          "destination": "Joseong",
+          "departureTime": "10:28",
+          "arrivalTime": "10:40",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1993",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Joseong",
+          "destination": "Yedang",
+          "departureTime": "10:40",
+          "arrivalTime": "10:46",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1993",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Yedang",
+          "destination": "Deungnyang",
+          "departureTime": "10:46",
+          "arrivalTime": "10:52",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-25-regular-경전선-9-3",
+      "country": "korea",
+      "date": "2026-10-25",
+      "operator": "Korail",
+      "service": "무궁화 1991",
+      "trainType": "무궁화",
+      "origin": "Suncheon",
+      "destination": "Deungnyang",
+      "departureTime": "07:38",
+      "arrivalTime": "08:26",
+      "durationMinutes": 48,
+      "direct": true,
+      "stops": [
+        "Suncheon",
+        "Beolgyo",
+        "Joseong",
+        "Yedang",
+        "Deungnyang"
+      ],
+      "headsign": "Deungnyang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1991",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Beolgyo",
+          "departureTime": "07:38",
+          "arrivalTime": "08:02",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1991",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Beolgyo",
+          "destination": "Joseong",
+          "departureTime": "08:02",
+          "arrivalTime": "08:14",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1991",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Joseong",
+          "destination": "Yedang",
+          "departureTime": "08:14",
+          "arrivalTime": "08:20",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1991",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Yedang",
+          "destination": "Deungnyang",
+          "departureTime": "08:20",
+          "arrivalTime": "08:26",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-25-regular-경전선-9-6",
+      "country": "korea",
+      "date": "2026-10-25",
+      "operator": "Korail",
+      "service": "무궁화 1993",
+      "trainType": "무궁화",
+      "origin": "Suncheon",
+      "destination": "Deungnyang",
+      "departureTime": "10:04",
+      "arrivalTime": "10:52",
+      "durationMinutes": 48,
+      "direct": true,
+      "stops": [
+        "Suncheon",
+        "Beolgyo",
+        "Joseong",
+        "Yedang",
+        "Deungnyang"
+      ],
+      "headsign": "Deungnyang",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1993",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Suncheon",
+          "destination": "Beolgyo",
+          "departureTime": "10:04",
+          "arrivalTime": "10:28",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "무궁화 1993",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Beolgyo",
+          "destination": "Joseong",
+          "departureTime": "10:28",
+          "arrivalTime": "10:40",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1993",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Joseong",
+          "destination": "Yedang",
+          "departureTime": "10:40",
+          "arrivalTime": "10:46",
+          "durationMinutes": 6
+        },
+        {
+          "lineName": "무궁화 1993",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Yedang",
+          "destination": "Deungnyang",
+          "departureTime": "10:46",
+          "arrivalTime": "10:52",
+          "durationMinutes": 6
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -954,7 +1214,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-14T00:44:19.100Z",
+    "fetchedAt": "2026-10-17T00:03:41.169Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
