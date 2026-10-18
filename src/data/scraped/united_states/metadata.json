@@ -5,17 +5,11 @@
   "sourceUrl": "https://api-v3.mbta.com",
   "sourceTier": "A",
   "fetchedAt": "2026-10-18T00:06:09.771Z",
-  "builtAt": "2026-10-18T00:06:34.413Z",
+  "builtAt": "2026-10-18T23:46:13.533Z",
   "recordCount": 11595,
   "routeCount": 8,
-  "successRate": 0.9861,
-  "failedRoutes": [
-    {
-      "origin": "Boston College",
-      "destination": "Park Street",
-      "error": "locator.waitFor: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator('[role=option]').filter({ hasText: 'Boston College' }).first() to be visible\n"
-    }
-  ],
+  "successRate": null,
+  "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 8,
     "emptyRoutes": 0,
