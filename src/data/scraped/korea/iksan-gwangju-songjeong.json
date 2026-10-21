@@ -1,8 +1,8 @@
 {
   "origin": "Iksan",
   "destination": "Gwangju songjeong",
-  "date": "2026-10-20..2026-10-26",
-  "scrapedAt": "2026-10-17T23:37:16.540Z",
+  "date": "2026-10-21..2026-10-29",
+  "scrapedAt": "2026-10-21T00:15:09.293Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
@@ -11,7 +11,7 @@
       "effectiveFrom": "2026-10-01",
       "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
       "effectiveUntil": "2026-10-31",
-      "retrievedAt": "2026-10-17T23:37:12.317Z",
+      "retrievedAt": "2026-10-21T00:15:06.705Z",
       "exclusions": []
     },
     {
@@ -20,7 +20,7 @@
       "effectiveFrom": "2026-10-01",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
       "effectiveUntil": "2026-10-31",
-      "retrievedAt": "2026-10-17T23:37:13.348Z",
+      "retrievedAt": "2026-10-21T00:15:07.431Z",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
         "Korail excluded 서해선 1231: published start or end time missing",
@@ -35,38 +35,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-10-19-ktx-호남선-71-2-next-day",
-      "country": "korea",
-      "date": "2026-10-20",
-      "operator": "Korail",
-      "service": "KTX 635",
-      "trainType": "KTX",
-      "origin": "Iksan",
-      "destination": "Gwangju songjeong",
-      "departureTime": "00:13",
-      "arrivalTime": "00:42",
-      "durationMinutes": 29,
-      "direct": true,
-      "stops": [
-        "Iksan",
-        "Gwangju songjeong"
-      ],
-      "headsign": "Gwangju songjeong",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 635",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Gwangju songjeong",
-          "departureTime": "00:13",
-          "arrivalTime": "00:42",
-          "durationMinutes": 29
-        }
-      ]
-    },
     {
       "id": "korail-2026-10-20-ktx-호남선-71-2-next-day",
       "country": "korea",
@@ -258,6 +226,102 @@
           "durationMinutes": 29
         }
       ]
+    },
+    {
+      "id": "korail-2026-10-26-ktx-호남선-71-2-next-day",
+      "country": "korea",
+      "date": "2026-10-27",
+      "operator": "Korail",
+      "service": "KTX 635",
+      "trainType": "KTX",
+      "origin": "Iksan",
+      "destination": "Gwangju songjeong",
+      "departureTime": "00:13",
+      "arrivalTime": "00:42",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Iksan",
+        "Gwangju songjeong"
+      ],
+      "headsign": "Gwangju songjeong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 635",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Gwangju songjeong",
+          "departureTime": "00:13",
+          "arrivalTime": "00:42",
+          "durationMinutes": 29
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-27-ktx-호남선-71-2-next-day",
+      "country": "korea",
+      "date": "2026-10-28",
+      "operator": "Korail",
+      "service": "KTX 635",
+      "trainType": "KTX",
+      "origin": "Iksan",
+      "destination": "Gwangju songjeong",
+      "departureTime": "00:13",
+      "arrivalTime": "00:42",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Iksan",
+        "Gwangju songjeong"
+      ],
+      "headsign": "Gwangju songjeong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 635",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Gwangju songjeong",
+          "departureTime": "00:13",
+          "arrivalTime": "00:42",
+          "durationMinutes": 29
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-10-28-ktx-호남선-71-2-next-day",
+      "country": "korea",
+      "date": "2026-10-29",
+      "operator": "Korail",
+      "service": "KTX 635",
+      "trainType": "KTX",
+      "origin": "Iksan",
+      "destination": "Gwangju songjeong",
+      "departureTime": "00:13",
+      "arrivalTime": "00:42",
+      "durationMinutes": 29,
+      "direct": true,
+      "stops": [
+        "Iksan",
+        "Gwangju songjeong"
+      ],
+      "headsign": "Gwangju songjeong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 635",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Gwangju songjeong",
+          "departureTime": "00:13",
+          "arrivalTime": "00:42",
+          "durationMinutes": 29
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -268,7 +332,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-17T23:37:16.193Z",
+    "fetchedAt": "2026-10-21T00:15:09.078Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
