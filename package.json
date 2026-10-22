@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
-    "build": "tsx scripts/generate-station-catalog.ts && tsx scripts/generate-route-pages.ts && tsx scripts/generate-sitemaps.ts && vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+    "build": "tsx scripts/generate-station-catalog.ts && tsx scripts/generate-route-pages.ts && tsx scripts/generate-sitemaps.ts && vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs && tsx scripts/pack-scraped-data.ts",
     "start": "node dist/server.cjs",
     "catalog": "tsx scripts/generate-station-catalog.ts",
     "inspect:gtfs": "tsx scripts/inspect-gtfs-feed.ts",

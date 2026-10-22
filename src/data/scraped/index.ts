@@ -1,4 +1,3 @@
-import { readFileSync, readdirSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import type { TransitResult, Country } from "../../types";
@@ -14,6 +13,7 @@ import {
   type KoreanSubwayArtifact,
 } from "../koreanSubwayArtifact";
 import { buildSourceMeta } from "../sourceRegistry";
+import { PACKED_DATA_DIR, packedData, sourceTreeData, type ScrapedDataSource } from "./storage";
 import { providerDateValue } from "../countries";
 import { stationSearchKey } from "../stationKey";
 import {
@@ -49,7 +49,7 @@ export interface ScrapedSearchabilityResult {
 }
 
 // Resolve the data directory relative to this file, regardless of CJS or ESM.
-function resolveDataDir(): string {
+function resolveDataSource(): ScrapedDataSource {
   let dir = "";
   if (typeof import.meta !== "undefined" && import.meta.url) {
     dir = dirname(fileURLToPath(import.meta.url));
@@ -64,15 +64,18 @@ function resolveDataDir(): string {
 
   // If we are in development, the directory is already /src/data/scraped or similar
   if (dir && (dir.endsWith("scraped") || dir.endsWith("scraped/"))) {
-    return dir;
+    return sourceTreeData(dir);
   }
 
   // Otherwise, we are likely bundled (e.g. in 'dist', 'api', or some Vercel build folder)
   // We can use process.cwd() as it is extremely stable across dev and Vercel!
-  return join(process.cwd(), "src/data/scraped");
+  // A bundle reads the pack built beside it (see ./storage), which is the only
+  // copy a deployment ships; without one it falls back to the source tree.
+  return packedData(join(process.cwd(), PACKED_DATA_DIR))
+    ?? sourceTreeData(join(process.cwd(), "src/data/scraped"));
 }
 
-const ACTUAL_DATA_DIR = resolveDataDir();
+const DATA = resolveDataSource();
 
 const ALL_COUNTRIES: Country[] = [
   "japan", "korea", "singapore", "malaysia", "thailand",
@@ -135,10 +138,9 @@ function routeSelection(country: Country, date?: string) {
 function loadKoreanArtifacts(): KoreanSubwayArtifact[] {
   const artifacts: KoreanSubwayArtifact[] = [];
   for (const file of KOREAN_ARTIFACT_FILES) {
-    const path = join(ACTUAL_DATA_DIR, "korea", file);
-    if (!existsSync(path)) continue;
+    if (!DATA.exists("korea", file)) continue;
     try {
-      const artifact = decodeKoreanSubwayArtifact(readFileSync(path));
+      const artifact = decodeKoreanSubwayArtifact(DATA.read("korea", file));
       precomputeKoreanReachability(artifact);
       artifacts.push(artifact);
     } catch (error) {
@@ -163,15 +165,10 @@ function koreanArtifactDecision(date?: string): SearchabilityDecision | undefine
 function loadDir(country: string): ScrapedRouteData[] {
   const data: ScrapedRouteData[] = [];
   try {
-    const dirPath = join(ACTUAL_DATA_DIR, country);
-    if (!existsSync(dirPath)) {
-      return data;
-    }
-    const files = readdirSync(dirPath);
-    for (const file of files) {
+    for (const file of DATA.list(country)) {
       if (!file.endsWith(".json") || file === "metadata.json") continue;
       try {
-        const content = readFileSync(join(dirPath, file), "utf-8");
+        const content = DATA.read(country, file).toString("utf-8");
         // Classify with the country's own policy, not just its identity. Passing
         // only `expectedCountry` let a handful of live rows for today stamp the
         // whole file `realtime`/`verified`, even when every other date in it was

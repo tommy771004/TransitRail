@@ -2,10 +2,11 @@
   "version": 2,
   "functions": {
     "api/index.ts": {
-      "includeFiles": "src/data/scraped/**"
+      "includeFiles": "build/scraped/**",
+      "excludeFiles": "src/data/scraped/**"
     },
     "api/sitemap.ts": {
-      "includeFiles": "src/data/scraped/**"
+      "includeFiles": "public/sitemap.xml"
     }
   },
   "headers": [
