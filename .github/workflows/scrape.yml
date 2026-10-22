@@ -223,18 +223,40 @@ jobs:
       - name: Catch up with commits merged during the scrape
         run: git -c user.name="TransitRail Scraper Bot" -c user.email="scraper@transitrail.app" pull --ff-only --autostash origin "${{ github.ref_name }}"
 
-      # Publish the validated source-of-truth artifacts before rebuilding any
+      # Commit the validated source-of-truth artifacts before rebuilding any
       # derived browsing catalog. A provider directory outage or catalog bug
-      # must never strand a good timetable on the ephemeral runner again.
+      # must never strand a good timetable on the ephemeral runner again: if
+      # anything after this fails, "Publish" still pushes this commit alone.
+      #
+      # It is not pushed here. Vercel ignores [skip ci] and deploys every push
+      # to main, so pushing the data and then the catalog a minute later made
+      # two full production deployments a night, the first superseded at once.
+      # One push carrying both commits deploys once, at its head.
+      #
+      # Plain git rather than git-auto-commit-action, whose v5 always pushes.
+      # `ls-files` lists the changed files first because `git add` fails on a
+      # pattern that matches nothing; `:(glob)` keeps `*` within one directory.
       - name: Commit validated transit data
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: update transit scraped data [skip ci]"
-          file_pattern: "src/data/scraped/*.json src/data/scraped/*/*.json src/data/scraped/*/*.json.gz src/data/service-day/*.json src/data/catalog/*.json"
-          commit_user_name: "TransitRail Scraper Bot"
-          commit_user_email: "scraper@transitrail.app"
+        id: commit_data
+        run: |
+          mapfile -t files < <(git ls-files --modified --others --exclude-standard -- \
+            ':(glob)src/data/scraped/*.json' ':(glob)src/data/scraped/*/*.json' ':(glob)src/data/scraped/*/*.json.gz' \
+            ':(glob)src/data/service-day/*.json' ':(glob)src/data/catalog/*.json')
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "changes_detected=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git add -- "${files[@]}"
+          git -c user.name="TransitRail Scraper Bot" -c user.email="scraper@transitrail.app" commit \
+            --author="${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>" \
+            -m "chore: update transit scraped data [skip ci]"
+          echo "changes_detected=true" >> "$GITHUB_OUTPUT"
 
       - name: Generate static station catalog
+        # A normal pass takes about a minute. A hung directory provider must fail
+        # this step, not run out the job clock: a cancelled job skips "Publish"
+        # and would strand the data commit above.
+        timeout-minutes: 15
         env:
           # The UK menu is built from the same TfL API the timetable scrape uses.
           TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
@@ -260,16 +282,40 @@ jobs:
       - name: Check generated output formatting
         run: git diff --check
 
+      # The data commit is still local, so a merge that landed meanwhile has to
+      # go under it rather than fast-forward past it. Code merges never touch the
+      # scraped files, so the rebase replays cleanly.
       - name: Catch up with commits merged during catalog generation
-        run: git -c user.name="TransitRail Scraper Bot" -c user.email="scraper@transitrail.app" pull --ff-only --autostash origin "${{ github.ref_name }}"
+        run: git -c user.name="TransitRail Scraper Bot" -c user.email="scraper@transitrail.app" pull --rebase --autostash origin "${{ github.ref_name }}"
 
       - name: Commit generated station catalog
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: update generated station catalog [skip ci]"
-          file_pattern: "public/catalog/*.json SOURCE_COVERAGE.md"
-          commit_user_name: "TransitRail Scraper Bot"
-          commit_user_email: "scraper@transitrail.app"
+        id: commit_catalog
+        run: |
+          mapfile -t files < <(git ls-files --modified --others --exclude-standard -- \
+            ':(glob)public/catalog/*.json' SOURCE_COVERAGE.md)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "changes_detected=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git add -- "${files[@]}"
+          git -c user.name="TransitRail Scraper Bot" -c user.email="scraper@transitrail.app" commit \
+            --author="${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>" \
+            -m "chore: update generated station catalog [skip ci]"
+          echo "changes_detected=true" >> "$GITHUB_OUTPUT"
+
+      # The one push of the night, and so its one production deployment. It runs
+      # after a failed catalog step too (`!cancelled()`), publishing the data
+      # commit by itself. A merge can still land between the catch-up and here;
+      # rebase onto it and retry rather than lose the run to a rejected push.
+      - name: Publish
+        if: ${{ !cancelled() && (steps.commit_data.outputs.changes_detected == 'true' || steps.commit_catalog.outputs.changes_detected == 'true') }}
+        run: |
+          for attempt in 1 2 3; do
+            git push origin "HEAD:${{ github.ref_name }}" && exit 0
+            git -c user.name="TransitRail Scraper Bot" -c user.email="scraper@transitrail.app" pull --rebase --autostash origin "${{ github.ref_name }}"
+          done
+          echo "::error::Could not push the validated data after three attempts."
+          exit 1
 
       - name: Notify saved-route subscribers of timetable changes
         env:

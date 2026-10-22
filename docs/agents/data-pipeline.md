@@ -78,6 +78,10 @@ daily; `scripts/scrape-plan.ts` calls a full pass as soon as committed data stop
 offered window — the steady-state cadence, and it self-heals after a failed run. `npm run
 prune:past` then drops past service days, which a pass only prunes for the dates it collected.
 
+A run pushes once. The data and catalog commits are made locally and the `Publish` step pushes
+them together, because Vercel ignores `[skip ci]` and builds a production deployment for every push
+to main. A failed catalog step still publishes the data commit alone; never add a second push.
+
 The publication gate is per market. The workflow runs `validate:data --against-head
 --quarantine-blocked`: a market with a blocking finding is restored to HEAD
 (`scripts/lib/marketQuarantine.ts` owns its scraped directory, service-day artifact and
