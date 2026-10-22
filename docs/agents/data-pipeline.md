@@ -35,6 +35,12 @@ cite, provided the hash still matches. The board wins wherever it lists an editi
 `BaseScraper.saveRoute` replaces the collected date's slice while preserving other dates, so a
 stored row answers only its exact service date and a failed fetch keeps the previous verified file.
 
+Route files stay plain JSON in git. A deployment ships a gzipped copy instead: `npm run build`
+ends by packing `src/data/scraped` into `build/scraped` (`src/data/scraped/storage.ts`), the bundled
+server reads that pack, and `vercel.json` includes the pack while excluding the plain tree from
+`api/index.ts`. Any new runtime reader of scraped files goes through the loader's data source, not
+a direct `fs` path — the plain files are not in the deployed function.
+
 ## Windows
 
 All three constants live in `src/data/countries.ts`, and `SCRAPE_WINDOW_DAYS` is *computed* —

@@ -1,7 +1,7 @@
 /**
  * Flat sitemap XML builder. Used by:
  * - scripts/generate-sitemaps.ts (optional static children + public mirror)
- * - api/sitemap.ts (canonical GSC endpoint — always HTTP 200 application/xml)
+ * - api/sitemap.ts serves the public/sitemap.xml it writes
  */
 import { readFileSync } from "fs";
 import { resolve } from "path";
