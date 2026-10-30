@@ -236,10 +236,13 @@ jobs:
       # Plain git rather than git-auto-commit-action, whose v5 always pushes.
       # `ls-files` lists the changed files first because `git add` fails on a
       # pattern that matches nothing; `:(glob)` keeps `*` within one directory.
+      # `-z` is required: without it git quotes non-ASCII paths (Japan's
+      # `一宮-高松築港.json` came back as `"...\344\270\200..."`), and `git add`
+      # rejected that quoted name as a pathspec matching nothing.
       - name: Commit validated transit data
         id: commit_data
         run: |
-          mapfile -t files < <(git ls-files --modified --others --exclude-standard -- \
+          mapfile -d "" -t files < <(git ls-files -z --modified --others --exclude-standard -- \
             ':(glob)src/data/scraped/*.json' ':(glob)src/data/scraped/*/*.json' ':(glob)src/data/scraped/*/*.json.gz' \
             ':(glob)src/data/service-day/*.json' ':(glob)src/data/catalog/*.json')
           if [ "${#files[@]}" -eq 0 ]; then
@@ -291,7 +294,7 @@ jobs:
       - name: Commit generated station catalog
         id: commit_catalog
         run: |
-          mapfile -t files < <(git ls-files --modified --others --exclude-standard -- \
+          mapfile -d "" -t files < <(git ls-files -z --modified --others --exclude-standard -- \
             ':(glob)public/catalog/*.json' SOURCE_COVERAGE.md)
           if [ "${#files[@]}" -eq 0 ]; then
             echo "changes_detected=false" >> "$GITHUB_OUTPUT"
