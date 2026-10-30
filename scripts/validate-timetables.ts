@@ -20,7 +20,7 @@ import { appendFileSync, mkdtempSync, mkdirSync, readdirSync, rmSync, writeFileS
 import { tmpdir } from "os";
 import { join } from "path";
 import { getStationsForCountry } from "../src/server/catalog";
-import { configuredCountryOptions } from "../src/data/countries";
+import { configuredCountryOptions, countryConfig, providerDateValue } from "../src/data/countries";
 import { resolveStationAlias } from "../src/data/stationAliases";
 import { createTimetableScrapers } from "./scrapers/registry";
 import type { Country } from "../src/types";
@@ -64,7 +64,7 @@ async function knownStationsByCountry(): Promise<Record<string, Set<string>>> {
  * version actually published, not whatever an earlier step in the same job
  * happened to leave behind.
  */
-function baselineRowCounts(): CountryRowCounts | undefined {
+function baselineRowCounts(servingFrom: (country: string) => string | undefined): CountryRowCounts | undefined {
   let directory: string | undefined;
   try {
     const listed = execFileSync("git", ["ls-tree", "-r", "--name-only", "HEAD", "src/data/scraped/"], {
@@ -81,7 +81,7 @@ function baselineRowCounts(): CountryRowCounts | undefined {
       mkdirSync(join(target, ".."), { recursive: true });
       writeFileSync(target, execFileSync("git", ["show", `HEAD:${path}`], { encoding: "utf-8", maxBuffer: 1 << 30 }));
     }
-    return countRowsByCountry({ dataDir: directory });
+    return countRowsByCountry({ dataDir: directory, servingFrom });
   } catch (error) {
     console.warn(`Could not read the committed baseline, skipping the data-loss guard: ${error instanceof Error ? error.message : error}`);
     return undefined;
@@ -112,9 +112,13 @@ async function main() {
   });
 
   if (process.argv.includes("--against-head")) {
-    const baseline = baselineRowCounts();
+    // Both sides count only service days a search can still ask for, so a
+    // baseline whose rows have aged past is not mistaken for data to lose.
+    const servingFrom = (country: string) =>
+      country in countryConfig ? providerDateValue(country as Country) : undefined;
+    const baseline = baselineRowCounts(servingFrom);
     if (baseline) {
-      report.findings.push(...detectRowLossRegressions(baseline, countRowsByCountry()));
+      report.findings.push(...detectRowLossRegressions(baseline, countRowsByCountry({ servingFrom })));
     }
   }
 

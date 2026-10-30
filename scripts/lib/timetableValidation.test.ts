@@ -1,4 +1,6 @@
-import { readFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { parseGtfsFeed } from "../../src/server/gtfs/feed";
 import { collectGtfsJourneys } from "../../src/server/gtfs/journeys";
 import { buildGtfsTimetable } from "../../src/server/gtfs/timetable";
@@ -8,6 +10,7 @@ import type { ScrapedRouteData } from "../../src/data/scraped/timetableDay";
 import { buildSourceMeta } from "../../src/data/sourceRegistry";
 import {
   VALIDATION_CHECKS,
+  countRowsByCountry,
   detectRowLossRegressions,
   hasBlockingFindings,
   summarizeFindings,
@@ -155,6 +158,32 @@ describe("check 3 — reversed times", () => {
       route: route([row({ departureTime: "23:30", arrivalTime: "01:10", durationMinutes: 100 })]),
     });
     expect(checksFrom(findings)).not.toContain("reversed-times");
+  });
+
+  // Run #161: MBTA's 01:22 EDT departure on the night US clocks went back
+  // arrived 01:09 EST, and blocked every United States route from publishing.
+  it("accepts the hour a fall-back adds on the night it happens", () => {
+    const findings = validateRoute({
+      country: "united_states",
+      route: route([row({ country: "united_states", date: "2026-10-31", departureTime: "01:22", arrivalTime: "01:09", durationMinutes: 47 })], { date: "2026-10-31" }),
+    });
+    expect(checksFrom(findings)).not.toContain("reversed-times");
+  });
+
+  it("accepts the hour a spring-forward removes", () => {
+    const findings = validateRoute({
+      country: "united_states",
+      route: route([row({ country: "united_states", date: "2026-03-08", departureTime: "01:30", arrivalTime: "03:20", durationMinutes: 50 })], { date: "2026-03-08" }),
+    });
+    expect(checksFrom(findings)).not.toContain("reversed-times");
+  });
+
+  it("still blocks the same times on a night the clocks stay put", () => {
+    const findings = validateRoute({
+      country: "united_states",
+      route: route([row({ country: "united_states", date: "2026-10-20", departureTime: "01:22", arrivalTime: "01:09", durationMinutes: 47 })], { date: "2026-10-20" }),
+    });
+    expect(findings).toContainEqual(expect.objectContaining({ check: "reversed-times", severity: "blocking" }));
   });
 });
 
@@ -367,5 +396,24 @@ describe("data-loss guard", () => {
 
   it("treats a country disappearing entirely as data loss", () => {
     expect(detectRowLossRegressions({ korea: 500 }, {})).toHaveLength(1);
+  });
+
+  // Run #161: Korea's committed rows were all for past days, so a run that
+  // covered the two days its Korail edition had left read as a 74% loss.
+  it("counts only the service days a search can still ask for", () => {
+    const dataDir = mkdtempSync(join(tmpdir(), "transitrail-rows-"));
+    try {
+      mkdirSync(join(dataDir, "korea"));
+      const dated = (date: string) => row({ id: `${date}-row`, country: "korea", date });
+      writeFileSync(join(dataDir, "korea", "seoul-busan.json"), JSON.stringify(route([
+        dated("2026-10-28"), dated("2026-10-29"), dated("2026-10-30"), row({ id: "undated", date: undefined }),
+      ])));
+      expect(countRowsByCountry({ dataDir })).toEqual({ korea: 4 });
+      expect(countRowsByCountry({ dataDir, servingFrom: () => "2026-10-30" })).toEqual({ korea: 2 });
+      // A dateless row cannot be shown to be past, so it still counts.
+      expect(countRowsByCountry({ dataDir, servingFrom: () => "2026-10-31" })).toEqual({ korea: 1 });
+    } finally {
+      rmSync(dataDir, { recursive: true, force: true });
+    }
   });
 });
