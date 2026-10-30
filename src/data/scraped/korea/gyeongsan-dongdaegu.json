@@ -1,8 +1,8 @@
 {
   "origin": "Gyeongsan",
   "destination": "Dongdaegu",
-  "date": "2026-10-22..2026-10-29",
-  "scrapedAt": "2026-10-21T00:15:09.295Z",
+  "date": "2026-10-30..2026-10-31",
+  "scrapedAt": "2026-10-30T05:15:52.740Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
@@ -11,7 +11,7 @@
       "effectiveFrom": "2026-10-01",
       "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
       "effectiveUntil": "2026-10-31",
-      "retrievedAt": "2026-10-21T00:15:06.705Z",
+      "retrievedAt": "2026-10-30T05:15:50.525Z",
       "exclusions": []
     },
     {
@@ -20,7 +20,7 @@
       "effectiveFrom": "2026-10-01",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
       "effectiveUntil": "2026-10-31",
-      "retrievedAt": "2026-10-21T00:15:07.431Z",
+      "retrievedAt": "2026-10-30T05:15:52.416Z",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
         "Korail excluded 서해선 1231: published start or end time missing",
@@ -36,9 +36,9 @@
   ],
   "results": [
     {
-      "id": "korail-2026-10-21-regular-경부선-67-40-next-day",
+      "id": "korail-2026-10-29-regular-경부선-67-40-next-day",
       "country": "korea",
-      "date": "2026-10-22",
+      "date": "2026-10-30",
       "operator": "Korail",
       "service": "ITX-새마을 1146",
       "trainType": "ITX-새마을",
@@ -68,201 +68,9 @@
       ]
     },
     {
-      "id": "korail-2026-10-22-regular-경부선-67-40-next-day",
+      "id": "korail-2026-10-30-regular-경부선-67-40-next-day",
       "country": "korea",
-      "date": "2026-10-23",
-      "operator": "Korail",
-      "service": "ITX-새마을 1146",
-      "trainType": "ITX-새마을",
-      "origin": "Gyeongsan",
-      "destination": "Dongdaegu",
-      "departureTime": "00:01",
-      "arrivalTime": "00:11",
-      "durationMinutes": 10,
-      "direct": true,
-      "stops": [
-        "Gyeongsan",
-        "Dongdaegu"
-      ],
-      "headsign": "Dongdaegu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-새마을 1146",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gyeongsan",
-          "destination": "Dongdaegu",
-          "departureTime": "00:01",
-          "arrivalTime": "00:11",
-          "durationMinutes": 10
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-23-regular-경부선-67-40-next-day",
-      "country": "korea",
-      "date": "2026-10-24",
-      "operator": "Korail",
-      "service": "ITX-새마을 1146",
-      "trainType": "ITX-새마을",
-      "origin": "Gyeongsan",
-      "destination": "Dongdaegu",
-      "departureTime": "00:01",
-      "arrivalTime": "00:11",
-      "durationMinutes": 10,
-      "direct": true,
-      "stops": [
-        "Gyeongsan",
-        "Dongdaegu"
-      ],
-      "headsign": "Dongdaegu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-새마을 1146",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gyeongsan",
-          "destination": "Dongdaegu",
-          "departureTime": "00:01",
-          "arrivalTime": "00:11",
-          "durationMinutes": 10
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-24-regular-경부선-67-40-next-day",
-      "country": "korea",
-      "date": "2026-10-25",
-      "operator": "Korail",
-      "service": "ITX-새마을 1146",
-      "trainType": "ITX-새마을",
-      "origin": "Gyeongsan",
-      "destination": "Dongdaegu",
-      "departureTime": "00:01",
-      "arrivalTime": "00:11",
-      "durationMinutes": 10,
-      "direct": true,
-      "stops": [
-        "Gyeongsan",
-        "Dongdaegu"
-      ],
-      "headsign": "Dongdaegu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-새마을 1146",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gyeongsan",
-          "destination": "Dongdaegu",
-          "departureTime": "00:01",
-          "arrivalTime": "00:11",
-          "durationMinutes": 10
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-25-regular-경부선-67-40-next-day",
-      "country": "korea",
-      "date": "2026-10-26",
-      "operator": "Korail",
-      "service": "ITX-새마을 1146",
-      "trainType": "ITX-새마을",
-      "origin": "Gyeongsan",
-      "destination": "Dongdaegu",
-      "departureTime": "00:01",
-      "arrivalTime": "00:11",
-      "durationMinutes": 10,
-      "direct": true,
-      "stops": [
-        "Gyeongsan",
-        "Dongdaegu"
-      ],
-      "headsign": "Dongdaegu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-새마을 1146",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gyeongsan",
-          "destination": "Dongdaegu",
-          "departureTime": "00:01",
-          "arrivalTime": "00:11",
-          "durationMinutes": 10
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-26-regular-경부선-67-40-next-day",
-      "country": "korea",
-      "date": "2026-10-27",
-      "operator": "Korail",
-      "service": "ITX-새마을 1146",
-      "trainType": "ITX-새마을",
-      "origin": "Gyeongsan",
-      "destination": "Dongdaegu",
-      "departureTime": "00:01",
-      "arrivalTime": "00:11",
-      "durationMinutes": 10,
-      "direct": true,
-      "stops": [
-        "Gyeongsan",
-        "Dongdaegu"
-      ],
-      "headsign": "Dongdaegu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-새마을 1146",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gyeongsan",
-          "destination": "Dongdaegu",
-          "departureTime": "00:01",
-          "arrivalTime": "00:11",
-          "durationMinutes": 10
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-27-regular-경부선-67-40-next-day",
-      "country": "korea",
-      "date": "2026-10-28",
-      "operator": "Korail",
-      "service": "ITX-새마을 1146",
-      "trainType": "ITX-새마을",
-      "origin": "Gyeongsan",
-      "destination": "Dongdaegu",
-      "departureTime": "00:01",
-      "arrivalTime": "00:11",
-      "durationMinutes": 10,
-      "direct": true,
-      "stops": [
-        "Gyeongsan",
-        "Dongdaegu"
-      ],
-      "headsign": "Dongdaegu",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-새마을 1146",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gyeongsan",
-          "destination": "Dongdaegu",
-          "departureTime": "00:01",
-          "arrivalTime": "00:11",
-          "durationMinutes": 10
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-28-regular-경부선-67-40-next-day",
-      "country": "korea",
-      "date": "2026-10-29",
+      "date": "2026-10-31",
       "operator": "Korail",
       "service": "ITX-새마을 1146",
       "trainType": "ITX-새마을",
@@ -300,7 +108,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-21T00:15:09.078Z",
+    "fetchedAt": "2026-10-30T05:15:52.639Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

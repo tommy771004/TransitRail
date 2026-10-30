@@ -1,8 +1,8 @@
 {
   "origin": "Iksan",
   "destination": "Gwangju",
-  "date": "2026-10-22..2026-10-29",
-  "scrapedAt": "2026-10-21T00:15:09.222Z",
+  "date": "2026-10-30..2026-10-31",
+  "scrapedAt": "2026-10-30T05:15:52.700Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
@@ -11,7 +11,7 @@
       "effectiveFrom": "2026-10-01",
       "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
       "effectiveUntil": "2026-10-31",
-      "retrievedAt": "2026-10-21T00:15:06.705Z",
+      "retrievedAt": "2026-10-30T05:15:50.525Z",
       "exclusions": []
     },
     {
@@ -20,7 +20,7 @@
       "effectiveFrom": "2026-10-01",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
       "effectiveUntil": "2026-10-31",
-      "retrievedAt": "2026-10-21T00:15:07.431Z",
+      "retrievedAt": "2026-10-30T05:15:52.416Z",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
         "Korail excluded 서해선 1231: published start or end time missing",
@@ -36,9 +36,9 @@
   ],
   "results": [
     {
-      "id": "korail-2026-10-22-regular-호남선-9-20",
+      "id": "korail-2026-10-30-regular-호남선-9-20",
       "country": "korea",
-      "date": "2026-10-22",
+      "date": "2026-10-30",
       "operator": "Korail",
       "service": "ITX-마음 1301",
       "trainType": "ITX-마음",
@@ -112,465 +112,9 @@
       ]
     },
     {
-      "id": "korail-2026-10-23-regular-호남선-9-20",
+      "id": "korail-2026-10-31-regular-호남선-9-20",
       "country": "korea",
-      "date": "2026-10-23",
-      "operator": "Korail",
-      "service": "ITX-마음 1301",
-      "trainType": "ITX-마음",
-      "origin": "Iksan",
-      "destination": "Gwangju",
-      "departureTime": "22:15",
-      "arrivalTime": "23:32",
-      "durationMinutes": 77,
-      "direct": true,
-      "stops": [
-        "Iksan",
-        "Gimje",
-        "Sintaein",
-        "Jeongeup",
-        "Jangseong",
-        "Gwangju"
-      ],
-      "headsign": "Gwangju",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Gimje",
-          "departureTime": "22:15",
-          "arrivalTime": "22:28",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gimje",
-          "destination": "Sintaein",
-          "departureTime": "22:28",
-          "arrivalTime": "22:38",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Sintaein",
-          "destination": "Jeongeup",
-          "departureTime": "22:38",
-          "arrivalTime": "22:48",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jeongeup",
-          "destination": "Jangseong",
-          "departureTime": "22:48",
-          "arrivalTime": "23:07",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jangseong",
-          "destination": "Gwangju",
-          "departureTime": "23:07",
-          "arrivalTime": "23:32",
-          "durationMinutes": 25
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-24-regular-호남선-9-20",
-      "country": "korea",
-      "date": "2026-10-24",
-      "operator": "Korail",
-      "service": "ITX-마음 1301",
-      "trainType": "ITX-마음",
-      "origin": "Iksan",
-      "destination": "Gwangju",
-      "departureTime": "22:15",
-      "arrivalTime": "23:32",
-      "durationMinutes": 77,
-      "direct": true,
-      "stops": [
-        "Iksan",
-        "Gimje",
-        "Sintaein",
-        "Jeongeup",
-        "Jangseong",
-        "Gwangju"
-      ],
-      "headsign": "Gwangju",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Gimje",
-          "departureTime": "22:15",
-          "arrivalTime": "22:28",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gimje",
-          "destination": "Sintaein",
-          "departureTime": "22:28",
-          "arrivalTime": "22:38",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Sintaein",
-          "destination": "Jeongeup",
-          "departureTime": "22:38",
-          "arrivalTime": "22:48",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jeongeup",
-          "destination": "Jangseong",
-          "departureTime": "22:48",
-          "arrivalTime": "23:07",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jangseong",
-          "destination": "Gwangju",
-          "departureTime": "23:07",
-          "arrivalTime": "23:32",
-          "durationMinutes": 25
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-25-regular-호남선-9-20",
-      "country": "korea",
-      "date": "2026-10-25",
-      "operator": "Korail",
-      "service": "ITX-마음 1301",
-      "trainType": "ITX-마음",
-      "origin": "Iksan",
-      "destination": "Gwangju",
-      "departureTime": "22:15",
-      "arrivalTime": "23:32",
-      "durationMinutes": 77,
-      "direct": true,
-      "stops": [
-        "Iksan",
-        "Gimje",
-        "Sintaein",
-        "Jeongeup",
-        "Jangseong",
-        "Gwangju"
-      ],
-      "headsign": "Gwangju",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Gimje",
-          "departureTime": "22:15",
-          "arrivalTime": "22:28",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gimje",
-          "destination": "Sintaein",
-          "departureTime": "22:28",
-          "arrivalTime": "22:38",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Sintaein",
-          "destination": "Jeongeup",
-          "departureTime": "22:38",
-          "arrivalTime": "22:48",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jeongeup",
-          "destination": "Jangseong",
-          "departureTime": "22:48",
-          "arrivalTime": "23:07",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jangseong",
-          "destination": "Gwangju",
-          "departureTime": "23:07",
-          "arrivalTime": "23:32",
-          "durationMinutes": 25
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-26-regular-호남선-9-20",
-      "country": "korea",
-      "date": "2026-10-26",
-      "operator": "Korail",
-      "service": "ITX-마음 1301",
-      "trainType": "ITX-마음",
-      "origin": "Iksan",
-      "destination": "Gwangju",
-      "departureTime": "22:15",
-      "arrivalTime": "23:32",
-      "durationMinutes": 77,
-      "direct": true,
-      "stops": [
-        "Iksan",
-        "Gimje",
-        "Sintaein",
-        "Jeongeup",
-        "Jangseong",
-        "Gwangju"
-      ],
-      "headsign": "Gwangju",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Gimje",
-          "departureTime": "22:15",
-          "arrivalTime": "22:28",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gimje",
-          "destination": "Sintaein",
-          "departureTime": "22:28",
-          "arrivalTime": "22:38",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Sintaein",
-          "destination": "Jeongeup",
-          "departureTime": "22:38",
-          "arrivalTime": "22:48",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jeongeup",
-          "destination": "Jangseong",
-          "departureTime": "22:48",
-          "arrivalTime": "23:07",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jangseong",
-          "destination": "Gwangju",
-          "departureTime": "23:07",
-          "arrivalTime": "23:32",
-          "durationMinutes": 25
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-27-regular-호남선-9-20",
-      "country": "korea",
-      "date": "2026-10-27",
-      "operator": "Korail",
-      "service": "ITX-마음 1301",
-      "trainType": "ITX-마음",
-      "origin": "Iksan",
-      "destination": "Gwangju",
-      "departureTime": "22:15",
-      "arrivalTime": "23:32",
-      "durationMinutes": 77,
-      "direct": true,
-      "stops": [
-        "Iksan",
-        "Gimje",
-        "Sintaein",
-        "Jeongeup",
-        "Jangseong",
-        "Gwangju"
-      ],
-      "headsign": "Gwangju",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Gimje",
-          "departureTime": "22:15",
-          "arrivalTime": "22:28",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gimje",
-          "destination": "Sintaein",
-          "departureTime": "22:28",
-          "arrivalTime": "22:38",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Sintaein",
-          "destination": "Jeongeup",
-          "departureTime": "22:38",
-          "arrivalTime": "22:48",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jeongeup",
-          "destination": "Jangseong",
-          "departureTime": "22:48",
-          "arrivalTime": "23:07",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jangseong",
-          "destination": "Gwangju",
-          "departureTime": "23:07",
-          "arrivalTime": "23:32",
-          "durationMinutes": 25
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-28-regular-호남선-9-20",
-      "country": "korea",
-      "date": "2026-10-28",
-      "operator": "Korail",
-      "service": "ITX-마음 1301",
-      "trainType": "ITX-마음",
-      "origin": "Iksan",
-      "destination": "Gwangju",
-      "departureTime": "22:15",
-      "arrivalTime": "23:32",
-      "durationMinutes": 77,
-      "direct": true,
-      "stops": [
-        "Iksan",
-        "Gimje",
-        "Sintaein",
-        "Jeongeup",
-        "Jangseong",
-        "Gwangju"
-      ],
-      "headsign": "Gwangju",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Gimje",
-          "departureTime": "22:15",
-          "arrivalTime": "22:28",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Gimje",
-          "destination": "Sintaein",
-          "departureTime": "22:28",
-          "arrivalTime": "22:38",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Sintaein",
-          "destination": "Jeongeup",
-          "departureTime": "22:38",
-          "arrivalTime": "22:48",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jeongeup",
-          "destination": "Jangseong",
-          "departureTime": "22:48",
-          "arrivalTime": "23:07",
-          "durationMinutes": 19
-        },
-        {
-          "lineName": "ITX-마음 1301",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Jangseong",
-          "destination": "Gwangju",
-          "departureTime": "23:07",
-          "arrivalTime": "23:32",
-          "durationMinutes": 25
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-29-regular-호남선-9-20",
-      "country": "korea",
-      "date": "2026-10-29",
+      "date": "2026-10-31",
       "operator": "Korail",
       "service": "ITX-마음 1301",
       "trainType": "ITX-마음",
@@ -652,7 +196,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-21T00:15:09.078Z",
+    "fetchedAt": "2026-10-30T05:15:52.639Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

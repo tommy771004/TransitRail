@@ -2,250 +2,11 @@
   "origin": "Antwerpen-Centraal",
   "destination": "Brussels-Luxembourg",
   "date": "2026-10-30..2026-11-07",
-  "scrapedAt": "2026-10-30T04:06:53.804Z",
+  "scrapedAt": "2026-10-30T05:26:32.777Z",
   "source": "iRail official NMBS/SNCB connections API",
   "results": [
     {
       "id": "2026-10-30-be-irail-0",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 3126 + S8 6554",
-      "trainType": "IC + S8",
-      "durationMinutes": 63,
-      "departureTime": "05:05",
-      "arrivalTime": "06:08",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mortsel-Oude God",
-        "Mechelen-Nekkerspoel",
-        "Mechelen",
-        "Vilvoorde",
-        "Brussels-Schuman"
-      ],
-      "platform": "21",
-      "headsign": "Brussels-South/Brussels-Midi",
-      "realtime": true,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 3126",
-          "lineCode": "BE.NMBS.IC3126",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "05:05",
-          "arrivalTime": "05:51",
-          "durationMinutes": 46,
-          "platform": "21",
-          "headsign": "Brussels-South/Brussels-Midi",
-          "stopCount": 5,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mortsel-Oude God",
-            "Mechelen-Nekkerspoel",
-            "Mechelen",
-            "Vilvoorde"
-          ]
-        },
-        {
-          "lineName": "S8 6554",
-          "lineCode": "BE.NMBS.S86554",
-          "color": "#4B5563",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "05:58",
-          "arrivalTime": "06:08",
-          "durationMinutes": 10,
-          "platform": "7",
-          "headsign": "Brussels-South/Brussels-Midi",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-10-30"
-    },
-    {
-      "id": "2026-10-30-be-irail-1",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 2605 + S19 4028",
-      "trainType": "IC + S19",
-      "durationMinutes": 78,
-      "departureTime": "05:48",
-      "arrivalTime": "07:06",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mechelen",
-        "Bordet",
-        "Brussels-Schuman"
-      ],
-      "platform": "24",
-      "headsign": "Nivelles",
-      "realtime": true,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 2605",
-          "lineCode": "BE.NMBS.IC2605",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels Airport - Zaventem",
-          "destLat": 50.896456,
-          "destLng": 4.482076,
-          "departureTime": "05:48",
-          "arrivalTime": "06:19",
-          "durationMinutes": 31,
-          "platform": "24",
-          "headsign": "Hasselt",
-          "stopCount": 2,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mechelen"
-          ]
-        },
-        {
-          "lineName": "S19 4028",
-          "lineCode": "BE.NMBS.S194028",
-          "color": "#4B5563",
-          "mode": "train",
-          "origin": "Brussels Airport - Zaventem",
-          "originLat": 50.896456,
-          "originLng": 4.482076,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "06:47",
-          "arrivalTime": "07:06",
-          "durationMinutes": 19,
-          "platform": "2",
-          "headsign": "Nivelles",
-          "stopCount": 2,
-          "stops": [
-            "Bordet",
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels Airport - Zaventem"
-      ],
-      "date": "2026-10-30"
-    },
-    {
-      "id": "2026-10-30-be-irail-2",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 3127 + S8 6555",
-      "trainType": "IC + S8",
-      "durationMinutes": 63,
-      "departureTime": "06:05",
-      "arrivalTime": "07:08",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mortsel-Oude God",
-        "Mechelen-Nekkerspoel",
-        "Mechelen",
-        "Vilvoorde",
-        "Brussels-Schuman"
-      ],
-      "platform": "23",
-      "headsign": "Brussels-South/Brussels-Midi",
-      "realtime": true,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 3127",
-          "lineCode": "BE.NMBS.IC3127",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "06:05",
-          "arrivalTime": "06:51",
-          "durationMinutes": 46,
-          "platform": "23",
-          "headsign": "Brussels-South/Brussels-Midi",
-          "stopCount": 5,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mortsel-Oude God",
-            "Mechelen-Nekkerspoel",
-            "Mechelen",
-            "Vilvoorde"
-          ]
-        },
-        {
-          "lineName": "S8 6555",
-          "lineCode": "BE.NMBS.S86555",
-          "color": "#4B5563",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "06:58",
-          "arrivalTime": "07:08",
-          "durationMinutes": 10,
-          "platform": "7",
-          "headsign": "Brussels-South/Brussels-Midi",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-10-30"
-    },
-    {
-      "id": "2026-10-30-be-irail-3",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 2028 + S8 3956",
@@ -326,7 +87,7 @@
       "date": "2026-10-30"
     },
     {
-      "id": "2026-10-30-be-irail-4",
+      "id": "2026-10-30-be-irail-1",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 2606 + S19 4029",
@@ -403,7 +164,7 @@
       "date": "2026-10-30"
     },
     {
-      "id": "2026-10-30-be-irail-5",
+      "id": "2026-10-30-be-irail-2",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 4528 + S8 6556",
@@ -484,14 +245,251 @@
       "date": "2026-10-30"
     },
     {
+      "id": "2026-10-30-be-irail-3",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 3128 + S5 3579",
+      "trainType": "IC + S5",
+      "durationMinutes": 70,
+      "departureTime": "07:05",
+      "arrivalTime": "08:15",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Antwerp-Berchem",
+        "Mortsel-Oude God",
+        "Mechelen-Nekkerspoel",
+        "Mechelen",
+        "Haren",
+        "Bordet",
+        "Evere",
+        "Meiser",
+        "Brussels-Schuman"
+      ],
+      "platform": "24",
+      "headsign": "Geraardsbergen",
+      "realtime": true,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 3128",
+          "lineCode": "BE.NMBS.IC3128",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Vilvoorde",
+          "destLat": 50.924583,
+          "destLng": 4.432823,
+          "departureTime": "07:05",
+          "arrivalTime": "07:42",
+          "durationMinutes": 37,
+          "platform": "24",
+          "headsign": "Brussels-South/Brussels-Midi",
+          "stopCount": 4,
+          "stops": [
+            "Antwerp-Berchem",
+            "Mortsel-Oude God",
+            "Mechelen-Nekkerspoel",
+            "Mechelen"
+          ]
+        },
+        {
+          "lineName": "S5 3579",
+          "lineCode": "BE.NMBS.S53579",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Vilvoorde",
+          "originLat": 50.924583,
+          "originLng": 4.432823,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "07:53",
+          "arrivalTime": "08:15",
+          "durationMinutes": 22,
+          "platform": "4",
+          "headsign": "Geraardsbergen",
+          "stopCount": 5,
+          "stops": [
+            "Haren",
+            "Bordet",
+            "Evere",
+            "Meiser",
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Vilvoorde"
+      ],
+      "date": "2026-10-30"
+    },
+    {
+      "id": "2026-10-30-be-irail-4",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "P 7227 + IC 13708",
+      "trainType": "P + IC",
+      "durationMinutes": 76,
+      "departureTime": "07:19",
+      "arrivalTime": "08:35",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Antwerp-Berchem",
+        "Mechelen",
+        "Bordet",
+        "Brussels-Schuman"
+      ],
+      "platform": "24",
+      "headsign": "Brussels-South/Brussels-Midi",
+      "realtime": true,
+      "warning": "Brux.-Midi/Brus.-Zuid - Ottignies",
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "P 7227",
+          "lineCode": "BE.NMBS.P7227",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels Airport - Zaventem",
+          "destLat": 50.896456,
+          "destLng": 4.482076,
+          "departureTime": "07:19",
+          "arrivalTime": "07:52",
+          "durationMinutes": 33,
+          "platform": "24",
+          "headsign": "Brussels Airport - Zaventem",
+          "stopCount": 2,
+          "stops": [
+            "Antwerp-Berchem",
+            "Mechelen"
+          ]
+        },
+        {
+          "lineName": "IC 13708",
+          "lineCode": "BE.NMBS.IC13708",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels Airport - Zaventem",
+          "originLat": 50.896456,
+          "originLng": 4.482076,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:17",
+          "arrivalTime": "08:35",
+          "durationMinutes": 18,
+          "platform": "2",
+          "headsign": "Brussels-South/Brussels-Midi",
+          "stopCount": 2,
+          "stops": [
+            "Bordet",
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels Airport - Zaventem"
+      ],
+      "date": "2026-10-30"
+    },
+    {
+      "id": "2026-10-30-be-irail-5",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "EUR 9310 + S8 3957",
+      "trainType": "EUR + S8",
+      "durationMinutes": 67,
+      "departureTime": "07:33",
+      "arrivalTime": "08:40",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Brussels-Central",
+        "Brussels-North",
+        "Brussels-Schuman"
+      ],
+      "platform": "23",
+      "headsign": "Brussels-South/Brussels-Midi",
+      "realtime": true,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "EUR 9310",
+          "lineCode": "BE.NMBS.EUR9310",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "07:33",
+          "arrivalTime": "08:06",
+          "durationMinutes": 33,
+          "platform": "23",
+          "headsign": "Paris Nord"
+        },
+        {
+          "lineName": "S8 3957",
+          "lineCode": "BE.NMBS.S83957",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:20",
+          "arrivalTime": "08:40",
+          "durationMinutes": 20,
+          "platform": "13",
+          "headsign": "Brussels-South/Brussels-Midi",
+          "stopCount": 3,
+          "stops": [
+            "Brussels-Central",
+            "Brussels-North",
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-10-30"
+    },
+    {
       "id": "2026-10-31-be-irail-0",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 3127 + S8 6555",
+      "service": "IC 3128 + S8 6556",
       "trainType": "IC + S8",
       "durationMinutes": 62,
-      "departureTime": "06:06",
-      "arrivalTime": "07:08",
+      "departureTime": "07:06",
+      "arrivalTime": "08:08",
       "origin": "Antwerp-Central",
       "originLat": 51.2172,
       "originLng": 4.421101,
@@ -508,15 +506,15 @@
         "Vilvoorde",
         "Brussels-Schuman"
       ],
-      "platform": "24",
+      "platform": "21",
       "headsign": "Brussels-South/Brussels-Midi",
       "realtime": false,
       "warning": "Anvers-Central / Antwerpen-Centraal - Malines / Mechelen - Brux.-Midi/Brus.-Zuid",
       "lineColor": "#0055A4",
       "legs": [
         {
-          "lineName": "IC 3127",
-          "lineCode": "BE.NMBS.IC3127",
+          "lineName": "IC 3128",
+          "lineCode": "BE.NMBS.IC3128",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Antwerp-Central",
@@ -525,10 +523,10 @@
           "destination": "Brussels-North",
           "destLat": 50.859663,
           "destLng": 4.360846,
-          "departureTime": "06:06",
-          "arrivalTime": "06:51",
+          "departureTime": "07:06",
+          "arrivalTime": "07:51",
           "durationMinutes": 45,
-          "platform": "24",
+          "platform": "21",
           "headsign": "Charleroi-Central",
           "stopCount": 6,
           "stops": [
@@ -541,8 +539,8 @@
           ]
         },
         {
-          "lineName": "S8 6555",
-          "lineCode": "BE.NMBS.S86555",
+          "lineName": "S8 6556",
+          "lineCode": "BE.NMBS.S86556",
           "color": "#4B5563",
           "mode": "train",
           "origin": "Brussels-North",
@@ -551,8 +549,8 @@
           "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
           "destLat": 50.838943,
           "destLng": 4.373674,
-          "departureTime": "06:58",
-          "arrivalTime": "07:08",
+          "departureTime": "07:58",
+          "arrivalTime": "08:08",
           "durationMinutes": 10,
           "platform": "7",
           "headsign": "Brussels-South/Brussels-Midi",
@@ -571,90 +569,6 @@
       "id": "2026-10-31-be-irail-1",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 3128 + S8 6556",
-      "trainType": "IC + S8",
-      "durationMinutes": 62,
-      "departureTime": "07:06",
-      "arrivalTime": "08:08",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mortsel-Oude God",
-        "Sint-Katelijne-Waver",
-        "Mechelen-Nekkerspoel",
-        "Mechelen",
-        "Vilvoorde",
-        "Brussels-Schuman"
-      ],
-      "platform": "21",
-      "headsign": "Brussels-South/Brussels-Midi",
-      "realtime": false,
-      "warning": "Anvers-Central / Antwerpen-Centraal - Malines / Mechelen - Brux.-Midi/Brus.-Zuid",
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 3128",
-          "lineCode": "BE.NMBS.IC3128",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "07:06",
-          "arrivalTime": "07:51",
-          "durationMinutes": 45,
-          "platform": "21",
-          "headsign": "Charleroi-Central",
-          "stopCount": 6,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mortsel-Oude God",
-            "Sint-Katelijne-Waver",
-            "Mechelen-Nekkerspoel",
-            "Mechelen",
-            "Vilvoorde"
-          ]
-        },
-        {
-          "lineName": "S8 6556",
-          "lineCode": "BE.NMBS.S86556",
-          "color": "#4B5563",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "07:58",
-          "arrivalTime": "08:08",
-          "durationMinutes": 10,
-          "platform": "7",
-          "headsign": "Brussels-South/Brussels-Midi",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-10-31"
-    },
-    {
-      "id": "2026-10-31-be-irail-2",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
       "service": "IC 2607 + S5 3379",
       "trainType": "IC + S5",
       "durationMinutes": 61,
@@ -739,7 +653,7 @@
       "date": "2026-10-31"
     },
     {
-      "id": "2026-10-31-be-irail-3",
+      "id": "2026-10-31-be-irail-2",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 3129 + S8 6557",
@@ -823,7 +737,7 @@
       "date": "2026-10-31"
     },
     {
-      "id": "2026-10-31-be-irail-4",
+      "id": "2026-10-31-be-irail-3",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "EC 9212 + S19 4030",
@@ -900,7 +814,7 @@
       "date": "2026-10-31"
     },
     {
-      "id": "2026-10-31-be-irail-5",
+      "id": "2026-10-31-be-irail-4",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 2608 + S5 3380",
@@ -987,14 +901,14 @@
       "date": "2026-10-31"
     },
     {
-      "id": "2026-11-01-be-irail-0",
+      "id": "2026-10-31-be-irail-5",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 3127 + S8 6555",
+      "service": "IC 3130 + S8 6558",
       "trainType": "IC + S8",
       "durationMinutes": 62,
-      "departureTime": "06:06",
-      "arrivalTime": "07:08",
+      "departureTime": "09:06",
+      "arrivalTime": "10:08",
       "origin": "Antwerp-Central",
       "originLat": 51.2172,
       "originLng": 4.421101,
@@ -1018,8 +932,8 @@
       "lineColor": "#0055A4",
       "legs": [
         {
-          "lineName": "IC 3127",
-          "lineCode": "BE.NMBS.IC3127",
+          "lineName": "IC 3130",
+          "lineCode": "BE.NMBS.IC3130",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Antwerp-Central",
@@ -1028,8 +942,8 @@
           "destination": "Brussels-North",
           "destLat": 50.859663,
           "destLng": 4.360846,
-          "departureTime": "06:06",
-          "arrivalTime": "06:51",
+          "departureTime": "09:06",
+          "arrivalTime": "09:51",
           "durationMinutes": 45,
           "platform": "24",
           "headsign": "Charleroi-Central",
@@ -1044,8 +958,8 @@
           ]
         },
         {
-          "lineName": "S8 6555",
-          "lineCode": "BE.NMBS.S86555",
+          "lineName": "S8 6558",
+          "lineCode": "BE.NMBS.S86558",
           "color": "#4B5563",
           "mode": "train",
           "origin": "Brussels-North",
@@ -1054,8 +968,92 @@
           "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
           "destLat": 50.838943,
           "destLng": 4.373674,
-          "departureTime": "06:58",
-          "arrivalTime": "07:08",
+          "departureTime": "09:58",
+          "arrivalTime": "10:08",
+          "durationMinutes": 10,
+          "platform": "7",
+          "headsign": "Brussels-South/Brussels-Midi",
+          "stopCount": 1,
+          "stops": [
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-North"
+      ],
+      "date": "2026-10-31"
+    },
+    {
+      "id": "2026-11-01-be-irail-0",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 3128 + S8 6556",
+      "trainType": "IC + S8",
+      "durationMinutes": 62,
+      "departureTime": "07:06",
+      "arrivalTime": "08:08",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Antwerp-Berchem",
+        "Mortsel-Oude God",
+        "Sint-Katelijne-Waver",
+        "Mechelen-Nekkerspoel",
+        "Mechelen",
+        "Vilvoorde",
+        "Brussels-Schuman"
+      ],
+      "platform": "21",
+      "headsign": "Brussels-South/Brussels-Midi",
+      "realtime": false,
+      "warning": "Anvers-Central / Antwerpen-Centraal - Malines / Mechelen - Brux.-Midi/Brus.-Zuid",
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 3128",
+          "lineCode": "BE.NMBS.IC3128",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-North",
+          "destLat": 50.859663,
+          "destLng": 4.360846,
+          "departureTime": "07:06",
+          "arrivalTime": "07:51",
+          "durationMinutes": 45,
+          "platform": "21",
+          "headsign": "Charleroi-Central",
+          "stopCount": 6,
+          "stops": [
+            "Antwerp-Berchem",
+            "Mortsel-Oude God",
+            "Sint-Katelijne-Waver",
+            "Mechelen-Nekkerspoel",
+            "Mechelen",
+            "Vilvoorde"
+          ]
+        },
+        {
+          "lineName": "S8 6556",
+          "lineCode": "BE.NMBS.S86556",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Brussels-North",
+          "originLat": 50.859663,
+          "originLng": 4.360846,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "07:58",
+          "arrivalTime": "08:08",
           "durationMinutes": 10,
           "platform": "7",
           "headsign": "Brussels-South/Brussels-Midi",
@@ -1074,90 +1072,6 @@
       "id": "2026-11-01-be-irail-1",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 3128 + S8 6556",
-      "trainType": "IC + S8",
-      "durationMinutes": 62,
-      "departureTime": "07:06",
-      "arrivalTime": "08:08",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mortsel-Oude God",
-        "Sint-Katelijne-Waver",
-        "Mechelen-Nekkerspoel",
-        "Mechelen",
-        "Vilvoorde",
-        "Brussels-Schuman"
-      ],
-      "platform": "21",
-      "headsign": "Brussels-South/Brussels-Midi",
-      "realtime": false,
-      "warning": "Anvers-Central / Antwerpen-Centraal - Malines / Mechelen - Brux.-Midi/Brus.-Zuid",
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 3128",
-          "lineCode": "BE.NMBS.IC3128",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "07:06",
-          "arrivalTime": "07:51",
-          "durationMinutes": 45,
-          "platform": "21",
-          "headsign": "Charleroi-Central",
-          "stopCount": 6,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mortsel-Oude God",
-            "Sint-Katelijne-Waver",
-            "Mechelen-Nekkerspoel",
-            "Mechelen",
-            "Vilvoorde"
-          ]
-        },
-        {
-          "lineName": "S8 6556",
-          "lineCode": "BE.NMBS.S86556",
-          "color": "#4B5563",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "07:58",
-          "arrivalTime": "08:08",
-          "durationMinutes": 10,
-          "platform": "7",
-          "headsign": "Brussels-South/Brussels-Midi",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-11-01"
-    },
-    {
-      "id": "2026-11-01-be-irail-2",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
       "service": "IC 2607 + S5 3379",
       "trainType": "IC + S5",
       "durationMinutes": 61,
@@ -1242,7 +1156,7 @@
       "date": "2026-11-01"
     },
     {
-      "id": "2026-11-01-be-irail-3",
+      "id": "2026-11-01-be-irail-2",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 3129 + S8 6557",
@@ -1326,7 +1240,7 @@
       "date": "2026-11-01"
     },
     {
-      "id": "2026-11-01-be-irail-4",
+      "id": "2026-11-01-be-irail-3",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "EC 9212 + S19 4030",
@@ -1403,7 +1317,7 @@
       "date": "2026-11-01"
     },
     {
-      "id": "2026-11-01-be-irail-5",
+      "id": "2026-11-01-be-irail-4",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 2608 + S5 3380",
@@ -1490,89 +1404,14 @@
       "date": "2026-11-01"
     },
     {
-      "id": "2026-11-02-be-irail-0",
+      "id": "2026-11-01-be-irail-5",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 4527 + IC 2106",
-      "trainType": "IC + IC",
-      "durationMinutes": 61,
-      "departureTime": "05:53",
-      "arrivalTime": "06:54",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mechelen",
-        "Brussels-Schuman"
-      ],
-      "platform": "21",
-      "headsign": "Bertrange Strassen",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 4527",
-          "lineCode": "BE.NMBS.IC4527",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "05:53",
-          "arrivalTime": "06:29",
-          "durationMinutes": 36,
-          "platform": "21",
-          "headsign": "Charleroi-Central",
-          "stopCount": 2,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mechelen"
-          ]
-        },
-        {
-          "lineName": "IC 2106",
-          "lineCode": "BE.NMBS.IC2106",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "06:43",
-          "arrivalTime": "06:54",
-          "durationMinutes": 11,
-          "platform": "7",
-          "headsign": "Bertrange Strassen",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-11-02"
-    },
-    {
-      "id": "2026-11-02-be-irail-1",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 3127 + S8 6555",
+      "service": "IC 3130 + S8 6558",
       "trainType": "IC + S8",
-      "durationMinutes": 63,
-      "departureTime": "06:05",
-      "arrivalTime": "07:08",
+      "durationMinutes": 62,
+      "departureTime": "09:06",
+      "arrivalTime": "10:08",
       "origin": "Antwerp-Central",
       "originLat": 51.2172,
       "originLng": 4.421101,
@@ -1583,21 +1422,21 @@
       "stops": [
         "Antwerp-Berchem",
         "Mortsel-Oude God",
-        "Kontich-Lint",
+        "Sint-Katelijne-Waver",
         "Mechelen-Nekkerspoel",
         "Mechelen",
         "Vilvoorde",
         "Brussels-Schuman"
       ],
-      "platform": "23",
-      "headsign": "Louvain-la-Neuve",
+      "platform": "24",
+      "headsign": "Brussels-South/Brussels-Midi",
       "realtime": false,
-      "warning": "Kontich - Malines / Mechelen",
+      "warning": "Anvers-Central / Antwerpen-Centraal - Malines / Mechelen - Brux.-Midi/Brus.-Zuid",
       "lineColor": "#0055A4",
       "legs": [
         {
-          "lineName": "IC 3127",
-          "lineCode": "BE.NMBS.IC3127",
+          "lineName": "IC 3130",
+          "lineCode": "BE.NMBS.IC3130",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Antwerp-Central",
@@ -1606,24 +1445,24 @@
           "destination": "Brussels-North",
           "destLat": 50.859663,
           "destLng": 4.360846,
-          "departureTime": "06:05",
-          "arrivalTime": "06:51",
-          "durationMinutes": 46,
-          "platform": "23",
-          "headsign": "Brussels-South/Brussels-Midi",
+          "departureTime": "09:06",
+          "arrivalTime": "09:51",
+          "durationMinutes": 45,
+          "platform": "24",
+          "headsign": "Charleroi-Central",
           "stopCount": 6,
           "stops": [
             "Antwerp-Berchem",
             "Mortsel-Oude God",
-            "Kontich-Lint",
+            "Sint-Katelijne-Waver",
             "Mechelen-Nekkerspoel",
             "Mechelen",
             "Vilvoorde"
           ]
         },
         {
-          "lineName": "S8 6555",
-          "lineCode": "BE.NMBS.S86555",
+          "lineName": "S8 6558",
+          "lineCode": "BE.NMBS.S86558",
           "color": "#4B5563",
           "mode": "train",
           "origin": "Brussels-North",
@@ -1632,11 +1471,11 @@
           "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
           "destLat": 50.838943,
           "destLng": 4.373674,
-          "departureTime": "06:58",
-          "arrivalTime": "07:08",
+          "departureTime": "09:58",
+          "arrivalTime": "10:08",
           "durationMinutes": 10,
           "platform": "7",
-          "headsign": "Louvain-la-Neuve",
+          "headsign": "Brussels-South/Brussels-Midi",
           "stopCount": 1,
           "stops": [
             "Brussels-Schuman"
@@ -1646,10 +1485,10 @@
       "transferStations": [
         "Brussels-North"
       ],
-      "date": "2026-11-02"
+      "date": "2026-11-01"
     },
     {
-      "id": "2026-11-02-be-irail-2",
+      "id": "2026-11-02-be-irail-0",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 2028 + IC 2407",
@@ -1725,7 +1564,7 @@
       "date": "2026-11-02"
     },
     {
-      "id": "2026-11-02-be-irail-3",
+      "id": "2026-11-02-be-irail-1",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 4528 + IC 2107",
@@ -1800,7 +1639,7 @@
       "date": "2026-11-02"
     },
     {
-      "id": "2026-11-02-be-irail-4",
+      "id": "2026-11-02-be-irail-2",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "L 2856 + P 7208 + S8 6556",
@@ -1896,7 +1735,7 @@
       "date": "2026-11-02"
     },
     {
-      "id": "2026-11-02-be-irail-5",
+      "id": "2026-11-02-be-irail-3",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 3128 + S5 3579",
@@ -1986,14 +1825,161 @@
       "date": "2026-11-02"
     },
     {
+      "id": "2026-11-02-be-irail-4",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2029 + IC 2408",
+      "trainType": "IC + IC",
+      "durationMinutes": 60,
+      "departureTime": "07:25",
+      "arrivalTime": "08:25",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Antwerp-Berchem",
+        "Mechelen",
+        "Brussels-Schuman"
+      ],
+      "platform": "23",
+      "headsign": "Liège-Saint-Lambert",
+      "realtime": false,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 2029",
+          "lineCode": "BE.NMBS.IC2029",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-North",
+          "destLat": 50.859663,
+          "destLng": 4.360846,
+          "departureTime": "07:25",
+          "arrivalTime": "08:00",
+          "durationMinutes": 35,
+          "platform": "23",
+          "headsign": "Charleroi-Central",
+          "stopCount": 2,
+          "stops": [
+            "Antwerp-Berchem",
+            "Mechelen"
+          ]
+        },
+        {
+          "lineName": "IC 2408",
+          "lineCode": "BE.NMBS.IC2408",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-North",
+          "originLat": 50.859663,
+          "originLng": 4.360846,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:14",
+          "arrivalTime": "08:25",
+          "durationMinutes": 11,
+          "platform": "7",
+          "headsign": "Liège-Saint-Lambert",
+          "stopCount": 1,
+          "stops": [
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-North"
+      ],
+      "date": "2026-11-02"
+    },
+    {
+      "id": "2026-11-02-be-irail-5",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "EUR 9310 + S8 3957",
+      "trainType": "EUR + S8",
+      "durationMinutes": 67,
+      "departureTime": "07:33",
+      "arrivalTime": "08:40",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Brussels-Central",
+        "Brussels-North",
+        "Brussels-Schuman"
+      ],
+      "platform": "23",
+      "headsign": "Louvain-la-Neuve",
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "EUR 9310",
+          "lineCode": "BE.NMBS.EUR9310",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "07:33",
+          "arrivalTime": "08:06",
+          "durationMinutes": 33,
+          "platform": "23",
+          "headsign": "Paris Nord"
+        },
+        {
+          "lineName": "S8 3957",
+          "lineCode": "BE.NMBS.S83957",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:20",
+          "arrivalTime": "08:40",
+          "durationMinutes": 20,
+          "platform": "13",
+          "headsign": "Louvain-la-Neuve",
+          "stopCount": 3,
+          "stops": [
+            "Brussels-Central",
+            "Brussels-North",
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-11-02"
+    },
+    {
       "id": "2026-11-03-be-irail-0",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 4527 + IC 2106",
+      "service": "IC 4528 + IC 2107",
       "trainType": "IC + IC",
-      "durationMinutes": 61,
-      "departureTime": "05:53",
-      "arrivalTime": "06:54",
+      "durationMinutes": 60,
+      "departureTime": "06:54",
+      "arrivalTime": "07:54",
       "origin": "Antwerp-Central",
       "originLat": 51.2172,
       "originLng": 4.421101,
@@ -2012,8 +1998,8 @@
       "lineColor": "#0055A4",
       "legs": [
         {
-          "lineName": "IC 4527",
-          "lineCode": "BE.NMBS.IC4527",
+          "lineName": "IC 4528",
+          "lineCode": "BE.NMBS.IC4528",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Antwerp-Central",
@@ -2022,9 +2008,9 @@
           "destination": "Brussels-North",
           "destLat": 50.859663,
           "destLng": 4.360846,
-          "departureTime": "05:53",
-          "arrivalTime": "06:29",
-          "durationMinutes": 36,
+          "departureTime": "06:54",
+          "arrivalTime": "07:29",
+          "durationMinutes": 35,
           "platform": "21",
           "headsign": "Charleroi-Central",
           "stopCount": 2,
@@ -2034,8 +2020,8 @@
           ]
         },
         {
-          "lineName": "IC 2106",
-          "lineCode": "BE.NMBS.IC2106",
+          "lineName": "IC 2107",
+          "lineCode": "BE.NMBS.IC2107",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Brussels-North",
@@ -2044,9 +2030,9 @@
           "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
           "destLat": 50.838943,
           "destLng": 4.373674,
-          "departureTime": "06:43",
-          "arrivalTime": "06:54",
-          "durationMinutes": 11,
+          "departureTime": "07:44",
+          "arrivalTime": "07:54",
+          "durationMinutes": 10,
           "platform": "7",
           "headsign": "Bertrange Strassen",
           "stopCount": 1,
@@ -2064,240 +2050,6 @@
       "id": "2026-11-03-be-irail-1",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 3127 + S8 6555",
-      "trainType": "IC + S8",
-      "durationMinutes": 63,
-      "departureTime": "06:05",
-      "arrivalTime": "07:08",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mortsel-Oude God",
-        "Kontich-Lint",
-        "Mechelen-Nekkerspoel",
-        "Mechelen",
-        "Vilvoorde",
-        "Brussels-Schuman"
-      ],
-      "platform": "23",
-      "headsign": "Louvain-la-Neuve",
-      "realtime": false,
-      "warning": "Kontich - Malines / Mechelen",
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 3127",
-          "lineCode": "BE.NMBS.IC3127",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "06:05",
-          "arrivalTime": "06:51",
-          "durationMinutes": 46,
-          "platform": "23",
-          "headsign": "Brussels-South/Brussels-Midi",
-          "stopCount": 6,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mortsel-Oude God",
-            "Kontich-Lint",
-            "Mechelen-Nekkerspoel",
-            "Mechelen",
-            "Vilvoorde"
-          ]
-        },
-        {
-          "lineName": "S8 6555",
-          "lineCode": "BE.NMBS.S86555",
-          "color": "#4B5563",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "06:58",
-          "arrivalTime": "07:08",
-          "durationMinutes": 10,
-          "platform": "7",
-          "headsign": "Louvain-la-Neuve",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-11-03"
-    },
-    {
-      "id": "2026-11-03-be-irail-2",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 2028 + IC 2407",
-      "trainType": "IC + IC",
-      "durationMinutes": 60,
-      "departureTime": "06:25",
-      "arrivalTime": "07:25",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mechelen",
-        "Brussels-Schuman"
-      ],
-      "platform": "23",
-      "headsign": "Liège-Saint-Lambert",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 2028",
-          "lineCode": "BE.NMBS.IC2028",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "06:25",
-          "arrivalTime": "07:00",
-          "durationMinutes": 35,
-          "platform": "23",
-          "headsign": "Charleroi-Central",
-          "stopCount": 2,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mechelen"
-          ]
-        },
-        {
-          "lineName": "IC 2407",
-          "lineCode": "BE.NMBS.IC2407",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "07:14",
-          "arrivalTime": "07:25",
-          "durationMinutes": 11,
-          "platform": "7",
-          "headsign": "Liège-Saint-Lambert",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-11-03"
-    },
-    {
-      "id": "2026-11-03-be-irail-3",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 4528 + IC 2107",
-      "trainType": "IC + IC",
-      "durationMinutes": 60,
-      "departureTime": "06:54",
-      "arrivalTime": "07:54",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mechelen",
-        "Brussels-Schuman"
-      ],
-      "platform": "21",
-      "headsign": "Bertrange Strassen",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 4528",
-          "lineCode": "BE.NMBS.IC4528",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "06:54",
-          "arrivalTime": "07:29",
-          "durationMinutes": 35,
-          "platform": "21",
-          "headsign": "Charleroi-Central",
-          "stopCount": 2,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mechelen"
-          ]
-        },
-        {
-          "lineName": "IC 2107",
-          "lineCode": "BE.NMBS.IC2107",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "07:44",
-          "arrivalTime": "07:54",
-          "durationMinutes": 10,
-          "platform": "7",
-          "headsign": "Bertrange Strassen",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-11-03"
-    },
-    {
-      "id": "2026-11-03-be-irail-4",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
       "service": "L 2856 + P 7208 + S8 6556",
       "trainType": "L + P + S8",
       "durationMinutes": 70,
@@ -2391,7 +2143,7 @@
       "date": "2026-11-03"
     },
     {
-      "id": "2026-11-03-be-irail-5",
+      "id": "2026-11-03-be-irail-2",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 3128 + S5 3579",
@@ -2481,14 +2233,236 @@
       "date": "2026-11-03"
     },
     {
+      "id": "2026-11-03-be-irail-3",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2029 + IC 2408",
+      "trainType": "IC + IC",
+      "durationMinutes": 60,
+      "departureTime": "07:25",
+      "arrivalTime": "08:25",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Antwerp-Berchem",
+        "Mechelen",
+        "Brussels-Schuman"
+      ],
+      "platform": "23",
+      "headsign": "Liège-Saint-Lambert",
+      "realtime": false,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 2029",
+          "lineCode": "BE.NMBS.IC2029",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-North",
+          "destLat": 50.859663,
+          "destLng": 4.360846,
+          "departureTime": "07:25",
+          "arrivalTime": "08:00",
+          "durationMinutes": 35,
+          "platform": "23",
+          "headsign": "Charleroi-Central",
+          "stopCount": 2,
+          "stops": [
+            "Antwerp-Berchem",
+            "Mechelen"
+          ]
+        },
+        {
+          "lineName": "IC 2408",
+          "lineCode": "BE.NMBS.IC2408",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-North",
+          "originLat": 50.859663,
+          "originLng": 4.360846,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:14",
+          "arrivalTime": "08:25",
+          "durationMinutes": 11,
+          "platform": "7",
+          "headsign": "Liège-Saint-Lambert",
+          "stopCount": 1,
+          "stops": [
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-North"
+      ],
+      "date": "2026-11-03"
+    },
+    {
+      "id": "2026-11-03-be-irail-4",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "EUR 9310 + S8 3957",
+      "trainType": "EUR + S8",
+      "durationMinutes": 67,
+      "departureTime": "07:33",
+      "arrivalTime": "08:40",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Brussels-Central",
+        "Brussels-North",
+        "Brussels-Schuman"
+      ],
+      "platform": "23",
+      "headsign": "Louvain-la-Neuve",
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "EUR 9310",
+          "lineCode": "BE.NMBS.EUR9310",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "07:33",
+          "arrivalTime": "08:06",
+          "durationMinutes": 33,
+          "platform": "23",
+          "headsign": "Paris Nord"
+        },
+        {
+          "lineName": "S8 3957",
+          "lineCode": "BE.NMBS.S83957",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:20",
+          "arrivalTime": "08:40",
+          "durationMinutes": 20,
+          "platform": "13",
+          "headsign": "Louvain-la-Neuve",
+          "stopCount": 3,
+          "stops": [
+            "Brussels-Central",
+            "Brussels-North",
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-11-03"
+    },
+    {
+      "id": "2026-11-03-be-irail-5",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 4529 + IC 2108",
+      "trainType": "IC + IC",
+      "durationMinutes": 60,
+      "departureTime": "07:54",
+      "arrivalTime": "08:54",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Antwerp-Berchem",
+        "Mechelen",
+        "Brussels-Schuman"
+      ],
+      "platform": "23",
+      "headsign": "Arlon",
+      "realtime": false,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 4529",
+          "lineCode": "BE.NMBS.IC4529",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-North",
+          "destLat": 50.859663,
+          "destLng": 4.360846,
+          "departureTime": "07:54",
+          "arrivalTime": "08:29",
+          "durationMinutes": 35,
+          "platform": "23",
+          "headsign": "Charleroi-Central",
+          "stopCount": 2,
+          "stops": [
+            "Antwerp-Berchem",
+            "Mechelen"
+          ]
+        },
+        {
+          "lineName": "IC 2108",
+          "lineCode": "BE.NMBS.IC2108",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-North",
+          "originLat": 50.859663,
+          "originLng": 4.360846,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:43",
+          "arrivalTime": "08:54",
+          "durationMinutes": 11,
+          "platform": "7",
+          "headsign": "Arlon",
+          "stopCount": 1,
+          "stops": [
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-North"
+      ],
+      "date": "2026-11-03"
+    },
+    {
       "id": "2026-11-04-be-irail-0",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 4527 + IC 2106",
+      "service": "IC 4528 + IC 2107",
       "trainType": "IC + IC",
-      "durationMinutes": 61,
-      "departureTime": "05:53",
-      "arrivalTime": "06:54",
+      "durationMinutes": 60,
+      "departureTime": "06:54",
+      "arrivalTime": "07:54",
       "origin": "Antwerp-Central",
       "originLat": 51.2172,
       "originLng": 4.421101,
@@ -2507,8 +2481,8 @@
       "lineColor": "#0055A4",
       "legs": [
         {
-          "lineName": "IC 4527",
-          "lineCode": "BE.NMBS.IC4527",
+          "lineName": "IC 4528",
+          "lineCode": "BE.NMBS.IC4528",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Antwerp-Central",
@@ -2517,9 +2491,9 @@
           "destination": "Brussels-North",
           "destLat": 50.859663,
           "destLng": 4.360846,
-          "departureTime": "05:53",
-          "arrivalTime": "06:29",
-          "durationMinutes": 36,
+          "departureTime": "06:54",
+          "arrivalTime": "07:29",
+          "durationMinutes": 35,
           "platform": "21",
           "headsign": "Charleroi-Central",
           "stopCount": 2,
@@ -2529,8 +2503,8 @@
           ]
         },
         {
-          "lineName": "IC 2106",
-          "lineCode": "BE.NMBS.IC2106",
+          "lineName": "IC 2107",
+          "lineCode": "BE.NMBS.IC2107",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Brussels-North",
@@ -2539,9 +2513,9 @@
           "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
           "destLat": 50.838943,
           "destLng": 4.373674,
-          "departureTime": "06:43",
-          "arrivalTime": "06:54",
-          "durationMinutes": 11,
+          "departureTime": "07:44",
+          "arrivalTime": "07:54",
+          "durationMinutes": 10,
           "platform": "7",
           "headsign": "Bertrange Strassen",
           "stopCount": 1,
@@ -2559,240 +2533,6 @@
       "id": "2026-11-04-be-irail-1",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 3127 + S8 6555",
-      "trainType": "IC + S8",
-      "durationMinutes": 63,
-      "departureTime": "06:05",
-      "arrivalTime": "07:08",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mortsel-Oude God",
-        "Kontich-Lint",
-        "Mechelen-Nekkerspoel",
-        "Mechelen",
-        "Vilvoorde",
-        "Brussels-Schuman"
-      ],
-      "platform": "23",
-      "headsign": "Louvain-la-Neuve",
-      "realtime": false,
-      "warning": "Kontich - Malines / Mechelen",
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 3127",
-          "lineCode": "BE.NMBS.IC3127",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "06:05",
-          "arrivalTime": "06:51",
-          "durationMinutes": 46,
-          "platform": "23",
-          "headsign": "Brussels-South/Brussels-Midi",
-          "stopCount": 6,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mortsel-Oude God",
-            "Kontich-Lint",
-            "Mechelen-Nekkerspoel",
-            "Mechelen",
-            "Vilvoorde"
-          ]
-        },
-        {
-          "lineName": "S8 6555",
-          "lineCode": "BE.NMBS.S86555",
-          "color": "#4B5563",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "06:58",
-          "arrivalTime": "07:08",
-          "durationMinutes": 10,
-          "platform": "7",
-          "headsign": "Louvain-la-Neuve",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-11-04"
-    },
-    {
-      "id": "2026-11-04-be-irail-2",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 2028 + IC 2407",
-      "trainType": "IC + IC",
-      "durationMinutes": 60,
-      "departureTime": "06:25",
-      "arrivalTime": "07:25",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mechelen",
-        "Brussels-Schuman"
-      ],
-      "platform": "23",
-      "headsign": "Liège-Saint-Lambert",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 2028",
-          "lineCode": "BE.NMBS.IC2028",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "06:25",
-          "arrivalTime": "07:00",
-          "durationMinutes": 35,
-          "platform": "23",
-          "headsign": "Charleroi-Central",
-          "stopCount": 2,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mechelen"
-          ]
-        },
-        {
-          "lineName": "IC 2407",
-          "lineCode": "BE.NMBS.IC2407",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "07:14",
-          "arrivalTime": "07:25",
-          "durationMinutes": 11,
-          "platform": "7",
-          "headsign": "Liège-Saint-Lambert",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-11-04"
-    },
-    {
-      "id": "2026-11-04-be-irail-3",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 4528 + IC 2107",
-      "trainType": "IC + IC",
-      "durationMinutes": 60,
-      "departureTime": "06:54",
-      "arrivalTime": "07:54",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mechelen",
-        "Brussels-Schuman"
-      ],
-      "platform": "21",
-      "headsign": "Bertrange Strassen",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 4528",
-          "lineCode": "BE.NMBS.IC4528",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "06:54",
-          "arrivalTime": "07:29",
-          "durationMinutes": 35,
-          "platform": "21",
-          "headsign": "Charleroi-Central",
-          "stopCount": 2,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mechelen"
-          ]
-        },
-        {
-          "lineName": "IC 2107",
-          "lineCode": "BE.NMBS.IC2107",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "07:44",
-          "arrivalTime": "07:54",
-          "durationMinutes": 10,
-          "platform": "7",
-          "headsign": "Bertrange Strassen",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-11-04"
-    },
-    {
-      "id": "2026-11-04-be-irail-4",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
       "service": "L 2856 + P 7208 + S8 6556",
       "trainType": "L + P + S8",
       "durationMinutes": 70,
@@ -2886,7 +2626,7 @@
       "date": "2026-11-04"
     },
     {
-      "id": "2026-11-04-be-irail-5",
+      "id": "2026-11-04-be-irail-2",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 3128 + S5 3579",
@@ -2976,14 +2716,236 @@
       "date": "2026-11-04"
     },
     {
+      "id": "2026-11-04-be-irail-3",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2029 + IC 2408",
+      "trainType": "IC + IC",
+      "durationMinutes": 60,
+      "departureTime": "07:25",
+      "arrivalTime": "08:25",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Antwerp-Berchem",
+        "Mechelen",
+        "Brussels-Schuman"
+      ],
+      "platform": "23",
+      "headsign": "Liège-Saint-Lambert",
+      "realtime": false,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 2029",
+          "lineCode": "BE.NMBS.IC2029",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-North",
+          "destLat": 50.859663,
+          "destLng": 4.360846,
+          "departureTime": "07:25",
+          "arrivalTime": "08:00",
+          "durationMinutes": 35,
+          "platform": "23",
+          "headsign": "Charleroi-Central",
+          "stopCount": 2,
+          "stops": [
+            "Antwerp-Berchem",
+            "Mechelen"
+          ]
+        },
+        {
+          "lineName": "IC 2408",
+          "lineCode": "BE.NMBS.IC2408",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-North",
+          "originLat": 50.859663,
+          "originLng": 4.360846,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:14",
+          "arrivalTime": "08:25",
+          "durationMinutes": 11,
+          "platform": "7",
+          "headsign": "Liège-Saint-Lambert",
+          "stopCount": 1,
+          "stops": [
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-North"
+      ],
+      "date": "2026-11-04"
+    },
+    {
+      "id": "2026-11-04-be-irail-4",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "EUR 9310 + S8 3957",
+      "trainType": "EUR + S8",
+      "durationMinutes": 67,
+      "departureTime": "07:33",
+      "arrivalTime": "08:40",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Brussels-Central",
+        "Brussels-North",
+        "Brussels-Schuman"
+      ],
+      "platform": "23",
+      "headsign": "Louvain-la-Neuve",
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "EUR 9310",
+          "lineCode": "BE.NMBS.EUR9310",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "07:33",
+          "arrivalTime": "08:06",
+          "durationMinutes": 33,
+          "platform": "23",
+          "headsign": "Paris Nord"
+        },
+        {
+          "lineName": "S8 3957",
+          "lineCode": "BE.NMBS.S83957",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:20",
+          "arrivalTime": "08:40",
+          "durationMinutes": 20,
+          "platform": "13",
+          "headsign": "Louvain-la-Neuve",
+          "stopCount": 3,
+          "stops": [
+            "Brussels-Central",
+            "Brussels-North",
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-11-04"
+    },
+    {
+      "id": "2026-11-04-be-irail-5",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 4529 + IC 2108",
+      "trainType": "IC + IC",
+      "durationMinutes": 60,
+      "departureTime": "07:54",
+      "arrivalTime": "08:54",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Antwerp-Berchem",
+        "Mechelen",
+        "Brussels-Schuman"
+      ],
+      "platform": "23",
+      "headsign": "Arlon",
+      "realtime": false,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 4529",
+          "lineCode": "BE.NMBS.IC4529",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-North",
+          "destLat": 50.859663,
+          "destLng": 4.360846,
+          "departureTime": "07:54",
+          "arrivalTime": "08:29",
+          "durationMinutes": 35,
+          "platform": "23",
+          "headsign": "Charleroi-Central",
+          "stopCount": 2,
+          "stops": [
+            "Antwerp-Berchem",
+            "Mechelen"
+          ]
+        },
+        {
+          "lineName": "IC 2108",
+          "lineCode": "BE.NMBS.IC2108",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-North",
+          "originLat": 50.859663,
+          "originLng": 4.360846,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:43",
+          "arrivalTime": "08:54",
+          "durationMinutes": 11,
+          "platform": "7",
+          "headsign": "Arlon",
+          "stopCount": 1,
+          "stops": [
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-North"
+      ],
+      "date": "2026-11-04"
+    },
+    {
       "id": "2026-11-05-be-irail-0",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 4527 + IC 2106",
+      "service": "IC 4528 + IC 2107",
       "trainType": "IC + IC",
-      "durationMinutes": 61,
-      "departureTime": "05:53",
-      "arrivalTime": "06:54",
+      "durationMinutes": 60,
+      "departureTime": "06:54",
+      "arrivalTime": "07:54",
       "origin": "Antwerp-Central",
       "originLat": 51.2172,
       "originLng": 4.421101,
@@ -3002,8 +2964,8 @@
       "lineColor": "#0055A4",
       "legs": [
         {
-          "lineName": "IC 4527",
-          "lineCode": "BE.NMBS.IC4527",
+          "lineName": "IC 4528",
+          "lineCode": "BE.NMBS.IC4528",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Antwerp-Central",
@@ -3012,9 +2974,9 @@
           "destination": "Brussels-North",
           "destLat": 50.859663,
           "destLng": 4.360846,
-          "departureTime": "05:53",
-          "arrivalTime": "06:29",
-          "durationMinutes": 36,
+          "departureTime": "06:54",
+          "arrivalTime": "07:29",
+          "durationMinutes": 35,
           "platform": "21",
           "headsign": "Charleroi-Central",
           "stopCount": 2,
@@ -3024,8 +2986,8 @@
           ]
         },
         {
-          "lineName": "IC 2106",
-          "lineCode": "BE.NMBS.IC2106",
+          "lineName": "IC 2107",
+          "lineCode": "BE.NMBS.IC2107",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Brussels-North",
@@ -3034,9 +2996,9 @@
           "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
           "destLat": 50.838943,
           "destLng": 4.373674,
-          "departureTime": "06:43",
-          "arrivalTime": "06:54",
-          "durationMinutes": 11,
+          "departureTime": "07:44",
+          "arrivalTime": "07:54",
+          "durationMinutes": 10,
           "platform": "7",
           "headsign": "Bertrange Strassen",
           "stopCount": 1,
@@ -3054,240 +3016,6 @@
       "id": "2026-11-05-be-irail-1",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 3127 + S8 6555",
-      "trainType": "IC + S8",
-      "durationMinutes": 63,
-      "departureTime": "06:05",
-      "arrivalTime": "07:08",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mortsel-Oude God",
-        "Kontich-Lint",
-        "Mechelen-Nekkerspoel",
-        "Mechelen",
-        "Vilvoorde",
-        "Brussels-Schuman"
-      ],
-      "platform": "23",
-      "headsign": "Louvain-la-Neuve",
-      "realtime": false,
-      "warning": "Kontich - Malines / Mechelen",
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 3127",
-          "lineCode": "BE.NMBS.IC3127",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "06:05",
-          "arrivalTime": "06:51",
-          "durationMinutes": 46,
-          "platform": "23",
-          "headsign": "Brussels-South/Brussels-Midi",
-          "stopCount": 6,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mortsel-Oude God",
-            "Kontich-Lint",
-            "Mechelen-Nekkerspoel",
-            "Mechelen",
-            "Vilvoorde"
-          ]
-        },
-        {
-          "lineName": "S8 6555",
-          "lineCode": "BE.NMBS.S86555",
-          "color": "#4B5563",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "06:58",
-          "arrivalTime": "07:08",
-          "durationMinutes": 10,
-          "platform": "7",
-          "headsign": "Louvain-la-Neuve",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-11-05"
-    },
-    {
-      "id": "2026-11-05-be-irail-2",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 2028 + IC 2407",
-      "trainType": "IC + IC",
-      "durationMinutes": 60,
-      "departureTime": "06:25",
-      "arrivalTime": "07:25",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mechelen",
-        "Brussels-Schuman"
-      ],
-      "platform": "23",
-      "headsign": "Liège-Saint-Lambert",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 2028",
-          "lineCode": "BE.NMBS.IC2028",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "06:25",
-          "arrivalTime": "07:00",
-          "durationMinutes": 35,
-          "platform": "23",
-          "headsign": "Charleroi-Central",
-          "stopCount": 2,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mechelen"
-          ]
-        },
-        {
-          "lineName": "IC 2407",
-          "lineCode": "BE.NMBS.IC2407",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "07:14",
-          "arrivalTime": "07:25",
-          "durationMinutes": 11,
-          "platform": "7",
-          "headsign": "Liège-Saint-Lambert",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-11-05"
-    },
-    {
-      "id": "2026-11-05-be-irail-3",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 4528 + IC 2107",
-      "trainType": "IC + IC",
-      "durationMinutes": 60,
-      "departureTime": "06:54",
-      "arrivalTime": "07:54",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mechelen",
-        "Brussels-Schuman"
-      ],
-      "platform": "21",
-      "headsign": "Bertrange Strassen",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 4528",
-          "lineCode": "BE.NMBS.IC4528",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "06:54",
-          "arrivalTime": "07:29",
-          "durationMinutes": 35,
-          "platform": "21",
-          "headsign": "Charleroi-Central",
-          "stopCount": 2,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mechelen"
-          ]
-        },
-        {
-          "lineName": "IC 2107",
-          "lineCode": "BE.NMBS.IC2107",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "07:44",
-          "arrivalTime": "07:54",
-          "durationMinutes": 10,
-          "platform": "7",
-          "headsign": "Bertrange Strassen",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-11-05"
-    },
-    {
-      "id": "2026-11-05-be-irail-4",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
       "service": "L 2856 + P 7208 + S8 6556",
       "trainType": "L + P + S8",
       "durationMinutes": 70,
@@ -3381,7 +3109,7 @@
       "date": "2026-11-05"
     },
     {
-      "id": "2026-11-05-be-irail-5",
+      "id": "2026-11-05-be-irail-2",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 3128 + S5 3579",
@@ -3471,14 +3199,236 @@
       "date": "2026-11-05"
     },
     {
+      "id": "2026-11-05-be-irail-3",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 2029 + IC 2408",
+      "trainType": "IC + IC",
+      "durationMinutes": 60,
+      "departureTime": "07:25",
+      "arrivalTime": "08:25",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Antwerp-Berchem",
+        "Mechelen",
+        "Brussels-Schuman"
+      ],
+      "platform": "23",
+      "headsign": "Liège-Saint-Lambert",
+      "realtime": false,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 2029",
+          "lineCode": "BE.NMBS.IC2029",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-North",
+          "destLat": 50.859663,
+          "destLng": 4.360846,
+          "departureTime": "07:25",
+          "arrivalTime": "08:00",
+          "durationMinutes": 35,
+          "platform": "23",
+          "headsign": "Charleroi-Central",
+          "stopCount": 2,
+          "stops": [
+            "Antwerp-Berchem",
+            "Mechelen"
+          ]
+        },
+        {
+          "lineName": "IC 2408",
+          "lineCode": "BE.NMBS.IC2408",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-North",
+          "originLat": 50.859663,
+          "originLng": 4.360846,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:14",
+          "arrivalTime": "08:25",
+          "durationMinutes": 11,
+          "platform": "7",
+          "headsign": "Liège-Saint-Lambert",
+          "stopCount": 1,
+          "stops": [
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-North"
+      ],
+      "date": "2026-11-05"
+    },
+    {
+      "id": "2026-11-05-be-irail-4",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "EUR 9310 + S8 3957",
+      "trainType": "EUR + S8",
+      "durationMinutes": 67,
+      "departureTime": "07:33",
+      "arrivalTime": "08:40",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Brussels-Central",
+        "Brussels-North",
+        "Brussels-Schuman"
+      ],
+      "platform": "23",
+      "headsign": "Louvain-la-Neuve",
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "EUR 9310",
+          "lineCode": "BE.NMBS.EUR9310",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "07:33",
+          "arrivalTime": "08:06",
+          "durationMinutes": 33,
+          "platform": "23",
+          "headsign": "Paris Nord"
+        },
+        {
+          "lineName": "S8 3957",
+          "lineCode": "BE.NMBS.S83957",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:20",
+          "arrivalTime": "08:40",
+          "durationMinutes": 20,
+          "platform": "13",
+          "headsign": "Louvain-la-Neuve",
+          "stopCount": 3,
+          "stops": [
+            "Brussels-Central",
+            "Brussels-North",
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-11-05"
+    },
+    {
+      "id": "2026-11-05-be-irail-5",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 4529 + IC 2108",
+      "trainType": "IC + IC",
+      "durationMinutes": 60,
+      "departureTime": "07:54",
+      "arrivalTime": "08:54",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Antwerp-Berchem",
+        "Mechelen",
+        "Brussels-Schuman"
+      ],
+      "platform": "23",
+      "headsign": "Arlon",
+      "realtime": false,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 4529",
+          "lineCode": "BE.NMBS.IC4529",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-North",
+          "destLat": 50.859663,
+          "destLng": 4.360846,
+          "departureTime": "07:54",
+          "arrivalTime": "08:29",
+          "durationMinutes": 35,
+          "platform": "23",
+          "headsign": "Charleroi-Central",
+          "stopCount": 2,
+          "stops": [
+            "Antwerp-Berchem",
+            "Mechelen"
+          ]
+        },
+        {
+          "lineName": "IC 2108",
+          "lineCode": "BE.NMBS.IC2108",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-North",
+          "originLat": 50.859663,
+          "originLng": 4.360846,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:43",
+          "arrivalTime": "08:54",
+          "durationMinutes": 11,
+          "platform": "7",
+          "headsign": "Arlon",
+          "stopCount": 1,
+          "stops": [
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-North"
+      ],
+      "date": "2026-11-05"
+    },
+    {
       "id": "2026-11-06-be-irail-0",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 4527 + IC 2106",
+      "service": "IC 4528 + IC 2107",
       "trainType": "IC + IC",
-      "durationMinutes": 61,
-      "departureTime": "05:53",
-      "arrivalTime": "06:54",
+      "durationMinutes": 60,
+      "departureTime": "06:54",
+      "arrivalTime": "07:54",
       "origin": "Antwerp-Central",
       "originLat": 51.2172,
       "originLng": 4.421101,
@@ -3497,8 +3447,8 @@
       "lineColor": "#0055A4",
       "legs": [
         {
-          "lineName": "IC 4527",
-          "lineCode": "BE.NMBS.IC4527",
+          "lineName": "IC 4528",
+          "lineCode": "BE.NMBS.IC4528",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Antwerp-Central",
@@ -3507,9 +3457,9 @@
           "destination": "Brussels-North",
           "destLat": 50.859663,
           "destLng": 4.360846,
-          "departureTime": "05:53",
-          "arrivalTime": "06:29",
-          "durationMinutes": 36,
+          "departureTime": "06:54",
+          "arrivalTime": "07:29",
+          "durationMinutes": 35,
           "platform": "21",
           "headsign": "Charleroi-Central",
           "stopCount": 2,
@@ -3519,8 +3469,8 @@
           ]
         },
         {
-          "lineName": "IC 2106",
-          "lineCode": "BE.NMBS.IC2106",
+          "lineName": "IC 2107",
+          "lineCode": "BE.NMBS.IC2107",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Brussels-North",
@@ -3529,9 +3479,9 @@
           "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
           "destLat": 50.838943,
           "destLng": 4.373674,
-          "departureTime": "06:43",
-          "arrivalTime": "06:54",
-          "durationMinutes": 11,
+          "departureTime": "07:44",
+          "arrivalTime": "07:54",
+          "durationMinutes": 10,
           "platform": "7",
           "headsign": "Bertrange Strassen",
           "stopCount": 1,
@@ -3549,240 +3499,6 @@
       "id": "2026-11-06-be-irail-1",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 3127 + S8 6555",
-      "trainType": "IC + S8",
-      "durationMinutes": 63,
-      "departureTime": "06:05",
-      "arrivalTime": "07:08",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mortsel-Oude God",
-        "Kontich-Lint",
-        "Mechelen-Nekkerspoel",
-        "Mechelen",
-        "Vilvoorde",
-        "Brussels-Schuman"
-      ],
-      "platform": "23",
-      "headsign": "Louvain-la-Neuve",
-      "realtime": false,
-      "warning": "Kontich - Malines / Mechelen",
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 3127",
-          "lineCode": "BE.NMBS.IC3127",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "06:05",
-          "arrivalTime": "06:51",
-          "durationMinutes": 46,
-          "platform": "23",
-          "headsign": "Brussels-South/Brussels-Midi",
-          "stopCount": 6,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mortsel-Oude God",
-            "Kontich-Lint",
-            "Mechelen-Nekkerspoel",
-            "Mechelen",
-            "Vilvoorde"
-          ]
-        },
-        {
-          "lineName": "S8 6555",
-          "lineCode": "BE.NMBS.S86555",
-          "color": "#4B5563",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "06:58",
-          "arrivalTime": "07:08",
-          "durationMinutes": 10,
-          "platform": "7",
-          "headsign": "Louvain-la-Neuve",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-11-06"
-    },
-    {
-      "id": "2026-11-06-be-irail-2",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 2028 + IC 2407",
-      "trainType": "IC + IC",
-      "durationMinutes": 60,
-      "departureTime": "06:25",
-      "arrivalTime": "07:25",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mechelen",
-        "Brussels-Schuman"
-      ],
-      "platform": "23",
-      "headsign": "Liège-Saint-Lambert",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 2028",
-          "lineCode": "BE.NMBS.IC2028",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "06:25",
-          "arrivalTime": "07:00",
-          "durationMinutes": 35,
-          "platform": "23",
-          "headsign": "Charleroi-Central",
-          "stopCount": 2,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mechelen"
-          ]
-        },
-        {
-          "lineName": "IC 2407",
-          "lineCode": "BE.NMBS.IC2407",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "07:14",
-          "arrivalTime": "07:25",
-          "durationMinutes": 11,
-          "platform": "7",
-          "headsign": "Liège-Saint-Lambert",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-11-06"
-    },
-    {
-      "id": "2026-11-06-be-irail-3",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
-      "service": "IC 4528 + IC 2107",
-      "trainType": "IC + IC",
-      "durationMinutes": 60,
-      "departureTime": "06:54",
-      "arrivalTime": "07:54",
-      "origin": "Antwerp-Central",
-      "originLat": 51.2172,
-      "originLng": 4.421101,
-      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-      "destLat": 50.838943,
-      "destLng": 4.373674,
-      "direct": false,
-      "stops": [
-        "Antwerp-Berchem",
-        "Mechelen",
-        "Brussels-Schuman"
-      ],
-      "platform": "21",
-      "headsign": "Bertrange Strassen",
-      "realtime": false,
-      "lineColor": "#0055A4",
-      "legs": [
-        {
-          "lineName": "IC 4528",
-          "lineCode": "BE.NMBS.IC4528",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Antwerp-Central",
-          "originLat": 51.2172,
-          "originLng": 4.421101,
-          "destination": "Brussels-North",
-          "destLat": 50.859663,
-          "destLng": 4.360846,
-          "departureTime": "06:54",
-          "arrivalTime": "07:29",
-          "durationMinutes": 35,
-          "platform": "21",
-          "headsign": "Charleroi-Central",
-          "stopCount": 2,
-          "stops": [
-            "Antwerp-Berchem",
-            "Mechelen"
-          ]
-        },
-        {
-          "lineName": "IC 2107",
-          "lineCode": "BE.NMBS.IC2107",
-          "color": "#0055A4",
-          "mode": "train",
-          "origin": "Brussels-North",
-          "originLat": 50.859663,
-          "originLng": 4.360846,
-          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
-          "destLat": 50.838943,
-          "destLng": 4.373674,
-          "departureTime": "07:44",
-          "arrivalTime": "07:54",
-          "durationMinutes": 10,
-          "platform": "7",
-          "headsign": "Bertrange Strassen",
-          "stopCount": 1,
-          "stops": [
-            "Brussels-Schuman"
-          ]
-        }
-      ],
-      "transferStations": [
-        "Brussels-North"
-      ],
-      "date": "2026-11-06"
-    },
-    {
-      "id": "2026-11-06-be-irail-4",
-      "country": "belgium",
-      "operator": "SNCB/NMBS via iRail",
       "service": "L 2856 + P 7208 + S8 6556",
       "trainType": "L + P + S8",
       "durationMinutes": 70,
@@ -3876,7 +3592,7 @@
       "date": "2026-11-06"
     },
     {
-      "id": "2026-11-06-be-irail-5",
+      "id": "2026-11-06-be-irail-2",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 3128 + S5 3579",
@@ -3966,14 +3682,14 @@
       "date": "2026-11-06"
     },
     {
-      "id": "2026-11-07-be-irail-0",
+      "id": "2026-11-06-be-irail-3",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
-      "service": "IC 3127 + S8 6555",
-      "trainType": "IC + S8",
-      "durationMinutes": 62,
-      "departureTime": "06:06",
-      "arrivalTime": "07:08",
+      "service": "IC 2029 + IC 2408",
+      "trainType": "IC + IC",
+      "durationMinutes": 60,
+      "departureTime": "07:25",
+      "arrivalTime": "08:25",
       "origin": "Antwerp-Central",
       "originLat": 51.2172,
       "originLng": 4.421101,
@@ -3983,20 +3699,17 @@
       "direct": false,
       "stops": [
         "Antwerp-Berchem",
-        "Mechelen-Nekkerspoel",
         "Mechelen",
-        "Vilvoorde",
         "Brussels-Schuman"
       ],
-      "platform": "24",
-      "headsign": "Brussels-South/Brussels-Midi",
+      "platform": "23",
+      "headsign": "Liège-Saint-Lambert",
       "realtime": false,
-      "warning": "Anvers-Central / Antwerpen-Centraal - Malines / Mechelen - Brux.-Midi/Brus.-Zuid",
       "lineColor": "#0055A4",
       "legs": [
         {
-          "lineName": "IC 3127",
-          "lineCode": "BE.NMBS.IC3127",
+          "lineName": "IC 2029",
+          "lineCode": "BE.NMBS.IC2029",
           "color": "#0055A4",
           "mode": "train",
           "origin": "Antwerp-Central",
@@ -4005,23 +3718,21 @@
           "destination": "Brussels-North",
           "destLat": 50.859663,
           "destLng": 4.360846,
-          "departureTime": "06:06",
-          "arrivalTime": "06:52",
-          "durationMinutes": 46,
-          "platform": "24",
+          "departureTime": "07:25",
+          "arrivalTime": "08:00",
+          "durationMinutes": 35,
+          "platform": "23",
           "headsign": "Charleroi-Central",
-          "stopCount": 4,
+          "stopCount": 2,
           "stops": [
             "Antwerp-Berchem",
-            "Mechelen-Nekkerspoel",
-            "Mechelen",
-            "Vilvoorde"
+            "Mechelen"
           ]
         },
         {
-          "lineName": "S8 6555",
-          "lineCode": "BE.NMBS.S86555",
-          "color": "#4B5563",
+          "lineName": "IC 2408",
+          "lineCode": "BE.NMBS.IC2408",
+          "color": "#0055A4",
           "mode": "train",
           "origin": "Brussels-North",
           "originLat": 50.859663,
@@ -4029,11 +3740,11 @@
           "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
           "destLat": 50.838943,
           "destLng": 4.373674,
-          "departureTime": "06:58",
-          "arrivalTime": "07:08",
-          "durationMinutes": 10,
+          "departureTime": "08:14",
+          "arrivalTime": "08:25",
+          "durationMinutes": 11,
           "platform": "7",
-          "headsign": "Brussels-South/Brussels-Midi",
+          "headsign": "Liège-Saint-Lambert",
           "stopCount": 1,
           "stops": [
             "Brussels-Schuman"
@@ -4043,10 +3754,157 @@
       "transferStations": [
         "Brussels-North"
       ],
-      "date": "2026-11-07"
+      "date": "2026-11-06"
     },
     {
-      "id": "2026-11-07-be-irail-1",
+      "id": "2026-11-06-be-irail-4",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "EUR 9310 + S8 3957",
+      "trainType": "EUR + S8",
+      "durationMinutes": 67,
+      "departureTime": "07:33",
+      "arrivalTime": "08:40",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Brussels-Central",
+        "Brussels-North",
+        "Brussels-Schuman"
+      ],
+      "platform": "23",
+      "headsign": "Louvain-la-Neuve",
+      "realtime": false,
+      "lineColor": "#4B5563",
+      "legs": [
+        {
+          "lineName": "EUR 9310",
+          "lineCode": "BE.NMBS.EUR9310",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-South/Brussels-Midi",
+          "destLat": 50.835707,
+          "destLng": 4.336531,
+          "departureTime": "07:33",
+          "arrivalTime": "08:06",
+          "durationMinutes": 33,
+          "platform": "23",
+          "headsign": "Paris Nord"
+        },
+        {
+          "lineName": "S8 3957",
+          "lineCode": "BE.NMBS.S83957",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Brussels-South/Brussels-Midi",
+          "originLat": 50.835707,
+          "originLng": 4.336531,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:20",
+          "arrivalTime": "08:40",
+          "durationMinutes": 20,
+          "platform": "13",
+          "headsign": "Louvain-la-Neuve",
+          "stopCount": 3,
+          "stops": [
+            "Brussels-Central",
+            "Brussels-North",
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-South/Brussels-Midi"
+      ],
+      "date": "2026-11-06"
+    },
+    {
+      "id": "2026-11-06-be-irail-5",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 4529 + IC 2108",
+      "trainType": "IC + IC",
+      "durationMinutes": 60,
+      "departureTime": "07:54",
+      "arrivalTime": "08:54",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Antwerp-Berchem",
+        "Mechelen",
+        "Brussels-Schuman"
+      ],
+      "platform": "23",
+      "headsign": "Arlon",
+      "realtime": false,
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 4529",
+          "lineCode": "BE.NMBS.IC4529",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-North",
+          "destLat": 50.859663,
+          "destLng": 4.360846,
+          "departureTime": "07:54",
+          "arrivalTime": "08:29",
+          "durationMinutes": 35,
+          "platform": "23",
+          "headsign": "Charleroi-Central",
+          "stopCount": 2,
+          "stops": [
+            "Antwerp-Berchem",
+            "Mechelen"
+          ]
+        },
+        {
+          "lineName": "IC 2108",
+          "lineCode": "BE.NMBS.IC2108",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Brussels-North",
+          "originLat": 50.859663,
+          "originLng": 4.360846,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "08:43",
+          "arrivalTime": "08:54",
+          "durationMinutes": 11,
+          "platform": "7",
+          "headsign": "Arlon",
+          "stopCount": 1,
+          "stops": [
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-North"
+      ],
+      "date": "2026-11-06"
+    },
+    {
+      "id": "2026-11-07-be-irail-0",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 3128 + S8 6556",
@@ -4126,7 +3984,7 @@
       "date": "2026-11-07"
     },
     {
-      "id": "2026-11-07-be-irail-2",
+      "id": "2026-11-07-be-irail-1",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 3129 + S8 6557",
@@ -4206,7 +4064,7 @@
       "date": "2026-11-07"
     },
     {
-      "id": "2026-11-07-be-irail-3",
+      "id": "2026-11-07-be-irail-2",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 3130 + S8 6558",
@@ -4286,7 +4144,7 @@
       "date": "2026-11-07"
     },
     {
-      "id": "2026-11-07-be-irail-4",
+      "id": "2026-11-07-be-irail-3",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 3131 + S8 6559",
@@ -4366,7 +4224,7 @@
       "date": "2026-11-07"
     },
     {
-      "id": "2026-11-07-be-irail-5",
+      "id": "2026-11-07-be-irail-4",
       "country": "belgium",
       "operator": "SNCB/NMBS via iRail",
       "service": "IC 3132 + S8 6560",
@@ -4444,6 +4302,86 @@
         "Brussels-North"
       ],
       "date": "2026-11-07"
+    },
+    {
+      "id": "2026-11-07-be-irail-5",
+      "country": "belgium",
+      "operator": "SNCB/NMBS via iRail",
+      "service": "IC 3133 + S8 6561",
+      "trainType": "IC + S8",
+      "durationMinutes": 62,
+      "departureTime": "12:06",
+      "arrivalTime": "13:08",
+      "origin": "Antwerp-Central",
+      "originLat": 51.2172,
+      "originLng": 4.421101,
+      "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+      "destLat": 50.838943,
+      "destLng": 4.373674,
+      "direct": false,
+      "stops": [
+        "Antwerp-Berchem",
+        "Mechelen-Nekkerspoel",
+        "Mechelen",
+        "Vilvoorde",
+        "Brussels-Schuman"
+      ],
+      "platform": "21",
+      "headsign": "Brussels-South/Brussels-Midi",
+      "realtime": false,
+      "warning": "Anvers-Central / Antwerpen-Centraal - Malines / Mechelen - Brux.-Midi/Brus.-Zuid",
+      "lineColor": "#0055A4",
+      "legs": [
+        {
+          "lineName": "IC 3133",
+          "lineCode": "BE.NMBS.IC3133",
+          "color": "#0055A4",
+          "mode": "train",
+          "origin": "Antwerp-Central",
+          "originLat": 51.2172,
+          "originLng": 4.421101,
+          "destination": "Brussels-North",
+          "destLat": 50.859663,
+          "destLng": 4.360846,
+          "departureTime": "12:06",
+          "arrivalTime": "12:52",
+          "durationMinutes": 46,
+          "platform": "21",
+          "headsign": "Charleroi-Central",
+          "stopCount": 4,
+          "stops": [
+            "Antwerp-Berchem",
+            "Mechelen-Nekkerspoel",
+            "Mechelen",
+            "Vilvoorde"
+          ]
+        },
+        {
+          "lineName": "S8 6561",
+          "lineCode": "BE.NMBS.S86561",
+          "color": "#4B5563",
+          "mode": "train",
+          "origin": "Brussels-North",
+          "originLat": 50.859663,
+          "originLng": 4.360846,
+          "destination": "Brussels-Luxemburg/Brussels-Luxembourg",
+          "destLat": 50.838943,
+          "destLng": 4.373674,
+          "departureTime": "12:58",
+          "arrivalTime": "13:08",
+          "durationMinutes": 10,
+          "platform": "7",
+          "headsign": "Brussels-South/Brussels-Midi",
+          "stopCount": 1,
+          "stops": [
+            "Brussels-Schuman"
+          ]
+        }
+      ],
+      "transferStations": [
+        "Brussels-North"
+      ],
+      "date": "2026-11-07"
     }
   ],
   "sourceMeta": {
@@ -4454,7 +4392,7 @@
     "sourceUrl": "https://api.irail.be",
     "provider": "NMBS/SNCB (via iRail)",
     "country": "belgium",
-    "fetchedAt": "2026-10-30T04:06:53.804Z",
+    "fetchedAt": "2026-10-30T05:26:32.776Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

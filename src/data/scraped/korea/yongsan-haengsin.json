@@ -1,8 +1,8 @@
 {
   "origin": "Yongsan",
   "destination": "Haengsin",
-  "date": "2026-10-22..2026-10-29",
-  "scrapedAt": "2026-10-21T00:15:09.294Z",
+  "date": "2026-10-30..2026-10-31",
+  "scrapedAt": "2026-10-30T05:15:52.738Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
@@ -11,7 +11,7 @@
       "effectiveFrom": "2026-10-01",
       "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
       "effectiveUntil": "2026-10-31",
-      "retrievedAt": "2026-10-21T00:15:06.705Z",
+      "retrievedAt": "2026-10-30T05:15:50.525Z",
       "exclusions": []
     },
     {
@@ -20,7 +20,7 @@
       "effectiveFrom": "2026-10-01",
       "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
       "effectiveUntil": "2026-10-31",
-      "retrievedAt": "2026-10-21T00:15:07.431Z",
+      "retrievedAt": "2026-10-30T05:15:52.416Z",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing",
         "Korail excluded 서해선 1231: published start or end time missing",
@@ -36,9 +36,9 @@
   ],
   "results": [
     {
-      "id": "korail-2026-10-21-ktx-호남선-70-27-next-day",
+      "id": "korail-2026-10-29-ktx-호남선-70-27-next-day",
       "country": "korea",
-      "date": "2026-10-22",
+      "date": "2026-10-30",
       "operator": "Korail",
       "service": "KTX 444",
       "trainType": "KTX",
@@ -68,9 +68,9 @@
       ]
     },
     {
-      "id": "korail-2026-10-21-ktx-전라선-38-28-next-day",
+      "id": "korail-2026-10-29-ktx-전라선-38-28-next-day",
       "country": "korea",
-      "date": "2026-10-22",
+      "date": "2026-10-30",
       "operator": "Korail",
       "service": "KTX-산천 534",
       "trainType": "KTX-산천",
@@ -100,9 +100,9 @@
       ]
     },
     {
-      "id": "korail-2026-10-22-ktx-호남선-70-27-next-day",
+      "id": "korail-2026-10-30-ktx-호남선-70-27-next-day",
       "country": "korea",
-      "date": "2026-10-23",
+      "date": "2026-10-31",
       "operator": "Korail",
       "service": "KTX 444",
       "trainType": "KTX",
@@ -132,393 +132,9 @@
       ]
     },
     {
-      "id": "korail-2026-10-22-ktx-전라선-38-28-next-day",
+      "id": "korail-2026-10-30-ktx-전라선-38-28-next-day",
       "country": "korea",
-      "date": "2026-10-23",
-      "operator": "Korail",
-      "service": "KTX-산천 534",
-      "trainType": "KTX-산천",
-      "origin": "Yongsan",
-      "destination": "Haengsin",
-      "departureTime": "00:46",
-      "arrivalTime": "01:07",
-      "durationMinutes": 21,
-      "direct": true,
-      "stops": [
-        "Yongsan",
-        "Haengsin"
-      ],
-      "headsign": "Haengsin",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 534",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yongsan",
-          "destination": "Haengsin",
-          "departureTime": "00:46",
-          "arrivalTime": "01:07",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-23-ktx-호남선-70-27-next-day",
-      "country": "korea",
-      "date": "2026-10-24",
-      "operator": "Korail",
-      "service": "KTX 444",
-      "trainType": "KTX",
-      "origin": "Yongsan",
-      "destination": "Haengsin",
-      "departureTime": "00:19",
-      "arrivalTime": "00:41",
-      "durationMinutes": 22,
-      "direct": true,
-      "stops": [
-        "Yongsan",
-        "Haengsin"
-      ],
-      "headsign": "Haengsin",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 444",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Yongsan",
-          "destination": "Haengsin",
-          "departureTime": "00:19",
-          "arrivalTime": "00:41",
-          "durationMinutes": 22
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-23-ktx-전라선-38-28-next-day",
-      "country": "korea",
-      "date": "2026-10-24",
-      "operator": "Korail",
-      "service": "KTX-산천 534",
-      "trainType": "KTX-산천",
-      "origin": "Yongsan",
-      "destination": "Haengsin",
-      "departureTime": "00:46",
-      "arrivalTime": "01:07",
-      "durationMinutes": 21,
-      "direct": true,
-      "stops": [
-        "Yongsan",
-        "Haengsin"
-      ],
-      "headsign": "Haengsin",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 534",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yongsan",
-          "destination": "Haengsin",
-          "departureTime": "00:46",
-          "arrivalTime": "01:07",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-24-ktx-호남선-70-27-next-day",
-      "country": "korea",
-      "date": "2026-10-25",
-      "operator": "Korail",
-      "service": "KTX 444",
-      "trainType": "KTX",
-      "origin": "Yongsan",
-      "destination": "Haengsin",
-      "departureTime": "00:19",
-      "arrivalTime": "00:41",
-      "durationMinutes": 22,
-      "direct": true,
-      "stops": [
-        "Yongsan",
-        "Haengsin"
-      ],
-      "headsign": "Haengsin",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 444",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Yongsan",
-          "destination": "Haengsin",
-          "departureTime": "00:19",
-          "arrivalTime": "00:41",
-          "durationMinutes": 22
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-24-ktx-전라선-38-28-next-day",
-      "country": "korea",
-      "date": "2026-10-25",
-      "operator": "Korail",
-      "service": "KTX-산천 534",
-      "trainType": "KTX-산천",
-      "origin": "Yongsan",
-      "destination": "Haengsin",
-      "departureTime": "00:46",
-      "arrivalTime": "01:07",
-      "durationMinutes": 21,
-      "direct": true,
-      "stops": [
-        "Yongsan",
-        "Haengsin"
-      ],
-      "headsign": "Haengsin",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 534",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yongsan",
-          "destination": "Haengsin",
-          "departureTime": "00:46",
-          "arrivalTime": "01:07",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-25-ktx-호남선-70-27-next-day",
-      "country": "korea",
-      "date": "2026-10-26",
-      "operator": "Korail",
-      "service": "KTX 444",
-      "trainType": "KTX",
-      "origin": "Yongsan",
-      "destination": "Haengsin",
-      "departureTime": "00:19",
-      "arrivalTime": "00:41",
-      "durationMinutes": 22,
-      "direct": true,
-      "stops": [
-        "Yongsan",
-        "Haengsin"
-      ],
-      "headsign": "Haengsin",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 444",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Yongsan",
-          "destination": "Haengsin",
-          "departureTime": "00:19",
-          "arrivalTime": "00:41",
-          "durationMinutes": 22
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-25-ktx-전라선-38-28-next-day",
-      "country": "korea",
-      "date": "2026-10-26",
-      "operator": "Korail",
-      "service": "KTX-산천 534",
-      "trainType": "KTX-산천",
-      "origin": "Yongsan",
-      "destination": "Haengsin",
-      "departureTime": "00:46",
-      "arrivalTime": "01:07",
-      "durationMinutes": 21,
-      "direct": true,
-      "stops": [
-        "Yongsan",
-        "Haengsin"
-      ],
-      "headsign": "Haengsin",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 534",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yongsan",
-          "destination": "Haengsin",
-          "departureTime": "00:46",
-          "arrivalTime": "01:07",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-26-ktx-호남선-70-27-next-day",
-      "country": "korea",
-      "date": "2026-10-27",
-      "operator": "Korail",
-      "service": "KTX 444",
-      "trainType": "KTX",
-      "origin": "Yongsan",
-      "destination": "Haengsin",
-      "departureTime": "00:19",
-      "arrivalTime": "00:41",
-      "durationMinutes": 22,
-      "direct": true,
-      "stops": [
-        "Yongsan",
-        "Haengsin"
-      ],
-      "headsign": "Haengsin",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 444",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Yongsan",
-          "destination": "Haengsin",
-          "departureTime": "00:19",
-          "arrivalTime": "00:41",
-          "durationMinutes": 22
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-26-ktx-전라선-38-28-next-day",
-      "country": "korea",
-      "date": "2026-10-27",
-      "operator": "Korail",
-      "service": "KTX-산천 534",
-      "trainType": "KTX-산천",
-      "origin": "Yongsan",
-      "destination": "Haengsin",
-      "departureTime": "00:46",
-      "arrivalTime": "01:07",
-      "durationMinutes": 21,
-      "direct": true,
-      "stops": [
-        "Yongsan",
-        "Haengsin"
-      ],
-      "headsign": "Haengsin",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 534",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yongsan",
-          "destination": "Haengsin",
-          "departureTime": "00:46",
-          "arrivalTime": "01:07",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-27-ktx-호남선-70-27-next-day",
-      "country": "korea",
-      "date": "2026-10-28",
-      "operator": "Korail",
-      "service": "KTX 444",
-      "trainType": "KTX",
-      "origin": "Yongsan",
-      "destination": "Haengsin",
-      "departureTime": "00:19",
-      "arrivalTime": "00:41",
-      "durationMinutes": 22,
-      "direct": true,
-      "stops": [
-        "Yongsan",
-        "Haengsin"
-      ],
-      "headsign": "Haengsin",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 444",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Yongsan",
-          "destination": "Haengsin",
-          "departureTime": "00:19",
-          "arrivalTime": "00:41",
-          "durationMinutes": 22
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-27-ktx-전라선-38-28-next-day",
-      "country": "korea",
-      "date": "2026-10-28",
-      "operator": "Korail",
-      "service": "KTX-산천 534",
-      "trainType": "KTX-산천",
-      "origin": "Yongsan",
-      "destination": "Haengsin",
-      "departureTime": "00:46",
-      "arrivalTime": "01:07",
-      "durationMinutes": 21,
-      "direct": true,
-      "stops": [
-        "Yongsan",
-        "Haengsin"
-      ],
-      "headsign": "Haengsin",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX-산천 534",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yongsan",
-          "destination": "Haengsin",
-          "departureTime": "00:46",
-          "arrivalTime": "01:07",
-          "durationMinutes": 21
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-28-ktx-호남선-70-27-next-day",
-      "country": "korea",
-      "date": "2026-10-29",
-      "operator": "Korail",
-      "service": "KTX 444",
-      "trainType": "KTX",
-      "origin": "Yongsan",
-      "destination": "Haengsin",
-      "departureTime": "00:19",
-      "arrivalTime": "00:41",
-      "durationMinutes": 22,
-      "direct": true,
-      "stops": [
-        "Yongsan",
-        "Haengsin"
-      ],
-      "headsign": "Haengsin",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 444",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Yongsan",
-          "destination": "Haengsin",
-          "departureTime": "00:19",
-          "arrivalTime": "00:41",
-          "durationMinutes": 22
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-10-28-ktx-전라선-38-28-next-day",
-      "country": "korea",
-      "date": "2026-10-29",
+      "date": "2026-10-31",
       "operator": "Korail",
       "service": "KTX-산천 534",
       "trainType": "KTX-산천",
@@ -556,7 +172,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-21T00:15:09.078Z",
+    "fetchedAt": "2026-10-30T05:15:52.639Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
