@@ -29,6 +29,7 @@ import {
   parseClockMinutes,
 } from "../../src/data/timetableAuthenticity";
 import { timetableDateLabel } from "../../src/data/scraped/timetableDay";
+import { countryConfig } from "../../src/data/countries";
 
 export type ValidationSeverity = "blocking" | "warning";
 
@@ -104,6 +105,32 @@ function byServiceDay(results: readonly TransitResult[]): Map<string, TransitRes
  */
 const MAX_JOURNEY_MINUTES = 24 * 60;
 
+/** A zone's UTC offset in minutes at an instant: -240 for New York in summer. */
+function utcOffsetMinutes(timeZone: string, instant: number): number {
+  const name = new Intl.DateTimeFormat("en-US", { timeZone, timeZoneName: "longOffset" })
+    .formatToParts(instant)
+    .find((part) => part.type === "timeZoneName")?.value ?? "";
+  const match = /GMT([+-])(\d{2}):(\d{2})/.exec(name);
+  return match ? (match[1] === "-" ? -1 : 1) * (Number(match[2]) * 60 + Number(match[3])) : 0;
+}
+
+/**
+ * How far the market's clocks move during a service day and the night after
+ * it: -60 across a fall-back, +60 across a spring-forward, otherwise 0.
+ *
+ * Stored times are local wall-clock times. A Boston train leaving 01:22 EDT on
+ * the night clocks go back arrives 01:09 EST, 47 minutes later, and only reads
+ * as reversed while that hour is ignored.
+ */
+function clockShiftMinutes(country: Country | string, day: string): number {
+  const timeZone = countryConfig[country as Country]?.timeZone;
+  const start = Date.parse(`${day}T00:00:00Z`);
+  if (!timeZone || !Number.isFinite(start)) return 0;
+  const hour = 60 * 60 * 1000;
+  // From before local midnight anywhere to past the following night's trains.
+  return utcOffsetMinutes(timeZone, start + 60 * hour) - utcOffsetMinutes(timeZone, start - 14 * hour);
+}
+
 /** Run every check against one route. */
 export function validateRoute(input: ValidationInput): ValidationFinding[] {
   const { country, route, knownStations } = input;
@@ -138,6 +165,7 @@ export function validateRoute(input: ValidationInput): ValidationFinding[] {
   }
 
   for (const [day, rows] of byServiceDay(route.results)) {
+    const clockShift = clockShiftMinutes(country, day);
     // 2. Duplicate departures: the same train under two ids inflates a day.
     const seen = new Map<string, number>();
     for (const row of rows) {
@@ -162,9 +190,13 @@ export function validateRoute(input: ValidationInput): ValidationFinding[] {
       const journeyMinutes = arrival >= departure ? arrival - departure : arrival + 24 * 60 - departure;
 
       // 3. Reversed times: an arrival that cannot follow its departure even
-      // after allowing for a midnight rollover.
-      if (row.durationMinutes !== undefined && Math.abs(journeyMinutes - row.durationMinutes) > 1
-        && Math.abs(journeyMinutes - 24 * 60 - row.durationMinutes) > 1) {
+      // after allowing for a midnight rollover, or for the hour a daylight
+      // saving change adds or removes on the nights it happens.
+      const statedDuration = row.durationMinutes;
+      const matchesClock = (shift: number) => statedDuration !== undefined
+        && (Math.abs(journeyMinutes - shift - statedDuration) <= 1
+          || Math.abs(journeyMinutes - 24 * 60 - shift - statedDuration) <= 1);
+      if (statedDuration !== undefined && !matchesClock(0) && !(clockShift !== 0 && matchesClock(clockShift))) {
         add(
           "reversed-times",
           "blocking",
@@ -373,19 +405,33 @@ export function detectRowLossRegressions(
   return findings;
 }
 
+export interface CountRowsOptions extends ValidateCommittedOptions {
+  /**
+   * The first service day each country can still answer. Rows for an earlier
+   * day are not counted: the picker offers today forward, so a stale baseline
+   * losing them is not data loss. Korea's committed rows had all aged past
+   * when its next scrape covered the two days its Korail edition had left,
+   * and 7798 unanswerable rows against 2043 current ones read as a 74% loss.
+   */
+  servingFrom?: (country: string) => string | undefined;
+}
+
 /** Total stored departures per country, for the regression guard. */
-export function countRowsByCountry(options: ValidateCommittedOptions = {}): CountryRowCounts {
+export function countRowsByCountry(options: CountRowsOptions = {}): CountryRowCounts {
   const dataDir = options.dataDir ?? join(process.cwd(), "src/data/scraped");
   const counts: CountryRowCounts = {};
   if (!existsSync(dataDir)) return counts;
   for (const entry of readdirSync(dataDir, { withFileTypes: true })) {
     if (!entry.isDirectory()) continue;
     let total = 0;
+    const cutoff = options.servingFrom?.(entry.name);
     for (const file of readdirSync(join(dataDir, entry.name))) {
       if (!file.endsWith(".json") || file === "metadata.json") continue;
       try {
         const route = JSON.parse(readFileSync(join(dataDir, entry.name, file), "utf-8")) as ScrapedRouteData;
-        total += route.results?.length || 0;
+        const results = route.results ?? [];
+        // A dateless row cannot be shown to be past; prune:past keeps it too.
+        total += cutoff ? results.filter((result) => !result.date || result.date >= cutoff).length : results.length;
       } catch {
         // An unparsable file is reported by validateCommittedTimetables; here
         // it simply contributes nothing to the count.
