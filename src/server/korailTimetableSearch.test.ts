@@ -6,14 +6,16 @@ import { getLinesForCountry } from "./catalog";
 // Follow the committed rolling window, while parser details stay pinned to
 // immutable official workbook fixtures in scripts/lib/korailTimetable.test.ts.
 const snapshot = JSON.parse(readFileSync(new URL("../data/scraped/korea/seoul-busan.json", import.meta.url), "utf8"));
-const date = snapshot.results[0].date as string;
+// A snapshot with no rows is the publish gate's finding (`--against-head` blocks
+// the market), so it skips here: failing at load would stop every other market.
+const date: string = snapshot.results[0]?.date ?? "";
 beforeEach(() => {
   vi.useFakeTimers({ shouldAdvanceTime: true });
   vi.setSystemTime(new Date(`${date}T04:00:00Z`));
 });
 afterEach(() => vi.useRealTimers());
 
-describe("registered Korail snapshots reach search and catalog", { timeout: 20_000 }, () => {
+describe.skipIf(!date)("registered Korail snapshots reach search and catalog", { timeout: 20_000 }, () => {
   it("answers operator aliases in both directions with official rows", async () => {
     for (const [origin, destination] of [["Seoul Station", "Busan (BSN)"], ["Busan Station", "Seoul (SNC)"], ["Yongsan", "Mokpo"]]) {
       const { statusCode, payload } = await runTransitSearch({ country: "korea", origin, destination, date });

@@ -92,6 +92,14 @@ function prediction(
   };
 }
 
+/** Boston's UTC offset on a service day: -04:00 in summer, -05:00 in winter. */
+function easternOffset(serviceDate: string) {
+  const zone = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", timeZoneName: "longOffset" })
+    .formatToParts(new Date(`${serviceDate}T12:00:00Z`))
+    .find((part) => part.type === "timeZoneName")!.value;
+  return zone.replace("GMT", "");
+}
+
 function installMbtaFixtures(
   failSchedules = false,
   failPredictions = false,
@@ -121,12 +129,12 @@ function installMbtaFixtures(
       const serviceDate = url.searchParams.get("filter[date]") || "2026-08-03";
       const data = stopId === originStop
         ? [
-            schedule("schedule-morning-origin", "trip-morning", originStop, 1, `${serviceDate}T08:00:00-04:00`, `${serviceDate}T08:00:00-04:00`),
-            schedule("schedule-evening-origin", "trip-evening", originStop, 1, `${serviceDate}T22:45:00-04:00`, `${serviceDate}T22:45:00-04:00`),
+            schedule("schedule-morning-origin", "trip-morning", originStop, 1, `${serviceDate}T08:00:00${easternOffset(serviceDate)}`, `${serviceDate}T08:00:00${easternOffset(serviceDate)}`),
+            schedule("schedule-evening-origin", "trip-evening", originStop, 1, `${serviceDate}T22:45:00${easternOffset(serviceDate)}`, `${serviceDate}T22:45:00${easternOffset(serviceDate)}`),
           ]
         : [
-            schedule("schedule-morning-destination", "trip-morning", destinationStop, 3, `${serviceDate}T08:25:00-04:00`, `${serviceDate}T08:25:00-04:00`),
-            schedule("schedule-evening-destination", "trip-evening", destinationStop, 3, `${serviceDate}T23:10:00-04:00`, `${serviceDate}T23:10:00-04:00`),
+            schedule("schedule-morning-destination", "trip-morning", destinationStop, 3, `${serviceDate}T08:25:00${easternOffset(serviceDate)}`, `${serviceDate}T08:25:00${easternOffset(serviceDate)}`),
+            schedule("schedule-evening-destination", "trip-evening", destinationStop, 3, `${serviceDate}T23:10:00${easternOffset(serviceDate)}`, `${serviceDate}T23:10:00${easternOffset(serviceDate)}`),
           ];
       return new Response(JSON.stringify({ data, included: mbtaIncluded(scheduleType) }), { status: 200 });
     }
@@ -147,8 +155,8 @@ function installMbtaFixtures(
         day: "2-digit",
       }).format(new Date());
       const data = stopId === originStop
-        ? [prediction("prediction-origin", "trip-live", originStop, 1, `${serviceDate}T22:00:00-04:00`, `${serviceDate}T22:00:00-04:00`)]
-        : [prediction("prediction-destination", "trip-live", destinationStop, 3, `${serviceDate}T22:25:00-04:00`, `${serviceDate}T22:25:00-04:00`)];
+        ? [prediction("prediction-origin", "trip-live", originStop, 1, `${serviceDate}T22:00:00${easternOffset(serviceDate)}`, `${serviceDate}T22:00:00${easternOffset(serviceDate)}`)]
+        : [prediction("prediction-destination", "trip-live", destinationStop, 3, `${serviceDate}T22:25:00${easternOffset(serviceDate)}`, `${serviceDate}T22:25:00${easternOffset(serviceDate)}`)];
       return new Response(JSON.stringify({ data, included: mbtaIncluded(scheduleType) }), { status: 200 });
     }
 

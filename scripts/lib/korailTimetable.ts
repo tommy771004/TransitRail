@@ -34,6 +34,9 @@ export interface KorailDocument extends KorailEdition {
 }
 
 const compact = (value: XlsxValue | undefined) => String(value ?? "").normalize("NFKC").replace(/\s+/g, "");
+// Hand-typed cells: the 11/1 workbook spells KTX-산천 as KTX산천 and KTX_산천 too.
+// One spelling per train type, because the fare lookup reads it (`/^KTX(?:-|$)/`).
+const trainTypeName = (value: XlsxValue | undefined) => compact(value).replace(/^(KTX|ITX)_?(?=[가-힣])/, "$1-");
 const calendarDate = (year: string, month: string, day: string): string => {
   const date = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
   if (new Date(`${date}T00:00:00Z`).toISOString().slice(0, 10) !== date) throw new Error(`Invalid Korail date: ${date}`);
@@ -204,7 +207,7 @@ function parseKtxSheet(sheet: XlsxSheet, names: Map<string, string>, exclude: (m
         if (number <= rowNumber + 2 || row.get(trainColumn) === undefined) continue;
         const trainNumber = compact(row.get(trainColumn));
         if (!/^[1-9]\d*$/.test(trainNumber)) throw new Error(`Invalid KTX train number in ${sheet.name}:${number}`);
-        const trainType = compact(row.get(trainColumn + 1));
+        const trainType = trainTypeName(row.get(trainColumn + 1));
         if (!/^KTX(?:-[가-힣]+)?$/.test(trainType)) throw new Error(`Unknown KTX train type: ${trainType}`);
         const stops = stations.flatMap(({ column, name }) => {
           const minutes = timeMinutes(row.get(column));
@@ -256,7 +259,7 @@ function parseRegularSheet(sheet: XlsxSheet, names: Map<string, string>, exclude
       }
       trains: for (const column of trainColumns) {
         const trainNumber = compact(row.get(column));
-        const trainType = compact(sheet.rows.get(headerRow - 1)?.get(column));
+        const trainType = trainTypeName(sheet.rows.get(headerRow - 1)?.get(column));
         if (!/^(ITX-[가-힣]+|무궁화|새마을|누리로)$/.test(trainType)) throw new Error(`Unknown regular train type: ${trainType}`);
         const stops: KorailRun["stops"] = [];
         const start = startOf(column);

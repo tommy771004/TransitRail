@@ -89,6 +89,12 @@ scrape-written catalog files), every other market publishes, and the job fails a
 every check scoped to one market — a cross-market check would let one market's data decide another's
 publication. Only when every market is blocked is the whole run discarded.
 
+The row-loss guard counts service days from each market's today onward, so aged rows are not "lost".
+A market whose committed rows have all aged past and that gains none still blocks, even though both
+of its serving counts are zero. `test:data` runs after the gate and before the commit, so a market
+the gate lets through empty fails every market's publication: keep those tests tolerant of an empty
+market and leave the verdict to the gate.
+
 ## Tests
 
 New France and Thailand service-day suites must use `serviceDayArtifactFixture()`, and their

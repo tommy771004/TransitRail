@@ -64,7 +64,9 @@ async function knownStationsByCountry(): Promise<Record<string, Set<string>>> {
  * version actually published, not whatever an earlier step in the same job
  * happened to leave behind.
  */
-function baselineRowCounts(servingFrom: (country: string) => string | undefined): CountryRowCounts | undefined {
+function baselineRowCounts(
+  servingFrom: (country: string) => string | undefined,
+): { serving: CountryRowCounts; committed: CountryRowCounts } | undefined {
   let directory: string | undefined;
   try {
     const listed = execFileSync("git", ["ls-tree", "-r", "--name-only", "HEAD", "src/data/scraped/"], {
@@ -81,7 +83,10 @@ function baselineRowCounts(servingFrom: (country: string) => string | undefined)
       mkdirSync(join(target, ".."), { recursive: true });
       writeFileSync(target, execFileSync("git", ["show", `HEAD:${path}`], { encoding: "utf-8", maxBuffer: 1 << 30 }));
     }
-    return countRowsByCountry({ dataDir: directory, servingFrom });
+    return {
+      serving: countRowsByCountry({ dataDir: directory, servingFrom }),
+      committed: countRowsByCountry({ dataDir: directory }),
+    };
   } catch (error) {
     console.warn(`Could not read the committed baseline, skipping the data-loss guard: ${error instanceof Error ? error.message : error}`);
     return undefined;
@@ -113,12 +118,17 @@ async function main() {
 
   if (process.argv.includes("--against-head")) {
     // Both sides count only service days a search can still ask for, so a
-    // baseline whose rows have aged past is not mistaken for data to lose.
+    // baseline whose rows have aged past is not mistaken for data to lose. The
+    // full committed count still catches a market left with no rows at all.
     const servingFrom = (country: string) =>
       country in countryConfig ? providerDateValue(country as Country) : undefined;
     const baseline = baselineRowCounts(servingFrom);
     if (baseline) {
-      report.findings.push(...detectRowLossRegressions(baseline, countRowsByCountry({ servingFrom })));
+      report.findings.push(...detectRowLossRegressions(
+        baseline.serving,
+        countRowsByCountry({ servingFrom }),
+        baseline.committed,
+      ));
     }
   }
 

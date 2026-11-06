@@ -381,18 +381,38 @@ export interface CountryRowCounts {
  * Compare a run's output against the last committed version.
  *
  * Deliberately one-directional: gaining departures is never suspicious, and a
- * country that had nothing cannot lose anything. Only a large drop against a
- * non-empty baseline blocks, because only that indicates the run is about to
- * replace real data with less of it.
+ * country that never had rows cannot lose anything. A large drop against a
+ * non-empty baseline blocks, because that indicates the run is about to replace
+ * real data with less of it.
+ *
+ * `committed` counts every committed row, past days included. A market whose
+ * rows have all aged past shows 0 → 0 on the serving counts, which is the same
+ * reading as a market with no timetables at all; it blocks only because
+ * `committed` shows it had some. Without this, the run reaches the data tests
+ * with an empty market and fails for every market instead of quarantining one.
  */
 export function detectRowLossRegressions(
   baseline: CountryRowCounts,
   current: CountryRowCounts,
+  committed: CountryRowCounts = baseline,
 ): ValidationFinding[] {
   const findings: ValidationFinding[] = [];
-  for (const [country, before] of Object.entries(baseline)) {
-    if (before === 0) continue;
+  for (const country of new Set([...Object.keys(baseline), ...Object.keys(committed)])) {
+    const before = baseline[country] ?? 0;
     const after = current[country] ?? 0;
+    if (before === 0) {
+      const stored = committed[country] ?? 0;
+      if (stored > 0 && after === 0) {
+        findings.push({
+          check: "empty-data",
+          severity: "blocking",
+          country,
+          message: `All ${stored} committed rows have aged past and this run added none;`
+            + " keeping the previously committed data.",
+        });
+      }
+      continue;
+    }
     if (after >= before * (1 - MAX_ROW_LOSS_RATIO)) continue;
     findings.push({
       check: "empty-data",

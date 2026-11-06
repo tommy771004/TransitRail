@@ -154,7 +154,10 @@ jobs:
       #
       # `--against-head` compares the run against the last commit, so a feed
       # that starts answering 200 with an empty envelope is caught as data loss
-      # rather than accepted as a schedule with no trains in it.
+      # rather than accepted as a schedule with no trains in it. So is a market
+      # whose committed rows have all aged past and that this run did not renew:
+      # the same Korail abort in November 2026 otherwise passes here and fails
+      # `test:data` below, which stops every market rather than quarantining one.
       # Keep the exact findings after a failed run. GitHub's job annotation only
       # says that this command exited non-zero; the report distinguishes a real
       # source/provenance violation from a provider's transient row loss.

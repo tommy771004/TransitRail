@@ -41,6 +41,14 @@ describe("market quarantine", () => {
     expect(blockedCountries([warning])).toEqual([]);
   });
 
+  it("blocks a market whose rows all aged past, and only that market", () => {
+    expect(blockedCountries(detectRowLossRegressions(
+      { korea: 0, germany: 800, thailand: 0 },
+      { korea: 0, germany: 790, thailand: 0 },
+      { korea: 1028, germany: 2400, thailand: 0 },
+    ))).toEqual(["korea"]);
+  });
+
   it("owns a market's route files, service-day artifact and scrape-written catalog only", () => {
     const root = repo({
       "src/data/catalog/singapore.json": "{}",

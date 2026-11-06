@@ -398,6 +398,32 @@ describe("data-loss guard", () => {
     expect(detectRowLossRegressions({ korea: 500 }, {})).toHaveLength(1);
   });
 
+  // November 2026: the Korail scrape aborted after Korea's committed rows had
+  // all aged past. Zero serving rows on both sides read as "nothing to lose",
+  // the run went on to fail its data tests, and no market published for six nights.
+  it("blocks a market whose committed rows all aged past when the run adds none", () => {
+    expect(detectRowLossRegressions({ korea: 0 }, { korea: 0 }, { korea: 1028 })).toEqual([
+      expect.objectContaining({
+        check: "empty-data",
+        severity: "blocking",
+        country: "korea",
+        message: expect.stringContaining("All 1028 committed rows have aged past"),
+      }),
+    ]);
+  });
+
+  it("accepts a run that refreshes a market whose committed rows aged past", () => {
+    expect(detectRowLossRegressions({ korea: 0 }, { korea: 2043 }, { korea: 1028 })).toEqual([]);
+  });
+
+  it("reports a market that loses its serving rows once", () => {
+    expect(detectRowLossRegressions({ korea: 500 }, { korea: 0 }, { korea: 1500 })).toHaveLength(1);
+  });
+
+  it("leaves a market with no committed rows alone", () => {
+    expect(detectRowLossRegressions({ thailand: 0 }, { thailand: 0 }, { thailand: 0 })).toEqual([]);
+  });
+
   // Run #161: Korea's committed rows were all for past days, so a run that
   // covered the two days its Korail edition had left read as a 74% loss.
   it("counts only the service days a search can still ask for", () => {

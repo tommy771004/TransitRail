@@ -76,6 +76,25 @@ describe("Korail operator XLSX", () => {
     expect(october.some((run) => run.line === "호남선" && run.trainNumber === "474")).toBe(true);
   });
 
+  it("reads the 11/1 workbook's three spellings of 산천 as one train type", () => {
+    // Most rows say KTX-산천; some cells were typed as KTX산천 or KTX_산천.
+    const november = parseKorailWorkbook(bytes("ktx", "2026-11-01"), "ktx", new Map(), () => {});
+    expect(new Set(november.map((run) => run.trainType))).toEqual(new Set(["KTX", "KTX-산천", "KTX-이음", "KTX-청룡"]));
+  });
+
+  it("gives a regular train one spelling too", () => {
+    const archive = unzipSync(bytes("regular"));
+    archive["xl/sharedStrings.xml"] = strToU8(strFromU8(archive["xl/sharedStrings.xml"]).replaceAll("ITX-새마을", "ITX_새마을"));
+    const retyped = parseKorailWorkbook(zipSync(archive), "regular", new Map(), () => {});
+    expect(retyped.map((run) => run.trainType)).toEqual(regular.map((run) => run.trainType));
+  });
+
+  it("fails closed on a train type that is not KTX", () => {
+    const archive = unzipSync(bytes("ktx", "2026-11-01"));
+    archive["xl/sharedStrings.xml"] = strToU8(strFromU8(archive["xl/sharedStrings.xml"]).replaceAll("KTX_산천", "SRT"));
+    expect(() => parseKorailWorkbook(zipSync(archive), "ktx", new Map(), () => {})).toThrow("Unknown KTX train type: SRT");
+  });
+
   it("excludes a regular train whose published start or end time is blank, and keeps the rest", () => {
     // 10/1 경전선 1958 names 동대구 as its terminus but publishes no time there;
     // the 서해선 ITX-마음 trains still name 홍성 but its cells are blank.

@@ -11,11 +11,18 @@ Both titles explicitly say effective 2026-09-01; board publication dates are not
 | korail-regular-2026-09-01.xlsx | https://www.korail.com/file/cubedata/COMMON/jfile/202608/25/202608251a036890aa0430.xlsx | 2c1531ebce6ffd9aa18f51cc91d8fe4bffd7d95093dc970e21f5cc1964d3b61d |
 | korail-ktx-2026-10-01.xlsx | https://www.korail.com/file/cubedata/COMMON/jfile/202609/23/202609231a0cb38a2c5200.xlsx | eaadc99d90aa9fb4e009ca74d812cc4aa4885a7aee98950adc715dca6c0ad623 |
 | korail-regular-2026-10-01.xlsx | https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10a842d5b580.xlsx | 530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd |
+| korail-ktx-2026-11-01.xlsx | https://www.korail.com/file/cubedata/COMMON/jfile/202610/13/202610131a130b1ac0b200.xlsx | 25a8f8781a5840543dc41e937b717255ad498e98837586acba924775b5f63a92 |
 
 The 10/1 KTX workbook was downloaded on 2026-09-23 UTC, the day it replaced the
 9/18 edition's board post. The 10/1 regular workbook was downloaded on
 2026-10-05 UTC; it is Korail's re-upload of that edition, which still carries
 the omissions below.
+
+The 11/1 KTX workbook was downloaded on 2026-11-06 UTC. It spells `KTX-산천` three
+ways (`KTX-산천`, `KTX산천`, `KTX_산천`); the parser normalizes them to the first,
+as it does the same two variants of `ITX-` names, and any other train type still
+aborts. That strict check stopped the Korea scrape from 2026-11-01 until the
+spellings were accepted. Rows keep one spelling because the fare lookup reads it.
 
 The parser reads cached published values, never evaluates formulas. KTX sheets
 have horizontal trains; regular sheets have vertical trains and a `보는방법`
