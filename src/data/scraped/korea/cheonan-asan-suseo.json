@@ -1,44 +1,378 @@
 {
   "origin": "Cheonan-Asan",
   "destination": "Suseo",
-  "date": "2026-10-31",
-  "scrapedAt": "2026-10-30T05:15:52.739Z",
+  "date": "2026-11-06..2026-11-14",
+  "scrapedAt": "2026-11-06T03:59:49.999Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
-      "title": "KTX 시간표(2026. 10. 1. 기준)",
-      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10bacb336520.xlsx",
-      "effectiveFrom": "2026-10-01",
-      "sha256": "1176364b2b4e95a3044cf15fbb55ea2991bf15737e4cc4af8a270c2fb5a1d6fc",
-      "effectiveUntil": "2026-10-31",
-      "retrievedAt": "2026-10-30T05:15:50.525Z",
+      "title": "KTX 시간표(2026. 11. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/13/202610131a130b1ac0b200.xlsx",
+      "effectiveFrom": "2026-11-01",
+      "retrievedAt": "2026-11-06T03:59:46.413Z",
+      "sha256": "25a8f8781a5840543dc41e937b717255ad498e98837586acba924775b5f63a92",
       "exclusions": []
     },
     {
-      "title": "일반열차 시간표(2026. 10. 1. 기준)",
-      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/05/202610051a10a842d5b580.xlsx",
-      "effectiveFrom": "2026-10-01",
-      "sha256": "530baa03f3ec2b9cf7232e22e1e1c7ccdded63e1f289a27944dc59e572cc2cbd",
-      "effectiveUntil": "2026-10-31",
-      "retrievedAt": "2026-10-30T05:15:52.416Z",
+      "title": "일반열차 시간표(2026. 11. 1. 기준)",
+      "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/12/202610121a13004f8b1730.xlsx",
+      "effectiveFrom": "2026-11-01",
+      "retrievedAt": "2026-11-06T03:59:48.216Z",
+      "sha256": "4d560624710e893e3dbeea0c321ce43e52488db72f3b21cfec1098711ac9b413",
       "exclusions": [
-        "Korail excluded 경전선 1958: published start or end time missing",
-        "Korail excluded 서해선 1231: published start or end time missing",
-        "Korail excluded 서해선 1233: published start or end time missing",
-        "Korail excluded 서해선 1235: published start or end time missing",
-        "Korail excluded 서해선 1237: published start or end time missing",
-        "Korail excluded 서해선 1232: published start or end time missing",
-        "Korail excluded 서해선 1234: published start or end time missing",
-        "Korail excluded 서해선 1236: published start or end time missing",
-        "Korail excluded 서해선 1238: published start or end time missing"
+        "Korail excluded 경전선 1958: published start or end time missing"
       ]
     }
   ],
   "results": [
     {
-      "id": "korail-2026-10-30-ktx-호남선-71-27-next-day",
+      "id": "korail-2026-11-05-ktx-호남선-71-27-next-day",
       "country": "korea",
-      "date": "2026-10-31",
+      "date": "2026-11-06",
+      "operator": "Korail",
+      "service": "KTX-산천 636",
+      "trainType": "KTX-산천",
+      "origin": "Cheonan-Asan",
+      "destination": "Suseo",
+      "departureTime": "00:19",
+      "arrivalTime": "00:54",
+      "durationMinutes": 35,
+      "direct": true,
+      "stops": [
+        "Cheonan-Asan",
+        "Dongtan",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Dongtan",
+          "departureTime": "00:19",
+          "arrivalTime": "00:37",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Dongtan",
+          "destination": "Suseo",
+          "departureTime": "00:37",
+          "arrivalTime": "00:54",
+          "durationMinutes": 17
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-06-ktx-호남선-71-27-next-day",
+      "country": "korea",
+      "date": "2026-11-07",
+      "operator": "Korail",
+      "service": "KTX-산천 636",
+      "trainType": "KTX-산천",
+      "origin": "Cheonan-Asan",
+      "destination": "Suseo",
+      "departureTime": "00:19",
+      "arrivalTime": "00:54",
+      "durationMinutes": 35,
+      "direct": true,
+      "stops": [
+        "Cheonan-Asan",
+        "Dongtan",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Dongtan",
+          "departureTime": "00:19",
+          "arrivalTime": "00:37",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Dongtan",
+          "destination": "Suseo",
+          "departureTime": "00:37",
+          "arrivalTime": "00:54",
+          "durationMinutes": 17
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-07-ktx-호남선-71-27-next-day",
+      "country": "korea",
+      "date": "2026-11-08",
+      "operator": "Korail",
+      "service": "KTX-산천 636",
+      "trainType": "KTX-산천",
+      "origin": "Cheonan-Asan",
+      "destination": "Suseo",
+      "departureTime": "00:19",
+      "arrivalTime": "00:54",
+      "durationMinutes": 35,
+      "direct": true,
+      "stops": [
+        "Cheonan-Asan",
+        "Dongtan",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Dongtan",
+          "departureTime": "00:19",
+          "arrivalTime": "00:37",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Dongtan",
+          "destination": "Suseo",
+          "departureTime": "00:37",
+          "arrivalTime": "00:54",
+          "durationMinutes": 17
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-08-ktx-호남선-71-27-next-day",
+      "country": "korea",
+      "date": "2026-11-09",
+      "operator": "Korail",
+      "service": "KTX-산천 636",
+      "trainType": "KTX-산천",
+      "origin": "Cheonan-Asan",
+      "destination": "Suseo",
+      "departureTime": "00:19",
+      "arrivalTime": "00:54",
+      "durationMinutes": 35,
+      "direct": true,
+      "stops": [
+        "Cheonan-Asan",
+        "Dongtan",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Dongtan",
+          "departureTime": "00:19",
+          "arrivalTime": "00:37",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Dongtan",
+          "destination": "Suseo",
+          "departureTime": "00:37",
+          "arrivalTime": "00:54",
+          "durationMinutes": 17
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-09-ktx-호남선-71-27-next-day",
+      "country": "korea",
+      "date": "2026-11-10",
+      "operator": "Korail",
+      "service": "KTX-산천 636",
+      "trainType": "KTX-산천",
+      "origin": "Cheonan-Asan",
+      "destination": "Suseo",
+      "departureTime": "00:19",
+      "arrivalTime": "00:54",
+      "durationMinutes": 35,
+      "direct": true,
+      "stops": [
+        "Cheonan-Asan",
+        "Dongtan",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Dongtan",
+          "departureTime": "00:19",
+          "arrivalTime": "00:37",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Dongtan",
+          "destination": "Suseo",
+          "departureTime": "00:37",
+          "arrivalTime": "00:54",
+          "durationMinutes": 17
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-10-ktx-호남선-71-27-next-day",
+      "country": "korea",
+      "date": "2026-11-11",
+      "operator": "Korail",
+      "service": "KTX-산천 636",
+      "trainType": "KTX-산천",
+      "origin": "Cheonan-Asan",
+      "destination": "Suseo",
+      "departureTime": "00:19",
+      "arrivalTime": "00:54",
+      "durationMinutes": 35,
+      "direct": true,
+      "stops": [
+        "Cheonan-Asan",
+        "Dongtan",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Dongtan",
+          "departureTime": "00:19",
+          "arrivalTime": "00:37",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Dongtan",
+          "destination": "Suseo",
+          "departureTime": "00:37",
+          "arrivalTime": "00:54",
+          "durationMinutes": 17
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-11-ktx-호남선-71-27-next-day",
+      "country": "korea",
+      "date": "2026-11-12",
+      "operator": "Korail",
+      "service": "KTX-산천 636",
+      "trainType": "KTX-산천",
+      "origin": "Cheonan-Asan",
+      "destination": "Suseo",
+      "departureTime": "00:19",
+      "arrivalTime": "00:54",
+      "durationMinutes": 35,
+      "direct": true,
+      "stops": [
+        "Cheonan-Asan",
+        "Dongtan",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Dongtan",
+          "departureTime": "00:19",
+          "arrivalTime": "00:37",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Dongtan",
+          "destination": "Suseo",
+          "departureTime": "00:37",
+          "arrivalTime": "00:54",
+          "durationMinutes": 17
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-12-ktx-호남선-71-27-next-day",
+      "country": "korea",
+      "date": "2026-11-13",
+      "operator": "Korail",
+      "service": "KTX-산천 636",
+      "trainType": "KTX-산천",
+      "origin": "Cheonan-Asan",
+      "destination": "Suseo",
+      "departureTime": "00:19",
+      "arrivalTime": "00:54",
+      "durationMinutes": 35,
+      "direct": true,
+      "stops": [
+        "Cheonan-Asan",
+        "Dongtan",
+        "Suseo"
+      ],
+      "headsign": "Suseo",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Dongtan",
+          "departureTime": "00:19",
+          "arrivalTime": "00:37",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 636",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Dongtan",
+          "destination": "Suseo",
+          "departureTime": "00:37",
+          "arrivalTime": "00:54",
+          "durationMinutes": 17
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-13-ktx-호남선-71-27-next-day",
+      "country": "korea",
+      "date": "2026-11-14",
       "operator": "Korail",
       "service": "KTX-산천 636",
       "trainType": "KTX-산천",
@@ -87,7 +421,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-10-30T05:15:52.639Z",
+    "fetchedAt": "2026-11-06T03:59:49.702Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
