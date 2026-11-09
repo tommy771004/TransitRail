@@ -1,15 +1,15 @@
 {
   "origin": "Seoul",
   "destination": "Jeonui",
-  "date": "2026-11-08..2026-11-14",
-  "scrapedAt": "2026-11-06T03:59:49.891Z",
+  "date": "2026-11-09..2026-11-17",
+  "scrapedAt": "2026-11-09T01:18:00.490Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 11. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/13/202610131a130b1ac0b200.xlsx",
       "effectiveFrom": "2026-11-01",
-      "retrievedAt": "2026-11-06T03:59:46.413Z",
+      "retrievedAt": "2026-11-09T01:17:57.629Z",
       "sha256": "25a8f8781a5840543dc41e937b717255ad498e98837586acba924775b5f63a92",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 11. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/12/202610121a13004f8b1730.xlsx",
       "effectiveFrom": "2026-11-01",
-      "retrievedAt": "2026-11-06T03:59:48.216Z",
+      "retrievedAt": "2026-11-09T01:17:58.303Z",
       "sha256": "4d560624710e893e3dbeea0c321ce43e52488db72f3b21cfec1098711ac9b413",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing"
@@ -25,93 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-11-08-regular-경부선-9-32",
-      "country": "korea",
-      "date": "2026-11-08",
-      "operator": "Korail",
-      "service": "무궁화 1181",
-      "trainType": "무궁화",
-      "origin": "Seoul",
-      "destination": "Jeonui",
-      "departureTime": "17:54",
-      "arrivalTime": "19:23",
-      "durationMinutes": 89,
-      "direct": true,
-      "stops": [
-        "Seoul",
-        "Yeongdeungpo",
-        "Suwon",
-        "Osan",
-        "Pyeongtaek",
-        "Cheonan",
-        "Jeonui"
-      ],
-      "headsign": "Jeonui",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1181",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Seoul",
-          "destination": "Yeongdeungpo",
-          "departureTime": "17:54",
-          "arrivalTime": "18:07",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "무궁화 1181",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Yeongdeungpo",
-          "destination": "Suwon",
-          "departureTime": "18:07",
-          "arrivalTime": "18:32",
-          "durationMinutes": 25
-        },
-        {
-          "lineName": "무궁화 1181",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Suwon",
-          "destination": "Osan",
-          "departureTime": "18:32",
-          "arrivalTime": "18:43",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "무궁화 1181",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Osan",
-          "destination": "Pyeongtaek",
-          "departureTime": "18:43",
-          "arrivalTime": "18:55",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "무궁화 1181",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Pyeongtaek",
-          "destination": "Cheonan",
-          "departureTime": "18:55",
-          "arrivalTime": "19:09",
-          "durationMinutes": 14
-        },
-        {
-          "lineName": "무궁화 1181",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Cheonan",
-          "destination": "Jeonui",
-          "departureTime": "19:09",
-          "arrivalTime": "19:23",
-          "durationMinutes": 14
-        }
-      ]
-    },
     {
       "id": "korail-2026-11-09-regular-경부선-9-32",
       "country": "korea",
@@ -633,6 +546,267 @@
           "durationMinutes": 14
         }
       ]
+    },
+    {
+      "id": "korail-2026-11-15-regular-경부선-9-32",
+      "country": "korea",
+      "date": "2026-11-15",
+      "operator": "Korail",
+      "service": "무궁화 1181",
+      "trainType": "무궁화",
+      "origin": "Seoul",
+      "destination": "Jeonui",
+      "departureTime": "17:54",
+      "arrivalTime": "19:23",
+      "durationMinutes": 89,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Yeongdeungpo",
+        "Suwon",
+        "Osan",
+        "Pyeongtaek",
+        "Cheonan",
+        "Jeonui"
+      ],
+      "headsign": "Jeonui",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Yeongdeungpo",
+          "departureTime": "17:54",
+          "arrivalTime": "18:07",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Yeongdeungpo",
+          "destination": "Suwon",
+          "departureTime": "18:07",
+          "arrivalTime": "18:32",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Suwon",
+          "destination": "Osan",
+          "departureTime": "18:32",
+          "arrivalTime": "18:43",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Osan",
+          "destination": "Pyeongtaek",
+          "departureTime": "18:43",
+          "arrivalTime": "18:55",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Pyeongtaek",
+          "destination": "Cheonan",
+          "departureTime": "18:55",
+          "arrivalTime": "19:09",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Jeonui",
+          "departureTime": "19:09",
+          "arrivalTime": "19:23",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-16-regular-경부선-9-32",
+      "country": "korea",
+      "date": "2026-11-16",
+      "operator": "Korail",
+      "service": "무궁화 1181",
+      "trainType": "무궁화",
+      "origin": "Seoul",
+      "destination": "Jeonui",
+      "departureTime": "17:54",
+      "arrivalTime": "19:23",
+      "durationMinutes": 89,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Yeongdeungpo",
+        "Suwon",
+        "Osan",
+        "Pyeongtaek",
+        "Cheonan",
+        "Jeonui"
+      ],
+      "headsign": "Jeonui",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Yeongdeungpo",
+          "departureTime": "17:54",
+          "arrivalTime": "18:07",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Yeongdeungpo",
+          "destination": "Suwon",
+          "departureTime": "18:07",
+          "arrivalTime": "18:32",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Suwon",
+          "destination": "Osan",
+          "departureTime": "18:32",
+          "arrivalTime": "18:43",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Osan",
+          "destination": "Pyeongtaek",
+          "departureTime": "18:43",
+          "arrivalTime": "18:55",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Pyeongtaek",
+          "destination": "Cheonan",
+          "departureTime": "18:55",
+          "arrivalTime": "19:09",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Jeonui",
+          "departureTime": "19:09",
+          "arrivalTime": "19:23",
+          "durationMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-17-regular-경부선-9-32",
+      "country": "korea",
+      "date": "2026-11-17",
+      "operator": "Korail",
+      "service": "무궁화 1181",
+      "trainType": "무궁화",
+      "origin": "Seoul",
+      "destination": "Jeonui",
+      "departureTime": "17:54",
+      "arrivalTime": "19:23",
+      "durationMinutes": 89,
+      "direct": true,
+      "stops": [
+        "Seoul",
+        "Yeongdeungpo",
+        "Suwon",
+        "Osan",
+        "Pyeongtaek",
+        "Cheonan",
+        "Jeonui"
+      ],
+      "headsign": "Jeonui",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Seoul",
+          "destination": "Yeongdeungpo",
+          "departureTime": "17:54",
+          "arrivalTime": "18:07",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Yeongdeungpo",
+          "destination": "Suwon",
+          "departureTime": "18:07",
+          "arrivalTime": "18:32",
+          "durationMinutes": 25
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Suwon",
+          "destination": "Osan",
+          "departureTime": "18:32",
+          "arrivalTime": "18:43",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Osan",
+          "destination": "Pyeongtaek",
+          "departureTime": "18:43",
+          "arrivalTime": "18:55",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Pyeongtaek",
+          "destination": "Cheonan",
+          "departureTime": "18:55",
+          "arrivalTime": "19:09",
+          "durationMinutes": 14
+        },
+        {
+          "lineName": "무궁화 1181",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Cheonan",
+          "destination": "Jeonui",
+          "departureTime": "19:09",
+          "arrivalTime": "19:23",
+          "durationMinutes": 14
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -643,7 +817,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-11-06T03:59:49.702Z",
+    "fetchedAt": "2026-11-09T01:18:00.273Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

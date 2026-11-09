@@ -1,15 +1,15 @@
 {
   "origin": "Nonsan",
   "destination": "Iksan",
-  "date": "2026-11-08..2026-11-14",
-  "scrapedAt": "2026-11-06T03:59:50.001Z",
+  "date": "2026-11-09..2026-11-17",
+  "scrapedAt": "2026-11-09T01:18:00.600Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 11. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/13/202610131a130b1ac0b200.xlsx",
       "effectiveFrom": "2026-11-01",
-      "retrievedAt": "2026-11-06T03:59:46.413Z",
+      "retrievedAt": "2026-11-09T01:17:57.629Z",
       "sha256": "25a8f8781a5840543dc41e937b717255ad498e98837586acba924775b5f63a92",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 11. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/12/202610121a13004f8b1730.xlsx",
       "effectiveFrom": "2026-11-01",
-      "retrievedAt": "2026-11-06T03:59:48.216Z",
+      "retrievedAt": "2026-11-09T01:17:58.303Z",
       "sha256": "4d560624710e893e3dbeea0c321ce43e52488db72f3b21cfec1098711ac9b413",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing"
@@ -25,60 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-11-07-regular-호남선-9-22-next-day",
-      "country": "korea",
-      "date": "2026-11-08",
-      "operator": "Korail",
-      "service": "무궁화 1471",
-      "trainType": "무궁화",
-      "origin": "Nonsan",
-      "destination": "Iksan",
-      "departureTime": "00:06",
-      "arrivalTime": "00:38",
-      "durationMinutes": 32,
-      "direct": true,
-      "stops": [
-        "Nonsan",
-        "Ganggyeong",
-        "Hamyeol",
-        "Iksan"
-      ],
-      "headsign": "Iksan",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1471",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Nonsan",
-          "destination": "Ganggyeong",
-          "departureTime": "00:06",
-          "arrivalTime": "00:15",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "무궁화 1471",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Ganggyeong",
-          "destination": "Hamyeol",
-          "departureTime": "00:15",
-          "arrivalTime": "00:26",
-          "durationMinutes": 11
-        },
-        {
-          "lineName": "무궁화 1471",
-          "lineCode": "호남선",
-          "mode": "train",
-          "origin": "Hamyeol",
-          "destination": "Iksan",
-          "departureTime": "00:26",
-          "arrivalTime": "00:38",
-          "durationMinutes": 12
-        }
-      ]
-    },
     {
       "id": "korail-2026-11-08-regular-호남선-9-22-next-day",
       "country": "korea",
@@ -402,6 +348,168 @@
           "durationMinutes": 12
         }
       ]
+    },
+    {
+      "id": "korail-2026-11-14-regular-호남선-9-22-next-day",
+      "country": "korea",
+      "date": "2026-11-15",
+      "operator": "Korail",
+      "service": "무궁화 1471",
+      "trainType": "무궁화",
+      "origin": "Nonsan",
+      "destination": "Iksan",
+      "departureTime": "00:06",
+      "arrivalTime": "00:38",
+      "durationMinutes": 32,
+      "direct": true,
+      "stops": [
+        "Nonsan",
+        "Ganggyeong",
+        "Hamyeol",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1471",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Nonsan",
+          "destination": "Ganggyeong",
+          "departureTime": "00:06",
+          "arrivalTime": "00:15",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1471",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Ganggyeong",
+          "destination": "Hamyeol",
+          "departureTime": "00:15",
+          "arrivalTime": "00:26",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1471",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Hamyeol",
+          "destination": "Iksan",
+          "departureTime": "00:26",
+          "arrivalTime": "00:38",
+          "durationMinutes": 12
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-15-regular-호남선-9-22-next-day",
+      "country": "korea",
+      "date": "2026-11-16",
+      "operator": "Korail",
+      "service": "무궁화 1471",
+      "trainType": "무궁화",
+      "origin": "Nonsan",
+      "destination": "Iksan",
+      "departureTime": "00:06",
+      "arrivalTime": "00:38",
+      "durationMinutes": 32,
+      "direct": true,
+      "stops": [
+        "Nonsan",
+        "Ganggyeong",
+        "Hamyeol",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1471",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Nonsan",
+          "destination": "Ganggyeong",
+          "departureTime": "00:06",
+          "arrivalTime": "00:15",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1471",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Ganggyeong",
+          "destination": "Hamyeol",
+          "departureTime": "00:15",
+          "arrivalTime": "00:26",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1471",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Hamyeol",
+          "destination": "Iksan",
+          "departureTime": "00:26",
+          "arrivalTime": "00:38",
+          "durationMinutes": 12
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-16-regular-호남선-9-22-next-day",
+      "country": "korea",
+      "date": "2026-11-17",
+      "operator": "Korail",
+      "service": "무궁화 1471",
+      "trainType": "무궁화",
+      "origin": "Nonsan",
+      "destination": "Iksan",
+      "departureTime": "00:06",
+      "arrivalTime": "00:38",
+      "durationMinutes": 32,
+      "direct": true,
+      "stops": [
+        "Nonsan",
+        "Ganggyeong",
+        "Hamyeol",
+        "Iksan"
+      ],
+      "headsign": "Iksan",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1471",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Nonsan",
+          "destination": "Ganggyeong",
+          "departureTime": "00:06",
+          "arrivalTime": "00:15",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "무궁화 1471",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Ganggyeong",
+          "destination": "Hamyeol",
+          "departureTime": "00:15",
+          "arrivalTime": "00:26",
+          "durationMinutes": 11
+        },
+        {
+          "lineName": "무궁화 1471",
+          "lineCode": "호남선",
+          "mode": "train",
+          "origin": "Hamyeol",
+          "destination": "Iksan",
+          "departureTime": "00:26",
+          "arrivalTime": "00:38",
+          "durationMinutes": 12
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -412,7 +520,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-11-06T03:59:49.702Z",
+    "fetchedAt": "2026-11-09T01:18:00.273Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

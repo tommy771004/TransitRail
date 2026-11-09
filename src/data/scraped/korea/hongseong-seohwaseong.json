@@ -1,15 +1,15 @@
 {
   "origin": "Hongseong",
   "destination": "Seohwaseong",
-  "date": "2026-11-08..2026-11-14",
-  "scrapedAt": "2026-11-06T03:59:49.994Z",
+  "date": "2026-11-09..2026-11-17",
+  "scrapedAt": "2026-11-09T01:18:00.593Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 11. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/13/202610131a130b1ac0b200.xlsx",
       "effectiveFrom": "2026-11-01",
-      "retrievedAt": "2026-11-06T03:59:46.413Z",
+      "retrievedAt": "2026-11-09T01:17:57.629Z",
       "sha256": "25a8f8781a5840543dc41e937b717255ad498e98837586acba924775b5f63a92",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 11. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/12/202610121a13004f8b1730.xlsx",
       "effectiveFrom": "2026-11-01",
-      "retrievedAt": "2026-11-06T03:59:48.216Z",
+      "retrievedAt": "2026-11-09T01:17:58.303Z",
       "sha256": "4d560624710e893e3dbeea0c321ce43e52488db72f3b21cfec1098711ac9b413",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing"
@@ -25,354 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-11-08-regular-서해선-9-14",
-      "country": "korea",
-      "date": "2026-11-08",
-      "operator": "Korail",
-      "service": "ITX-마음 1232",
-      "trainType": "ITX-마음",
-      "origin": "Hongseong",
-      "destination": "Seohwaseong",
-      "departureTime": "06:56",
-      "arrivalTime": "08:03",
-      "durationMinutes": 67,
-      "direct": true,
-      "stops": [
-        "Hongseong",
-        "Hapdeok",
-        "Inju",
-        "Anjung",
-        "Hyangnam",
-        "Hwaseong City Hall",
-        "Seohwaseong"
-      ],
-      "headsign": "Seohwaseong",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1232",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hongseong",
-          "destination": "Hapdeok",
-          "departureTime": "06:56",
-          "arrivalTime": "07:12",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "ITX-마음 1232",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hapdeok",
-          "destination": "Inju",
-          "departureTime": "07:12",
-          "arrivalTime": "07:21",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "ITX-마음 1232",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Inju",
-          "destination": "Anjung",
-          "departureTime": "07:21",
-          "arrivalTime": "07:34",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1232",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Anjung",
-          "destination": "Hyangnam",
-          "departureTime": "07:34",
-          "arrivalTime": "07:47",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1232",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hyangnam",
-          "destination": "Hwaseong City Hall",
-          "departureTime": "07:47",
-          "arrivalTime": "07:57",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1232",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hwaseong City Hall",
-          "destination": "Seohwaseong",
-          "departureTime": "07:57",
-          "arrivalTime": "08:03",
-          "durationMinutes": 6
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-11-08-regular-서해선-9-16",
-      "country": "korea",
-      "date": "2026-11-08",
-      "operator": "Korail",
-      "service": "ITX-마음 1234",
-      "trainType": "ITX-마음",
-      "origin": "Hongseong",
-      "destination": "Seohwaseong",
-      "departureTime": "10:14",
-      "arrivalTime": "11:21",
-      "durationMinutes": 67,
-      "direct": true,
-      "stops": [
-        "Hongseong",
-        "Hapdeok",
-        "Inju",
-        "Anjung",
-        "Hyangnam",
-        "Hwaseong City Hall",
-        "Seohwaseong"
-      ],
-      "headsign": "Seohwaseong",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1234",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hongseong",
-          "destination": "Hapdeok",
-          "departureTime": "10:14",
-          "arrivalTime": "10:30",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "ITX-마음 1234",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hapdeok",
-          "destination": "Inju",
-          "departureTime": "10:30",
-          "arrivalTime": "10:39",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "ITX-마음 1234",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Inju",
-          "destination": "Anjung",
-          "departureTime": "10:39",
-          "arrivalTime": "10:52",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1234",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Anjung",
-          "destination": "Hyangnam",
-          "departureTime": "10:52",
-          "arrivalTime": "11:05",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1234",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hyangnam",
-          "destination": "Hwaseong City Hall",
-          "departureTime": "11:05",
-          "arrivalTime": "11:15",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1234",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hwaseong City Hall",
-          "destination": "Seohwaseong",
-          "departureTime": "11:15",
-          "arrivalTime": "11:21",
-          "durationMinutes": 6
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-11-08-regular-서해선-9-18",
-      "country": "korea",
-      "date": "2026-11-08",
-      "operator": "Korail",
-      "service": "ITX-마음 1236",
-      "trainType": "ITX-마음",
-      "origin": "Hongseong",
-      "destination": "Seohwaseong",
-      "departureTime": "13:58",
-      "arrivalTime": "15:05",
-      "durationMinutes": 67,
-      "direct": true,
-      "stops": [
-        "Hongseong",
-        "Hapdeok",
-        "Inju",
-        "Anjung",
-        "Hyangnam",
-        "Hwaseong City Hall",
-        "Seohwaseong"
-      ],
-      "headsign": "Seohwaseong",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1236",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hongseong",
-          "destination": "Hapdeok",
-          "departureTime": "13:58",
-          "arrivalTime": "14:14",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "ITX-마음 1236",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hapdeok",
-          "destination": "Inju",
-          "departureTime": "14:14",
-          "arrivalTime": "14:23",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "ITX-마음 1236",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Inju",
-          "destination": "Anjung",
-          "departureTime": "14:23",
-          "arrivalTime": "14:36",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1236",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Anjung",
-          "destination": "Hyangnam",
-          "departureTime": "14:36",
-          "arrivalTime": "14:49",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1236",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hyangnam",
-          "destination": "Hwaseong City Hall",
-          "departureTime": "14:49",
-          "arrivalTime": "14:59",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1236",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hwaseong City Hall",
-          "destination": "Seohwaseong",
-          "departureTime": "14:59",
-          "arrivalTime": "15:05",
-          "durationMinutes": 6
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-11-08-regular-서해선-9-19",
-      "country": "korea",
-      "date": "2026-11-08",
-      "operator": "Korail",
-      "service": "ITX-마음 1238",
-      "trainType": "ITX-마음",
-      "origin": "Hongseong",
-      "destination": "Seohwaseong",
-      "departureTime": "16:40",
-      "arrivalTime": "17:47",
-      "durationMinutes": 67,
-      "direct": true,
-      "stops": [
-        "Hongseong",
-        "Hapdeok",
-        "Inju",
-        "Anjung",
-        "Hyangnam",
-        "Hwaseong City Hall",
-        "Seohwaseong"
-      ],
-      "headsign": "Seohwaseong",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "ITX-마음 1238",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hongseong",
-          "destination": "Hapdeok",
-          "departureTime": "16:40",
-          "arrivalTime": "16:56",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "ITX-마음 1238",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hapdeok",
-          "destination": "Inju",
-          "departureTime": "16:56",
-          "arrivalTime": "17:05",
-          "durationMinutes": 9
-        },
-        {
-          "lineName": "ITX-마음 1238",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Inju",
-          "destination": "Anjung",
-          "departureTime": "17:05",
-          "arrivalTime": "17:18",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1238",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Anjung",
-          "destination": "Hyangnam",
-          "departureTime": "17:18",
-          "arrivalTime": "17:31",
-          "durationMinutes": 13
-        },
-        {
-          "lineName": "ITX-마음 1238",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hyangnam",
-          "destination": "Hwaseong City Hall",
-          "departureTime": "17:31",
-          "arrivalTime": "17:41",
-          "durationMinutes": 10
-        },
-        {
-          "lineName": "ITX-마음 1238",
-          "lineCode": "서해선",
-          "mode": "train",
-          "origin": "Hwaseong City Hall",
-          "destination": "Seohwaseong",
-          "departureTime": "17:41",
-          "arrivalTime": "17:47",
-          "durationMinutes": 6
-        }
-      ]
-    },
     {
       "id": "korail-2026-11-09-regular-서해선-9-14",
       "country": "korea",
@@ -2460,6 +2112,1050 @@
           "durationMinutes": 6
         }
       ]
+    },
+    {
+      "id": "korail-2026-11-15-regular-서해선-9-14",
+      "country": "korea",
+      "date": "2026-11-15",
+      "operator": "Korail",
+      "service": "ITX-마음 1232",
+      "trainType": "ITX-마음",
+      "origin": "Hongseong",
+      "destination": "Seohwaseong",
+      "departureTime": "06:56",
+      "arrivalTime": "08:03",
+      "durationMinutes": 67,
+      "direct": true,
+      "stops": [
+        "Hongseong",
+        "Hapdeok",
+        "Inju",
+        "Anjung",
+        "Hyangnam",
+        "Hwaseong City Hall",
+        "Seohwaseong"
+      ],
+      "headsign": "Seohwaseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hongseong",
+          "destination": "Hapdeok",
+          "departureTime": "06:56",
+          "arrivalTime": "07:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hapdeok",
+          "destination": "Inju",
+          "departureTime": "07:12",
+          "arrivalTime": "07:21",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Inju",
+          "destination": "Anjung",
+          "departureTime": "07:21",
+          "arrivalTime": "07:34",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Anjung",
+          "destination": "Hyangnam",
+          "departureTime": "07:34",
+          "arrivalTime": "07:47",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hyangnam",
+          "destination": "Hwaseong City Hall",
+          "departureTime": "07:47",
+          "arrivalTime": "07:57",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hwaseong City Hall",
+          "destination": "Seohwaseong",
+          "departureTime": "07:57",
+          "arrivalTime": "08:03",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-15-regular-서해선-9-16",
+      "country": "korea",
+      "date": "2026-11-15",
+      "operator": "Korail",
+      "service": "ITX-마음 1234",
+      "trainType": "ITX-마음",
+      "origin": "Hongseong",
+      "destination": "Seohwaseong",
+      "departureTime": "10:14",
+      "arrivalTime": "11:21",
+      "durationMinutes": 67,
+      "direct": true,
+      "stops": [
+        "Hongseong",
+        "Hapdeok",
+        "Inju",
+        "Anjung",
+        "Hyangnam",
+        "Hwaseong City Hall",
+        "Seohwaseong"
+      ],
+      "headsign": "Seohwaseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hongseong",
+          "destination": "Hapdeok",
+          "departureTime": "10:14",
+          "arrivalTime": "10:30",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hapdeok",
+          "destination": "Inju",
+          "departureTime": "10:30",
+          "arrivalTime": "10:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Inju",
+          "destination": "Anjung",
+          "departureTime": "10:39",
+          "arrivalTime": "10:52",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Anjung",
+          "destination": "Hyangnam",
+          "departureTime": "10:52",
+          "arrivalTime": "11:05",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hyangnam",
+          "destination": "Hwaseong City Hall",
+          "departureTime": "11:05",
+          "arrivalTime": "11:15",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hwaseong City Hall",
+          "destination": "Seohwaseong",
+          "departureTime": "11:15",
+          "arrivalTime": "11:21",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-15-regular-서해선-9-18",
+      "country": "korea",
+      "date": "2026-11-15",
+      "operator": "Korail",
+      "service": "ITX-마음 1236",
+      "trainType": "ITX-마음",
+      "origin": "Hongseong",
+      "destination": "Seohwaseong",
+      "departureTime": "13:58",
+      "arrivalTime": "15:05",
+      "durationMinutes": 67,
+      "direct": true,
+      "stops": [
+        "Hongseong",
+        "Hapdeok",
+        "Inju",
+        "Anjung",
+        "Hyangnam",
+        "Hwaseong City Hall",
+        "Seohwaseong"
+      ],
+      "headsign": "Seohwaseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hongseong",
+          "destination": "Hapdeok",
+          "departureTime": "13:58",
+          "arrivalTime": "14:14",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hapdeok",
+          "destination": "Inju",
+          "departureTime": "14:14",
+          "arrivalTime": "14:23",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Inju",
+          "destination": "Anjung",
+          "departureTime": "14:23",
+          "arrivalTime": "14:36",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Anjung",
+          "destination": "Hyangnam",
+          "departureTime": "14:36",
+          "arrivalTime": "14:49",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hyangnam",
+          "destination": "Hwaseong City Hall",
+          "departureTime": "14:49",
+          "arrivalTime": "14:59",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hwaseong City Hall",
+          "destination": "Seohwaseong",
+          "departureTime": "14:59",
+          "arrivalTime": "15:05",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-15-regular-서해선-9-19",
+      "country": "korea",
+      "date": "2026-11-15",
+      "operator": "Korail",
+      "service": "ITX-마음 1238",
+      "trainType": "ITX-마음",
+      "origin": "Hongseong",
+      "destination": "Seohwaseong",
+      "departureTime": "16:40",
+      "arrivalTime": "17:47",
+      "durationMinutes": 67,
+      "direct": true,
+      "stops": [
+        "Hongseong",
+        "Hapdeok",
+        "Inju",
+        "Anjung",
+        "Hyangnam",
+        "Hwaseong City Hall",
+        "Seohwaseong"
+      ],
+      "headsign": "Seohwaseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hongseong",
+          "destination": "Hapdeok",
+          "departureTime": "16:40",
+          "arrivalTime": "16:56",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hapdeok",
+          "destination": "Inju",
+          "departureTime": "16:56",
+          "arrivalTime": "17:05",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Inju",
+          "destination": "Anjung",
+          "departureTime": "17:05",
+          "arrivalTime": "17:18",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Anjung",
+          "destination": "Hyangnam",
+          "departureTime": "17:18",
+          "arrivalTime": "17:31",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hyangnam",
+          "destination": "Hwaseong City Hall",
+          "departureTime": "17:31",
+          "arrivalTime": "17:41",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hwaseong City Hall",
+          "destination": "Seohwaseong",
+          "departureTime": "17:41",
+          "arrivalTime": "17:47",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-16-regular-서해선-9-14",
+      "country": "korea",
+      "date": "2026-11-16",
+      "operator": "Korail",
+      "service": "ITX-마음 1232",
+      "trainType": "ITX-마음",
+      "origin": "Hongseong",
+      "destination": "Seohwaseong",
+      "departureTime": "06:56",
+      "arrivalTime": "08:03",
+      "durationMinutes": 67,
+      "direct": true,
+      "stops": [
+        "Hongseong",
+        "Hapdeok",
+        "Inju",
+        "Anjung",
+        "Hyangnam",
+        "Hwaseong City Hall",
+        "Seohwaseong"
+      ],
+      "headsign": "Seohwaseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hongseong",
+          "destination": "Hapdeok",
+          "departureTime": "06:56",
+          "arrivalTime": "07:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hapdeok",
+          "destination": "Inju",
+          "departureTime": "07:12",
+          "arrivalTime": "07:21",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Inju",
+          "destination": "Anjung",
+          "departureTime": "07:21",
+          "arrivalTime": "07:34",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Anjung",
+          "destination": "Hyangnam",
+          "departureTime": "07:34",
+          "arrivalTime": "07:47",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hyangnam",
+          "destination": "Hwaseong City Hall",
+          "departureTime": "07:47",
+          "arrivalTime": "07:57",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hwaseong City Hall",
+          "destination": "Seohwaseong",
+          "departureTime": "07:57",
+          "arrivalTime": "08:03",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-16-regular-서해선-9-16",
+      "country": "korea",
+      "date": "2026-11-16",
+      "operator": "Korail",
+      "service": "ITX-마음 1234",
+      "trainType": "ITX-마음",
+      "origin": "Hongseong",
+      "destination": "Seohwaseong",
+      "departureTime": "10:14",
+      "arrivalTime": "11:21",
+      "durationMinutes": 67,
+      "direct": true,
+      "stops": [
+        "Hongseong",
+        "Hapdeok",
+        "Inju",
+        "Anjung",
+        "Hyangnam",
+        "Hwaseong City Hall",
+        "Seohwaseong"
+      ],
+      "headsign": "Seohwaseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hongseong",
+          "destination": "Hapdeok",
+          "departureTime": "10:14",
+          "arrivalTime": "10:30",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hapdeok",
+          "destination": "Inju",
+          "departureTime": "10:30",
+          "arrivalTime": "10:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Inju",
+          "destination": "Anjung",
+          "departureTime": "10:39",
+          "arrivalTime": "10:52",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Anjung",
+          "destination": "Hyangnam",
+          "departureTime": "10:52",
+          "arrivalTime": "11:05",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hyangnam",
+          "destination": "Hwaseong City Hall",
+          "departureTime": "11:05",
+          "arrivalTime": "11:15",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hwaseong City Hall",
+          "destination": "Seohwaseong",
+          "departureTime": "11:15",
+          "arrivalTime": "11:21",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-16-regular-서해선-9-18",
+      "country": "korea",
+      "date": "2026-11-16",
+      "operator": "Korail",
+      "service": "ITX-마음 1236",
+      "trainType": "ITX-마음",
+      "origin": "Hongseong",
+      "destination": "Seohwaseong",
+      "departureTime": "13:58",
+      "arrivalTime": "15:05",
+      "durationMinutes": 67,
+      "direct": true,
+      "stops": [
+        "Hongseong",
+        "Hapdeok",
+        "Inju",
+        "Anjung",
+        "Hyangnam",
+        "Hwaseong City Hall",
+        "Seohwaseong"
+      ],
+      "headsign": "Seohwaseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hongseong",
+          "destination": "Hapdeok",
+          "departureTime": "13:58",
+          "arrivalTime": "14:14",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hapdeok",
+          "destination": "Inju",
+          "departureTime": "14:14",
+          "arrivalTime": "14:23",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Inju",
+          "destination": "Anjung",
+          "departureTime": "14:23",
+          "arrivalTime": "14:36",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Anjung",
+          "destination": "Hyangnam",
+          "departureTime": "14:36",
+          "arrivalTime": "14:49",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hyangnam",
+          "destination": "Hwaseong City Hall",
+          "departureTime": "14:49",
+          "arrivalTime": "14:59",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hwaseong City Hall",
+          "destination": "Seohwaseong",
+          "departureTime": "14:59",
+          "arrivalTime": "15:05",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-16-regular-서해선-9-19",
+      "country": "korea",
+      "date": "2026-11-16",
+      "operator": "Korail",
+      "service": "ITX-마음 1238",
+      "trainType": "ITX-마음",
+      "origin": "Hongseong",
+      "destination": "Seohwaseong",
+      "departureTime": "16:40",
+      "arrivalTime": "17:47",
+      "durationMinutes": 67,
+      "direct": true,
+      "stops": [
+        "Hongseong",
+        "Hapdeok",
+        "Inju",
+        "Anjung",
+        "Hyangnam",
+        "Hwaseong City Hall",
+        "Seohwaseong"
+      ],
+      "headsign": "Seohwaseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hongseong",
+          "destination": "Hapdeok",
+          "departureTime": "16:40",
+          "arrivalTime": "16:56",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hapdeok",
+          "destination": "Inju",
+          "departureTime": "16:56",
+          "arrivalTime": "17:05",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Inju",
+          "destination": "Anjung",
+          "departureTime": "17:05",
+          "arrivalTime": "17:18",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Anjung",
+          "destination": "Hyangnam",
+          "departureTime": "17:18",
+          "arrivalTime": "17:31",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hyangnam",
+          "destination": "Hwaseong City Hall",
+          "departureTime": "17:31",
+          "arrivalTime": "17:41",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hwaseong City Hall",
+          "destination": "Seohwaseong",
+          "departureTime": "17:41",
+          "arrivalTime": "17:47",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-17-regular-서해선-9-14",
+      "country": "korea",
+      "date": "2026-11-17",
+      "operator": "Korail",
+      "service": "ITX-마음 1232",
+      "trainType": "ITX-마음",
+      "origin": "Hongseong",
+      "destination": "Seohwaseong",
+      "departureTime": "06:56",
+      "arrivalTime": "08:03",
+      "durationMinutes": 67,
+      "direct": true,
+      "stops": [
+        "Hongseong",
+        "Hapdeok",
+        "Inju",
+        "Anjung",
+        "Hyangnam",
+        "Hwaseong City Hall",
+        "Seohwaseong"
+      ],
+      "headsign": "Seohwaseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hongseong",
+          "destination": "Hapdeok",
+          "departureTime": "06:56",
+          "arrivalTime": "07:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hapdeok",
+          "destination": "Inju",
+          "departureTime": "07:12",
+          "arrivalTime": "07:21",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Inju",
+          "destination": "Anjung",
+          "departureTime": "07:21",
+          "arrivalTime": "07:34",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Anjung",
+          "destination": "Hyangnam",
+          "departureTime": "07:34",
+          "arrivalTime": "07:47",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hyangnam",
+          "destination": "Hwaseong City Hall",
+          "departureTime": "07:47",
+          "arrivalTime": "07:57",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1232",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hwaseong City Hall",
+          "destination": "Seohwaseong",
+          "departureTime": "07:57",
+          "arrivalTime": "08:03",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-17-regular-서해선-9-16",
+      "country": "korea",
+      "date": "2026-11-17",
+      "operator": "Korail",
+      "service": "ITX-마음 1234",
+      "trainType": "ITX-마음",
+      "origin": "Hongseong",
+      "destination": "Seohwaseong",
+      "departureTime": "10:14",
+      "arrivalTime": "11:21",
+      "durationMinutes": 67,
+      "direct": true,
+      "stops": [
+        "Hongseong",
+        "Hapdeok",
+        "Inju",
+        "Anjung",
+        "Hyangnam",
+        "Hwaseong City Hall",
+        "Seohwaseong"
+      ],
+      "headsign": "Seohwaseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hongseong",
+          "destination": "Hapdeok",
+          "departureTime": "10:14",
+          "arrivalTime": "10:30",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hapdeok",
+          "destination": "Inju",
+          "departureTime": "10:30",
+          "arrivalTime": "10:39",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Inju",
+          "destination": "Anjung",
+          "departureTime": "10:39",
+          "arrivalTime": "10:52",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Anjung",
+          "destination": "Hyangnam",
+          "departureTime": "10:52",
+          "arrivalTime": "11:05",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hyangnam",
+          "destination": "Hwaseong City Hall",
+          "departureTime": "11:05",
+          "arrivalTime": "11:15",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1234",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hwaseong City Hall",
+          "destination": "Seohwaseong",
+          "departureTime": "11:15",
+          "arrivalTime": "11:21",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-17-regular-서해선-9-18",
+      "country": "korea",
+      "date": "2026-11-17",
+      "operator": "Korail",
+      "service": "ITX-마음 1236",
+      "trainType": "ITX-마음",
+      "origin": "Hongseong",
+      "destination": "Seohwaseong",
+      "departureTime": "13:58",
+      "arrivalTime": "15:05",
+      "durationMinutes": 67,
+      "direct": true,
+      "stops": [
+        "Hongseong",
+        "Hapdeok",
+        "Inju",
+        "Anjung",
+        "Hyangnam",
+        "Hwaseong City Hall",
+        "Seohwaseong"
+      ],
+      "headsign": "Seohwaseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hongseong",
+          "destination": "Hapdeok",
+          "departureTime": "13:58",
+          "arrivalTime": "14:14",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hapdeok",
+          "destination": "Inju",
+          "departureTime": "14:14",
+          "arrivalTime": "14:23",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Inju",
+          "destination": "Anjung",
+          "departureTime": "14:23",
+          "arrivalTime": "14:36",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Anjung",
+          "destination": "Hyangnam",
+          "departureTime": "14:36",
+          "arrivalTime": "14:49",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hyangnam",
+          "destination": "Hwaseong City Hall",
+          "departureTime": "14:49",
+          "arrivalTime": "14:59",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1236",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hwaseong City Hall",
+          "destination": "Seohwaseong",
+          "departureTime": "14:59",
+          "arrivalTime": "15:05",
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-17-regular-서해선-9-19",
+      "country": "korea",
+      "date": "2026-11-17",
+      "operator": "Korail",
+      "service": "ITX-마음 1238",
+      "trainType": "ITX-마음",
+      "origin": "Hongseong",
+      "destination": "Seohwaseong",
+      "departureTime": "16:40",
+      "arrivalTime": "17:47",
+      "durationMinutes": 67,
+      "direct": true,
+      "stops": [
+        "Hongseong",
+        "Hapdeok",
+        "Inju",
+        "Anjung",
+        "Hyangnam",
+        "Hwaseong City Hall",
+        "Seohwaseong"
+      ],
+      "headsign": "Seohwaseong",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hongseong",
+          "destination": "Hapdeok",
+          "departureTime": "16:40",
+          "arrivalTime": "16:56",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hapdeok",
+          "destination": "Inju",
+          "departureTime": "16:56",
+          "arrivalTime": "17:05",
+          "durationMinutes": 9
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Inju",
+          "destination": "Anjung",
+          "departureTime": "17:05",
+          "arrivalTime": "17:18",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Anjung",
+          "destination": "Hyangnam",
+          "departureTime": "17:18",
+          "arrivalTime": "17:31",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hyangnam",
+          "destination": "Hwaseong City Hall",
+          "departureTime": "17:31",
+          "arrivalTime": "17:41",
+          "durationMinutes": 10
+        },
+        {
+          "lineName": "ITX-마음 1238",
+          "lineCode": "서해선",
+          "mode": "train",
+          "origin": "Hwaseong City Hall",
+          "destination": "Seohwaseong",
+          "departureTime": "17:41",
+          "arrivalTime": "17:47",
+          "durationMinutes": 6
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -2470,7 +3166,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-11-06T03:59:49.702Z",
+    "fetchedAt": "2026-11-09T01:18:00.273Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

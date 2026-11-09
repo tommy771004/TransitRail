@@ -1,15 +1,15 @@
 {
   "origin": "Gwangmyeong",
   "destination": "Seoul",
-  "date": "2026-11-08..2026-11-14",
-  "scrapedAt": "2026-11-06T03:59:49.996Z",
+  "date": "2026-11-09..2026-11-17",
+  "scrapedAt": "2026-11-09T01:18:00.595Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 11. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/13/202610131a130b1ac0b200.xlsx",
       "effectiveFrom": "2026-11-01",
-      "retrievedAt": "2026-11-06T03:59:46.413Z",
+      "retrievedAt": "2026-11-09T01:17:57.629Z",
       "sha256": "25a8f8781a5840543dc41e937b717255ad498e98837586acba924775b5f63a92",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 11. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/12/202610121a13004f8b1730.xlsx",
       "effectiveFrom": "2026-11-01",
-      "retrievedAt": "2026-11-06T03:59:48.216Z",
+      "retrievedAt": "2026-11-09T01:17:58.303Z",
       "sha256": "4d560624710e893e3dbeea0c321ce43e52488db72f3b21cfec1098711ac9b413",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing"
@@ -25,70 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-11-07-ktx-경부선-129-27-next-day",
-      "country": "korea",
-      "date": "2026-11-08",
-      "operator": "Korail",
-      "service": "KTX 80",
-      "trainType": "KTX",
-      "origin": "Gwangmyeong",
-      "destination": "Seoul",
-      "departureTime": "00:03",
-      "arrivalTime": "00:21",
-      "durationMinutes": 18,
-      "direct": true,
-      "stops": [
-        "Gwangmyeong",
-        "Seoul"
-      ],
-      "headsign": "Seoul",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 80",
-          "lineCode": "경부선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Seoul",
-          "departureTime": "00:03",
-          "arrivalTime": "00:21",
-          "durationMinutes": 18
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-11-07-ktx-경전선-32-25-next-day",
-      "country": "korea",
-      "date": "2026-11-08",
-      "operator": "Korail",
-      "service": "KTX 230",
-      "trainType": "KTX",
-      "origin": "Gwangmyeong",
-      "destination": "Seoul",
-      "departureTime": "00:20",
-      "arrivalTime": "00:38",
-      "durationMinutes": 18,
-      "direct": true,
-      "stops": [
-        "Gwangmyeong",
-        "Seoul"
-      ],
-      "headsign": "Seoul",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 230",
-          "lineCode": "경전선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Seoul",
-          "departureTime": "00:20",
-          "arrivalTime": "00:38",
-          "durationMinutes": 18
-        }
-      ]
-    },
     {
       "id": "korail-2026-11-08-ktx-경부선-129-27-next-day",
       "country": "korea",
@@ -472,6 +408,198 @@
           "durationMinutes": 18
         }
       ]
+    },
+    {
+      "id": "korail-2026-11-14-ktx-경부선-129-27-next-day",
+      "country": "korea",
+      "date": "2026-11-15",
+      "operator": "Korail",
+      "service": "KTX 80",
+      "trainType": "KTX",
+      "origin": "Gwangmyeong",
+      "destination": "Seoul",
+      "departureTime": "00:03",
+      "arrivalTime": "00:21",
+      "durationMinutes": 18,
+      "direct": true,
+      "stops": [
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 80",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "00:03",
+          "arrivalTime": "00:21",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-14-ktx-경전선-32-25-next-day",
+      "country": "korea",
+      "date": "2026-11-15",
+      "operator": "Korail",
+      "service": "KTX 230",
+      "trainType": "KTX",
+      "origin": "Gwangmyeong",
+      "destination": "Seoul",
+      "departureTime": "00:20",
+      "arrivalTime": "00:38",
+      "durationMinutes": 18,
+      "direct": true,
+      "stops": [
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "00:20",
+          "arrivalTime": "00:38",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-15-ktx-경부선-129-27-next-day",
+      "country": "korea",
+      "date": "2026-11-16",
+      "operator": "Korail",
+      "service": "KTX 80",
+      "trainType": "KTX",
+      "origin": "Gwangmyeong",
+      "destination": "Seoul",
+      "departureTime": "00:03",
+      "arrivalTime": "00:21",
+      "durationMinutes": 18,
+      "direct": true,
+      "stops": [
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 80",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "00:03",
+          "arrivalTime": "00:21",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-15-ktx-경전선-32-25-next-day",
+      "country": "korea",
+      "date": "2026-11-16",
+      "operator": "Korail",
+      "service": "KTX 230",
+      "trainType": "KTX",
+      "origin": "Gwangmyeong",
+      "destination": "Seoul",
+      "departureTime": "00:20",
+      "arrivalTime": "00:38",
+      "durationMinutes": 18,
+      "direct": true,
+      "stops": [
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "00:20",
+          "arrivalTime": "00:38",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-16-ktx-경부선-129-27-next-day",
+      "country": "korea",
+      "date": "2026-11-17",
+      "operator": "Korail",
+      "service": "KTX 80",
+      "trainType": "KTX",
+      "origin": "Gwangmyeong",
+      "destination": "Seoul",
+      "departureTime": "00:03",
+      "arrivalTime": "00:21",
+      "durationMinutes": 18,
+      "direct": true,
+      "stops": [
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 80",
+          "lineCode": "경부선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "00:03",
+          "arrivalTime": "00:21",
+          "durationMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-16-ktx-경전선-32-25-next-day",
+      "country": "korea",
+      "date": "2026-11-17",
+      "operator": "Korail",
+      "service": "KTX 230",
+      "trainType": "KTX",
+      "origin": "Gwangmyeong",
+      "destination": "Seoul",
+      "departureTime": "00:20",
+      "arrivalTime": "00:38",
+      "durationMinutes": 18,
+      "direct": true,
+      "stops": [
+        "Gwangmyeong",
+        "Seoul"
+      ],
+      "headsign": "Seoul",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 230",
+          "lineCode": "경전선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Seoul",
+          "departureTime": "00:20",
+          "arrivalTime": "00:38",
+          "durationMinutes": 18
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -482,7 +610,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-11-06T03:59:49.702Z",
+    "fetchedAt": "2026-11-09T01:18:00.273Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
