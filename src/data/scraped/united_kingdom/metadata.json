@@ -4,108 +4,130 @@
   "source": "TfL Unified API journey planner",
   "sourceUrl": "https://api.tfl.gov.uk",
   "sourceTier": "A",
-  "fetchedAt": "2026-11-09T01:45:21.516Z",
-  "builtAt": "2026-11-11T01:33:00.658Z",
-  "recordCount": 2111,
+  "fetchedAt": "2026-11-12T03:08:03.502Z",
+  "builtAt": "2026-11-12T03:12:20.343Z",
+  "recordCount": 2276,
   "routeCount": 8,
-  "successRate": null,
-  "failedRoutes": [],
+  "successRate": 0.9444,
+  "failedRoutes": [
+    {
+      "origin": "Heathrow Terminals 2&3",
+      "destination": "Oxford Circus Underground Station",
+      "error": "Transit data is temporarily unavailable. Please try again later."
+    },
+    {
+      "origin": "Liverpool Street Station",
+      "destination": "Paddington Station",
+      "error": "Transit data is temporarily unavailable. Please try again later."
+    },
+    {
+      "origin": "Heathrow Terminals 2&3",
+      "destination": "Oxford Circus Underground Station",
+      "error": "Transit data is temporarily unavailable. Please try again later."
+    },
+    {
+      "origin": "King's Cross St. Pancras Underground Station",
+      "destination": "Oxford Circus Underground Station",
+      "error": "Transit data is temporarily unavailable. Please try again later."
+    }
+  ],
   "coverage": {
     "verifiedRoutes": 8,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-11-10",
-      "2026-11-11",
       "2026-11-12",
       "2026-11-13",
       "2026-11-14",
       "2026-11-15",
       "2026-11-16",
-      "2026-11-17"
+      "2026-11-17",
+      "2026-11-18",
+      "2026-11-19",
+      "2026-11-20"
     ]
   },
-  "checksum": "16366b124a71fc814d73d0360d841d374ddcaa72fc9e036071fa5a0cad85c5a9",
+  "checksum": "1f17f45a76fa113eb5ff50f3eaa2faf7db2bf7dfdd221fba31f5bf79f0ac340c",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Camden Town",
       "destination": "Leicester Square",
-      "resultCount": 264,
-      "date": "2026-11-10..2026-11-17",
+      "resultCount": 297,
+      "date": "2026-11-12..2026-11-20",
       "sourceId": "uk-tfl-journey-planner",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-09T01:45:06.237Z",
+      "fetchedAt": "2026-11-12T03:07:49.362Z",
       "verified": true
     },
     {
       "origin": "Heathrow Terminals 2&3",
       "destination": "Oxford Circus Underground Station",
       "resultCount": 263,
-      "date": "2026-11-10..2026-11-17",
+      "date": "2026-11-12..2026-11-20",
       "sourceId": "uk-tfl-journey-planner",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-09T01:43:40.028Z",
+      "fetchedAt": "2026-11-12T03:06:17.437Z",
       "verified": true
     },
     {
       "origin": "King's Cross St. Pancras Underground Station",
       "destination": "Oxford Circus Underground Station",
       "resultCount": 264,
-      "date": "2026-11-10..2026-11-17",
+      "date": "2026-11-12..2026-11-20",
       "sourceId": "uk-tfl-journey-planner",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-09T01:43:55.221Z",
+      "fetchedAt": "2026-11-12T03:06:38.068Z",
       "verified": true
     },
     {
       "origin": "Leicester Square",
       "destination": "Camden Town",
-      "resultCount": 264,
-      "date": "2026-11-10..2026-11-17",
+      "resultCount": 297,
+      "date": "2026-11-12..2026-11-20",
       "sourceId": "uk-tfl-journey-planner",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-09T01:44:10.971Z",
+      "fetchedAt": "2026-11-12T03:06:52.122Z",
       "verified": true
     },
     {
       "origin": "Liverpool Street Station",
       "destination": "Paddington Station",
       "resultCount": 264,
-      "date": "2026-11-10..2026-11-17",
+      "date": "2026-11-12..2026-11-20",
       "sourceId": "uk-tfl-journey-planner",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-09T01:45:21.516Z",
+      "fetchedAt": "2026-11-12T03:08:03.502Z",
       "verified": true
     },
     {
       "origin": "Oxford Circus Underground Station",
       "destination": "Heathrow Terminals 2&3",
-      "resultCount": 264,
-      "date": "2026-11-10..2026-11-17",
+      "resultCount": 297,
+      "date": "2026-11-12..2026-11-20",
       "sourceId": "uk-tfl-journey-planner",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-09T01:44:38.064Z",
+      "fetchedAt": "2026-11-12T03:07:19.191Z",
       "verified": true
     },
     {
       "origin": "Oxford Circus Underground Station",
       "destination": "King's Cross St. Pancras Underground Station",
-      "resultCount": 264,
-      "date": "2026-11-10..2026-11-17",
+      "resultCount": 297,
+      "date": "2026-11-12..2026-11-20",
       "sourceId": "uk-tfl-journey-planner",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-09T01:44:52.175Z",
+      "fetchedAt": "2026-11-12T03:07:35.301Z",
       "verified": true
     },
     {
       "origin": "Paddington Station",
       "destination": "Liverpool Street Station",
-      "resultCount": 264,
-      "date": "2026-11-10..2026-11-17",
+      "resultCount": 297,
+      "date": "2026-11-12..2026-11-20",
       "sourceId": "uk-tfl-journey-planner",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-09T01:44:25.094Z",
+      "fetchedAt": "2026-11-12T03:07:06.199Z",
       "verified": true
     }
   ]

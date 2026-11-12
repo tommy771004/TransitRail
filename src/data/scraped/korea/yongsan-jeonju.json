@@ -1,15 +1,15 @@
 {
   "origin": "Yongsan",
   "destination": "Jeonju",
-  "date": "2026-11-11..2026-11-17",
-  "scrapedAt": "2026-11-09T01:18:00.448Z",
+  "date": "2026-11-12..2026-11-20",
+  "scrapedAt": "2026-11-12T02:35:47.600Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 11. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/13/202610131a130b1ac0b200.xlsx",
       "effectiveFrom": "2026-11-01",
-      "retrievedAt": "2026-11-09T01:17:57.629Z",
+      "retrievedAt": "2026-11-12T02:35:44.346Z",
       "sha256": "25a8f8781a5840543dc41e937b717255ad498e98837586acba924775b5f63a92",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 11. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/12/202610121a13004f8b1730.xlsx",
       "effectiveFrom": "2026-11-01",
-      "retrievedAt": "2026-11-09T01:17:58.303Z",
+      "retrievedAt": "2026-11-12T02:35:45.430Z",
       "sha256": "4d560624710e893e3dbeea0c321ce43e52488db72f3b21cfec1098711ac9b413",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing"
@@ -25,82 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-11-11-ktx-전라선-26-2",
-      "country": "korea",
-      "date": "2026-11-11",
-      "operator": "Korail",
-      "service": "KTX 545",
-      "trainType": "KTX",
-      "origin": "Yongsan",
-      "destination": "Jeonju",
-      "departureTime": "12:11",
-      "arrivalTime": "13:55",
-      "durationMinutes": 104,
-      "direct": true,
-      "stops": [
-        "Yongsan",
-        "Gwangmyeong",
-        "Cheonan-Asan",
-        "Osong",
-        "Iksan",
-        "Jeonju"
-      ],
-      "headsign": "Jeonju",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "KTX 545",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Yongsan",
-          "destination": "Gwangmyeong",
-          "departureTime": "12:11",
-          "arrivalTime": "12:29",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "KTX 545",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Gwangmyeong",
-          "destination": "Cheonan-Asan",
-          "departureTime": "12:29",
-          "arrivalTime": "12:53",
-          "durationMinutes": 24
-        },
-        {
-          "lineName": "KTX 545",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Cheonan-Asan",
-          "destination": "Osong",
-          "departureTime": "12:53",
-          "arrivalTime": "13:05",
-          "durationMinutes": 12
-        },
-        {
-          "lineName": "KTX 545",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Osong",
-          "destination": "Iksan",
-          "departureTime": "13:05",
-          "arrivalTime": "13:40",
-          "durationMinutes": 35
-        },
-        {
-          "lineName": "KTX 545",
-          "lineCode": "전라선",
-          "mode": "train",
-          "origin": "Iksan",
-          "destination": "Jeonju",
-          "departureTime": "13:40",
-          "arrivalTime": "13:55",
-          "durationMinutes": 15
-        }
-      ]
-    },
     {
       "id": "korail-2026-11-12-ktx-전라선-26-2",
       "country": "korea",
@@ -1045,6 +969,397 @@
           "durationMinutes": 15
         }
       ]
+    },
+    {
+      "id": "korail-2026-11-18-ktx-전라선-26-2",
+      "country": "korea",
+      "date": "2026-11-18",
+      "operator": "Korail",
+      "service": "KTX 545",
+      "trainType": "KTX",
+      "origin": "Yongsan",
+      "destination": "Jeonju",
+      "departureTime": "12:11",
+      "arrivalTime": "13:55",
+      "durationMinutes": 104,
+      "direct": true,
+      "stops": [
+        "Yongsan",
+        "Gwangmyeong",
+        "Cheonan-Asan",
+        "Osong",
+        "Iksan",
+        "Jeonju"
+      ],
+      "headsign": "Jeonju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yongsan",
+          "destination": "Gwangmyeong",
+          "departureTime": "12:11",
+          "arrivalTime": "12:29",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "12:29",
+          "arrivalTime": "12:53",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Osong",
+          "departureTime": "12:53",
+          "arrivalTime": "13:05",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Iksan",
+          "departureTime": "13:05",
+          "arrivalTime": "13:40",
+          "durationMinutes": 35
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Jeonju",
+          "departureTime": "13:40",
+          "arrivalTime": "13:55",
+          "durationMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-19-ktx-전라선-26-2",
+      "country": "korea",
+      "date": "2026-11-19",
+      "operator": "Korail",
+      "service": "KTX 545",
+      "trainType": "KTX",
+      "origin": "Yongsan",
+      "destination": "Jeonju",
+      "departureTime": "12:11",
+      "arrivalTime": "13:55",
+      "durationMinutes": 104,
+      "direct": true,
+      "stops": [
+        "Yongsan",
+        "Gwangmyeong",
+        "Cheonan-Asan",
+        "Osong",
+        "Iksan",
+        "Jeonju"
+      ],
+      "headsign": "Jeonju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yongsan",
+          "destination": "Gwangmyeong",
+          "departureTime": "12:11",
+          "arrivalTime": "12:29",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "12:29",
+          "arrivalTime": "12:53",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Osong",
+          "departureTime": "12:53",
+          "arrivalTime": "13:05",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Iksan",
+          "departureTime": "13:05",
+          "arrivalTime": "13:40",
+          "durationMinutes": 35
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Jeonju",
+          "departureTime": "13:40",
+          "arrivalTime": "13:55",
+          "durationMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-20-ktx-전라선-16-2",
+      "country": "korea",
+      "date": "2026-11-20",
+      "operator": "Korail",
+      "service": "KTX-산천 563",
+      "trainType": "KTX-산천",
+      "origin": "Yongsan",
+      "destination": "Jeonju",
+      "departureTime": "08:20",
+      "arrivalTime": "09:52",
+      "durationMinutes": 92,
+      "direct": true,
+      "stops": [
+        "Yongsan",
+        "Cheonan-Asan",
+        "Iksan",
+        "Jeonju"
+      ],
+      "headsign": "Jeonju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 563",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yongsan",
+          "destination": "Cheonan-Asan",
+          "departureTime": "08:20",
+          "arrivalTime": "08:55",
+          "durationMinutes": 35
+        },
+        {
+          "lineName": "KTX-산천 563",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Iksan",
+          "departureTime": "08:55",
+          "arrivalTime": "09:37",
+          "durationMinutes": 42
+        },
+        {
+          "lineName": "KTX-산천 563",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Jeonju",
+          "departureTime": "09:37",
+          "arrivalTime": "09:52",
+          "durationMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-20-ktx-전라선-26-2",
+      "country": "korea",
+      "date": "2026-11-20",
+      "operator": "Korail",
+      "service": "KTX 545",
+      "trainType": "KTX",
+      "origin": "Yongsan",
+      "destination": "Jeonju",
+      "departureTime": "12:11",
+      "arrivalTime": "13:55",
+      "durationMinutes": 104,
+      "direct": true,
+      "stops": [
+        "Yongsan",
+        "Gwangmyeong",
+        "Cheonan-Asan",
+        "Osong",
+        "Iksan",
+        "Jeonju"
+      ],
+      "headsign": "Jeonju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yongsan",
+          "destination": "Gwangmyeong",
+          "departureTime": "12:11",
+          "arrivalTime": "12:29",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "12:29",
+          "arrivalTime": "12:53",
+          "durationMinutes": 24
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Osong",
+          "departureTime": "12:53",
+          "arrivalTime": "13:05",
+          "durationMinutes": 12
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Iksan",
+          "departureTime": "13:05",
+          "arrivalTime": "13:40",
+          "durationMinutes": 35
+        },
+        {
+          "lineName": "KTX 545",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Jeonju",
+          "departureTime": "13:40",
+          "arrivalTime": "13:55",
+          "durationMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-20-ktx-전라선-31-2",
+      "country": "korea",
+      "date": "2026-11-20",
+      "operator": "Korail",
+      "service": "KTX-산천 585",
+      "trainType": "KTX-산천",
+      "origin": "Yongsan",
+      "destination": "Jeonju",
+      "departureTime": "14:38",
+      "arrivalTime": "17:07",
+      "durationMinutes": 149,
+      "direct": true,
+      "stops": [
+        "Yongsan",
+        "Gwangmyeong",
+        "Cheonan-Asan",
+        "Osong",
+        "Seodaejeon",
+        "Gyeryong",
+        "Nonsan",
+        "Iksan",
+        "Jeonju"
+      ],
+      "headsign": "Jeonju",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "KTX-산천 585",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Yongsan",
+          "destination": "Gwangmyeong",
+          "departureTime": "14:38",
+          "arrivalTime": "14:56",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 585",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gwangmyeong",
+          "destination": "Cheonan-Asan",
+          "departureTime": "14:56",
+          "arrivalTime": "15:18",
+          "durationMinutes": 22
+        },
+        {
+          "lineName": "KTX-산천 585",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Cheonan-Asan",
+          "destination": "Osong",
+          "departureTime": "15:18",
+          "arrivalTime": "15:31",
+          "durationMinutes": 13
+        },
+        {
+          "lineName": "KTX-산천 585",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Osong",
+          "destination": "Seodaejeon",
+          "departureTime": "15:31",
+          "arrivalTime": "15:50",
+          "durationMinutes": 19
+        },
+        {
+          "lineName": "KTX-산천 585",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Seodaejeon",
+          "destination": "Gyeryong",
+          "departureTime": "15:50",
+          "arrivalTime": "16:06",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "KTX-산천 585",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Gyeryong",
+          "destination": "Nonsan",
+          "departureTime": "16:06",
+          "arrivalTime": "16:24",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "KTX-산천 585",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Nonsan",
+          "destination": "Iksan",
+          "departureTime": "16:24",
+          "arrivalTime": "16:52",
+          "durationMinutes": 28
+        },
+        {
+          "lineName": "KTX-산천 585",
+          "lineCode": "전라선",
+          "mode": "train",
+          "origin": "Iksan",
+          "destination": "Jeonju",
+          "departureTime": "16:52",
+          "arrivalTime": "17:07",
+          "durationMinutes": 15
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -1055,7 +1370,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-11-09T01:18:00.273Z",
+    "fetchedAt": "2026-11-12T02:35:47.443Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2

@@ -1,15 +1,15 @@
 {
   "origin": "Dongbaeksan",
   "destination": "Donghae",
-  "date": "2026-11-11..2026-11-17",
-  "scrapedAt": "2026-11-09T01:18:00.579Z",
+  "date": "2026-11-12..2026-11-20",
+  "scrapedAt": "2026-11-12T02:35:47.734Z",
   "source": "Korail official KTX and regular train timetables",
   "sourceDocuments": [
     {
       "title": "KTX 시간표(2026. 11. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/13/202610131a130b1ac0b200.xlsx",
       "effectiveFrom": "2026-11-01",
-      "retrievedAt": "2026-11-09T01:17:57.629Z",
+      "retrievedAt": "2026-11-12T02:35:44.346Z",
       "sha256": "25a8f8781a5840543dc41e937b717255ad498e98837586acba924775b5f63a92",
       "exclusions": []
     },
@@ -17,7 +17,7 @@
       "title": "일반열차 시간표(2026. 11. 1. 기준)",
       "url": "https://www.korail.com/file/cubedata/COMMON/jfile/202610/12/202610121a13004f8b1730.xlsx",
       "effectiveFrom": "2026-11-01",
-      "retrievedAt": "2026-11-09T01:17:58.303Z",
+      "retrievedAt": "2026-11-12T02:35:45.430Z",
       "sha256": "4d560624710e893e3dbeea0c321ce43e52488db72f3b21cfec1098711ac9b413",
       "exclusions": [
         "Korail excluded 경전선 1958: published start or end time missing"
@@ -25,243 +25,6 @@
     }
   ],
   "results": [
-    {
-      "id": "korail-2026-11-11-regular-영동선-9-19",
-      "country": "korea",
-      "date": "2026-11-11",
-      "operator": "Korail",
-      "service": "무궁화 1671",
-      "trainType": "무궁화",
-      "origin": "Dongbaeksan",
-      "destination": "Donghae",
-      "departureTime": "11:29",
-      "arrivalTime": "12:25",
-      "durationMinutes": 56,
-      "direct": true,
-      "stops": [
-        "Dongbaeksan",
-        "Dogye",
-        "Singi",
-        "Donghae"
-      ],
-      "headsign": "Donghae",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1671",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Dongbaeksan",
-          "destination": "Dogye",
-          "departureTime": "11:29",
-          "arrivalTime": "11:45",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "무궁화 1671",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Dogye",
-          "destination": "Singi",
-          "departureTime": "11:45",
-          "arrivalTime": "12:02",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "무궁화 1671",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Singi",
-          "destination": "Donghae",
-          "departureTime": "12:02",
-          "arrivalTime": "12:25",
-          "durationMinutes": 23
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-11-11-regular-영동선-9-21",
-      "country": "korea",
-      "date": "2026-11-11",
-      "operator": "Korail",
-      "service": "무궁화 1673",
-      "trainType": "무궁화",
-      "origin": "Dongbaeksan",
-      "destination": "Donghae",
-      "departureTime": "13:29",
-      "arrivalTime": "14:28",
-      "durationMinutes": 59,
-      "direct": true,
-      "stops": [
-        "Dongbaeksan",
-        "Dogye",
-        "Donghae"
-      ],
-      "headsign": "Donghae",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1673",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Dongbaeksan",
-          "destination": "Dogye",
-          "departureTime": "13:29",
-          "arrivalTime": "13:46",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "무궁화 1673",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Dogye",
-          "destination": "Donghae",
-          "departureTime": "13:46",
-          "arrivalTime": "14:28",
-          "durationMinutes": 42
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-11-11-regular-영동선-9-22",
-      "country": "korea",
-      "date": "2026-11-11",
-      "operator": "Korail",
-      "service": "무궁화 1675",
-      "trainType": "무궁화",
-      "origin": "Dongbaeksan",
-      "destination": "Donghae",
-      "departureTime": "16:05",
-      "arrivalTime": "17:05",
-      "durationMinutes": 60,
-      "direct": true,
-      "stops": [
-        "Dongbaeksan",
-        "Dogye",
-        "Donghae"
-      ],
-      "headsign": "Donghae",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1675",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Dongbaeksan",
-          "destination": "Dogye",
-          "departureTime": "16:05",
-          "arrivalTime": "16:23",
-          "durationMinutes": 18
-        },
-        {
-          "lineName": "무궁화 1675",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Dogye",
-          "destination": "Donghae",
-          "departureTime": "16:23",
-          "arrivalTime": "17:05",
-          "durationMinutes": 42
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-11-11-regular-영동선-9-23",
-      "country": "korea",
-      "date": "2026-11-11",
-      "operator": "Korail",
-      "service": "무궁화 1681",
-      "trainType": "무궁화",
-      "origin": "Dongbaeksan",
-      "destination": "Donghae",
-      "departureTime": "17:00",
-      "arrivalTime": "17:58",
-      "durationMinutes": 58,
-      "direct": true,
-      "stops": [
-        "Dongbaeksan",
-        "Dogye",
-        "Singi",
-        "Donghae"
-      ],
-      "headsign": "Donghae",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1681",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Dongbaeksan",
-          "destination": "Dogye",
-          "departureTime": "17:00",
-          "arrivalTime": "17:16",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "무궁화 1681",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Dogye",
-          "destination": "Singi",
-          "departureTime": "17:16",
-          "arrivalTime": "17:33",
-          "durationMinutes": 17
-        },
-        {
-          "lineName": "무궁화 1681",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Singi",
-          "destination": "Donghae",
-          "departureTime": "17:33",
-          "arrivalTime": "17:58",
-          "durationMinutes": 25
-        }
-      ]
-    },
-    {
-      "id": "korail-2026-11-11-regular-영동선-9-28",
-      "country": "korea",
-      "date": "2026-11-11",
-      "operator": "Korail",
-      "service": "무궁화 1677",
-      "trainType": "무궁화",
-      "origin": "Dongbaeksan",
-      "destination": "Donghae",
-      "departureTime": "22:56",
-      "arrivalTime": "23:50",
-      "durationMinutes": 54,
-      "direct": true,
-      "stops": [
-        "Dongbaeksan",
-        "Dogye",
-        "Donghae"
-      ],
-      "headsign": "Donghae",
-      "realtime": false,
-      "legs": [
-        {
-          "lineName": "무궁화 1677",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Dongbaeksan",
-          "destination": "Dogye",
-          "departureTime": "22:56",
-          "arrivalTime": "23:12",
-          "durationMinutes": 16
-        },
-        {
-          "lineName": "무궁화 1677",
-          "lineCode": "영동선",
-          "mode": "train",
-          "origin": "Dogye",
-          "destination": "Donghae",
-          "departureTime": "23:12",
-          "arrivalTime": "23:50",
-          "durationMinutes": 38
-        }
-      ]
-    },
     {
       "id": "korail-2026-11-12-regular-영동선-9-19",
       "country": "korea",
@@ -1683,6 +1446,717 @@
           "durationMinutes": 38
         }
       ]
+    },
+    {
+      "id": "korail-2026-11-18-regular-영동선-9-19",
+      "country": "korea",
+      "date": "2026-11-18",
+      "operator": "Korail",
+      "service": "무궁화 1671",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "11:29",
+      "arrivalTime": "12:25",
+      "durationMinutes": 56,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:45",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "11:45",
+          "arrivalTime": "12:02",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "12:02",
+          "arrivalTime": "12:25",
+          "durationMinutes": 23
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-18-regular-영동선-9-21",
+      "country": "korea",
+      "date": "2026-11-18",
+      "operator": "Korail",
+      "service": "무궁화 1673",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "13:29",
+      "arrivalTime": "14:28",
+      "durationMinutes": 59,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "13:29",
+          "arrivalTime": "13:46",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "13:46",
+          "arrivalTime": "14:28",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-18-regular-영동선-9-22",
+      "country": "korea",
+      "date": "2026-11-18",
+      "operator": "Korail",
+      "service": "무궁화 1675",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "16:05",
+      "arrivalTime": "17:05",
+      "durationMinutes": 60,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "16:05",
+          "arrivalTime": "16:23",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "16:23",
+          "arrivalTime": "17:05",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-18-regular-영동선-9-23",
+      "country": "korea",
+      "date": "2026-11-18",
+      "operator": "Korail",
+      "service": "무궁화 1681",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "17:00",
+      "arrivalTime": "17:58",
+      "durationMinutes": 58,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "17:00",
+          "arrivalTime": "17:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "17:16",
+          "arrivalTime": "17:33",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "17:33",
+          "arrivalTime": "17:58",
+          "durationMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-18-regular-영동선-9-28",
+      "country": "korea",
+      "date": "2026-11-18",
+      "operator": "Korail",
+      "service": "무궁화 1677",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "22:56",
+      "arrivalTime": "23:50",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "22:56",
+          "arrivalTime": "23:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "23:12",
+          "arrivalTime": "23:50",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-19-regular-영동선-9-19",
+      "country": "korea",
+      "date": "2026-11-19",
+      "operator": "Korail",
+      "service": "무궁화 1671",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "11:29",
+      "arrivalTime": "12:25",
+      "durationMinutes": 56,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:45",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "11:45",
+          "arrivalTime": "12:02",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "12:02",
+          "arrivalTime": "12:25",
+          "durationMinutes": 23
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-19-regular-영동선-9-21",
+      "country": "korea",
+      "date": "2026-11-19",
+      "operator": "Korail",
+      "service": "무궁화 1673",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "13:29",
+      "arrivalTime": "14:28",
+      "durationMinutes": 59,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "13:29",
+          "arrivalTime": "13:46",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "13:46",
+          "arrivalTime": "14:28",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-19-regular-영동선-9-22",
+      "country": "korea",
+      "date": "2026-11-19",
+      "operator": "Korail",
+      "service": "무궁화 1675",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "16:05",
+      "arrivalTime": "17:05",
+      "durationMinutes": 60,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "16:05",
+          "arrivalTime": "16:23",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "16:23",
+          "arrivalTime": "17:05",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-19-regular-영동선-9-23",
+      "country": "korea",
+      "date": "2026-11-19",
+      "operator": "Korail",
+      "service": "무궁화 1681",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "17:00",
+      "arrivalTime": "17:58",
+      "durationMinutes": 58,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "17:00",
+          "arrivalTime": "17:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "17:16",
+          "arrivalTime": "17:33",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "17:33",
+          "arrivalTime": "17:58",
+          "durationMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-19-regular-영동선-9-28",
+      "country": "korea",
+      "date": "2026-11-19",
+      "operator": "Korail",
+      "service": "무궁화 1677",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "22:56",
+      "arrivalTime": "23:50",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "22:56",
+          "arrivalTime": "23:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "23:12",
+          "arrivalTime": "23:50",
+          "durationMinutes": 38
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-20-regular-영동선-9-19",
+      "country": "korea",
+      "date": "2026-11-20",
+      "operator": "Korail",
+      "service": "무궁화 1671",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "11:29",
+      "arrivalTime": "12:25",
+      "durationMinutes": 56,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "11:29",
+          "arrivalTime": "11:45",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "11:45",
+          "arrivalTime": "12:02",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1671",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "12:02",
+          "arrivalTime": "12:25",
+          "durationMinutes": 23
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-20-regular-영동선-9-21",
+      "country": "korea",
+      "date": "2026-11-20",
+      "operator": "Korail",
+      "service": "무궁화 1673",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "13:29",
+      "arrivalTime": "14:28",
+      "durationMinutes": 59,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "13:29",
+          "arrivalTime": "13:46",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1673",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "13:46",
+          "arrivalTime": "14:28",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-20-regular-영동선-9-22",
+      "country": "korea",
+      "date": "2026-11-20",
+      "operator": "Korail",
+      "service": "무궁화 1675",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "16:05",
+      "arrivalTime": "17:05",
+      "durationMinutes": 60,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "16:05",
+          "arrivalTime": "16:23",
+          "durationMinutes": 18
+        },
+        {
+          "lineName": "무궁화 1675",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "16:23",
+          "arrivalTime": "17:05",
+          "durationMinutes": 42
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-20-regular-영동선-9-23",
+      "country": "korea",
+      "date": "2026-11-20",
+      "operator": "Korail",
+      "service": "무궁화 1681",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "17:00",
+      "arrivalTime": "17:58",
+      "durationMinutes": 58,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Singi",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "17:00",
+          "arrivalTime": "17:16",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Singi",
+          "departureTime": "17:16",
+          "arrivalTime": "17:33",
+          "durationMinutes": 17
+        },
+        {
+          "lineName": "무궁화 1681",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Singi",
+          "destination": "Donghae",
+          "departureTime": "17:33",
+          "arrivalTime": "17:58",
+          "durationMinutes": 25
+        }
+      ]
+    },
+    {
+      "id": "korail-2026-11-20-regular-영동선-9-28",
+      "country": "korea",
+      "date": "2026-11-20",
+      "operator": "Korail",
+      "service": "무궁화 1677",
+      "trainType": "무궁화",
+      "origin": "Dongbaeksan",
+      "destination": "Donghae",
+      "departureTime": "22:56",
+      "arrivalTime": "23:50",
+      "durationMinutes": 54,
+      "direct": true,
+      "stops": [
+        "Dongbaeksan",
+        "Dogye",
+        "Donghae"
+      ],
+      "headsign": "Donghae",
+      "realtime": false,
+      "legs": [
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dongbaeksan",
+          "destination": "Dogye",
+          "departureTime": "22:56",
+          "arrivalTime": "23:12",
+          "durationMinutes": 16
+        },
+        {
+          "lineName": "무궁화 1677",
+          "lineCode": "영동선",
+          "mode": "train",
+          "origin": "Dogye",
+          "destination": "Donghae",
+          "departureTime": "23:12",
+          "arrivalTime": "23:50",
+          "durationMinutes": 38
+        }
+      ]
     }
   ],
   "sourceMeta": {
@@ -1693,7 +2167,7 @@
     "sourceUrl": "https://www.korail.com/ticket/reserve/train-timeTable",
     "provider": "Korail",
     "country": "korea",
-    "fetchedAt": "2026-11-09T01:18:00.273Z",
+    "fetchedAt": "2026-11-12T02:35:47.443Z",
     "verified": true,
     "completeness": "full-timetable",
     "artifactVersion": 2
