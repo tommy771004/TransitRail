@@ -23,6 +23,7 @@ import { runTransitSearch } from "./src/server/transitSearch";
 import { cachedTransitSearch } from "./src/server/searchResponseCache";
 import { afterResponse } from "./src/server/afterResponse";
 import { timetableFingerprint } from "./src/utils/timetableChanges";
+import { canonicalPathFor } from "./src/utils/countryPath";
 import { recordError } from "./src/server/errorLog";
 import { sendTelemetry } from "./src/server/telemetry";
 import { serviceDayAdvisoryForWatch, unavailableServiceDayAdvisory } from "./src/server/serviceDayWatch";
@@ -1308,8 +1309,17 @@ async function startServer() {
   } else if (!process.env.VERCEL) {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
+    // Only the paths the SPA answers get the shell. Anything else is a page
+    // that does not exist, and must say so with a 404 rather than a 200 shell
+    // (vercel.json applies the same rule in production).
+    // Registered as middleware because Express 5 rejects the bare "*" route
+    // path, which stopped this server from starting at all.
+    app.use((req, res) => {
+      if (canonicalPathFor(requestPath(req)) !== null) {
+        res.sendFile(path.join(distPath, "index.html"));
+        return;
+      }
+      res.status(404).sendFile(path.join(distPath, "404.html"));
     });
   }
 

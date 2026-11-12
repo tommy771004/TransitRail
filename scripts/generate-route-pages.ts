@@ -251,6 +251,11 @@ interface UiBundle {
   snapshotDate: string;
   disclaimer: string;
   breadcrumbRoutes: string;
+  /** The 404 page: what happened, what it does not mean, and where to go. */
+  notFoundTitle: string;
+  notFoundBody: string;
+  notFoundBrowse: string;
+  notFoundSearch: string;
   /** Short suffix for <title>; see buildTitle() for the truncation budget. */
   titleSuffix: string;
   titleSuffixShort: string;
@@ -332,6 +337,11 @@ const UI: Record<Lang, UiBundle> = {
     disclaimer:
       "Times and fares are a scraped snapshot for planning reference — always confirm with the operator before travelling.",
     breadcrumbRoutes: "Routes",
+    notFoundTitle: "No timetable page at this address",
+    notFoundBody:
+      "The route may have been withdrawn because we no longer hold a verified timetable for it, or the address may be mistyped. It does not mean no trains run.",
+    notFoundBrowse: "Browse all route timetables",
+    notFoundSearch: "Search by station",
     titleSuffix: "Train Times & Fares",
     titleSuffixShort: "Train Times",
     h1Suffix: "Train Timetable, Duration & Fares",
@@ -414,6 +424,11 @@ const UI: Record<Lang, UiBundle> = {
     snapshotDate: "時刻表快照",
     disclaimer: "時刻與票價為擷取快照，僅供行程規劃參考 — 出發前請以營運商公告為準。",
     breadcrumbRoutes: "路線",
+    notFoundTitle: "這個網址沒有時刻表頁面",
+    notFoundBody:
+      "這條路線的頁面可能已下架（我們不再持有經過驗證的時刻表），也可能是網址輸入有誤。這不代表沒有列車行駛。",
+    notFoundBrowse: "瀏覽所有路線時刻表",
+    notFoundSearch: "依車站搜尋",
     titleSuffix: "時刻表・票價",
     titleSuffixShort: "時刻表",
     h1Suffix: "列車時刻表・行車時間・票價",
@@ -496,6 +511,11 @@ const UI: Record<Lang, UiBundle> = {
     disclaimer:
       "掲載の時刻・運賃はスクレイピングによるスナップショットです。ご利用前に必ず運行会社の公式情報をご確認ください。",
     breadcrumbRoutes: "路線",
+    notFoundTitle: "このアドレスに時刻表ページはありません",
+    notFoundBody:
+      "検証済みの時刻表を保持しなくなったため路線ページが取り下げられたか、アドレスが誤っている可能性があります。列車が運行していないという意味ではありません。",
+    notFoundBrowse: "すべての路線時刻表を見る",
+    notFoundSearch: "駅名で検索",
     titleSuffix: "時刻表・運賃",
     titleSuffixShort: "時刻表",
     h1Suffix: "列車時刻表・所要時間・運賃",
@@ -578,6 +598,11 @@ const UI: Record<Lang, UiBundle> = {
     disclaimer:
       "표시된 시각과 요금은 수집된 스냅샷이며 참고용입니다. 이용 전 반드시 운영사의 공식 정보를 확인하세요.",
     breadcrumbRoutes: "노선",
+    notFoundTitle: "이 주소에는 시간표 페이지가 없습니다",
+    notFoundBody:
+      "검증된 시간표를 더 이상 보유하지 않아 노선 페이지가 내려갔거나, 주소가 잘못 입력되었을 수 있습니다. 열차가 운행하지 않는다는 뜻은 아닙니다.",
+    notFoundBrowse: "전체 노선 시간표 보기",
+    notFoundSearch: "역 이름으로 검색",
     titleSuffix: "시간표・요금",
     titleSuffixShort: "시간표",
     h1Suffix: "열차 시간표・소요시간・요금",
@@ -661,6 +686,11 @@ const UI: Record<Lang, UiBundle> = {
     disclaimer:
       "Les horaires et tarifs sont un instantané fourni à titre indicatif — vérifiez toujours auprès de l'opérateur avant de voyager.",
     breadcrumbRoutes: "Lignes",
+    notFoundTitle: "Aucune page d'horaires à cette adresse",
+    notFoundBody:
+      "La ligne a peut-être été retirée parce que nous ne disposons plus d'horaires vérifiés, ou l'adresse est erronée. Cela ne signifie pas qu'aucun train ne circule.",
+    notFoundBrowse: "Voir tous les horaires de lignes",
+    notFoundSearch: "Rechercher par gare",
     titleSuffix: "Horaires & Tarifs",
     titleSuffixShort: "Horaires",
     h1Suffix: "Horaires, durée et tarifs du train",
@@ -745,6 +775,11 @@ const UI: Record<Lang, UiBundle> = {
     disclaimer:
       "Zeiten und Preise sind ein Snapshot zur Reiseplanung — bitte vor der Fahrt beim Betreiber bestätigen.",
     breadcrumbRoutes: "Strecken",
+    notFoundTitle: "Unter dieser Adresse gibt es keine Fahrplanseite",
+    notFoundBody:
+      "Die Strecke wurde möglicherweise entfernt, weil uns kein verifizierter Fahrplan mehr vorliegt, oder die Adresse ist falsch geschrieben. Das heißt nicht, dass keine Züge fahren.",
+    notFoundBrowse: "Alle Streckenfahrpläne ansehen",
+    notFoundSearch: "Nach Bahnhof suchen",
     titleSuffix: "Fahrplan & Preise",
     titleSuffixShort: "Fahrplan",
     h1Suffix: "Fahrplan, Fahrzeit und Preise",
@@ -964,15 +999,20 @@ function htmlShell(options: {
   geo?: { region: string; lat: number; lng: number; placename: string };
   body: string;
   jsonLd: object[];
+  /**
+   * The page stands in for a URL that names nothing, so it must not claim an
+   * address of its own: no canonical, no hreflang, no og:url, and noindex.
+   */
+  notFound?: boolean;
 }): string {
-  const { lang, title, description, paths, ogImagePath, geo, body, jsonLd } = options;
+  const { lang, title, description, paths, ogImagePath, geo, body, jsonLd, notFound = false } = options;
   const ui = UI[lang];
   const path = paths[lang];
   const languageOptions = ALL_LANGS
     .map((l) => `<option value="${l}"${l === lang ? " selected" : ""}>${UI[l].shortLabel}</option>`)
     .join("");
   const serializedPaths = JSON.stringify(paths);
-  const autoLanguageScript = lang === "en"
+  const autoLanguageScript = lang === "en" && !notFound
     ? `<script>
 (()=>{try{const paths=${serializedPaths};const saved=localStorage.getItem(${JSON.stringify(ROUTE_LANGUAGE_STORAGE_KEY)});const timezone=Intl.DateTimeFormat().resolvedOptions().timeZone;const preferred=saved||(${JSON.stringify(ROUTE_LANGUAGE_BY_TIMEZONE)})[timezone]||"en";if(preferred!=="en"&&paths[preferred])location.replace(paths[preferred]+location.hash)}catch{}})();
 </script>`
@@ -993,15 +1033,15 @@ function htmlShell(options: {
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="canonical" href="${SITE_URL}${path}">
+${notFound ? "" : `<link rel="canonical" href="${SITE_URL}${path}">
 ${ALL_LANGS.map((l) => `<link rel="alternate" hreflang="${HREFLANG[l]}" href="${SITE_URL}${paths[l]}">`).join("\n")}
-<link rel="alternate" hreflang="x-default" href="${SITE_URL}${paths.en}">
+<link rel="alternate" hreflang="x-default" href="${SITE_URL}${paths.en}">`}
 ${geoTags}
 <meta property="og:site_name" content="${ui.siteName}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:type" content="website">
-<meta property="og:url" content="${SITE_URL}${path}">
+${notFound ? "" : `<meta property="og:url" content="${SITE_URL}${path}">`}
 <meta property="og:locale" content="${ui.ogLocale}">
 ${ogImagePath ? `<meta property="og:image" content="${SITE_URL}${ogImagePath}">
 <meta property="og:image:type" content="image/png">
@@ -1009,7 +1049,7 @@ ${ogImagePath ? `<meta property="og:image" content="${SITE_URL}${ogImagePath}">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="${SITE_URL}${ogImagePath}">` : ""}
-<meta name="robots" content="index, follow">
+<meta name="robots" content="${notFound ? "noindex" : "index, follow"}">
 <style>${PAGE_CSS}</style>
 ${autoLanguageScript}
 ${jsonLd.map((entry) => `<script type="application/ld+json">${JSON.stringify(entry)}</script>`).join("\n")}
@@ -1487,6 +1527,74 @@ ${sections}
   });
 }
 
+const NOT_FOUND_CSS = `body{min-height:100dvh;background-repeat:no-repeat}.missing{padding:clamp(2.5rem,9vh,5.5rem) 0 1rem}.missing-path{margin:0 0 .6rem;color:var(--muted);font-size:.95rem;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.missing-path:empty{display:none}.missing-body{margin:0;color:var(--muted);font-size:1.05rem}.missing-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1.5rem;margin:1.6rem 0 0}.missing-actions .cta{margin:0}.missing-actions a:not(.cta){font-weight:650}`;
+
+/**
+ * The 404 page, served by the host for every path no page or SPA route backs.
+ *
+ * One file answers for every locale, so it ships all six wordings: English is
+ * in the markup and readable without script, and the inline script swaps in
+ * the language the missing URL was written in (its locale prefix) or the one
+ * the visitor last chose on a route page.
+ */
+export function renderNotFoundPage(): string {
+  const ui = UI.en;
+  const copy = Object.fromEntries(
+    ALL_LANGS.map((lang) => [
+      lang,
+      {
+        langCode: UI[lang].langCode,
+        title: UI[lang].notFoundTitle,
+        body: UI[lang].notFoundBody,
+        browse: UI[lang].notFoundBrowse,
+        search: UI[lang].notFoundSearch,
+        allRoutes: UI[lang].allRoutes,
+        hub: HUB_PATH[lang],
+        siteName: UI[lang].siteName,
+      },
+    ]),
+  );
+  const body = `
+<section class="missing">
+<style>${NOT_FOUND_CSS}</style>
+<p class="missing-path" id="missing-path"></p>
+<h1 id="missing-title">${esc(ui.notFoundTitle)}</h1>
+<p class="missing-body" id="missing-body">${esc(ui.notFoundBody)}</p>
+<p class="missing-actions"><a class="cta" id="missing-browse" href="${HUB_PATH.en}">${esc(ui.notFoundBrowse)}</a><a id="missing-search" href="/">${esc(ui.notFoundSearch)}</a></p>
+</section>
+<script>
+(()=>{
+  const copy=${JSON.stringify(copy).replace(/</g, "\\u003c")};
+  const set=(id,text)=>{const node=document.getElementById(id);if(node)node.textContent=text};
+  set("missing-path",location.pathname);
+  let lang=(location.pathname.match(/^\\/(zh|ja|ko|fr|de)(?:\\/|$)/)||[])[1];
+  if(!lang){try{lang=localStorage.getItem(${JSON.stringify(ROUTE_LANGUAGE_STORAGE_KEY)})||""}catch{}}
+  const text=copy[lang];
+  if(!text||lang==="en")return;
+  document.documentElement.lang=text.langCode;
+  document.title=text.title+" | "+text.siteName;
+  set("missing-title",text.title);
+  set("missing-body",text.body);
+  set("missing-browse",text.browse);
+  set("missing-search",text.search);
+  document.getElementById("missing-browse")?.setAttribute("href",text.hub);
+  const allRoutes=document.querySelector("header.top .all-routes");
+  if(allRoutes){allRoutes.textContent=text.allRoutes;allRoutes.setAttribute("href",text.hub)}
+  const select=document.getElementById("language-select");
+  if(select)select.value=lang;
+})();
+</script>`;
+  return htmlShell({
+    lang: "en",
+    title: `${ui.notFoundTitle} | ${ui.siteName}`,
+    description: ui.notFoundBody,
+    paths: HUB_PATH,
+    body,
+    jsonLd: [],
+    notFound: true,
+  });
+}
+
 function writePage(urlPath: string, html: string): void {
   const dir = join(PUBLIC_DIR, ...urlPath.split("/").filter(Boolean));
   mkdirSync(dir, { recursive: true });
@@ -1545,6 +1653,9 @@ export function main(): void {
   for (const lang of ALL_LANGS) {
     writePage(HUB_PATH[lang], renderHubPage(pages, lang));
   }
+  // A root file, not a directory index: the host serves /404.html itself for
+  // any path nothing else answers, with a 404 status.
+  writeFileSync(join(PUBLIC_DIR, "404.html"), renderNotFoundPage(), "utf8");
 
   console.log(
     `Generated ${pages.length} route pages × ${ALL_LANGS.length} languages, ` +

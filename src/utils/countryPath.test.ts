@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canonicalPathFor, countryFromPath } from "./countryPath";
+import { SPA_COUNTRY_PATHS, canonicalPathFor, countryFromPath } from "./countryPath";
 
 describe("canonicalPathFor", () => {
   it("keeps the homepage canonical at / whatever market is selected", () => {
@@ -30,5 +30,15 @@ describe("countryFromPath", () => {
     expect(countryFromPath("/united-kingdom/")).toBe("united_kingdom");
     expect(countryFromPath("/United_Kingdom")).toBe("united_kingdom");
     expect(countryFromPath("/")).toBeUndefined();
+  });
+});
+
+describe("SPA_COUNTRY_PATHS", () => {
+  it("lists exactly the market paths the SPA answers", () => {
+    expect(SPA_COUNTRY_PATHS).toContain("/japan");
+    expect(SPA_COUNTRY_PATHS).toContain("/hong_kong");
+    for (const path of SPA_COUNTRY_PATHS) {
+      expect(countryFromPath(path), `${path} must resolve to a configured market`).toBeDefined();
+    }
   });
 });

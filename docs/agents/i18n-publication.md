@@ -24,3 +24,10 @@ same directory is generated from those artifacts and must never be hand-edited.
 
 SEO locale, slug, and route-page rules live in `scripts/lib/routePages.ts`. `npm run redirects` is
 not part of `npm run build`, so a slug change needs it run by hand and committed with `vercel.json`.
+
+`npm run redirects` owns the route redirects and the SPA rewrites in `vercel.json`; the rules live
+in `scripts/lib/urlRedirects.ts`. There is no catch-all rewrite: only the market paths the SPA
+answers reach the app shell, and any other path gets `404.html` (written by `npm run routes`) with
+a real 404. Withdrawing a page therefore needs an entry in `RETIRED_ROUTE_SLUGS`, or its indexed
+URL becomes a 404 rather than a 301. Every rule is emitted in both slash forms, and none may name a
+path a scraped route file answers.

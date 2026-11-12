@@ -38,6 +38,15 @@ const pathCountryMap: Record<string, Country> = {
   "/switzerland": "switzerland",
 };
 
+/**
+ * Every path, besides "/", that the SPA itself answers. Hosting must rewrite
+ * exactly these to the app shell and nothing else: a catch-all rewrite turns
+ * every withdrawn page into a soft 404 that returns 200.
+ */
+export const SPA_COUNTRY_PATHS: readonly string[] = Object.keys(pathCountryMap).filter((path) =>
+  countryOptions.includes(pathCountryMap[path]),
+);
+
 export function countryFromPath(pathname: string): Country | undefined {
   const normalizedPath = pathname.replace(/\/+$/, "").toLowerCase() || "/";
   const country = pathCountryMap[normalizedPath];
