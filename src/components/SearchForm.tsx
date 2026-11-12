@@ -2,7 +2,7 @@
 // OS support: Linux, macOS, Windows
 // Description: Interactive search form for transit route selection
 
-import { ArrowLeftRight, Clock3, Star, Search, MapPin, ChevronDown, Loader2, Pin, Sparkles } from "lucide-react";
+import { ArrowLeftRight, CalendarRange, Clock3, Star, Search, MapPin, ChevronDown, Loader2, Pin } from "lucide-react";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { countryConfig, countryOptions, providerDateTimeValue, providerDateValue, providerDateValues, countryFlags } from "../data/countries";
@@ -12,6 +12,7 @@ import { loadStationCatalog } from "../utils/catalogClient";
 import { triggerHaptic } from "../utils/haptics";
 import { frequentStations } from "../utils/frequentStations";
 import { stationLabel } from "../utils/stationLabel";
+import { timezoneCity } from "../utils/timezoneCity";
 import { AffiliateMarquee } from "./AffiliateMarquee";
 
 const getDayLabel = (date: Date, offset: number, t: any) => {
@@ -64,6 +65,16 @@ export function SearchForm({
   onTogglePinHistory,
 }: SearchFormProps) {
   const { t, i18n } = useTranslation();
+  const countryRailRef = useRef<HTMLDivElement>(null);
+  // Keep the selected country in view: the rail scrolls sideways, and a country
+  // chosen elsewhere (a route page, history) can sit past its right edge.
+  useEffect(() => {
+    const rail = countryRailRef.current;
+    const chip = rail?.querySelector<HTMLElement>('[aria-pressed="true"]');
+    if (!rail || !chip) return;
+    const reduce = typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    rail.scrollTo({ left: chip.offsetLeft - (rail.clientWidth - chip.offsetWidth) / 2, behavior: reduce ? "auto" : "smooth" });
+  }, [params.country]);
   const [formError, setFormError] = useState<string | null>(null);
   const [hotRouteConfirmation, setHotRouteConfirmation] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<{ origin?: string; destination?: string }>({});
@@ -112,7 +123,7 @@ export function SearchForm({
     },
     {
       q: t("faqs.q5", { defaultValue: "如何使用 AI 行程規劃功能？" }),
-      a: t("faqs.a5", { defaultValue: "點擊下方的「AI 行程規劃」按鈕，系統將引導您至專屬的智慧行程小幫手，為您量身打造跨城市、跨地區的精緻軌道旅行計畫！" })
+      a: t("faqs.a5", { defaultValue: "從左上角選單的「其它服務工具」開啟「AI 行程規劃」，即可建立跨城市的鐵道行程。" })
     }
   ], [t]);
   const origin = params.origin;
@@ -270,12 +281,15 @@ export function SearchForm({
   };
 
   return (
-    <main data-country={country} className="min-h-screen bg-transparent px-4 pb-nav pt-22 transition-all duration-500">
+    <main data-country={country} className="min-h-screen bg-transparent px-4 pb-nav pt-[calc(var(--app-bar-h)+1.5rem)] transition-all duration-500">
+      {/* The search view's headings start at h2; this names the page for screen readers
+          and outline tools. Result views carry their own visible h1 (ResultShell). */}
+      <h1 className="sr-only">{t("header.title")} {t("search.title")}</h1>
       <div className="mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)]">
       <section className="mx-auto min-w-0 w-full max-w-md lg:mx-0 lg:max-w-2xl">
 
         {/* Country Selector */}
-        <div role="group" aria-label={t("search.country", { defaultValue: "Country" })} className="mb-4 flex overflow-x-auto px-0.5 pb-2 soft-scrollbar">
+        <div ref={countryRailRef} role="group" aria-label={t("search.country", { defaultValue: "Country" })} className="relative -mx-4 mb-3 flex gap-2 overflow-x-auto px-4 pb-1 no-scrollbar">
           {countryOptions.map((item) => (
             <button
               key={item}
@@ -294,9 +308,9 @@ export function SearchForm({
               }}
               aria-label={t(countryConfig[item].labelKey)}
               aria-pressed={country === item}
-              className={`m3-chip m3-chip-touch m3-state shrink-0 rounded-none border first:rounded-l-lg last:rounded-r-lg [&:not(:first-child)]:-ml-px ${
+              className={`m3-chip m3-chip-touch m3-state shrink-0 rounded-full border ${
                 country === item
-                  ? "border-transparent bg-accent text-on-accent"
+                  ? "border-transparent bg-accent font-semibold text-on-accent"
                   : "border-slate-300 bg-transparent text-slate-700 dark:border-slate-700 dark:text-slate-300"
               }`}
             >
@@ -308,9 +322,10 @@ export function SearchForm({
         <div
           role="status"
           data-search-capability
-          className="m3-card m3-body-small mb-3 flex items-center justify-between gap-4 overflow-x-auto border border-slate-200/80 bg-white/75 px-4 py-3 text-slate-700 no-scrollbar dark:border-slate-800 dark:bg-slate-900/75 dark:text-slate-300"
+          className="m3-label-medium mb-3 flex flex-wrap items-center gap-2 text-slate-700 dark:text-slate-300"
         >
-          <span className="shrink-0 whitespace-nowrap">
+          <span className="m3-shape-full inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap border border-slate-200 bg-white px-3 py-1.5 dark:border-slate-700 dark:bg-slate-900">
+            <CalendarRange aria-hidden="true" className="h-4 w-4 text-slate-400" />
             {!canSearchTimetable
               ? t("search.capability_catalog_only")
               : config.liveOnly
@@ -321,14 +336,12 @@ export function SearchForm({
                   })}
           </span>
           {canSearchTimetable && (
-            <span className="flex shrink-0 items-center gap-2 whitespace-nowrap">
+            <span
+              className="m3-shape-full inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap border border-slate-200 bg-white px-3 py-1.5 dark:border-slate-700 dark:bg-slate-900"
+              title={config.timeZone}
+            >
               <Clock3 aria-hidden="true" className="h-4 w-4 text-slate-400" />
-              <span className="m3-title-small text-slate-600 dark:text-slate-300">
-                {t("journey.time_mode")}
-              </span>
-              <span className="m3-label-small normal-case text-slate-400 dark:text-slate-500">
-                {t("search.market_time", { timeZone: config.timeZone, defaultValue: `${config.timeZone} local time` })}
-              </span>
+              {t("search.market_time", { timeZone: timezoneCity(config.timeZone, i18n.language), defaultValue: `${config.timeZone} local time` })}
             </span>
           )}
         </div>
@@ -389,12 +402,12 @@ export function SearchForm({
                   <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
                   {t("search.origin")}
                 </div>
-                <div className={`m3-headline-small max-w-full font-medium ${origin ? "text-slate-900 dark:text-white" : "text-slate-400 dark:text-slate-500"}`}>
-                  {origin ? stationLabel(t, origin, country) : t("search.select_origin", { defaultValue: "Select" })}
+                <div className={`max-w-full font-medium ${origin ? "m3-headline-small text-slate-900 dark:text-white" : "m3-title-medium text-slate-500 dark:text-slate-400"}`}>
+                  {origin ? stationLabel(t, origin, country) : t("search.select_station")}
                 </div>
-                <div className="m3-body-small mt-1 max-w-full truncate text-slate-500 dark:text-slate-400">
-                  {origin || "DEP"}
-                </div>
+                {origin ? (
+                  <div className="m3-body-small mt-1 max-w-full truncate text-slate-500 dark:text-slate-400">{origin}</div>
+                ) : null}
               </button>
 
               <div className="relative z-20 flex shrink-0 items-center justify-center px-1">
@@ -428,12 +441,12 @@ export function SearchForm({
                   <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
                   {t("search.destination")}
                 </div>
-                <div className={`m3-headline-small max-w-full font-medium ${destination ? "text-slate-900 dark:text-white" : "text-slate-400 dark:text-slate-500"}`}>
-                  {destination ? stationLabel(t, destination, country) : t("search.select_dest", { defaultValue: "Select" })}
+                <div className={`max-w-full font-medium ${destination ? "m3-headline-small text-slate-900 dark:text-white" : "m3-title-medium text-slate-500 dark:text-slate-400"}`}>
+                  {destination ? stationLabel(t, destination, country) : t("search.select_station")}
                 </div>
-                <div className="m3-body-small mt-1 max-w-full truncate text-slate-500 dark:text-slate-400">
-                  {destination || "ARR"}
-                </div>
+                {destination ? (
+                  <div className="m3-body-small mt-1 max-w-full truncate text-slate-500 dark:text-slate-400">{destination}</div>
+                ) : null}
               </button>
             </div>
             {(fieldErrors.origin || fieldErrors.destination) && (
@@ -620,11 +633,9 @@ export function SearchForm({
         </div>
 
         {/* Dynamic, humble credits/attribution under the search form instead of status bar AI-slop */}
-        <div className="mt-3.5 text-center">
-          <span className="m3-body-small inline-flex items-center gap-1 text-slate-500 dark:text-slate-400">
-            {t("search.data_source")}: <span className="text-slate-500 dark:text-slate-400">{config.provider}</span>
-          </span>
-        </div>
+        <p className="m3-body-small mt-3 px-1 text-slate-500 dark:text-slate-400">
+          {t("search.data_source")}: {config.provider}
+        </p>
 
         {visibleFavorites.length > 0 && (
           <section className="mt-8">
@@ -736,28 +747,6 @@ export function SearchForm({
             </div>
           </section>
         )}
-
-        <div className="mt-6 flex flex-row gap-2 sm:gap-3">
-          <a
-            href="https://roam-jelly-web.vercel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="m3-button m3-button-icon-leading m3-state min-w-0 flex-1 whitespace-normal px-2 py-2 text-center text-xs sm:px-4 sm:text-sm bg-emerald-50 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300"
-          >
-            <Sparkles aria-hidden="true" className="h-4 w-4 shrink-0 sm:h-[18px] sm:w-[18px]" />
-            <span className="min-w-0 leading-tight">{t("search.plan_ai", { defaultValue: "AI 行程規劃" })}</span>
-          </a>
-
-          <a
-            href="https://taiwanrail.vercel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="m3-button m3-button-icon-leading m3-state min-w-0 flex-1 whitespace-normal px-2 py-2 text-center text-xs sm:px-4 sm:text-sm bg-sky-50 text-sky-800 dark:bg-sky-950/30 dark:text-sky-300"
-          >
-            <MapPin aria-hidden="true" className="h-4 w-4 shrink-0 sm:h-[18px] sm:w-[18px]" />
-            <span className="min-w-0 leading-tight">{t("search.taiwan_rail_link", { defaultValue: "台/鐵/捷運 查詢" })}</span>
-          </a>
-        </div>
 
         <AffiliateMarquee variant="inline" />
 

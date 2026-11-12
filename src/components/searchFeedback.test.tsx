@@ -231,8 +231,9 @@ it("places departure-time context on the same row as the offered date range", ()
     .format(new Date(`${value}T12:00:00Z`));
   expect(capabilityRow).toContain(shortDate(offered[0]));
   expect(capabilityRow).toContain(shortDate(offered[offered.length - 1]));
-  expect(capabilityRow).toContain("Departure time");
-  expect(capabilityRow).toContain("Asia/Tokyo local time");
+  // The market clock reads as a city the passenger knows, with the IANA zone kept as its title.
+  expect(capabilityRow).toContain("Tokyo local time");
+  expect(capabilityRow).toContain('title="Asia/Tokyo"');
   expect(html).not.toContain("lucide-calendar-days");
   expect(html).toContain('role="group" aria-label="Date of Travel"');
   expect(html).toContain('data-time-mode-control="true"');
@@ -240,7 +241,7 @@ it("places departure-time context on the same row as the offered date range", ()
   expect(html).toContain('section class="mx-auto min-w-0 w-full max-w-md');
 });
 
-it("keeps tool links horizontal and places affiliate offers above popular routes", () => {
+it("leaves the other-service links to the side menu and places affiliate offers above popular routes", () => {
   const noop = vi.fn();
   const html = renderToStaticMarkup(<SearchForm
     params={{ country: "japan", origin: "Asakusa", destination: "Shimbashi", date: providerDateValue("japan"), timeMode: "all_day" }}
@@ -249,8 +250,8 @@ it("keeps tool links horizontal and places affiliate offers above popular routes
     onChange={noop} onSearch={async () => {}} onOpenStations={noop} onOpenWorkflow={noop}
     onRepeatSearch={noop} onTogglePinHistory={noop}
   />);
-  expect(html).toContain("mt-6 flex flex-row gap-2 sm:gap-3");
-  expect(html).not.toContain("mt-6 flex flex-col");
+  expect(html).not.toContain("roam-jelly-web.vercel.app");
+  expect(html).not.toContain("taiwanrail.vercel.app");
   expect(html.indexOf('data-affiliate-offers="inline"')).toBeLessThan(html.indexOf("Popular Routes"));
 });
 

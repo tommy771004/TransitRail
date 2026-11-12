@@ -77,22 +77,22 @@ export function RouteServiceOverview({ country, date, results }: RouteServiceOve
       aria-label={t("result.overview_label", { defaultValue: "Displayed departures overview" })}
     >
       <div className="m3-card m3-card-large m3-elevation-1 grid grid-cols-2 gap-2 border border-slate-200 bg-white p-2 dark:border-slate-800 dark:bg-slate-900">
-        <div className="m3-card flex items-center gap-2 bg-amber-50 px-3 py-2 dark:bg-amber-950/30">
-          <Sunrise className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
+        <div className="m3-card flex items-center gap-2 bg-slate-50 px-3 py-2 dark:bg-slate-800/60">
+          <Sunrise className="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400" />
           <div>
-            <p className="m3-label-small text-amber-700/75 dark:text-amber-300/75">
+            <p className="m3-label-small text-slate-600 dark:text-slate-300">
               {t("result.first_shown", { defaultValue: "First shown" })}
             </p>
-            <p className="m3-title-medium font-mono text-slate-900 dark:text-white">{summary.first}</p>
+            <p className="m3-title-medium font-semibold tabular-nums text-slate-900 dark:text-white">{summary.first}</p>
           </div>
         </div>
-        <div className="m3-card flex items-center gap-2 bg-indigo-50 px-3 py-2 dark:bg-indigo-950/30">
-          <MoonStar className="h-4 w-4 shrink-0 text-indigo-600 dark:text-indigo-400" />
+        <div className="m3-card flex items-center gap-2 bg-slate-50 px-3 py-2 dark:bg-slate-800/60">
+          <MoonStar className="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400" />
           <div>
-            <p className="m3-label-small text-indigo-700/75 dark:text-indigo-300/75">
+            <p className="m3-label-small text-slate-600 dark:text-slate-300">
               {t("result.last_shown", { defaultValue: "Last shown" })}
             </p>
-            <p className="m3-title-medium font-mono text-slate-900 dark:text-white">{summary.last}</p>
+            <p className="m3-title-medium font-semibold tabular-nums text-slate-900 dark:text-white">{summary.last}</p>
           </div>
         </div>
       </div>

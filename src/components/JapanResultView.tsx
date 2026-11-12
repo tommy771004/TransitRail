@@ -119,7 +119,7 @@ export function JapanResultView({
                 triggerHaptic("medium");
                 onSelectSeat(trip);
               }}
-              className="m3-button m3-button-small m3-state shrink-0 gap-1 bg-emerald-700 text-white"
+              className="m3-button m3-button-small m3-state shrink-0 gap-1 bg-accent-container font-semibold text-accent"
             >
               {t("result.select_seat")}
               <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />

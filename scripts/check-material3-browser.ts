@@ -47,7 +47,7 @@ try {
       if (new URLSearchParams(location.search).has('sticky')) {
         // The result list inside the same clipped shell App.tsx renders, long enough to scroll.
         const trips = Array.from({ length: 30 }, (_, i) => ({ id: 'sticky-' + i, country: 'hong_kong', operator: 'MTR', service: 'TWL', origin: 'Central', destination: 'Jordan', departureTime: '10:' + String(i).padStart(2, '0'), arrivalTime: '10:' + String(i + 12).padStart(2, '0'), durationMinutes: 12, direct: true, stops: [] }));
-        return <div className="country-shell relative isolate min-h-screen overflow-x-clip"><div className="pt-16">
+        return <div className="country-shell relative isolate min-h-screen overflow-x-clip"><div className="pt-(--app-bar-h)">
           <MetroResultView country="hong_kong" origin="Central" destination="Jordan" date="2026-09-13" results={trips} sortMode="earliest" onSortChange={() => {}} savedIds={new Set()} onModify={() => {}} onSave={() => {}} />
         </div></div>;
       }
@@ -56,12 +56,12 @@ try {
         return <MetroResultView country="hong_kong" origin="Central" destination="Jordan" date="2026-09-13" results={[trip]} savedIds={new Set()} onModify={() => {}} onSave={() => {}} />;
       }
       return <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-        <Header onMenuOpen={() => {}} onProfileOpen={() => {}} timezone="Asia/Taipei" homeCurrency="TWD" />
-        <main className="px-4 pb-nav pt-22">
+        <Header onMenuOpen={() => {}} pageLabel="Search" timezone="Asia/Taipei" homeCurrency="TWD" />
+        <main className="px-4 pb-nav pt-[calc(var(--app-bar-h)+1.5rem)]">
           <button id="open-stations" className="m3-button" onClick={() => setStationOpen(true)}>Open station picker</button>
           <button id="show-snack" className="m3-button" onClick={() => setSnack({ id: Date.now(), text: 'Route saved' })}>Show confirmation</button>
         </main>
-        <BottomNav activeView={view} unreadAlerts={1} onNavigate={setView} onOpenSettings={() => {}} country="japan" />
+        <BottomNav activeView={view} unreadAlerts={1} onNavigate={setView} country="japan" />
         {stationOpen ? <StationBrowser country={country} target="origin" onBack={() => setStationOpen(false)} onSelectStation={() => setStationOpen(false)} selectedDate={date} /> : null}
         <Snackbar snack={snack} onDismiss={() => setSnack(undefined)} />
       </div>;
@@ -150,14 +150,17 @@ try {
         };
       });
       const expectedNavHeight = width < 768 ? 60 : 80;
-      if (shell.header !== 64) throw new Error(`Top app bar is ${shell.header}px at ${width}px/${colorScheme}`);
+      const expectedHeaderHeight = width < 768 ? 48 : 64;
+      if (shell.header !== expectedHeaderHeight) throw new Error(`Top app bar is ${shell.header}px at ${width}px/${colorScheme}`);
       if (shell.nav !== expectedNavHeight) throw new Error(`Navigation bar is ${shell.nav}px (${shell.navComputedHeight}) at ${width}px/${colorScheme}`);
       if (width < 768 && shell.navSurfaceWidth !== 270) throw new Error(`Compact navigation is ${shell.navSurfaceWidth}px wide at ${width}px/${colorScheme}`);
       if (shell.navLeft < 0 || shell.navRight > width) throw new Error(`Navigation escapes viewport at ${width}px/${colorScheme}`);
       if (shell.overflow) throw new Error(`Shell overflows at ${width}px/${colorScheme}`);
 
       for (const locale of ["en", "zh-TW", "ja", "ko"]) {
-        await page.locator("header select").selectOption(locale);
+        // Phones change language in the side menu; the header keeps the select (hidden)
+        // so the header copy can still be measured in every locale.
+        await page.locator("header select").selectOption(locale, { force: width < 768 });
         if (await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)) {
           throw new Error(`Header overflows at ${width}px/${colorScheme}/${locale}`);
         }
@@ -271,7 +274,7 @@ try {
   }
 
   {
-    // The sort bar must stay pinned under the 64px app bar once the list scrolls.
+    // The sort bar must stay pinned under the app bar (48px on this phone) once the list scrolls.
     // An overflow-x-hidden shell turns itself into the scroll container and the
     // bar scrolls away with the cards; overflow-x-clip keeps the window scrolling.
     const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
@@ -287,7 +290,7 @@ try {
     await page.evaluate(() => window.scrollTo(0, 600));
     await page.waitForFunction(() => window.scrollY >= 600);
     const pinned = await sort.evaluate(element => Math.round(element.closest(".sticky")!.getBoundingClientRect().top));
-    if (pinned !== 64) throw new Error(`Sort bar scrolled away (top ${pinned}px, expected 64px)`);
+    if (pinned !== 48) throw new Error(`Sort bar scrolled away (top ${pinned}px, expected 48px)`);
     await page.close();
   }
 

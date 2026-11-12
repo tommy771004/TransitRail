@@ -16,6 +16,13 @@ export function minutesOf(time?: string | null): number | null {
   return match ? Number(match[1]) * 60 + Number(match[2]) : null;
 }
 
+/**
+ * The track colour of a ride whose operator published no line colour (Nozomi, KTX…).
+ * Neutral slate, so a missing colour never reads as a line or competes with the
+ * market's accent; RouteBand also draws it thinner.
+ */
+export const UNKNOWN_LINE_COLOR = "#94a3b8";
+
 export function getLegColor(leg: JourneyLeg, defaultColor?: string) {
   if (leg.color) return leg.color;
   const m = (leg.mode || "").toLowerCase();
@@ -23,7 +30,7 @@ export function getLegColor(leg: JourneyLeg, defaultColor?: string) {
   if (m.includes("bus") || m.includes("coach") || l.includes("bus") || l.includes("客運") || l.includes("巴士")) return "#f59e0b"; // amber
   if (m.includes("subway") || m.includes("metro") || m.includes("underground") || l.includes("subway") || l.includes("metro") || l.includes("underground") || l.includes("捷運") || l.includes("地鐵")) return "#3b82f6"; // blue
   if (m.includes("high_speed") || m.includes("shinkansen") || l.includes("shinkansen") || l.includes("express") || l.includes("bullet") || l.includes("新幹線") || l.includes("高鐵") || l.includes("特急")) return "#ef4444"; // red
-  return defaultColor || "#10b981"; // emerald default
+  return defaultColor || UNKNOWN_LINE_COLOR;
 }
 
 export type PressureKey = "short" | "standard" | "comfortable" | "unknown";

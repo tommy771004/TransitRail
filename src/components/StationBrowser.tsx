@@ -20,6 +20,7 @@ import { getAuditHeaders, postAuditEvent, resolveAuditTimezone } from "../utils/
 import type { ServiceRegion } from "../server/catalog";
 import { loadStationBrowserCatalog, resolveCatalogSelection } from "./stationBrowserCatalog";
 import { useModalFocusTrap } from "../hooks/useModalFocusTrap";
+import { UNKNOWN_LINE_COLOR } from "../utils/journeyLegs";
 
 interface StationBrowserProps {
   country: Country;
@@ -778,7 +779,7 @@ export function StationBrowser({
                                 <span className={`w-[2px] flex-1 ${index === 0 ? "bg-transparent" : "bg-slate-200 dark:bg-slate-800"}`} />
                                 <span
                                   className="h-2.5 w-2.5 rounded-full border-2 bg-white dark:bg-[#060a13]"
-                                  style={{ borderColor: line?.color || "#10b981" }}
+                                  style={{ borderColor: line?.color || UNKNOWN_LINE_COLOR }}
                                 />
                                 <span className={`w-[2px] flex-1 ${index === arr.length - 1 ? "bg-transparent" : "bg-slate-200 dark:bg-slate-800"}`} />
                               </span>

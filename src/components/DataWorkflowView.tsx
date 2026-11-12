@@ -36,7 +36,7 @@ export function DataWorkflowView({ params, onBack }: DataWorkflowViewProps) {
   ];
 
   return (
-    <main className="min-h-screen bg-transparent px-4 pb-nav pt-22">
+    <main className="min-h-screen bg-transparent px-4 pb-nav pt-[calc(var(--app-bar-h)+1.5rem)]">
       <section className="mx-auto max-w-md">
         <button
           onClick={onBack}

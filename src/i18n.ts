@@ -79,6 +79,7 @@ const resources = {
         day_after_tomorrow: "Day after",
         popular_routes: "Popular Routes",
         frequent_stations: "Frequent stations",
+        select_station: "Choose a station",
         frequent_to_origin: "Tap to set as departure",
         frequent_to_destination: "Tap to set as arrival",
         learn_more: "Learn more about TransitRail",
@@ -510,7 +511,16 @@ const resources = {
       menu: {
         title: "Menu",
         new_search: "New search",
-        feedback: "Feedback"
+        feedback: "Feedback",
+        language: "Language",
+        more_tools: "Other services"
+      },
+      changelog: {
+        title: "What's new",
+        close: "Close",
+        added: "New",
+        changed: "Changed",
+        removed: "Removed"
       },
       profile: {
         title: "Setting",
@@ -558,7 +568,7 @@ const resources = {
         q4: "Can I use it offline or save frequently used routes?",
         a4: "Yes. Tap the star next to Search to save a route; it stays in your browser.",
         q5: "How do I use the AI itinerary planner?",
-        a5: "Tap 'AI Transit Plan' below to build an intercity rail itinerary."
+        a5: "Open the menu at the top left and choose 'Plan itinerary with AI' under Other services to build an intercity rail itinerary."
       },
       hot_routes: {
         tokyo_osaka: "Tokyo ➔ Shin-Osaka",
@@ -768,6 +778,7 @@ const resources = {
         day_after_tomorrow: "後天",
         popular_routes: "熱門路線",
         frequent_stations: "常用車站",
+        select_station: "選擇車站",
         frequent_to_origin: "點選設為出發站",
         frequent_to_destination: "點選設為抵達站",
         learn_more: "進一步了解 TransitRail",
@@ -1194,7 +1205,16 @@ const resources = {
       menu: {
         title: "選單",
         new_search: "新的搜尋",
-        feedback: "意見回饋"
+        feedback: "意見回饋",
+        language: "語言",
+        more_tools: "其它服務工具"
+      },
+      changelog: {
+        title: "功能更新記錄",
+        close: "關閉",
+        added: "新增",
+        changed: "修改",
+        removed: "移除"
       },
       profile: {
         title: "個人設定",
@@ -1242,7 +1262,7 @@ const resources = {
         q4: "可以離線使用或儲存常用路線嗎？",
         a4: "可以。點搜尋按鈕旁的星號即可加入最愛，資料只存在你的瀏覽器。",
         q5: "如何使用 AI 行程規劃功能？",
-        a5: "點下方「AI 行程規劃」，即可建立跨城市的鐵道行程。"
+        a5: "從左上角選單的「其它服務工具」開啟「AI 行程規劃」，即可建立跨城市的鐵道行程。"
       },
       hot_routes: {
         tokyo_osaka: "東京 ➔ 新大阪",
@@ -1413,6 +1433,7 @@ const resources = {
         "Isahaya": "諫早",
         "Nagasaki": "長崎",
         "Seoul (SNC)": "首爾",
+        "Seoul": "首爾", // alias of Seoul (SNC) (route pages, hot routes)
         "Yongsan": "龍山",
         "Yeongdeungpo": "永登浦",
         "Cheongnyangni": "清涼里",
@@ -1427,6 +1448,7 @@ const resources = {
         "Singyeongju": "新慶州",
         "Ulsan": "蔚山",
         "Busan (BSN)": "釜山",
+        "Busan": "釜山", // alias of Busan (BSN) (route pages, hot routes)
         "Pohang": "浦項",
         "Masan": "馬山",
         "Jinju": "晉州",
@@ -1857,6 +1879,7 @@ const resources = {
         day_after_tomorrow: "明後日",
         popular_routes: "人気の路線",
         frequent_stations: "よく使う駅",
+        select_station: "駅を選択",
         frequent_to_origin: "タップで出発駅に設定",
         frequent_to_destination: "タップで到着駅に設定",
         learn_more: "TransitRailについて詳しく見る",
@@ -2283,7 +2306,16 @@ const resources = {
       menu: {
         title: "メニュー",
         new_search: "新しい検索",
-        feedback: "フィードバック"
+        feedback: "フィードバック",
+        language: "言語",
+        more_tools: "その他のサービス"
+      },
+      changelog: {
+        title: "更新履歴",
+        close: "閉じる",
+        added: "追加",
+        changed: "変更",
+        removed: "削除"
       },
       profile: {
         title: "設定",
@@ -2331,7 +2363,7 @@ const resources = {
         q4: "オフラインで利用したり、よく使う路線を保存できますか？",
         a4: "はい。検索ボタン横の星でお気に入りに追加できます。データはブラウザ内にのみ保存されます。",
         q5: "AI旅程プランナーの使い方は？",
-        a5: "下の「AIで旅程を計画」から都市間の鉄道旅程を作成できます。"
+        a5: "左上のメニューの「その他のサービス」から「AIで旅程を計画」を開くと、都市間の鉄道旅程を作成できます。"
       },
       hot_routes: {
         tokyo_osaka: "東京 ➔ 新大阪",
@@ -2465,6 +2497,7 @@ const resources = {
         "Isahaya": "諫早",
         "Nagasaki": "長崎",
         "Seoul (SNC)": "ソウル",
+        "Seoul": "ソウル",
         "Yongsan": "ヨンサン",
         "Yeongdeungpo": "ヨンドゥンポ",
         "Cheongnyangni": "チョンニャンニ",
@@ -2479,6 +2512,7 @@ const resources = {
         "Singyeongju": "シンギョンジュ",
         "Ulsan": "ウルサン",
         "Busan (BSN)": "プサン",
+        "Busan": "プサン",
         "Pohang": "ポハン",
         "Masan": "マサン",
         "Jinju": "チンジュ",
@@ -2568,6 +2602,7 @@ const resources = {
         day_after_tomorrow: "모레",
         popular_routes: "인기 노선",
         frequent_stations: "자주 쓰는 역",
+        select_station: "역 선택",
         frequent_to_origin: "눌러서 출발역으로 설정",
         frequent_to_destination: "눌러서 도착역으로 설정",
         learn_more: "TransitRail 자세히 알아보기",
@@ -2994,7 +3029,16 @@ const resources = {
       menu: {
         title: "메뉴",
         new_search: "새 검색",
-        feedback: "피드백"
+        feedback: "피드백",
+        language: "언어",
+        more_tools: "기타 서비스"
+      },
+      changelog: {
+        title: "업데이트 내역",
+        close: "닫기",
+        added: "추가",
+        changed: "변경",
+        removed: "삭제"
       },
       profile: {
         title: "설정",
@@ -3042,7 +3086,7 @@ const resources = {
         q4: "오프라인으로 이용하거나 자주 쓰는 노선을 저장할 수 있나요?",
         a4: "네. 검색 버튼 옆 별을 눌러 저장하세요. 브라우저에만 저장됩니다.",
         q5: "AI 일정 플래너는 어떻게 사용하나요?",
-        a5: "아래 'AI로 일정 계획하기'에서 도시 간 철도 일정을 만들 수 있습니다."
+        a5: "왼쪽 위 메뉴의 '기타 서비스'에서 'AI로 일정 계획하기'를 열면 도시 간 철도 일정을 만들 수 있습니다."
       },
       hot_routes: {
         tokyo_osaka: "도쿄 ➔ 신오사카",
@@ -3176,6 +3220,7 @@ const resources = {
         "Isahaya": "이사하야",
         "Nagasaki": "나가사키",
         "Seoul (SNC)": "서울",
+        "Seoul": "서울",
         "Yongsan": "용산",
         "Yeongdeungpo": "영등포",
         "Cheongnyangni": "청량리",
@@ -3190,6 +3235,7 @@ const resources = {
         "Singyeongju": "신경주",
         "Ulsan": "울산",
         "Busan (BSN)": "부산",
+        "Busan": "부산",
         "Pohang": "포항",
         "Masan": "마산",
         "Jinju": "진주",

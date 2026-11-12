@@ -174,7 +174,7 @@ export function TripCard({
   // the status row drops both.
   const statusPlatform = live ? "" : platformText;
   const statusLiveNote = live ? null : liveNote;
-  const hasStatus = Boolean(tags.next || tags.cheapest || countdown || statusPlatform || statusLiveNote || fare);
+  const hasStatus = Boolean(tags.next || countdown || statusPlatform || statusLiveNote);
 
   const openSheet = () => {
     triggerHaptic("light");
@@ -232,14 +232,14 @@ export function TripCard({
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls={panelId}
-        className="m3-state m3-focus-inset block w-full min-w-0 scroll-mt-10 px-4 pb-3 pt-3 text-left text-slate-900 dark:text-white"
+        className="m3-state m3-focus-inset block w-full min-w-0 scroll-mt-10 px-4 py-2.5 text-left text-slate-900 dark:text-white"
       >
         {/* Line 0, live next departure only: the line's colour as a stripe (text
             never sits on the line colour), then line, direction and platform,
             then the flap countdown and the provider's later departures. */}
         {live && firstRide ? (
           <div
-            className="-mx-4 -mt-3 mb-3 border-t-4 px-4 pt-2.5"
+            className="-mx-4 -mt-2.5 mb-2.5 border-t-4 px-4 pt-2.5"
             style={{ borderTopColor: firstRide.color }}
             data-live-departure
           >
@@ -267,23 +267,18 @@ export function TripCard({
           </div>
         ) : null}
 
-        {/* Line 1, the status row: every item is shrink-0 and nowrap, so the row
-            wraps instead of clipping; it is omitted when there is nothing to say. */}
+        {/* Line 1, the status row: the next badge, countdown, platform and live
+            status only. Every item is shrink-0 and nowrap, so the row wraps
+            instead of clipping; it is omitted when there is nothing to say. */}
         {hasStatus ? (
-          <div className="mb-2 flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1">
-            {tags.next && badge(t("result.next_departure_tag"), "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900")}
+          <div className="mb-1.5 flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1">
+            {tags.next && badge(t("result.next_departure_tag"), "bg-accent-container font-semibold text-accent")}
             {countdown ? <span className={`shrink-0 whitespace-nowrap tabular-nums ${countdownClass}`}>{countdown}</span> : null}
             {statusPlatform || statusLiveNote ? (
               <span className="m3-label-medium flex shrink-0 gap-1.5 whitespace-nowrap text-slate-600 dark:text-slate-300">
                 {statusPlatform ? <span>{statusPlatform}</span> : null}
                 {statusLiveNote ? <span className={statusLiveNote.className} data-live-status={status ? "" : undefined}>{statusLiveNote.text}</span> : null}
               </span>
-            ) : null}
-            {fare || tags.cheapest ? (
-              <div className="ml-auto flex shrink-0 items-baseline gap-2 whitespace-nowrap">
-                {tags.cheapest && badge(t("result.cheapest_tag"), "self-center bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300")}
-                {fare && <span className="m3-title-medium font-bold tabular-nums text-slate-900 dark:text-white" data-trip-fare-row>{fare}</span>}
-              </div>
             ) : null}
           </div>
         ) : null}
@@ -300,15 +295,16 @@ export function TripCard({
 
         {/* Line 2: the times never shrink; the band takes whatever is left. */}
         <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-end gap-3">
-          <p className="m3-headline-small shrink-0 whitespace-nowrap font-mono font-bold tabular-nums leading-none text-slate-950 dark:text-white">{clock(departureClock)}</p>
+          <p className="m3-title-large shrink-0 whitespace-nowrap font-bold tabular-nums leading-none text-slate-950 dark:text-white">{clock(departureClock)}</p>
           {lineNames ? <span className="sr-only">{lineNames}</span> : null}
           <RouteBand trip={trip} caption={lineNames ? caption : undefined} className="pb-[9px]" />
-          <p className="m3-headline-small shrink-0 whitespace-nowrap text-right font-mono font-bold tabular-nums leading-none text-slate-950 dark:text-white">{clock(arrivalClock)}</p>
+          <p className="m3-title-large shrink-0 whitespace-nowrap text-right font-bold tabular-nums leading-none text-slate-950 dark:text-white">{clock(arrivalClock)}</p>
         </div>
 
         {/* Line 3: duration (never broken), then the composition, which may wrap to
-            two lines; the pressure label never wraps. Badges sit on the value they describe. */}
-        <div className="m3-body-small mt-2 flex min-w-0 items-start justify-between gap-2 text-slate-500 dark:text-slate-400">
+            two lines; on the right the pressure label or market extras, then the
+            fare, none of which wrap. Badges sit on the value they describe. */}
+        <div className="m3-body-small mt-1.5 flex min-w-0 items-start justify-between gap-2 text-slate-500 dark:text-slate-400">
           <span className="line-clamp-2 min-w-0">
             {tags.fastest && <>{badge(t("result.fastest_tag"), "mr-1 bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300")}</>}
             {duration ? (
@@ -317,10 +313,16 @@ export function TripCard({
             {duration && composition ? " · " : null}
             {composition}
           </span>
-          {pressure ? (
-            <span className={`shrink-0 whitespace-nowrap font-medium ${pressure.className}`}>{pressure.label}</span>
-          ) : extraMeta ? (
-            <span className="flex shrink-0 items-center gap-1.5">{extraMeta}</span>
+          {pressure || extraMeta || fare || tags.cheapest ? (
+            <span className="flex shrink-0 items-center gap-2 whitespace-nowrap">
+              {pressure ? (
+                <span className={`font-medium ${pressure.className}`}>{pressure.label}</span>
+              ) : extraMeta ? (
+                <span className="flex items-center gap-1.5">{extraMeta}</span>
+              ) : null}
+              {tags.cheapest && badge(t("result.cheapest_tag"), "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300")}
+              {fare && <span className="m3-title-small font-bold tabular-nums text-slate-900 dark:text-white" data-trip-fare-row>{fare}</span>}
+            </span>
           ) : null}
         </div>
 

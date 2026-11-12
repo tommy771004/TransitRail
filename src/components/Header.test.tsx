@@ -6,7 +6,7 @@ import { Header } from "./Header";
 const renderHeader = () => renderToStaticMarkup(
   <Header
     onMenuOpen={vi.fn()}
-    onProfileOpen={vi.fn()}
+    pageLabel="Search"
     timezone="Asia/Taipei"
     homeCurrency="TWD"
   />,
@@ -36,5 +36,26 @@ describe("Header language picker", () => {
     expect(classes).toContain("m3-elevation-1");
     expect(classes).not.toContain("h-12");
     expect(html.match(/<option/g)).toHaveLength(4);
+  });
+
+  it("leaves the language picker to the side menu on phones", () => {
+    const html = renderHeader();
+    const wrapper = html.match(/<div class="([^"]+)"><select/)?.[1].split(/\s+/);
+    expect(wrapper).toContain("hidden");
+    expect(wrapper).toContain("md:block");
+  });
+});
+
+describe("Header compact layout", () => {
+  it("names the current page in the market accent", () => {
+    const html = renderHeader();
+    expect(html).toMatch(/<span aria-hidden="true" class="[^"]*text-accent[^"]*">Search<\/span>/);
+  });
+
+  it("opens the side menu from the menu button and the timezone chip, with no profile button", () => {
+    const html = renderHeader();
+    expect(html.match(/<button/g)).toHaveLength(2);
+    expect(html).toContain('aria-haspopup="dialog"');
+    expect(html).toContain("TWD");
   });
 });

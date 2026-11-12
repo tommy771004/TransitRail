@@ -6,7 +6,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import type { JourneyLeg, TransitResult } from "../types";
-import { getLegColor, minutesOf, pressureKey, transferPressure, type PressureKey } from "../utils/journeyLegs";
+import { getLegColor, minutesOf, pressureKey, transferPressure, UNKNOWN_LINE_COLOR, type PressureKey } from "../utils/journeyLegs";
 
 export interface BandLeg {
   name: string;
@@ -150,9 +150,13 @@ export function RouteBand({ trip, compact = false, caption, className = "" }: Ro
       <div className="flex h-1.5 min-w-0 items-center">
         {legs.map((leg, index) => (
           <span key={`seg-${index}`} className="contents">
+            {/* A ride with no published line colour gets a thin neutral track, not a coloured line. */}
             <span
-              className="h-1.5 min-w-1 rounded-full bg-[var(--lc)] dark:bg-[color-mix(in_srgb,var(--lc)_78%,white)]"
+              className={leg.color === UNKNOWN_LINE_COLOR
+                ? "h-1 min-w-1 rounded-full bg-slate-300 dark:bg-slate-600"
+                : "h-1.5 min-w-1 rounded-full bg-[var(--lc)] dark:bg-[color-mix(in_srgb,var(--lc)_78%,white)]"}
               style={{ flex: `${Math.max((leg.minutes / total) * 100, 3)} 1 0%`, "--lc": leg.color } as CSSProperties}
+              data-line-color={leg.color === UNKNOWN_LINE_COLOR ? "unknown" : undefined}
             />
             {index < legs.length - 1 && (
               <span

@@ -230,7 +230,12 @@ export function ResultList({
   const fastest = durations.length > 1 && new Set(durations).size > 1 ? Math.min(...durations) : undefined;
   const fares = results.filter(hasDisplayableFare);
   const distinctPrices = new Set(fares.map((trip) => trip.price));
-  const cheapest = distinctPrices.size > 1 ? Math.min(...fares.map((trip) => trip.price)) : undefined;
+  // Cheapest is judged among trains still to leave: a departed fare cannot be
+  // bought, and when every remaining fare is the same there is nothing to badge.
+  const faresAhead = fares.filter((trip) => !isPast(trip));
+  const cheapest = new Set(faresAhead.map((trip) => trip.price)).size > 1
+    ? Math.min(...faresAhead.map((trip) => trip.price))
+    : undefined;
   // One line replaces the column only when every row shares that fare; a fare
   // some rows carry and others lack stays on the rows that have it.
   const everyRowFared = fares.length > 0 && fares.length === results.length;
@@ -316,7 +321,7 @@ export function ResultList({
   return (
     <>
       {(showSort || (toolbar && !error && results.length > 0)) && (
-        <div className="sticky top-16 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-sm dark:border-slate-700/50 dark:bg-slate-900/95">
+        <div className="sticky top-(--app-bar-h) z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur-sm dark:border-slate-700/50 dark:bg-slate-900/95">
           <div className="mx-auto max-w-md min-w-0 lg:max-w-5xl">
             {toolbar}
             {showSort && (
@@ -333,7 +338,7 @@ export function ResultList({
                     }}
                     className={`m3-chip m3-state m3-shape-full shrink-0 ${
                       sortMode === chip.mode
-                        ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900"
+                        ? "bg-accent-container font-semibold text-accent"
                         : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300"
                     }`}
                   >
@@ -466,7 +471,7 @@ export function ResultList({
                         tags={{
                           next: trip.id === nextId,
                           fastest: fastest !== undefined && trip.durationMinutes === fastest,
-                          cheapest: cheapest !== undefined && hasDisplayableFare(trip) && trip.price === cheapest,
+                          cheapest: cheapest !== undefined && !isPast(trip) && hasDisplayableFare(trip) && trip.price === cheapest,
                         }}
                         minutesUntil={liveReference !== null && dep !== null ? dep - liveReference : undefined}
                         past={isPast(trip)}

@@ -52,6 +52,19 @@ describe("localised station labels", () => {
     expect(stationLabel(t, "Antwerp-Central", "belgium")).toBe("安特衛普中央車站");
   });
 
+  it("labels the Korail aliases route pages and hot routes hand over", () => {
+    // Route pages and the hot routes pass "Seoul" / "Busan" for Korail's
+    // "Seoul (SNC)" / "Busan (BSN)"; the results title must not fall back to English.
+    // Curated per alias, not resolved through the alias table: Thailand's and
+    // Hong Kong's aliases join differently named stations of one interchange.
+    expect(stationLabel(i18n.getFixedT("zh-TW", "translation"), "Seoul", "korea")).toBe("首爾");
+    expect(stationLabel(i18n.getFixedT("zh-TW", "translation"), "Busan", "korea")).toBe("釜山");
+    expect(stationLabel(i18n.getFixedT("ja", "translation"), "Seoul", "korea")).toBe("ソウル");
+    expect(stationLabel(i18n.getFixedT("ko", "translation"), "Busan", "korea")).toBe("부산");
+    // English keeps the name it was given rather than the operator-coded canonical.
+    expect(stationLabel(i18n.getFixedT("en", "translation"), "Seoul", "korea")).toBe("Seoul");
+  });
+
   it("uses sourced Traditional Chinese names for live Belgian stations", () => {
     const t = i18n.getFixedT("zh-TW", "translation");
 

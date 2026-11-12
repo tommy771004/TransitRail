@@ -68,6 +68,10 @@ describe("result card", () => {
     expect(render({ results: [elizabeth] })).not.toContain(">Fastest<");
     // Next, fastest and cheapest can all land on one card; none hides another.
     expect(render({ results: [piccadilly, { ...elizabeth, departureTime: "10:30", arrivalTime: "11:09" }] })).toContain(">Cheapest<");
+    // A dearer train that has already left cannot make every remaining same-fare train "cheapest".
+    const leftEarly = { ...elizabeth, id: "eliz-early", departureTime: "10:00", arrivalTime: "10:39" };
+    const sameFareAhead = render({ now: at("10:03"), results: [leftEarly, piccadilly, { ...piccadilly, id: "picc-2", departureTime: "10:30", arrivalTime: "11:21" }] });
+    expect(sameFareAhead).not.toContain(">Cheapest<");
     // Another day gets no countdown: the searched time only picks the next departure.
     const tomorrow = render({ date: "2026-09-23", time: "10:00" });
     expect(tomorrow).not.toContain("Departs in");
@@ -97,7 +101,12 @@ describe("result card", () => {
   it("keeps the fixed columns from shrinking and the band from pushing the arrival off the card", () => {
     const html = render();
     expect(html).toContain("grid-cols-[auto_minmax(0,1fr)_auto]");
-    expect(html).toMatch(/ml-auto flex shrink-0 items-baseline gap-2 whitespace-nowrap/);
+    expect(html).toMatch(/flex shrink-0 items-center gap-2 whitespace-nowrap/);
+    // The fare sits on the meta row under the times, not on the status row above them.
+    expect(html.indexOf("data-trip-fare-row")).toBeGreaterThan(html.indexOf("10:45"));
+    const departureClass = html.match(/<p class="([^"]*)">10:06/)?.[1] ?? "";
+    expect(departureClass).toContain("tabular-nums");
+    expect(departureClass).not.toContain("font-mono");
     expect(html).toMatch(/<article[^>]*min-w-0 overflow-hidden/);
     // A 2-minute hop is 4% of the band: its label is hidden, not clipped.
     expect(html).toMatch(/invisible"[^>]*>Bakerloo</);

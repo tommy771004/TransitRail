@@ -2,12 +2,13 @@
 // OS support: Linux, macOS, Windows
 // Description: Main App entry component handling multi-country transit routing, views, and data workflow
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
-import { MessageSquare, Bell, BellOff, Share2, Bookmark, Check, ChevronDown, Clock, DatabaseZap, MapPinned, Trash2, UserCircle, X, Activity, Sun, Moon, Monitor, CalendarDays, Coins, Compass, Search, Pin } from "lucide-react";
+import { MessageSquare, Bell, BellOff, Share2, Bookmark, Check, ChevronDown, Clock, DatabaseZap, Trash2, X, Activity, Sun, Moon, Monitor, CalendarDays, Coins, Compass, Search, Pin, ChevronRight, History as HistoryIcon, Sparkles, TrainFront, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "motion/react";
-import { Header } from "./components/Header";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { Header, LANGUAGES } from "./components/Header";
+import { useModalFocusTrap } from "./hooks/useModalFocusTrap";
 import { BottomNav } from "./components/BottomNav";
 import { SearchForm } from "./components/SearchForm";
 import { StationBrowser } from "./components/StationBrowser";
@@ -34,6 +35,8 @@ import { Snackbar, type SnackbarMessage } from "./components/Snackbar";
 import { restoreRemoved, takeRemoved } from "./utils/undoList";
 import { get, set } from "idb-keyval";
 import { countryConfig, providerDateValue, countryFlags, countryOptions } from "./data/countries";
+
+const ChangelogModal = lazy(() => import("./components/ChangelogModal"));
 import { resolveSearchConditions, searchQuery, searchTimeMode, sortResults } from "./utils/searchConditions";
 import { canonicalPathFor, countryFromPath } from "./utils/countryPath";
 import type {
@@ -315,8 +318,12 @@ export default function App() {
   const [boardStation, setBoardStation] = useState<string>();
   const [showKtmbLive, setShowKtmbLive] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
+  // One side menu holds navigation extras and every setting (it replaced the separate
+  // profile panel). 功能更新記錄 opens only after the menu has finished closing, so the
+  // menu's focus trap hands focus back to the header first and the dialog returns it there.
   const [menuOpen, setMenuOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
+  const [changelogOpen, setChangelogOpen] = useState(false);
+  const changelogPending = useRef(false);
   const [theme, setTheme] = useState<"light" | "dark" | "auto">(
     () => (localStorage.getItem("transitrail.theme") as "light" | "dark" | "auto") || "auto"
   );
@@ -1689,6 +1696,8 @@ export default function App() {
                       {(["original", "converted", "both"] as CurrencyDisplayMode[]).map((m) => (
                         <button
                           key={m}
+                          type="button"
+                          aria-pressed={priceDisplayMode === m}
                           onClick={() => setPriceDisplayMode(m)}
                           className={`m3-state m3-label-medium min-h-8 px-3 ${
                             priceDisplayMode === m
@@ -1696,7 +1705,7 @@ export default function App() {
                               : "text-slate-500 dark:text-slate-400"
                           }`}
                         >
-                          {m === "original" ? "Original" : m === "converted" ? "Converted" : "Both"}
+                          {t(`profile.display_${m}_sub`)}
                         </button>
                       ))}
                     </div>
@@ -1923,12 +1932,21 @@ export default function App() {
     }
   };
 
+  // The header names the page: the bottom bar scrolls away, and phones have no room
+  // for the brand and a page title side by side.
+  const pageLabel = view === "history" ? t("nav.history")
+    : view === "saved" ? t("nav.saved")
+    : view === "alerts" ? t("nav.alerts")
+    : view === "legend" ? t("legend.title", { defaultValue: "Transit Legend / 乘車指南" })
+    : t("nav.search");
+
   return (
     <div data-country={activeCountry} className="country-shell min-h-screen relative isolate overflow-x-clip font-sans text-slate-900 selection:bg-slate-300 transition-colors duration-500 dark:text-slate-100 dark:selection:bg-slate-700">
 
-      <Header 
-        onMenuOpen={() => setMenuOpen(true)} 
-        onProfileOpen={() => setProfileOpen(true)} 
+      <Header
+        onMenuOpen={() => setMenuOpen(true)}
+        menuOpen={menuOpen}
+        pageLabel={pageLabel}
         timezone={timezone}
         homeCurrency={homeCurrency}
       />
@@ -1943,7 +1961,7 @@ export default function App() {
           className="w-full flex-1 flex flex-col"
         >
           {view === "results" ? (
-            <div className="pt-16">
+            <div className="pt-(--app-bar-h)">
               {!isSearching && serviceDayAdvisory ? <ServiceDayAdvisoryNotice advisory={serviceDayAdvisory} /> : null}
               {renderView()}
               <AffiliateMarquee />
@@ -1996,61 +2014,53 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <BottomNav activeView={view} unreadAlerts={unreadAlerts} onNavigate={handleNavigate} onOpenSettings={() => setProfileOpen(true)} country={activeCountry} />
+      <BottomNav activeView={view} unreadAlerts={unreadAlerts} onNavigate={handleNavigate} country={activeCountry} />
 
-      <AnimatePresence>
+      <AnimatePresence
+        onExitComplete={() => {
+          if (!changelogPending.current) return;
+          changelogPending.current = false;
+          setChangelogOpen(true);
+        }}
+      >
         {menuOpen && (
           <Panel title={t("menu.title")} onClose={() => setMenuOpen(false)}>
-            <div className="flex flex-col gap-1">
-              {[
-                { icon: MapPinned, label: t("menu.new_search"), view: "search" as const },
-                { icon: Clock, label: t("nav.history"), view: "history" as const },
-                { icon: Bookmark, label: t("nav.saved"), view: "saved" as const },
-                { icon: Compass, label: t("legend.menu_title", { defaultValue: "Transit Legend / 乘車指南" }), view: "legend" as const },
-                { icon: MessageSquare, label: t("menu.feedback", { defaultValue: "Feedback" }), view: "feedback" as const },
-              ].map(({ icon: Icon, label, view: target }) => (
-                <button
-                  key={label}
-                  onClick={() => {
-                    if (target === "feedback") {
-                      setShowFeedback(true);
-                    } else {
-                      setPreviousView(view);
-                      setView(target as AppView);
-                    }
-                    setMenuOpen(false);
-                  }}
-                  className="m3-list-item m3-state m3-shape-full w-full text-left"
-                >
-                  <Icon className="h-6 w-6 shrink-0 text-slate-500 dark:text-slate-400" />
-                  <span className="m3-label-large text-slate-900 dark:text-white">{label}</span>
-                </button>
-              ))}
-            </div>
-          </Panel>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {profileOpen && (
-          <Panel title={t("profile.title")} onClose={() => setProfileOpen(false)} variant="settings">
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-4 gap-1.5">
             <ProfileStat label={t("nav.history")} value={history.length} />
             <ProfileStat label={t("nav.saved")} value={savedTrips.length} />
             <ProfileStat label={t("nav.alerts")} value={alerts.length} />
             <ProfileStat label={t("profile.favorites", { defaultValue: "Favorites" })} value={favorites.length} />
           </div>
-          <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-4">
+          <section aria-labelledby="settings-heading" className="flex flex-col gap-4 border-t border-slate-100 pt-4 dark:border-slate-800">
+            <h3 id="settings-heading" className="m3-label-large text-slate-500 dark:text-slate-400">{t("profile.title")}</h3>
+            <div className="flex items-center justify-between gap-3">
+              <p id="settings-language-label" className="m3-title-small text-slate-900 dark:text-white">
+                {t("menu.language")}
+              </p>
+              <div className="relative shrink-0">
+                <select
+                  aria-labelledby="settings-language-label"
+                  value={i18n.language}
+                  onChange={(e) => i18n.changeLanguage(e.target.value)}
+                  className="m3-body-medium m3-shape-md min-h-11 field-sizing-content appearance-none cursor-pointer border border-slate-200 bg-slate-50/80 py-2 pl-3 pr-9 text-slate-800 shadow-sm outline-none transition-colors hover:border-slate-300 hover:bg-slate-100 focus:border-slate-400 focus:ring-2 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:focus:border-slate-500 dark:focus:ring-slate-700/70"
+                >
+                  {LANGUAGES.map((lang) => (
+                    <option key={lang.code} value={lang.code}>{lang.label}</option>
+                  ))}
+                </select>
+                <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              </div>
+            </div>
             <div className="flex items-center justify-between gap-3">
               <p id="settings-region-label" className="m3-title-small text-slate-900 dark:text-white">
                 {t("profile.preferred_region", { defaultValue: "Preferred Region" })}
               </p>
-              <div className="relative w-44 shrink-0">
+              <div className="relative shrink-0">
                 <select
                   aria-labelledby="settings-region-label"
                   value={preferredCountry}
                   onChange={(e) => setPreferredCountry(e.target.value as Country)}
-                  className="m3-body-medium m3-shape-md min-h-11 w-full appearance-none cursor-pointer border border-slate-200 bg-slate-50/80 py-2 pl-3 pr-9 text-slate-800 shadow-sm outline-none transition-colors hover:border-slate-300 hover:bg-slate-100 focus:border-slate-400 focus:ring-2 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:focus:border-slate-500 dark:focus:ring-slate-700/70"
+                  className="m3-body-medium m3-shape-md min-h-11 field-sizing-content appearance-none cursor-pointer border border-slate-200 bg-slate-50/80 py-2 pl-3 pr-9 text-slate-800 shadow-sm outline-none transition-colors hover:border-slate-300 hover:bg-slate-100 focus:border-slate-400 focus:ring-2 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:focus:border-slate-500 dark:focus:ring-slate-700/70"
                 >
                   {countryOptions.map((c) => (
                     <option key={c} value={c}>{countryFlags[c]} {t(`search.${c}`)}</option>
@@ -2097,12 +2107,12 @@ export default function App() {
                 <p id="settings-currency-label" className="m3-title-small text-slate-900 dark:text-white">
                   {t("profile.local_currency")}
                 </p>
-                <div className="relative w-28 shrink-0">
+                <div className="relative shrink-0">
                   <select
                     aria-labelledby="settings-currency-label"
                     value={homeCurrency}
                     onChange={(e) => setHomeCurrency(e.target.value)}
-                    className="m3-body-medium m3-shape-md min-h-11 w-full appearance-none cursor-pointer border border-slate-200 bg-slate-50/80 py-2 pl-3 pr-9 text-slate-800 shadow-sm outline-none transition-colors hover:border-slate-300 hover:bg-slate-100 focus:border-slate-400 focus:ring-2 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:focus:border-slate-500 dark:focus:ring-slate-700/70"
+                    className="m3-body-medium m3-shape-md min-h-11 field-sizing-content appearance-none cursor-pointer border border-slate-200 bg-slate-50/80 py-2 pl-3 pr-9 text-slate-800 shadow-sm outline-none transition-colors hover:border-slate-300 hover:bg-slate-100 focus:border-slate-400 focus:ring-2 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-100 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:focus:border-slate-500 dark:focus:ring-slate-700/70"
                   >
                     {allCurrencies.map((c) => (
                       <option key={c} value={c}>{c}</option>
@@ -2116,32 +2126,26 @@ export default function App() {
               </p>
             </div>
 
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <div>
-                  <p className="m3-title-small text-slate-900 dark:text-white">{t("profile.price_display")}</p>
-                </div>
-              </div>
-              <div className="m3-shape-full relative flex overflow-hidden border border-slate-300 dark:border-slate-600">
-                <div className="relative z-10 grid w-full grid-cols-3 divide-x divide-slate-300 dark:divide-slate-600">
-                  {[
-                    { id: "original" as CurrencyDisplayMode, label: "Original", desc: t("profile.display_original_sub") },
-                    { id: "converted" as CurrencyDisplayMode, label: "Converted", desc: t("profile.display_converted_sub") },
-                    { id: "both" as CurrencyDisplayMode, label: "Both", desc: t("profile.display_both_sub") },
-                  ].map((item) => {
-                    const isSelected = priceDisplayMode === item.id;
+            {/* Price display on one row: the label, then the three choices in the UI language. */}
+            <div className="flex items-center justify-between gap-3">
+              <p id="settings-price-label" className="m3-title-small min-w-0 text-slate-900 dark:text-white">{t("profile.price_display")}</p>
+              <div className="m3-shape-full relative flex shrink-0 overflow-hidden border border-slate-300 dark:border-slate-600">
+                <div role="group" aria-labelledby="settings-price-label" className="relative z-10 flex divide-x divide-slate-300 dark:divide-slate-600">
+                  {(["original", "converted", "both"] as CurrencyDisplayMode[]).map((mode) => {
+                    const isSelected = priceDisplayMode === mode;
                     return (
                       <button
-                        key={item.id}
-                        onClick={() => setPriceDisplayMode(item.id)}
-                        className={`m3-state m3-label-large relative flex min-h-10 flex-col items-center justify-center py-2 ${
+                        key={mode}
+                        type="button"
+                        onClick={() => setPriceDisplayMode(mode)}
+                        aria-pressed={isSelected}
+                        className={`m3-state m3-label-medium relative flex h-11 items-center justify-center whitespace-nowrap px-2.5 ${
                           isSelected
                             ? "bg-slate-200 text-slate-900 dark:bg-slate-700 dark:text-white"
                             : "text-slate-500 dark:text-slate-400"
                         }`}
                       >
-                        <span>{item.label}</span>
-                        <span className="m3-label-small text-slate-400 dark:text-slate-400">{item.desc}</span>
+                        {t(`profile.display_${mode}_sub`)}
                       </button>
                     );
                   })}
@@ -2149,14 +2153,12 @@ export default function App() {
               </div>
             </div>
 
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <div>
-                  <p className="m3-title-small text-slate-900 dark:text-white">{t("profile.theme")}</p>
-                </div>
-              </div>
-              <div className="m3-shape-full relative flex overflow-hidden border border-slate-300 dark:border-slate-600">
-                <div className="relative z-10 grid w-full grid-cols-3 divide-x divide-slate-300 dark:divide-slate-600">
+            {/* Theme on one row: the label, then icon-only choices. Each icon still
+                names itself (aria-label, title) and reports its state (aria-pressed). */}
+            <div className="flex items-center justify-between gap-3">
+              <p id="settings-theme-label" className="m3-title-small text-slate-900 dark:text-white">{t("profile.theme")}</p>
+              <div className="m3-shape-full relative flex shrink-0 overflow-hidden border border-slate-300 dark:border-slate-600">
+                <div role="group" aria-labelledby="settings-theme-label" className="relative z-10 grid grid-cols-3 divide-x divide-slate-300 dark:divide-slate-600">
                   {[
                     { id: "light" as const, label: t("profile.theme_light"), icon: Sun },
                     { id: "dark" as const, label: t("profile.theme_dark"), icon: Moon },
@@ -2167,25 +2169,98 @@ export default function App() {
                     return (
                       <button
                         key={item.id}
+                        type="button"
                         onClick={() => setTheme(item.id)}
-                        className={`m3-state m3-label-large relative flex min-h-10 items-center justify-center gap-1.5 py-2 ${
+                        aria-label={item.label}
+                        aria-pressed={isSelected}
+                        title={item.label}
+                        className={`m3-state relative flex h-11 w-12 items-center justify-center ${
                           isSelected
                             ? "bg-slate-200 text-slate-900 dark:bg-slate-700 dark:text-white"
                             : "text-slate-500 dark:text-slate-400"
                         }`}
                       >
-                        <Icon className="h-[18px] w-[18px] shrink-0" />
-                        <span>{item.label}</span>
+                        <Icon aria-hidden="true" className="h-[18px] w-[18px] shrink-0" />
                       </button>
                     );
                   })}
                 </div>
               </div>
             </div>
+          </section>
+
+          <div className="flex flex-col gap-1 border-t border-slate-100 pt-3 dark:border-slate-800">
+            {[
+              { icon: Compass, label: t("legend.menu_title", { defaultValue: "Transit Legend / 乘車指南" }), target: "legend" as const },
+              { icon: MessageSquare, label: t("menu.feedback", { defaultValue: "Feedback" }), target: "feedback" as const },
+            ].map(({ icon: Icon, label, target }) => (
+              <button
+                key={target}
+                type="button"
+                aria-haspopup={target === "feedback" ? "dialog" : undefined}
+                onClick={() => {
+                  if (target === "feedback") {
+                    setShowFeedback(true);
+                  } else {
+                    setPreviousView(view);
+                    setView(target);
+                  }
+                  setMenuOpen(false);
+                }}
+                className="m3-list-item m3-state m3-shape-full w-full text-left"
+              >
+                <Icon aria-hidden="true" className="h-6 w-6 shrink-0 text-slate-500 dark:text-slate-400" />
+                <span className="m3-label-large min-w-0 flex-1 text-slate-900 dark:text-white">{label}</span>
+                <ChevronRight aria-hidden="true" className="h-4 w-4 shrink-0 text-slate-400" />
+              </button>
+            ))}
+          </div>
+
+          {/* The owner's other sites; they open in a new tab and leave the menu open. */}
+          <section aria-labelledby="more-tools-heading" className="flex flex-col gap-1 border-t border-slate-100 pt-3 dark:border-slate-800">
+            <h3 id="more-tools-heading" className="m3-label-large px-1 pb-1 text-slate-500 dark:text-slate-400">{t("menu.more_tools")}</h3>
+            {[
+              { icon: Sparkles, label: t("search.plan_ai"), href: "https://roam-jelly-web.vercel.app/" },
+              { icon: TrainFront, label: t("search.taiwan_rail_link"), href: "https://taiwanrail.vercel.app/" },
+            ].map(({ icon: Icon, label, href }) => (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="m3-list-item m3-state m3-shape-full w-full text-left"
+              >
+                <Icon aria-hidden="true" className="h-6 w-6 shrink-0 text-slate-500 dark:text-slate-400" />
+                <span className="m3-label-large min-w-0 flex-1 text-slate-900 dark:text-white">{label}</span>
+                <ExternalLink aria-hidden="true" className="h-4 w-4 shrink-0 text-slate-400" />
+              </a>
+            ))}
+          </section>
+
+          <div className="border-t border-slate-100 pt-3 dark:border-slate-800">
+            <button
+              type="button"
+              aria-haspopup="dialog"
+              onClick={() => {
+                changelogPending.current = true;
+                setMenuOpen(false);
+              }}
+              className="m3-list-item m3-state m3-shape-full w-full text-left"
+            >
+              <HistoryIcon aria-hidden="true" className="h-6 w-6 shrink-0 text-slate-500 dark:text-slate-400" />
+              <span className="m3-label-large min-w-0 flex-1 text-slate-900 dark:text-white">{t("changelog.title")}</span>
+              <ChevronRight aria-hidden="true" className="h-4 w-4 shrink-0 text-slate-400" />
+            </button>
           </div>
         </Panel>
       )}
       </AnimatePresence>
+
+      {changelogOpen && (
+        <Suspense fallback={null}>
+          <ChangelogModal onClose={() => setChangelogOpen(false)} />
+        </Suspense>
+      )}
 
       <AnimatePresence>
         {selectedTrip && (
@@ -2261,7 +2336,7 @@ export default function App() {
 
 function UtilityPage({ title, icon, action, children }: { title: string; icon: ReactNode; action?: ReactNode; children: ReactNode }) {
   return (
-    <main className="mx-auto max-w-md px-4 pb-nav pt-22">
+    <main className="mx-auto max-w-md px-4 pb-nav pt-[calc(var(--app-bar-h)+1.5rem)]">
       <div className="mb-5 flex items-center justify-between gap-2">
         <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400">
           <div className="m3-shape-md bg-emerald-100 p-2 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
@@ -2285,30 +2360,37 @@ function EmptyState({ title, body }: { title: string; body: string }) {
   );
 }
 
-function Panel({ title, onClose, children, variant = "default" }: {
+/**
+ * The side menu: a floating card that slides in from the left, under the header's
+ * menu button. 8px clear of the screen edges and the safe areas, all corners rounded
+ * (m3-dialog). The focus trap closes it on Escape and returns focus to the opener.
+ */
+function Panel({ title, onClose, children }: {
   title: string;
   onClose: () => void;
   children: ReactNode;
-  variant?: "default" | "settings";
 }) {
-  const settings = variant === "settings";
+  const { t } = useTranslation();
+  const cardRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
+  useModalFocusTrap(cardRef, onClose);
+  const offscreen = reduceMotion ? { opacity: 0 } : { x: "-110%" };
   return (
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.28, ease: "easeOut" }}
-      className="m3-scrim fixed inset-0 z-[70] flex justify-end backdrop-blur-sm"
+      className="m3-scrim fixed inset-0 z-[70] backdrop-blur-sm"
       onClick={onClose}
     >
-      <motion.div 
-        initial={{ x: "100%" }}
-        animate={{ x: 0 }}
-        exit={{ x: "100%" }}
-        transition={{ type: "spring", damping: 28, stiffness: 260, mass: 0.85 }}
-        className={settings
-          ? "m3-dialog m-3 h-[calc(100dvh-1.5rem)] w-[calc(100%-1.5rem)] max-w-xs space-y-5 overflow-y-auto overscroll-contain border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900"
-          : "m3-elevation-1 h-[100dvh] w-full max-w-sm space-y-5 overflow-y-auto overscroll-contain rounded-l-[28px] border-l border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900"}
+      <motion.div
+        ref={cardRef}
+        initial={offscreen}
+        animate={{ x: 0, opacity: 1 }}
+        exit={offscreen}
+        transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.85 }}
+        className="m3-dialog absolute bottom-[calc(env(safe-area-inset-bottom)+0.5rem)] left-[calc(env(safe-area-inset-left)+0.5rem)] top-[calc(env(safe-area-inset-top)+0.5rem)] w-[calc(100%-1rem)] max-w-xs space-y-5 overflow-y-auto overscroll-contain border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -2317,9 +2399,10 @@ function Panel({ title, onClose, children, variant = "default" }: {
         <div className="flex items-center justify-between">
           <h2 className="m3-title-large text-slate-900 dark:text-white">{title}</h2>
           <button
+            type="button"
             onClick={onClose}
             className="m3-icon-button m3-icon-button-large m3-state text-slate-500 dark:text-slate-400"
-            aria-label="Close"
+            aria-label={t("changelog.close")}
           >
             <X className="h-5 w-5" />
           </button>
@@ -2332,9 +2415,9 @@ function Panel({ title, onClose, children, variant = "default" }: {
 
 function ProfileStat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="m3-card m3-card-large border border-slate-200 p-3 text-center dark:border-slate-700">
-      <p className="m3-headline-small font-mono text-slate-900 dark:text-white">{value}</p>
-      <p className="m3-label-medium text-slate-400">{label}</p>
+    <div className="m3-shape-md min-w-0 border border-slate-200 px-1 py-2 text-center dark:border-slate-700">
+      <p className="m3-title-medium font-mono text-slate-900 dark:text-white">{value}</p>
+      <p className="m3-label-small truncate text-slate-500 dark:text-slate-400">{label}</p>
     </div>
   );
 }

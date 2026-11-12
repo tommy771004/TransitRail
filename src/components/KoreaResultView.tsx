@@ -97,7 +97,7 @@ export function KoreaResultView({
           }}
           className={`m3-chip m3-state m3-shape-full shrink-0 border ${
             filter === chip.key
-              ? "border-emerald-700 bg-emerald-50 text-emerald-800 dark:border-emerald-400 dark:bg-emerald-950/40 dark:text-emerald-200"
+              ? "border-transparent bg-accent-container font-semibold text-accent"
               : "border-slate-300 text-slate-700 dark:border-slate-600 dark:text-slate-300"
           }`}
         >
@@ -173,7 +173,7 @@ export function KoreaResultView({
                 triggerHaptic("medium");
                 onSelectSeat(trip);
               }}
-              className="m3-button m3-button-small m3-state shrink-0 bg-emerald-700 text-white"
+              className="m3-button m3-button-small m3-state shrink-0 bg-accent-container font-semibold text-accent"
             >
               {t("result.select_seat")}
             </button>

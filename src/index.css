@@ -93,6 +93,16 @@
   --m3-elevation-3: 0 1px 3px 0 rgb(15 23 42 / 0.16), 0 4px 8px 3px rgb(15 23 42 / 0.09);
   --m3-elevation-4: 0 2px 3px 0 rgb(15 23 42 / 0.16), 0 6px 10px 4px rgb(15 23 42 / 0.09);
   --m3-elevation-5: 0 4px 4px 0 rgb(15 23 42 / 0.16), 0 8px 12px 6px rgb(15 23 42 / 0.09);
+
+  /*
+   * Top app bar height. Compact on phones (the page name and a menu button are all
+   * it carries); the desktop bar keeps the 64dp M3 height and the language picker.
+   * Page tops, sticky bars and scroll padding all read this one value.
+   */
+  --app-bar-h: 48px;
+}
+@media (min-width: 768px) {
+  :root { --app-bar-h: 64px; }
 }
 
 /* On a dark surface a shadow cannot be seen; M3 keeps the same geometry but
@@ -371,7 +381,7 @@
   .m3-top-app-bar {
     display: flex;
     align-items: center;
-    height: 64px;
+    height: var(--app-bar-h);
     padding-inline: 4px;
     transition: box-shadow var(--m3-duration-medium-2) var(--ease-m3-standard),
       background-color var(--m3-duration-medium-2) var(--ease-m3-standard);
@@ -425,6 +435,29 @@
   .m3-nav-item[aria-current="page"] .m3-nav-indicator::before {
     opacity: 0.16;
     transform: scaleX(1);
+  }
+  /*
+   * Scroll-away navigation bar (useHideOnScroll). Returning settles like a sheet;
+   * leaving is quicker and accelerates, so the bar never lingers half-way over the
+   * content being scrolled to. Reduced motion only toggles opacity.
+   */
+  .m3-nav-autohide {
+    transition:
+      transform var(--m3-duration-long-2) var(--ease-m3-emphasized-decelerate),
+      opacity var(--m3-duration-short-4) var(--ease-m3-standard);
+  }
+  .m3-nav-autohide[data-hidden="true"] {
+    transform: translateY(calc(100% + env(safe-area-inset-bottom) + 12px));
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform var(--m3-duration-medium-2) var(--ease-m3-emphasized-accelerate),
+      opacity var(--m3-duration-short-4) var(--ease-m3-standard) 60ms;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .m3-nav-autohide[data-hidden="true"] {
+      transform: none;
+    }
   }
 
   @media (max-width: 767px) {
@@ -579,7 +612,7 @@
   }
   /* Keep focused controls and validation recovery clear of both fixed bars. */
   html {
-    scroll-padding-top: 80px;
+    scroll-padding-top: calc(var(--app-bar-h) + 16px);
     scroll-padding-bottom: calc(80px + env(safe-area-inset-bottom) + 24px);
   }
   @media (max-width: 767px) {
@@ -653,8 +686,8 @@ body {
  * and status (delay, live) keeps its own fixed colours.
  *
  * Any element can carry `data-country` to borrow another market's accent, e.g.
- * a history row for a different country. The bottom navigation deliberately
- * keeps its earlier per-country palette (countryThemes) and does not read these.
+ * a history row for a different country. The header's page name and the bottom
+ * navigation read these too, so each market shows one accent everywhere.
  */
 @theme inline {
   --color-accent: var(--accent);

@@ -1,42 +1,26 @@
-import { ChevronDown, Menu, UserCircle, Globe } from "lucide-react";
+import { ChevronDown, Menu, Globe } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { timezoneCity } from "../utils/timezoneCity";
 
 interface HeaderProps {
   onMenuOpen: () => void;
-  onProfileOpen: () => void;
+  /** Whether the side menu is open, for the menu button's aria-expanded. */
+  menuOpen?: boolean;
+  /** The page the passenger is on. The bottom bar scrolls away, so the header names it. */
+  pageLabel: string;
   timezone: string;
   homeCurrency: string;
 }
 
-const LANGUAGES = [
+export const LANGUAGES = [
   { code: "zh-TW", label: "繁中" },
   { code: "en", label: "EN" },
   { code: "ja", label: "日本語" },
   { code: "ko", label: "한국어" },
 ] as const;
 
-export function Header({ onMenuOpen, onProfileOpen, timezone, homeCurrency }: HeaderProps) {
+export function Header({ onMenuOpen, menuOpen = false, pageLabel, timezone, homeCurrency }: HeaderProps) {
   const { t, i18n } = useTranslation();
-
-  const getTimezoneCity = (tz: string, lang: string) => {
-    const cityMap: Record<string, { en: string; 'zh-TW': string; ja: string; ko: string }> = {
-      'Asia/Taipei': { en: 'Taipei', 'zh-TW': '台北', ja: '台北', ko: '타이베이' },
-      'Asia/Tokyo': { en: 'Tokyo', 'zh-TW': '東京', ja: '東京', ko: '도쿄' },
-      'Asia/Seoul': { en: 'Seoul', 'zh-TW': '首爾', ja: 'ソウル', ko: '서울' },
-      'Asia/Singapore': { en: 'Singapore', 'zh-TW': '新加坡', ja: 'シンガポール', ko: '싱가포르' },
-      'Asia/Bangkok': { en: 'Bangkok', 'zh-TW': '曼谷', ja: 'バンコク', ko: '방콕' },
-      'Asia/Hong_Kong': { en: 'Hong Kong', 'zh-TW': '香港', ja: '香港', ko: '홍콩' },
-      'Europe/London': { en: 'London', 'zh-TW': '倫敦', ja: 'ロンドン', ko: '런던' },
-      'Europe/Berlin': { en: 'Berlin', 'zh-TW': '柏林', ja: 'ベルリン', ko: '베를린' },
-      'Europe/Paris': { en: 'Paris', 'zh-TW': '巴黎', ja: 'パリ', ko: '파리' },
-      'America/New_York': { en: 'New York', 'zh-TW': '紐約', ja: 'ニューヨーク', ko: '뉴욕' },
-      'America/Los_Angeles': { en: 'Los Angeles', 'zh-TW': '洛杉磯', ja: 'ロサンゼルス', ko: '로스앤젤레스' },
-      'Asia/Shanghai': { en: 'Shanghai', 'zh-TW': '上海', ja: '上海', ko: '상하이' },
-    };
-    const mapping = cityMap[tz];
-    if (mapping) return mapping[lang as keyof typeof mapping] || mapping.en;
-    return tz.split('/').pop()?.replace('_', ' ') || '';
-  };
 
   return (
     <header className="m3-top-app-bar m3-elevation-0 fixed top-0 z-50 w-full justify-between gap-1 border-b border-slate-200 bg-white/40 px-1 backdrop-blur-md sm:px-2 dark:border-slate-800 dark:bg-[#060a13]/40">
@@ -46,24 +30,39 @@ export function Header({ onMenuOpen, onProfileOpen, timezone, homeCurrency }: He
           onClick={onMenuOpen}
           className="m3-icon-button m3-icon-button-large m3-state text-slate-700 dark:text-slate-300"
           aria-label={t("header.open_menu")}
+          aria-haspopup="dialog"
+          aria-expanded={menuOpen}
         >
           <Menu aria-hidden="true" className="h-6 w-6" />
         </button>
-        <span className="m3-title-large truncate text-slate-900 dark:text-white">
+        <span className="m3-title-large hidden shrink-0 text-slate-900 md:inline dark:text-white">
           {t('header.title')}
+        </span>
+        <span
+          aria-hidden="true"
+          className={`m3-title-medium min-w-0 truncate font-bold transition-colors duration-500 md:ml-2 text-accent`}
+        >
+          {pageLabel}
         </span>
       </div>
 
       <div className="flex shrink-0 items-center gap-0.5">
-        {/* Assist chip: the passenger's home timezone and currency at a glance. */}
-        <div className="m3-chip m3-chip-icon-leading m3-label-medium hidden border border-slate-200 bg-slate-100 text-slate-600 sm:inline-flex dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
-          <Globe aria-hidden="true" className="h-4 w-4 text-slate-500 dark:text-slate-400" />
-          <span>{getTimezoneCity(timezone, i18n.language)}</span>
+        {/* Assist chip: the passenger's home timezone and currency at a glance.
+            Both are set in the side menu, so the chip opens it. */}
+        <button
+          type="button"
+          onClick={onMenuOpen}
+          aria-label={`${t("profile.timezone")} ${timezoneCity(timezone, i18n.language)} · ${t("profile.local_currency")} ${homeCurrency}`}
+          className="m3-chip m3-chip-icon-leading m3-label-medium m3-state mr-1 inline-flex max-w-[11rem] border border-slate-200 bg-slate-100 text-slate-600 md:mr-0 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+        >
+          <Globe aria-hidden="true" className="h-4 w-4 shrink-0 text-slate-500 dark:text-slate-400" />
+          <span className="truncate">{timezoneCity(timezone, i18n.language)}</span>
           <span aria-hidden="true" className="text-slate-300 dark:text-slate-600">|</span>
           <span className="tabular-nums">{homeCurrency}</span>
-        </div>
+        </button>
 
-        <div className="relative shrink-0">
+        {/* Phones change language in the side menu; the desktop bar has room for it. */}
+        <div className="relative hidden shrink-0 md:block">
           <select
             value={i18n.language}
             onChange={(e) => i18n.changeLanguage(e.target.value)}
@@ -79,14 +78,6 @@ export function Header({ onMenuOpen, onProfileOpen, timezone, homeCurrency }: He
             className="pointer-events-none absolute right-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400 dark:text-slate-500"
           />
         </div>
-        <button
-          type="button"
-          onClick={onProfileOpen}
-          className="m3-icon-button m3-icon-button-large m3-state text-slate-700 dark:text-slate-300"
-          aria-label={t("header.open_profile")}
-        >
-          <UserCircle aria-hidden="true" className="h-6 w-6" />
-        </button>
       </div>
     </header>
   );

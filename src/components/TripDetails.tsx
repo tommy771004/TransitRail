@@ -14,7 +14,7 @@ import { extractPathBetweenStations } from "@/src/utils/pathExtractor";
 import { stationSearchKey } from "@/src/data/stationKey";
 import { resolveStationAlias } from "@/src/data/stationAliases";
 import { TripFare } from "./TripFare";
-import { getLegColor, minutesOf, transferPressure } from "../utils/journeyLegs";
+import { getLegColor, minutesOf, transferPressure, UNKNOWN_LINE_COLOR } from "../utils/journeyLegs";
 import { lineBadge } from "../utils/lineBadge";
 import { hasDisplayableFare } from "../utils/fare";
 import { LineLabel } from "./LineBadge";
@@ -350,7 +350,7 @@ export function TripDetails({ trip, onOpenLegend, formatPrice, showFullStopSeque
             <div className="flex flex-col space-y-0 relative">
               {timelineItems.map((item, idx) => {
                 const currentLeg = displayLegs[item.legIndex];
-                const legColor = currentLeg ? getLegColor(currentLeg, trip.lineColor) : (trip.lineColor || "#10b981");
+                const legColor = currentLeg ? getLegColor(currentLeg, trip.lineColor) : (trip.lineColor || UNKNOWN_LINE_COLOR);
 
                 let lineStyle = "solid";
                 let lineColor = legColor;

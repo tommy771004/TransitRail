@@ -6,6 +6,7 @@ import { getStationCoordinates } from "../utils/geoCoordinates";
 import { stationLabel } from "../utils/stationLabel";
 import { useTranslation } from "react-i18next";
 import { extractPathBetweenStations } from "../utils/pathExtractor";
+import { UNKNOWN_LINE_COLOR } from "../utils/journeyLegs";
 
 const OFFICIAL_MAPS: Record<string, string> = {
   singapore: "https://www.lta.gov.sg/content/dam/ltagov/getting_around/public_transport/rail_network/pdf/mrt_system_map.pdf",
@@ -132,7 +133,7 @@ export function D3LeafletRouteMap({ trip }: D3LeafletRouteMapProps) {
 
     // Background glowing line
     L.polyline(points.map(p => [p.lat, p.lng]), {
-      color: trip.lineColor || "#10b981",
+      color: trip.lineColor || UNKNOWN_LINE_COLOR,
       weight: 12, // Starting thickness, will be overridden by CSS
       opacity: 0.4, // Starting opacity, overridden by CSS
       lineCap: 'round',
@@ -142,7 +143,7 @@ export function D3LeafletRouteMap({ trip }: D3LeafletRouteMapProps) {
 
     // Core active line
     const polyline = L.polyline(points.map(p => [p.lat, p.lng]), {
-      color: trip.lineColor || "#10b981",
+      color: trip.lineColor || UNKNOWN_LINE_COLOR,
       weight: 5,
       opacity: 0.9,
       lineCap: 'round',

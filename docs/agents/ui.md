@@ -26,9 +26,13 @@ the card owns `open` / `onOpenChange`. Save, map and the market's primary action
 sheet; the next departure alone repeats the primary action in a slim row under its card.
 
 The card's first line is a status row: the next badge, a countdown on every departure within
-the hour (only when the searched day is today on the market clock), platform, live status,
-then duration and fare. It wraps rather than clips and is omitted when empty. A realtime flag
-without a provider status is neutral slate, never green, and a delay replaces the countdown.
+the hour (only when the searched day is today on the market clock), platform and live status.
+It wraps rather than clips and is omitted when empty. A realtime flag without a provider
+status is neutral slate, never green, and a delay replaces the countdown. Times use the UI
+face with `tabular-nums`, not a monospace face. The meta row under the times carries the
+duration and composition on the left and, on the right, the pressure label or market extras,
+then the cheapest badge and fare. Cheapest is judged among departures still to leave and is
+omitted when their fares are all the same.
 
 Layout invariants the card keeps, so nothing overlaps or leaves the card:
 
