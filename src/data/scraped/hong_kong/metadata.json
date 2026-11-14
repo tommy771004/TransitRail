@@ -4,113 +4,101 @@
   "source": "MTR real-time next train API",
   "sourceUrl": "https://data.gov.hk/en-data/dataset/mtr-data2-nexttrain-data",
   "sourceTier": "A",
-  "fetchedAt": "2026-11-13T02:14:05.943Z",
-  "builtAt": "2026-11-13T02:14:07.944Z",
-  "recordCount": 29,
+  "fetchedAt": "2026-11-14T01:53:57.297Z",
+  "builtAt": "2026-11-14T01:53:59.420Z",
+  "recordCount": 32,
   "routeCount": 8,
-  "successRate": 0.75,
-  "failedRoutes": [
-    {
-      "origin": "Tsim Sha Tsui",
-      "destination": "Admiralty",
-      "error": "Could not reach the MTR live data service."
-    },
-    {
-      "origin": "Tsuen Wan",
-      "destination": "Central",
-      "error": "Could not reach the MTR live data service."
-    }
-  ],
+  "successRate": 1,
+  "failedRoutes": [],
   "coverage": {
     "verifiedRoutes": 8,
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-11-12",
-      "2026-11-13"
+      "2026-11-14"
     ]
   },
-  "checksum": "ada5507a2e96e454758648fbaa8b9ca0903bb82d61cfc798241602c5ecfdc2c3",
+  "checksum": "b9a222bec137ded2b1cb648838ef26d546355212483367e77e0da9de0b27d31b",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Admiralty",
       "destination": "Tsim Sha Tsui",
       "resultCount": 4,
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-13T02:14:03.277Z",
+      "fetchedAt": "2026-11-14T01:53:54.348Z",
       "verified": true
     },
     {
       "origin": "Airport",
       "destination": "Hong Kong",
       "resultCount": 4,
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-13T02:14:05.599Z",
+      "fetchedAt": "2026-11-14T01:53:57.008Z",
       "verified": true
     },
     {
       "origin": "Central",
       "destination": "Tsuen Wan",
       "resultCount": 4,
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-13T02:14:03.910Z",
+      "fetchedAt": "2026-11-14T01:53:54.671Z",
       "verified": true
     },
     {
       "origin": "Hong Kong",
       "destination": "Airport",
       "resultCount": 4,
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-13T02:14:04.370Z",
+      "fetchedAt": "2026-11-14T01:53:55.392Z",
       "verified": true
     },
     {
       "origin": "Sunny Bay",
       "destination": "Tung Chung",
       "resultCount": 4,
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-13T02:14:05.943Z",
+      "fetchedAt": "2026-11-14T01:53:57.297Z",
       "verified": true
     },
     {
       "origin": "Tsim Sha Tsui",
       "destination": "Admiralty",
       "resultCount": 4,
-      "date": "2026-11-12",
+      "date": "2026-11-14",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-12T02:35:48.087Z",
+      "fetchedAt": "2026-11-14T01:53:55.972Z",
       "verified": true
     },
     {
       "origin": "Tsuen Wan",
       "destination": "Central",
-      "resultCount": 1,
-      "date": "2026-11-12",
+      "resultCount": 4,
+      "date": "2026-11-14",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-12T02:35:48.432Z",
+      "fetchedAt": "2026-11-14T01:53:56.721Z",
       "verified": true
     },
     {
       "origin": "Tung Chung",
       "destination": "Sunny Bay",
       "resultCount": 4,
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "sourceId": "hk-mtr-next-train",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-13T02:14:04.776Z",
+      "fetchedAt": "2026-11-14T01:53:55.681Z",
       "verified": true
     }
   ]
