@@ -4,9 +4,9 @@
   "source": "MBTA V3 API schedules",
   "sourceUrl": "https://api-v3.mbta.com",
   "sourceTier": "A",
-  "fetchedAt": "2026-11-16T01:56:34.325Z",
-  "builtAt": "2026-11-16T01:58:07.611Z",
-  "recordCount": 10618,
+  "fetchedAt": "2026-11-17T04:40:16.812Z",
+  "builtAt": "2026-11-17T04:42:47.151Z",
+  "recordCount": 10614,
   "routeCount": 8,
   "successRate": 0.9167,
   "failedRoutes": [
@@ -46,7 +46,6 @@
     "emptyRoutes": 0,
     "unverifiedRoutes": 0,
     "serviceDates": [
-      "2026-11-16",
       "2026-11-17",
       "2026-11-18",
       "2026-11-19",
@@ -54,90 +53,91 @@
       "2026-11-21",
       "2026-11-22",
       "2026-11-23",
-      "2026-11-24"
+      "2026-11-24",
+      "2026-11-25"
     ]
   },
-  "checksum": "afc8a6c32e77aa7d11763c6653e8df5076710250b92cec090df75f62dac1bf71",
+  "checksum": "e1e71963c0413229b77dc9e04107b4bbc1dfb40e310acdcb889f7b49ef9e71b9",
   "artifactVersion": 2,
   "routes": [
     {
       "origin": "Andrew",
       "destination": "Park Street",
       "resultCount": 1663,
-      "date": "2026-11-16..2026-11-24",
+      "date": "2026-11-17..2026-11-25",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-16T01:32:01.589Z",
+      "fetchedAt": "2026-11-17T04:19:01.460Z",
       "verified": true
     },
     {
       "origin": "Boston College",
       "destination": "Park Street",
-      "resultCount": 313,
-      "date": "2026-11-16..2026-11-24",
+      "resultCount": 314,
+      "date": "2026-11-17..2026-11-25",
       "sourceId": "us-mbta-journey-planner-web",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-16T01:56:34.325Z",
+      "fetchedAt": "2026-11-17T04:40:16.812Z",
       "verified": true
     },
     {
       "origin": "Harvard",
       "destination": "Logan International Airport",
       "resultCount": 1833,
-      "date": "2026-11-16..2026-11-24",
+      "date": "2026-11-17..2026-11-25",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-16T01:31:07.292Z",
+      "fetchedAt": "2026-11-17T04:18:05.053Z",
       "verified": true
     },
     {
       "origin": "Harvard",
       "destination": "South Station",
       "resultCount": 1833,
-      "date": "2026-11-16..2026-11-24",
+      "date": "2026-11-17..2026-11-25",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-16T01:32:01.613Z",
+      "fetchedAt": "2026-11-17T04:19:01.478Z",
       "verified": true
     },
     {
       "origin": "Logan International Airport",
       "destination": "Harvard",
       "resultCount": 1146,
-      "date": "2026-11-16..2026-11-24",
+      "date": "2026-11-17..2026-11-25",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-16T01:32:01.558Z",
+      "fetchedAt": "2026-11-17T04:19:01.439Z",
       "verified": true
     },
     {
       "origin": "Park Street",
       "destination": "Andrew",
       "resultCount": 1663,
-      "date": "2026-11-16..2026-11-24",
+      "date": "2026-11-17..2026-11-25",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-16T01:32:01.490Z",
+      "fetchedAt": "2026-11-17T04:19:01.394Z",
       "verified": true
     },
     {
       "origin": "Park Street",
       "destination": "Boston College",
-      "resultCount": 328,
-      "date": "2026-11-16..2026-11-24",
+      "resultCount": 323,
+      "date": "2026-11-17..2026-11-25",
       "sourceId": "us-mbta-journey-planner-web",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-16T01:55:46.624Z",
+      "fetchedAt": "2026-11-17T04:39:39.912Z",
       "verified": true
     },
     {
       "origin": "South Station",
       "destination": "Harvard",
       "resultCount": 1839,
-      "date": "2026-11-16..2026-11-24",
+      "date": "2026-11-17..2026-11-25",
       "sourceId": "us-mbta-v3",
       "completeness": "full-timetable",
-      "fetchedAt": "2026-11-16T01:32:01.516Z",
+      "fetchedAt": "2026-11-17T04:19:01.413Z",
       "verified": true
     }
   ]
