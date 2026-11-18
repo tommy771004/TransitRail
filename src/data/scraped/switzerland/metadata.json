@@ -5,16 +5,11 @@
   "sourceUrl": "https://opentransportdata.swiss/en/dataset/timetable-2025-gtfs2020",
   "sourceTier": "A",
   "fetchedAt": "2026-11-17T04:32:19.267Z",
-  "builtAt": "2026-11-17T04:42:47.151Z",
+  "builtAt": "2026-11-18T03:12:40.468Z",
   "recordCount": 60561,
   "routeCount": 144,
-  "successRate": 0.9378,
+  "successRate": null,
   "failedRoutes": [
-    {
-      "origin": "Bern",
-      "destination": "Interlaken Ost",
-      "error": "Swiss GTFS published no Bern → Interlaken Ost service for 2026-11-17."
-    },
     {
       "origin": "Chur",
       "destination": "Zürich Flughafen",
@@ -29,11 +24,6 @@
       "origin": "Biel/Bienne",
       "destination": "Genève-Aéroport",
       "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-11-17."
-    },
-    {
-      "origin": "Interlaken Ost",
-      "destination": "Bern",
-      "error": "Swiss GTFS published no Interlaken Ost → Bern service for 2026-11-17."
     },
     {
       "origin": "Zürich Flughafen",
@@ -51,11 +41,6 @@
       "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-11-17."
     },
     {
-      "origin": "Bern",
-      "destination": "Interlaken Ost",
-      "error": "Swiss GTFS published no Bern → Interlaken Ost service for 2026-11-18."
-    },
-    {
       "origin": "Chur",
       "destination": "Zürich Flughafen",
       "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-11-18."
@@ -69,11 +54,6 @@
       "origin": "Biel/Bienne",
       "destination": "Genève-Aéroport",
       "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-11-18."
-    },
-    {
-      "origin": "Interlaken Ost",
-      "destination": "Bern",
-      "error": "Swiss GTFS published no Interlaken Ost → Bern service for 2026-11-18."
     },
     {
       "origin": "Zürich Flughafen",
@@ -91,11 +71,6 @@
       "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-11-18."
     },
     {
-      "origin": "Bern",
-      "destination": "Interlaken Ost",
-      "error": "Swiss GTFS published no Bern → Interlaken Ost service for 2026-11-19."
-    },
-    {
       "origin": "Chur",
       "destination": "Zürich Flughafen",
       "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-11-19."
@@ -109,11 +84,6 @@
       "origin": "Biel/Bienne",
       "destination": "Genève-Aéroport",
       "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-11-19."
-    },
-    {
-      "origin": "Interlaken Ost",
-      "destination": "Bern",
-      "error": "Swiss GTFS published no Interlaken Ost → Bern service for 2026-11-19."
     },
     {
       "origin": "Zürich Flughafen",
@@ -131,11 +101,6 @@
       "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-11-19."
     },
     {
-      "origin": "Bern",
-      "destination": "Interlaken Ost",
-      "error": "Swiss GTFS published no Bern → Interlaken Ost service for 2026-11-20."
-    },
-    {
       "origin": "Chur",
       "destination": "Zürich Flughafen",
       "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-11-20."
@@ -149,11 +114,6 @@
       "origin": "Biel/Bienne",
       "destination": "Genève-Aéroport",
       "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-11-20."
-    },
-    {
-      "origin": "Interlaken Ost",
-      "destination": "Bern",
-      "error": "Swiss GTFS published no Interlaken Ost → Bern service for 2026-11-20."
     },
     {
       "origin": "Zürich Flughafen",
@@ -171,16 +131,6 @@
       "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-11-20."
     },
     {
-      "origin": "Bern",
-      "destination": "Interlaken Ost",
-      "error": "Swiss GTFS published no Bern → Interlaken Ost service for 2026-11-21."
-    },
-    {
-      "origin": "Basel SBB",
-      "destination": "Zürich Flughafen",
-      "error": "Swiss GTFS published no Basel SBB → Zürich Flughafen service for 2026-11-21."
-    },
-    {
       "origin": "Chur",
       "destination": "Zürich Flughafen",
       "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-11-21."
@@ -194,26 +144,6 @@
       "origin": "Biel/Bienne",
       "destination": "Genève-Aéroport",
       "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-11-21."
-    },
-    {
-      "origin": "Genève",
-      "destination": "Yverdon-les-Bains",
-      "error": "Swiss GTFS published no Genève → Yverdon-les-Bains service for 2026-11-21."
-    },
-    {
-      "origin": "Genève-Aéroport",
-      "destination": "Yverdon-les-Bains",
-      "error": "Swiss GTFS published no Genève-Aéroport → Yverdon-les-Bains service for 2026-11-21."
-    },
-    {
-      "origin": "Interlaken Ost",
-      "destination": "Bern",
-      "error": "Swiss GTFS published no Interlaken Ost → Bern service for 2026-11-21."
-    },
-    {
-      "origin": "Zürich Flughafen",
-      "destination": "Basel SBB",
-      "error": "Swiss GTFS published no Zürich Flughafen → Basel SBB service for 2026-11-21."
     },
     {
       "origin": "Zürich Flughafen",
@@ -231,26 +161,6 @@
       "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-11-21."
     },
     {
-      "origin": "Yverdon-les-Bains",
-      "destination": "Genève",
-      "error": "Swiss GTFS published no Yverdon-les-Bains → Genève service for 2026-11-21."
-    },
-    {
-      "origin": "Yverdon-les-Bains",
-      "destination": "Genève-Aéroport",
-      "error": "Swiss GTFS published no Yverdon-les-Bains → Genève-Aéroport service for 2026-11-21."
-    },
-    {
-      "origin": "Bern",
-      "destination": "Interlaken Ost",
-      "error": "Swiss GTFS published no Bern → Interlaken Ost service for 2026-11-22."
-    },
-    {
-      "origin": "Basel SBB",
-      "destination": "Zürich Flughafen",
-      "error": "Swiss GTFS published no Basel SBB → Zürich Flughafen service for 2026-11-22."
-    },
-    {
       "origin": "Chur",
       "destination": "Zürich Flughafen",
       "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-11-22."
@@ -264,26 +174,6 @@
       "origin": "Biel/Bienne",
       "destination": "Genève-Aéroport",
       "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-11-22."
-    },
-    {
-      "origin": "Genève",
-      "destination": "Yverdon-les-Bains",
-      "error": "Swiss GTFS published no Genève → Yverdon-les-Bains service for 2026-11-22."
-    },
-    {
-      "origin": "Genève-Aéroport",
-      "destination": "Yverdon-les-Bains",
-      "error": "Swiss GTFS published no Genève-Aéroport → Yverdon-les-Bains service for 2026-11-22."
-    },
-    {
-      "origin": "Interlaken Ost",
-      "destination": "Bern",
-      "error": "Swiss GTFS published no Interlaken Ost → Bern service for 2026-11-22."
-    },
-    {
-      "origin": "Zürich Flughafen",
-      "destination": "Basel SBB",
-      "error": "Swiss GTFS published no Zürich Flughafen → Basel SBB service for 2026-11-22."
     },
     {
       "origin": "Zürich Flughafen",
@@ -301,21 +191,6 @@
       "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-11-22."
     },
     {
-      "origin": "Yverdon-les-Bains",
-      "destination": "Genève",
-      "error": "Swiss GTFS published no Yverdon-les-Bains → Genève service for 2026-11-22."
-    },
-    {
-      "origin": "Yverdon-les-Bains",
-      "destination": "Genève-Aéroport",
-      "error": "Swiss GTFS published no Yverdon-les-Bains → Genève-Aéroport service for 2026-11-22."
-    },
-    {
-      "origin": "Bern",
-      "destination": "Interlaken Ost",
-      "error": "Swiss GTFS published no Bern → Interlaken Ost service for 2026-11-23."
-    },
-    {
       "origin": "Chur",
       "destination": "Zürich Flughafen",
       "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-11-23."
@@ -329,11 +204,6 @@
       "origin": "Biel/Bienne",
       "destination": "Genève-Aéroport",
       "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-11-23."
-    },
-    {
-      "origin": "Interlaken Ost",
-      "destination": "Bern",
-      "error": "Swiss GTFS published no Interlaken Ost → Bern service for 2026-11-23."
     },
     {
       "origin": "Zürich Flughafen",
@@ -351,11 +221,6 @@
       "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-11-23."
     },
     {
-      "origin": "Bern",
-      "destination": "Interlaken Ost",
-      "error": "Swiss GTFS published no Bern → Interlaken Ost service for 2026-11-24."
-    },
-    {
       "origin": "Chur",
       "destination": "Zürich Flughafen",
       "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-11-24."
@@ -369,11 +234,6 @@
       "origin": "Biel/Bienne",
       "destination": "Genève-Aéroport",
       "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-11-24."
-    },
-    {
-      "origin": "Interlaken Ost",
-      "destination": "Bern",
-      "error": "Swiss GTFS published no Interlaken Ost → Bern service for 2026-11-24."
     },
     {
       "origin": "Zürich Flughafen",
@@ -391,11 +251,6 @@
       "error": "Swiss GTFS published no Genève-Aéroport → Biel/Bienne service for 2026-11-24."
     },
     {
-      "origin": "Bern",
-      "destination": "Interlaken Ost",
-      "error": "Swiss GTFS published no Bern → Interlaken Ost service for 2026-11-25."
-    },
-    {
       "origin": "Chur",
       "destination": "Zürich Flughafen",
       "error": "Swiss GTFS published no Chur → Zürich Flughafen service for 2026-11-25."
@@ -409,11 +264,6 @@
       "origin": "Biel/Bienne",
       "destination": "Genève-Aéroport",
       "error": "Swiss GTFS published no Biel/Bienne → Genève-Aéroport service for 2026-11-25."
-    },
-    {
-      "origin": "Interlaken Ost",
-      "destination": "Bern",
-      "error": "Swiss GTFS published no Interlaken Ost → Bern service for 2026-11-25."
     },
     {
       "origin": "Zürich Flughafen",
