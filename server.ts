@@ -481,9 +481,10 @@ async function logTransitSearch(
     const regionIdValue = readText(body?.regionId);
     const reasonValue = readText(body?.reason);
 
-    // Affiliate marquee impressions/clicks are not transit actions; drop them
-    // (including from cached older clients) so they never reach TN_AUDIT_LOG.
-    if (eventValue.startsWith("affiliate.")) {
+    // Affiliate marquee impressions/clicks and station selections are not
+    // logged; drop them (including from cached older clients) so they never
+    // reach TN_AUDIT_LOG.
+    if (eventValue.startsWith("affiliate.") || eventValue === "station.select") {
       return res.status(204).end();
     }
 
@@ -592,7 +593,7 @@ async function logTransitSearch(
 
     // Loading the catalogue is UI hydration, not a user action. Only an
     // explicit station search belongs in TN_AUDIT_LOG; station selection is
-    // recorded separately by the station.select audit event.
+    // not logged.
     if (queryValue) {
       afterResponse(insertAuditLog(req, {
         transportType: "rail",

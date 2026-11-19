@@ -78,7 +78,7 @@
 目前寫入時機：
 
 - `GET /api/transit/search`：記錄起迄站、日期、國家、時間篩選、資料來源、HTTP 狀態與結果數。
-- `POST /api/transit/audit`：記錄前端主動送出的車站選擇、站點瀏覽等事件。
+- `POST /api/transit/audit`：記錄前端主動送出的站點瀏覽、定位失敗等事件；`station.select`（車站選擇）一律回 204 丟棄，不寫入此表。
 - `GET /api/transit/stations`：記錄站點目錄讀取或搜尋。
 - `GET /api/transit/nearest-station`：記錄最近站點查詢與位置精度。
 - `POST /api/transit/audit`：`affiliate.*`（聯盟跑馬燈曝光／點擊）一律回 204 丟棄，不寫入此表。

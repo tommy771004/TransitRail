@@ -143,3 +143,20 @@ describe("committed vercel.json", () => {
     expect(shadowed, "run npm run redirects").toEqual([]);
   });
 });
+
+describe("index.html crawl links", () => {
+  it("links only the route directory and published market hubs, in their canonical slash form", () => {
+    // A hand-kept list linked markets with no pages (/china, /thailand: 404s) and
+    // bare paths (/japan) that Google reports as alternates of /japan/.
+    const html = readFileSync(resolve("index.html"), "utf8");
+    const nav = html.match(/<nav aria-label="Country route finders">([\s\S]*?)<\/nav>/)?.[1] ?? "";
+    const hrefs = [...nav.matchAll(/href="([^"]+)"/g)].map((match) => match[1]);
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const log = vi.spyOn(console, "log").mockImplementation(() => {});
+    const hubs = new Set(collectRoutePages().map((routePage) => `${routePage.countryPath}/`));
+    warn.mockRestore();
+    log.mockRestore();
+    expect(hrefs).toContain("/routes/");
+    expect(hrefs.filter((href) => href !== "/routes/" && !hubs.has(href)), "link a published hub as /<market>/").toEqual([]);
+  });
+});

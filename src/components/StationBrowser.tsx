@@ -105,14 +105,6 @@ export function StationBrowser({
         ? activeLine.id
         : lines.find((line) => line.stations.some(s => stationKeyForCountry(s.name) === stationKey))?.id;
     }
-    void postAuditEvent({
-      event: "station.select",
-      country,
-      target,
-      station,
-      lineId: selectedLineId,
-      regionId: regions.find((region) => region.lines.some((line) => line.id === selectedLineId))?.id,
-    }, { language: i18n.language });
     onSelectStation(station, selectedLineId);
   };
 
