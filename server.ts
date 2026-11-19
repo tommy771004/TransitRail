@@ -174,8 +174,6 @@ async function insertAuditLog(
     latitude?: number;
     longitude?: number;
     geoAccuracy?: number;
-    target?: string;
-    metadata?: Record<string, unknown>;
   },
 ) {
   if (!process.env.DATABASE_URL) {
@@ -209,8 +207,6 @@ async function insertAuditLog(
     geoLatitude: parseDecimal(readHeader(req, "x-vercel-ip-latitude")),
     geoLongitude: parseDecimal(readHeader(req, "x-vercel-ip-longitude")),
     geoAccuracy: entry.geoAccuracy,
-    target: entry.target,
-    metadata: entry.metadata,
   });
 }
 
@@ -484,27 +480,17 @@ async function logTransitSearch(
     const lineIdValue = readText(body?.lineId);
     const regionIdValue = readText(body?.regionId);
     const reasonValue = readText(body?.reason);
-    const affiliateIdValue = readText(body?.affiliateId);
-    const placementValue = readText(body?.placement);
-    const partnerValue = readText(body?.partner);
-    const sponsoredValue = typeof body?.sponsored === "boolean" ? String(body.sponsored) : undefined;
-    const affiliateEvent = eventValue === "affiliate.impression" || eventValue === "affiliate.click";
 
-    if (eventValue.startsWith("affiliate.") && !affiliateEvent) {
-      return res.status(400).json({ error: "Unsupported affiliate event." });
+    // Affiliate marquee impressions/clicks are not transit actions; drop them
+    // (including from cached older clients) so they never reach TN_AUDIT_LOG.
+    if (eventValue.startsWith("affiliate.")) {
+      return res.status(204).end();
     }
 
     await insertAuditLog(req, {
       transportType: "rail",
       originStationName: targetValue === "origin" ? stationValue : undefined,
       destStationName: targetValue === "destination" ? stationValue : undefined,
-      target: affiliateEvent ? affiliateIdValue : undefined,
-      metadata: affiliateEvent && affiliateIdValue ? {
-        project_name: process.env.AFFILIATE_PROJECT_NAME || "",
-        placement: placementValue || "",
-        partner: partnerValue || "",
-        sponsored: sponsoredValue === "true",
-      } : undefined,
       activeFilter: buildActiveFilter({
         event: eventValue,
         country: countryValue,
@@ -513,10 +499,6 @@ async function logTransitSearch(
           "line.id": lineIdValue,
           "region.id": regionIdValue,
           "failure.reason": reasonValue,
-          "affiliate.id": affiliateIdValue,
-          "affiliate.placement": placementValue,
-          "affiliate.partner": partnerValue,
-          "affiliate.sponsored": sponsoredValue,
         },
       }),
       resultCount: parseInteger(body?.resultCount),

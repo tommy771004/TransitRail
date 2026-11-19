@@ -1,25 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { AffiliateOffer } from "../server/affiliates";
-import { postAuditEvent, resolveAuditTimezone } from "../utils/audit";
 import { loadAffiliateOffers } from "../utils/catalogClient";
-
-const PLACEMENT = "search";
-
-function recordAffiliateEvent(event: "affiliate_impression" | "affiliate_click", offer: AffiliateOffer) {
-  void postAuditEvent({
-    event,
-    affiliateId: offer.id,
-    placement: PLACEMENT,
-    partner: offer.partner,
-    sponsored: offer.sponsored,
-  }, { language: navigator.language, timezone: resolveAuditTimezone() });
-}
 
 /** Shared-database affiliate carousel for both empty and completed searches. */
 export function AffiliateMarquee({ variant = "footer" }: { variant?: "footer" | "inline" }) {
   const [offers, setOffers] = useState<AffiliateOffer[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const seenOfferIds = useRef(new Set<string>());
 
   useEffect(() => {
     let cancelled = false;
@@ -30,24 +15,6 @@ export function AffiliateMarquee({ variant = "footer" }: { variant?: "footer" | 
       .catch(() => { if (!cancelled) setOffers([]); });
     return () => { cancelled = true; };
   }, []);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container || offers.length === 0 || !("IntersectionObserver" in window)) return;
-    const byId = new Map(offers.map((offer) => [offer.id, offer]));
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        const id = (entry.target as HTMLElement).dataset.affiliateId;
-        const offer = id ? byId.get(id) : undefined;
-        if (!offer || seenOfferIds.current.has(offer.id)) continue;
-        seenOfferIds.current.add(offer.id);
-        recordAffiliateEvent("affiliate_impression", offer);
-      }
-    }, { threshold: 0.5 });
-    container.querySelectorAll<HTMLElement>("[data-affiliate-id]").forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
-  }, [offers]);
 
   if (offers.length === 0) return null;
   const topRow = offers.filter((_, index) => index % 2 === 0);
@@ -67,7 +34,7 @@ export function AffiliateMarquee({ variant = "footer" }: { variant?: "footer" | 
           <span className="m3-chip m3-label-small m3-shape-full min-h-6 bg-sky-600 px-3 text-white">Affiliate offers</span>
           <span>Affiliate links may earn TransitRail a commission.</span>
         </div>
-        <div ref={containerRef} className="group space-y-2">
+        <div className="group space-y-2">
           {rows.map((row, rowIndex) => (
             <div key={row.animation} className="relative flex overflow-hidden">
               <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 bg-gradient-to-r from-sky-50/90 to-transparent dark:from-sky-950/90" />
@@ -76,11 +43,9 @@ export function AffiliateMarquee({ variant = "footer" }: { variant?: "footer" | 
                 {[...row.offers, ...row.offers].map((offer, index) => (
                   <a
                     key={`${offer.id}-${rowIndex}-${index}`}
-                    data-affiliate-id={offer.id}
                     href={offer.url}
                     target="_blank"
                     rel="sponsored nofollow noopener noreferrer"
-                    onClick={() => recordAffiliateEvent("affiliate_click", offer)}
                     className="m3-chip m3-chip-touch m3-state mx-1.5 shrink-0 border border-sky-200 bg-white text-left text-slate-700 dark:border-sky-800 dark:bg-slate-900 dark:text-slate-200"
                   >
                     <span className="font-bold text-slate-900 dark:text-white">{offer.campaignCode ? `(${offer.campaignCode}) ` : ""}{offer.title}</span>
